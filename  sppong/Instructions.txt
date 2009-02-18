@@ -1,0 +1,12 @@
+This is a clone of the classic game PONG.
+DirectX 9.0 is required to run the game
+
+1) Press ESC to quit
+2) Press F2 ro see FPS
+
+Single Player
+1) Left Paddle moves up with 'W' and down with 'S'
+
+Two Player
+1) Left Paddle moves up with 'W' and down with 'S'
+2) Right Paddle moves up with 'Up arrow' and down with 'Down arrow'
