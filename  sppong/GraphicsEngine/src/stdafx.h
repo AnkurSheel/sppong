@@ -47,7 +47,7 @@
 #include <list>
 //#include <strsafe.h>
 #include <crtdbg.h>
-#include <dxerr9.h> //For DXGetErrorString9
+#include <DxErr.h> //For DXGetErrorString9
 #include <dinput.h>
 #include "constants.h"
 #include "Macros.h"

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="GraphicsEngine"
 	ProjectGUID="{00226575-C4FA-463A-941B-EA9FB2012521}"
 	RootNamespace="GraphicsEngine"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -61,12 +62,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Utilities_D.lib d3dx9d.lib dxerr9.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="Utilities_D.lib d3dx9d.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
 				OutputFile="$(SolutionDir)bin\$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\bin\&quot;;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -86,9 +89,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Utilities.lib d3dx9.lib dxerr9.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="Utilities.lib d3dx9.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
 				OutputFile="$(SolutionDir)bin\$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\bin\&quot;;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
@@ -146,6 +146,8 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -165,9 +167,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

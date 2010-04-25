@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "FuzzySet.h"
 #include "AIDefines.h"
+#include <assert.h>
 
 //----------------------------------------------------------------------------
 // Construction and Destruction
@@ -82,7 +83,7 @@ void cFuzzySet::CreateFuzzySet(const float val)
 void cFuzzySet::SetDOM(const float val)
 {
 #ifdef _DEBUG
-	_ASSERT((val <=1) && (val >=0) && " cFuzzySet::SetDOM invalid value");
+	assert((val <=1) && (val >=0) && " cFuzzySet::SetDOM invalid value");
 #endif // _DEBUG
 	m_fDOM= val;
 }
