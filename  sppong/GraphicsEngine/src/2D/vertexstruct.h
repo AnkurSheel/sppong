@@ -12,7 +12,7 @@
 
 #include "GraphicEngineDefines.h"
 
-struct Vertex
+class Vertex
 {
 	D3DXVECTOR3			m_vPosition ;
 	float				m_fRHW ;
@@ -27,7 +27,7 @@ struct Vertex
 	GRAPHIC_API Vertex(const D3DXVECTOR3& vPos, const D3DCOLOR& col, const D3DXVECTOR2& vTex0) ;
 } ;
 
-struct VertexMultiTex
+class VertexMultiTex
 {
 	D3DXVECTOR3			m_vPosition ;
 	DWORD				m_Colour ;        // The vertex m_Colour.
@@ -41,7 +41,7 @@ struct VertexMultiTex
 	GRAPHIC_API VertexMultiTex(const D3DXVECTOR3& vPos, const D3DCOLOR& col, const float fU, const float fV, const float fU1, const float fV1) ;
 } ;
 
-struct VertexLight
+class VertexLight
 {
 	D3DXVECTOR3			m_vPosition ;
 	float				m_fU ;
@@ -54,7 +54,7 @@ struct VertexLight
 	GRAPHIC_API VertexLight(const D3DXVECTOR3& vPos, const float fU, const float fV) ;
 } ;
 
-struct MeshVertex
+class MeshVertex
 {
 	D3DXVECTOR3			m_vPosition ;
 	D3DXVECTOR3			m_vNormal ;
@@ -66,7 +66,7 @@ struct MeshVertex
 	GRAPHIC_API MeshVertex(const float x, const float y, const float z, const float nx, const float ny, const float nz, const float m_fU, const float m_fV) ;
 } ;
 
-struct VertexNormDiffuse
+class VertexNormDiffuse
 {
 	D3DXVECTOR3			m_vPosition ;
 	D3DXVECTOR3			m_vNormal ;
@@ -78,7 +78,7 @@ struct VertexNormDiffuse
 	GRAPHIC_API VertexNormDiffuse(const D3DXVECTOR3 &vPos, const D3DXCOLOR& col, const D3DXVECTOR3& vNorm, const D3DXVECTOR2 & vTex) ;
 } ;
 
-struct VertexNormSpec
+class VertexNormSpec
 {
 	D3DXVECTOR3			m_vPosition ;
 	D3DXVECTOR3			m_vNormal ;

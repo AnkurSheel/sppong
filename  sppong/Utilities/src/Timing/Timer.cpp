@@ -10,10 +10,47 @@
 
 #include "stdafx.h"
 #include "Timer.h"
-
 // ***************************************************************
 // Constructor
 // ***************************************************************
+
+class cTimer
+	: public ITimer
+{
+private:
+	cTimer(const cTimer&){}
+	cTimer operator =(const cTimer&){}
+
+public:
+	cTimer();
+	~cTimer();
+	void Start();
+	void Stop();
+	void Update(); 
+
+	bool IsStopped();
+	float GetFPS();
+	float GetRunningTime();
+	float GetElapsedTime(); 
+
+private:
+	INT64		m_iTicksPerSecond;
+	INT64		m_iCurrentTime;
+	INT64		m_iLastTime;
+	INT64		m_iLastFPSUpdate;
+	INT64		m_iFPSUpdateInterval;
+	UINT		m_iNumFrames;
+	float		m_fRunningTime;
+	float		m_fTimeElapsed;
+	float		m_fFPS;
+	bool		m_bTimerStopped;
+};
+
+#include "Timer.inl"
+
+static cTimer * s_pTimer = NULL;
+
+
 cTimer::cTimer()
 : m_iCurrentTime(0)
 , m_iLastTime(0)
@@ -99,5 +136,14 @@ void cTimer::Update()
 		m_iNumFrames = 0;
 	}
 	m_iLastTime = m_iCurrentTime;
+}
+// ***************************************************************
+
+// ***************************************************************
+// Creates a timer
+// ***************************************************************
+ITimer * CreateTimer()
+{
+	return s_pTimer = new cTimer();
 }
 // ***************************************************************

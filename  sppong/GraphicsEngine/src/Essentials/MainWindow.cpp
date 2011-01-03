@@ -16,6 +16,57 @@
 #include "fps/FPS.h"
 #include "Debugging/Logger.h"
 
+class cMainWindow
+	: public IMainWindow
+{
+
+private:
+	cMainWindow(const cMainWindow&){}
+	cMainWindow operator =(const cMainWindow&){}
+	 void RegisterWin() ;
+	 HWND CreateMyWindow(const int &nCmdShow, const char * const  lpWindowTitle);
+	 LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
+	 void OnRender();
+	 void OnDestroyDevice();
+	 void OnResetDevice();
+	 void OnLostDevice();
+	 void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd);
+	 void HandleLostDevice(HRESULT hr);
+	 void GetWinRect() ;
+	 void MoveWin() ;
+	 void GetInput();
+	static LRESULT CALLBACK StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
+public:
+	cMainWindow() ;
+	 ~cMainWindow() ;
+	HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp) ;
+	//IMainWindow * TheWindow() ;
+	void Run();
+	void DisplayFPS();
+	float GetElapsedTime();
+	float GetRunningTime();
+	void LockKey( const DWORD dwKey );
+	long GetAbsXMousePos();
+	long GetAbsYMousePos();
+
+private:
+	HWND			m_Hwnd ;				// holds the window handle
+	HINSTANCE		m_hInstance ;			// holds the application instance
+	int				m_iClientWidth ;		// the width of the client area
+	int				m_iClientHeight ;		// the height of the client area
+	int				m_iTopPos ;				// the Y coordinate of the top left corner of the window
+	int				m_iLeftPos ;			// the X coordinate of the top left corner of the window
+	IBaseApp *		m_pGameApp;				// pointer to the game app
+	int				m_iFullScreenWidth ;	// the full screen width
+	int				m_iFullScreenHeight ;	// the full screen height
+	ITimer *		m_pGameTimer;			// pointer to a game timer
+	cInput*			m_pInput;				// pointer to input class
+	cFPS*			m_pFPS;
+	ILogger *		m_pLogger;
+
+};
+
+static IMainWindow * s_pWindow = NULL;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -46,7 +97,7 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-GRAPHIC_API HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, cBaseApp* const pGameApp )
+HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp )
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
@@ -156,16 +207,6 @@ void cMainWindow::GetWinRect()
 	m_iClientHeight = (clientRect.bottom - clientRect.top) ;
 	m_iTopPos = (windowRect.top - clientRect.top) ;
 	m_iLeftPos = (windowRect.left - clientRect.left) ;
-}
-// ***************************************************************
-
-// ***************************************************************
-// returns an instance of the class
-// ***************************************************************
-cMainWindow& cMainWindow::GetInstance()
-{
-	static cMainWindow instance;
-	return instance;
 }
 // ***************************************************************
 
@@ -345,13 +386,13 @@ void cMainWindow::OnResetDevice()
 // ***************************************************************
 void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 {
-	m_pLogger = new cLogger();
+	m_pLogger = CreateLogger();
 	m_pLogger->StartConsoleWin();
 	
 	// initialize DirectX
 	cDXBase::GetInstance().Init(hWnd, TAN);
 
-	m_pGameTimer = new cTimer();
+	m_pGameTimer = CreateTimer();
 	m_pGameTimer->Start();
 
 	m_pInput = new cInput();
@@ -489,3 +530,20 @@ long cMainWindow::GetAbsYMousePos()
 	return m_pInput->GetY();
 }
 // ***************************************************************
+
+// ***************************************************************
+// returns an instance of the class
+// ***************************************************************
+IMainWindow * IMainWindow::TheWindow()
+{
+	return s_pWindow;
+}
+// ***************************************************************
+// creates a window
+// ***************************************************************
+IMainWindow * CreateMyWindow()
+{
+	return s_pWindow = new cMainWindow();
+}
+// ***************************************************************
+

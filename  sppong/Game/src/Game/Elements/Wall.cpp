@@ -41,14 +41,14 @@ void cWall::Init( const D3DXVECTOR3& vPosition )
 // *************************************************************** 	
 void cWall::Render( LPDIRECT3DDEVICE9 const pDevice )
 {
-	m_pSprite->DrawSprite(pDevice, m_vPosition, D3DXSPRITE_ALPHABLEND);
+	cGameElement::Render(pDevice, D3DXSPRITE_ALPHABLEND);
 }
 // ***************************************************************
 
 // ***************************************************************
 // called when the device is reset
 // *************************************************************** 	
-void cWall::OnResetDevice( cSprite* const sprite )
+void cWall::OnResetDevice( ISprite* const sprite )
 {
 	m_pSprite = sprite;
 	m_pSprite->SetSize((float)m_siTableWidth, (float)m_siTableHeight/30);

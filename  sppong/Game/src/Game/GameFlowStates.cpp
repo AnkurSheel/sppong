@@ -46,14 +46,14 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 void cStateTitleScreen::Enter(cGame *pGame)
 {
 	//MyTrace("Enter : ccStateEnterGame\n");
-	pGame->m_pTitleScreenSprite = new cSprite();
+	pGame->m_pTitleScreenSprite = CreateSprite();
 	//pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, _T("resources\\title.jpg"));
 	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\title.jpg");
-	m_fCurrentTime = cMainWindow::GetInstance().GetRunningTime();
+	m_fCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
 
 	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
-	pGame->m_pCursorSprite = new cSprite();
+	pGame->m_pCursorSprite = CreateSprite();
 	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\cursor.png");
 	pGame->m_pCursorSprite->SetSize(16.0f, 16.0f);
 	
@@ -65,10 +65,10 @@ void cStateTitleScreen::Enter(cGame *pGame)
 void cStateTitleScreen::Execute(cGame *pGame)
 {
 	pGame->m_pTitleScreenSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
-	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)cMainWindow::GetInstance().GetAbsXMousePos(), (float)cMainWindow::GetInstance().GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
+	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
 	
 	// display the title screen for 5 secs before displaying the menu screen
- 	if(cMainWindow::GetInstance().GetRunningTime() - m_fCurrentTime > 1.0)
+ 	if(IMainWindow::TheWindow()->GetRunningTime() - m_fCurrentTime > 1.0)
  	{
  		pGame->m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
  	}
@@ -114,15 +114,15 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 // ***************************************************************
 void cStateMenuScreen::Enter(cGame *pGame)
 {
-	pGame->m_pSinglePlayerSprite = new cSprite();
+	pGame->m_pSinglePlayerSprite = CreateSprite();
 	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\SinglePlayer.jpg");
 	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
-	pGame->m_pTwoPlayerSprite = new cSprite();
+	pGame->m_pTwoPlayerSprite = CreateSprite();
 	pGame->m_pTwoPlayerSprite->Init(pGame->m_pD3dDevice, "resources\\TwoPlayer.jpg");
 	pGame->m_pTwoPlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
-	pGame->m_pQuitSprite = new cSprite();
+	pGame->m_pQuitSprite = CreateSprite();
 	pGame->m_pQuitSprite->Init(pGame->m_pD3dDevice, "resources\\Quit.jpg");
 	pGame->m_pQuitSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
@@ -145,7 +145,7 @@ void cStateMenuScreen::Execute(cGame *pGame)
 	pGame->m_pSinglePlayerSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pSinglePlayerSprite->GetScaledWidth()/2, (float)m_iSinglePlayerSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
 	pGame->m_pTwoPlayerSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pTwoPlayerSprite->GetScaledWidth()/2, (float)m_iTwoPlayerSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
 	pGame->m_pQuitSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pQuitSprite->GetScaledWidth()/2, (float)m_iQuitSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
-	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)cMainWindow::GetInstance().GetAbsXMousePos(), (float)cMainWindow::GetInstance().GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
+	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
 }
 // ***************************************************************
 
@@ -217,7 +217,7 @@ void cStatePlayGame::Execute(cGame *pGame)
 	pGame->m_pPaddle[1].Render(pGame->m_pD3dDevice); 
 	pGame->m_pWall[0].Render(pGame->m_pD3dDevice);
 	pGame->m_pWall[1].Render(pGame->m_pD3dDevice);
-	pGame->m_pBall->Render(pGame->m_pD3dDevice, cMainWindow::GetInstance().GetElapsedTime());
+	pGame->m_pBall->Render(pGame->m_pD3dDevice, IMainWindow::TheWindow()->GetElapsedTime());
 	pGame->m_pScore[0].Render(pGame->m_pD3dDevice);
 	pGame->m_pScore[1].Render(pGame->m_pD3dDevice);
 

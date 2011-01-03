@@ -14,7 +14,7 @@
 
 class cPaddle;
 class cBall;
-class cSprite;
+class ISprite;
 class cWall;
 class cScore;
 
@@ -25,7 +25,8 @@ class cStateMachine;
 
 class cMouseZone;
 
-class cGame : public cBaseApp
+class cGame 
+	: public IBaseApp
 {
 private:
 	LPDIRECT3DDEVICE9		m_pD3dDevice;
@@ -35,14 +36,14 @@ private:
 	cBall*					m_pBall;				// ptr to the ball
 	cWall*					m_pWall;				// ptr to wall
 	cScore*					m_pScore;				// ptr to Scoreboard
-	cSprite*				m_pPaddleSprite;		// the sprite for the paddle
-	cSprite*				m_pBallSprite;			// the sprite for the ball
-	cSprite*				m_pWallSprite;			// the sprite for the wall
-	cSprite*				m_pTitleScreenSprite;	// the sprite for the title screen
-	cSprite*				m_pCursorSprite;		// the sprite for the title screen
-	cSprite*				m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
-	cSprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
-	cSprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
+	ISprite*				m_pPaddleSprite;		// the sprite for the paddle
+	ISprite*				m_pBallSprite;			// the sprite for the ball
+	ISprite*				m_pWallSprite;			// the sprite for the wall
+	ISprite*				m_pTitleScreenSprite;	// the sprite for the title screen
+	ISprite*				m_pCursorSprite;		// the sprite for the title screen
+	ISprite*				m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
+	ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
+	ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
 	
 	bool					m_bDisplayFPS;
 	bool					m_bSinglePlayer;

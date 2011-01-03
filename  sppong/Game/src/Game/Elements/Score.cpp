@@ -75,7 +75,7 @@ void cScore::Init( const D3DXVECTOR3& vInitialPos )
 // ***************************************************************
 void cScore::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice )
 {
-	m_pFont = new cMyFont();
+	m_pFont = CreateMyFont();
 	m_pFont->InitFont(pDevice, 40, 30, 500, false, DEFAULT_CHARSET, "Forte");
 }
 // ***************************************************************

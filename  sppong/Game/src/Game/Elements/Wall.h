@@ -10,11 +10,12 @@
 #ifndef Wall_h__
 #define Wall_h__
 
-#include "GameElement.h"
+#include "Elements/GameElement.h"
 
 class cSprite;
 
-class cWall : public cGameElement
+class cWall 
+	: public cGameElement
 {
 private:
 
@@ -23,6 +24,6 @@ public:
 	~cWall();
 	void Init(const D3DXVECTOR3& vPosition);
 	void Render(LPDIRECT3DDEVICE9 const pDevice);
-	void OnResetDevice(cSprite* const sprite);
+	void OnResetDevice(ISprite* const sprite);
 };
 #endif // Wall_h__

@@ -18,18 +18,13 @@
 #define __WFILE__ WIDEN(__FILE__)
 
 
-class cLogger
+class ILogger
 {
-	FILE*	m_fStdOut;
-	HANDLE	m_hStdOut;
-
-	cLogger(const cLogger&){}
-	cLogger operator =(const cLogger&){}
-
 public:
-	UTILITIES_API cLogger();
-	UTILITIES_API void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
-	UTILITIES_API int Log(const char * const  lpFmt, ...);
+	UTILITIES_API virtual void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL) = 0;
+	UTILITIES_API virtual int Log(const char * const  lpFmt, ...) = 0;
 };
+
+UTILITIES_API ILogger * CreateLogger();
 
 #endif // Logger_h__

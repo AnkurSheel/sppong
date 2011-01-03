@@ -10,12 +10,12 @@
 #ifndef Score_h__
 #define Score_h__
 
-class cMyFont ;
+class IFont ;
 
 class cScore
 {
 private:
-	cMyFont*	m_pFont;
+	IFont *		m_pFont;
 	RECT		m_BoundingRect;
 	DWORD		m_dwFormat;
 	UINT		m_iValue;

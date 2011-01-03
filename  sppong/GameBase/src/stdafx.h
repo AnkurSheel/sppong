@@ -25,33 +25,14 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
-
 // TODO: reference additional headers your program requires here
-#pragma once
-
-#define STRSAFE_NO_CB_FUNCTIONS
-#define NULLCHAR '\0'
-
 #ifdef _DEBUG
-#define D3D_DEBUG_INFO
+    #define D3D_DEBUG_INFO
 #endif
 
-#define DIRECTINPUT_VERSION 0x0800
+//#define DIRECTINPUT_VERSION 0x0800
 
+#include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <windows.h>
-//#include <tchar.h>
-#include <mmsystem.h>
-//#include <atlstr.h>
-#include <tchar.h>
-#include <list>
-//#include <strsafe.h>
-#include <crtdbg.h>
-#include <DxErr.h> //For DXGetErrorString9
-#include <dinput.h>
-#include "constants.h"
 #include "Macros.h"
-
-using namespace std;
-

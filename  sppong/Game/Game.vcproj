@@ -41,14 +41,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="1"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine_D.lib Utilities_D.lib"
+				AdditionalDependencies="GraphicsEngine_D.lib Utilities_D.lib GameBase_D.lib"
 				OutputFile="$(SolutionDir)\bin\$(ProjectName)_D.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)\bin\"
@@ -119,12 +119,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine.lib Utilities.lib"
+				AdditionalDependencies="GraphicsEngine.lib Utilities.lib GameBase.Lib"
 				OutputFile="$(SolutionDir)\bin\Release\$(ProjectName).exe "
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\bin\"
@@ -204,18 +204,6 @@
 				</File>
 				<File
 					RelativePath=".\src\Game\Elements\Ball.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Game\Elements\GameElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Game\Elements\GameElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Game\Elements\GameElement.inl"
 					>
 				</File>
 				<File

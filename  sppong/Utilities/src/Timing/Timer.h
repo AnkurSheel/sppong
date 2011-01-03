@@ -12,37 +12,20 @@
 
 #include "UtilitiesDefines.h"
 
-class cTimer
+class ITimer
 {
-private:
-	INT64		m_iTicksPerSecond;
-	INT64		m_iCurrentTime;
-	INT64		m_iLastTime;
-	INT64		m_iLastFPSUpdate;
-	INT64		m_iFPSUpdateInterval;
-	UINT		m_iNumFrames;
-	float		m_fRunningTime;
-	float		m_fTimeElapsed;
-	float		m_fFPS;
-	bool		m_bTimerStopped;
-
-	cTimer(const cTimer&){}
-	cTimer operator =(const cTimer&){}
-
 public:
-	UTILITIES_API cTimer();
-	UTILITIES_API ~cTimer();
-	UTILITIES_API void Start();
-	UTILITIES_API void Stop();
-	UTILITIES_API void Update(); 
+	UTILITIES_API virtual void Start() = 0;
+	UTILITIES_API virtual void Stop() = 0;
+	UTILITIES_API virtual void Update() = 0; 
 
-	UTILITIES_API bool IsStopped();
-	UTILITIES_API float GetFPS();
-	UTILITIES_API float GetRunningTime();
-	UTILITIES_API float GetElapsedTime(); 
+	UTILITIES_API virtual bool IsStopped() = 0;
+	UTILITIES_API virtual float GetFPS() = 0;
+	UTILITIES_API virtual float GetRunningTime() = 0;
+	UTILITIES_API virtual float GetElapsedTime() = 0; 
 
 };
 
-#include "Timer.inl"
+UTILITIES_API ITimer * CreateTimer();
 
 #endif // Timer_h__

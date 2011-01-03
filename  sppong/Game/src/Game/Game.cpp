@@ -64,7 +64,7 @@ void cGame::Render()
 	m_pStateMachine->Update();
 	if (m_bDisplayFPS)
 	{
-		cMainWindow::GetInstance().DisplayFPS();
+		IMainWindow::TheWindow()->DisplayFPS();
 	}
 }
 // ***************************************************************
@@ -116,9 +116,9 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, 
 	m_pWall = new cWall[2]();
 	m_pScore = new cScore[2]();
 
-	m_pPaddleSprite = new cSprite();
-	m_pBallSprite = new cSprite();
-	m_pWallSprite = new cSprite();
+	m_pPaddleSprite = CreateSprite();
+	m_pBallSprite = CreateSprite();
+	m_pWallSprite = CreateSprite();
 	
 	m_pMouseZones = new cMouseZone();
 
@@ -138,7 +138,7 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 	if (pbPressedKeys[DIK_F2])
 	{
 		// lock the F2 key
-		cMainWindow::GetInstance().LockKey(DIK_F2) ;
+		IMainWindow::TheWindow()->LockKey(DIK_F2) ;
 
 		m_bDisplayFPS = !m_bDisplayFPS;
 	}
@@ -146,7 +146,7 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 	if (pbPressedKeys[DIK_ESCAPE])
 	{
 		// lock the ESC key
-		cMainWindow::GetInstance().LockKey(DIK_ESCAPE) ;
+		IMainWindow::TheWindow()->LockKey(DIK_ESCAPE) ;
 
 		// if the current state is the title screen and the user presses ESC
 		// go the game screen
@@ -205,7 +205,7 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 
 	//TCHAR szZoneName[64]; ;
 	char szZoneName[64];
-	if (m_pMouseZones->CheckZones(cMainWindow::GetInstance().GetAbsXMousePos(), cMainWindow::GetInstance().GetAbsYMousePos(), pbMouseButtons, szZoneName))
+	if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, szZoneName))
 	{
 		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
 		{

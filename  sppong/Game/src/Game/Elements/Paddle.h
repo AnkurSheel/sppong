@@ -10,9 +10,10 @@
 #ifndef Paddle_h__
 #define Paddle_h__
 
-#include "GameElement.h"
+#include "Elements/GameElement.h"
 
-class cPaddle : public cGameElement
+class cPaddle 
+	: public cGameElement
 {
 private:
 	UINT			m_iMoveFactor;
@@ -24,7 +25,7 @@ public:
 	~cPaddle();
 	void Init(const D3DXVECTOR3& vInitialPos);
 	void Render(LPDIRECT3DDEVICE9 const pDevice);
-	void OnResetDevice(cSprite* const sprite);
+	void OnResetDevice(ISprite* const sprite);
 	void MoveDown(const float fElapsedTime);
 	void MoveUp(const float fElapsedTime);
 	void OnRestart(const D3DXVECTOR3& vInitialPos);

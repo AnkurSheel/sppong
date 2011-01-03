@@ -41,7 +41,6 @@
 #include <windows.h>
 //#include <tchar.h>
 #include<mmsystem.h>
-#include <atlstr.h>
 #include <vector>
 //#include <strsafe.h>
 #include <crtdbg.h>

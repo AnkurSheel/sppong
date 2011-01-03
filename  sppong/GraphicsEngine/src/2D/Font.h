@@ -12,15 +12,12 @@
 
 #include "GraphicEngineDefines.h"
 
-class cMyFont
+class IFont
 {
-protected:
-	ID3DXFont	*m_pFont ;
 public:
-	GRAPHIC_API cMyFont() ;
-	GRAPHIC_API ~cMyFont() ;
-	GRAPHIC_API void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) ;
-	GRAPHIC_API void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) ;
+	GRAPHIC_API virtual void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) = 0;
+	GRAPHIC_API virtual void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) = 0;
 } ;
 
+GRAPHIC_API IFont * CreateMyFont();
 #endif // font_h__

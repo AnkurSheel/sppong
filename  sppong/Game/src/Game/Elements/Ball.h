@@ -10,9 +10,10 @@
 #ifndef Ball_h__
 #define Ball_h__
 
-#include "GameElement.h"
+#include "Elements/GameElement.h"
 
-class cBall  : public cGameElement
+class cBall  
+	: public cGameElement
 {
 private:
 	D3DXVECTOR3		m_vSpeed;
@@ -24,7 +25,7 @@ public:
 	~cBall();
 	void Init(const D3DXVECTOR3& vInitialPos, const UINT iTableWidth, const UINT iTableHeight);
 	void Render(LPDIRECT3DDEVICE9 const pDevice, const float fElapsedTime);
-	void OnResetDevice(cSprite* const sprite);
+	void OnResetDevice(ISprite* const sprite);
 	void ChangeSpeedX();
 	void ChangeSpeedY();
 };

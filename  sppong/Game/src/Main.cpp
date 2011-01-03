@@ -22,19 +22,21 @@ cGame *pGame = NULL;	// global ptr to the game
 int WINAPI WinMain(const HINSTANCE hInstance, HINSTANCE hPrevInstance, 
 				   LPSTR lpCmdLine, int nCmdShow)
 {
-	cLogger log;
-	log.StartConsoleWin();
+	ILogger * pLog = CreateLogger();
+
+	pLog->StartConsoleWin();
 	//log.Log(_T("%s %d"),__WFILE__, __LINE__);
-	log.Log("%s %d",__FILE__, __LINE__);
+	pLog->Log("%s %d",__FILE__, __LINE__);
 
 	HWND	hwnd ;
 
 	CheckForMemoryLeaks() ;
 
+	CreateMyWindow();
 	pGame= new cGame();
 
 	//Initialize the window class
-	hwnd = cMainWindow::GetInstance().Init( hInstance, nCmdShow, "MPong", 1280, 764, (cBaseApp*)pGame);
+	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, "MPong", 1280, 764, (IBaseApp*)pGame);
 
 	if(hwnd == NULL)
 	{
@@ -42,7 +44,7 @@ int WINAPI WinMain(const HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	}
 	else
 	{
-		cMainWindow::GetInstance().Run();
+		IMainWindow::TheWindow()->Run();
 	}
 	
 	Cleanup() ;

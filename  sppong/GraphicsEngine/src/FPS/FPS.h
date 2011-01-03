@@ -10,12 +10,12 @@
 #ifndef FPS_h__
 #define FPS_h__
 
-class cMyFont ;
+class IFont ;
 
 class cFPS
 {
 private:
-	cMyFont*	m_pFont;
+	IFont *		m_pFont;
 	RECT		m_BoundingRect;
 	DWORD		m_dwFormat;
 	//TCHAR		m_strValue[20];

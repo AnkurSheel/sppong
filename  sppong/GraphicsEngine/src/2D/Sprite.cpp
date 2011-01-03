@@ -11,6 +11,36 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
+class cSprite
+	: public ISprite
+{
+private :
+	cSprite(const cSprite&){}
+	cSprite operator =(const cSprite&){}
+
+public:
+	cSprite();
+	~cSprite();
+	void Init(LPDIRECT3DDEVICE9 const pDevice, const char  * const  strFilename) ;
+	void SetSize(const float fNewWidth, const float fNewHeight);
+	void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+	void Cleanup();
+	UINT GetScaledHeight();
+	UINT GetScaledWidth();
+	D3DXVECTOR3 GetPosition();
+
+private:
+
+	LPD3DXSPRITE		m_pSprite;		// ptr to the sprite 
+	LPDIRECT3DTEXTURE9	m_pTexture;		// the texture associated with this sprite
+	UINT				m_uiHeight;		// the height of the image
+	UINT				m_uiWidth;		// the width of the image
+	D3DXVECTOR3			m_vScale ;		// the scaling info for the image
+	D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
+	D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
+};
+#include "Sprite.inl"
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -39,7 +69,7 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-GRAPHIC_API void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename )
+void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename )
 {
 	if (m_pSprite)
 	{
@@ -91,7 +121,7 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 // ***************************************************************
 // Render the sprite
 // ***************************************************************
-GRAPHIC_API void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags /*= NULL*/, const D3DCOLOR& tint /*= WHITE*/, const RECT* pSrcRect /*= NULL*/ )
+void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags /*= NULL*/, const D3DCOLOR& tint /*= WHITE*/, const RECT* pSrcRect /*= NULL*/ )
 {
 
 	// get the new position and create the transform matrix
@@ -114,7 +144,7 @@ GRAPHIC_API void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, const D3D
 // ***************************************************************
 // Release the texture and sprites
 // ***************************************************************
-GRAPHIC_API void cSprite::Cleanup()
+void cSprite::Cleanup()
 {
 	// release the texture
 	SAFE_RELEASE(m_pTexture);
@@ -127,8 +157,18 @@ GRAPHIC_API void cSprite::Cleanup()
 // ***************************************************************
 // get the current position of the sprite
 // ***************************************************************
-GRAPHIC_API D3DXVECTOR3 cSprite::GetPosition()
+D3DXVECTOR3 cSprite::GetPosition()
 {
 	return m_vPosition;
+}
+// ***************************************************************
+
+// ***************************************************************
+// Creates a Sprite
+// ***************************************************************
+ISprite * CreateSprite()
+{
+	cSprite* pSprite = new cSprite();
+	return pSprite;
 }
 // ***************************************************************

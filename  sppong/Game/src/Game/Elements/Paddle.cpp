@@ -50,7 +50,7 @@ void cPaddle::Render( LPDIRECT3DDEVICE9 const pDevice )
 // ***************************************************************
 // called when the device is reset
 // ***************************************************************
-void cPaddle::OnResetDevice( cSprite* const sprite)
+void cPaddle::OnResetDevice( ISprite* const sprite)
 {
 	m_pSprite = sprite;
 	m_pSprite->SetSize((float)m_siTableWidth/50, (float)m_siTableHeight/5);

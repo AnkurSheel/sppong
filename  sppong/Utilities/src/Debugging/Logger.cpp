@@ -1,8 +1,37 @@
+// ***************************************************************
+//  Logger   version:  1.0   Ankur Sheel  date: 2011/01/04
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
 #include "stdafx.h"
 #include "Logger.h"
 #include <string>
 
+
+class cLogger
+	: public ILogger
+{
+private:
+	cLogger(const cLogger&){}
+	cLogger operator =(const cLogger&){}
+
+public:
+	cLogger();
+	void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
+	int Log(const char * const  lpFmt, ...);
+
+private:
+	FILE*	m_fStdOut;
+	HANDLE	m_hStdOut;
+
+};
+
 using namespace std;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -35,7 +64,7 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/, const int ciHeight /*
 #endif
 }
 
-UTILITIES_API int cLogger::Log( const char * const lpFmt, ... )
+int cLogger::Log( const char * const lpFmt, ... )
 {
 #ifdef _DEBUG
 	//TCHAR s[256];
@@ -65,3 +94,14 @@ UTILITIES_API int cLogger::Log( const char * const lpFmt, ... )
 	return 0;
 #endif
 }
+// ***************************************************************
+
+// ***************************************************************
+// Creates a logger
+// ***************************************************************
+ILogger * CreateLogger()
+{
+	cLogger * pLogger = new cLogger();
+	return pLogger;
+}
+// ***************************************************************

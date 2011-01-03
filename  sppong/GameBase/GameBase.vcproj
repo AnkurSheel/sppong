@@ -2,11 +2,11 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Utilities"
-	ProjectGUID="{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}"
-	RootNamespace="Utilities"
+	Name="GameBase"
+	ProjectGUID="{D6C5B6D7-4503-42DD-9174-37B3B81C5926}"
+	RootNamespace="GameBase"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="131072"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="0"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,14 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="1"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -62,12 +61,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="GraphicsEngine_D.lib"
 				OutputFile="$(SolutionDir)bin\$(ProjectName)_D.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\bin\&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -117,12 +116,14 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -136,14 +137,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="GraphicsEngine.lib"
 				OutputFile="$(SolutionDir)bin\$(ProjectName).dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\bin\&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -173,35 +174,23 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Timing"
+			Name="Elements"
 			>
 			<File
-				RelativePath=".\src\Timing\Timer.cpp"
+				RelativePath=".\src\Elements\GameElement.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Timing\Timer.h"
+				RelativePath=".\src\Elements\GameElement.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Timing\Timer.inl"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Debugging"
-			>
-			<File
-				RelativePath=".\src\Debugging\Logger.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Debugging\Logger.h"
+				RelativePath=".\src\Elements\GameElement.inl"
 				>
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\src\Macros.h"
+			RelativePath=".\src\GameBaseDefines.h"
 			>
 		</File>
 		<File
@@ -210,10 +199,6 @@
 		</File>
 		<File
 			RelativePath=".\src\stdafx.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\UtilitiesDefines.h"
 			>
 		</File>
 	</Files>

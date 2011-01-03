@@ -50,7 +50,7 @@ void cFPS::Render( LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue )
 // ***************************************************************
 void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color /*= BLACK*/ )
 {
-	m_pFont = new cMyFont();
+	m_pFont = CreateMyFont();
 	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, _T("Arial")) ;
 
 	m_BoundingRect.left = (long)vInitialPos.x- 75;
@@ -68,7 +68,7 @@ void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos
 // ***************************************************************
 void cFPS::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice )
 {
-	m_pFont = new cMyFont();
+	m_pFont = CreateMyFont();
 	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, _T("Arial")) ;
 }
 // ***************************************************************

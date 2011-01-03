@@ -10,6 +10,19 @@
 #include "stdafx.h"
 #include "Font.h"
 
+class cMyFont
+	: public IFont
+{
+public:
+	cMyFont() ;
+	~cMyFont() ;
+	void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) ;
+	void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) ;
+protected:
+	ID3DXFont	*m_pFont ;
+
+} ;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -31,7 +44,7 @@ cMyFont::~cMyFont()
 // ***************************************************************
 // Initializes the font
 // ***************************************************************
-GRAPHIC_API void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName )
+void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName )
 {
 	D3DXFONT_DESC		fonttype ;
 
@@ -50,8 +63,18 @@ GRAPHIC_API void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHei
 // ***************************************************************
 // Displays the text
 // ***************************************************************
-GRAPHIC_API void cMyFont::DisplayText( IDirect3DDevice9 *pd3dDevice, const char * const szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col )
+void cMyFont::DisplayText( IDirect3DDevice9 *pd3dDevice, const char * const szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col )
 {	
 	m_pFont->DrawText(NULL, szString, -1, pRect, *pformat, Col) ;
+}
+// ***************************************************************
+
+// ***************************************************************
+// Creates a font
+// ***************************************************************
+IFont * CreateMyFont()
+{
+	cMyFont * pFont = new cMyFont();
+	return pFont;
 }
 // ***************************************************************

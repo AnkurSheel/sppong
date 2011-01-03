@@ -70,3 +70,18 @@ void cGameElement::OnRestart( const D3DXVECTOR3& vInitialPos )
 	SetBoundingRectangle();
 }
 // ***************************************************************
+
+void cGameElement::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags /*= NULL*/, const D3DCOLOR& tint/* = WHITE*/, const RECT* pSrcRect/* = NULL*/)
+{
+	m_pSprite->DrawSprite(pDevice, m_vPosition, dwFlags);
+}
+
+void cGameElement::SetSprite(ISprite* const sprite )
+{
+	m_pSprite = sprite;
+}
+
+const ISprite * cGameElement::GetSprite()
+{
+	return m_pSprite;
+}

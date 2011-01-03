@@ -54,7 +54,7 @@ void cBall::Render( LPDIRECT3DDEVICE9 const pDevice, const float fElapsedTime )
 // ***************************************************************
 // Function called when the device needs to be reset
 // ***************************************************************
-void cBall::OnResetDevice( cSprite* const sprite )
+void cBall::OnResetDevice( ISprite* const sprite )
 {
 	m_pSprite = sprite;
 	m_pSprite->SetSize((float)m_siTableHeight/30, (float)m_siTableHeight/30);
