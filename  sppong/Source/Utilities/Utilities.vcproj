@@ -210,6 +210,14 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="InitialChecks"
+			>
+			<File
+				RelativePath=".\src\InitialChecks\DiskChecks.cpp"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\src\Macros.h"
 			>

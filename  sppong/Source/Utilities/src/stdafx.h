@@ -29,7 +29,8 @@
 
 // TODO: reference additional headers your program requires here
 #include <stdio.h>
-//#include <tchar.h>
+#include <crtdbg.h>
+#include "Macros.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
