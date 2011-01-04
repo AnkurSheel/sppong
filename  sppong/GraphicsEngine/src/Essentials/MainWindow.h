@@ -21,11 +21,11 @@ public:
 	GRAPHIC_API virtual void Run() = 0;
 	GRAPHIC_API static IMainWindow * TheWindow();
 	GRAPHIC_API virtual void DisplayFPS() = 0;
-	GRAPHIC_API virtual float GetElapsedTime() = 0;
-	GRAPHIC_API virtual float GetRunningTime() = 0;
+	GRAPHIC_API virtual float GetElapsedTime() const = 0;
+	GRAPHIC_API virtual float GetRunningTime() const = 0;
 	GRAPHIC_API virtual void LockKey( const DWORD dwKey ) = 0;
-	GRAPHIC_API virtual long GetAbsXMousePos() = 0;
-	GRAPHIC_API virtual long GetAbsYMousePos() = 0;
+	GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
+	GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
 };
 GRAPHIC_API IMainWindow * CreateMyWindow();
 #endif // mywinmainclass_h__

@@ -25,9 +25,9 @@ public:
 	void SetSize(const float fNewWidth, const float fNewHeight);
 	void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
 	void Cleanup();
-	UINT GetScaledHeight();
-	UINT GetScaledWidth();
-	D3DXVECTOR3 GetPosition();
+	UINT GetScaledHeight() const;
+	UINT GetScaledWidth() const;
+	D3DXVECTOR3 GetPosition() const;
 
 private:
 
@@ -157,7 +157,7 @@ void cSprite::Cleanup()
 // ***************************************************************
 // get the current position of the sprite
 // ***************************************************************
-D3DXVECTOR3 cSprite::GetPosition()
+D3DXVECTOR3 cSprite::GetPosition() const
 {
 	return m_vPosition;
 }

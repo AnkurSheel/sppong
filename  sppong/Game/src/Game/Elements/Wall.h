@@ -18,7 +18,8 @@ class cWall
 	: public cGameElement
 {
 private:
-
+	cWall(const cWall&){}
+	cWall operator =(const cWall&){}
 public:
 	cWall();
 	~cWall();

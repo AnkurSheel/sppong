@@ -15,9 +15,6 @@
 class cBall  
 	: public cGameElement
 {
-private:
-	D3DXVECTOR3		m_vSpeed;
-
 	cBall(const cBall&){}
 	cBall operator = (const cBall&) {}
 public:
@@ -28,5 +25,7 @@ public:
 	void OnResetDevice(ISprite* const sprite);
 	void ChangeSpeedX();
 	void ChangeSpeedY();
+private:
+	D3DXVECTOR3		m_vSpeed;
 };
 #endif // Ball_h__

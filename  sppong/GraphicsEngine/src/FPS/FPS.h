@@ -18,7 +18,6 @@ private:
 	IFont *		m_pFont;
 	RECT		m_BoundingRect;
 	DWORD		m_dwFormat;
-	//TCHAR		m_strValue[20];
 	char		m_strValue[20];
 	D3DCOLOR	m_FontColor;
 

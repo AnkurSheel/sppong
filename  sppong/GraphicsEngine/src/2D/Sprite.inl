@@ -2,7 +2,7 @@
 // ***************************************************************
 // Returns the scaled height of the image
 // ***************************************************************
-inline UINT cSprite::GetScaledHeight()
+inline UINT cSprite::GetScaledHeight() const
 {
 	return (UINT)(m_uiHeight * m_vScale.y);
 }
@@ -10,7 +10,7 @@ inline UINT cSprite::GetScaledHeight()
 // ***************************************************************
 // Returns the scaled width of the image
 // ***************************************************************
-inline UINT cSprite::GetScaledWidth()
+inline UINT cSprite::GetScaledWidth() const
 {
 	return (UINT)(m_uiWidth * m_vScale.x);
 }

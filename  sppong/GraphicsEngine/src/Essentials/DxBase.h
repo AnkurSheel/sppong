@@ -14,7 +14,7 @@
 
 class cDXBase
 {
-protected:
+private:
 	LPDIRECT3D9				m_pD3D ;				// pointer to a direct3d object
 	LPDIRECT3DDEVICE9		m_pd3dDevice ;			// pointer to a direct3d device
 	D3DCAPS9				m_Caps ;				// the capabilities of the direct 3d object
@@ -42,10 +42,10 @@ public:
 	static cDXBase& GetInstance() ;
 	HRESULT BeginRender();
 	void EndRender(const HRESULT hr);
-	LPDIRECT3DDEVICE9 GetDevice();
-	UINT GetDisplayHeight();
-	UINT GetDisplayWidth();
-	HRESULT IsAvailable() ;
+	LPDIRECT3DDEVICE9 GetDevice() const;
+	UINT GetDisplayHeight() const;
+	UINT GetDisplayWidth() const;
+	HRESULT IsAvailable() const;
 };
 
 #include "DxBase.inl"

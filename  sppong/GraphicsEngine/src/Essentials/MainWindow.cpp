@@ -43,11 +43,11 @@ public:
 	//IMainWindow * TheWindow() ;
 	void Run();
 	void DisplayFPS();
-	float GetElapsedTime();
-	float GetRunningTime();
+	float GetElapsedTime() const;
+	float GetRunningTime() const;
 	void LockKey( const DWORD dwKey );
-	long GetAbsXMousePos();
-	long GetAbsYMousePos();
+	long GetAbsXMousePos() const;
+	long GetAbsYMousePos() const;
 
 private:
 	HWND			m_Hwnd ;				// holds the window handle
@@ -489,7 +489,7 @@ void cMainWindow::DisplayFPS()
 // ***************************************************************
 // returns the time between the last and current frame
 // ***************************************************************
-float cMainWindow::GetElapsedTime()
+float cMainWindow::GetElapsedTime() const
 {
 	return m_pGameTimer->GetElapsedTime();
 }
@@ -498,7 +498,7 @@ float cMainWindow::GetElapsedTime()
 // ***************************************************************
 // Gets the running time
 // ***************************************************************
-float cMainWindow::GetRunningTime()
+float cMainWindow::GetRunningTime() const
 {
 	return m_pGameTimer->GetRunningTime();
 }
@@ -507,7 +507,7 @@ float cMainWindow::GetRunningTime()
 // ***************************************************************
 // Locks the key on the keyboard
 // ***************************************************************
-void cMainWindow::LockKey( const DWORD dwKey )
+void cMainWindow::LockKey( const DWORD dwKey ) 
 {
 	m_pInput->LockKey(dwKey);
 }
@@ -516,7 +516,7 @@ void cMainWindow::LockKey( const DWORD dwKey )
 // ***************************************************************
 // Gets the absolute X position of the cursor
 // ***************************************************************
-long cMainWindow::GetAbsXMousePos()
+long cMainWindow::GetAbsXMousePos() const
 {
 	return m_pInput->GetX();
 }
@@ -525,7 +525,7 @@ long cMainWindow::GetAbsXMousePos()
 // ***************************************************************
 // Locks the key on the keyboard
 // ***************************************************************
-long cMainWindow::GetAbsYMousePos()
+long cMainWindow::GetAbsYMousePos() const
 {
 	return m_pInput->GetY();
 }

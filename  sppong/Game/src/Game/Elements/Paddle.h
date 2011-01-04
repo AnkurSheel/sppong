@@ -16,8 +16,6 @@ class cPaddle
 	: public cGameElement
 {
 private:
-	UINT			m_iMoveFactor;
-
 	cPaddle(const cPaddle&){}
 	cPaddle operator = (const cPaddle&) {}
 public:
@@ -29,5 +27,7 @@ public:
 	void MoveDown(const float fElapsedTime);
 	void MoveUp(const float fElapsedTime);
 	void OnRestart(const D3DXVECTOR3& vInitialPos);
+private:
+	UINT			m_iMoveFactor;
 };
 #endif // Paddle_h__

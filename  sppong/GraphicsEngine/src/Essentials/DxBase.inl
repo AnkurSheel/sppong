@@ -1,7 +1,7 @@
 // ***************************************************************
 // Checks if the device is available
 // ***************************************************************
-inline HRESULT cDXBase::IsAvailable()
+inline HRESULT cDXBase::IsAvailable() const
 {
 	    return(m_pd3dDevice->TestCooperativeLevel()) ;
 }
@@ -23,7 +23,7 @@ inline void cDXBase::EndRender( const HRESULT hr )
 // ***************************************************************
 // Returns the directX device
 // ***************************************************************
-inline LPDIRECT3DDEVICE9 cDXBase::GetDevice()
+inline LPDIRECT3DDEVICE9 cDXBase::GetDevice() const
 {
 	return m_pd3dDevice;
 }
@@ -32,7 +32,7 @@ inline LPDIRECT3DDEVICE9 cDXBase::GetDevice()
 // ***************************************************************
 // Returns the display height
 // ***************************************************************
-inline UINT cDXBase::GetDisplayHeight()
+inline UINT cDXBase::GetDisplayHeight() const
 {
 	return m_displayMode.Height;
 }
@@ -41,7 +41,7 @@ inline UINT cDXBase::GetDisplayHeight()
 // ***************************************************************
 // Returns the display width
 // ***************************************************************
-inline UINT cDXBase::GetDisplayWidth()
+inline UINT cDXBase::GetDisplayWidth() const
 {
 	return m_displayMode.Width;
 }

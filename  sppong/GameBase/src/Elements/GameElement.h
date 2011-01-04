@@ -17,6 +17,9 @@ class ISprite;
 
 class cGameElement
 {
+private :
+	cGameElement(const cGameElement&){}
+	cGameElement operator =(const cGameElement&){}
 public:
 	GAMEBASE_API cGameElement();
 	GAMEBASE_API ~cGameElement();
@@ -27,7 +30,7 @@ public:
 	GAMEBASE_API const D3DXVECTOR3& GetPosition();
 	GAMEBASE_API void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
 	GAMEBASE_API void SetSprite(ISprite* const sprite );
-	GAMEBASE_API const ISprite * GetSprite();
+	GAMEBASE_API const ISprite * GetSprite() const;
 
 protected:
 	ISprite*		m_pSprite;

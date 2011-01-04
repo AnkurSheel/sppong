@@ -29,6 +29,23 @@ class cGame
 	: public IBaseApp
 {
 private:
+	cGame(const cGame&){}
+	cGame operator =(const cGame&){}
+	void HandlePaddleAI(const float fElapsedTime);
+public:
+	cGame();
+	~cGame();
+	void Render();
+	void OnResetDevice();
+	void OnLostDevice();
+	void OnInit(LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, const UINT iDisplayWidth);
+	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
+	void Cleanup();
+	void Restart();
+	void CheckForWin();
+	void CheckForCollisions();
+
+private:
 	LPDIRECT3DDEVICE9		m_pD3dDevice;
 	UINT					m_iDisplayHeight ;		// the display height of the window
 	UINT					m_iDisplayWidth ;		// the display width of the window
@@ -50,23 +67,7 @@ private:
 	cStateMachine<cGame>*	m_pStateMachine;
 
 	IMouseZone*				m_pMouseZones;
-	cGame(const cGame&){}
-	cGame operator =(const cGame&){}
-	void HandlePaddleAI(const float fElapsedTime);
-public:
-	cGame();
-	~cGame();
-	void Render();
-	void OnResetDevice();
-	void OnLostDevice();
-	void OnInit(LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, const UINT iDisplayWidth);
-	//void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
-	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
-	void Cleanup();
-	void Restart();
-	void CheckForWin();
-	void CheckForCollisions();
-	void DisplayTitle();
+
 private:
 	friend class cStateTitleScreen;
 	friend class cStateMenuScreen;

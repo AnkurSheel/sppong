@@ -81,7 +81,7 @@ void cGameElement::SetSprite(ISprite* const sprite )
 	m_pSprite = sprite;
 }
 
-const ISprite * cGameElement::GetSprite()
+const ISprite * cGameElement::GetSprite() const
 {
 	return m_pSprite;
 }
