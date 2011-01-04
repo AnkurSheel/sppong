@@ -21,28 +21,15 @@ enum eMouseClickType
 	HOVER
 };
 
-struct stHotSpot
+class IMouseZone
 {
-	int					m_iZoneXPos;
-	int					m_iZoneYPos;
-	int					m_iZoneHeight;
-	int					m_iZoneWidth;
-	bool				m_bActive;
-	//LPTSTR				m_szZoneName;
-	char *				m_szZoneName;
-	eMouseClickType		m_eClickType;
-};
-
-class cMouseZone
-{
-private:
-	list<stHotSpot>	m_HotSpots;
 public:
-	GRAPHIC_API cMouseZone();
-	GRAPHIC_API ~cMouseZone();
-	GRAPHIC_API void FreeZones();
-	GRAPHIC_API void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType);
-	GRAPHIC_API void RemoveZone(LPCTSTR szZoneName);
-	GRAPHIC_API bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName);
+	GRAPHIC_API virtual void FreeZones() = 0;
+	GRAPHIC_API virtual void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType) = 0;
+	GRAPHIC_API virtual void RemoveZone(LPCTSTR szZoneName) = 0;
+	GRAPHIC_API virtual bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName) = 0;
+	GRAPHIC_API IMouseZone * TheMouseZone();
 };
+GRAPHIC_API IMouseZone * CreateMouseZone();
+
 #endif // MouseZone_h__

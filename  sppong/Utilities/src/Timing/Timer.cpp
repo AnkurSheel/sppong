@@ -28,10 +28,10 @@ public:
 	void Stop();
 	void Update(); 
 
-	bool IsStopped();
-	float GetFPS();
-	float GetRunningTime();
-	float GetElapsedTime(); 
+	bool IsStopped() const;
+	float GetFPS() const;
+	float GetRunningTime() const;
+	float GetElapsedTime() const; 
 
 private:
 	INT64		m_iTicksPerSecond;

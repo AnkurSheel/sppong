@@ -1,7 +1,7 @@
 // ***************************************************************
 // returns if the timer has stopped
 // ***************************************************************
-inline bool cTimer::IsStopped()
+inline bool cTimer::IsStopped() const
 {
 	return m_bTimerStopped;
 }
@@ -10,7 +10,7 @@ inline bool cTimer::IsStopped()
 // ***************************************************************
 // returns the FPS
 // ***************************************************************
-inline float cTimer::GetFPS()
+inline float cTimer::GetFPS() const
 {
 	return m_fFPS;
 }
@@ -19,7 +19,7 @@ inline float cTimer::GetFPS()
 // ***************************************************************
 // returns the running time
 // ***************************************************************
-inline float cTimer::GetRunningTime()
+inline float cTimer::GetRunningTime() const
 {
 	return m_fRunningTime;
 }
@@ -28,12 +28,11 @@ inline float cTimer::GetRunningTime()
 // ***************************************************************
 // returns the elapsed time
 // ***************************************************************
-inline float cTimer::GetElapsedTime()
+inline float cTimer::GetElapsedTime() const
 {
 	if (m_bTimerStopped)
 	{
 		return 0.0f ;
 	}
-	
 	return m_fTimeElapsed;
 }

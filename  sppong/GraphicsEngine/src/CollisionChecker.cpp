@@ -10,6 +10,23 @@
 #include "stdafx.h"
 #include "CollisionChecker.h"
 
+class cCollisionChecker 
+	: public ICollisionChecker
+{
+private:
+
+	cCollisionChecker(const cCollisionChecker&){}
+	cCollisionChecker operator = (const cCollisionChecker&){}
+
+public:
+	cCollisionChecker();
+	~cCollisionChecker();
+	bool CheckFor2DCollisions(const D3DRECT &rectA, const D3DRECT &rectB) ;
+	static ICollisionChecker * TheCollisionChecker();
+};
+
+static cCollisionChecker * s_pCollisionChecker = NULL;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -23,6 +40,8 @@ cCollisionChecker::cCollisionChecker()
 // ***************************************************************
 cCollisionChecker::~cCollisionChecker()
 {
+	int a = 5;
+	a += 10;
 }
 // ***************************************************************
 
@@ -61,9 +80,14 @@ bool cCollisionChecker::CheckFor2DCollisions( const D3DRECT &rectA,
 // ***************************************************************
 // returns the instance
 // ***************************************************************
-cCollisionChecker& cCollisionChecker::GetInstance()
+ICollisionChecker * ICollisionChecker::TheCollisionChecker()
 {
-	static	cCollisionChecker instance;
-	return instance;
+	return s_pCollisionChecker;
 }
 // ***************************************************************
+
+ICollisionChecker * CreateCollisionChecker()
+{
+	s_pCollisionChecker = new cCollisionChecker();
+	return s_pCollisionChecker;
+}

@@ -23,7 +23,7 @@ class cStateTitleScreen;
 template <class entity_type>
 class cStateMachine;
 
-class cMouseZone;
+class IMouseZone;
 
 class cGame 
 	: public IBaseApp
@@ -49,7 +49,7 @@ private:
 	bool					m_bSinglePlayer;
 	cStateMachine<cGame>*	m_pStateMachine;
 
-	cMouseZone*				m_pMouseZones;
+	IMouseZone*				m_pMouseZones;
 	cGame(const cGame&){}
 	cGame operator =(const cGame&){}
 	void HandlePaddleAI(const float fElapsedTime);

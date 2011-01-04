@@ -10,6 +10,31 @@
 #include "stdafx.h"
 #include "MouseZone.h"
 
+struct stHotSpot
+{
+	int					m_iZoneXPos;
+	int					m_iZoneYPos;
+	int					m_iZoneHeight;
+	int					m_iZoneWidth;
+	bool				m_bActive;
+	//LPTSTR				m_szZoneName;
+	char *				m_szZoneName;
+	eMouseClickType		m_eClickType;
+};
+
+class cMouseZone
+	: public IMouseZone
+{
+private:
+	list<stHotSpot>	m_HotSpots;
+public:
+	GRAPHIC_API cMouseZone();
+	GRAPHIC_API ~cMouseZone();
+	GRAPHIC_API void FreeZones();
+	GRAPHIC_API void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType);
+	GRAPHIC_API void RemoveZone(LPCTSTR szZoneName);
+	GRAPHIC_API bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName);
+};
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -113,3 +138,9 @@ GRAPHIC_API bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const
 	return false;
 }
 // ***************************************************************
+
+IMouseZone * CreateMouseZone()
+{
+	cMouseZone * pMouseZone = new cMouseZone();
+	return pMouseZone;
+}

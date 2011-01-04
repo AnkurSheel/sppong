@@ -80,7 +80,7 @@ cMainWindow::cMainWindow()
 , m_iFullScreenWidth(0)
 , m_pGameTimer(NULL)
 , m_pFPS(NULL)
-,m_pLogger(NULL)
+, m_pLogger(NULL)
 {
 }
 // ***************************************************************

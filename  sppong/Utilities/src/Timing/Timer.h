@@ -19,10 +19,10 @@ public:
 	UTILITIES_API virtual void Stop() = 0;
 	UTILITIES_API virtual void Update() = 0; 
 
-	UTILITIES_API virtual bool IsStopped() = 0;
-	UTILITIES_API virtual float GetFPS() = 0;
-	UTILITIES_API virtual float GetRunningTime() = 0;
-	UTILITIES_API virtual float GetElapsedTime() = 0; 
+	UTILITIES_API virtual bool IsStopped() const = 0;
+	UTILITIES_API virtual float GetFPS() const = 0;
+	UTILITIES_API virtual float GetRunningTime() const = 0;
+	UTILITIES_API virtual float GetElapsedTime() const = 0; 
 
 };
 

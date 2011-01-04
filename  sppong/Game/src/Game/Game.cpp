@@ -120,7 +120,7 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, 
 	m_pBallSprite = CreateSprite();
 	m_pWallSprite = CreateSprite();
 	
-	m_pMouseZones = new cMouseZone();
+	m_pMouseZones = CreateMouseZone();
 
 	m_pStateMachine = new cStateMachine<cGame>(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
@@ -164,7 +164,7 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 	}
 	if (pbPressedKeys[DIK_S])
 	{
-		if (!(cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
 		{
 			m_pPaddle[0].MoveDown(fElapsedTime);
 		}
@@ -172,7 +172,7 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 
 	if (pbPressedKeys[DIK_W])
 	{
-		if (!(cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
 		{
 			m_pPaddle[0].MoveUp(fElapsedTime);
 		}
@@ -183,7 +183,7 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 	{
 		if (pbPressedKeys[DIK_DOWN])
 		{
-			if (!(cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
+			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
 			{
 				m_pPaddle[1].MoveDown(fElapsedTime);
 			}
@@ -191,7 +191,7 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 
 		if (pbPressedKeys[DIK_UP])
 		{
-			if (!(cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
+			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
 			{
 
 				m_pPaddle[1].MoveUp(fElapsedTime);
@@ -311,15 +311,15 @@ void cGame::CheckForWin()
 void cGame::CheckForCollisions()
 {
 	// check for collisions between paddle and ball
-	if (cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[0].GetBoundingRectangle())
-		|| cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[1].GetBoundingRectangle()))
+	if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[0].GetBoundingRectangle())
+		|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[1].GetBoundingRectangle()))
 	{
 		m_pBall->ChangeSpeedX();
 	}
 
 	// check for collision between ball and walls
-	if (cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())
-		|| cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle()))
+	if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())
+		|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle()))
 	{
 		m_pBall->ChangeSpeedY();
 	}
@@ -341,7 +341,7 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 
 	if (fCentreOfPaddle - fCentreOfBall > 10)
 	{
-		if (!(cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
 		{
 			m_pPaddle[1].MoveUp(fElapsedTime);
 			return;
@@ -350,7 +350,7 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 
 	if (fCentreOfBall - fCentreOfPaddle > 10)
 	{
-		if (!(cCollisionChecker::GetInstance().CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
 		{
 			m_pPaddle[1].MoveDown(fElapsedTime);
 			return;

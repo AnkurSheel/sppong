@@ -22,12 +22,6 @@ cGame *pGame = NULL;	// global ptr to the game
 int WINAPI WinMain(const HINSTANCE hInstance, HINSTANCE hPrevInstance, 
 				   LPSTR lpCmdLine, int nCmdShow)
 {
-	ILogger * pLog = CreateLogger();
-
-	pLog->StartConsoleWin();
-	//log.Log(_T("%s %d"),__WFILE__, __LINE__);
-	pLog->Log("%s %d",__FILE__, __LINE__);
-
 	HWND	hwnd ;
 
 	CheckForMemoryLeaks() ;

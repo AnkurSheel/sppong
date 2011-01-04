@@ -12,17 +12,12 @@
 
 #include "GraphicEngineDefines.h"
 
-class cCollisionChecker
+class ICollisionChecker
 {
-private:
-	
-	cCollisionChecker(const cCollisionChecker&){}
-	cCollisionChecker operator = (const cCollisionChecker&){}
-
 public:
-	cCollisionChecker();
-	~cCollisionChecker();
-	GRAPHIC_API bool CheckFor2DCollisions(const D3DRECT &rectA, const D3DRECT &rectB) ;
-	GRAPHIC_API static cCollisionChecker& GetInstance();
+	GRAPHIC_API virtual bool CheckFor2DCollisions(const D3DRECT &rectA, const D3DRECT &rectB) = 0;
+	GRAPHIC_API static ICollisionChecker * TheCollisionChecker();
 };
+
+GRAPHIC_API ICollisionChecker * CreateCollisionChecker();
 #endif // CollisionChecker_h__
