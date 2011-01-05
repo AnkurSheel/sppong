@@ -33,7 +33,10 @@ cInput::~cInput()
 // ***************************************************************
 // Initializes the input devices
 // ***************************************************************
-void cInput::Init( const HINSTANCE hInst, const HWND hWnd, const UINT iTableWidth /*= 0 */, const UINT iTableHeight/*= 0*/ )
+void cInput::Init( const HINSTANCE hInst,
+				  const HWND hWnd,
+				  const UINT iTableWidth /*= 0 */,
+				  const UINT iTableHeight/*= 0*/ )
 {
 	m_hWnd = hWnd;
 

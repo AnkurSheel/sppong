@@ -48,7 +48,9 @@ void cFPS::Render( LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue )
 // ***************************************************************
 // Initialize the FPS
 // ***************************************************************
-void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color /*= BLACK*/ )
+void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice, 
+				const D3DXVECTOR3& vInitialPos,
+				const D3DXCOLOR& color /*= BLACK*/ )
 {
 	m_pFont = CreateMyFont();
 	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, _T("Arial")) ;

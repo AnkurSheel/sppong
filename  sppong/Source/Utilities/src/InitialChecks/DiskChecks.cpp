@@ -1,5 +1,7 @@
 #include <stdafx.h>
 #include <direct.h>
+#include <math.h>
+#include <time.h>
 
 bool IsOnlyInstance(LPCTSTR gameTitle) 
 { 

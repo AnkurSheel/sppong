@@ -19,15 +19,17 @@ cGame *pGame = NULL;	// global ptr to the game
 // ***************************************************************
 // Main function
 // ***************************************************************
-int WINAPI WinMain(const HINSTANCE hInstance, HINSTANCE hPrevInstance, 
-				   LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(const HINSTANCE hInstance, 
+				   HINSTANCE hPrevInstance, 
+				   LPSTR lpCmdLine, 
+				   int nCmdShow)
 {
 	HWND	hwnd ;
 
 	CheckForMemoryLeaks() ;
 
-	CreateMyWindow();
-	pGame= new cGame();
+	IMainWindow::CreateMyWindow();
+	pGame= DEBUG_NEW cGame();
 
 	//Initialize the window class
 	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, "MPong", 1280, 764, (IBaseApp*)pGame);

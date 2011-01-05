@@ -1,7 +1,7 @@
 // ***************************************************************
 // returns the mouse movement in X direction
 // ***************************************************************
-inline const long cInput::GetMouseXDelta()
+inline const long cInput::GetMouseXDelta() const
 {
 	return m_MouseState.lX;
 }
@@ -10,7 +10,7 @@ inline const long cInput::GetMouseXDelta()
 // ***************************************************************
 // returns the mouse movement in Y direction
 // ***************************************************************
-inline const long cInput::GetMouseYDelta()
+inline const long cInput::GetMouseYDelta() const
 {
 	return m_MouseState.lY;
 }
@@ -19,7 +19,7 @@ inline const long cInput::GetMouseYDelta()
 // ***************************************************************
 // returns the mouse movement in Z direction
 // ***************************************************************
-inline const long cInput::GetMouseZDelta()
+inline const long cInput::GetMouseZDelta() const
 {
 	return m_MouseState.lZ;
 }
@@ -28,7 +28,7 @@ inline const long cInput::GetMouseZDelta()
 // ***************************************************************
 // returns the pressed keys
 // ***************************************************************
-inline const bool* const cInput::GetPressedKeys()
+inline const bool* const cInput::GetPressedKeys() const
 {
 	return m_bPressedKeys;
 }
@@ -37,7 +37,7 @@ inline const bool* const cInput::GetPressedKeys()
 // ***************************************************************
 // returns the pressed mouse buttons
 // ***************************************************************
-inline const bool* const cInput::GetPressedButtons()
+inline const bool* const cInput::GetPressedButtons() const
 {
 	return m_bPressedButtons;
 }
@@ -46,7 +46,7 @@ inline const bool* const cInput::GetPressedButtons()
 // ***************************************************************
 // returns the pressed mouse buttons
 // ***************************************************************
-inline long cInput::GetX()
+inline long cInput::GetX() const
 {
 	return m_lPosX;
 }
@@ -55,7 +55,7 @@ inline long cInput::GetX()
 // ***************************************************************
 // returns the pressed mouse buttons
 // ***************************************************************
-inline long cInput::GetY()
+inline long cInput::GetY() const
 {
 	return m_lPosY;
 }

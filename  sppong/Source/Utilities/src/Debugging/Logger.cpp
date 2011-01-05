@@ -46,7 +46,9 @@ cLogger::cLogger()
 // ***************************************************************
 // creates the console Window
 // ***************************************************************
-void cLogger::StartConsoleWin( const int ciWidth /*= 80*/, const int ciHeight /*= 40*/, const char* const cfName /*= NULL*/ )
+void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
+							  const int ciHeight /*= 40*/, 
+							  const char* const cfName /*= NULL*/ )
 {
 #ifdef _DEBUG
 	AllocConsole();
@@ -101,7 +103,7 @@ int cLogger::Log( const char * const lpFmt, ... )
 // ***************************************************************
 ILogger * CreateLogger()
 {
-	cLogger * pLogger = new cLogger();
+	cLogger * pLogger = DEBUG_NEW cLogger();
 	return pLogger;
 }
 // ***************************************************************

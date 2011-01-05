@@ -71,14 +71,14 @@ void cFuzzyVariable::AdjustRangeToFit(const float min, const float max)
 //----------------------------------------------------------------------------
 cFuzzySetProxy* cFuzzyVariable::AddLeftShoulderSet( const char * const name , const float minBound, const float peak , const float maxBound )
 {
-	 m_MemberSets[name] = new cFuzzySetLtShoulder(peak, peak-minBound, 
+	 m_MemberSets[name] = DEBUG_NEW cFuzzySetLtShoulder(peak, peak-minBound, 
 																maxBound- peak);
 	 
 	 //adjust range if req
 	 AdjustRangeToFit(minBound,maxBound);
 
 	 //It is the Callee's responsibility to free it
-	 cFuzzySetProxy* tmp = new cFuzzySetProxy(*m_MemberSets[name]);
+	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name]);
 
 	 //return  m_MemberSets[name];
 
@@ -118,12 +118,12 @@ cFuzzySetProxy* cFuzzyVariable::AddangleSet(const char * const& name,
 											 const float peak, 
 											 const float maxBound)
 {
-	m_MemberSets[name] = new cFuzzySetangle(peak, peak-minBound, maxBound- peak);
+	m_MemberSets[name] = DEBUG_NEW cFuzzySetangle(peak, peak-minBound, maxBound- peak);
 	 
 	 //adjust range if req
 	 AdjustRangeToFit(minBound,maxBound);
 
-	 cFuzzySetProxy* tmp = new cFuzzySetProxy(*m_MemberSets[name]);
+	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name]);
 
 	 return tmp;
 }

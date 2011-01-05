@@ -26,6 +26,7 @@ public:
 	GRAPHIC_API virtual void LockKey( const DWORD dwKey ) = 0;
 	GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
 	GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
+	GRAPHIC_API static void CreateMyWindow();
 };
-GRAPHIC_API IMainWindow * CreateMyWindow();
+
 #endif // mywinmainclass_h__

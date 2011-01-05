@@ -121,7 +121,11 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 // ***************************************************************
 // Render the sprite
 // ***************************************************************
-void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags /*= NULL*/, const D3DCOLOR& tint /*= WHITE*/, const RECT* pSrcRect /*= NULL*/ )
+void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, 
+						 const D3DXVECTOR3& vPosition, 
+						 const DWORD dwFlags /*= NULL*/, 
+						 const D3DCOLOR& tint /*= WHITE*/, 
+						 const RECT* pSrcRect /*= NULL*/ )
 {
 
 	// get the new position and create the transform matrix
@@ -168,7 +172,7 @@ D3DXVECTOR3 cSprite::GetPosition() const
 // ***************************************************************
 ISprite * CreateSprite()
 {
-	cSprite* pSprite = new cSprite();
+	cSprite* pSprite = DEBUG_NEW cSprite();
 	return pSprite;
 }
 // ***************************************************************

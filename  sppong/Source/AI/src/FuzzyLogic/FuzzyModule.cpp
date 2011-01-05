@@ -72,7 +72,7 @@ cFuzzyVariable* cFuzzyModule::CreateFLV(const char * const& varName)
 //----------------------------------------------------------------------------
 void cFuzzyModule::AddRule(cFuzzyTerm* antecedent, cFuzzyTerm* consequent)
 {
-	cFuzzyRule* p = new cFuzzyRule(antecedent, consequent);
+	cFuzzyRule* p = DEBUG_NEW cFuzzyRule(antecedent, consequent);
 	m_Rules.push_back(p);
 }
 //----------------------------------------------------------------------------

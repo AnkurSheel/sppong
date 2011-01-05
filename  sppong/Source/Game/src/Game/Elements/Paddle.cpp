@@ -88,6 +88,28 @@ void cPaddle::MoveUp( const float fElapsedTime )
 // ***************************************************************
 
 // ***************************************************************
+// move paddle left
+// ***************************************************************
+void cPaddle::MoveLeft( const float fElapsedTime )
+{
+	m_vPosition.x -= (m_iMoveFactor * fElapsedTime) ;
+
+	SetBoundingRectangle();
+}
+// ***************************************************************
+
+// ***************************************************************
+// move paddle left
+// ***************************************************************
+void cPaddle::MoveRight( const float fElapsedTime )
+{
+	m_vPosition.x += (m_iMoveFactor * fElapsedTime) ;
+
+	SetBoundingRectangle();
+}
+// ***************************************************************
+
+// ***************************************************************
 // called when the game is restarted
 // ***************************************************************
 void cPaddle::OnRestart( const D3DXVECTOR3& vInitialPos )

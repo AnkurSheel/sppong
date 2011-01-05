@@ -88,6 +88,6 @@ ICollisionChecker * ICollisionChecker::TheCollisionChecker()
 
 ICollisionChecker * CreateCollisionChecker()
 {
-	s_pCollisionChecker = new cCollisionChecker();
+	s_pCollisionChecker = DEBUG_NEW cCollisionChecker();
 	return s_pCollisionChecker;
 }

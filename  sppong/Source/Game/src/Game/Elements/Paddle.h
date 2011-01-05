@@ -27,6 +27,8 @@ public:
 	void MoveDown(const float fElapsedTime);
 	void MoveUp(const float fElapsedTime);
 	void OnRestart(const D3DXVECTOR3& vInitialPos);
+	void MoveLeft( const float fElapsedTime );
+	void MoveRight( const float fElapsedTime );
 private:
 	UINT			m_iMoveFactor;
 };

@@ -29,7 +29,9 @@ cBall::~cBall()
 // ***************************************************************
 // Initialize the ball
 // ***************************************************************
-void cBall::Init( const D3DXVECTOR3& vInitialPos, const UINT iTableWidth, const UINT iTableHeight )
+void cBall::Init( const D3DXVECTOR3& vInitialPos, 
+				 const UINT iTableWidth,
+				 const UINT iTableHeight )
 {
 	cGameElement::Init(vInitialPos, iTableWidth,iTableHeight);
 
@@ -41,7 +43,8 @@ void cBall::Init( const D3DXVECTOR3& vInitialPos, const UINT iTableWidth, const 
 // ***************************************************************
 // Renders the ball
 // ***************************************************************
-void cBall::Render( LPDIRECT3DDEVICE9 const pDevice, const float fElapsedTime )
+void cBall::Render( LPDIRECT3DDEVICE9 const pDevice, 
+				   const float fElapsedTime )
 {
 	// update the position of the wall
 	m_vPosition += (m_vSpeed * fElapsedTime);

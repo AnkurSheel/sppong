@@ -52,5 +52,10 @@
 
 using namespace std;
 
-#define new DEBUG_CLIENTBLOCK
-#define DEBUG_CLIENTBLOCK new( _CLIENT_BLOCK, __FILE__, __LINE__)
+//#define new DEBUG_CLIENTBLOCK
+//#define DEBUG_CLIENTBLOCK new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#ifdef _DEBUG
+#define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_NEW new
+#endif 

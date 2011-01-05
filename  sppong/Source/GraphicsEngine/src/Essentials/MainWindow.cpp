@@ -34,7 +34,7 @@ private:
 	 void HandleLostDevice(HRESULT hr);
 	 void GetWinRect() ;
 	 void MoveWin() ;
-	 void GetInput();
+	 void GetInput()  const;
 	static LRESULT CALLBACK StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
 public:
 	cMainWindow() ;
@@ -90,6 +90,7 @@ cMainWindow::cMainWindow()
 // ***************************************************************
 cMainWindow::~cMainWindow()
 {
+	int a = 5;
 }
 // ***************************************************************
 
@@ -395,10 +396,10 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	m_pGameTimer = CreateTimer();
 	m_pGameTimer->Start();
 
-	m_pInput = new cInput();
+	m_pInput = DEBUG_NEW cInput();
 	m_pInput->Init(hInst, hWnd, m_iClientWidth, m_iClientHeight);
 
-	m_pFPS = new cFPS();
+	m_pFPS = DEBUG_NEW cFPS();
 	m_pFPS->Init(cDXBase::GetInstance().GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
 
 
@@ -461,7 +462,7 @@ void cMainWindow::OnLostDevice()
 // ***************************************************************
 // Gets User Inputs 
 // ***************************************************************
-void cMainWindow::GetInput()
+void cMainWindow::GetInput() const
 {
 	m_pInput->DetectKeys();
 	m_pInput->DetectMouseMovement();
@@ -541,9 +542,9 @@ IMainWindow * IMainWindow::TheWindow()
 // ***************************************************************
 // creates a window
 // ***************************************************************
-IMainWindow * CreateMyWindow()
+void IMainWindow::CreateMyWindow()
 {
-	return s_pWindow = new cMainWindow();
+	s_pWindow = DEBUG_NEW cMainWindow();
 }
 // ***************************************************************
 

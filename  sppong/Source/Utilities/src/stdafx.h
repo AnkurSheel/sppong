@@ -31,9 +31,11 @@
 #include <stdio.h>
 #include <crtdbg.h>
 #include "Macros.h"
+#include <windows.h>
+#include <mmsystem.h>
 
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
 #else
-#define DEBUG_NEW
+#define DEBUG_NEW new
 #endif 

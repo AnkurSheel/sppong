@@ -105,16 +105,18 @@ void cGame::OnLostDevice()
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, const UINT iDisplayWidth )
+void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice, 
+				   const UINT iDisplayHeight, 
+				   const UINT iDisplayWidth )
 {
 	m_pD3dDevice = pDevice;
 	m_iDisplayHeight = iDisplayHeight;
 	m_iDisplayWidth = iDisplayWidth;
 
-	m_pPaddle = new cPaddle[2]();
-	m_pBall = new cBall();
-	m_pWall = new cWall[2]();
-	m_pScore = new cScore[2]();
+	m_pPaddle = DEBUG_NEW cPaddle[2]();
+	m_pBall = DEBUG_NEW cBall();
+	m_pWall = DEBUG_NEW cWall[2]();
+	m_pScore = DEBUG_NEW cScore[2]();
 
 	m_pPaddleSprite = CreateSprite();
 	m_pBallSprite = CreateSprite();
@@ -122,17 +124,21 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, 
 	
 	m_pMouseZones = CreateMouseZone();
 
-	m_pStateMachine = new cStateMachine<cGame>(this);
+	CreateCollisionChecker();
+	m_pStateMachine = DEBUG_NEW cStateMachine<cGame>(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
-
-	
 }
 // ***************************************************************
 
 // ***************************************************************
 // Process user input
 // ***************************************************************
-void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime )
+void cGame::ProcessInput( const long xDelta,
+						 const long yDelta, 
+						 const long zDelta, 
+						 const bool* const pbPressedKeys, 
+						 const bool* const pbMouseButtons, 
+						 const float fElapsedTime )
 {
 
 	if (pbPressedKeys[DIK_F2])
@@ -157,10 +163,8 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 		else
 		{
 			// if the current state is the game screen and the user presses ESC, QUIT
-			
 			PostQuitMessage(0);
 		}
-		
 	}
 	if (pbPressedKeys[DIK_S])
 	{
@@ -175,6 +179,22 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
 		{
 			m_pPaddle[0].MoveUp(fElapsedTime);
+		}
+	}
+
+	if (pbPressedKeys[DIK_A])
+	{
+		if(m_pPaddle[0].GetPosition().x >= 0)
+		{
+				m_pPaddle[0].MoveLeft(fElapsedTime);
+		}
+	}
+
+	if (pbPressedKeys[DIK_D])
+	{
+		if(m_pPaddle[0].GetPosition().x <= m_iDisplayWidth/2 - m_pPaddleSprite->GetScaledWidth())
+		{
+			m_pPaddle[0].MoveRight(fElapsedTime);
 		}
 	}
 
@@ -193,8 +213,23 @@ void cGame::ProcessInput( const long xDelta,const long yDelta, const long zDelta
 		{
 			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
 			{
-
 				m_pPaddle[1].MoveUp(fElapsedTime);
+			}
+		}
+
+		if (pbPressedKeys[DIK_LEFT])
+		{
+			if(m_pPaddle[1].GetPosition().x >= m_iDisplayWidth/2)
+			{
+				m_pPaddle[1].MoveLeft(fElapsedTime);
+			}
+		}
+
+		if (pbPressedKeys[DIK_RIGHT])
+		{
+			if (m_pPaddle[1].GetPosition().x <= (m_iDisplayWidth - m_pPaddleSprite->GetScaledWidth()))
+			{
+				m_pPaddle[1].MoveRight(fElapsedTime);
 			}
 		}
 	}

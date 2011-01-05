@@ -39,7 +39,7 @@ cFuzzyOperatorVery::cFuzzyOperatorVery(cFuzzySetProxy& set)
 //----------------------------------------------------------------------------
 cFuzzyTerm* cFuzzyOperatorVery::Clone()
 {
-	return(new cFuzzyOperatorVery(*this));
+	return(DEBUG_NEW cFuzzyOperatorVery(*this));
 }
 //----------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ cFuzzyOperatorFairly::cFuzzyOperatorFairly(cFuzzySetProxy& set)
 //----------------------------------------------------------------------------
 cFuzzyTerm * cFuzzyOperatorFairly::Clone()
 {
-	return(new cFuzzyOperatorFairly(*this));
+	return(DEBUG_NEW cFuzzyOperatorFairly(*this));
 }
 //----------------------------------------------------------------------------
 
@@ -189,7 +189,7 @@ cFuzzyOperatorAnd::cFuzzyOperatorAnd(cFuzzyTerm& op1, cFuzzyTerm& op2,
 //----------------------------------------------------------------------------
 cFuzzyTerm* cFuzzyOperatorAnd::Clone()
 {
-	return(new cFuzzyOperatorAnd(*this)) ;
+	return(DEBUG_NEW cFuzzyOperatorAnd(*this)) ;
 }
 //----------------------------------------------------------------------------
 
@@ -293,7 +293,7 @@ cFuzzyOperatorOr::cFuzzyOperatorOr(cFuzzyTerm& op1, cFuzzyTerm& op2, cFuzzyTerm&
 //----------------------------------------------------------------------------
 cFuzzyTerm* cFuzzyOperatorOr::Clone()
 {
-	return (new cFuzzyOperatorOr(*this));
+	return (DEBUG_NEW cFuzzyOperatorOr(*this));
 }
 //----------------------------------------------------------------------------
 

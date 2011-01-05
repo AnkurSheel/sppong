@@ -71,7 +71,10 @@ void cGameElement::OnRestart( const D3DXVECTOR3& vInitialPos )
 }
 // ***************************************************************
 
-void cGameElement::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags /*= NULL*/, const D3DCOLOR& tint/* = WHITE*/, const RECT* pSrcRect/* = NULL*/)
+void cGameElement::Render(LPDIRECT3DDEVICE9 const pDevice,
+						  const DWORD dwFlags /*= NULL*/,
+						  const D3DCOLOR& tint/* = WHITE*/,
+						  const RECT* pSrcRect/* = NULL*/)
 {
 	m_pSprite->DrawSprite(pDevice, m_vPosition, dwFlags);
 }

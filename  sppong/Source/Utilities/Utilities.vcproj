@@ -64,6 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -143,6 +144,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
