@@ -76,7 +76,7 @@ void cMyFont::DisplayText( IDirect3DDevice9 *pd3dDevice, const char * const szSt
 // ***************************************************************
 // Creates a font
 // ***************************************************************
-IFont * CreateMyFont()
+IFont * IFont::CreateMyFont()
 {
 	cMyFont * pFont = DEBUG_NEW cMyFont();
 	return pFont;

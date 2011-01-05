@@ -29,7 +29,6 @@ public:
 	GRAPHIC_API virtual void RemoveZone(LPCTSTR szZoneName) = 0;
 	GRAPHIC_API virtual bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName) = 0;
 	GRAPHIC_API static IMouseZone * TheMouseZone();
+	GRAPHIC_API static IMouseZone * CreateMouseZone();
 };
-GRAPHIC_API IMouseZone * CreateMouseZone();
-
 #endif // MouseZone_h__

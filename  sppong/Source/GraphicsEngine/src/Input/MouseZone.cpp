@@ -139,7 +139,7 @@ GRAPHIC_API bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const
 }
 // ***************************************************************
 
-IMouseZone * CreateMouseZone()
+IMouseZone * IMouseZone::CreateMouseZone()
 {
 	cMouseZone * pMouseZone = DEBUG_NEW cMouseZone();
 	return pMouseZone;

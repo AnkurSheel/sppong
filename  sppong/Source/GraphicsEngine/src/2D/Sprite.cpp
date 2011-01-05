@@ -170,7 +170,7 @@ D3DXVECTOR3 cSprite::GetPosition() const
 // ***************************************************************
 // Creates a Sprite
 // ***************************************************************
-ISprite * CreateSprite()
+ISprite * ISprite::CreateSprite()
 {
 	cSprite* pSprite = DEBUG_NEW cSprite();
 	return pSprite;

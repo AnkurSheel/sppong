@@ -45,15 +45,13 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 // ***************************************************************
 void cStateTitleScreen::Enter(cGame *pGame)
 {
-	//MyTrace("Enter : ccStateEnterGame\n");
-	pGame->m_pTitleScreenSprite = CreateSprite();
-	//pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, _T("resources\\title.jpg"));
+	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
 	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\title.jpg");
 	m_fCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
 
 	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
-	pGame->m_pCursorSprite = CreateSprite();
+	pGame->m_pCursorSprite = ISprite::CreateSprite();
 	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\cursor.png");
 	pGame->m_pCursorSprite->SetSize(16.0f, 16.0f);
 	
@@ -114,15 +112,15 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 // ***************************************************************
 void cStateMenuScreen::Enter(cGame *pGame)
 {
-	pGame->m_pSinglePlayerSprite = CreateSprite();
+	pGame->m_pSinglePlayerSprite = ISprite::CreateSprite();
 	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\SinglePlayer.jpg");
 	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
-	pGame->m_pTwoPlayerSprite = CreateSprite();
+	pGame->m_pTwoPlayerSprite = ISprite::CreateSprite();
 	pGame->m_pTwoPlayerSprite->Init(pGame->m_pD3dDevice, "resources\\TwoPlayer.jpg");
 	pGame->m_pTwoPlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
-	pGame->m_pQuitSprite = CreateSprite();
+	pGame->m_pQuitSprite = ISprite::CreateSprite();
 	pGame->m_pQuitSprite->Init(pGame->m_pD3dDevice, "resources\\Quit.jpg");
 	pGame->m_pQuitSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
@@ -151,7 +149,6 @@ void cStateMenuScreen::Execute(cGame *pGame)
 
 void cStateMenuScreen::Exit(cGame *pGame)
 {
-	//MyTrace("Exit : ccStateEnterGame\n\n");
 	pGame->m_pTitleScreenSprite->Cleanup();
 	SAFE_DELETE(pGame->m_pTitleScreenSprite);
 	pGame->m_pCursorSprite->Cleanup();
@@ -212,7 +209,6 @@ void cStatePlayGame::Enter(cGame *pGame)
 
 void cStatePlayGame::Execute(cGame *pGame)
 {
-	////MyTrace("Execute : ccStatePlayGame\n");
 	pGame->m_pPaddle[0].Render(pGame->m_pD3dDevice); 
 	pGame->m_pPaddle[1].Render(pGame->m_pD3dDevice); 
 	pGame->m_pWall[0].Render(pGame->m_pD3dDevice);
@@ -223,7 +219,6 @@ void cStatePlayGame::Execute(cGame *pGame)
 
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
-	//pGame->m_pStateMachine->ChangeState(StateCoinToss::Instance());
 }
 // ***************************************************************
 

@@ -15,6 +15,7 @@
 #include "Input/Input.h"
 #include "fps/FPS.h"
 #include "Debugging/Logger.h"
+#include "CollisionChecker.h"
 
 class cMainWindow
 	: public IMainWindow
@@ -228,11 +229,11 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return 0 ;
 
 	case WM_CLOSE:
-		PostQuitMessage(0);
+		OnDestroyDevice();
 		return 0 ;
 
 	case WM_DESTROY:
-		OnDestroyDevice();
+		PostQuitMessage(0);
 		return 0 ;
 
 	default:
@@ -351,11 +352,16 @@ void cMainWindow::OnDestroyDevice()
 
 	SAFE_DELETE(m_pLogger);
 
+	if(ICollisionChecker::TheCollisionChecker())
+		ICollisionChecker::TheCollisionChecker()->Destroy();
+
 	// release the graphic object
 	cDXBase::GetInstance().Cleanup();
 
 	ReleaseCapture() ;
 	PostQuitMessage(0) ;
+
+	delete this;
 }
 // ***************************************************************
 
@@ -387,13 +393,13 @@ void cMainWindow::OnResetDevice()
 // ***************************************************************
 void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 {
-	m_pLogger = CreateLogger();
+	m_pLogger = ILogger::CreateLogger();
 	m_pLogger->StartConsoleWin();
 	
 	// initialize DirectX
 	cDXBase::GetInstance().Init(hWnd, TAN);
 
-	m_pGameTimer = CreateTimer();
+	m_pGameTimer = ITimer::CreateTimer();
 	m_pGameTimer->Start();
 
 	m_pInput = DEBUG_NEW cInput();

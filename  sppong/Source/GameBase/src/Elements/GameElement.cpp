@@ -20,7 +20,6 @@ UINT cGameElement::m_siTableWidth = 0;
 cGameElement::cGameElement()
 : m_pSprite(NULL)
 {
-	int A = 5;
 }
 // ***************************************************************
 

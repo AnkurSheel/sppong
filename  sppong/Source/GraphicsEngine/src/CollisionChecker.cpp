@@ -23,6 +23,7 @@ public:
 	~cCollisionChecker();
 	bool CheckFor2DCollisions(const D3DRECT &rectA, const D3DRECT &rectB) ;
 	static ICollisionChecker * TheCollisionChecker();
+	void Destroy();
 };
 
 static cCollisionChecker * s_pCollisionChecker = NULL;
@@ -75,6 +76,11 @@ bool cCollisionChecker::CheckFor2DCollisions( const D3DRECT &rectA,
 
 	return true;
 }
+
+void cCollisionChecker::Destroy()
+{
+	delete this;
+}
 // ***************************************************************
 
 // ***************************************************************
@@ -86,8 +92,8 @@ ICollisionChecker * ICollisionChecker::TheCollisionChecker()
 }
 // ***************************************************************
 
-ICollisionChecker * CreateCollisionChecker()
+void ICollisionChecker::CreateCollisionChecker()
 {
 	s_pCollisionChecker = DEBUG_NEW cCollisionChecker();
-	return s_pCollisionChecker;
 }
+

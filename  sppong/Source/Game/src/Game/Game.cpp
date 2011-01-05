@@ -118,13 +118,13 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	m_pWall = DEBUG_NEW cWall[2]();
 	m_pScore = DEBUG_NEW cScore[2]();
 
-	m_pPaddleSprite = CreateSprite();
-	m_pBallSprite = CreateSprite();
-	m_pWallSprite = CreateSprite();
+	m_pPaddleSprite = ISprite::CreateSprite();
+	m_pBallSprite = ISprite::CreateSprite();
+	m_pWallSprite = ISprite::CreateSprite();
 	
-	m_pMouseZones = CreateMouseZone();
+	m_pMouseZones = IMouseZone::CreateMouseZone();
 
-	CreateCollisionChecker();
+	ICollisionChecker::CreateCollisionChecker();
 	m_pStateMachine = DEBUG_NEW cStateMachine<cGame>(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }

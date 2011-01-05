@@ -50,7 +50,6 @@ private:
 
 static cTimer * s_pTimer = NULL;
 
-
 cTimer::cTimer()
 : m_iCurrentTime(0)
 , m_iLastTime(0)
@@ -142,7 +141,7 @@ void cTimer::Update()
 // ***************************************************************
 // Creates a timer
 // ***************************************************************
-ITimer * CreateTimer()
+ITimer * ITimer::CreateTimer()
 {
 	return s_pTimer = DEBUG_NEW cTimer();
 }

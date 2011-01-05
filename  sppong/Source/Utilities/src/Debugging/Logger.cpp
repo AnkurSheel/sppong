@@ -101,7 +101,7 @@ int cLogger::Log( const char * const lpFmt, ... )
 // ***************************************************************
 // Creates a logger
 // ***************************************************************
-ILogger * CreateLogger()
+ILogger * ILogger::CreateLogger()
 {
 	cLogger * pLogger = DEBUG_NEW cLogger();
 	return pLogger;

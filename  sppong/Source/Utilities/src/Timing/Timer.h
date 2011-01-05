@@ -23,9 +23,8 @@ public:
 	UTILITIES_API virtual float GetFPS() const = 0;
 	UTILITIES_API virtual float GetRunningTime() const = 0;
 	UTILITIES_API virtual float GetElapsedTime() const = 0; 
-
+	UTILITIES_API static ITimer * CreateTimer();
 };
 
-UTILITIES_API ITimer * CreateTimer();
 
 #endif // Timer_h__

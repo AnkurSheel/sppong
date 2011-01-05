@@ -17,7 +17,7 @@ class ICollisionChecker
 public:
 	GRAPHIC_API virtual bool CheckFor2DCollisions(const D3DRECT &rectA, const D3DRECT &rectB) = 0;
 	GRAPHIC_API static ICollisionChecker * TheCollisionChecker();
+	GRAPHIC_API virtual void Destroy() = 0;
+	GRAPHIC_API static void CreateCollisionChecker();
 };
-
-GRAPHIC_API ICollisionChecker * CreateCollisionChecker();
 #endif // CollisionChecker_h__

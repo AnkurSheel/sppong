@@ -23,7 +23,6 @@ public:
 	GRAPHIC_API virtual UINT GetScaledHeight() const = 0;
 	GRAPHIC_API virtual UINT GetScaledWidth() const = 0;
 	GRAPHIC_API virtual D3DXVECTOR3 GetPosition() const = 0;
+	GRAPHIC_API static ISprite * CreateSprite();
 };
-
-GRAPHIC_API ISprite * CreateSprite();
 #endif // Sprite_h__
