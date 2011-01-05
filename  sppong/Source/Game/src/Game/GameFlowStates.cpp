@@ -46,13 +46,13 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 void cStateTitleScreen::Enter(cGame *pGame)
 {
 	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
-	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\title.jpg");
+	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
 	m_fCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
 
 	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
 	pGame->m_pCursorSprite = ISprite::CreateSprite();
-	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\cursor.png");
+	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\cursor.png");
 	pGame->m_pCursorSprite->SetSize(16.0f, 16.0f);
 	
 	pGame->m_pMouseZones->FreeZones();
@@ -113,15 +113,15 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 void cStateMenuScreen::Enter(cGame *pGame)
 {
 	pGame->m_pSinglePlayerSprite = ISprite::CreateSprite();
-	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\SinglePlayer.jpg");
+	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\SinglePlayer.jpg");
 	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
 	pGame->m_pTwoPlayerSprite = ISprite::CreateSprite();
-	pGame->m_pTwoPlayerSprite->Init(pGame->m_pD3dDevice, "resources\\TwoPlayer.jpg");
+	pGame->m_pTwoPlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\TwoPlayer.jpg");
 	pGame->m_pTwoPlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
 	pGame->m_pQuitSprite = ISprite::CreateSprite();
-	pGame->m_pQuitSprite->Init(pGame->m_pD3dDevice, "resources\\Quit.jpg");
+	pGame->m_pQuitSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Quit.jpg");
 	pGame->m_pQuitSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 
  	pGame->m_pMouseZones->FreeZones();

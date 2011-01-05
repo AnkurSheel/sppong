@@ -74,9 +74,9 @@ void cGame::Render()
 // ***************************************************************
 void cGame::OnResetDevice()
 {
-	m_pPaddleSprite->Init(m_pD3dDevice, "resources\\paddle.jpg");
-	m_pBallSprite->Init(m_pD3dDevice, "resources\\ball.png");
-	m_pWallSprite->Init(m_pD3dDevice, "resources\\wall.png");
+	m_pPaddleSprite->Init(m_pD3dDevice, "resources\\Sprites\\paddle.jpg");
+	m_pBallSprite->Init(m_pD3dDevice, "resources\\Sprites\\ball.png");
+	m_pWallSprite->Init(m_pD3dDevice, "resources\\Sprites\\wall.png");
 
 	m_pPaddle[0].OnResetDevice(m_pPaddleSprite);
 	m_pPaddle[1].OnResetDevice(m_pPaddleSprite);

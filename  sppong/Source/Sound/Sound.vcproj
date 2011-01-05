@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fmodex_vc.lib"
+				AdditionalDependencies="..\..\extern\FModex\fmodex_vc.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\bin\External_lib"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fmodex_vc.lib"
+				AdditionalDependencies="..\..\extern\FModex\fmodex_vc.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\External_lib"
