@@ -43,6 +43,7 @@ cGame::cGame()
 , m_pTwoPlayerSprite(NULL)
 , m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
+, m_pTableSprite(NULL)
 {
 }
 // ***************************************************************
@@ -77,6 +78,7 @@ void cGame::OnResetDevice()
 	m_pPaddleSprite->Init(m_pD3dDevice, "resources\\Sprites\\paddle.jpg");
 	m_pBallSprite->Init(m_pD3dDevice, "resources\\Sprites\\ball.png");
 	m_pWallSprite->Init(m_pD3dDevice, "resources\\Sprites\\wall.png");
+	m_pTableSprite->Init(m_pD3dDevice, "resources\\Sprites\\Table.jpg");
 
 	m_pPaddle[0].OnResetDevice(m_pPaddleSprite);
 	m_pPaddle[1].OnResetDevice(m_pPaddleSprite);
@@ -97,8 +99,10 @@ void cGame::OnLostDevice()
 	m_pPaddleSprite->Cleanup();
 	m_pBallSprite->Cleanup();
 	m_pWallSprite->Cleanup();
+	m_pTableSprite->Cleanup();
 	m_pScore[0].OnLostDevice();
 	m_pScore[1].OnLostDevice();
+
 }
 // ***************************************************************
 
@@ -121,7 +125,8 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	m_pPaddleSprite = ISprite::CreateSprite();
 	m_pBallSprite = ISprite::CreateSprite();
 	m_pWallSprite = ISprite::CreateSprite();
-	
+	m_pTableSprite = ISprite::CreateSprite();
+
 	m_pMouseZones = IMouseZone::CreateMouseZone();
 
 	ICollisionChecker::CreateCollisionChecker();
@@ -290,6 +295,7 @@ void cGame::Cleanup()
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
 	SAFE_DELETE(m_pMouseZones);
+	SAFE_DELETE(m_pTableSprite);
 
 	SAFE_DELETE(m_pTitleScreenSprite);
 	SAFE_DELETE(m_pCursorSprite);

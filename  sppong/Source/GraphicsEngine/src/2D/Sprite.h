@@ -16,6 +16,7 @@
 class ISprite
 {
 public:
+	virtual ~ISprite(){};
 	GRAPHIC_API virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const char  * const  strFilename) = 0;
 	GRAPHIC_API virtual void SetSize(const float fNewWidth, const float fNewHeight) = 0;
 	GRAPHIC_API virtual void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL) = 0;

@@ -233,7 +233,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return 0 ;
 
 	case WM_DESTROY:
-		PostQuitMessage(0);
+		OnDestroyDevice();
 		return 0 ;
 
 	default:

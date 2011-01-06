@@ -209,6 +209,7 @@ void cStatePlayGame::Enter(cGame *pGame)
 
 void cStatePlayGame::Execute(cGame *pGame)
 {
+	pGame->m_pTableSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3(0,0,0), D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPaddle[0].Render(pGame->m_pD3dDevice); 
 	pGame->m_pPaddle[1].Render(pGame->m_pD3dDevice); 
 	pGame->m_pWall[0].Render(pGame->m_pD3dDevice);

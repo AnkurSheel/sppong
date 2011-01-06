@@ -61,6 +61,7 @@ private:
 	ISprite*				m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
 	ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
 	ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
+	ISprite*				m_pTableSprite;		// the sprite for the Single Player Menu
 	
 	bool					m_bDisplayFPS;
 	bool					m_bSinglePlayer;
