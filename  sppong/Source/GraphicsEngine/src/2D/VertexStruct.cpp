@@ -13,6 +13,28 @@
 // ***************************************************************
 // Constructor
 // ***************************************************************
+D3DVERTEX::D3DVERTEX()
+{
+	m_vPosition.x = 0.0f ;
+	m_vPosition.y = 0.0f ;
+	m_vPosition.z = 0.0f ;
+	m_fRHW = 1.0f;
+} 
+// ***************************************************************
+
+void D3DVERTEX::SetPosition(const D3DXVECTOR3& vPos)
+{
+	m_vPosition = vPos;
+}
+
+void D3DVERTEX::SetColor(const D3DCOLOR& col)
+{
+	m_dwColour = col ;
+}
+
+// ***************************************************************
+// Constructor
+// ***************************************************************
 Vertex::Vertex()
 {
 	m_vPosition.x = 0.0f ;

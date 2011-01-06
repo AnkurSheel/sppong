@@ -21,6 +21,7 @@ private:
 
 public:
 	cLogger();
+	~cLogger();
 	void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
 	int Log(const char * const  lpFmt, ...);
 
@@ -39,7 +40,14 @@ cLogger::cLogger()
 : m_fStdOut(NULL)
  ,m_hStdOut(NULL) 
 {
+}
 
+cLogger::~cLogger()
+{
+	if (m_fStdOut)
+	{
+		fclose(m_fStdOut);
+	}
 }
 // ***************************************************************
 
@@ -52,23 +60,23 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 {
 #ifdef _DEBUG
 	AllocConsole();
-	SetConsoleTitle("Console Logger");
+	SetConsoleTitle(L"Console Logger");
 	m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	COORD co = {ciWidth, ciHeight};
 
 	SetConsoleScreenBufferSize(m_hStdOut, co);
-
+#endif
 	if (cfName)
 	{
 		fopen_s(&m_fStdOut, cfName, "w");
 	}
-#endif
+
 }
 
 int cLogger::Log( const char * const lpFmt, ... )
 {
-#ifdef _DEBUG
+
 	//TCHAR s[256];
 	char s[256];
 	va_list argptr;
@@ -79,22 +87,20 @@ int cLogger::Log( const char * const lpFmt, ... )
 	cnt = vsprintf_s(s, lpFmt, argptr);
 	va_end(argptr);
 
+#ifdef _DEBUG
 	DWORD dwCharsWritten;
-
 	if(m_hStdOut)
 	{
 		//WriteConsole(m_hStdOut, s, (DWORD)_tcslen(s), &dwCharsWritten, NULL);
 		WriteConsole(m_hStdOut, s, (DWORD)strlen(s), &dwCharsWritten, NULL);
 	}
+#endif
 	if (m_fStdOut)
 	{
 		//_ftprintf(m_fStdOut, s);
 		fprintf(m_fStdOut, s);
 	}
 	return cnt;
-#else
-	return 0;
-#endif
 }
 // ***************************************************************
 

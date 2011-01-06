@@ -120,8 +120,8 @@ void cDXBase::SetParameters(const BOOL bFullScreen)
 	if(bFullScreen)
 	{
 		// if its a full screen app
-		m_d3dpp.BackBufferWidth = m_displayMode.Width ;
-		m_d3dpp.BackBufferHeight = m_displayMode.Height ;
+		m_d3dpp.BackBufferWidth = GetSystemMetrics(SM_CXSCREEN);
+		m_d3dpp.BackBufferHeight = GetSystemMetrics(SM_CYSCREEN);
 		m_d3dpp.Windowed = false; // fullscreen
 		m_d3dpp.FullScreen_RefreshRateInHz = m_displayMode.RefreshRate;
 	}

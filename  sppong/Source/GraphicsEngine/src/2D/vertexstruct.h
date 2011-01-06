@@ -12,6 +12,19 @@
 
 #include "GraphicEngineDefines.h"
 
+class D3DVERTEX
+{
+public:
+	GRAPHIC_API D3DVERTEX();
+	GRAPHIC_API void SetPosition(const D3DXVECTOR3& vPos);
+	GRAPHIC_API void SetColor(const D3DCOLOR& col);
+
+private:
+	D3DXVECTOR3			m_vPosition ;
+	float				m_fRHW;
+	DWORD				m_dwColour;
+};
+
 class Vertex
 {
 	D3DXVECTOR3			m_vPosition ;

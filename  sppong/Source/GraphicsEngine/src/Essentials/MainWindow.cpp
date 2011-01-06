@@ -394,7 +394,7 @@ void cMainWindow::OnResetDevice()
 void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 {
 	m_pLogger = ILogger::CreateLogger();
-	m_pLogger->StartConsoleWin();
+	m_pLogger->StartConsoleWin(80,60, "Log.txt");
 	
 	// initialize DirectX
 	cDXBase::GetInstance().Init(hWnd, TAN);
@@ -432,16 +432,11 @@ void cMainWindow::HandleLostDevice(HRESULT hr)
 	}
 	else 
 	{
-		OnLostDevice();
+		if(hr == D3DERR_DEVICENOTRESET) 
+		{
+			OnLostDevice();
+			hr = cDXBase::GetInstance().ResetDevice() ;
 
-		hr = cDXBase::GetInstance().ResetDevice() ;
-		if(hr == D3DERR_DEVICELOST) 
-		{
-			Sleep(50);
-			return;			
-		}
-		else
-		{
 			OnResetDevice();
 		}
 	}
