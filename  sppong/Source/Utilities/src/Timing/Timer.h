@@ -15,6 +15,7 @@
 class ITimer
 {
 public:
+	virtual ~ITimer(){}
 	UTILITIES_API virtual void Start() = 0;
 	UTILITIES_API virtual void Stop() = 0;
 	UTILITIES_API virtual void Update() = 0; 

@@ -17,6 +17,7 @@ class IBaseApp;
 class IMainWindow
 {
 public:
+	virtual ~IMainWindow(){}
 	GRAPHIC_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp * const pGameApp) = 0;
 	GRAPHIC_API virtual void Run() = 0;
 	GRAPHIC_API static IMainWindow * TheWindow();

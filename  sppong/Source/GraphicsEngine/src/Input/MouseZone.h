@@ -24,6 +24,7 @@ enum eMouseClickType
 class IMouseZone
 {
 public:
+	virtual ~IMouseZone(){}
 	GRAPHIC_API virtual void FreeZones() = 0;
 	GRAPHIC_API virtual void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType) = 0;
 	GRAPHIC_API virtual void RemoveZone(LPCTSTR szZoneName) = 0;

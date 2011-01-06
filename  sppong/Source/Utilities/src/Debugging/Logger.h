@@ -21,6 +21,7 @@
 class ILogger
 {
 public:
+	virtual ~ILogger(){}
 	UTILITIES_API virtual void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL) = 0;
 	UTILITIES_API virtual int Log(const char * const  lpFmt, ...) = 0;
 	UTILITIES_API static ILogger * CreateLogger();
