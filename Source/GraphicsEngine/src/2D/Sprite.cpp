@@ -10,7 +10,7 @@
 
 #include "stdafx.h"
 #include "Sprite.h"
-
+#include "Debugging/Logger.h"
 class cSprite
 	: public ISprite
 {
@@ -78,7 +78,10 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
- 		MessageBox(NULL, "Sprite Creation failed", "sprite error", MB_OK ) ;
+		char strReason[200];
+		sprintf(strReason, "Sprite Creation failed %s", strFilename);
+ 		//MessageBox(NULL, "Sprite Creation failed", "sprite error", MB_OK ) ;
+		ILogger::TheLogger()->Log(strReason);
  		PostQuitMessage(0);
 	}
 

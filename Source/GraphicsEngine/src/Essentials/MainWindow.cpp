@@ -63,8 +63,6 @@ private:
 	ITimer *		m_pGameTimer;			// pointer to a game timer
 	cInput*			m_pInput;				// pointer to input class
 	cFPS*			m_pFPS;
-	ILogger *		m_pLogger;
-
 };
 
 static IMainWindow * s_pWindow = NULL;
@@ -81,7 +79,6 @@ cMainWindow::cMainWindow()
 , m_iFullScreenWidth(0)
 , m_pGameTimer(NULL)
 , m_pFPS(NULL)
-, m_pLogger(NULL)
 {
 }
 // ***************************************************************
@@ -350,8 +347,6 @@ void cMainWindow::OnDestroyDevice()
 
 	SAFE_DELETE(m_pFPS);
 
-	SAFE_DELETE(m_pLogger);
-
 	if(ICollisionChecker::TheCollisionChecker())
 		ICollisionChecker::TheCollisionChecker()->Destroy();
 
@@ -393,8 +388,8 @@ void cMainWindow::OnResetDevice()
 // ***************************************************************
 void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 {
-	m_pLogger = ILogger::CreateLogger();
-	m_pLogger->StartConsoleWin(80,60, "Log.txt");
+	ILogger::CreateLogger();
+	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
 	
 	// initialize DirectX
 	cDXBase::GetInstance().Init(hWnd, TAN);

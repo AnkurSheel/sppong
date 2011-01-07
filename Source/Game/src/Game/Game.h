@@ -49,19 +49,19 @@ private:
 	LPDIRECT3DDEVICE9		m_pD3dDevice;
 	UINT					m_iDisplayHeight ;		// the display height of the window
 	UINT					m_iDisplayWidth ;		// the display width of the window
-	cPaddle*				m_pPaddle;				// ptr to the paddle
-	cBall*					m_pBall;				// ptr to the ball
-	cWall*					m_pWall;				// ptr to wall
-	cScore*					m_pScore;				// ptr to Scoreboard
-	ISprite*				m_pPaddleSprite;		// the sprite for the paddle
-	ISprite*				m_pBallSprite;			// the sprite for the ball
-	ISprite*				m_pWallSprite;			// the sprite for the wall
-	ISprite*				m_pTitleScreenSprite;	// the sprite for the title screen
-	ISprite*				m_pCursorSprite;		// the sprite for the title screen
+	//cPaddle*				m_pPaddle;				// ptr to the paddle
+	//cBall*					m_pBall;				// ptr to the ball
+	//cWall*					m_pWall;				// ptr to wall
+	//cScore*					m_pScore;				// ptr to Scoreboard
+	//ISprite*				m_pPaddleSprite;		// the sprite for the paddle
+	//ISprite*				m_pBallSprite;			// the sprite for the ball
+	//ISprite*				m_pWallSprite;			// the sprite for the wall
+	//ISprite*				m_pTitleScreenSprite;	// the sprite for the title screen
+	//ISprite*				m_pCursorSprite;		// the sprite for the title screen
 	ISprite*				m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
-	ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
-	ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
-	ISprite*				m_pTableSprite;		// the sprite for the Single Player Menu
+	//ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
+	//ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
+	//ISprite*				m_pTableSprite;		// the sprite for the Single Player Menu
 	
 	bool					m_bDisplayFPS;
 	bool					m_bSinglePlayer;

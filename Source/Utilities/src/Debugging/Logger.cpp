@@ -31,6 +31,8 @@ private:
 
 };
 
+static cLogger * s_pLogger = NULL;
+
 using namespace std;
 
 // ***************************************************************
@@ -60,7 +62,7 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 {
 #ifdef _DEBUG
 	AllocConsole();
-	SetConsoleTitle(L"Console Logger");
+	SetConsoleTitle("Console Logger");
 	m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	COORD co = {ciWidth, ciHeight};
@@ -107,9 +109,13 @@ int cLogger::Log( const char * const lpFmt, ... )
 // ***************************************************************
 // Creates a logger
 // ***************************************************************
-ILogger * ILogger::CreateLogger()
+void ILogger::CreateLogger()
 {
-	cLogger * pLogger = DEBUG_NEW cLogger();
-	return pLogger;
+	s_pLogger = DEBUG_NEW cLogger();
+}
+
+ILogger * ILogger::TheLogger()
+{
+	return s_pLogger;
 }
 // ***************************************************************
