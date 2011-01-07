@@ -31,8 +31,10 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	IMainWindow::CreateMyWindow();
 	pGame= DEBUG_NEW cGame();
 
+	int iWidth = GetSystemMetrics(SM_CXSCREEN);
+	int iHeight = GetSystemMetrics(SM_CYSCREEN);
 	//Initialize the window class
-	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, "MPong", 1280, 764, (IBaseApp*)pGame);
+	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, "MPong", iWidth, iHeight, (IBaseApp*)pGame);
 
 	if(hwnd == NULL)
 	{
