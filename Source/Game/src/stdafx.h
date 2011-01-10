@@ -49,7 +49,7 @@
 #include <dinput.h>
 #include "Macros.h"
 #include <list>
-
+#include "Debugging/Logger.h"
 using namespace std;
 
 //#define new DEBUG_CLIENTBLOCK

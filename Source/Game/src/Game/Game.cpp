@@ -30,7 +30,7 @@ cGame::cGame()
 //, m_pBallSprite(NULL)
 //, m_pWallSprite(NULL)
 : m_pTitleScreenSprite(NULL)
-//, m_pCursorSprite(NULL)
+, m_pCursorSprite(NULL)
 //, m_pPaddle(NULL)
 //, m_pBall(NULL)
 //, m_pWall(NULL)
@@ -39,9 +39,9 @@ cGame::cGame()
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
 , m_pMouseZones(NULL)
-//, m_pSinglePlayerSprite(NULL)
-//, m_pTwoPlayerSprite(NULL)
-//, m_pQuitSprite(NULL)
+, m_pSinglePlayerSprite(NULL)
+, m_pTwoPlayerSprite(NULL)
+, m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
 //, m_pTableSprite(NULL)
 {
@@ -135,7 +135,6 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	ICollisionChecker::CreateCollisionChecker();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
-	OnResetDevice();
 }
 // ***************************************************************
 
@@ -302,10 +301,10 @@ void cGame::Cleanup()
 //	SAFE_DELETE(m_pTableSprite);
 
 	SAFE_DELETE(m_pTitleScreenSprite);
-	//SAFE_DELETE(m_pCursorSprite);
-	//SAFE_DELETE(m_pSinglePlayerSprite);
-	//SAFE_DELETE(m_pTwoPlayerSprite);
-	//SAFE_DELETE(m_pQuitSprite);
+	SAFE_DELETE(m_pCursorSprite);
+	SAFE_DELETE(m_pSinglePlayerSprite);
+	SAFE_DELETE(m_pTwoPlayerSprite);
+	SAFE_DELETE(m_pQuitSprite);
 }
 // ***************************************************************
 

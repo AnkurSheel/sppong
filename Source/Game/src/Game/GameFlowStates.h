@@ -41,7 +41,7 @@ public:
 };
 
 class cStateMenuScreen 
-	: public IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStateMenuScreen();
@@ -55,6 +55,9 @@ public:
 	virtual void Execute(cGame *pGame);
 	virtual void Exit(cGame *pGame);
 	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	void OnLostDevice(cGame *pGame);
+	void OnResetDevice(cGame *pGame);
+
 };
 
 class cStatePlayGame 

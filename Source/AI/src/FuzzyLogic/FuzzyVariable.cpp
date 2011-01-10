@@ -95,13 +95,13 @@ cFuzzySetProxy* cFuzzyVariable::AddRightShoulderSet(const char * const& name,
 												  const float peak,
 												  const float maxBound)
 {
-	 m_MemberSets[name] = new cFuzzySetRtShoulder(peak, peak-minBound, 
+	 m_MemberSets[name] = DEBUG_NEW cFuzzySetRtShoulder(peak, peak-minBound, 
 																maxBound- peak);
 	 
 	 //adjust range if req
 	 AdjustRangeToFit(minBound,maxBound);
 
-	 cFuzzySetProxy* tmp = new cFuzzySetProxy(*m_MemberSets[name]);
+	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name]);
 
 	 //return  m_MemberSets[name];
 

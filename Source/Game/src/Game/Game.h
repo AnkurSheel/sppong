@@ -56,10 +56,10 @@ private:
 	//ISprite*				m_pBallSprite;			// the sprite for the ball
 	//ISprite*				m_pWallSprite;			// the sprite for the wall
 	ISprite*				m_pTitleScreenSprite;	// the sprite for the title screen
-	//ISprite*				m_pCursorSprite;		// the sprite for the title screen
-	//ISprite*				m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
-	//ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
-	//ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
+	ISprite*				m_pCursorSprite;		// the sprite for the title screen
+	ISprite*				m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
+	ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
+	ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
 	//ISprite*				m_pTableSprite;		// the sprite for the Single Player Menu
 	
 	bool					m_bDisplayFPS;
