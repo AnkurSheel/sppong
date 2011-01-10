@@ -17,7 +17,7 @@
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
 #include "Essentials/MainWindow.h"
-#include "fsm/StateMachine.h"
+#include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
 
 #include "Input/MouseZone.h"
@@ -26,20 +26,20 @@
 // Constructor
 // ***************************************************************
 cGame::cGame()
-: /*m_pPaddleSprite(NULL)
-, m_pBallSprite(NULL)
-, m_pWallSprite(NULL)
-, m_pTitleScreenSprite(NULL)
-, m_pCursorSprite(NULL)
-, m_pPaddle(NULL)
-, m_pBall(NULL)
-, m_pWall(NULL)
-, m_pScore(NULL)*/
- m_bDisplayFPS(false)
+//: m_pPaddleSprite(NULL)
+//, m_pBallSprite(NULL)
+//, m_pWallSprite(NULL)
+: m_pTitleScreenSprite(NULL)
+//, m_pCursorSprite(NULL)
+//, m_pPaddle(NULL)
+//, m_pBall(NULL)
+//, m_pWall(NULL)
+//, m_pScore(NULL)*/
+, m_bDisplayFPS(false)
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
 , m_pMouseZones(NULL)
-, m_pSinglePlayerSprite(NULL)
+//, m_pSinglePlayerSprite(NULL)
 //, m_pTwoPlayerSprite(NULL)
 //, m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
@@ -75,6 +75,7 @@ void cGame::Render()
 // ***************************************************************
 void cGame::OnResetDevice()
 {
+	m_pStateMachine->OnResetDevice(this);
 	//m_pPaddleSprite->Init(m_pD3dDevice, "resources\\Sprites\\paddle.jpg");
 	//m_pBallSprite->Init(m_pD3dDevice, "resources\\Sprites\\ball.png");
 	//m_pWallSprite->Init(m_pD3dDevice, "resources\\Sprites\\wall.png");
@@ -97,6 +98,7 @@ void cGame::OnResetDevice()
 // ***************************************************************
 void cGame::OnLostDevice()
 {
+	m_pStateMachine->OnLostDevice(this);
 	//m_pPaddleSprite->Cleanup();
 	//m_pBallSprite->Cleanup();
 	//m_pWallSprite->Cleanup();
@@ -131,8 +133,9 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	m_pMouseZones = IMouseZone::CreateMouseZone();
 
 	ICollisionChecker::CreateCollisionChecker();
-	m_pStateMachine = DEBUG_NEW cStateMachine<cGame>(this);
+	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
+	OnResetDevice();
 }
 // ***************************************************************
 
@@ -298,9 +301,9 @@ void cGame::Cleanup()
 	SAFE_DELETE(m_pMouseZones);
 //	SAFE_DELETE(m_pTableSprite);
 
-	//SAFE_DELETE(m_pTitleScreenSprite);
+	SAFE_DELETE(m_pTitleScreenSprite);
 	//SAFE_DELETE(m_pCursorSprite);
-	SAFE_DELETE(m_pSinglePlayerSprite);
+	//SAFE_DELETE(m_pSinglePlayerSprite);
 	//SAFE_DELETE(m_pTwoPlayerSprite);
 	//SAFE_DELETE(m_pQuitSprite);
 }

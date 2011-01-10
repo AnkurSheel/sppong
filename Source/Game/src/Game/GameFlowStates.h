@@ -15,19 +15,29 @@
 class cGame;
 struct Telegram;
 
+class IGameFlowStates
+	: public IState<cGame>
+{
+public:
+	virtual void OnLostDevice(cGame *pGame) = 0;
+	virtual void OnResetDevice(cGame *pGame) = 0;
+};
+
 class cStateTitleScreen 
-: public IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStateTitleScreen();
 	float m_fCurrentTime;
 public:
-	virtual ~cStateTitleScreen();
+	~cStateTitleScreen();
 	static cStateTitleScreen *Instance();
-	virtual void Enter(cGame *pGame);
-	virtual void Execute(cGame *pGame);
-	virtual void Exit(cGame *pGame);
-	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	void Enter(cGame *pGame);
+	void Execute(cGame *pGame);
+	void Exit(cGame *pGame);
+	bool OnMessage(cGame *pGame, const Telegram &msg);
+	void OnLostDevice(cGame *pGame);
+	void OnResetDevice(cGame *pGame);
 };
 
 class cStateMenuScreen 

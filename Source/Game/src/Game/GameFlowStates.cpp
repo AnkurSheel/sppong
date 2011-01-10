@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "GameFlowStates.h"
 #include "Game.h"
-#include "fsm/StateMachine.h"
+#include "GameFlowStateMachine.h"
 #include "Elements/Paddle.h"
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
@@ -45,7 +45,7 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 // ***************************************************************
 void cStateTitleScreen::Enter(cGame *pGame)
 {
-	//pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
+	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
 	//pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
 	m_fCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
 
@@ -62,11 +62,11 @@ void cStateTitleScreen::Enter(cGame *pGame)
 
 void cStateTitleScreen::Execute(cGame *pGame)
 {
-	//pGame->m_pTitleScreenSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
+	pGame->m_pTitleScreenSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
 	//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
 	
 	// display the title screen for 5 secs before displaying the menu screen
- 	if(IMainWindow::TheWindow()->GetRunningTime() - m_fCurrentTime > 1.0)
+ 	if(IMainWindow::TheWindow()->GetRunningTime() - m_fCurrentTime > 10.0)
  	{
  		pGame->m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
  	}
@@ -86,6 +86,16 @@ bool cStateTitleScreen::OnMessage(cGame *pGame, const Telegram &msg)
 	return false;
 }
 
+void cStateTitleScreen::OnLostDevice(cGame *pGame)
+{
+	pGame->m_pTitleScreenSprite->Cleanup();
+}
+
+void cStateTitleScreen::OnResetDevice(cGame *pGame)
+{
+	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
+	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
+}
 
 cStateMenuScreen::cStateMenuScreen()
 {
@@ -112,9 +122,9 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 // ***************************************************************
 void cStateMenuScreen::Enter(cGame *pGame)
 {
-	pGame->m_pSinglePlayerSprite = ISprite::CreateSprite();
+	/*pGame->m_pSinglePlayerSprite = ISprite::CreateSprite();
 	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\SinglePlayer.jpg");
-	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
+	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);*/
 
 	//pGame->m_pTwoPlayerSprite = ISprite::CreateSprite();
 	//pGame->m_pTwoPlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\TwoPlayer.jpg");
@@ -140,7 +150,7 @@ void cStateMenuScreen::Enter(cGame *pGame)
 void cStateMenuScreen::Execute(cGame *pGame)
 {
 	//pGame->m_pTitleScreenSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
-	pGame->m_pSinglePlayerSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pSinglePlayerSprite->GetScaledWidth()/2, (float)m_iSinglePlayerSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
+	//pGame->m_pSinglePlayerSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pSinglePlayerSprite->GetScaledWidth()/2, (float)m_iSinglePlayerSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
 	//pGame->m_pTwoPlayerSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pTwoPlayerSprite->GetScaledWidth()/2, (float)m_iTwoPlayerSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
 	//pGame->m_pQuitSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pQuitSprite->GetScaledWidth()/2, (float)m_iQuitSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
 	//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
@@ -153,8 +163,8 @@ void cStateMenuScreen::Exit(cGame *pGame)
 	//SAFE_DELETE(pGame->m_pTitleScreenSprite);
 	//pGame->m_pCursorSprite->Cleanup();
 	//SAFE_DELETE(pGame->m_pCursorSprite);
-	pGame->m_pSinglePlayerSprite->Cleanup();
-	SAFE_DELETE(pGame->m_pSinglePlayerSprite);
+	//pGame->m_pSinglePlayerSprite->Cleanup();
+	//SAFE_DELETE(pGame->m_pSinglePlayerSprite);
 }
 // ***************************************************************
 
@@ -165,6 +175,7 @@ bool cStateMenuScreen::OnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
 }
+
 
 
 cStatePlayGame::cStatePlayGame()
