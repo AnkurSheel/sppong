@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "Logger.h"
 #include <string>
-
+#include <time.h>
 
 class cLogger
 	: public ILogger
@@ -30,6 +30,8 @@ private:
 	HANDLE	m_hStdOut;
 
 };
+
+static cLogger * s_pLogger = NULL;
 
 using namespace std;
 
@@ -60,7 +62,7 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 {
 #ifdef _DEBUG
 	AllocConsole();
-	SetConsoleTitle(L"Console Logger");
+	SetConsoleTitle("Console Logger");
 	m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	COORD co = {ciWidth, ciHeight};
@@ -76,28 +78,31 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 
 int cLogger::Log( const char * const lpFmt, ... )
 {
-
-	//TCHAR s[256];
 	char s[256];
+	char strtime[100];
 	va_list argptr;
 	int cnt;
 
 	va_start(argptr, lpFmt);
-	//cnt = _vstprintf_s(s, lpFmt, argptr);
 	cnt = vsprintf_s(s, lpFmt, argptr);
 	va_end(argptr);
+
+	time_t currentTime;
+	time(&currentTime );
+	ctime_s(strtime, 100, &currentTime);
+	strtime[24] = ' ';
 
 #ifdef _DEBUG
 	DWORD dwCharsWritten;
 	if(m_hStdOut)
 	{
-		//WriteConsole(m_hStdOut, s, (DWORD)_tcslen(s), &dwCharsWritten, NULL);
+		WriteConsole(m_hStdOut, strtime, (DWORD)strlen(s), &dwCharsWritten, NULL);
 		WriteConsole(m_hStdOut, s, (DWORD)strlen(s), &dwCharsWritten, NULL);
 	}
 #endif
 	if (m_fStdOut)
 	{
-		//_ftprintf(m_fStdOut, s);
+		fprintf(m_fStdOut, strtime);
 		fprintf(m_fStdOut, s);
 	}
 	return cnt;
@@ -107,9 +112,18 @@ int cLogger::Log( const char * const lpFmt, ... )
 // ***************************************************************
 // Creates a logger
 // ***************************************************************
-ILogger * ILogger::CreateLogger()
+void ILogger::CreateLogger()
 {
-	cLogger * pLogger = DEBUG_NEW cLogger();
-	return pLogger;
+	s_pLogger = DEBUG_NEW cLogger();
+}
+
+ILogger * ILogger::TheLogger()
+{
+	return s_pLogger;
 }
 // ***************************************************************
+
+void ILogger::Destroy()
+{
+	delete this;
+}

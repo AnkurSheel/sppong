@@ -20,7 +20,7 @@ class cBall
 public:
 	cBall();
 	~cBall();
-	void Init(const D3DXVECTOR3& vInitialPos, const UINT iTableWidth, const UINT iTableHeight);
+	void Init(const D3DXVECTOR3& vInitialPos);
 	void Render(LPDIRECT3DDEVICE9 const pDevice, const float fElapsedTime);
 	void OnResetDevice(ISprite* const sprite);
 	void ChangeSpeedX();

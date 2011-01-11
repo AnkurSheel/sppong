@@ -198,6 +198,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Game\GameFlowStateMachine.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Game\GameFlowStateMachine.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Game\GameFlowStates.cpp"
 				>
 			</File>

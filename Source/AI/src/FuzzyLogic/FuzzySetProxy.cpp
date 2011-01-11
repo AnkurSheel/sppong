@@ -35,7 +35,7 @@ cFuzzySetProxy::~cFuzzySetProxy()
 //----------------------------------------------------------------------------
 cFuzzyTerm* cFuzzySetProxy::Clone()
 {
-	cFuzzyTerm *temp = new cFuzzySetProxy(*this);
+	cFuzzyTerm *temp = DEBUG_NEW cFuzzySetProxy(*this);
 	
 //	cFuzzySet *a = temp->GetAddress();
 //	cFuzzySet *b = this->GetAddress();

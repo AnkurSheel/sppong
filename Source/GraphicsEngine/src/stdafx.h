@@ -41,9 +41,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <windows.h>
-//#include <tchar.h>
 #include <mmsystem.h>
-//#include <atlstr.h>
 #include <tchar.h>
 #include <list>
 //#include <strsafe.h>
@@ -52,6 +50,7 @@
 #include <dinput.h>
 #include "constants.h"
 #include "Macros.h"
+#include "Debugging/Logger.h"
 
 using namespace std;
 

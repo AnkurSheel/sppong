@@ -18,10 +18,9 @@ class ISprite;
 class cWall;
 class cScore;
 
-class cStateTitleScreen;
+class cGameFlowStateMachine;
 
-template <class entity_type>
-class cStateMachine;
+class cStateTitleScreen;
 
 class IMouseZone;
 
@@ -65,7 +64,7 @@ private:
 	
 	bool					m_bDisplayFPS;
 	bool					m_bSinglePlayer;
-	cStateMachine<cGame>*	m_pStateMachine;
+	cGameFlowStateMachine *	m_pStateMachine;
 
 	IMouseZone*				m_pMouseZones;
 

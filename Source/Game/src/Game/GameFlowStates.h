@@ -15,23 +15,33 @@
 class cGame;
 struct Telegram;
 
+class IGameFlowStates
+	: public IState<cGame>
+{
+public:
+	virtual void OnLostDevice(cGame *pGame) = 0;
+	virtual void OnResetDevice(cGame *pGame) = 0;
+};
+
 class cStateTitleScreen 
-: public IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStateTitleScreen();
 	float m_fCurrentTime;
 public:
-	virtual ~cStateTitleScreen();
+	~cStateTitleScreen();
 	static cStateTitleScreen *Instance();
-	virtual void Enter(cGame *pGame);
-	virtual void Execute(cGame *pGame);
-	virtual void Exit(cGame *pGame);
-	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	void Enter(cGame *pGame);
+	void Execute(cGame *pGame);
+	void Exit(cGame *pGame);
+	bool OnMessage(cGame *pGame, const Telegram &msg);
+	void OnLostDevice(cGame *pGame);
+	void OnResetDevice(cGame *pGame);
 };
 
 class cStateMenuScreen 
-	: public IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStateMenuScreen();
@@ -39,16 +49,18 @@ private:
 	int		m_iTwoPlayerSpritePosY;
 	int		m_iQuitSpritePosY;
 public:
-	virtual ~cStateMenuScreen();
+	~cStateMenuScreen();
 	static cStateMenuScreen *Instance();
-	virtual void Enter(cGame *pGame);
-	virtual void Execute(cGame *pGame);
-	virtual void Exit(cGame *pGame);
-	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	void Enter(cGame *pGame);
+	void Execute(cGame *pGame);
+	void Exit(cGame *pGame);
+	bool OnMessage(cGame *pGame, const Telegram &msg);
+	void OnLostDevice(cGame *pGame);
+	void OnResetDevice(cGame *pGame);
 };
 
 class cStatePlayGame 
-	: public IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStatePlayGame();
@@ -59,5 +71,8 @@ public:
 	virtual void Execute(cGame *pGame);
 	virtual void Exit(cGame *pGame);
 	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	void OnLostDevice(cGame *pGame);
+	void OnResetDevice(cGame *pGame);
+
 };
 #endif // GameFlowStates_h__

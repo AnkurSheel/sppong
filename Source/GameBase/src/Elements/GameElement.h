@@ -23,7 +23,7 @@ private :
 public:
 	GAMEBASE_API cGameElement();
 	GAMEBASE_API ~cGameElement();
-	GAMEBASE_API void Init(const D3DXVECTOR3& vInitialPos, const UINT iTableWidth =0 , const UINT iTableHeight=0);
+	GAMEBASE_API void Init(const D3DXVECTOR3& vInitialPos);
 	GAMEBASE_API void SetBoundingRectangle();
 	GAMEBASE_API D3DRECT& GetBoundingRectangle();
 	GAMEBASE_API void OnRestart(const D3DXVECTOR3& vInitialPos);
@@ -31,6 +31,9 @@ public:
 	GAMEBASE_API void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
 	GAMEBASE_API void SetSprite(ISprite* const sprite );
 	GAMEBASE_API const ISprite * GetSprite() const;
+	GAMEBASE_API static void SetTableHeight(UINT val);
+	GAMEBASE_API static void SetTableWidth(UINT val);
+
 
 protected:
 	ISprite*		m_pSprite;

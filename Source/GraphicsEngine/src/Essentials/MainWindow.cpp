@@ -14,7 +14,6 @@
 #include "Timing/Timer.h"
 #include "Input/Input.h"
 #include "fps/FPS.h"
-#include "Debugging/Logger.h"
 #include "CollisionChecker.h"
 
 class cMainWindow
@@ -63,8 +62,6 @@ private:
 	ITimer *		m_pGameTimer;			// pointer to a game timer
 	cInput*			m_pInput;				// pointer to input class
 	cFPS*			m_pFPS;
-	ILogger *		m_pLogger;
-
 };
 
 static IMainWindow * s_pWindow = NULL;
@@ -81,7 +78,6 @@ cMainWindow::cMainWindow()
 , m_iFullScreenWidth(0)
 , m_pGameTimer(NULL)
 , m_pFPS(NULL)
-, m_pLogger(NULL)
 {
 }
 // ***************************************************************
@@ -91,7 +87,6 @@ cMainWindow::cMainWindow()
 // ***************************************************************
 cMainWindow::~cMainWindow()
 {
-	int a = 5;
 }
 // ***************************************************************
 
@@ -143,7 +138,7 @@ void cMainWindow::RegisterWin()
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION) ;
 	if(!RegisterClassEx(&wc))
 	{
-		MessageBox(NULL, "Window Registration Failed!", "Error!",MB_ICONEXCLAMATION | MB_OK) ;
+		ILogger::TheLogger()->Log("Window Registration Failed\n");
 		exit(0) ;
 	}
 }
@@ -184,7 +179,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWind
 
 	if(m_Hwnd == NULL)
 	{
-		MessageBox(NULL, "Window Creation Failed!", "Error!",MB_ICONEXCLAMATION | MB_OK) ;
+		ILogger::TheLogger()->Log("Window Creation Failed\n");
 		return NULL ;
 	}
 
@@ -350,10 +345,11 @@ void cMainWindow::OnDestroyDevice()
 
 	SAFE_DELETE(m_pFPS);
 
-	SAFE_DELETE(m_pLogger);
-
 	if(ICollisionChecker::TheCollisionChecker())
 		ICollisionChecker::TheCollisionChecker()->Destroy();
+
+	if(ILogger::TheLogger())
+		ILogger::TheLogger()->Destroy();
 
 	// release the graphic object
 	cDXBase::GetInstance().Cleanup();
@@ -393,9 +389,6 @@ void cMainWindow::OnResetDevice()
 // ***************************************************************
 void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 {
-	m_pLogger = ILogger::CreateLogger();
-	m_pLogger->StartConsoleWin(80,60, "Log.txt");
-	
 	// initialize DirectX
 	cDXBase::GetInstance().Init(hWnd, TAN);
 

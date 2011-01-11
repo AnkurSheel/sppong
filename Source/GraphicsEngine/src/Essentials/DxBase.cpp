@@ -41,7 +41,8 @@ void cDXBase::DirectxInit()
 
 	if(m_pD3D == NULL)
 	{
-		MessageBox(NULL, _T("Direct3d object creation failed!"), _T("Error!"), MB_ICONEXCLAMATION | MB_OK) ;
+		ILogger::TheLogger()->Log("Direct3d object creation failed\n");
+		PostQuitMessage(0);
 	}
 
 	// get the display mode
@@ -78,7 +79,7 @@ void cDXBase::CreateDirectxDevice()
 		&m_d3dpp,
 		&m_pd3dDevice)))
 	{
-		MessageBox(NULL, _T("Direct3d m_pd3dDevice creation failed!"), _T("m_pd3dDevice Error!"),MB_ICONEXCLAMATION | MB_OK) ;
+		ILogger::TheLogger()->Log("Direct3d object creation failed\n");
 		PostQuitMessage(0) ;
 		DestroyWindow(m_Hwnd) ;
 	}

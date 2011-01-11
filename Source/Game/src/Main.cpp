@@ -27,12 +27,16 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	HWND	hwnd ;
 
 	CheckForMemoryLeaks() ;
+	
+	ILogger::CreateLogger();
+	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
 
 	IMainWindow::CreateMyWindow();
 	pGame= DEBUG_NEW cGame();
 
 	int iWidth = GetSystemMetrics(SM_CXSCREEN);
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);
+
 	//Initialize the window class
 	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, "MPong", iWidth, iHeight, (IBaseApp*)pGame);
 

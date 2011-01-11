@@ -61,7 +61,7 @@ void cFuzzyModule::SetConfidencesofConsequentsToZero()
 //----------------------------------------------------------------------------
 cFuzzyVariable* cFuzzyModule::CreateFLV(const char * const& varName)
 {
-	m_Variables.insert(std::make_pair(varName, new cFuzzyVariable()));
+	m_Variables.insert(std::make_pair(varName, DEBUG_NEW cFuzzyVariable()));
 
 	return m_Variables[varName];
 }

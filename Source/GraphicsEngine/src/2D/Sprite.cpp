@@ -78,14 +78,18 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
- 		MessageBox(NULL, "Sprite Creation failed", "sprite error", MB_OK ) ;
+		char strReason[200];
+		sprintf_s(strReason, 100, "Sprite Creation failed %s\n", strFilename);
+		ILogger::TheLogger()->Log(strReason);
  		PostQuitMessage(0);
 	}
 
 	// Create the texture associated with this sprite
 	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename, &m_pTexture)))
 	{
- 		MessageBox(NULL, strFilename, "Texture creation failed", MB_OK ) ;
+		char strReason[200];
+		sprintf_s(strReason, 100, "Texture  Creation failed %s\n", strFilename);
+		ILogger::TheLogger()->Log(strReason);
  		PostQuitMessage(0);
 	}
 
@@ -150,6 +154,8 @@ void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice,
 // ***************************************************************
 void cSprite::Cleanup()
 {
+	m_vPosition = D3DXVECTOR3(0,0,0);
+
 	// release the texture
 	SAFE_RELEASE(m_pTexture);
 

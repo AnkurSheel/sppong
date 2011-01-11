@@ -17,7 +17,7 @@
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
 #include "Essentials/MainWindow.h"
-#include "fsm/StateMachine.h"
+#include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
 
 #include "Input/MouseZone.h"
@@ -75,19 +75,7 @@ void cGame::Render()
 // ***************************************************************
 void cGame::OnResetDevice()
 {
-	m_pPaddleSprite->Init(m_pD3dDevice, "resources\\Sprites\\paddle.jpg");
-	m_pBallSprite->Init(m_pD3dDevice, "resources\\Sprites\\ball.png");
-	m_pWallSprite->Init(m_pD3dDevice, "resources\\Sprites\\wall.png");
-	m_pTableSprite->Init(m_pD3dDevice, "resources\\Sprites\\Table.jpg");
-
-	m_pPaddle[0].OnResetDevice(m_pPaddleSprite);
-	m_pPaddle[1].OnResetDevice(m_pPaddleSprite);
-	m_pBall->OnResetDevice(m_pBallSprite);
-	m_pWall[0].OnResetDevice(m_pWallSprite);
-	m_pWall[1].OnResetDevice(m_pWallSprite);
-
-	m_pScore[0].OnResetDevice(m_pD3dDevice);
-	m_pScore[1].OnResetDevice(m_pD3dDevice);
+	m_pStateMachine->OnResetDevice(this);
 }
 // ***************************************************************
 
@@ -96,13 +84,7 @@ void cGame::OnResetDevice()
 // ***************************************************************
 void cGame::OnLostDevice()
 {
-	m_pPaddleSprite->Cleanup();
-	m_pBallSprite->Cleanup();
-	m_pWallSprite->Cleanup();
-	m_pTableSprite->Cleanup();
-	m_pScore[0].OnLostDevice();
-	m_pScore[1].OnLostDevice();
-
+	m_pStateMachine->OnLostDevice(this);
 }
 // ***************************************************************
 
@@ -117,20 +99,11 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	m_iDisplayHeight = iDisplayHeight;
 	m_iDisplayWidth = iDisplayWidth;
 
-	m_pPaddle = DEBUG_NEW cPaddle[2]();
-	m_pBall = DEBUG_NEW cBall();
-	m_pWall = DEBUG_NEW cWall[2]();
-	m_pScore = DEBUG_NEW cScore[2]();
-
-	m_pPaddleSprite = ISprite::CreateSprite();
-	m_pBallSprite = ISprite::CreateSprite();
-	m_pWallSprite = ISprite::CreateSprite();
-	m_pTableSprite = ISprite::CreateSprite();
 
 	m_pMouseZones = IMouseZone::CreateMouseZone();
 
-	ICollisionChecker::CreateCollisionChecker();
-	m_pStateMachine = DEBUG_NEW cStateMachine<cGame>(this);
+
+	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
 // ***************************************************************
@@ -243,13 +216,11 @@ void cGame::ProcessInput( const long xDelta,
 		HandlePaddleAI(fElapsedTime);
 	}
 
-	//TCHAR szZoneName[64]; ;
 	char szZoneName[64];
 	if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, szZoneName))
 	{
 		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
 		{
-			//if (_tcscmp(szZoneName, _T("Title Screen")) == 0)
 			if (strcmp(szZoneName, "Title Screen") == 0)
 			{
 				m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
@@ -258,20 +229,17 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (m_pStateMachine->GetCurrentState() == cStateMenuScreen::Instance())
 		{
-			//if (_tcscmp(szZoneName, _T("Single Player")) == 0)
 			if (strcmp(szZoneName, "Single Player") == 0)
 			{
 				m_bSinglePlayer = true;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
 
-			//if (_tcscmp(szZoneName, _T("Two Player")) == 0)
 			if (strcmp(szZoneName, "Two Player") == 0)
 			{
 				m_bSinglePlayer = false;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
-			//if (_tcscmp(szZoneName, _T("Quit")) == 0)
 			if (strcmp(szZoneName, "Quit") == 0)
 			{
 				PostQuitMessage(0);

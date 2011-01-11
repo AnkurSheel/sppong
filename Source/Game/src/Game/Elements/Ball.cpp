@@ -28,11 +28,9 @@ cBall::~cBall()
 // ***************************************************************
 // Initialize the ball
 // ***************************************************************
-void cBall::Init( const D3DXVECTOR3& vInitialPos, 
-				 const UINT iTableWidth,
-				 const UINT iTableHeight )
+void cBall::Init( const D3DXVECTOR3& vInitialPos)
 {
-	cGameElement::Init(vInitialPos, iTableWidth,iTableHeight);
+	cGameElement::Init(vInitialPos);
 
 	m_vSpeed = D3DXVECTOR3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
 
