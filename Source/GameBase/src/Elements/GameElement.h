@@ -23,7 +23,7 @@ private :
 public:
 	GAMEBASE_API cGameElement();
 	GAMEBASE_API ~cGameElement();
-	GAMEBASE_API void Init(const D3DXVECTOR3& vInitialPos, const UINT iTableWidth =0 , const UINT iTableHeight=0);
+	GAMEBASE_API void Init(const D3DXVECTOR3& vInitialPos);
 	GAMEBASE_API void SetBoundingRectangle();
 	GAMEBASE_API D3DRECT& GetBoundingRectangle();
 	GAMEBASE_API void OnRestart(const D3DXVECTOR3& vInitialPos);

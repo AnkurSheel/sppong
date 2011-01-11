@@ -27,14 +27,14 @@
 // ***************************************************************
 cGame::cGame()
 : m_pPaddleSprite(NULL)
-//, m_pBallSprite(NULL)
+, m_pBallSprite(NULL)
 , m_pWallSprite(NULL)
 , m_pTitleScreenSprite(NULL)
 , m_pCursorSprite(NULL)
 , m_pPaddle(NULL)
-//, m_pBall(NULL)
+, m_pBall(NULL)
 , m_pWall(NULL)
-//, m_pScore(NULL)*/
+, m_pScore(NULL)
 , m_bDisplayFPS(false)
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
@@ -76,12 +76,6 @@ void cGame::Render()
 void cGame::OnResetDevice()
 {
 	m_pStateMachine->OnResetDevice(this);
-	//m_pBallSprite->Init(m_pD3dDevice, "resources\\Sprites\\ball.png");
-
-	//m_pBall->OnResetDevice(m_pBallSprite);
-
-	//m_pScore[0].OnResetDevice(m_pD3dDevice);
-	//m_pScore[1].OnResetDevice(m_pD3dDevice);
 }
 // ***************************************************************
 
@@ -91,12 +85,6 @@ void cGame::OnResetDevice()
 void cGame::OnLostDevice()
 {
 	m_pStateMachine->OnLostDevice(this);
-	
-	//m_pBallSprite->Cleanup();
-	
-	//m_pScore[0].OnLostDevice();
-	//m_pScore[1].OnLostDevice();
-
 }
 // ***************************************************************
 
@@ -112,13 +100,9 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	m_iDisplayWidth = iDisplayWidth;
 
 	m_pPaddle = DEBUG_NEW cPaddle[2]();
-	//m_pBall = DEBUG_NEW cBall();
+	m_pBall = DEBUG_NEW cBall();
 	m_pWall = DEBUG_NEW cWall[2]();
-	//m_pScore = DEBUG_NEW cScore[2]();
-
-	
-	//m_pBallSprite = ISprite::CreateSprite();
-	//
+	m_pScore = DEBUG_NEW cScore[2]();
 
 	m_pMouseZones = IMouseZone::CreateMouseZone();
 
@@ -164,85 +148,83 @@ void cGame::ProcessInput( const long xDelta,
 			PostQuitMessage(0);
 		}
 	}
-	//if (pbPressedKeys[DIK_S])
-	//{
-	//	if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
-	//	{
-	//		m_pPaddle[0].MoveDown(fElapsedTime);
-	//	}
-	//}
+	if (pbPressedKeys[DIK_S])
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
+		{
+			m_pPaddle[0].MoveDown(fElapsedTime);
+		}
+	}
 
-	//if (pbPressedKeys[DIK_W])
-	//{
-	//	if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
-	//	{
-	//		m_pPaddle[0].MoveUp(fElapsedTime);
-	//	}
-	//}
+	if (pbPressedKeys[DIK_W])
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[0].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
+		{
+			m_pPaddle[0].MoveUp(fElapsedTime);
+		}
+	}
 
-	//if (pbPressedKeys[DIK_A])
-	//{
-	//	if(m_pPaddle[0].GetPosition().x >= 0)
-	//	{
-	//			m_pPaddle[0].MoveLeft(fElapsedTime);
-	//	}
-	//}
+	if (pbPressedKeys[DIK_A])
+	{
+		if(m_pPaddle[0].GetPosition().x >= 0)
+		{
+				m_pPaddle[0].MoveLeft(fElapsedTime);
+		}
+	}
 
-	//if (pbPressedKeys[DIK_D])
-	//{
-	//	if(m_pPaddle[0].GetPosition().x <= m_iDisplayWidth/2 - m_pPaddleSprite->GetScaledWidth())
-	//	{
-	//		m_pPaddle[0].MoveRight(fElapsedTime);
-	//	}
-	//}
+	if (pbPressedKeys[DIK_D])
+	{
+		if(m_pPaddle[0].GetPosition().x <= m_iDisplayWidth/2 - m_pPaddleSprite->GetScaledWidth())
+		{
+			m_pPaddle[0].MoveRight(fElapsedTime);
+		}
+	}
 
-	//// if Two Player mode handle the keys
-	//if (!m_bSinglePlayer)
-	//{
-	//	if (pbPressedKeys[DIK_DOWN])
-	//	{
-	//		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
-	//		{
-	//			m_pPaddle[1].MoveDown(fElapsedTime);
-	//		}
-	//	}
+	// if Two Player mode handle the keys
+	if (!m_bSinglePlayer)
+	{
+		if (pbPressedKeys[DIK_DOWN])
+		{
+			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
+			{
+				m_pPaddle[1].MoveDown(fElapsedTime);
+			}
+		}
 
-	//	if (pbPressedKeys[DIK_UP])
-	//	{
-	//		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
-	//		{
-	//			m_pPaddle[1].MoveUp(fElapsedTime);
-	//		}
-	//	}
+		if (pbPressedKeys[DIK_UP])
+		{
+			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
+			{
+				m_pPaddle[1].MoveUp(fElapsedTime);
+			}
+		}
 
-	//	if (pbPressedKeys[DIK_LEFT])
-	//	{
-	//		if(m_pPaddle[1].GetPosition().x >= m_iDisplayWidth/2)
-	//		{
-	//			m_pPaddle[1].MoveLeft(fElapsedTime);
-	//		}
-	//	}
+		if (pbPressedKeys[DIK_LEFT])
+		{
+			if(m_pPaddle[1].GetPosition().x >= m_iDisplayWidth/2)
+			{
+				m_pPaddle[1].MoveLeft(fElapsedTime);
+			}
+		}
 
-	//	if (pbPressedKeys[DIK_RIGHT])
-	//	{
-	//		if (m_pPaddle[1].GetPosition().x <= (m_iDisplayWidth - m_pPaddleSprite->GetScaledWidth()))
-	//		{
-	//			m_pPaddle[1].MoveRight(fElapsedTime);
-	//		}
-	//	}
-	//}
-	//else // single player mode
-	//{
-	//	HandlePaddleAI(fElapsedTime);
-	//}
+		if (pbPressedKeys[DIK_RIGHT])
+		{
+			if (m_pPaddle[1].GetPosition().x <= (m_iDisplayWidth - m_pPaddleSprite->GetScaledWidth()))
+			{
+				m_pPaddle[1].MoveRight(fElapsedTime);
+			}
+		}
+	}
+	else // single player mode
+	{
+		HandlePaddleAI(fElapsedTime);
+	}
 
-	//TCHAR szZoneName[64]; ;
 	char szZoneName[64];
 	if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, szZoneName))
 	{
 		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
 		{
-			//if (_tcscmp(szZoneName, _T("Title Screen")) == 0)
 			if (strcmp(szZoneName, "Title Screen") == 0)
 			{
 				m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
@@ -251,20 +233,17 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (m_pStateMachine->GetCurrentState() == cStateMenuScreen::Instance())
 		{
-			//if (_tcscmp(szZoneName, _T("Single Player")) == 0)
 			if (strcmp(szZoneName, "Single Player") == 0)
 			{
 				m_bSinglePlayer = true;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
 
-			//if (_tcscmp(szZoneName, _T("Two Player")) == 0)
 			if (strcmp(szZoneName, "Two Player") == 0)
 			{
 				m_bSinglePlayer = false;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
-			//if (_tcscmp(szZoneName, _T("Quit")) == 0)
 			if (strcmp(szZoneName, "Quit") == 0)
 			{
 				PostQuitMessage(0);
@@ -280,12 +259,12 @@ void cGame::ProcessInput( const long xDelta,
 void cGame::Cleanup()
 {
 	SAFE_DELETE(m_pPaddleSprite) ;
-	//SAFE_DELETE(m_pBallSprite);
+	SAFE_DELETE(m_pBallSprite);
 	SAFE_DELETE(m_pWallSprite);
 	SAFE_DELETE_ARRAY(m_pPaddle);
-	//SAFE_DELETE(m_pBall);
+	SAFE_DELETE(m_pBall);
 	SAFE_DELETE_ARRAY(m_pWall);
-	//SAFE_DELETE_ARRAY(m_pScore);
+	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
 	SAFE_DELETE(m_pMouseZones);
 	SAFE_DELETE(m_pTableSprite);
@@ -306,7 +285,7 @@ void cGame::Restart()
 	m_pPaddle[0].OnRestart(D3DXVECTOR3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
 	m_pPaddle[1].OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
 
-	//m_pBall->OnRestart(D3DXVECTOR3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
+	m_pBall->OnRestart(D3DXVECTOR3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
 }
 // ***************************************************************
 
@@ -315,27 +294,27 @@ void cGame::Restart()
 // ***************************************************************
 void cGame::CheckForWin()
 {
-	//D3DXVECTOR3 vBallPosition = m_pBall->GetPosition();
+	D3DXVECTOR3 vBallPosition = m_pBall->GetPosition();
 
-	//// check if ball hits horizontal wall
-	//if (vBallPosition.y >= (m_iDisplayHeight - m_pBallSprite->GetScaledHeight())
-	//	|| vBallPosition.y <= 0)
-	//{
+	// check if ball hits horizontal wall
+	if (vBallPosition.y >= (m_iDisplayHeight - m_pBallSprite->GetScaledHeight())
+		|| vBallPosition.y <= 0)
+	{
 
-	//	m_pBall->ChangeSpeedY();
-	//}
+		m_pBall->ChangeSpeedY();
+	}
 
-	//// check if ball hits vertical wall
-	//if(vBallPosition.x <= 0)
-	//{
-	//	m_pScore[1].IncrementScore();
-	//	Restart();
-	//}
-	//if (vBallPosition.x >= (m_iDisplayWidth - m_pBallSprite->GetScaledWidth()))
-	//{
-	//	m_pScore[0].IncrementScore();
-	//	Restart();
-	//}
+	// check if ball hits vertical wall
+	if(vBallPosition.x <= 0)
+	{
+		m_pScore[1].IncrementScore();
+		Restart();
+	}
+	if (vBallPosition.x >= (m_iDisplayWidth - m_pBallSprite->GetScaledWidth()))
+	{
+		m_pScore[0].IncrementScore();
+		Restart();
+	}
 }
 // ***************************************************************
 
@@ -344,19 +323,19 @@ void cGame::CheckForWin()
 // ***************************************************************
 void cGame::CheckForCollisions()
 {
-	//// check for collisions between paddle and ball
-	//if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[0].GetBoundingRectangle())
-	//	|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[1].GetBoundingRectangle()))
-	//{
-	//	m_pBall->ChangeSpeedX();
-	//}
+	// check for collisions between paddle and ball
+	if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[0].GetBoundingRectangle())
+		|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pPaddle[1].GetBoundingRectangle()))
+	{
+		m_pBall->ChangeSpeedX();
+	}
 
-	//// check for collision between ball and walls
-	//if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())
-	//	|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle()))
-	//{
-	//	m_pBall->ChangeSpeedY();
-	//}
+	// check for collision between ball and walls
+	if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())
+		|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pBall->GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle()))
+	{
+		m_pBall->ChangeSpeedY();
+	}
 }
 // ***************************************************************
 
@@ -365,29 +344,29 @@ void cGame::CheckForCollisions()
 // ***************************************************************
 void cGame::HandlePaddleAI( const float fElapsedTime )
 {
-	//// if the ball is in the players half, there is no need to do anything
-	//if (m_pBall->GetPosition().x < m_iDisplayWidth/2)
-	//{
-	//	return;
-	//}
-	//float	fCentreOfPaddle = m_pPaddle[1].GetPosition().y + m_pPaddleSprite->GetScaledHeight()/2;
-	//float	fCentreOfBall = m_pBall->GetPosition().y + m_pBallSprite->GetScaledHeight()/2;
+	// if the ball is in the players half, there is no need to do anything
+	if (m_pBall->GetPosition().x < m_iDisplayWidth/2)
+	{
+		return;
+	}
+	float	fCentreOfPaddle = m_pPaddle[1].GetPosition().y + m_pPaddleSprite->GetScaledHeight()/2;
+	float	fCentreOfBall = m_pBall->GetPosition().y + m_pBallSprite->GetScaledHeight()/2;
 
-	//if (fCentreOfPaddle - fCentreOfBall > 10)
-	//{
-	//	if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
-	//	{
-	//		m_pPaddle[1].MoveUp(fElapsedTime);
-	//		return;
-	//	}
-	//}
+	if (fCentreOfPaddle - fCentreOfBall > 10)
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[0].GetBoundingRectangle())))
+		{
+			m_pPaddle[1].MoveUp(fElapsedTime);
+			return;
+		}
+	}
 
-	//if (fCentreOfBall - fCentreOfPaddle > 10)
-	//{
-	//	if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
-	//	{
-	//		m_pPaddle[1].MoveDown(fElapsedTime);
-	//		return;
-	//	}
-	//}
+	if (fCentreOfBall - fCentreOfPaddle > 10)
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pPaddle[1].GetBoundingRectangle(), m_pWall[1].GetBoundingRectangle())))
+		{
+			m_pPaddle[1].MoveDown(fElapsedTime);
+			return;
+		}
+	}
 }

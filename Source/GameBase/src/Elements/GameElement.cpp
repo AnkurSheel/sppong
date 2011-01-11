@@ -35,16 +35,9 @@ cGameElement::~cGameElement()
 // ***************************************************************
 // Initializes the game element
 // ***************************************************************
-void cGameElement::Init( const D3DXVECTOR3& vInitialPos, 
-						const UINT iTableWidth /*=0 */, 
-						const UINT iTableHeight/*=0*/ )
+void cGameElement::Init( const D3DXVECTOR3& vInitialPos)
 {
 	m_vPosition = vInitialPos;
-	if (iTableHeight >0 && iTableWidth > 0)
-	{
-		m_siTableHeight = iTableHeight;
-		m_siTableWidth = iTableWidth;
-	}
 }
 // ***************************************************************
 

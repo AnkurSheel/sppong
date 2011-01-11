@@ -49,11 +49,11 @@ private:
 	UINT					m_iDisplayHeight ;		// the display height of the window
 	UINT					m_iDisplayWidth ;		// the display width of the window
 	cPaddle*				m_pPaddle;				// ptr to the paddle
-	//cBall*					m_pBall;				// ptr to the ball
+	cBall*					m_pBall;				// ptr to the ball
 	cWall*					m_pWall;				// ptr to wall
-	//cScore*					m_pScore;				// ptr to Scoreboard
+	cScore*					m_pScore;				// ptr to Scoreboard
 	ISprite*				m_pPaddleSprite;		// the sprite for the paddle
-	//ISprite*				m_pBallSprite;			// the sprite for the ball
+	ISprite*				m_pBallSprite;			// the sprite for the ball
 	ISprite*				m_pWallSprite;			// the sprite for the wall
 	ISprite*				m_pTitleScreenSprite;	// the sprite for the title screen
 	ISprite*				m_pCursorSprite;		// the sprite for the title screen
