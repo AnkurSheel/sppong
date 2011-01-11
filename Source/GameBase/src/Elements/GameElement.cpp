@@ -87,3 +87,13 @@ const ISprite * cGameElement::GetSprite() const
 {
 	return m_pSprite;
 }
+
+void cGameElement::SetTableHeight( UINT val )
+{
+	m_siTableHeight = val;
+}
+
+void cGameElement::SetTableWidth( UINT val )
+{
+	m_siTableWidth = val;
+}

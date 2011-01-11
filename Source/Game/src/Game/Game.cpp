@@ -26,14 +26,14 @@
 // Constructor
 // ***************************************************************
 cGame::cGame()
-//: m_pPaddleSprite(NULL)
+: m_pPaddleSprite(NULL)
 //, m_pBallSprite(NULL)
-//, m_pWallSprite(NULL)
-: m_pTitleScreenSprite(NULL)
+, m_pWallSprite(NULL)
+, m_pTitleScreenSprite(NULL)
 , m_pCursorSprite(NULL)
-//, m_pPaddle(NULL)
+, m_pPaddle(NULL)
 //, m_pBall(NULL)
-//, m_pWall(NULL)
+, m_pWall(NULL)
 //, m_pScore(NULL)*/
 , m_bDisplayFPS(false)
 , m_pStateMachine(NULL)
@@ -43,7 +43,7 @@ cGame::cGame()
 , m_pTwoPlayerSprite(NULL)
 , m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
-//, m_pTableSprite(NULL)
+, m_pTableSprite(NULL)
 {
 }
 // ***************************************************************
@@ -76,17 +76,9 @@ void cGame::Render()
 void cGame::OnResetDevice()
 {
 	m_pStateMachine->OnResetDevice(this);
-	//m_pPaddleSprite->Init(m_pD3dDevice, "resources\\Sprites\\paddle.jpg");
 	//m_pBallSprite->Init(m_pD3dDevice, "resources\\Sprites\\ball.png");
-	//m_pWallSprite->Init(m_pD3dDevice, "resources\\Sprites\\wall.png");
-	//m_pTableSprite->Init(m_pD3dDevice, "resources\\Sprites\\Table.jpg");
-	//m_pTableSprite->SetSize((float)m_iDisplayWidth, (float)m_iDisplayHeight);
 
-	//m_pPaddle[0].OnResetDevice(m_pPaddleSprite);
-	//m_pPaddle[1].OnResetDevice(m_pPaddleSprite);
 	//m_pBall->OnResetDevice(m_pBallSprite);
-	//m_pWall[0].OnResetDevice(m_pWallSprite);
-	//m_pWall[1].OnResetDevice(m_pWallSprite);
 
 	//m_pScore[0].OnResetDevice(m_pD3dDevice);
 	//m_pScore[1].OnResetDevice(m_pD3dDevice);
@@ -99,10 +91,9 @@ void cGame::OnResetDevice()
 void cGame::OnLostDevice()
 {
 	m_pStateMachine->OnLostDevice(this);
-	//m_pPaddleSprite->Cleanup();
+	
 	//m_pBallSprite->Cleanup();
-	//m_pWallSprite->Cleanup();
-	//m_pTableSprite->Cleanup();
+	
 	//m_pScore[0].OnLostDevice();
 	//m_pScore[1].OnLostDevice();
 
@@ -120,15 +111,14 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	m_iDisplayHeight = iDisplayHeight;
 	m_iDisplayWidth = iDisplayWidth;
 
-	//m_pPaddle = DEBUG_NEW cPaddle[2]();
+	m_pPaddle = DEBUG_NEW cPaddle[2]();
 	//m_pBall = DEBUG_NEW cBall();
-	//m_pWall = DEBUG_NEW cWall[2]();
+	m_pWall = DEBUG_NEW cWall[2]();
 	//m_pScore = DEBUG_NEW cScore[2]();
 
-	//m_pPaddleSprite = ISprite::CreateSprite();
+	
 	//m_pBallSprite = ISprite::CreateSprite();
-	//m_pWallSprite = ISprite::CreateSprite();
-	//m_pTableSprite = ISprite::CreateSprite();
+	//
 
 	m_pMouseZones = IMouseZone::CreateMouseZone();
 
@@ -289,16 +279,16 @@ void cGame::ProcessInput( const long xDelta,
 // ***************************************************************
 void cGame::Cleanup()
 {
-	//SAFE_DELETE(m_pPaddleSprite) ;
+	SAFE_DELETE(m_pPaddleSprite) ;
 	//SAFE_DELETE(m_pBallSprite);
-	//SAFE_DELETE(m_pWallSprite);
-	//SAFE_DELETE_ARRAY(m_pPaddle);
+	SAFE_DELETE(m_pWallSprite);
+	SAFE_DELETE_ARRAY(m_pPaddle);
 	//SAFE_DELETE(m_pBall);
-	//SAFE_DELETE_ARRAY(m_pWall);
+	SAFE_DELETE_ARRAY(m_pWall);
 	//SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
 	SAFE_DELETE(m_pMouseZones);
-//	SAFE_DELETE(m_pTableSprite);
+	SAFE_DELETE(m_pTableSprite);
 
 	SAFE_DELETE(m_pTitleScreenSprite);
 	SAFE_DELETE(m_pCursorSprite);
@@ -313,8 +303,8 @@ void cGame::Cleanup()
 // ***************************************************************
 void cGame::Restart()
 {
-	//m_pPaddle[0].OnRestart(D3DXVECTOR3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
-	//m_pPaddle[1].OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
+	m_pPaddle[0].OnRestart(D3DXVECTOR3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
+	m_pPaddle[1].OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
 
 	//m_pBall->OnRestart(D3DXVECTOR3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
 }

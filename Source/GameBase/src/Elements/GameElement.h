@@ -31,6 +31,9 @@ public:
 	GAMEBASE_API void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
 	GAMEBASE_API void SetSprite(ISprite* const sprite );
 	GAMEBASE_API const ISprite * GetSprite() const;
+	GAMEBASE_API static void SetTableHeight(UINT val);
+	GAMEBASE_API static void SetTableWidth(UINT val);
+
 
 protected:
 	ISprite*		m_pSprite;

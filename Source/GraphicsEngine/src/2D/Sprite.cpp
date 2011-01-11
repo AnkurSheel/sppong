@@ -153,6 +153,8 @@ void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice,
 // ***************************************************************
 void cSprite::Cleanup()
 {
+	m_vPosition = D3DXVECTOR3(0,0,0);
+
 	// release the texture
 	SAFE_RELEASE(m_pTexture);
 

@@ -49,19 +49,18 @@ private:
 	int		m_iTwoPlayerSpritePosY;
 	int		m_iQuitSpritePosY;
 public:
-	virtual ~cStateMenuScreen();
+	~cStateMenuScreen();
 	static cStateMenuScreen *Instance();
-	virtual void Enter(cGame *pGame);
-	virtual void Execute(cGame *pGame);
-	virtual void Exit(cGame *pGame);
-	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	void Enter(cGame *pGame);
+	void Execute(cGame *pGame);
+	void Exit(cGame *pGame);
+	bool OnMessage(cGame *pGame, const Telegram &msg);
 	void OnLostDevice(cGame *pGame);
 	void OnResetDevice(cGame *pGame);
-
 };
 
 class cStatePlayGame 
-	: public IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStatePlayGame();
@@ -72,5 +71,8 @@ public:
 	virtual void Execute(cGame *pGame);
 	virtual void Exit(cGame *pGame);
 	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	void OnLostDevice(cGame *pGame);
+	void OnResetDevice(cGame *pGame);
+
 };
 #endif // GameFlowStates_h__
