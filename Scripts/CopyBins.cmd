@@ -1,13 +1,8 @@
 
 rem Run this cmd file to copy the Retail files to the Retail folder
 
-md ..\Retail\
-
-copy ..\bin\*.exe ..\Retail\
-copy ..\bin\*.dll ..\Retail\
-
-md ..\Retail\resources\
-md ..\Retail\resources\Sprites
-copy ..\Media\Sprites\ ..\Retail\resources\Sprites
+xcopy /Y /D /S ..\bin\*.exe  ..\Retail\
+xcopy /Y /D /S ..\bin\*.dll ..\Retail\
+xcopy /Y /D /S ..\Media\*.* ..\Retail\resources\
 
 pause
