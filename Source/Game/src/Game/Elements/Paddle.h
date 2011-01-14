@@ -10,7 +10,7 @@
 #ifndef Paddle_h__
 #define Paddle_h__
 
-#include "Elements/GameElement.h"
+#include "GameElement.h"
 
 class cPaddle 
 	: public cGameElement
@@ -23,7 +23,7 @@ public:
 	~cPaddle();
 	void Init(const D3DXVECTOR3& vInitialPos);
 	void Render(LPDIRECT3DDEVICE9 const pDevice);
-	void OnResetDevice(ISprite* const sprite);
+	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename);
 	void MoveDown(const float fElapsedTime);
 	void MoveUp(const float fElapsedTime);
 	void OnRestart(const D3DXVECTOR3& vInitialPos);

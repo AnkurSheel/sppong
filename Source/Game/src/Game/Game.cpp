@@ -26,9 +26,7 @@
 // Constructor
 // ***************************************************************
 cGame::cGame()
-: m_pPaddleSprite(NULL)
-, m_pBallSprite(NULL)
-, m_pWallSprite(NULL)
+: m_pTableSprite(NULL)
 , m_pTitleScreenSprite(NULL)
 , m_pCursorSprite(NULL)
 , m_pPaddle(NULL)
@@ -43,7 +41,6 @@ cGame::cGame()
 , m_pTwoPlayerSprite(NULL)
 , m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
-, m_pTableSprite(NULL)
 {
 }
 // ***************************************************************
@@ -170,7 +167,7 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_D])
 	{
-		if(m_pPaddle[0].GetPosition().x <= m_iDisplayWidth/2 - m_pPaddleSprite->GetScaledWidth())
+		if(m_pPaddle[0].GetPosition().x <= m_iDisplayWidth/2 - m_pPaddle[0].GetSprite()->GetScaledWidth())
 		{
 			m_pPaddle[0].MoveRight(fElapsedTime);
 		}
@@ -205,7 +202,7 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (pbPressedKeys[DIK_RIGHT])
 		{
-			if (m_pPaddle[1].GetPosition().x <= (m_iDisplayWidth - m_pPaddleSprite->GetScaledWidth()))
+			if (m_pPaddle[1].GetPosition().x <= (m_iDisplayWidth - m_pPaddle[1].GetSprite()->GetScaledWidth()))
 			{
 				m_pPaddle[1].MoveRight(fElapsedTime);
 			}
@@ -254,9 +251,6 @@ void cGame::ProcessInput( const long xDelta,
 // ***************************************************************
 void cGame::Cleanup()
 {
-	SAFE_DELETE(m_pPaddleSprite) ;
-	SAFE_DELETE(m_pBallSprite);
-	SAFE_DELETE(m_pWallSprite);
 	SAFE_DELETE_ARRAY(m_pPaddle);
 	SAFE_DELETE(m_pBall);
 	SAFE_DELETE_ARRAY(m_pWall);
@@ -293,7 +287,7 @@ void cGame::CheckForWin()
 	D3DXVECTOR3 vBallPosition = m_pBall->GetPosition();
 
 	// check if ball hits horizontal wall
-	if (vBallPosition.y >= (m_iDisplayHeight - m_pBallSprite->GetScaledHeight())
+	if (vBallPosition.y >= (m_iDisplayHeight - m_pBall->GetSprite()->GetScaledHeight())
 		|| vBallPosition.y <= 0)
 	{
 
@@ -306,7 +300,7 @@ void cGame::CheckForWin()
 		m_pScore[1].IncrementScore();
 		Restart();
 	}
-	if (vBallPosition.x >= (m_iDisplayWidth - m_pBallSprite->GetScaledWidth()))
+	if (vBallPosition.x >= (m_iDisplayWidth - m_pBall->GetSprite()->GetScaledWidth()))
 	{
 		m_pScore[0].IncrementScore();
 		Restart();
@@ -345,8 +339,8 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	{
 		return;
 	}
-	float	fCentreOfPaddle = m_pPaddle[1].GetPosition().y + m_pPaddleSprite->GetScaledHeight()/2;
-	float	fCentreOfBall = m_pBall->GetPosition().y + m_pBallSprite->GetScaledHeight()/2;
+	float	fCentreOfPaddle = m_pPaddle[1].GetPosition().y + m_pPaddle[1].GetSprite()->GetScaledHeight()/2;
+	float	fCentreOfBall = m_pBall->GetPosition().y + m_pBall->GetSprite()->GetScaledHeight()/2;
 
 	if (fCentreOfPaddle - fCentreOfBall > 10)
 	{

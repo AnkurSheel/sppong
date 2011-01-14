@@ -10,7 +10,7 @@
 #ifndef Ball_h__
 #define Ball_h__
 
-#include "Elements/GameElement.h"
+#include "GameElement.h"
 
 class cBall  
 	: public cGameElement
@@ -22,7 +22,7 @@ public:
 	~cBall();
 	void Init(const D3DXVECTOR3& vInitialPos);
 	void Render(LPDIRECT3DDEVICE9 const pDevice, const float fElapsedTime);
-	void OnResetDevice(ISprite* const sprite);
+	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename);
 	void ChangeSpeedX();
 	void ChangeSpeedY();
 private:

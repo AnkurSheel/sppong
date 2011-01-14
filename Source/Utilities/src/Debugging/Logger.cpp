@@ -90,7 +90,7 @@ int cLogger::Log( const char * const lpFmt, ... )
 	time_t currentTime;
 	time(&currentTime );
 	ctime_s(strtime, 100, &currentTime);
-	strtime[24] = ' ';
+	strtime[24] = ' '; // remove the '/n' from the time string
 
 #ifdef _DEBUG
 	DWORD dwCharsWritten;

@@ -48,9 +48,9 @@ void cWall::Render( LPDIRECT3DDEVICE9 const pDevice )
 // ***************************************************************
 // called when the device is reset
 // *************************************************************** 	
-void cWall::OnResetDevice( ISprite* const sprite )
+void cWall::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename)
 {
-	m_pSprite = sprite;
+	m_pSprite->Init(pDevice, strFilename);
 	m_pSprite->SetSize((float)m_siTableWidth, (float)m_siTableHeight/30);
 
 	// align the paddle at the other end

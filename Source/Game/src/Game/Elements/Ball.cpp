@@ -54,9 +54,9 @@ void cBall::Render( LPDIRECT3DDEVICE9 const pDevice,
 // ***************************************************************
 // Function called when the device needs to be reset
 // ***************************************************************
-void cBall::OnResetDevice( ISprite* const sprite )
+void cBall::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename)
 {
-	m_pSprite = sprite;
+	m_pSprite->Init(pDevice, strFilename);
 	m_pSprite->SetSize((float)m_siTableHeight/30, (float)m_siTableHeight/30);
 }
 // ***************************************************************

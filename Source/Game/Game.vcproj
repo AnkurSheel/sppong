@@ -225,6 +225,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\Game\Elements\GameElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Game\Elements\GameElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Game\Elements\GameElement.inl"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Game\Elements\Paddle.cpp"
 					>
 				</File>
