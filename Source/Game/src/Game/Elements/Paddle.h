@@ -10,10 +10,10 @@
 #ifndef Paddle_h__
 #define Paddle_h__
 
-#include "GameElement.h"
+#include "PongGameElement.h"
 
 class cPaddle 
-	: public cGameElement
+	: public cPongGameElement
 {
 private:
 	cPaddle(const cPaddle&){}

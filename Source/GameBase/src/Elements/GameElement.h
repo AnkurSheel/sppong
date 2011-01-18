@@ -20,26 +20,25 @@ class cGameElement
 private :
 	cGameElement(const cGameElement&){}
 	cGameElement operator =(const cGameElement&){}
-public:
+protected:
 	GAMEBASE_API cGameElement();
+public:
 	GAMEBASE_API ~cGameElement();
-	GAMEBASE_API void Init(const D3DXVECTOR3& vInitialPos);
-	GAMEBASE_API void SetBoundingRectangle();
-	GAMEBASE_API D3DRECT& GetBoundingRectangle();
-	GAMEBASE_API void OnRestart(const D3DXVECTOR3& vInitialPos);
-	GAMEBASE_API const D3DXVECTOR3& GetPosition();
-	GAMEBASE_API void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
-	GAMEBASE_API void SetSprite(ISprite* const sprite );
-	GAMEBASE_API const ISprite * GetSprite() const;
-	GAMEBASE_API static void SetTableHeight(UINT val);
-	GAMEBASE_API static void SetTableWidth(UINT val);
-
+	GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos);
+	GAMEBASE_API virtual void SetBoundingRectangle();
+	GAMEBASE_API virtual D3DRECT& GetBoundingRectangle();
+	GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
+	GAMEBASE_API virtual const D3DXVECTOR3& GetPosition();
+	GAMEBASE_API virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+	GAMEBASE_API virtual void SetSprite(ISprite* const sprite );
+	GAMEBASE_API virtual const ISprite * GetSprite() const;
+	GAMEBASE_API virtual void Cleanup();
+	GAMEBASE_API virtual void OnLostDevice();
+	GAMEBASE_API virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename) = 0;
 
 protected:
 	ISprite*		m_pSprite;
 	D3DXVECTOR3		m_vPosition;
-	GAMEBASE_API static UINT		m_siTableHeight;
-	GAMEBASE_API static UINT		m_siTableWidth;
 	D3DRECT			m_BoundingRect;
 
 };

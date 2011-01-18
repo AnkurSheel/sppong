@@ -11,9 +11,6 @@
 #include "GameElement.h"
 #include "2D/Sprite.h"
 
-UINT cGameElement::m_siTableHeight = 0;
-UINT cGameElement::m_siTableWidth = 0; 
-
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -81,12 +78,12 @@ const ISprite * cGameElement::GetSprite() const
 	return m_pSprite;
 }
 
-void cGameElement::SetTableHeight( UINT val )
+void cGameElement::Cleanup()
 {
-	m_siTableHeight = val;
+	SAFE_DELETE(m_pSprite);
 }
 
-void cGameElement::SetTableWidth( UINT val )
+void cGameElement::OnLostDevice()
 {
-	m_siTableWidth = val;
+	m_pSprite->Cleanup();
 }

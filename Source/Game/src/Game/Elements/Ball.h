@@ -10,10 +10,10 @@
 #ifndef Ball_h__
 #define Ball_h__
 
-#include "GameElement.h"
+#include "PongGameElement.h"
 
 class cBall  
-	: public cGameElement
+	: public cPongGameElement
 {
 	cBall(const cBall&){}
 	cBall operator = (const cBall&) {}

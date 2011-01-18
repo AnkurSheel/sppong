@@ -32,7 +32,7 @@ cWall::~cWall()
 // *************************************************************** 	
 void cWall::Init( const D3DXVECTOR3& vPosition )
 {
-	cGameElement::Init(vPosition);
+	cPongGameElement::Init(vPosition);
 }
 // ***************************************************************
 
@@ -41,7 +41,7 @@ void cWall::Init( const D3DXVECTOR3& vPosition )
 // *************************************************************** 	
 void cWall::Render( LPDIRECT3DDEVICE9 const pDevice )
 {
-	cGameElement::Render(pDevice, D3DXSPRITE_ALPHABLEND);
+	cPongGameElement::Render(pDevice, D3DXSPRITE_ALPHABLEND);
 }
 // ***************************************************************
 

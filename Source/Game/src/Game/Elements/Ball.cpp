@@ -30,7 +30,7 @@ cBall::~cBall()
 // ***************************************************************
 void cBall::Init( const D3DXVECTOR3& vInitialPos)
 {
-	cGameElement::Init(vInitialPos);
+	cPongGameElement::Init(vInitialPos);
 
 	m_vSpeed = D3DXVECTOR3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
 

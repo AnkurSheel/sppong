@@ -10,12 +10,12 @@
 #ifndef Wall_h__
 #define Wall_h__
 
-#include "GameElement.h"
+#include "PongGameElement.h"
 
 class cSprite;
 
 class cWall 
-	: public cGameElement
+	: public cPongGameElement
 {
 private:
 	cWall(const cWall&){}

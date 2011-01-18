@@ -230,8 +230,8 @@ void cStatePlayGame::Enter(cGame *pGame)
 
 	pGame->m_pTableSprite = ISprite::CreateSprite();
 
-	cGameElement::SetTableHeight(pGame->m_iDisplayHeight);
-	cGameElement::SetTableWidth(pGame->m_iDisplayWidth);
+	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
+	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
 
 	pGame->m_pPaddle = DEBUG_NEW cPaddle[2]();
 	pGame->m_pPaddle[0].Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f));
