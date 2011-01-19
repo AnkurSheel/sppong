@@ -25,7 +25,7 @@ cGameElement::cGameElement()
 // ***************************************************************
 cGameElement::~cGameElement()
 {
-
+	Cleanup();
 }
 // ***************************************************************
 
@@ -35,6 +35,7 @@ cGameElement::~cGameElement()
 void cGameElement::Init( const D3DXVECTOR3& vInitialPos)
 {
 	m_vPosition = vInitialPos;
+	m_pSprite = ISprite::CreateSprite();
 }
 // ***************************************************************
 
