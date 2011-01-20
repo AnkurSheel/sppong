@@ -233,16 +233,20 @@ void cStatePlayGame::Enter(cGame *pGame)
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
 	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
 
-	pGame->m_pPaddle = DEBUG_NEW cPaddle[2]();
-	pGame->m_pPaddle[0].Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f));
-	pGame->m_pPaddle[1].Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f));
+	pGame->m_pGameElements[pGame->PGE_PADDLE_UP] = DEBUG_NEW cPaddle();
+	pGame->m_pGameElements[pGame->PGE_PADDLE_UP]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
 
-	pGame->m_pWall = DEBUG_NEW cWall[2]();
-	pGame->m_pWall[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	pGame->m_pWall[1].Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f));
+	pGame->m_pGameElements[pGame->PGE_PADDLE_DOWN] = DEBUG_NEW cPaddle();
+	pGame->m_pGameElements[pGame->PGE_PADDLE_DOWN]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
 
-	pGame->m_pBall = DEBUG_NEW cBall();
-	pGame->m_pBall->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f));
+	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
+	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "resources\\Sprites\\wall.png");
+
+	pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
+	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "resources\\Sprites\\wall.png");
+
+	pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
+	pGame->m_pGameElements[pGame->PGE_BALL]->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\ball.png");
 
 	pGame->m_pScore = DEBUG_NEW cScore[2]();
 	pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -255,11 +259,11 @@ void cStatePlayGame::Enter(cGame *pGame)
 void cStatePlayGame::Execute(cGame *pGame)
 {
 	pGame->m_pTableSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3(0,0,0), D3DXSPRITE_ALPHABLEND);
-	pGame->m_pPaddle[0].Render(pGame->m_pD3dDevice); 
-	pGame->m_pPaddle[1].Render(pGame->m_pD3dDevice); 
-	pGame->m_pWall[0].Render(pGame->m_pD3dDevice);
-	pGame->m_pWall[1].Render(pGame->m_pD3dDevice);
-	pGame->m_pBall->Render(pGame->m_pD3dDevice, IMainWindow::TheWindow()->GetElapsedTime());
+	
+	for(int i=0;i<pGame->PGE_TOTAL;i++)
+	{
+		pGame->m_pGameElements[i]->Render(pGame->m_pD3dDevice); 
+	}
 	pGame->m_pScore[0].Render(pGame->m_pD3dDevice);
 	pGame->m_pScore[1].Render(pGame->m_pD3dDevice);
 
@@ -271,11 +275,13 @@ void cStatePlayGame::Execute(cGame *pGame)
 void cStatePlayGame::Exit(cGame *pGame)
 {
 	SAFE_DELETE(pGame->m_pTableSprite);
-	SAFE_DELETE_ARRAY(pGame->m_pPaddle);
-	SAFE_DELETE_ARRAY(pGame->m_pWall);
-	SAFE_DELETE(pGame->m_pBall);
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
+	for(int i=0;i<pGame->PGE_TOTAL;i++)
+	{
+		SAFE_DELETE(pGame->m_pGameElements[i]);
+	}
 	pGame->Cleanup();
+
 }
 // ***************************************************************
 
@@ -289,31 +295,25 @@ bool cStatePlayGame::OnMessage(cGame *pGame, const Telegram &msg)
 
 void cStatePlayGame::OnLostDevice( cGame *pGame )
 {
+	for(int i=0;i<pGame->PGE_TOTAL;i++)
+	{
+		pGame->m_pGameElements[i]->OnLostDevice();
+	}
 	pGame->m_pTableSprite->Cleanup();
-
-	pGame->m_pBall->OnLostDevice();
-	pGame->m_pPaddle[0].OnLostDevice();
-	pGame->m_pPaddle[1].OnLostDevice();
 	pGame->m_pScore[0].OnLostDevice();
 	pGame->m_pScore[1].OnLostDevice();
-	pGame->m_pWall[0].OnLostDevice();
-	pGame->m_pWall[1].OnLostDevice();
-
 }
 
 void cStatePlayGame::OnResetDevice( cGame *pGame )
 {
-	ILogger::TheLogger()->Log("Table Sprite\n");
 	pGame->m_pTableSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Table.jpg");
 	pGame->m_pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
-	ILogger::TheLogger()->Log("end Table Sprite %d \n", pGame->m_iDisplayHeight);
 
-	pGame->m_pPaddle[0].OnResetDevice(pGame->m_pD3dDevice, "resources\\Sprites\\paddle.jpg");
-	pGame->m_pPaddle[1].OnResetDevice(pGame->m_pD3dDevice, "resources\\Sprites\\paddle.jpg");
-	pGame->m_pWall[0].OnResetDevice(pGame->m_pD3dDevice, "resources\\Sprites\\wall.png");
-	pGame->m_pWall[1].OnResetDevice(pGame->m_pD3dDevice, "resources\\Sprites\\wall.png");
-	pGame->m_pBall->OnResetDevice(pGame->m_pD3dDevice, "resources\\Sprites\\ball.png");
-	
+	for(int i=0;i<pGame->PGE_TOTAL;i++)
+	{
+		pGame->m_pGameElements[i]->OnResetDevice(pGame->m_pD3dDevice);
+	}
+
 	pGame->m_pScore[0].OnResetDevice(pGame->m_pD3dDevice);
 	pGame->m_pScore[1].OnResetDevice(pGame->m_pD3dDevice);
 }

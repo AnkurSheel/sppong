@@ -32,10 +32,11 @@ cGameElement::~cGameElement()
 // ***************************************************************
 // Initializes the game element
 // ***************************************************************
-void cGameElement::Init( const D3DXVECTOR3& vInitialPos)
+void cGameElement::Init( const D3DXVECTOR3& vInitialPos, const char * const strFilename)
 {
 	m_vPosition = vInitialPos;
 	m_pSprite = ISprite::CreateSprite();
+	strcpy_s(m_strFileName, MAX_FILENAME_WIDTH, strFilename);
 }
 // ***************************************************************
 

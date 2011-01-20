@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "Ball.h"
 #include "2D/Sprite.h"
+#include "Essentials/MainWindow.h"
 
 // ***************************************************************
 // Constructor
@@ -28,9 +29,9 @@ cBall::~cBall()
 // ***************************************************************
 // Initialize the ball
 // ***************************************************************
-void cBall::Init( const D3DXVECTOR3& vInitialPos)
+void cBall::Init( const D3DXVECTOR3& vInitialPos, const char * const strFilename)
 {
-	cPongGameElement::Init(vInitialPos);
+	cPongGameElement::Init(vInitialPos, strFilename);
 
 	m_vSpeed = D3DXVECTOR3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
 
@@ -40,11 +41,10 @@ void cBall::Init( const D3DXVECTOR3& vInitialPos)
 // ***************************************************************
 // Renders the ball
 // ***************************************************************
-void cBall::Render( LPDIRECT3DDEVICE9 const pDevice, 
-				   const float fElapsedTime )
+void cBall::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL*/, const D3DCOLOR& tint /*= WHITE*/, const RECT* pSrcRect/* = NULL*/)
 {
-	// update the position of the wall
-	m_vPosition += (m_vSpeed * fElapsedTime);
+	// update the position of the ball
+	m_vPosition += (m_vSpeed * IMainWindow::TheWindow()->GetElapsedTime());
 	m_pSprite->DrawSprite(pDevice, m_vPosition, D3DXSPRITE_ALPHABLEND);
 
 	SetBoundingRectangle();
@@ -54,9 +54,9 @@ void cBall::Render( LPDIRECT3DDEVICE9 const pDevice,
 // ***************************************************************
 // Function called when the device needs to be reset
 // ***************************************************************
-void cBall::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename)
+void cBall::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice)
 {
-	m_pSprite->Init(pDevice, strFilename);
+	m_pSprite->Init(pDevice, m_strFileName);
 	m_pSprite->SetSize((float)m_siTableHeight/30, (float)m_siTableHeight/30);
 }
 // ***************************************************************

@@ -23,8 +23,8 @@ private:
 public:
 	cWall();
 	~cWall();
-	void Init(const D3DXVECTOR3& vPosition);
-	void Render(LPDIRECT3DDEVICE9 const pDevice);
-	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename);
+	void Init(const D3DXVECTOR3& vPosition, const char * const strFilename);
+	void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 };
 #endif // Wall_h__

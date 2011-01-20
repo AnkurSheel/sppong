@@ -20,9 +20,9 @@ class cBall
 public:
 	cBall();
 	~cBall();
-	void Init(const D3DXVECTOR3& vInitialPos);
-	void Render(LPDIRECT3DDEVICE9 const pDevice, const float fElapsedTime);
-	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename);
+	void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
+	void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 	void ChangeSpeedX();
 	void ChangeSpeedY();
 private:

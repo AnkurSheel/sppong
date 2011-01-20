@@ -12,15 +12,12 @@
 
 #include "Essentials/BaseApp.h"
 
-class cPaddle;
-class cBall;
 class ISprite;
-class cWall;
 class cScore;
 
-class cGameFlowStateMachine;
+class cPongGameElement;
 
-class cStateTitleScreen;
+class cGameFlowStateMachine;
 
 class IMouseZone;
 
@@ -28,6 +25,17 @@ class cGame
 	: public IBaseApp
 {
 private:
+	enum PONGGAMEELEMENTS
+	{
+		PGE_UNKNOWN = -1,
+		PGE_BALL,
+		PGE_PADDLE_UP,
+		PGE_PADDLE_DOWN,
+		PGE_WALL_UP,
+		PGE_WALL_DOWN,
+		PGE_TOTAL
+	};
+
 	cGame(const cGame&){}
 	cGame operator =(const cGame&){}
 	void HandlePaddleAI(const float fElapsedTime);
@@ -48,9 +56,7 @@ private:
 	LPDIRECT3DDEVICE9		m_pD3dDevice;
 	UINT					m_iDisplayHeight ;		// the display height of the window
 	UINT					m_iDisplayWidth ;		// the display width of the window
-	cPaddle*				m_pPaddle;				// ptr to the paddle
-	cBall*					m_pBall;				// ptr to the ball
-	cWall*					m_pWall;				// ptr to wall
+	cPongGameElement*		m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
 	cScore*					m_pScore;				// ptr to Scoreboard
 	ISprite*				m_pTitleScreenSprite;	// the sprite for the title screen
 	ISprite*				m_pCursorSprite;		// the sprite for the title screen

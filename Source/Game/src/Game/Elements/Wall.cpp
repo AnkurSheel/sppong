@@ -30,16 +30,16 @@ cWall::~cWall()
 // ***************************************************************
 // Initialize the wall
 // *************************************************************** 	
-void cWall::Init( const D3DXVECTOR3& vPosition )
+void cWall::Init( const D3DXVECTOR3& vPosition, const char * const strFilename )
 {
-	cPongGameElement::Init(vPosition);
+	cPongGameElement::Init(vPosition, strFilename);
 }
 // ***************************************************************
 
 // ***************************************************************
 // Render the wall
 // *************************************************************** 	
-void cWall::Render( LPDIRECT3DDEVICE9 const pDevice )
+void cWall::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL*/, const D3DCOLOR& tint /*= WHITE*/, const RECT* pSrcRect/* = NULL*/)
 {
 	cPongGameElement::Render(pDevice, D3DXSPRITE_ALPHABLEND);
 }
@@ -48,9 +48,9 @@ void cWall::Render( LPDIRECT3DDEVICE9 const pDevice )
 // ***************************************************************
 // called when the device is reset
 // *************************************************************** 	
-void cWall::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename)
+void cWall::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice)
 {
-	m_pSprite->Init(pDevice, strFilename);
+	m_pSprite->Init(pDevice, m_strFileName);
 	m_pSprite->SetSize((float)m_siTableWidth, (float)m_siTableHeight/30);
 
 	// align the paddle at the other end

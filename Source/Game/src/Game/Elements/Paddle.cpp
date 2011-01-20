@@ -30,9 +30,9 @@ cPaddle::~cPaddle()
 // ***************************************************************
 // Initializes the paddle
 // ***************************************************************
-void cPaddle::Init( const D3DXVECTOR3& vInitialPos )
+void cPaddle::Init( const D3DXVECTOR3& vInitialPos, const char * const strFilename )
 {
-	cGameElement::Init(vInitialPos);
+	cGameElement::Init(vInitialPos, strFilename);
 
 	m_iMoveFactor = m_siTableHeight/3;
 }
@@ -41,7 +41,7 @@ void cPaddle::Init( const D3DXVECTOR3& vInitialPos )
 // ***************************************************************
 // Renders the paddle
 // ***************************************************************
-void cPaddle::Render( LPDIRECT3DDEVICE9 const pDevice )
+void cPaddle::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL*/, const D3DCOLOR& tint/* = WHITE*/, const RECT* pSrcRect/* = NULL*/)
 {
 	m_pSprite->DrawSprite(pDevice, m_vPosition, D3DXSPRITE_ALPHABLEND);
 }
@@ -50,9 +50,9 @@ void cPaddle::Render( LPDIRECT3DDEVICE9 const pDevice )
 // ***************************************************************
 // called when the device is reset
 // ***************************************************************
-void cPaddle::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename)
+void cPaddle::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice)
 {
-	m_pSprite->Init(pDevice, strFilename);
+	m_pSprite->Init(pDevice, m_strFileName);
 	m_pSprite->SetSize((float)m_siTableWidth/50, (float)m_siTableHeight/5);
 
 	// align the paddle at the other end

@@ -24,7 +24,7 @@ protected:
 	GAMEBASE_API cGameElement();
 public:
 	GAMEBASE_API ~cGameElement();
-	GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos);
+	GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
 	GAMEBASE_API virtual void SetBoundingRectangle();
 	GAMEBASE_API virtual D3DRECT& GetBoundingRectangle();
 	GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
@@ -34,13 +34,13 @@ public:
 	GAMEBASE_API virtual const ISprite * GetSprite() const;
 	GAMEBASE_API virtual void Cleanup();
 	GAMEBASE_API virtual void OnLostDevice();
-	GAMEBASE_API virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename) = 0;
+	GAMEBASE_API virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
 
 protected:
 	ISprite*		m_pSprite;
 	D3DXVECTOR3		m_vPosition;
 	D3DRECT			m_BoundingRect;
-
+	char			m_strFileName[MAX_FILENAME_WIDTH];
 };
 
 #include "GameElement.inl"

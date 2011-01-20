@@ -21,9 +21,9 @@ private:
 public:
 	cPaddle();
 	~cPaddle();
-	void Init(const D3DXVECTOR3& vInitialPos);
-	void Render(LPDIRECT3DDEVICE9 const pDevice);
-	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename);
+	void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
+void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 	void MoveDown(const float fElapsedTime);
 	void MoveUp(const float fElapsedTime);
 	void OnRestart(const D3DXVECTOR3& vInitialPos);
