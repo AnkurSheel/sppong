@@ -1,5 +1,5 @@
 // ***************************************************************
-//  GameElement   version:  1.0   Ankur Sheel  date: 05/14/2008
+//  PongGameElement   version:  1.0   Ankur Sheel  date: 2011/01/21
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -31,4 +31,4 @@ protected:
 	static UINT		m_siTableWidth;
 };
 
-#endif
+#endif // PongGameElement_h__

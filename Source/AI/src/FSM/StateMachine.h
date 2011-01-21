@@ -17,6 +17,9 @@ struct Telegram;
 template <class entity_type>
 class cStateMachine
 {
+private:
+	cStateMachine(const cStateMachine&){}
+	cStateMachine operator =(const cStateMachine&){}
 
 public:
 	cStateMachine(entity_type *owner);

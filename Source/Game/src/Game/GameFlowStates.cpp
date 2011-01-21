@@ -30,9 +30,6 @@ cStateTitleScreen::~cStateTitleScreen()
 }
 // ***************************************************************
 
-// ***************************************************************
-// Instance
-// ***************************************************************
 cStateTitleScreen* cStateTitleScreen::Instance()
 {
 	static cStateTitleScreen instance;
@@ -40,9 +37,6 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 }
 // ***************************************************************
 
-// ***************************************************************
-// State Enter, Execute and Exit
-// ***************************************************************
 void cStateTitleScreen::Enter(cGame *pGame)
 {
 	m_fCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
@@ -77,19 +71,18 @@ void cStateTitleScreen::Exit(cGame *pGame)
 }
 // ***************************************************************
 
-// ***************************************************************
-// Messages
-// ***************************************************************
 bool cStateTitleScreen::OnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
 }
+// ***************************************************************
 
 void cStateTitleScreen::OnLostDevice(cGame *pGame)
 {
 	pGame->m_pTitleScreenSprite->Cleanup();
 	pGame->m_pCursorSprite->Cleanup();
 }
+// ***************************************************************
 
 void cStateTitleScreen::OnResetDevice(cGame *pGame)
 {
@@ -99,6 +92,7 @@ void cStateTitleScreen::OnResetDevice(cGame *pGame)
 	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\cursor.png");
 	pGame->m_pCursorSprite->SetSize(16.0f, 16.0f);
 }
+// ***************************************************************
 
 cStateMenuScreen::cStateMenuScreen()
 {
@@ -110,9 +104,6 @@ cStateMenuScreen::~cStateMenuScreen()
 }
 // ***************************************************************
 
-// ***************************************************************
-// Instance
-// ***************************************************************
 cStateMenuScreen* cStateMenuScreen::Instance()
 {
 	static cStateMenuScreen instance;
@@ -120,9 +111,6 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 }
 // ***************************************************************
 
-// ***************************************************************
-// State Enter, Execute and Exit
-// ***************************************************************
 void cStateMenuScreen::Enter(cGame *pGame)
 {
 	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
@@ -166,13 +154,11 @@ void cStateMenuScreen::Exit(cGame *pGame)
 }
 // ***************************************************************
 
-// ***************************************************************
-// Messages
-// ***************************************************************
 bool cStateMenuScreen::OnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
 }
+// ***************************************************************
 
 void cStateMenuScreen::OnLostDevice(cGame *pGame)
 {
@@ -182,6 +168,7 @@ void cStateMenuScreen::OnLostDevice(cGame *pGame)
 	pGame->m_pTwoPlayerSprite->Cleanup();
 	pGame->m_pQuitSprite->Cleanup();
 }
+// ***************************************************************
 
 void cStateMenuScreen::OnResetDevice(cGame *pGame)
 {
@@ -200,6 +187,7 @@ void cStateMenuScreen::OnResetDevice(cGame *pGame)
 	pGame->m_pQuitSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Quit.jpg");
 	pGame->m_pQuitSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 }
+// ***************************************************************
 
 cStatePlayGame::cStatePlayGame()
 {
@@ -211,9 +199,6 @@ cStatePlayGame::~cStatePlayGame()
 }
 // ***************************************************************
 
-// ***************************************************************
-// Instance
-// ***************************************************************
 cStatePlayGame* cStatePlayGame::Instance()
 {
 	static cStatePlayGame instance;
@@ -221,9 +206,6 @@ cStatePlayGame* cStatePlayGame::Instance()
 }
 // ***************************************************************
 
-// ***************************************************************
-// State Enter, Execute and Exit
-// ***************************************************************
 void cStatePlayGame::Enter(cGame *pGame)
 {
 	ICollisionChecker::CreateCollisionChecker();
@@ -233,11 +215,11 @@ void cStatePlayGame::Enter(cGame *pGame)
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
 	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
 
-	pGame->m_pGameElements[pGame->PGE_PADDLE_UP] = DEBUG_NEW cPaddle();
-	pGame->m_pGameElements[pGame->PGE_PADDLE_UP]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
+	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
+	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
 
-	pGame->m_pGameElements[pGame->PGE_PADDLE_DOWN] = DEBUG_NEW cPaddle();
-	pGame->m_pGameElements[pGame->PGE_PADDLE_DOWN]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
+	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
+	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
 
 	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "resources\\Sprites\\wall.png");
@@ -285,13 +267,11 @@ void cStatePlayGame::Exit(cGame *pGame)
 }
 // ***************************************************************
 
-// ***************************************************************
-// Messages
-// ***************************************************************
 bool cStatePlayGame::OnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
 }
+// ***************************************************************
 
 void cStatePlayGame::OnLostDevice( cGame *pGame )
 {
@@ -303,6 +283,7 @@ void cStatePlayGame::OnLostDevice( cGame *pGame )
 	pGame->m_pScore[0].OnLostDevice();
 	pGame->m_pScore[1].OnLostDevice();
 }
+// ***************************************************************
 
 void cStatePlayGame::OnResetDevice( cGame *pGame )
 {

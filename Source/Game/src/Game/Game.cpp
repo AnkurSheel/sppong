@@ -144,9 +144,9 @@ void cGame::ProcessInput( const long xDelta,
 	}
 	if (pbPressedKeys[DIK_S])
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_UP]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle())))
 		{
-			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_UP]);
+			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_LEFT]);
 			if(pPaddle)
 			{
 				pPaddle->MoveDown(fElapsedTime);
@@ -156,9 +156,9 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_W])
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_UP]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle())))
 		{
-			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_UP]);
+			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_LEFT]);
 			if(pPaddle)
 			{
 				pPaddle->MoveUp(fElapsedTime);
@@ -168,9 +168,9 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_A])
 	{
-		if(m_pGameElements[PGE_PADDLE_UP]->GetPosition().x >= 0)
+		if(m_pGameElements[PGE_PADDLE_LEFT]->GetPosition().x >= 0)
 		{
-			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_UP]);
+			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_LEFT]);
 			if(pPaddle)
 			{
 				pPaddle->MoveLeft(fElapsedTime);
@@ -180,9 +180,9 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_D])
 	{
-		if(m_pGameElements[PGE_PADDLE_UP]->GetPosition().x <= m_iDisplayWidth/2 - m_pGameElements[PGE_PADDLE_UP]->GetSprite()->GetScaledWidth())
+		if(m_pGameElements[PGE_PADDLE_LEFT]->GetPosition().x <= m_iDisplayWidth/2 - m_pGameElements[PGE_PADDLE_LEFT]->GetSprite()->GetScaledWidth())
 		{
-			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_UP]);
+			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_LEFT]);
 			if(pPaddle)
 			{
 				pPaddle->MoveRight(fElapsedTime);
@@ -195,9 +195,9 @@ void cGame::ProcessInput( const long xDelta,
 	{
 		if (pbPressedKeys[DIK_DOWN])
 		{
-			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_DOWN]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle())))
+			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle())))
 			{
-				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_DOWN]);
+				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_RIGHT]);
 				if(pPaddle)
 				{
 					pPaddle->MoveDown(fElapsedTime);
@@ -207,9 +207,9 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (pbPressedKeys[DIK_UP])
 		{
-			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_DOWN]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle())))
+			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle())))
 			{
-				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_DOWN]);
+				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_RIGHT]);
 				if(pPaddle)
 				{
 					pPaddle->MoveUp(fElapsedTime);
@@ -219,9 +219,9 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (pbPressedKeys[DIK_LEFT])
 		{
-			if(m_pGameElements[PGE_PADDLE_DOWN]->GetPosition().x >= m_iDisplayWidth/2)
+			if(m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().x >= m_iDisplayWidth/2)
 			{
-				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_DOWN]);
+				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_RIGHT]);
 				if(pPaddle)
 				{
 					pPaddle->MoveLeft(fElapsedTime);
@@ -231,9 +231,9 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (pbPressedKeys[DIK_RIGHT])
 		{
-			if (m_pGameElements[PGE_PADDLE_DOWN]->GetPosition().x <= (m_iDisplayWidth - m_pGameElements[PGE_PADDLE_DOWN]->GetSprite()->GetScaledWidth()))
+			if (m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().x <= (m_iDisplayWidth - m_pGameElements[PGE_PADDLE_RIGHT]->GetSprite()->GetScaledWidth()))
 			{
-				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_DOWN]);
+				cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_RIGHT]);
 				if(pPaddle)
 				{
 					pPaddle->MoveRight(fElapsedTime);
@@ -307,8 +307,8 @@ void cGame::Cleanup()
 // ***************************************************************
 void cGame::Restart()
 {
-	m_pGameElements[PGE_PADDLE_UP]->OnRestart(D3DXVECTOR3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
-	m_pGameElements[PGE_PADDLE_DOWN]->OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
+	m_pGameElements[PGE_PADDLE_LEFT]->OnRestart(D3DXVECTOR3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
+	m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
 	m_pGameElements[PGE_BALL]->OnRestart(D3DXVECTOR3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
 }
 // ***************************************************************
@@ -351,8 +351,8 @@ void cGame::CheckForWin()
 void cGame::CheckForCollisions()
 {
 	// check for collisions between paddle and ball
-	if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_BALL]->GetBoundingRectangle(), m_pGameElements[PGE_PADDLE_UP]->GetBoundingRectangle())
-		|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_BALL]->GetBoundingRectangle(), m_pGameElements[PGE_PADDLE_DOWN]->GetBoundingRectangle()))
+	if (ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_BALL]->GetBoundingRectangle(), m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle())
+		|| ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_BALL]->GetBoundingRectangle(), m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()))
 	{
 		cBall * pBall = static_cast<cBall *>(m_pGameElements[PGE_BALL]);
 		if(pBall)
@@ -384,14 +384,14 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	{
 		return;
 	}
-	float	fCentreOfPaddle = m_pGameElements[PGE_PADDLE_DOWN]->GetPosition().y + m_pGameElements[PGE_PADDLE_DOWN]->GetSprite()->GetScaledHeight()/2;
+	float	fCentreOfPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().y + m_pGameElements[PGE_PADDLE_RIGHT]->GetSprite()->GetScaledHeight()/2;
 	float	fCentreOfBall = m_pGameElements[PGE_BALL]->GetPosition().y + m_pGameElements[PGE_BALL]->GetSprite()->GetScaledHeight()/2;
 
 	if (fCentreOfPaddle - fCentreOfBall > 10)
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_DOWN]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle())))
 		{
-			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_DOWN]);
+			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_RIGHT]);
 			if(pPaddle)
 			{
 				pPaddle->MoveUp(fElapsedTime);
@@ -402,9 +402,9 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 
 	if (fCentreOfBall - fCentreOfPaddle > 10)
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_DOWN]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle())))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle(), m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle())))
 		{
-			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_DOWN]);
+			cPaddle * pPaddle = static_cast<cPaddle*>(m_pGameElements[PGE_PADDLE_RIGHT]);
 			if(pPaddle)
 			{
 				pPaddle->MoveDown(fElapsedTime);
