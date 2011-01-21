@@ -26,7 +26,7 @@
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
 #include <windows.h>
-
+#include <crtdbg.h>
 
 
 // TODO: reference additional headers your program requires here
@@ -34,5 +34,5 @@
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
 #else
-#define DEBUG_NEW
+#define DEBUG_NEW new
 #endif 
