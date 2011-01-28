@@ -20,7 +20,7 @@ class cPongGameElement;
 class cGameFlowStateMachine;
 
 class IMouseZone;
-
+class ISound;
 class cGame 
 	: public IBaseApp
 {
@@ -64,7 +64,7 @@ private:
 	ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
 	ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
 	ISprite*				m_pTableSprite;		// the sprite for the Single Player Menu
-	
+	ISound*					m_pSound;
 	bool					m_bDisplayFPS;
 	bool					m_bSinglePlayer;
 	cGameFlowStateMachine *	m_pStateMachine;

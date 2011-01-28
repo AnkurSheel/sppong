@@ -10,15 +10,17 @@
 #ifndef Sound_h__
 #define Sound_h__
 
-class Sound
+#include "SoundDefines.h"
+
+class ISound
 {
-private:
-	void CheckError(const int ciResult);
-
 public:
-	Sound();
-	~Sound();
-	void Init();
-
+	virtual ~ISound(){};
+	SOUND_API virtual void Init() = 0;
+	SOUND_API virtual void Shutdown() = 0;
+	SOUND_API static ISound * CreateSound();
+	SOUND_API virtual void CreateSound(const char * const strFilename) = 0;
+	SOUND_API virtual void PlaySound(int iSoundIndex) = 0;
+	SOUND_API virtual void Update() = 0;
 };
 #endif // Sound_h__

@@ -50,7 +50,7 @@ cSprite::cSprite()
 , m_uiHeight(0)
 , m_uiWidth(0)
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
-, m_vPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+, m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
 {
 	D3DXMatrixIdentity(&m_mScaleMatrix) ; 
 	D3DXMatrixScaling(&m_mScaleMatrix, m_vScale.x, m_vScale.y, m_vScale.z);

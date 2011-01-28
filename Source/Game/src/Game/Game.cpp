@@ -19,7 +19,7 @@
 #include "Essentials/MainWindow.h"
 #include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
-
+#include "Sound.h"
 #include "Input/MouseZone.h"
 
 // ***************************************************************
@@ -38,6 +38,7 @@ cGame::cGame()
 , m_pTwoPlayerSprite(NULL)
 , m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
+, m_pSound(NULL)
 {
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
@@ -100,7 +101,8 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 
 	m_pMouseZones = IMouseZone::CreateMouseZone();
 
-
+	m_pSound = ISound::CreateSound();
+	m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
@@ -299,6 +301,7 @@ void cGame::Cleanup()
 	SAFE_DELETE(m_pSinglePlayerSprite);
 	SAFE_DELETE(m_pTwoPlayerSprite);
 	SAFE_DELETE(m_pQuitSprite);
+	SAFE_DELETE(m_pSound);
 }
 // ***************************************************************
 
@@ -359,6 +362,7 @@ void cGame::CheckForCollisions()
 		{
 			pBall->ChangeSpeedX();
 		}
+		m_pSound->PlaySound(0);
 	}
 
 	// check for collision between ball and walls
@@ -370,6 +374,7 @@ void cGame::CheckForCollisions()
 		{
 			pBall->ChangeSpeedY();
 		}
+		m_pSound->PlaySound(0);
 	}
 }
 // ***************************************************************

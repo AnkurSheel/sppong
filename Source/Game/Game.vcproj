@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Sound\src&quot;;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine_D.lib Utilities_D.lib GameBase_D.lib"
+				AdditionalDependencies="GraphicsEngine_D.lib Utilities_D.lib GameBase_D.lib Sound_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Test\"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Sound\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine.lib Utilities.lib GameBase.Lib"
+				AdditionalDependencies="GraphicsEngine.lib Utilities.lib GameBase.Lib Sound.lib"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\"
