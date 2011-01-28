@@ -29,6 +29,7 @@ void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D
 	void OnRestart(const D3DXVECTOR3& vInitialPos);
 	void MoveLeft( const float fElapsedTime );
 	void MoveRight( const float fElapsedTime );
+	cPaddle * CastToPaddle();
 private:
 	UINT			m_iMoveFactor;
 };

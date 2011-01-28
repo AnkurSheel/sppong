@@ -122,3 +122,9 @@ void cPaddle::OnRestart( const D3DXVECTOR3& vInitialPos )
 	}
 }
 // ***************************************************************
+
+cPaddle * cPaddle::CastToPaddle()
+{
+	return this;
+}
+// ***************************************************************

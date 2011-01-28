@@ -43,8 +43,22 @@ void cPongGameElement::SetTableHeight( UINT val )
 {
 	m_siTableHeight = val;
 }
+// ***************************************************************
 
 void cPongGameElement::SetTableWidth( UINT val )
 {
 	m_siTableWidth = val;
 }
+// ***************************************************************
+
+cPaddle * cPongGameElement::CastToPaddle()
+{
+	return NULL;
+}
+// ***************************************************************
+
+cBall * cPongGameElement::CastToBall()
+{
+	return NULL;
+}
+// ***************************************************************

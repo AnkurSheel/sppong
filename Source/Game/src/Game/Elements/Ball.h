@@ -25,6 +25,7 @@ public:
 	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 	void ChangeSpeedX();
 	void ChangeSpeedY();
+	cBall * CastToBall();
 private:
 	D3DXVECTOR3		m_vSpeed;
 };
