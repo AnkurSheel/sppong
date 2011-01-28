@@ -362,6 +362,7 @@ void cGame::CheckForCollisions()
 		{
 			pBall->ChangeSpeedX();
 		}
+		m_pSound->PlaySound(0);
 	}
 
 	// check for collision between ball and walls
@@ -373,6 +374,7 @@ void cGame::CheckForCollisions()
 		{
 			pBall->ChangeSpeedY();
 		}
+		m_pSound->PlaySound(0);
 	}
 }
 // ***************************************************************

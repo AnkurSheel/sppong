@@ -19,6 +19,7 @@
 #include "2D/Sprite.h"
 #include "CollisionChecker.h"
 #include "Input/MouseZone.h"
+#include "Sound.h"
 
 cStateTitleScreen::cStateTitleScreen()
 {
@@ -234,6 +235,7 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	pGame->m_pScore[1].Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth, 0.0f, 0.0f));
 
+	pGame->m_pSound->CreateSound("resources\\Sounds\\swish.wav");
 	OnResetDevice(pGame);
 }
 // ***************************************************************
@@ -251,6 +253,7 @@ void cStatePlayGame::Execute(cGame *pGame)
 
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
+	pGame->m_pSound->Update();
 }
 // ***************************************************************
 

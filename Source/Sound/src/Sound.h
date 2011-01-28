@@ -19,5 +19,8 @@ public:
 	SOUND_API virtual void Init() = 0;
 	SOUND_API virtual void Shutdown() = 0;
 	SOUND_API static ISound * CreateSound();
+	SOUND_API virtual void CreateSound(const char * const strFilename) = 0;
+	SOUND_API virtual void PlaySound(int iSoundIndex) = 0;
+	SOUND_API virtual void Update() = 0;
 };
 #endif // Sound_h__
