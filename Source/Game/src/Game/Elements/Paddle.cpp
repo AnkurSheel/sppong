@@ -58,8 +58,11 @@ void cPaddle::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice)
 	// align the paddle at the other end
 	if (m_vPosition.x > m_siTableWidth /2)
 	{
-		m_vPosition.x = m_siTableWidth - m_pSprite->GetScaledWidth()-10.0f ;
+		m_vPosition.x = m_siTableWidth - m_pSprite->GetScaledWidth() - 10.0f ;
+		m_vPrevPosition.x = m_vPosition.x;
 	}
+	ILogger::TheLogger()->Log("pos %f\n", GetPosition().x);
+
 	SetBoundingRectangle();
 }
 // ***************************************************************
@@ -92,6 +95,7 @@ void cPaddle::MoveUp( const float fElapsedTime )
 		m_pBoundingPolygon->Translate(trans);
 		m_vPrevPosition = m_vPosition;
 	}
+	ILogger::TheLogger()->Log("pos %f\n", GetPosition().x);
 }
 // ***************************************************************
 

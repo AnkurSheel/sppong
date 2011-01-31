@@ -12,13 +12,13 @@
 
 #include "GraphicEngineDefines.h"
 
-class CPolygon;
+class cPolygon;
 
 class ICollisionChecker
 {
 public:
 	GRAPHIC_API ~ICollisionChecker(){}
-	GRAPHIC_API virtual bool CheckFor2DCollisions(const CPolygon &polygonA, const CPolygon &polygonB) = 0;
+	GRAPHIC_API virtual bool CheckFor2DCollisions(const cPolygon &polygonA, const cPolygon &polygonB) = 0;
 	GRAPHIC_API static ICollisionChecker * TheCollisionChecker();
 	GRAPHIC_API virtual void Destroy() = 0;
 	GRAPHIC_API static void CreateCollisionChecker();

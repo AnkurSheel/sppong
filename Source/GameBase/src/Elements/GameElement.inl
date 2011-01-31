@@ -1,7 +1,7 @@
 // ***************************************************************
 // Returns the bounding Rectangle
 // ***************************************************************
-inline CPolygon& cGameElement::GetBoundingRectangle()
+inline cPolygon& cGameElement::GetBoundingRectangle()
 {
 	return *m_pBoundingPolygon;
 }

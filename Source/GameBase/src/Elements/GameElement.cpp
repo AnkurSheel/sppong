@@ -50,12 +50,12 @@ void cGameElement::SetBoundingRectangle()
 {
 	D3DXVECTOR2 v1[] = {
 		D3DXVECTOR2(m_vPosition.x, m_vPosition.y),
-		D3DXVECTOR2(m_vPosition.x, m_vPosition.y + m_pSprite->GetScaledHeight()),
-		D3DXVECTOR2(m_vPosition.x + + m_pSprite->GetScaledWidth(), m_vPosition.y + m_pSprite->GetScaledHeight()),
-		D3DXVECTOR2(m_vPosition.x + m_pSprite->GetScaledWidth(), m_vPosition.y)
+		D3DXVECTOR2(m_vPosition.x + m_pSprite->GetScaledWidth(), m_vPosition.y),
+		D3DXVECTOR2(m_vPosition.x + m_pSprite->GetScaledWidth(), m_vPosition.y + m_pSprite->GetScaledHeight()),
+		D3DXVECTOR2(m_vPosition.x, m_vPosition.y + m_pSprite->GetScaledHeight())
 	};
 
-	m_pBoundingPolygon = DEBUG_NEW CPolygon(v1, 4);
+	m_pBoundingPolygon = DEBUG_NEW cPolygon(v1, 4);
 }
 // ***************************************************************
 
