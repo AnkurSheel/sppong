@@ -1,9 +1,9 @@
 // ***************************************************************
 // Returns the bounding Rectangle
 // ***************************************************************
-inline D3DRECT& cGameElement::GetBoundingRectangle()
+inline CPolygon& cGameElement::GetBoundingRectangle()
 {
-	return m_BoundingRect;
+	return *m_pBoundingPolygon;
 }
 // ***************************************************************
 

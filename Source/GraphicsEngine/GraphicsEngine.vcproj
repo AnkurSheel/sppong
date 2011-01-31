@@ -198,6 +198,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\2D\Polygon.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\2D\Polygon.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\2D\Sprite.cpp"
 				>
 			</File>

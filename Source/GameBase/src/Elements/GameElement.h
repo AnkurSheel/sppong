@@ -12,6 +12,7 @@
 
 #include "GameBaseDefines.h"
 #include "Constants.h"
+#include "2D/Polygon.h"
 
 class ISprite;
 
@@ -26,7 +27,7 @@ public:
 	GAMEBASE_API ~cGameElement();
 	GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
 	GAMEBASE_API virtual void SetBoundingRectangle();
-	GAMEBASE_API virtual D3DRECT& GetBoundingRectangle();
+	GAMEBASE_API virtual CPolygon& GetBoundingRectangle();
 	GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
 	GAMEBASE_API virtual const D3DXVECTOR3& GetPosition();
 	GAMEBASE_API virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
@@ -39,7 +40,8 @@ public:
 protected:
 	ISprite*		m_pSprite;
 	D3DXVECTOR3		m_vPosition;
-	D3DRECT			m_BoundingRect;
+	D3DXVECTOR3		m_vPrevPosition;
+	CPolygon *		m_pBoundingPolygon;
 	char			m_strFileName[MAX_FILENAME_WIDTH];
 };
 

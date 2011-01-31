@@ -60,7 +60,6 @@ void cPaddle::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice)
 	{
 		m_vPosition.x = m_siTableWidth - m_pSprite->GetScaledWidth()-10.0f ;
 	}
-
 	SetBoundingRectangle();
 }
 // ***************************************************************
@@ -71,8 +70,13 @@ void cPaddle::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice)
 void cPaddle::MoveDown( const float fElapsedTime )
 {
 	m_vPosition.y += (m_iMoveFactor * fElapsedTime) ;
-
-	SetBoundingRectangle();
+	
+	if(m_vPrevPosition != m_vPosition)
+	{
+		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+		m_pBoundingPolygon->Translate(trans);
+		m_vPrevPosition = m_vPosition;
+	}
 }
 // ***************************************************************
 
@@ -82,8 +86,12 @@ void cPaddle::MoveDown( const float fElapsedTime )
 void cPaddle::MoveUp( const float fElapsedTime )
 {
 	m_vPosition.y -= (m_iMoveFactor * fElapsedTime) ;
-
-	SetBoundingRectangle();
+	if(m_vPrevPosition != m_vPosition)
+	{
+		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+		m_pBoundingPolygon->Translate(trans);
+		m_vPrevPosition = m_vPosition;
+	}
 }
 // ***************************************************************
 
@@ -94,7 +102,12 @@ void cPaddle::MoveLeft( const float fElapsedTime )
 {
 	m_vPosition.x -= (m_iMoveFactor * fElapsedTime) ;
 
-	SetBoundingRectangle();
+	if(m_vPrevPosition != m_vPosition)
+	{
+		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+		m_pBoundingPolygon->Translate(trans);
+		m_vPrevPosition = m_vPosition;
+	}
 }
 // ***************************************************************
 
@@ -105,7 +118,12 @@ void cPaddle::MoveRight( const float fElapsedTime )
 {
 	m_vPosition.x += (m_iMoveFactor * fElapsedTime) ;
 
-	SetBoundingRectangle();
+	if(m_vPrevPosition != m_vPosition)
+	{
+		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+		m_pBoundingPolygon->Translate(trans);
+		m_vPrevPosition = m_vPosition;
+	}
 }
 // ***************************************************************
 
@@ -118,7 +136,12 @@ void cPaddle::OnRestart( const D3DXVECTOR3& vInitialPos )
 	if (m_vPosition.x > m_siTableWidth /2)
 	{
 		m_vPosition.x = m_siTableWidth - m_pSprite->GetScaledWidth()-10.0f ;
-		SetBoundingRectangle();
+		if(m_vPrevPosition != m_vPosition)
+		{
+			D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+			m_pBoundingPolygon->Translate(trans);
+			m_vPrevPosition = m_vPosition;
+		}
 	}
 }
 // ***************************************************************
