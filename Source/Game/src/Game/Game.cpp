@@ -62,6 +62,7 @@ cGame::~cGame()
 void cGame::Render()
 {
 	m_pStateMachine->Update();
+	m_pSound->Update();
 	if (m_bDisplayFPS)
 	{
 		IMainWindow::TheWindow()->DisplayFPS();
@@ -192,6 +193,17 @@ void cGame::ProcessInput( const long xDelta,
 		}
 	}
 
+	if (pbPressedKeys[DIK_P])
+	{
+		IMainWindow::TheWindow()->LockKey(DIK_P) ;
+		m_pSound->ChangeMusicVolume(true, GS_MAIN_MENU_MUSIC);
+	}
+	if (pbPressedKeys[DIK_L])
+	{
+		IMainWindow::TheWindow()->LockKey(DIK_L) ;
+		m_pSound->ChangeMusicVolume(false, GS_MAIN_MENU_MUSIC);
+	}
+
 	// if Two Player mode handle the keys
 	if (!m_bSinglePlayer)
 	{
@@ -310,6 +322,7 @@ void cGame::Cleanup()
 // ***************************************************************
 void cGame::Restart()
 {
+	Sleep(100);
 	m_pGameElements[PGE_PADDLE_LEFT]->OnRestart(D3DXVECTOR3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
 	m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
 	m_pGameElements[PGE_BALL]->OnRestart(D3DXVECTOR3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
@@ -337,11 +350,13 @@ void cGame::CheckForWin()
 	// check if ball hits vertical wall
 	if(vBallPosition.x <= 0)
 	{
+		m_pSound->PlaySound(GS_WIN);
 		m_pScore[1].IncrementScore();
 		Restart();
 	}
 	if (vBallPosition.x >= (m_iDisplayWidth - m_pGameElements[PGE_BALL]->GetSprite()->GetScaledWidth()))
 	{
+		m_pSound->PlaySound(GS_WIN);
 		m_pScore[0].IncrementScore();
 		Restart();
 	}
@@ -362,7 +377,7 @@ void cGame::CheckForCollisions()
 		{
 			pBall->ChangeSpeedX();
 		}
-		m_pSound->PlaySound(0);
+		m_pSound->PlaySound(GS_BALL_PADDLE_COLLISION);
 	}
 
 	// check for collision between ball and walls
@@ -374,7 +389,7 @@ void cGame::CheckForCollisions()
 		{
 			pBall->ChangeSpeedY();
 		}
-		m_pSound->PlaySound(0);
+		m_pSound->PlaySound(GS_BALL_WALL_COLLISION);
 	}
 }
 // ***************************************************************

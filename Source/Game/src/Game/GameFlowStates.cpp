@@ -132,6 +132,9 @@ void cStateMenuScreen::Enter(cGame *pGame)
 	
 	m_iQuitSpritePosY = m_iTwoPlayerSpritePosY + pGame->m_pTwoPlayerSprite->GetScaledHeight() + pGame->m_iDisplayHeight/15;
 	pGame->m_pMouseZones->AddZone("Quit", pGame->m_iDisplayWidth/2 - pGame->m_pQuitSprite->GetScaledWidth()/2, m_iQuitSpritePosY, pGame->m_pQuitSprite->GetScaledWidth(), pGame->m_pQuitSprite->GetScaledHeight(), LEFTBUTTON);
+	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+
 }
 // ***************************************************************
 
@@ -147,6 +150,7 @@ void cStateMenuScreen::Execute(cGame *pGame)
 
 void cStateMenuScreen::Exit(cGame *pGame)
 {
+	pGame->m_pSound->StopSound(pGame->GS_MAIN_MENU_MUSIC);
 	SAFE_DELETE(pGame->m_pTitleScreenSprite);
 	SAFE_DELETE(pGame->m_pCursorSprite);
 	SAFE_DELETE(pGame->m_pSinglePlayerSprite);
@@ -235,7 +239,13 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	pGame->m_pScore[1].Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth, 0.0f, 0.0f));
 
-	pGame->m_pSound->CreateSound("resources\\Sounds\\swish.wav");
+	pGame->m_pSound->CreateSound(pGame->GS_BALL_WALL_COLLISION, "resources\\Sounds\\SFX\\collision1.wav");
+	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
+	pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");
+
+	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+
 	OnResetDevice(pGame);
 }
 // ***************************************************************
@@ -253,7 +263,6 @@ void cStatePlayGame::Execute(cGame *pGame)
 
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
-	pGame->m_pSound->Update();
 }
 // ***************************************************************
 

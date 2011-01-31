@@ -71,6 +71,9 @@ cSprite::~cSprite()
 // ***************************************************************
 void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename )
 {
+	char strReason[200];
+	sprintf_s(strReason, 200, "Loading Sprite : %s\n", strFilename);
+	ILogger::TheLogger()->Log(strReason);
 	if (m_pSprite)
 	{
 		Cleanup();
@@ -78,7 +81,6 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
-		char strReason[200];
 		sprintf_s(strReason, 100, "Sprite Creation failed %s\n", strFilename);
 		ILogger::TheLogger()->Log(strReason);
  		PostQuitMessage(0);
@@ -88,7 +90,7 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename, &m_pTexture)))
 	{
 		char strReason[200];
-		sprintf_s(strReason, 100, "Texture  Creation failed %s\n", strFilename);
+		sprintf_s(strReason, 200, "Texture Creation failed %s\n", strFilename);
 		ILogger::TheLogger()->Log(strReason);
  		PostQuitMessage(0);
 	}

@@ -3,32 +3,55 @@
 #include "Fmod/fmod.hpp"
 #include "Debugging/Logger.h"
 #include "Fmod/fmod_errors.h"
-#include <vector>
+#include <map>
 
 using namespace std;
+using namespace FMOD;
+
+struct stSounds 
+{
+	Sound * pSound;
+	Channel *pChannel;
+	stSounds();
+
+};
+
+typedef map<int, stSounds *> TSoundMap;
+typedef pair<int, stSounds *> TSoundPair;
 
 class cSound
 	: public ISound
 {
 private:
-	void CheckError(FMOD_RESULT ciResult);
-
+	bool CheckError(FMOD_RESULT ciResult);
+	void Shutdown();
 public:
 	cSound();
 	~cSound();
 	void Init();
-	void Shutdown();
-	void CreateSound(const char * const strFilename);
+	void CreateSound(int index, const char * const strFilename);
 	void PlaySound(int iSoundIndex);
+	void StopSound(int iSoundIndex);
 	void Update();
+	void CreateStream( int index, const char * const strFilename );
+	void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex);
+	void RemoveSound(int iSoundIndex);
 private:
-		FMOD::System *			m_system;
-		vector<FMOD::Sound *>	m_Sounds;
+	System *			m_pSystem;
+	TSoundMap			m_apSounds;
+	bool				bValid;
 };
 // ***************************************************************
 
+stSounds::stSounds() 
+: pSound(NULL)
+, pChannel(NULL)
+{
+}
+
 cSound::cSound()
-: m_system(NULL)
+: m_pSystem(NULL)
+, bValid(true)
 {
 }
 // ***************************************************************
@@ -47,56 +70,92 @@ void cSound::Init()
 	FMOD_CAPS			caps;
 	FMOD_SPEAKERMODE	speakerMode;
 
-	result = FMOD::System_Create(&m_system);
-	CheckError(result);	
+	m_pSystem = NULL;
+	m_apSounds.clear();
+
+	result = System_Create(&m_pSystem);
+	if(!CheckError(result))
+	{
+		bValid = false;
+		ILogger::TheLogger()->Log("Could not create system. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return;
+	}
 	
-	result= m_system->getVersion(&iVersion);
-	CheckError(result);	
+	result= m_pSystem->getVersion(&iVersion);
+	if(!CheckError(result))
+	{
+		bValid = false;
+		ILogger::TheLogger()->Log("Could not get version. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return;
+	}
 
 	if (iVersion < FMOD_VERSION)
 	{
-		PostQuitMessage(0);
+		bValid = false;
+		ILogger::TheLogger()->Log("FMOD Version mismatch.\n");
+		return;	}
+
+	result = m_pSystem->getDriverCaps(0, &caps, 0, 0, &speakerMode);
+	if(!CheckError(result))
+	{
+		bValid = false;
+		ILogger::TheLogger()->Log("Could not get driver caps. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return;
 	}
 
-	result = m_system->getDriverCaps(0, &caps, 0, 0, &speakerMode);
-	CheckError(result);
-
-	result = m_system->setSpeakerMode(speakerMode);
-	CheckError(result);
+	result = m_pSystem->setSpeakerMode(speakerMode);
+	if(!CheckError(result))
+	{
+		bValid = false;
+		ILogger::TheLogger()->Log("Could not set speaker mode. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return;
+	}
 
 	if(caps & FMOD_CAPS_HARDWARE_EMULATED)
 	{
-		result = m_system->setDSPBufferSize(1024,10);
-		CheckError(result);
+		result = m_pSystem->setDSPBufferSize(1024,10);
+		if(!CheckError(result))
+		{
+			bValid = false;
+			ILogger::TheLogger()->Log("Could not set dsp buffer size. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+			return;
+		}
 	}
-	result = m_system->init(32, FMOD_INIT_NORMAL, 0);
-	CheckError(result);
+	result = m_pSystem->init(32, FMOD_INIT_NORMAL, 0);
+	if(!CheckError(result))
+	{
+		bValid = false;
+		ILogger::TheLogger()->Log("Could not init system. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return;
+	}
 }
 // ***************************************************************
 
-void cSound::CheckError( const FMOD_RESULT ciResult )
+bool cSound::CheckError( FMOD_RESULT ciResult )
 {
 	if(ciResult != FMOD_OK)
 	{
-		ILogger::TheLogger()->Log("FMOD error! (%d) %s\n", ciResult, FMOD_ErrorString(ciResult));
-		PostQuitMessage(0);
+		return false;
 	}
+	return true;
 }
 // ***************************************************************
 
 void cSound::Shutdown()
 {
 	FMOD_RESULT	result; 
-	vector<FMOD::Sound *>::iterator iterSound;
-	for (iterSound = m_Sounds.begin(); iterSound != m_Sounds.end(); iterSound++)
+	TSoundMap::iterator iterSound;
+	for (iterSound = m_apSounds.begin(); iterSound != m_apSounds.end(); iterSound++)
 	{
-		(*iterSound)->release();
+		(iterSound->second)->pSound->release();
+		SAFE_DELETE((iterSound->second));
 		//CheckError(result);
 	}
-	m_Sounds.clear();
-	if(m_system)
+	m_apSounds.clear();
+
+	if(m_pSystem)
 	{
-		result = m_system->release();
+		result = m_pSystem->release();
 		//CheckError(result);
 	}
 }
@@ -109,30 +168,149 @@ ISound * ISound::CreateSound()
 }
 // ***************************************************************
 
-void cSound::CreateSound( const char * const strFilename )
+void cSound::CreateSound( int index, const char * const strFilename )
 {
-	FMOD_RESULT			result;
-	FMOD::Sound *		pSound;
-	result = m_system->createSound(strFilename, FMOD_HARDWARE, 0, &pSound);
-	CheckError(result);
-	m_Sounds.push_back(pSound);
+	if (!bValid)
+	{
+		return;
+	}
+
+	FMOD_RESULT	result;
+	Sound *		pSound;
+	stSounds	* pSounds = DEBUG_NEW stSounds;
+
+	result = m_pSystem->createSound(strFilename, FMOD_HARDWARE|FMOD_CREATESAMPLE, 0, &pSound);
+	if(!CheckError(result))
+	{
+		ILogger::TheLogger()->Log("Could not create sound %s. FMOD error! (%d) %s\n", strFilename, result, FMOD_ErrorString(result));
+		return;
+	}
+	pSounds->pSound = pSound;
+
+	m_apSounds.insert(TSoundPair(index, pSounds));
+	ILogger::TheLogger()->Log("Loading sound : %s", strFilename);
 }
 // ***************************************************************
 
 void cSound::PlaySound( int iSoundIndex )
 {
-	FMOD_RESULT			result;
-	FMOD::Sound *		pSound = NULL;
-	FMOD::Channel *		pChannel = NULL;
-	
-	pSound = m_Sounds[iSoundIndex];
-	result = m_system->playSound(FMOD_CHANNEL_FREE, pSound, false, &pChannel);
-	CheckError(result);
+	if (!bValid)
+	{
+		return;
+	}
+	FMOD_RESULT	result;
+	Sound *		pSound = NULL;
+	Channel *	pChannel = NULL;
+	TSoundMap::iterator iterSound;
+
+	iterSound = m_apSounds.find(iSoundIndex);
+	if (iterSound == m_apSounds.end())
+	{
+		ILogger::TheLogger()->Log("Could not Find Sound in PlaySound.\n");
+		return;
+	}
+	pSound = iterSound->second->pSound;
+	result = m_pSystem->playSound(FMOD_CHANNEL_REUSE, pSound, false, &pChannel);
+	iterSound->second->pChannel = pChannel;
+	if(!CheckError(result))
+	{
+		char strFileName[200];
+		pSound->getName(strFileName, 200);
+		ILogger::TheLogger()->Log("Could not play sound : %s. FMOD error! (%d) %s\n", strFileName, result, FMOD_ErrorString(result));
+		return;
+	}
 }
 // ***************************************************************
 
 void cSound::Update()
 {
-	m_system->update();
+	if (!bValid)
+	{
+		return;
+	}
+	m_pSystem->update();
 }
 // ***************************************************************
+
+void cSound::CreateStream( int index, const char * const strFilename )
+{
+	FMOD_RESULT	result;
+	stSounds	* pSounds = DEBUG_NEW stSounds;
+
+	result = m_pSystem->createStream(strFilename, FMOD_HARDWARE|FMOD_CREATESTREAM|FMOD_LOOP_NORMAL, 0, &(pSounds->pSound));
+	if(!CheckError(result))
+	{
+		ILogger::TheLogger()->Log("Could not create stream : %s. FMOD error! (%d) %s\n", strFilename, result, FMOD_ErrorString(result));
+		return;
+	}
+
+	m_apSounds.insert(TSoundPair(index, pSounds));
+	ILogger::TheLogger()->Log("Loading stream : %s", strFilename);
+}
+
+void cSound::StopSound( int iSoundIndex )
+{
+	FMOD_RESULT	result;
+	TSoundMap::iterator iterSound;
+
+	iterSound = m_apSounds.find(iSoundIndex);
+	if (iterSound == m_apSounds.end())
+	{
+		ILogger::TheLogger()->Log("Could not Find Sound in StopSound.\n");
+		return;
+	}
+
+	result = iterSound->second->pChannel->stop();
+	if(!CheckError(result))
+	{
+		ILogger::TheLogger()->Log("Could not stop sound. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return;
+	}
+}
+// ***************************************************************
+
+void cSound::ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex)
+{
+	float fVolume;
+	FMOD_RESULT	result;
+	TSoundMap::iterator  iterSound; 
+
+	iterSound = m_apSounds.find(iSoundIndex);
+	if (iterSound == m_apSounds.end())
+	{
+		ILogger::TheLogger()->Log("Could not Find Sound in ChangeMusicVolume.\n");
+		return;
+	}
+	result = iterSound->second->pChannel->getVolume(&fVolume);
+	if(!CheckError(result))
+	{
+		ILogger::TheLogger()->Log("Could not Change Music Volume. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+		return;
+	}
+
+	if (bIncreaseVolume)
+	{
+		fVolume += 0.01f;
+		if (fVolume > 1.0f)
+		{
+			fVolume = 1.0f;
+		}
+	}
+	else
+	{
+		fVolume -= 0.01f;
+		if (fVolume < 0.0f)
+		{
+			fVolume = 0.0f;
+		}
+	}
+	result = iterSound->second->pChannel->setVolume(fVolume);
+	CheckError(result);
+	ILogger::TheLogger()->Log("New Volume : %f\n", fVolume);
+}
+
+void cSound::RemoveSound( int iSoundIndex )
+{
+	StopSound(iSoundIndex);
+	m_apSounds.erase(iSoundIndex);
+}

@@ -36,6 +36,16 @@ private:
 		PGE_TOTAL
 	};
 
+	enum GAMESOUNDS
+	{
+		GS_UNKNOWN = -1,
+		GS_BALL_WALL_COLLISION,
+		GS_BALL_PADDLE_COLLISION,
+		GS_WIN,
+		GS_MAIN_MENU_MUSIC,
+		GS_TOTAL
+	};
+
 	cGame(const cGame&){}
 	cGame operator =(const cGame&){}
 	void HandlePaddleAI(const float fElapsedTime);
