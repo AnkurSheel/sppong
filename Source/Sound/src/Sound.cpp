@@ -188,7 +188,7 @@ void cSound::CreateSound( int index, const char * const strFilename )
 	pSounds->pSound = pSound;
 
 	m_apSounds.insert(TSoundPair(index, pSounds));
-	ILogger::TheLogger()->Log("Loading sound : %s", strFilename);
+	ILogger::TheLogger()->Log("Loading sound : %s\n", strFilename);
 }
 // ***************************************************************
 
@@ -245,7 +245,7 @@ void cSound::CreateStream( int index, const char * const strFilename )
 	}
 
 	m_apSounds.insert(TSoundPair(index, pSounds));
-	ILogger::TheLogger()->Log("Loading stream : %s", strFilename);
+	ILogger::TheLogger()->Log("Loading stream : %s\n", strFilename);
 }
 
 void cSound::StopSound( int iSoundIndex )
@@ -311,6 +311,11 @@ void cSound::ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex)
 
 void cSound::RemoveSound( int iSoundIndex )
 {
+	TSoundMap::iterator  iterSound; 
+
 	StopSound(iSoundIndex);
+
+	iterSound = m_apSounds.find(iSoundIndex);
+	SAFE_DELETE(iterSound->second);
 	m_apSounds.erase(iSoundIndex);
 }
