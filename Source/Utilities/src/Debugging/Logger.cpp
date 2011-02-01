@@ -27,16 +27,20 @@ public:
 	void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
 	int Log(const char * const  lpFmt, ...);
 	void Close();
+	void WriteLogEntry(int iEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
 private:
-	FILE*	m_fStdOut;
-	HANDLE	m_hStdOut;
+	FILE*		m_fStdOut;
+	HANDLE		m_hStdOut;
 	cXMLFileIO	m_fXml;
+	static int	m_iCurrentId;
+
 };
 
 static cLogger * s_pLogger = NULL;
 
 using namespace std;
 
+int cLogger::m_iCurrentId = 0;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -108,6 +112,7 @@ int cLogger::Log( const char * const lpFmt, ... )
 	{
 		fprintf(m_fStdOut, strtime);
 		fprintf(m_fStdOut, s);
+		fflush(m_fStdOut); 
 	}
 	return cnt;
 }
@@ -116,6 +121,25 @@ int cLogger::Log( const char * const lpFmt, ... )
 void cLogger::Close()
 {
 	s_pLogger->m_fXml.Save("log.xml");
+}
+// ***************************************************************
+
+void cLogger::WriteLogEntry(int iEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage)
+{
+	char strEvent[100];
+	sprintf_s(strEvent, 100, "LogEvent%d", m_iCurrentId);
+	m_fXml.AddNode("LogEvents", strEvent, "");
+	m_fXml.AddAttribute(strEvent,"id", m_iCurrentId);
+	char str[100];
+	itoa(iEntryType, str, 10);
+	m_fXml.AddNode(strEvent,"Type", str);
+	m_fXml.AddNode(strEvent,"File", strSourceFile);
+	m_fXml.AddNode(strEvent,"Function", strFunction);
+	
+	itoa(iSourceLine, str, 10);
+	m_fXml.AddNode(strEvent,"LineNumber", str);
+	m_fXml.AddNode(strEvent,"Message", strMessage);
+	m_iCurrentId++;
 }
 // ***************************************************************
 

@@ -73,6 +73,10 @@ cSprite::~cSprite()
 void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename )
 {
 	ILogger::TheLogger()->Log("Loading Sprite : %s\n", strFilename);
+	char strReason[100];
+	sprintf_s(strReason, 100, "Loading Sprite : %s", strFilename );
+	Log_Write_L1(ILogger::LT_DEBUG, strReason);
+
 	_tcscpy_s(m_strFilename, MAX_FILENAME_WIDTH, strFilename);
 
 	if (m_pSprite)

@@ -14,13 +14,6 @@
 #include <string>
 #include <map>
 
-enum eUsage
-{
-	SAVEDATAFILE,
-	SAVENNFILE,
-	LOADNNFILE
-};
-
 class cXMLFileIO
 {
 private:
