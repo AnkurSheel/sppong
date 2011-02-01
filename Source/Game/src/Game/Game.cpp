@@ -314,6 +314,10 @@ void cGame::Cleanup()
 	SAFE_DELETE(m_pTwoPlayerSprite);
 	SAFE_DELETE(m_pQuitSprite);
 	SAFE_DELETE(m_pSound);
+
+	if(ICollisionChecker::TheCollisionChecker())
+		ICollisionChecker::TheCollisionChecker()->Destroy();
+
 }
 // ***************************************************************
 

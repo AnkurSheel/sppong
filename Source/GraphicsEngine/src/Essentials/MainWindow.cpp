@@ -345,11 +345,6 @@ void cMainWindow::OnDestroyDevice()
 
 	SAFE_DELETE(m_pFPS);
 
-	if(ICollisionChecker::TheCollisionChecker())
-		ICollisionChecker::TheCollisionChecker()->Destroy();
-
-	if(ILogger::TheLogger())
-		ILogger::TheLogger()->Destroy();
 
 	// release the graphic object
 	cDXBase::GetInstance().Cleanup();

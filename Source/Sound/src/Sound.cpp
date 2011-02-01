@@ -145,9 +145,13 @@ void cSound::Shutdown()
 {
 	FMOD_RESULT	result; 
 	TSoundMap::iterator iterSound;
+	char strFileName[100];
+
 	for (iterSound = m_apSounds.begin(); iterSound != m_apSounds.end(); iterSound++)
 	{
-		(iterSound->second)->pSound->release();
+		iterSound->second->pSound->getName(strFileName, 100);
+		ILogger::TheLogger()->Log("Releasing Sound : %s\n", strFileName);
+		iterSound->second->pSound->release();
 		SAFE_DELETE((iterSound->second));
 		//CheckError(result);
 	}
@@ -316,6 +320,11 @@ void cSound::RemoveSound( int iSoundIndex )
 	StopSound(iSoundIndex);
 
 	iterSound = m_apSounds.find(iSoundIndex);
+	char strFileName[MAX_FILENAME_WIDTH];
+	iterSound->second->pSound->getName(strFileName, MAX_FILENAME_WIDTH);
+	ILogger::TheLogger()->Log("Removing Sound : %s\n", strFileName);
+	
+	iterSound->second->pSound->release();
 	SAFE_DELETE(iterSound->second);
 	m_apSounds.erase(iSoundIndex);
 }

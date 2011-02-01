@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib"
+				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxmld.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib"
+				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxml.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -217,6 +217,26 @@
 			>
 			<File
 				RelativePath=".\src\InitialChecks\DiskChecks.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="FileIO"
+			>
+			<File
+				RelativePath=".\src\FileIO\tinystr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\tinyxml.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\XMLFileIO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\XMLFileIO.h"
 				>
 			</File>
 		</Filter>

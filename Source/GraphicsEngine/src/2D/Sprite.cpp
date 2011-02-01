@@ -38,6 +38,7 @@ private:
 	D3DXVECTOR3			m_vScale ;		// the scaling info for the image
 	D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
 	D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
+	char				m_strFilename[MAX_FILENAME_WIDTH];
 };
 #include "Sprite.inl"
 
@@ -71,9 +72,9 @@ cSprite::~cSprite()
 // ***************************************************************
 void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename )
 {
-	char strReason[200];
-	sprintf_s(strReason, 200, "Loading Sprite : %s\n", strFilename);
-	ILogger::TheLogger()->Log(strReason);
+	ILogger::TheLogger()->Log("Loading Sprite : %s\n", strFilename);
+	_tcscpy_s(m_strFilename, MAX_FILENAME_WIDTH, strFilename);
+
 	if (m_pSprite)
 	{
 		Cleanup();
@@ -81,17 +82,14 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
-		sprintf_s(strReason, 100, "Sprite Creation failed %s\n", strFilename);
-		ILogger::TheLogger()->Log(strReason);
+		ILogger::TheLogger()->Log("Sprite Creation failed %s\n", strFilename);
  		PostQuitMessage(0);
 	}
 
 	// Create the texture associated with this sprite
 	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename, &m_pTexture)))
 	{
-		char strReason[200];
-		sprintf_s(strReason, 200, "Texture Creation failed %s\n", strFilename);
-		ILogger::TheLogger()->Log(strReason);
+		ILogger::TheLogger()->Log("Texture Creation failed %s\n", strFilename);
  		PostQuitMessage(0);
 	}
 
@@ -158,6 +156,7 @@ void cSprite::Cleanup()
 {
 	m_vPosition = D3DXVECTOR3(0,0,0);
 
+	ILogger::TheLogger()->Log("Releasing Texture : %s\n", m_strFilename);
 	// release the texture
 	SAFE_RELEASE(m_pTexture);
 

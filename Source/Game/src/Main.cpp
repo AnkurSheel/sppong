@@ -79,5 +79,9 @@ void CheckForMemoryLeaks()
 void Cleanup() 
 {
 	SAFE_DELETE(pGame);
+
+	if(ILogger::TheLogger())
+		ILogger::TheLogger()->Destroy();
+
 }
 // ***************************************************************

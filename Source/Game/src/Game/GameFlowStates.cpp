@@ -150,7 +150,7 @@ void cStateMenuScreen::Execute(cGame *pGame)
 
 void cStateMenuScreen::Exit(cGame *pGame)
 {
-	pGame->m_pSound->StopSound(pGame->GS_MAIN_MENU_MUSIC);
+	pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);
 	SAFE_DELETE(pGame->m_pTitleScreenSprite);
 	SAFE_DELETE(pGame->m_pCursorSprite);
 	SAFE_DELETE(pGame->m_pSinglePlayerSprite);
@@ -274,6 +274,9 @@ void cStatePlayGame::Exit(cGame *pGame)
 	{
 		SAFE_DELETE(pGame->m_pGameElements[i]);
 	}
+	if(ICollisionChecker::TheCollisionChecker())
+		ICollisionChecker::TheCollisionChecker()->Destroy();
+
 	pGame->Cleanup();
 
 }

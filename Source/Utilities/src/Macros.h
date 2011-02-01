@@ -26,3 +26,5 @@
 		(p)=NULL ; \
 	} \
 }
+
+const int MAX_FILENAME_WIDTH = 256;

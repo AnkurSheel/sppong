@@ -1,7 +1,8 @@
 // ***************************************************************
 //  Logger   version:  1.0   Ankur Sheel  date: 2011/01/04
 //  -------------------------------------------------------------
-//  
+// 2011/01/04 : based on 
+//	     		http://archive.gamedev.net/reference/programming/features/xmltech/default.asp 
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
 // ***************************************************************
@@ -11,6 +12,7 @@
 #include "Logger.h"
 #include <string>
 #include <time.h>
+#include "FileIO/XMLFileIO.h"
 
 class cLogger
 	: public ILogger
@@ -24,11 +26,11 @@ public:
 	~cLogger();
 	void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
 	int Log(const char * const  lpFmt, ...);
-
+	void Close();
 private:
 	FILE*	m_fStdOut;
 	HANDLE	m_hStdOut;
-
+	cXMLFileIO	m_fXml;
 };
 
 static cLogger * s_pLogger = NULL;
@@ -73,7 +75,9 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 	{
 		fopen_s(&m_fStdOut, cfName, "w");
 	}
-
+	m_fXml.Init("RunTimeLog");
+	m_fXml.AddNode("RunTimeLog", "LogHeader", "");
+	m_fXml.AddNode("RunTimeLog", "LogEvents", "");
 }
 
 int cLogger::Log( const char * const lpFmt, ... )
@@ -109,6 +113,12 @@ int cLogger::Log( const char * const lpFmt, ... )
 }
 // ***************************************************************
 
+void cLogger::Close()
+{
+	s_pLogger->m_fXml.Save("log.xml");
+}
+// ***************************************************************
+
 // ***************************************************************
 // Creates a logger
 // ***************************************************************
@@ -125,5 +135,6 @@ ILogger * ILogger::TheLogger()
 
 void ILogger::Destroy()
 {
+	s_pLogger->Close();
 	delete this;
 }
