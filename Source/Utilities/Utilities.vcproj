@@ -224,11 +224,23 @@
 			Name="FileIO"
 			>
 			<File
+				RelativePath=".\src\FileIO\tinystr.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\FileIO\tinystr.h"
 				>
 			</File>
 			<File
+				RelativePath=".\src\FileIO\tinyxml.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\FileIO\tinyxml.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\tinyxmlerror.cpp"
 				>
 			</File>
 			<File

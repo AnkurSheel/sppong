@@ -41,7 +41,7 @@ void cDXBase::DirectxInit()
 
 	if(m_pD3D == NULL)
 	{
-		ILogger::TheLogger()->Log("Direct3d object creation failed\n");
+		Log_Write_L1(ILogger::LT_ERROR, "Direct3d object creation failed");
 		PostQuitMessage(0);
 	}
 
@@ -79,7 +79,7 @@ void cDXBase::CreateDirectxDevice()
 		&m_d3dpp,
 		&m_pd3dDevice)))
 	{
-		ILogger::TheLogger()->Log("Direct3d object creation failed\n");
+		Log_Write_L1(ILogger::LT_ERROR, "Direct3d object creation failed");
 		PostQuitMessage(0) ;
 		DestroyWindow(m_Hwnd) ;
 	}

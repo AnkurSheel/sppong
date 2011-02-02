@@ -72,10 +72,9 @@ cSprite::~cSprite()
 // ***************************************************************
 void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename )
 {
-	ILogger::TheLogger()->Log("Loading Sprite : %s\n", strFilename);
 	char strReason[100];
 	sprintf_s(strReason, 100, "Loading Sprite : %s", strFilename );
-	Log_Write_L1(ILogger::LT_DEBUG, strReason);
+	Log_Write_L2(ILogger::LT_EVENT, strReason);
 
 	_tcscpy_s(m_strFilename, MAX_FILENAME_WIDTH, strFilename);
 
@@ -86,14 +85,16 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
-		ILogger::TheLogger()->Log("Sprite Creation failed %s\n", strFilename);
+		sprintf_s(strReason, 100, "Sprite Creation failed : %s", strFilename );
+		Log_Write_L1(ILogger::LT_ERROR, strReason);
  		PostQuitMessage(0);
 	}
 
 	// Create the texture associated with this sprite
 	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename, &m_pTexture)))
 	{
-		ILogger::TheLogger()->Log("Texture Creation failed %s\n", strFilename);
+		sprintf_s(strReason, 100, "Texture Creation failed : %s", strFilename );
+		Log_Write_L1(ILogger::LT_ERROR, strReason);
  		PostQuitMessage(0);
 	}
 
@@ -160,7 +161,10 @@ void cSprite::Cleanup()
 {
 	m_vPosition = D3DXVECTOR3(0,0,0);
 
-	ILogger::TheLogger()->Log("Releasing Texture : %s\n", m_strFilename);
+	char strReason[100];
+	sprintf_s(strReason, 100, "Releasing Texture : %s", m_strFilename);
+	Log_Write_L2(ILogger::LT_EVENT, strReason);
+
 	// release the texture
 	SAFE_RELEASE(m_pTexture);
 

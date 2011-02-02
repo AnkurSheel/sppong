@@ -10,7 +10,6 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Logger.h"
-#include <string>
 #include <time.h>
 #include "FileIO/XMLFileIO.h"
 
@@ -27,7 +26,11 @@ public:
 	void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
 	int Log(const char * const  lpFmt, ...);
 	void Close();
-	void WriteLogEntry(int iEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
+	void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
+
+private:
+	void LogTypeToString( LogType eLogEntryType, char * str );
+
 private:
 	FILE*		m_fStdOut;
 	HANDLE		m_hStdOut;
@@ -40,7 +43,7 @@ static cLogger * s_pLogger = NULL;
 
 using namespace std;
 
-int cLogger::m_iCurrentId = 0;
+int cLogger::m_iCurrentId = 1;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -79,9 +82,9 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 	{
 		fopen_s(&m_fStdOut, cfName, "w");
 	}
-	m_fXml.Init("RunTimeLog");
-	m_fXml.AddNode("RunTimeLog", "LogHeader", "");
-	m_fXml.AddNode("RunTimeLog", "LogEvents", "");
+	m_fXml.Init("RunTimeLog", "RunTimeLog", "BasicXSLT.xsl");
+	m_fXml.AddNode("RunTimeLog", "LogHeader", "LogHeader", "");
+	m_fXml.AddNode("RunTimeLog", "LogEvents", "LogEvents", "");
 }
 
 int cLogger::Log( const char * const lpFmt, ... )
@@ -124,22 +127,59 @@ void cLogger::Close()
 }
 // ***************************************************************
 
-void cLogger::WriteLogEntry(int iEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage)
+void cLogger::WriteLogEntry( LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage )
 {
 	char strEvent[100];
 	sprintf_s(strEvent, 100, "LogEvent%d", m_iCurrentId);
-	m_fXml.AddNode("LogEvents", strEvent, "");
+	m_fXml.AddNode("LogEvents", strEvent, "LogEvent", "");
 	m_fXml.AddAttribute(strEvent,"id", m_iCurrentId);
 	char str[100];
-	itoa(iEntryType, str, 10);
-	m_fXml.AddNode(strEvent,"Type", str);
-	m_fXml.AddNode(strEvent,"File", strSourceFile);
-	m_fXml.AddNode(strEvent,"Function", strFunction);
+	LogTypeToString(eLogEntryType, str);
+	m_fXml.AddNode(strEvent, "Type", "Type", str);
+
+	time_t currentTime;
+	time(&currentTime );
+	ctime_s(str, 100, &currentTime);
+	str[24] = ' '; // remove the '/n' from the time string
+
+	m_fXml.AddNode(strEvent, "TimeIndex", "TimeIndex", str);
+
+	m_fXml.AddNode(strEvent, "File", "File", strSourceFile);
+	m_fXml.AddNode(strEvent, "Function", "Function", strFunction);
 	
-	itoa(iSourceLine, str, 10);
-	m_fXml.AddNode(strEvent,"LineNumber", str);
-	m_fXml.AddNode(strEvent,"Message", strMessage);
+	_itoa_s(iSourceLine, str, 100, 10);
+	m_fXml.AddNode(strEvent, "LineNumber", "LineNumber", str);
+	m_fXml.AddNode(strEvent, "Message", "Message", strMessage);
 	m_iCurrentId++;
+}
+
+void cLogger::LogTypeToString( LogType eLogEntryType, char * str )
+{
+	switch(eLogEntryType)
+	{
+	case LT_DEBUG: 
+		strcpy_s(str,100, "Debug");
+		break;
+	case LT_ERROR:
+		strcpy_s(str,100, "Error");
+		break;
+	case LT_WARNING: 
+		strcpy_s(str,100, "Warning");
+		break;
+	case LT_COMMENT: 
+		strcpy_s(str,100, "Comment");
+		break;
+	case LT_EVENT: 
+		strcpy_s(str,100, "Event");
+		break;
+	case LT_GAME_MESSAGE: 
+		strcpy_s(str,100, "Game Message");
+		break;
+	case LT_UNKNOWN:
+	default:
+		strcpy_s(str,100, "UNKNOWN");
+		break;
+	}
 }
 // ***************************************************************
 

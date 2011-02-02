@@ -138,7 +138,7 @@ void cMainWindow::RegisterWin()
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION) ;
 	if(!RegisterClassEx(&wc))
 	{
-		ILogger::TheLogger()->Log("Window Registration Failed\n");
+		Log_Write_L1(ILogger::LT_ERROR, "Window Registration Failed");
 		exit(0) ;
 	}
 }
@@ -179,7 +179,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWind
 
 	if(m_Hwnd == NULL)
 	{
-		ILogger::TheLogger()->Log("Window Creation Failed\n");
+		Log_Write_L1(ILogger::LT_ERROR, "Window Creation Failed");
 		return NULL ;
 	}
 

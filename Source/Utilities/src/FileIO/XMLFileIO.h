@@ -26,14 +26,14 @@ private:
 public:
 	cXMLFileIO();
 	~cXMLFileIO();
-	void Init(const std::string strRootName);
-	void AddComment(const std::string strParent, const std::string strComment);
-	void AddNode(const std::string strParent, const std::string strNode, const std::string strNodeValue);
-	void AddAttribute(const std::string strNode, const std::string strAttributeNode, const int iValue );
-	void AddAttribute(const std::string strNode, const std::string strAttributeNode, const std::string strValue );
-	void Save(const std::string strFilePath);
-	std::string Load(const std::string strFilePath);
-	std::string GetNodeName(const std::string strParent, const int iIndex) ;
-	std::string GetNodeValue(const std::string strNode);
+	void Init(const char * const strRootId, const char * const strRootName, const char * const strStyleSheetPath = NULL);
+	void AddComment(const char * const strParentId, const char * const strComment);
+	void AddNode(const char * const strParentId, const char * const strId, const char * const strNode, const char * const strNodeValue);
+	void AddAttribute(const char * const strId, const char * const strAttributeNode, const int iValue );
+	void AddAttribute(const char * const strId, const char * const strAttributeNode, const char * const strValue );
+	void Save(const char * const strFilePath);
+	const char * const Load(const std::string strFilePath);
+	const char * const GetNodeName(const char * const strParent, const int iIndex) ;
+	const char * const GetNodeValue(const char * const strNode);
 };
 #endif // XMLFileIO_h__

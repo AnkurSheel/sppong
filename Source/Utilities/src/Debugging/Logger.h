@@ -25,6 +25,11 @@ public:
 	{
 		LT_UNKNOWN = -1,
 		LT_DEBUG,
+		LT_ERROR,
+		LT_WARNING,
+		LT_COMMENT,
+		LT_EVENT,
+		LT_GAME_MESSAGE,
 		LT_TOTAL
 	};
 public:
@@ -34,6 +39,6 @@ public:
 	UTILITIES_API static void CreateLogger();
 	UTILITIES_API static ILogger * TheLogger();
 	UTILITIES_API void Destroy();
-	UTILITIES_API virtual void WriteLogEntry(int iEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage ) = 0;
+	UTILITIES_API virtual void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage ) = 0;
 };
 #endif // Logger_h__
