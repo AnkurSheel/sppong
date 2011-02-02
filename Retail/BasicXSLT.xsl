@@ -100,10 +100,10 @@
 				<br/>
 				<table border="1" width="100%" cellspacing="0" cellpadding="0" bordercolorlight="#000000" bordercolordark="#ffffff" bordercolor="#000000">
 					<tr>
-						<td width="3%"  bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>#</center></b></font></td>
-						<td width="20%" bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>Time</center></b></font></td>
-						<td width="50%" bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>File</center></b></font></td>
-						<td width="23%" bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>Function</center></b></font></td>
+						<td width="4%"  bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>#</center></b></font></td>
+						<td width="14%" bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>Time</center></b></font></td>
+						<td width="39%" bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>File</center></b></font></td>
+						<td width="39%" bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>Function</center></b></font></td>
 						<td width="4%"  bgcolor="#000000"><font size="2" face="Arial" color="#FFFFFF"><b><center>Line</center></b></font></td>
 					</tr>
 					<xsl:apply-templates select="RunTimeLog/LogEvents/LogEvent"/>

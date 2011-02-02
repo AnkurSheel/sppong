@@ -208,7 +208,7 @@ void cSound::CreateSound( int index, const char * const strFilename )
 
 	m_apSounds.insert(TSoundPair(index, pSounds));
 	sprintf_s(strReason, 100, "Loading sound : %s\n", strFilename);
-	Log_Write_L1(ILogger::LT_ERROR, strReason);
+	Log_Write_L2(ILogger::LT_EVENT, strReason);
 }
 // ***************************************************************
 
@@ -272,7 +272,7 @@ void cSound::CreateStream( int index, const char * const strFilename )
 
 	m_apSounds.insert(TSoundPair(index, pSounds));
 	sprintf_s(strReason, 100, "Loading stream : %s\n", strFilename);
-	Log_Write_L1(ILogger::LT_EVENT, strReason);
+	Log_Write_L2(ILogger::LT_EVENT, strReason);
 }
 
 void cSound::StopSound( int iSoundIndex )

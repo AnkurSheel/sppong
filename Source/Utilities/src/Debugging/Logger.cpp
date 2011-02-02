@@ -85,6 +85,17 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 	m_fXml.Init("RunTimeLog", "RunTimeLog", "BasicXSLT.xsl");
 	m_fXml.AddNode("RunTimeLog", "LogHeader", "LogHeader", "");
 	m_fXml.AddNode("RunTimeLog", "LogEvents", "LogEvents", "");
+
+#if SYSTEM_DEBUG_LEVEL == 3
+	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "Extra Comprehensive debugging information (Level 3)");
+#elif SYSTEM_DEBUG_LEVEL == 2
+	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "Comprehensive debugging information (Level 2)");
+#elif SYSTEM_DEBUG_LEVEL == 1
+	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "Retail debugging information (Level 1)");
+#else
+	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "No debugging information (Level 0)");
+#endif
+
 }
 
 int cLogger::Log( const char * const lpFmt, ... )
