@@ -12,14 +12,17 @@
 
 struct Telegram;
 
-template <class entity_type>
-class IState
+namespace AI
 {
-public:
-	virtual ~IState(){};
-	virtual void Enter(entity_type *) = 0;
-	virtual void Execute(entity_type *) = 0;
-	virtual void Exit(entity_type *) = 0;
-	virtual bool OnMessage(entity_type*, const Telegram &msg)=0;
-};
+	template <class entity_type>
+	class IState
+	{
+	public:
+		virtual ~IState(){};
+		virtual void Enter(entity_type *) = 0;
+		virtual void Execute(entity_type *) = 0;
+		virtual void Exit(entity_type *) = 0;
+		virtual bool OnMessage(entity_type*, const Telegram &msg)=0;
+	};
+}
 #endif // State_h__

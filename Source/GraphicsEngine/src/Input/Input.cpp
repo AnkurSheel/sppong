@@ -12,6 +12,7 @@
 #include "2D/vertexstruct.h"
 #include "Essentials/DxBase.h"
 
+using namespace Graphics;
 // ***************************************************************
 // Constructor
 // ***************************************************************

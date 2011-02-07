@@ -11,37 +11,41 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
-class cSprite
-	: public ISprite
+namespace Graphics 
 {
-private :
-	cSprite(const cSprite&){}
-	cSprite operator =(const cSprite&){}
+	class cSprite
+		: public ISprite
+	{
+	private :
+		cSprite(const cSprite&){}
+		cSprite operator =(const cSprite&){}
 
-public:
-	cSprite();
-	~cSprite();
-	void Init(LPDIRECT3DDEVICE9 const pDevice, const char  * const  strFilename) ;
-	void SetSize(const float fNewWidth, const float fNewHeight);
-	void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
-	void Cleanup();
-	UINT GetScaledHeight() const;
-	UINT GetScaledWidth() const;
-	D3DXVECTOR3 GetPosition() const;
+	public:
+		cSprite();
+		~cSprite();
+		void Init(LPDIRECT3DDEVICE9 const pDevice, const char  * const  strFilename) ;
+		void SetSize(const float fNewWidth, const float fNewHeight);
+		void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+		void Cleanup();
+		UINT GetScaledHeight() const;
+		UINT GetScaledWidth() const;
+		D3DXVECTOR3 GetPosition() const;
 
-private:
+	private:
 
-	LPD3DXSPRITE		m_pSprite;		// ptr to the sprite 
-	LPDIRECT3DTEXTURE9	m_pTexture;		// the texture associated with this sprite
-	UINT				m_uiHeight;		// the height of the image
-	UINT				m_uiWidth;		// the width of the image
-	D3DXVECTOR3			m_vScale ;		// the scaling info for the image
-	D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
-	D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
-	char				m_strFilename[MAX_FILENAME_WIDTH];
-};
+		LPD3DXSPRITE		m_pSprite;		// ptr to the sprite 
+		LPDIRECT3DTEXTURE9	m_pTexture;		// the texture associated with this sprite
+		UINT				m_uiHeight;		// the height of the image
+		UINT				m_uiWidth;		// the width of the image
+		D3DXVECTOR3			m_vScale ;		// the scaling info for the image
+		D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
+		D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
+		char				m_strFilename[MAX_FILENAME_WIDTH];
+	};
 #include "Sprite.inl"
-
+}
+using namespace Utilities;
+using namespace Graphics;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -87,7 +91,7 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	{
 		sprintf_s(strReason, 100, "Sprite Creation failed : %s", strFilename );
 		Log_Write_L1(ILogger::LT_ERROR, strReason);
- 		PostQuitMessage(0);
+		PostQuitMessage(0);
 	}
 
 	// Create the texture associated with this sprite
@@ -95,7 +99,7 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	{
 		sprintf_s(strReason, 100, "Texture Creation failed : %s", strFilename );
 		Log_Write_L1(ILogger::LT_ERROR, strReason);
- 		PostQuitMessage(0);
+		PostQuitMessage(0);
 	}
 
 	D3DXIMAGE_INFO imageInfo;	// contents of the image file	

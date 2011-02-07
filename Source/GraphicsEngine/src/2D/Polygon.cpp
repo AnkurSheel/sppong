@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "Polygon.h"
 
+using namespace Graphics;
 cPolygon::cPolygon( const D3DXVECTOR2 * const pVertices, int nNoOfVertices )
 {
 	m_pVertices = DEBUG_NEW D3DXVECTOR2[nNoOfVertices];

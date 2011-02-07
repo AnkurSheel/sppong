@@ -13,35 +13,39 @@
 #include <time.h>
 #include "FileIO/XMLFileIO.h"
 
-class cLogger
-	: public ILogger
+namespace Utilities
 {
-private:
-	cLogger(const cLogger&){}
-	cLogger operator =(const cLogger&){}
+	class cLogger
+		: public ILogger
+	{
+	private:
+		cLogger(const cLogger&){}
+		cLogger operator =(const cLogger&){}
 
-public:
-	cLogger();
-	~cLogger();
-	void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
-	int Log(const char * const  lpFmt, ...);
-	void Close();
-	void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
+	public:
+		cLogger();
+		~cLogger();
+		void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
+		int Log(const char * const  lpFmt, ...);
+		void Close();
+		void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
 
-private:
-	void LogTypeToString( LogType eLogEntryType, char * str );
+	private:
+		void LogTypeToString( LogType eLogEntryType, char * str );
 
-private:
-	FILE*		m_fStdOut;
-	HANDLE		m_hStdOut;
-	cXMLFileIO	m_fXml;
-	static int	m_iCurrentId;
+	private:
+		FILE*		m_fStdOut;
+		HANDLE		m_hStdOut;
+		cXMLFileIO	m_fXml;
+		static int	m_iCurrentId;
 
-};
+	};
 
-static cLogger * s_pLogger = NULL;
 
+	static cLogger * s_pLogger = NULL;
+}
 using namespace std;
+using namespace Utilities;
 
 int cLogger::m_iCurrentId = 1;
 // ***************************************************************
@@ -49,7 +53,7 @@ int cLogger::m_iCurrentId = 1;
 // ***************************************************************
 cLogger::cLogger()
 : m_fStdOut(NULL)
- ,m_hStdOut(NULL) 
+,m_hStdOut(NULL) 
 {
 }
 
@@ -157,7 +161,7 @@ void cLogger::WriteLogEntry( LogType eLogEntryType, const char * const strSource
 
 	m_fXml.AddNode(strEvent, "File", "File", strSourceFile);
 	m_fXml.AddNode(strEvent, "Function", "Function", strFunction);
-	
+
 	_itoa_s(iSourceLine, str, 100, 10);
 	m_fXml.AddNode(strEvent, "LineNumber", "LineNumber", str);
 	m_fXml.AddNode(strEvent, "Message", "Message", strMessage);

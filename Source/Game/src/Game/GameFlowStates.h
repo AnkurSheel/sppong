@@ -16,7 +16,7 @@ class cGame;
 struct Telegram;
 
 class IGameFlowStates
-	: public IState<cGame>
+	: public AI::IState<cGame>
 {
 public:
 	virtual void OnLostDevice(cGame *pGame) = 0;

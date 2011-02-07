@@ -14,6 +14,9 @@
 #include "Game\Game.h"
 #include "Debugging\logger.h"
 
+using namespace Utilities;
+using namespace Graphics;
+
 cGame *pGame = NULL;	// global ptr to the game
 
 // ***************************************************************

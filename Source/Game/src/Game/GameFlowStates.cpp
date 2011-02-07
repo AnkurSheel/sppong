@@ -21,6 +21,9 @@
 #include "Input/MouseZone.h"
 #include "Sound.h"
 
+using namespace MySound;
+using namespace Graphics;
+
 cStateTitleScreen::cStateTitleScreen()
 {
 }

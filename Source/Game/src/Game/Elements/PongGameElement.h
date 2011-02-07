@@ -16,7 +16,7 @@ class cPaddle;
 class cBall;
 
 class cPongGameElement
-	: public cGameElement
+	: public GameBase::cGameElement
 {
 private :
 	cPongGameElement(const cPongGameElement&){}

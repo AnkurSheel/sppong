@@ -16,6 +16,7 @@ class cFuzzyRule;
 
 #include <map>
 #include <vector>
+#include "AIDefines.h"
 
 class cFuzzyModule
 {
@@ -37,17 +38,17 @@ public:
 		,Centroid
 	};
 public:
-	cFuzzyModule();
-	virtual ~cFuzzyModule();
-	cFuzzyVariable* CreateFLV(const char * const& varName);
-	void AddRule(cFuzzyTerm* antecedent, cFuzzyTerm* consequent);
-	float DeFuzzify(const char * const& key, const DeFuzzifyMethod method);
-	void Fuzzify(const char * const& nameOfFLV, const float val);
+	AI_API cFuzzyModule();
+	AI_API virtual ~cFuzzyModule();
+	AI_API cFuzzyVariable* CreateFLV(const char * const& varName);
+	AI_API void AddRule(cFuzzyTerm* antecedent, cFuzzyTerm* consequent);
+	AI_API float DeFuzzify(const char * const& key, const DeFuzzifyMethod method);
+	AI_API void Fuzzify(const char * const& nameOfFLV, const float val);
 
 protected:
 	void SetConfidencesofConsequentsToZero();
 
-protected:
+private:
 	int m_iNumSamples;
 	VarMap m_Variables;
 	std::vector<cFuzzyRule* > m_Rules;

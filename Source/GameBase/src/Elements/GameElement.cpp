@@ -10,7 +10,10 @@
 #include "stdafx.h"
 #include "GameElement.h"
 #include "2D/Sprite.h"
+#include "2D/Polygon.h"
 
+using namespace Graphics;
+using namespace GameBase;
 // ***************************************************************
 // Constructor
 // ***************************************************************

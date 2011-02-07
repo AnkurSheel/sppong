@@ -11,24 +11,28 @@
 #include "CollisionChecker.h"
 #include "2D/Polygon.h"
 
-class cCollisionChecker 
-	: public ICollisionChecker
+namespace Graphics
 {
-private:
+	class cCollisionChecker 
+		: public ICollisionChecker
+	{
+	private:
 
-	cCollisionChecker(const cCollisionChecker&){}
-	cCollisionChecker operator = (const cCollisionChecker&){}
-	bool NoOverlap(const D3DXVECTOR2 &axis, const cPolygon &polygon1, const cPolygon &polygon2, float & fLengthSquared);
-public:
-	cCollisionChecker();
-	~cCollisionChecker();
-	bool CheckFor2DCollisions(const cPolygon &polygonA, const cPolygon &polygonB);
-	static ICollisionChecker * TheCollisionChecker();
-	void Destroy();
-};
+		cCollisionChecker(const cCollisionChecker&){}
+		cCollisionChecker operator = (const cCollisionChecker&){}
+		bool NoOverlap(const D3DXVECTOR2 &axis, const cPolygon &polygon1, const cPolygon &polygon2, float & fLengthSquared);
+	public:
+		cCollisionChecker();
+		~cCollisionChecker();
+		bool CheckFor2DCollisions(const cPolygon &polygonA, const cPolygon &polygonB);
+		static ICollisionChecker * TheCollisionChecker();
+		void Destroy();
+	};
 
-static cCollisionChecker * s_pCollisionChecker = NULL;
+	static cCollisionChecker * s_pCollisionChecker = NULL;
+}
 
+using namespace Graphics;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -76,7 +80,7 @@ bool cCollisionChecker::CheckFor2DCollisions(const cPolygon &polygonA, const cPo
 		//Get the normal and normalise 
 		D3DXVECTOR2 axis(-edge.y, edge.x);
 		D3DXVec2Normalize(&axis, &axis);
-		
+
 		//Check to see if the polygons overlap along the current axis
 		if (NoOverlap(axis, polygonA, polygonB, fLengthSquared))
 			return false;
@@ -101,7 +105,7 @@ bool cCollisionChecker::CheckFor2DCollisions(const cPolygon &polygonA, const cPo
 		//Get the normal and normalise 
 		D3DXVECTOR2 axis(-edge.y, edge.x);
 		D3DXVec2Normalize(&axis, &axis);
-		
+
 		//Check to see if the polygons overlap along the current axis
 		if (NoOverlap(axis, polygonA, polygonB, fLengthSquared))
 			return false;
@@ -120,12 +124,12 @@ bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon &polyg
 	//Initialise the min/max values with the first value
 	poly1Min  = D3DXVec2Dot(&polygon1.m_pVertices[0], &axis);
 	poly1Max = D3DXVec2Dot(&polygon1.m_pVertices[0], &axis);
-		
+
 	//Get the highest and lowest dot products
 	for (int i = 1; i < polygon1.m_nNoOfVertices; i++)
 	{
 		float projection = D3DXVec2Dot(&polygon1.m_pVertices[i], &axis);
-			
+
 		if (projection < poly1Min)
 		{
 			poly1Min = projection;
@@ -141,13 +145,13 @@ bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon &polyg
 	float poly2Min, poly2Max;
 	poly2Min  = D3DXVec2Dot(&polygon2.m_pVertices[0], &axis);
 	poly2Max = D3DXVec2Dot(&polygon2.m_pVertices[0], &axis);
-		
+
 	//Project onto the axis and get the min/max values
 	for (int i = 1; i < polygon2.m_nNoOfVertices; i++)
 	{
 		//Project onto the axis
 		float projection = D3DXVec2Dot(&polygon2.m_pVertices[i], &axis);
-			
+
 		if (projection < poly2Min)
 		{
 			poly2Min = projection;

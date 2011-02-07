@@ -22,6 +22,8 @@
 #include "Sound.h"
 #include "Input/MouseZone.h"
 
+using namespace MySound;
+using namespace Graphics;
 // ***************************************************************
 // Constructor
 // ***************************************************************

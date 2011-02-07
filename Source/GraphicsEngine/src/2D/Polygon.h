@@ -11,16 +11,18 @@
 #define Polygon_h__
 
 #include "GraphicEngineDefines.h"
-class cPolygon
+namespace Graphics
 {
-public:
-	GRAPHIC_API cPolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices);
-	GRAPHIC_API ~cPolygon();
-	GRAPHIC_API void Translate(const D3DXVECTOR2 & trans);
-	
-public:
-	D3DXVECTOR2 *	m_pVertices;
-	int				m_nNoOfVertices;
-};
+	class cPolygon
+	{
+	public:
+		GRAPHIC_API cPolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices);
+		GRAPHIC_API ~cPolygon();
+		GRAPHIC_API void Translate(const D3DXVECTOR2 & trans);
 
+	public:
+		D3DXVECTOR2 *	m_pVertices;
+		int				m_nNoOfVertices;
+	};
+}
 #endif // Polygon_h__

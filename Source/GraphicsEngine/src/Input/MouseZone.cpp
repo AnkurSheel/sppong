@@ -10,31 +10,36 @@
 #include "stdafx.h"
 #include "MouseZone.h"
 
-struct stHotSpot
+namespace Graphics
 {
-	int					m_iZoneXPos;
-	int					m_iZoneYPos;
-	int					m_iZoneHeight;
-	int					m_iZoneWidth;
-	bool				m_bActive;
-	//LPTSTR				m_szZoneName;
-	char *				m_szZoneName;
-	eMouseClickType		m_eClickType;
-};
+	struct stHotSpot
+	{
+		int					m_iZoneXPos;
+		int					m_iZoneYPos;
+		int					m_iZoneHeight;
+		int					m_iZoneWidth;
+		bool				m_bActive;
+		//LPTSTR				m_szZoneName;
+		char *				m_szZoneName;
+		eMouseClickType		m_eClickType;
+	};
 
-class cMouseZone
-	: public IMouseZone
-{
-private:
-	list<stHotSpot>	m_HotSpots;
-public:
-	GRAPHIC_API cMouseZone();
-	GRAPHIC_API ~cMouseZone();
-	GRAPHIC_API void FreeZones();
-	GRAPHIC_API void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType);
-	GRAPHIC_API void RemoveZone(LPCTSTR szZoneName);
-	GRAPHIC_API bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName);
-};
+	class cMouseZone
+		: public IMouseZone
+	{
+	private:
+		list<stHotSpot>	m_HotSpots;
+	public:
+		cMouseZone();
+		~cMouseZone();
+		void FreeZones();
+		void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType);
+		void RemoveZone(LPCTSTR szZoneName);
+		bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName);
+	};
+}
+
+using namespace Graphics;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -67,7 +72,7 @@ void cMouseZone::FreeZones()
 // ***************************************************************
 void cMouseZone::AddZone( char const * const szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType )
 {
-	
+
 	stHotSpot hotSpot;
 	hotSpot.m_szZoneName = const_cast<char *>(szZoneName);
 	hotSpot.m_iZoneXPos = iPosX;
@@ -76,7 +81,7 @@ void cMouseZone::AddZone( char const * const szZoneName, const int iPosX, const 
 	hotSpot.m_iZoneHeight = iHeight;
 	hotSpot.m_eClickType = eClickType;
 	hotSpot.m_bActive = true;
-	
+
 	m_HotSpots.push_back(hotSpot);
 }
 // ***************************************************************
@@ -103,7 +108,7 @@ void cMouseZone::RemoveZone( LPCTSTR szZoneName )
 // ***************************************************************
 // Checks if any zone is selected
 // ***************************************************************
-GRAPHIC_API bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName )
+bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName )
 {
 	// check if a click has taken place or not
 	if (!(pbMouseButtons[RIGHTBUTTON] || pbMouseButtons[LEFTBUTTON]))

@@ -12,38 +12,43 @@
 
 #include "GameBaseDefines.h"
 #include "Constants.h"
-#include "2D/Polygon.h"
 
-class ISprite;
-
-class cGameElement
+namespace Graphics
 {
-private :
-	cGameElement(const cGameElement&){}
-	cGameElement operator =(const cGameElement&){}
-protected:
-	GAMEBASE_API cGameElement();
-public:
-	GAMEBASE_API ~cGameElement();
-	GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
-	GAMEBASE_API virtual void SetBoundingRectangle();
-	GAMEBASE_API virtual cPolygon& GetBoundingRectangle();
-	GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
-	GAMEBASE_API virtual const D3DXVECTOR3& GetPosition();
-	GAMEBASE_API virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
-	GAMEBASE_API virtual void SetSprite(ISprite* const sprite );
-	GAMEBASE_API virtual const ISprite * GetSprite() const;
-	GAMEBASE_API virtual void Cleanup();
-	GAMEBASE_API virtual void OnLostDevice();
-	GAMEBASE_API virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
+	class ISprite;
+	class cPolygon;
+}
 
-protected:
-	ISprite*		m_pSprite;
-	D3DXVECTOR3		m_vPosition;
-	D3DXVECTOR3		m_vPrevPosition;
-	cPolygon *		m_pBoundingPolygon;
-	char			m_strFileName[MAX_FILENAME_WIDTH];
-};
+namespace GameBase
+{
+	class cGameElement
+	{
+	private :
+		cGameElement(const cGameElement&){}
+		cGameElement operator =(const cGameElement&){}
+	protected:
+		GAMEBASE_API cGameElement();
+	public:
+		GAMEBASE_API ~cGameElement();
+		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
+		GAMEBASE_API virtual void SetBoundingRectangle();
+		GAMEBASE_API virtual Graphics::cPolygon& GetBoundingRectangle();
+		GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
+		GAMEBASE_API virtual const D3DXVECTOR3& GetPosition();
+		GAMEBASE_API virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = Graphics::WHITE, const RECT* pSrcRect = NULL);
+		GAMEBASE_API virtual void SetSprite(Graphics::ISprite* const sprite );
+		GAMEBASE_API virtual const Graphics::ISprite * GetSprite() const;
+		GAMEBASE_API virtual void Cleanup();
+		GAMEBASE_API virtual void OnLostDevice();
+		GAMEBASE_API virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
 
+	protected:
+		Graphics::ISprite *		m_pSprite;
+		D3DXVECTOR3				m_vPosition;
+		D3DXVECTOR3				m_vPrevPosition;
+		Graphics::cPolygon *	m_pBoundingPolygon;
+		char					m_strFileName[MAX_FILENAME_WIDTH];
+	};
 #include "GameElement.inl"
+}
 #endif

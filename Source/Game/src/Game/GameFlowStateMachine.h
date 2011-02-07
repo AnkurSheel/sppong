@@ -16,7 +16,7 @@
 class IGameFlowStates;
 
 class cGameFlowStateMachine :
-	public cStateMachine<cGame>
+	public AI::cStateMachine<cGame>
 {
 public:
 	cGameFlowStateMachine(cGame *pGame);

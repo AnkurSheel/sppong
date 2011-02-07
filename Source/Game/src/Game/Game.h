@@ -12,17 +12,25 @@
 
 #include "Essentials/BaseApp.h"
 
-class ISprite;
+namespace Graphics
+{
+	class ISprite;
+	class IMouseZone;
+}
+
 class cScore;
 
 class cPongGameElement;
 
 class cGameFlowStateMachine;
 
-class IMouseZone;
-class ISound;
+namespace MySound
+{
+	class ISound;
+}
+
 class cGame 
-	: public IBaseApp
+	: public Graphics::IBaseApp
 {
 private:
 	enum PONGGAMEELEMENTS
@@ -63,23 +71,22 @@ public:
 	void CheckForCollisions();
 
 private:
-	LPDIRECT3DDEVICE9		m_pD3dDevice;
-	UINT					m_iDisplayHeight ;		// the display height of the window
-	UINT					m_iDisplayWidth ;		// the display width of the window
-	cPongGameElement*		m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
-	cScore*					m_pScore;				// ptr to Scoreboard
-	ISprite*				m_pTitleScreenSprite;	// the sprite for the title screen
-	ISprite*				m_pCursorSprite;		// the sprite for the title screen
-	ISprite*				m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
-	ISprite*				m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
-	ISprite*				m_pQuitSprite;		// the sprite for the Single Player Menu
-	ISprite*				m_pTableSprite;		// the sprite for the Single Player Menu
-	ISound*					m_pSound;
-	bool					m_bDisplayFPS;
-	bool					m_bSinglePlayer;
-	cGameFlowStateMachine *	m_pStateMachine;
-
-	IMouseZone*				m_pMouseZones;
+	LPDIRECT3DDEVICE9			m_pD3dDevice;
+	UINT						m_iDisplayHeight ;		// the display height of the window
+	UINT						m_iDisplayWidth ;		// the display width of the window
+	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
+	cScore*						m_pScore;				// ptr to Scoreboard
+	Graphics::ISprite *			m_pTitleScreenSprite;	// the sprite for the title screen
+	Graphics::ISprite *			m_pCursorSprite;		// the sprite for the title screen
+	Graphics::ISprite *			m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
+	Graphics::ISprite *			m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
+	Graphics::ISprite *			m_pQuitSprite;		// the sprite for the Single Player Menu
+	Graphics::ISprite *			m_pTableSprite;		// the sprite for the Single Player Menu
+	MySound::ISound *			m_pSound;
+	bool						m_bDisplayFPS;
+	bool						m_bSinglePlayer;
+	cGameFlowStateMachine *		m_pStateMachine;
+	Graphics::IMouseZone *		m_pMouseZones;
 
 private:
 	friend class cStateTitleScreen;

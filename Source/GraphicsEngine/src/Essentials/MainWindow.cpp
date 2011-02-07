@@ -16,55 +16,60 @@
 #include "fps/FPS.h"
 #include "CollisionChecker.h"
 
-class cMainWindow
-	: public IMainWindow
+namespace Graphics
 {
+	class cMainWindow
+		: public IMainWindow
+	{
 
-private:
-	cMainWindow(const cMainWindow&){}
-	cMainWindow operator =(const cMainWindow&){}
-	 void RegisterWin() ;
-	 HWND CreateMyWindow(const int &nCmdShow, const char * const  lpWindowTitle);
-	 LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
-	 void OnRender();
-	 void OnDestroyDevice();
-	 void OnResetDevice();
-	 void OnLostDevice();
-	 void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd);
-	 void HandleLostDevice(HRESULT hr);
-	 void GetWinRect() ;
-	 void MoveWin() ;
-	 void GetInput()  const;
-	static LRESULT CALLBACK StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
-public:
-	cMainWindow() ;
-	 ~cMainWindow() ;
-	HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp) ;
-	//IMainWindow * TheWindow() ;
-	void Run();
-	void DisplayFPS();
-	float GetElapsedTime() const;
-	float GetRunningTime() const;
-	void LockKey( const DWORD dwKey );
-	long GetAbsXMousePos() const;
-	long GetAbsYMousePos() const;
+	private:
+		cMainWindow(const cMainWindow&){}
+		cMainWindow operator =(const cMainWindow&){}
+		void RegisterWin() ;
+		HWND CreateMyWindow(const int &nCmdShow, const char * const  lpWindowTitle);
+		LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
+		void OnRender();
+		void OnDestroyDevice();
+		void OnResetDevice();
+		void OnLostDevice();
+		void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd);
+		void HandleLostDevice(HRESULT hr);
+		void GetWinRect() ;
+		void MoveWin() ;
+		void GetInput()  const;
+		static LRESULT CALLBACK StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
+	public:
+		cMainWindow() ;
+		~cMainWindow() ;
+		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp) ;
+		//IMainWindow * TheWindow() ;
+		void Run();
+		void DisplayFPS();
+		float GetElapsedTime() const;
+		float GetRunningTime() const;
+		void LockKey( const DWORD dwKey );
+		long GetAbsXMousePos() const;
+		long GetAbsYMousePos() const;
 
-private:
-	HWND			m_Hwnd ;				// holds the window handle
-	HINSTANCE		m_hInstance ;			// holds the application instance
-	int				m_iClientWidth ;		// the width of the client area
-	int				m_iClientHeight ;		// the height of the client area
-	int				m_iTopPos ;				// the Y coordinate of the top left corner of the window
-	int				m_iLeftPos ;			// the X coordinate of the top left corner of the window
-	IBaseApp *		m_pGameApp;				// pointer to the game app
-	int				m_iFullScreenWidth ;	// the full screen width
-	int				m_iFullScreenHeight ;	// the full screen height
-	ITimer *		m_pGameTimer;			// pointer to a game timer
-	cInput*			m_pInput;				// pointer to input class
-	cFPS*			m_pFPS;
-};
+	private:
+		HWND					m_Hwnd ;				// holds the window handle
+		HINSTANCE				m_hInstance ;			// holds the application instance
+		int						m_iClientWidth ;		// the width of the client area
+		int						m_iClientHeight ;		// the height of the client area
+		int						m_iTopPos ;				// the Y coordinate of the top left corner of the window
+		int						m_iLeftPos ;			// the X coordinate of the top left corner of the window
+		IBaseApp *				m_pGameApp;				// pointer to the game app
+		int						m_iFullScreenWidth ;	// the full screen width
+		int						m_iFullScreenHeight ;	// the full screen height
+		Utilities::ITimer *		m_pGameTimer;			// pointer to a game timer
+		Graphics::cInput *		m_pInput;				// pointer to input class
+		Graphics::cFPS *		m_pFPS;
+	};
+	static IMainWindow * s_pWindow = NULL;
+}
 
-static IMainWindow * s_pWindow = NULL;
+using namespace Utilities;
+using namespace Graphics;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -98,12 +103,12 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const c
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
-	
+
 	m_pGameApp = pGameApp;
 
 	m_iFullScreenWidth = iFullScreenWidth ; 
 	m_iFullScreenHeight = iFullScreenHeight ;
-	
+
 	//Register the Window Class
 	RegisterWin();
 
@@ -157,7 +162,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWind
 		lpWindowTitle,
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		100,100,
 		NULL, 
 		NULL, 
 		m_hInstance, 
@@ -296,7 +301,7 @@ void cMainWindow::Run()
 void cMainWindow::OnRender()
 {
 	HRESULT hr;
-	
+
 	// update the game timer
 	if (m_pGameTimer)
 	{

@@ -10,6 +10,9 @@
 #include "stdafx.h"
 #include "DxBase.h" 
 
+using namespace Utilities;
+using namespace Graphics;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************

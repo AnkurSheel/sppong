@@ -7,41 +7,45 @@
 
 using namespace std;
 using namespace FMOD;
-
-struct stSounds 
+using namespace Utilities;
+namespace MySound
 {
-	Sound * pSound;
-	Channel *pChannel;
-	stSounds();
+	struct stSounds 
+	{
+		Sound * pSound;
+		Channel *pChannel;
+		stSounds();
 
-};
+	};
 
-typedef map<int, stSounds *> TSoundMap;
-typedef pair<int, stSounds *> TSoundPair;
+	typedef map<int, stSounds *> TSoundMap;
+	typedef pair<int, stSounds *> TSoundPair;
 
-class cSound
-	: public ISound
-{
-private:
-	bool CheckError(FMOD_RESULT ciResult);
-	void Shutdown();
-public:
-	cSound();
-	~cSound();
-	void Init();
-	void CreateSound(int index, const char * const strFilename);
-	void PlaySound(int iSoundIndex);
-	void StopSound(int iSoundIndex);
-	void Update();
-	void CreateStream( int index, const char * const strFilename );
-	void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex);
-	void RemoveSound(int iSoundIndex);
-private:
-	System *			m_pSystem;
-	TSoundMap			m_apSounds;
-	bool				bValid;
-};
+	class cSound
+		: public ISound
+	{
+	private:
+		bool CheckError(FMOD_RESULT ciResult);
+		void Shutdown();
+	public:
+		cSound();
+		~cSound();
+		void Init();
+		void CreateSound(int index, const char * const strFilename);
+		void PlaySound(int iSoundIndex);
+		void StopSound(int iSoundIndex);
+		void Update();
+		void CreateStream( int index, const char * const strFilename );
+		void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex);
+		void RemoveSound(int iSoundIndex);
+	private:
+		System *			m_pSystem;
+		TSoundMap			m_apSounds;
+		bool				bValid;
+	};
+}
 // ***************************************************************
+using namespace MySound;
 
 stSounds::stSounds() 
 : pSound(NULL)
@@ -84,7 +88,7 @@ void cSound::Init()
 
 		return;
 	}
-	
+
 	result= m_pSystem->getVersion(&iVersion);
 	if(!CheckError(result))
 	{
@@ -356,7 +360,7 @@ void cSound::RemoveSound( int iSoundIndex )
 	iterSound->second->pSound->getName(strFileName, MAX_FILENAME_WIDTH);
 	sprintf_s(strReason, 100, "Removing Sound : %s\n", strFileName);
 	Log_Write_L2(ILogger::LT_EVENT, strReason);
-	
+
 	iterSound->second->pSound->release();
 	SAFE_DELETE(iterSound->second);
 	m_apSounds.erase(iSoundIndex);

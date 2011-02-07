@@ -10,7 +10,9 @@
 #include "stdafx.h"
 #include "XMLFileIO.h"
 
-using namespace std;
+//using namespace std;
+using namespace Utilities;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
