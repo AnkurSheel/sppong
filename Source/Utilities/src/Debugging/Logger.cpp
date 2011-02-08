@@ -12,6 +12,7 @@
 #include "Logger.h"
 #include <time.h>
 #include "FileIO/XMLFileIO.h"
+#include <stdlib.h>
 
 namespace Utilities
 {
@@ -34,17 +35,16 @@ namespace Utilities
 		void LogTypeToString( LogType eLogEntryType, char * str );
 
 	private:
-		FILE*		m_fStdOut;
-		HANDLE		m_hStdOut;
-		cXMLFileIO	m_fXml;
-		static int	m_iCurrentId;
+		FILE *			m_fStdOut;
+		HANDLE			m_hStdOut;
+		IXMLFileIO	*	m_fXml;
+		static int		m_iCurrentId;
 
 	};
 
 
 	static cLogger * s_pLogger = NULL;
 }
-using namespace std;
 using namespace Utilities;
 
 int cLogger::m_iCurrentId = 1;
@@ -63,6 +63,7 @@ cLogger::~cLogger()
 	{
 		fclose(m_fStdOut);
 	}
+	SAFE_DELETE(m_fXml);
 }
 // ***************************************************************
 
@@ -86,18 +87,19 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 	{
 		fopen_s(&m_fStdOut, cfName, "w");
 	}
-	m_fXml.Init("RunTimeLog", "RunTimeLog", "BasicXSLT.xsl");
-	m_fXml.AddNode("RunTimeLog", "LogHeader", "LogHeader", "");
-	m_fXml.AddNode("RunTimeLog", "LogEvents", "LogEvents", "");
+	m_fXml = IXMLFileIO::CreateXMLFile();
+	m_fXml->Init("RunTimeLog", "RunTimeLog", "BasicXSLT.xsl");
+	m_fXml->AddNode("RunTimeLog", "LogHeader", "LogHeader", "");
+	m_fXml->AddNode("RunTimeLog", "LogEvents", "LogEvents", "");
 
 #if SYSTEM_DEBUG_LEVEL == 3
-	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "Extra Comprehensive debugging information (Level 3)");
+	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Extra Comprehensive debugging information (Level 3)");
 #elif SYSTEM_DEBUG_LEVEL == 2
-	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "Comprehensive debugging information (Level 2)");
+	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Comprehensive debugging information (Level 2)");
 #elif SYSTEM_DEBUG_LEVEL == 1
-	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "Retail debugging information (Level 1)");
+	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Retail debugging information (Level 1)");
 #else
-	m_fXml.AddNode("LogHeader", "OutputLevel", "OutputLevel", "No debugging information (Level 0)");
+	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "No debugging information (Level 0)");
 #endif
 
 }
@@ -138,7 +140,7 @@ int cLogger::Log( const char * const lpFmt, ... )
 
 void cLogger::Close()
 {
-	s_pLogger->m_fXml.Save("log.xml");
+	s_pLogger->m_fXml->Save("log.xml");
 }
 // ***************************************************************
 
@@ -146,25 +148,25 @@ void cLogger::WriteLogEntry( LogType eLogEntryType, const char * const strSource
 {
 	char strEvent[100];
 	sprintf_s(strEvent, 100, "LogEvent%d", m_iCurrentId);
-	m_fXml.AddNode("LogEvents", strEvent, "LogEvent", "");
-	m_fXml.AddAttribute(strEvent,"id", m_iCurrentId);
+	m_fXml->AddNode("LogEvents", strEvent, "LogEvent", "");
+	m_fXml->AddAttribute(strEvent,"id", m_iCurrentId);
 	char str[100];
 	LogTypeToString(eLogEntryType, str);
-	m_fXml.AddNode(strEvent, "Type", "Type", str);
+	m_fXml->AddNode(strEvent, "Type", "Type", str);
 
 	time_t currentTime;
 	time(&currentTime );
 	ctime_s(str, 100, &currentTime);
 	str[24] = ' '; // remove the '/n' from the time string
 
-	m_fXml.AddNode(strEvent, "TimeIndex", "TimeIndex", str);
+	m_fXml->AddNode(strEvent, "TimeIndex", "TimeIndex", str);
 
-	m_fXml.AddNode(strEvent, "File", "File", strSourceFile);
-	m_fXml.AddNode(strEvent, "Function", "Function", strFunction);
+	m_fXml->AddNode(strEvent, "File", "File", strSourceFile);
+	m_fXml->AddNode(strEvent, "Function", "Function", strFunction);
 
 	_itoa_s(iSourceLine, str, 100, 10);
-	m_fXml.AddNode(strEvent, "LineNumber", "LineNumber", str);
-	m_fXml.AddNode(strEvent, "Message", "Message", strMessage);
+	m_fXml->AddNode(strEvent, "LineNumber", "LineNumber", str);
+	m_fXml->AddNode(strEvent, "Message", "Message", strMessage);
 	m_iCurrentId++;
 }
 

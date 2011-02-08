@@ -10,33 +10,22 @@
 #ifndef XMLFileIO_h__
 #define XMLFileIO_h__
 
-#include "tinyxml.h"
-#include <string>
-#include <map>
-
 namespace Utilities
 {
-	class cXMLFileIO
+	class IXMLFileIO
 	{
-	private:
-		typedef std::map<const std::string, const TiXmlElement* > ElementMap;
-
-		TiXmlDocument*	m_pDoc;  
-		ElementMap		m_ElementMap;
-		TiXmlElement*	m_pRoot;
-
 	public:
-		cXMLFileIO();
-		~cXMLFileIO();
-		void Init(const char * const strRootId, const char * const strRootName, const char * const strStyleSheetPath = NULL);
-		void AddComment(const char * const strParentId, const char * const strComment);
-		void AddNode(const char * const strParentId, const char * const strId, const char * const strNode, const char * const strNodeValue);
-		void AddAttribute(const char * const strId, const char * const strAttributeNode, const int iValue );
-		void AddAttribute(const char * const strId, const char * const strAttributeNode, const char * const strValue );
-		void Save(const char * const strFilePath);
-		const char * const Load(const std::string strFilePath);
-		const char * const GetNodeName(const char * const strParent, const int iIndex) ;
-		const char * const GetNodeValue(const char * const strNode);
+		virtual ~IXMLFileIO(){};
+		virtual void Init(const char * const strRootId, const char * const strRootName, const char * const strStyleSheetPath = NULL) = 0;
+		virtual void AddComment(const char * const strParentId, const char * const strComment) = 0;
+		virtual void AddNode(const char * const strParentId, const char * const strId, const char * const strNode, const char * const strNodeValue) = 0;
+		virtual void AddAttribute(const char * const strId, const char * const strAttributeNode, const int iValue ) = 0;
+		virtual void AddAttribute(const char * const strId, const char * const strAttributeNode, const char * const strValue ) = 0;
+		virtual void Save(const char * const strFilePath) = 0;
+		virtual const char * const Load(const char * const strFilePath) = 0;
+		virtual const char * const GetNodeName(const char * const strParent, const int iIndex) = 0;
+		virtual const char * const GetNodeValue(const char * const strNode) = 0;
+		static IXMLFileIO * CreateXMLFile();
 	};
 }
 #endif // XMLFileIO_h__

@@ -1,7 +1,7 @@
 // ***************************************************************
 // returns the mouse movement in X direction
 // ***************************************************************
-inline const long cInput::GetMouseXDelta() const
+inline long cInput::GetMouseXDelta() const
 {
 	return m_MouseState.lX;
 }
@@ -10,7 +10,7 @@ inline const long cInput::GetMouseXDelta() const
 // ***************************************************************
 // returns the mouse movement in Y direction
 // ***************************************************************
-inline const long cInput::GetMouseYDelta() const
+inline long cInput::GetMouseYDelta() const
 {
 	return m_MouseState.lY;
 }
@@ -19,7 +19,7 @@ inline const long cInput::GetMouseYDelta() const
 // ***************************************************************
 // returns the mouse movement in Z direction
 // ***************************************************************
-inline const long cInput::GetMouseZDelta() const
+inline long cInput::GetMouseZDelta() const
 {
 	return m_MouseState.lZ;
 }

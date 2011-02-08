@@ -12,6 +12,32 @@
 #include "2D/font.h"
 #include "Constants.h"
 
+namespace Graphics
+{
+	class cFPS
+		: public IFPS
+	{
+	private:
+		cFPS(const cFPS&){}
+		cFPS operator = (const cFPS&){}
+	public:
+		cFPS();
+		~cFPS();
+		void Render(LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue);
+		void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color = BLACK);
+		void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
+		void OnLostDevice();
+		void Cleanup();
+	private:
+		IFont *		m_pFont;
+		RECT		m_BoundingRect;
+		DWORD		m_dwFormat;
+		char		m_strValue[20];
+		D3DCOLOR	m_FontColor;
+
+	};
+}
+
 using namespace Graphics;
 // ***************************************************************
 // Constructor
@@ -93,3 +119,10 @@ void cFPS::Cleanup()
 	SAFE_DELETE(m_pFont);
 }
 // ***************************************************************
+
+IFPS* IFPS::CreateFPS()
+{
+	cFPS * pFPS= DEBUG_NEW cFPS();
+	return pFPS;
+
+}

@@ -62,8 +62,8 @@ namespace Graphics
 		int						m_iFullScreenWidth ;	// the full screen width
 		int						m_iFullScreenHeight ;	// the full screen height
 		Utilities::ITimer *		m_pGameTimer;			// pointer to a game timer
-		Graphics::cInput *		m_pInput;				// pointer to input class
-		Graphics::cFPS *		m_pFPS;
+		Graphics::IInput *		m_pInput;				// pointer to input class
+		Graphics::IFPS *		m_pFPS;
 	};
 	static IMainWindow * s_pWindow = NULL;
 }
@@ -108,6 +108,8 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const c
 
 	m_iFullScreenWidth = iFullScreenWidth ; 
 	m_iFullScreenHeight = iFullScreenHeight ;
+
+	IDXBase::CreateDXBase();
 
 	//Register the Window Class
 	RegisterWin();
@@ -309,7 +311,7 @@ void cMainWindow::OnRender()
 	}
 
 	// check if the device is available
-	hr = cDXBase::GetInstance().IsAvailable() ;
+	hr = IDXBase::GetInstance()->IsAvailable() ;
 
 	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
 	{
@@ -322,7 +324,7 @@ void cMainWindow::OnRender()
 	if(SUCCEEDED(hr))
 	{
 
-		hr = cDXBase::GetInstance().BeginRender();
+		hr = IDXBase::GetInstance()->BeginRender();
 		if (SUCCEEDED(hr))
 		{
 			// process the user inputs according to game logic
@@ -331,7 +333,7 @@ void cMainWindow::OnRender()
 			// render the game graphics
 			m_pGameApp->Render();
 
-			cDXBase::GetInstance().EndRender(hr);
+			IDXBase::GetInstance()->EndRender(hr);
 		}
 	}
 }
@@ -352,7 +354,7 @@ void cMainWindow::OnDestroyDevice()
 
 
 	// release the graphic object
-	cDXBase::GetInstance().Cleanup();
+	IDXBase::GetInstance()->Cleanup();
 
 	ReleaseCapture() ;
 	PostQuitMessage(0) ;
@@ -366,11 +368,11 @@ void cMainWindow::OnDestroyDevice()
 // ***************************************************************
 void cMainWindow::OnResetDevice()
 {
-	LPDIRECT3DDEVICE9 pDevice = cDXBase::GetInstance().GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->GetDevice();
 	if (pDevice)
 	{
 		GetWinRect() ;
-		cDXBase::GetInstance().ResetDevice();
+		IDXBase::GetInstance()->ResetDevice();
 		if (m_pGameApp)
 		{
 			m_pGameApp->OnResetDevice() ;
@@ -390,22 +392,22 @@ void cMainWindow::OnResetDevice()
 void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 {
 	// initialize DirectX
-	cDXBase::GetInstance().Init(hWnd, TAN);
+	IDXBase::GetInstance()->Init(hWnd, TAN);
 
 	m_pGameTimer = ITimer::CreateTimer();
 	m_pGameTimer->Start();
 
-	m_pInput = DEBUG_NEW cInput();
+	m_pInput = IInput::CreateInputDevice();
 	m_pInput->Init(hInst, hWnd, m_iClientWidth, m_iClientHeight);
 
-	m_pFPS = DEBUG_NEW cFPS();
-	m_pFPS->Init(cDXBase::GetInstance().GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
+	m_pFPS = IFPS::CreateFPS();
+	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
 
 
 #ifdef WINDOWED
-	m_pGameApp->OnInit(cDXBase::GetInstance().GetDevice(), m_iClientHeight, m_iClientWidth);
+	m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), m_iClientHeight, m_iClientWidth);
 #else
-	m_pGameApp->OnInit(cDXBase::GetInstance().GetDevice(), cDXBase::GetInstance().GetDisplayHeight(), cDXBase::GetInstance().GetDisplayWidth());
+	m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), IDXBase::GetInstance()->GetDisplayHeight(), IDXBase::GetInstance()->GetDisplayWidth());
 #endif
 
 	SetForegroundWindow(m_Hwnd);
@@ -428,7 +430,7 @@ void cMainWindow::HandleLostDevice(HRESULT hr)
 		if(hr == D3DERR_DEVICENOTRESET) 
 		{
 			OnLostDevice();
-			hr = cDXBase::GetInstance().ResetDevice() ;
+			hr = IDXBase::GetInstance()->ResetDevice() ;
 
 			OnResetDevice();
 		}
@@ -477,7 +479,7 @@ void cMainWindow::MoveWin()
 // ***************************************************************
 void cMainWindow::DisplayFPS()
 {
-	m_pFPS->Render(cDXBase::GetInstance().GetDevice(), m_pGameTimer->GetFPS());
+	m_pFPS->Render(IDXBase::GetInstance()->GetDevice(), m_pGameTimer->GetFPS());
 }
 // ***************************************************************
 
