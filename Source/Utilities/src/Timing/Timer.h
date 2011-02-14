@@ -7,26 +7,45 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Timer_h__
-#define Timer_h__
 
-#include "UtilitiesDefines.h"
+#include "stdafx.h"
+#include "Timer.hxx"
 
 namespace Utilities
 {
-	class ITimer
+	class cTimer
+		: public ITimer
 	{
-	public:
-		virtual ~ITimer(){}
-		UTILITIES_API virtual void Start() = 0;
-		UTILITIES_API virtual void Stop() = 0;
-		UTILITIES_API virtual void Update() = 0; 
+	private:
+		cTimer(const cTimer&){}
+		cTimer operator =(const cTimer&){}
 
-		UTILITIES_API virtual bool IsStopped() const = 0;
-		UTILITIES_API virtual float GetFPS() const = 0;
-		UTILITIES_API virtual float GetRunningTime() const = 0;
-		UTILITIES_API virtual float GetElapsedTime() const = 0; 
-		UTILITIES_API static ITimer * CreateTimer();
+	public:
+		cTimer();
+		~cTimer();
+		void Start();
+		void Stop();
+		void Update(); 
+
+		bool IsStopped() const;
+		float GetFPS() const;
+		float GetRunningTime() const;
+		float GetElapsedTime() const; 
+
+	private:
+		INT64		m_iTicksPerSecond;
+		INT64		m_iCurrentTime;
+		INT64		m_iLastTime;
+		INT64		m_iLastFPSUpdate;
+		INT64		m_iFPSUpdateInterval;
+		UINT		m_iNumFrames;
+		float		m_fRunningTime;
+		float		m_fTimeElapsed;
+		float		m_fFPS;
+		bool		m_bTimerStopped;
 	};
+
+#include "Timer.inl"
+
+	static cTimer * s_pTimer = NULL;
 }
-#endif // Timer_h__

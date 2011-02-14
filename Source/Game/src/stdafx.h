@@ -38,22 +38,14 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 
+#include <stdio.h>
 #include <windows.h>
-//#include <tchar.h>
-#include<mmsystem.h>
-#include <vector>
-//#include <strsafe.h>
 #include <crtdbg.h>
-#include <d3d9.h>
 #include <d3dx9.h>
 #include <dinput.h>
 #include "Macros.h"
-#include <list>
-#include "Debugging/Logger.h"
-using namespace std;
+#include "Debugging/Logger.hxx"
 
-//#define new DEBUG_CLIENTBLOCK
-//#define DEBUG_CLIENTBLOCK new( _CLIENT_BLOCK, __FILE__, __LINE__)
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
 #else

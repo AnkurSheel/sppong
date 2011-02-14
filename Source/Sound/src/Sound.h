@@ -1,32 +1,48 @@
-// ***************************************************************
-//  Sound   version:  1.0   Ankur Sheel  date: 12/30/2008
-//  -------------------------------------------------------------
-//  
-//  -------------------------------------------------------------
-//  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
-// 
-// ***************************************************************
-#ifndef Sound_h__
-#define Sound_h__
+#include "Sound.hxx"
+#include "FMOD/fmod.h"
+#include <map>
 
-#include "SoundDefines.h"
+namespace FMOD
+{
+	class Sound;
+	class Channel;
+	class System;
+}
 
 namespace MySound
 {
-	class ISound
+	struct stSounds 
 	{
+		FMOD::Sound * pSound;
+		FMOD::Channel *pChannel;
+		stSounds();
+	};
+
+	typedef std::map<int, stSounds *> TSoundMap;
+	typedef std::pair<int, stSounds *> TSoundPair;
+
+	class cSound
+		: public ISound
+	{
+	private:
+		bool CheckError(FMOD_RESULT ciResult);
+		void Shutdown();
 	public:
-		virtual ~ISound(){};
-		SOUND_API virtual void Init() = 0;
-		SOUND_API static ISound * CreateSound();
-		SOUND_API virtual void CreateSound( int index, const char * const strFilename ) = 0;
-		SOUND_API virtual void PlaySound(int iSoundIndex) = 0;
-		SOUND_API virtual void Update() = 0;
-		SOUND_API virtual void CreateStream( int index, const char * const strFilename ) = 0;
-		SOUND_API virtual void StopSound(int iSoundIndex) = 0;
-		SOUND_API virtual void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex) = 0;
-		SOUND_API virtual void RemoveSound(int iSoundIndex) = 0;
+		cSound();
+		~cSound();
+		void Init();
+		void CreateSound(int index, const char * const strFilename);
+		void PlaySound(int iSoundIndex);
+		void StopSound(int iSoundIndex);
+		void Update();
+		void CreateStream( int index, const char * const strFilename );
+		void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex);
+		void RemoveSound(int iSoundIndex);
+	private:
+		FMOD::System *		m_pSystem;
+		TSoundMap			m_apSounds;
+		bool				bValid;
 	};
 }
-#endif // Sound_h__
+// ***************************************************************
+using namespace MySound;

@@ -10,36 +10,8 @@
 #include "stdafx.h"
 #include "MouseZone.h"
 
-namespace Graphics
-{
-	struct stHotSpot
-	{
-		int					m_iZoneXPos;
-		int					m_iZoneYPos;
-		int					m_iZoneHeight;
-		int					m_iZoneWidth;
-		bool				m_bActive;
-		//LPTSTR				m_szZoneName;
-		char *				m_szZoneName;
-		eMouseClickType		m_eClickType;
-	};
-
-	class cMouseZone
-		: public IMouseZone
-	{
-	private:
-		list<stHotSpot>	m_HotSpots;
-	public:
-		cMouseZone();
-		~cMouseZone();
-		void FreeZones();
-		void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType);
-		void RemoveZone(LPCTSTR szZoneName);
-		bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName);
-	};
-}
-
 using namespace Graphics;
+using namespace std;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -94,7 +66,7 @@ void cMouseZone::RemoveZone( LPCTSTR szZoneName )
 	list <stHotSpot>::iterator iter;
 	for (iter = m_HotSpots.begin(); iter != m_HotSpots.end(); iter++)
 	{
-		if (_tcscmp(iter->m_szZoneName, szZoneName) == 0)
+		if (strcmp(iter->m_szZoneName, szZoneName) == 0)
 		{
 			if (iter->m_bActive)
 			{

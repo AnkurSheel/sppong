@@ -1,46 +1,47 @@
 // ***************************************************************
-//  Logger   version:  1.0   Ankur Sheel  date: 12/30/2008
+//  Logger   version:  1.0   Ankur Sheel  date: 2011/01/04
 //  -------------------------------------------------------------
-//  
+// 2011/01/04 : based on 
+//	     		http://archive.gamedev.net/reference/programming/features/xmltech/default.asp 
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Logger_h__
-#define Logger_h__
-
-#include "UtilitiesDefines.h"
-
-// code to create wide string version of __FILE__ 
-#define WIDEN2(x) L ## x
-#define WIDEN(x) WIDEN2(x)
-#define __WFILE__ WIDEN(__FILE__)
+#include "Logger.hxx"
 
 namespace Utilities
 {
-	class ILogger
-	{
-	public:
-		enum LogType
-		{
-			LT_UNKNOWN = -1,
-			LT_DEBUG,
-			LT_ERROR,
-			LT_WARNING,
-			LT_COMMENT,
-			LT_EVENT,
-			LT_GAME_MESSAGE,
-			LT_TOTAL
-		};
-	public:
-		virtual ~ILogger(){}
-		UTILITIES_API virtual void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL) = 0;
-		UTILITIES_API virtual int Log(const char * const  lpFmt, ...) = 0;
-		UTILITIES_API static void CreateLogger();
-		UTILITIES_API static ILogger * TheLogger();
-		UTILITIES_API void Destroy();
-		UTILITIES_API virtual void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage ) = 0;
-	};
+	class IXMLFileIO;
 }
-#endif // Logger_h__
+
+namespace Utilities
+{
+	class cLogger
+		: public ILogger
+	{
+	private:
+		cLogger(const cLogger&){}
+		cLogger operator =(const cLogger&){}
+
+	public:
+		cLogger();
+		~cLogger();
+		void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
+		int Log(const char * const  lpFmt, ...);
+		void Close();
+		void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
+
+	private:
+		void LogTypeToString( LogType eLogEntryType, char * str );
+
+	private:
+		FILE *			m_fStdOut;
+		HANDLE			m_hStdOut;
+		IXMLFileIO	*	m_fXml;
+		static int		m_iCurrentId;
+
+	};
+
+	static cLogger * s_pLogger = NULL;
+}

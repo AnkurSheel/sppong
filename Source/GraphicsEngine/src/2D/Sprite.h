@@ -7,26 +7,39 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Sprite_h__
-#define Sprite_h__
 
-#include "GraphicEngineDefines.h"
-#include "Constants.h"
+#include "Sprite.hxx"
 
-namespace Graphics
+namespace Graphics 
 {
-	class ISprite
+	class cSprite
+		: public ISprite
 	{
+	private :
+		cSprite(const cSprite&){}
+		cSprite operator =(const cSprite&){}
+
 	public:
-		virtual ~ISprite(){};
-		GRAPHIC_API virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const char  * const  strFilename) = 0;
-		GRAPHIC_API virtual void SetSize(const float fNewWidth, const float fNewHeight) = 0;
-		GRAPHIC_API virtual void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL) = 0;
-		GRAPHIC_API virtual void Cleanup() = 0;
-		GRAPHIC_API virtual UINT GetScaledHeight() const = 0;
-		GRAPHIC_API virtual UINT GetScaledWidth() const = 0;
-		GRAPHIC_API virtual D3DXVECTOR3 GetPosition() const = 0;
-		GRAPHIC_API static ISprite * CreateSprite();
+		cSprite();
+		~cSprite();
+		void Init(LPDIRECT3DDEVICE9 const pDevice, const char  * const  strFilename) ;
+		void SetSize(const float fNewWidth, const float fNewHeight);
+		void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+		void Cleanup();
+		UINT GetScaledHeight() const;
+		UINT GetScaledWidth() const;
+		D3DXVECTOR3 GetPosition() const;
+
+	private:
+
+		LPD3DXSPRITE		m_pSprite;		// ptr to the sprite 
+		LPDIRECT3DTEXTURE9	m_pTexture;		// the texture associated with this sprite
+		UINT				m_uiHeight;		// the height of the image
+		UINT				m_uiWidth;		// the width of the image
+		D3DXVECTOR3			m_vScale ;		// the scaling info for the image
+		D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
+		D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
+		char				m_strFilename[MAX_FILENAME_WIDTH];
 	};
+#include "Sprite.inl"
 }
-#endif // Sprite_h__

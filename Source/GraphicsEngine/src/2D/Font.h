@@ -1,5 +1,5 @@
 // ***************************************************************
-//  font   version:  1.0   Ankur Sheel  date: 05/16/2008
+//  Font   version:  1.0   Ankur Sheel  date: 05/16/2008
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,17 +7,23 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef font_h__
-#define font_h__
+#include "Font.hxx"
 
-#include "GraphicEngineDefines.h"
-
-class IFont
+namespace Graphics
 {
-public:
-	virtual ~IFont(){}
-	GRAPHIC_API virtual void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) = 0;
-	GRAPHIC_API virtual void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) = 0;
-	GRAPHIC_API static IFont * CreateMyFont();
-} ;
-#endif // font_h__
+	class cMyFont
+		: public IFont
+	{
+	private:
+		cMyFont(const cMyFont&){}
+		cMyFont operator =(const cMyFont&){}
+
+	public:
+		cMyFont() ;
+		~cMyFont() ;
+		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) ;
+		void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) ;
+	protected:
+		ID3DXFont	*m_pFont ;
+	} ;
+}

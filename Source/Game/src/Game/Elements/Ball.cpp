@@ -9,8 +9,8 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Ball.h"
-#include "2D/Sprite.h"
-#include "Essentials/MainWindow.h"
+#include "2D/Sprite.hxx"
+#include "Essentials/MainWindow.hxx"
 #include "2D/Polygon.h"
 
 using namespace Graphics;

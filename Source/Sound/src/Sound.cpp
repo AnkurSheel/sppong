@@ -1,50 +1,11 @@
 #include "stdafx.h"
 #include "Sound.h"
 #include "Fmod/fmod.hpp"
-#include "Debugging/Logger.h"
 #include "Fmod/fmod_errors.h"
-#include <map>
 
 using namespace std;
 using namespace FMOD;
 using namespace Utilities;
-namespace MySound
-{
-	struct stSounds 
-	{
-		Sound * pSound;
-		Channel *pChannel;
-		stSounds();
-
-	};
-
-	typedef map<int, stSounds *> TSoundMap;
-	typedef pair<int, stSounds *> TSoundPair;
-
-	class cSound
-		: public ISound
-	{
-	private:
-		bool CheckError(FMOD_RESULT ciResult);
-		void Shutdown();
-	public:
-		cSound();
-		~cSound();
-		void Init();
-		void CreateSound(int index, const char * const strFilename);
-		void PlaySound(int iSoundIndex);
-		void StopSound(int iSoundIndex);
-		void Update();
-		void CreateStream( int index, const char * const strFilename );
-		void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex);
-		void RemoveSound(int iSoundIndex);
-	private:
-		System *			m_pSystem;
-		TSoundMap			m_apSounds;
-		bool				bValid;
-	};
-}
-// ***************************************************************
 using namespace MySound;
 
 stSounds::stSounds() 

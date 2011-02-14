@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Paddle.h"
-#include "2D/Sprite.h"
+#include "2D/Sprite.hxx"
 #include "2D/Polygon.h"
 
 // ***************************************************************

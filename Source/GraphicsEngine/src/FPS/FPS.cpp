@@ -9,34 +9,8 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "FPS.h"
-#include "2D/font.h"
+#include "2D/Font.hxx"
 #include "Constants.h"
-
-namespace Graphics
-{
-	class cFPS
-		: public IFPS
-	{
-	private:
-		cFPS(const cFPS&){}
-		cFPS operator = (const cFPS&){}
-	public:
-		cFPS();
-		~cFPS();
-		void Render(LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue);
-		void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color = BLACK);
-		void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
-		void OnLostDevice();
-		void Cleanup();
-	private:
-		IFont *		m_pFont;
-		RECT		m_BoundingRect;
-		DWORD		m_dwFormat;
-		char		m_strValue[20];
-		D3DCOLOR	m_FontColor;
-
-	};
-}
 
 using namespace Graphics;
 // ***************************************************************
@@ -80,7 +54,7 @@ void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice,
 				const D3DXCOLOR& color /*= BLACK*/ )
 {
 	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, _T("Arial")) ;
+	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
 
 	m_BoundingRect.left = (long)vInitialPos.x- 75;
 	m_BoundingRect.right = m_BoundingRect.left + 150;
@@ -98,7 +72,7 @@ void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice,
 void cFPS::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice )
 {
 	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, _T("Arial")) ;
+	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
 }
 // ***************************************************************
 

@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\2D\Font.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\2D\Polygon.cpp"
 				>
 			</File>
@@ -211,6 +215,10 @@
 			</File>
 			<File
 				RelativePath=".\src\2D\Sprite.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\2D\Sprite.hxx"
 				>
 			</File>
 			<File
@@ -230,7 +238,7 @@
 			Name="Essentials"
 			>
 			<File
-				RelativePath=".\src\Essentials\BaseApp.h"
+				RelativePath=".\src\Essentials\BaseApp.hxx"
 				>
 			</File>
 			<File
@@ -239,6 +247,10 @@
 			</File>
 			<File
 				RelativePath=".\src\Essentials\DxBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Essentials\DxBase.hxx"
 				>
 			</File>
 			<File
@@ -253,6 +265,10 @@
 				RelativePath=".\src\Essentials\MainWindow.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\Essentials\MainWindow.hxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Input"
@@ -263,6 +279,10 @@
 			</File>
 			<File
 				RelativePath=".\src\Input\Input.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Input\Input.hxx"
 				>
 			</File>
 			<File
@@ -295,6 +315,10 @@
 				RelativePath=".\src\Input\MouseZone.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\Input\MouseZone.hxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="FPS"
@@ -307,6 +331,10 @@
 				RelativePath=".\src\FPS\FPS.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\FPS\FPS.hxx"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\src\CollisionChecker.cpp"
@@ -314,6 +342,10 @@
 		</File>
 		<File
 			RelativePath=".\src\CollisionChecker.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\CollisionChecker.hxx"
 			>
 		</File>
 		<File

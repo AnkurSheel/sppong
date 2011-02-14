@@ -33,7 +33,6 @@
 //#define DIRECTINPUT_VERSION 0x0800
 
 #include <windows.h>
-#include <d3d9.h>
 #include <d3dx9.h>
 #include "Macros.h"
 #include <crtdbg.h>

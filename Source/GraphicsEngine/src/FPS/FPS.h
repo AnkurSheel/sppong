@@ -7,21 +7,34 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef FPS_h__
-#define FPS_h__
+#include "FPS.hxx"
 
 namespace Graphics
 {
-	class IFPS
+	class IFont;
+}
+namespace Graphics
+{
+	class cFPS
+		: public IFPS
 	{
+	private:
+		cFPS(const cFPS&){}
+		cFPS operator = (const cFPS&){}
 	public:
-		virtual ~IFPS(){}
-		virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue) = 0;
-		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color = BLACK) = 0;
-		virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
-		virtual void OnLostDevice() = 0;
-		virtual void Cleanup() = 0;
-		static IFPS * CreateFPS();
+		cFPS();
+		~cFPS();
+		void Render(LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue);
+		void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color = BLACK);
+		void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
+		void OnLostDevice();
+		void Cleanup();
+	private:
+		IFont *		m_pFont;
+		RECT		m_BoundingRect;
+		DWORD		m_dwFormat;
+		char		m_strValue[20];
+		D3DCOLOR	m_FontColor;
+
 	};
 }
-#endif // FPS_h__

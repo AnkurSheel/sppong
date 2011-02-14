@@ -1,5 +1,5 @@
 // ***************************************************************
-//  CollisionCheck   version:  1.0   Ankur Sheel  date: 05/14/2008
+//  CollisionChecker   version:  1.0   Ankur Sheel  date: 05/14/2008
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,26 +7,25 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef CollisionChecker_h__
-#define CollisionChecker_h__
-
-#include "GraphicEngineDefines.h"
+#include "CollisionChecker.hxx"
 
 namespace Graphics
 {
-	class cPolygon;
-}
-
-namespace Graphics
-{
-	class ICollisionChecker
+	class cCollisionChecker 
+		: public ICollisionChecker
 	{
+	private:
+
+		cCollisionChecker(const cCollisionChecker&){}
+		cCollisionChecker operator = (const cCollisionChecker&){}
+		bool NoOverlap(const D3DXVECTOR2 &axis, const cPolygon &polygon1, const cPolygon &polygon2, float & fLengthSquared);
 	public:
-		GRAPHIC_API ~ICollisionChecker(){}
-		GRAPHIC_API virtual bool CheckFor2DCollisions(const Graphics::cPolygon &polygonA, const Graphics::cPolygon &polygonB) = 0;
-		GRAPHIC_API static ICollisionChecker * TheCollisionChecker();
-		GRAPHIC_API virtual void Destroy() = 0;
-		GRAPHIC_API static void CreateCollisionChecker();
+		cCollisionChecker();
+		~cCollisionChecker();
+		bool CheckFor2DCollisions(const cPolygon &polygonA, const cPolygon &polygonB);
+		static ICollisionChecker * TheCollisionChecker();
+		void Destroy();
 	};
+
+	static cCollisionChecker * s_pCollisionChecker = NULL;
 }
-#endif // CollisionChecker_h__

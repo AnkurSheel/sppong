@@ -10,7 +10,8 @@
 #ifndef Game_h__
 #define Game_h__
 
-#include "Essentials/BaseApp.h"
+#include "Game.hxx"
+#include "Essentials/BaseApp.hxx"
 
 namespace Graphics
 {
@@ -31,6 +32,7 @@ namespace MySound
 
 class cGame 
 	: public Graphics::IBaseApp
+	, public IGame
 {
 private:
 	enum PONGGAMEELEMENTS

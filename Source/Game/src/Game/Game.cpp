@@ -9,18 +9,17 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Game.h"
-#include "2D/Sprite.h"
-#include "Essentials/DxBase.h"
+#include "2D/Sprite.hxx"
 #include "Elements/Paddle.h"
 #include "Elements/Ball.h"
-#include "CollisionChecker.h"
+#include "CollisionChecker.hxx"
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
-#include "Essentials/MainWindow.h"
+#include "Essentials/MainWindow.hxx"
 #include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
-#include "Sound.h"
-#include "Input/MouseZone.h"
+#include "Sound.hxx"
+#include "Input/MouseZone.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -438,4 +437,10 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 			return;
 		}
 	}
+}
+
+IGame * IGame::CreateGame()
+{
+	cGame * pGame = DEBUG_NEW cGame();
+	return pGame;
 }

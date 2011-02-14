@@ -1,5 +1,5 @@
 // ***************************************************************
-//  MouseZone   version:  1.0  Ankur Sheel  date: 06/13/2008
+//  MouseZone   version:  1.0   Ankur Sheel  date: 06/13/2008
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,32 +7,33 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef MouseZone_h__
-#define MouseZone_h__
-
-#include "GraphicEngineDefines.h"
-
-enum eMouseClickType
-{
-	LEFTBUTTON  = 0,
-	RIGHTBUTTON,
-	WHEELBUTTON,
-	LEFTANDRIGHTBUTTON,
-	HOVER
-};
+#include "MouseZone.hxx"
+#include <list>
 
 namespace Graphics
 {
-	class IMouseZone
+	struct stHotSpot
 	{
+		int					m_iZoneXPos;
+		int					m_iZoneYPos;
+		int					m_iZoneHeight;
+		int					m_iZoneWidth;
+		bool				m_bActive;
+		char *				m_szZoneName;
+		eMouseClickType		m_eClickType;
+	};
+
+	class cMouseZone
+		: public IMouseZone
+	{
+	private:
+		std::list<stHotSpot>	m_HotSpots;
 	public:
-		virtual ~IMouseZone(){}
-		GRAPHIC_API virtual void FreeZones() = 0;
-		GRAPHIC_API virtual void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType) = 0;
-		GRAPHIC_API virtual void RemoveZone(LPCTSTR szZoneName) = 0;
-		GRAPHIC_API virtual bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName) = 0;
-		GRAPHIC_API static IMouseZone * TheMouseZone();
-		GRAPHIC_API static IMouseZone * CreateMouseZone();
+		cMouseZone();
+		~cMouseZone();
+		void FreeZones();
+		void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType);
+		void RemoveZone(LPCTSTR szZoneName);
+		bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName);
 	};
 }
-#endif // MouseZone_h__

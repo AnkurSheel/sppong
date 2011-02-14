@@ -10,23 +10,7 @@
 #include "stdafx.h"
 #include "Font.h"
 
-class cMyFont
-	: public IFont
-{
-private:
-	cMyFont(const cMyFont&){}
-	cMyFont operator =(const cMyFont&){}
-
-public:
-	cMyFont() ;
-	~cMyFont() ;
-	void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) ;
-	void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) ;
-protected:
-	ID3DXFont	*m_pFont ;
-
-} ;
-
+using namespace Graphics;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -58,7 +42,7 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 	fonttype.Weight		= iWeight ;
 	fonttype.Italic		= bItalic ;
 	fonttype.CharSet	= charset ;
-	_tcscpy_s(fonttype.FaceName, LF_FACESIZE, szFaceName) ;
+	strcpy_s(fonttype.FaceName, LF_FACESIZE, szFaceName) ;
 
 	D3DXCreateFontIndirect(pd3dDevice, &fonttype, &m_pFont) ;
 }

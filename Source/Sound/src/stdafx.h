@@ -28,6 +28,7 @@
 #include <windows.h>
 #include <crtdbg.h>
 #include "Macros.h"
+#include "Debugging/Logger.hxx"
 
 // TODO: reference additional headers your program requires here
 

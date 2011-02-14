@@ -223,6 +223,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\Sound.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\SoundDefines.h"
 			>
 		</File>

@@ -11,45 +11,6 @@
 #include "stdafx.h"
 #include "Timer.h"
 
-namespace Utilities
-{
-	class cTimer
-		: public ITimer
-	{
-	private:
-		cTimer(const cTimer&){}
-		cTimer operator =(const cTimer&){}
-
-	public:
-		cTimer();
-		~cTimer();
-		void Start();
-		void Stop();
-		void Update(); 
-
-		bool IsStopped() const;
-		float GetFPS() const;
-		float GetRunningTime() const;
-		float GetElapsedTime() const; 
-
-	private:
-		INT64		m_iTicksPerSecond;
-		INT64		m_iCurrentTime;
-		INT64		m_iLastTime;
-		INT64		m_iLastFPSUpdate;
-		INT64		m_iFPSUpdateInterval;
-		UINT		m_iNumFrames;
-		float		m_fRunningTime;
-		float		m_fTimeElapsed;
-		float		m_fFPS;
-		bool		m_bTimerStopped;
-	};
-
-#include "Timer.inl"
-
-	static cTimer * s_pTimer = NULL;
-}
-
 using namespace Utilities;
 
 cTimer::cTimer()

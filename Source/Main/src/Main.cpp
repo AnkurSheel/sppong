@@ -10,15 +10,13 @@
 
 #include "stdafx.h"
 #include "Main.h"
-#include "Essentials\MainWindow.h"
-#include "Game\Game.h"
-#include "Debugging\logger.h"
+#include "Essentials\MainWindow.hxx"
+#include "Game\Game.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
 
-cGame *pGame = NULL;	// global ptr to the game
-
+IGame *pGame = NULL;
 // ***************************************************************
 // Main function
 // ***************************************************************
@@ -35,7 +33,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
 
 	IMainWindow::CreateMyWindow();
-	pGame= DEBUG_NEW cGame();
+	pGame = IGame::CreateGame();
 
 	int iWidth = GetSystemMetrics(SM_CXSCREEN);
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);

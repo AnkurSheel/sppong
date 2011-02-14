@@ -2,6 +2,7 @@
 #include <direct.h>
 #include <math.h>
 #include <time.h>
+#include <mmsystem.h>
 
 bool IsOnlyInstance(LPCTSTR gameTitle) 
 { 

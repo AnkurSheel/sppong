@@ -15,11 +15,11 @@
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
 #include "Elements/Ball.h"
-#include "Essentials/MainWindow.h"
-#include "2D/Sprite.h"
-#include "CollisionChecker.h"
+#include "Essentials/MainWindow.hxx"
+#include "2D/Sprite.hxx"
+#include "CollisionChecker.hxx"
 #include "Input/MouseZone.h"
-#include "Sound.h"
+#include "Sound.hxx"
 
 using namespace MySound;
 using namespace Graphics;

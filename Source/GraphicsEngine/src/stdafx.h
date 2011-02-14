@@ -38,21 +38,17 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 
+#include <stdio.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <windows.h>
 #include <mmsystem.h>
-#include <tchar.h>
-#include <list>
-//#include <strsafe.h>
 #include <crtdbg.h>
 #include <DxErr.h> //For DXGetErrorString9
 #include <dinput.h>
 #include "constants.h"
 #include "Macros.h"
-#include "Debugging/Logger.h"
-
-using namespace std;
+#include "Debugging/Logger.hxx"
 
 #ifndef _DEBUG
 #define WINDOWED
