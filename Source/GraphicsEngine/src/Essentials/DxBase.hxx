@@ -1,0 +1,35 @@
+// ***************************************************************
+//  DxBase   version:  1.0   Ankur Sheel  date: 04/29/2008
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef mydxbaseclass_h__
+#define mydxbaseclass_h__
+
+#include "GraphicEngineDefines.h"
+
+namespace Graphics
+{
+	class IDXBase
+	{
+	public:
+		virtual ~IDXBase(){}
+		virtual void Init(const HWND hWnd, const D3DCOLOR& bkColor)  = 0;
+		virtual HRESULT ResetDevice()  = 0;
+		virtual void Cleanup()  = 0;
+		virtual HRESULT BeginRender() = 0;
+		virtual void EndRender(const HRESULT hr) = 0;
+		virtual LPDIRECT3DDEVICE9 GetDevice() const = 0;
+		virtual UINT GetDisplayHeight() const = 0;
+		virtual UINT GetDisplayWidth() const = 0;
+		virtual HRESULT IsAvailable() const = 0;
+		static IDXBase * GetInstance() ;
+		static void CreateDXBase();
+
+	};
+}
+#endif // mydxbaseclass_h__
