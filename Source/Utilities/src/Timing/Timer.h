@@ -8,7 +8,6 @@
 // 
 // ***************************************************************
 
-#include "stdafx.h"
 #include "Timer.hxx"
 
 namespace Utilities

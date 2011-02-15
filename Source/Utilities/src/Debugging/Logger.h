@@ -23,7 +23,7 @@ namespace Utilities
 	private:
 		cLogger(const cLogger&){}
 		cLogger operator =(const cLogger&){}
-
+		void LogTypeToString( LogType eLogEntryType, char * str );
 	public:
 		cLogger();
 		~cLogger();
@@ -31,9 +31,9 @@ namespace Utilities
 		int Log(const char * const  lpFmt, ...);
 		void Close();
 		void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
+		static void CreateLogger();
+		void CreateHeader();
 
-	private:
-		void LogTypeToString( LogType eLogEntryType, char * str );
 
 	private:
 		FILE *			m_fStdOut;

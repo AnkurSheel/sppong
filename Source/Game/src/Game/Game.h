@@ -11,7 +11,6 @@
 #define Game_h__
 
 #include "Game.hxx"
-#include "Essentials/BaseApp.hxx"
 
 namespace Graphics
 {
@@ -31,8 +30,7 @@ namespace MySound
 }
 
 class cGame 
-	: public Graphics::IBaseApp
-	, public IGame
+	: public IGame
 {
 private:
 	enum PONGGAMEELEMENTS
@@ -71,6 +69,7 @@ public:
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
+	const char * const GetGameTitle(); 
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;

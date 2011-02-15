@@ -22,6 +22,7 @@ namespace Graphics
 		virtual void OnInit(LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, const UINT iDisplayWidth) = 0;
 		virtual void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime ) = 0;
 		virtual void Restart() = 0;
+		virtual const char * const GetGameTitle() = 0; 
 	};
 }
 #endif // BaseApp_h__

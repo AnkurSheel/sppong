@@ -12,11 +12,12 @@
 #include "Main.h"
 #include "Essentials\MainWindow.hxx"
 #include "Game\Game.hxx"
+#include "InitialChecks\Checks.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
 
-IGame *pGame = NULL;
+static IBaseApp * pGame = NULL;
 // ***************************************************************
 // Main function
 // ***************************************************************
@@ -25,13 +26,20 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 				   LPSTR lpCmdLine, 
 				   int nCmdShow)
 {
+
+	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
+	if(!IResourceChecker::TheResourceChecker()->CheckMemory(32, 64) || !IResourceChecker::TheResourceChecker()->CheckHardDisk(6) || !IResourceChecker::TheResourceChecker()->CheckCPUSpeedinMhz(266))
+	{
+		PostQuitMessage(0);
+		return -1;
+	}
+
+	ILogger::TheLogger()->CreateHeader();
+
 	HWND	hwnd ;
 
 	CheckForMemoryLeaks() ;
 	
-	ILogger::CreateLogger();
-	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
-
 	IMainWindow::CreateMyWindow();
 	pGame = IGame::CreateGame();
 
@@ -39,7 +47,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	//Initialize the window class
-	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, "MPong", iWidth, iHeight, (IBaseApp*)pGame);
+	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight, pGame);
 
 	if(hwnd == NULL)
 	{

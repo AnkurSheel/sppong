@@ -224,7 +224,15 @@
 			Name="InitialChecks"
 			>
 			<File
-				RelativePath=".\src\InitialChecks\DiskChecks.cpp"
+				RelativePath=".\src\InitialChecks\Checks.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\InitialChecks\Checks.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\InitialChecks\Checks.hxx"
 				>
 			</File>
 		</Filter>

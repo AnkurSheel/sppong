@@ -439,6 +439,11 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	}
 }
 
+const char * const cGame::GetGameTitle()
+{
+	return "MPong";
+}
+
 IGame * IGame::CreateGame()
 {
 	cGame * pGame = DEBUG_NEW cGame();

@@ -1,10 +1,26 @@
 #include <stdafx.h>
+#include "Checks.h"
 #include <direct.h>
 #include <math.h>
 #include <time.h>
 #include <mmsystem.h>
 
-bool IsOnlyInstance(LPCTSTR gameTitle) 
+using namespace Utilities;
+
+#define MEGABYTE (1024 * 1024)
+
+cResourceChecker::cResourceChecker()
+: m_TotalPhysicalMemory(0)
+, m_AvailablePhysicalMemory(0)
+, m_TotalVirtualMemory(0)
+, m_AvailableVirtualMemory(0)
+, m_AvailableHardDiskSpace(0)
+, m_TotalHardDiskSpace(0)
+, m_CPUSpeed(0)
+{
+}
+
+bool cResourceChecker::IsOnlyInstance(LPCTSTR gameTitle) 
 { 
 	// Find the window. If active, set and return false 
 	// Only one game instance may have this mutex at a time... 
@@ -26,35 +42,48 @@ bool IsOnlyInstance(LPCTSTR gameTitle)
 	return true; 
 }
 
-bool CheckHardDisk(const DWORDLONG diskSpaceNeeded) 
+bool cResourceChecker::CheckHardDisk(const unsigned int diskSpaceNeeded) 
 { 
 	// Check for enough free disk space on the current disk. 
 	int const drive = _getdrive(); 
 	struct _diskfree_t diskfree; 
 	_getdiskfree(drive, &diskfree); 
-	unsigned __int64 const neededClusters = diskSpaceNeeded / ( diskfree.sectors_per_cluster * diskfree.bytes_per_sector ); 
-	if (diskfree.avail_clusters < neededClusters) 
+	m_TotalHardDiskSpace = (unsigned int)((float)diskfree.total_clusters/MEGABYTE) * diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
+	m_AvailableHardDiskSpace = (unsigned int)((float)diskfree.avail_clusters/MEGABYTE) * diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
+	if (m_AvailableHardDiskSpace < diskSpaceNeeded) 
 	{ 
-		// if you get here you don't have enough disk space! 
-		return false;
-	}
+		char strReason[100];
+		sprintf_s(strReason, 100, "Not Enough HardDisk Space - Required : %ld, Available %ld \n", diskSpaceNeeded, m_AvailableHardDiskSpace);
+		Log_Write_L1(ILogger::LT_ERROR, strReason);
+		return false; 
+	} 
 	return true;
 }
 
-bool CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded) 
+bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded) 
 {
 	MEMORYSTATUSEX status; 
+	status.dwLength = sizeof (status);
+
 	GlobalMemoryStatusEx(&status); 
-	if (status.ullTotalPhys < (physicalRAMNeeded)) 
+
+	char strReason[100];
+	m_TotalPhysicalMemory = (unsigned int)(status.ullTotalPhys/MEGABYTE);
+	m_AvailablePhysicalMemory= (unsigned int)(status.ullAvailPhys/MEGABYTE);
+	m_AvailableVirtualMemory = (unsigned int)(status.ullAvailVirtual/MEGABYTE);
+	m_TotalVirtualMemory= (unsigned int)(status.ullTotalVirtual/MEGABYTE);
+
+	if (m_AvailablePhysicalMemory < (physicalRAMNeeded)) 
 	{ 
-		// you don't have enough physical memory. Tell the player to go get a 
-		// real computer and give this one to his mother. 
+		sprintf_s(strReason, 100, "Not Enough Physical Memory - Required : %ld, Available %ld \n", physicalRAMNeeded, m_AvailablePhysicalMemory);
+		Log_Write_L1(ILogger::LT_ERROR, strReason);
 		return false; 
 	} 
 	// Check for enough free memory. 
 	if (status.ullAvailVirtual < virtualRAMNeeded) 
 	{ 
-		// you don't have enough virtual memory available. 
+		sprintf_s(strReason, 100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory);
+		Log_Write_L1(ILogger::LT_ERROR, strReason);
 		// Tell the player to shut down the copy of Visual Studio running in the 
 		// background, or whatever seems to be sucking the memory dry. 
 		return false; 
@@ -66,6 +95,7 @@ bool CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded)
 	}
 	else 
 	{ 
+		Log_Write_L1(ILogger::LT_ERROR, "Not Enough Virtual Memory");
 		// The system lied to you. When you attempted to grab a block as big 
 		// as you need the system failed to do so. Something else is eating 
 		// memory in the background; tell them to shut down all other apps 
@@ -86,7 +116,7 @@ static __int64 s_ticks0;
 // count and the current time and stores it. Then, while you do other 
 // things, and the OS task switches, the counters continue to count, and 
 // when you call UpdateCPUTime, the measured speed is accurate. 
-int StartTimingCPU() 
+int cResourceChecker::StartTimingCPU() 
 { 
 	// detect ability to get info 
 	// 
@@ -141,7 +171,7 @@ no_cpuid:
 // for the amount of elapsed time and the number of CPU cycles taked 
 // during the timing period. 
 //======================================================================== 
-void UpdateCPUTime() 
+void cResourceChecker::UpdateCPUTime() 
 { 
 	// 
 	// make ourselves high priority just for the time between 
@@ -175,7 +205,7 @@ void UpdateCPUTime()
 // This function takes the measured values and returns a speed that 
 // represents a common possible CPU speed. 
 //======================================================================== 
-int CalcCPUSpeed() 
+int cResourceChecker::CalcCPUSpeed() 
 { 
 	// 
 	// get the actual cpu speed in MHz, and 
@@ -240,20 +270,19 @@ int CalcCPUSpeed()
 	return iSpeed; 
 }
 //======================================================================== 
-// GetCPUSpeed 
+// CheckCPUSpeedinMhz 
 // 
 // Gets the CPU speed by timing it for 1 second. 
 //======================================================================== 
-int GetCPUSpeed() 
+bool cResourceChecker::CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq) 
 { 
-	static int CPU_SPEED = 0; 
-	if(CPU_SPEED!=0) 
+	if(m_CPUSpeed !=0) 
 	{ 
 		//This will assure that the 0.5 second delay happens only once 
-		return CPU_SPEED; 
+		return true; 
 	} 
 	if (StartTimingCPU()) 
-		return 0; 
+		return true; 
 	//This will lock the application for 1 second 
 	do 
 	{ 
@@ -261,6 +290,59 @@ int GetCPUSpeed()
 		Sleep(SLEEPTIME); 
 	} 
 	while (s_milliseconds < 1000); 
-	CPU_SPEED = CalcCPUSpeed(); 
-	return CPU_SPEED; 
+	m_CPUSpeed = CalcCPUSpeed(); 
+	if(m_CPUSpeed < uMinSpeedReq)
+	{
+		char strReason[100];
+		sprintf_s(strReason, 100, "CPU is too slow - Required speed: %ld, Actual Speed %ld \n", uMinSpeedReq, m_CPUSpeed);
+		return false;
+	}
+	return true; 
+}
+
+unsigned int cResourceChecker::GetTotalPhysicalMemory() const
+{
+	return m_TotalPhysicalMemory;
+}
+
+unsigned int cResourceChecker::GetAvailablePhysicalMemory() const
+{
+	return m_AvailablePhysicalMemory;
+}
+
+unsigned int cResourceChecker::GetTotalVirtualMemory() const
+{
+	return m_TotalVirtualMemory;
+}
+
+unsigned int cResourceChecker::GetAvailableVirtualMemory() const
+{
+	return m_AvailableVirtualMemory;
+}
+
+unsigned int cResourceChecker::GetTotalHardDiskSpace() const
+{
+	return m_TotalHardDiskSpace;
+}
+
+unsigned int cResourceChecker::GetAvailableHardDiskSpace() const
+{
+	return m_AvailableHardDiskSpace;
+}
+
+unsigned int cResourceChecker::GetCPUSpeed() const
+{
+	return m_CPUSpeed;
+}
+
+void  cResourceChecker::CreateResourceChecker()
+{
+	s_pResourceChecker = DEBUG_NEW cResourceChecker();
+}
+
+IResourceChecker * IResourceChecker::TheResourceChecker()
+{
+	if(!s_pResourceChecker)
+		cResourceChecker::CreateResourceChecker();
+	return s_pResourceChecker;
 }

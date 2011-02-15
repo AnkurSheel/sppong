@@ -13,6 +13,7 @@
 #include <time.h>
 #include "FileIO/XMLFileIO.h"
 #include <stdlib.h>
+#include "InitialChecks/Checks.hxx"
 
 using namespace Utilities;
 
@@ -61,6 +62,9 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 	m_fXml->AddNode("RunTimeLog", "LogHeader", "LogHeader", "");
 	m_fXml->AddNode("RunTimeLog", "LogEvents", "LogEvents", "");
 
+}
+void cLogger::CreateHeader()
+{
 #if SYSTEM_DEBUG_LEVEL == 3
 	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Extra Comprehensive debugging information (Level 3)");
 #elif SYSTEM_DEBUG_LEVEL == 2
@@ -70,7 +74,31 @@ void cLogger::StartConsoleWin( const int ciWidth /*= 80*/,
 #else
 	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "No debugging information (Level 0)");
 #endif
+	m_fXml->AddNode("LogHeader", "Session", "Session", "");
+	m_fXml->AddNode("Session", "Configuration", "Configuration", "");
+	m_fXml->AddNode("Configuration", "Memory", "Memory", "");
+	char str[100];
+	_ltoa_s((IResourceChecker::TheResourceChecker()->GetAvailablePhysicalMemory()), str, 100, 10);
+	m_fXml->AddNode("Memory", "AvailablePhysical", "AvailablePhysical", str);
 
+	_ltoa_s(IResourceChecker::TheResourceChecker()->GetTotalPhysicalMemory(), str, 100, 10);
+	m_fXml->AddNode("Memory", "TotalPhysical", "TotalPhysical", str);
+
+	_ltoa_s(IResourceChecker::TheResourceChecker()->GetAvailableVirtualMemory(), str, 100, 10);
+	m_fXml->AddNode("Memory", "AvailableVirtual", "AvailableVirtual", str);
+
+	_ltoa_s(IResourceChecker::TheResourceChecker()->GetTotalVirtualMemory(), str, 100, 10);
+	m_fXml->AddNode("Memory", "TotalVirtual", "TotalVirtual", str);
+
+	_ltoa_s(IResourceChecker::TheResourceChecker()->GetAvailableHardDiskSpace(), str, 100, 10);
+	m_fXml->AddNode("Memory", "AvailableHardDiskSpace", "AvailableHardDiskSpace", str);
+
+	_ltoa_s(IResourceChecker::TheResourceChecker()->GetTotalHardDiskSpace(), str, 100, 10);
+	m_fXml->AddNode("Memory", "TotalHardDiskSpace", "TotalHardDiskSpace", str);
+
+	m_fXml->AddNode("Configuration", "Processor", "Processor", "");
+	_ltoa_s(IResourceChecker::TheResourceChecker()->GetCPUSpeed(), str, 100, 10);
+	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", str);
 }
 
 int cLogger::Log( const char * const lpFmt, ... )
@@ -172,13 +200,15 @@ void cLogger::LogTypeToString( LogType eLogEntryType, char * str )
 // ***************************************************************
 // Creates a logger
 // ***************************************************************
-void ILogger::CreateLogger()
+void cLogger::CreateLogger()
 {
 	s_pLogger = DEBUG_NEW cLogger();
 }
 
 ILogger * ILogger::TheLogger()
 {
+	if(!s_pLogger)
+		cLogger::CreateLogger();
 	return s_pLogger;
 }
 // ***************************************************************

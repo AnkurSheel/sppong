@@ -183,23 +183,63 @@
 		</font>
 		<br/>
 		<font face="Arial" size="2" color="#000000">
-			Memory on start-up: 
+			Physical Memory(RAM) on start-up: 
 		</font>
 		<i>
 			<font face="Arial" size="2" color="#808080">
-				<xsl:value-of select="Session/Configuration/Memory/Available"/>
+				<xsl:value-of select="Session/Configuration/Memory/AvailablePhysical"/>
 			</font>
 		</i>
 		<font face="Arial" size="2" color="#000000">
-			available from  
+			MB available from  
 		</font>
 		<i>
 			<font face="Arial" size="2" color="#808080">
-				<xsl:value-of select="Session/Configuration/Memory/Total"/>
+				<xsl:value-of select="Session/Configuration/Memory/TotalPhysical"/>
 			</font>
 		</i>
 		<font face="Arial" size="2" color="#000000">
-			installed
+			MB installed
+		</font>
+		<br/>
+		<font face="Arial" size="2" color="#000000">
+			Virtual Memory on start-up: 
+		</font>
+		<i>
+			<font face="Arial" size="2" color="#808080">
+				<xsl:value-of select="Session/Configuration/Memory/AvailableVirtual"/>
+			</font>
+		</i>
+		<font face="Arial" size="2" color="#000000">
+			MB available from  
+		</font>
+		<i>
+			<font face="Arial" size="2" color="#808080">
+				<xsl:value-of select="Session/Configuration/Memory/TotalVirtual"/>
+			</font>
+		</i>
+		<font face="Arial" size="2" color="#000000">
+			MB installed
+		</font>
+		<br/>
+		<font face="Arial" size="2" color="#000000">
+			Hard Disk Space on start-up: 
+		</font>
+		<i>
+			<font face="Arial" size="2" color="#808080">
+				<xsl:value-of select="Session/Configuration/Memory/AvailableHardDiskSpace"/>
+			</font>
+		</i>
+		<font face="Arial" size="2" color="#000000">
+			MB available from  
+		</font>
+		<i>
+			<font face="Arial" size="2" color="#808080">
+				<xsl:value-of select="Session/Configuration/Memory/TotalHardDiskSpace"/>
+			</font>
+		</i>
+		<font face="Arial" size="2" color="#000000">
+			MB
 		</font>
 		<br/>
 		<font face="Arial" size="2" color="#000000">

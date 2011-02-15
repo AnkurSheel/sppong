@@ -111,7 +111,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWind
 		lpWindowTitle,
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		100,100,
+		100, 100,
 		NULL, 
 		NULL, 
 		m_hInstance, 
