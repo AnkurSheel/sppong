@@ -2,7 +2,6 @@
 //  Logger   version:  1.0   Ankur Sheel  date: 2011/01/04
 //  -------------------------------------------------------------
 // 2011/01/04 : based on 
-//	     		http://archive.gamedev.net/reference/programming/features/xmltech/default.asp 
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
 // ***************************************************************
@@ -11,7 +10,7 @@
 #include "stdafx.h"
 #include "Logger.h"
 #include <time.h>
-#include "FileIO/XMLFileIO.h"
+#include "FileIO/XMLFileIO.hxx"
 #include <stdlib.h>
 #include "InitialChecks/Checks.hxx"
 

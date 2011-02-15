@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef CollisionChecker_h__
+#define CollisionChecker_h__
+
 #include "CollisionChecker.hxx"
 
 namespace Graphics
@@ -29,3 +32,4 @@ namespace Graphics
 
 	static cCollisionChecker * s_pCollisionChecker = NULL;
 }
+#endif // CollisionChecker_h__

@@ -1,5 +1,5 @@
 // ***************************************************************
-//  Main   version:  1.0   Ankur Sheel  date: 04/29/2008
+//  Main   version:  1.0   Ankur Sheel  date: 2011/02/16
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,7 +7,6 @@
 // ***************************************************************
 // 
 // ***************************************************************
-
 #include "stdafx.h"
 #include "Main.h"
 #include "Essentials\MainWindow.hxx"
@@ -92,5 +91,10 @@ void Cleanup()
 	if(ILogger::TheLogger())
 		ILogger::TheLogger()->Destroy();
 
+	if (IResourceChecker::TheResourceChecker())
+		IResourceChecker::TheResourceChecker()->Destroy();
+
+	if (IMainWindow::TheWindow())
+		IMainWindow::TheWindow()->Destroy();
 }
 // ***************************************************************

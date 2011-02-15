@@ -9,6 +9,7 @@
 // ***************************************************************
 #ifndef BaseApp_h__
 #define BaseApp_h__
+typedef struct IDirect3DDevice9 *LPDIRECT3DDEVICE9;
 
 namespace Graphics
 {

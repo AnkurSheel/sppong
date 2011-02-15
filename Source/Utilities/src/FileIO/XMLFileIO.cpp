@@ -10,8 +10,6 @@
 #include "stdafx.h"
 #include "XMLFileIO.h"
 #include "tinyxml.h"
-#include <map>
-#include <string>
 
 using namespace Utilities;
 

@@ -166,16 +166,6 @@ void cInput::DetectMouseMovement()
 // ***************************************************************
 
 // ***************************************************************
-// locks a key on the keyboard so that it is read only once per
-// key press
-// ***************************************************************
-void cInput::LockKey( const DWORD dwKey )
-{
-	m_bLockedKeys[dwKey] = true;
-}
-// ***************************************************************
-
-// ***************************************************************
 // constrains the mouse cursor to the window screen
 // ***************************************************************
 void cInput::ConstrainMouseCursor()

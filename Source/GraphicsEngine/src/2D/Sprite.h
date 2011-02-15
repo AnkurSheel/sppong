@@ -7,6 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef Sprite_h__
+#define Sprite_h__
 
 #include "Sprite.hxx"
 
@@ -43,3 +45,4 @@ namespace Graphics
 	};
 #include "Sprite.inl"
 }
+#endif // Sprite_h__

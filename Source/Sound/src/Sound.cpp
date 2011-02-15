@@ -107,16 +107,6 @@ void cSound::Init()
 }
 // ***************************************************************
 
-bool cSound::CheckError( FMOD_RESULT ciResult )
-{
-	if(ciResult != FMOD_OK)
-	{
-		return false;
-	}
-	return true;
-}
-// ***************************************************************
-
 void cSound::Shutdown()
 {
 	FMOD_RESULT	result; 

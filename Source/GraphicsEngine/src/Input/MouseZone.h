@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef MouseZone_h__
+#define MouseZone_h__
+
 #include "MouseZone.hxx"
 #include <list>
 
@@ -37,3 +40,4 @@ namespace Graphics
 		bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName);
 	};
 }
+#endif // MouseZone_h__

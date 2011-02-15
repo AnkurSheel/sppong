@@ -1,5 +1,5 @@
 // ***************************************************************
-//  DxBase   version:  1.0   Ankur Sheel  date: 04/29/2008
+//  DxBase   version:  1.0   Ankur Sheel  date: 2011/02/16
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef mydxbaseclass_h__
-#define mydxbaseclass_h__
+#ifndef DxBase_hxx__
+#define DxBase_hxx__
 
 #include "GraphicEngineDefines.h"
 
@@ -27,9 +27,9 @@ namespace Graphics
 		virtual UINT GetDisplayHeight() const = 0;
 		virtual UINT GetDisplayWidth() const = 0;
 		virtual HRESULT IsAvailable() const = 0;
+		virtual void Destroy() = 0;
 		static IDXBase * GetInstance() ;
-		static void CreateDXBase();
 
 	};
 }
-#endif // mydxbaseclass_h__
+#endif // DxBase_h__

@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef Font_h__
+#define Font_h__
+
 #include "Font.hxx"
 
 namespace Graphics
@@ -27,3 +30,4 @@ namespace Graphics
 		ID3DXFont	*m_pFont ;
 	} ;
 }
+#endif // Font_h__

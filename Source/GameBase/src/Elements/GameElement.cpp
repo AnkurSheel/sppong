@@ -86,16 +86,6 @@ void cGameElement::Render(LPDIRECT3DDEVICE9 const pDevice,
 	m_pSprite->DrawSprite(pDevice, m_vPosition, dwFlags);
 }
 
-void cGameElement::SetSprite(ISprite* const sprite )
-{
-	m_pSprite = sprite;
-}
-
-const ISprite * cGameElement::GetSprite() const
-{
-	return m_pSprite;
-}
-
 void cGameElement::Cleanup()
 {
 	SAFE_DELETE(m_pSprite);

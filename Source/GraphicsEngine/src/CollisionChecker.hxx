@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef CollisionChecker_h__
-#define CollisionChecker_h__
+#ifndef CollisionChecker_hxx__
+#define CollisionChecker_hxx__
 
 #include "GraphicEngineDefines.h"
 

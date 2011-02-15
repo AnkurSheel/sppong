@@ -8,6 +8,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef Logger_h__
+#define Logger_h__
+
 #include "Logger.hxx"
 
 namespace Utilities
@@ -45,3 +48,4 @@ namespace Utilities
 
 	static cLogger * s_pLogger = NULL;
 }
+#endif // Logger_h__

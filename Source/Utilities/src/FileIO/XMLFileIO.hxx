@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef XMLFileIO_h__
-#define XMLFileIO_h__
+#ifndef XMLFileIO_hxx__
+#define XMLFileIO_hxx__
 
 namespace Utilities
 {

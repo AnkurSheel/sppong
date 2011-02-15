@@ -7,7 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#include "stdafx.h"
+#ifndef DxBase_h__
+#define DxBase_h__
+
 #include "DxBase.hxx" 
 
 namespace Graphics
@@ -37,6 +39,8 @@ namespace Graphics
 		UINT GetDisplayHeight() const;
 		UINT GetDisplayWidth() const;
 		HRESULT IsAvailable() const;
+		void Destroy();
+		static void CreateDXBase();
 
 	private:
 		LPDIRECT3D9				m_pD3D ;				// pointer to a direct3d object
@@ -54,3 +58,4 @@ namespace Graphics
 
 	static cDXBase * s_pDXBase= NULL;
 }
+#endif // DxBase_h__

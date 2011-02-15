@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef Timer_h__
+#define Timer_h__
+
 
 #include "Timer.hxx"
 
@@ -48,3 +51,4 @@ namespace Utilities
 
 	static cTimer * s_pTimer = NULL;
 }
+#endif // Timer_h__

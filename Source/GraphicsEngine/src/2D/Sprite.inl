@@ -14,3 +14,13 @@ inline UINT cSprite::GetScaledWidth() const
 {
 	return (UINT)(m_uiWidth * m_vScale.x);
 }
+
+// ***************************************************************
+// get the current position of the sprite
+// ***************************************************************
+inline D3DXVECTOR3 cSprite::GetPosition() const
+{
+	return m_vPosition;
+}
+// ***************************************************************
+

@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef Input_h__
+#define Input_h__
+
 #include "Input.hxx"
 
 namespace Graphics
@@ -53,3 +56,4 @@ namespace Graphics
 
 #include "Input.inl"
 }
+#endif // Input_h__

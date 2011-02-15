@@ -1,5 +1,14 @@
-#ifndef Checks_h
-#define Checks_h
+// ***************************************************************
+//  Checks   version:  1.0   Ankur Sheel  date: 2011/02/15
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef Checks_hxx__
+#define Checks_hxx__
 
 #include "UtilitiesDefines.h"
 
@@ -20,7 +29,8 @@ namespace Utilities
 		UTILITIES_API virtual unsigned int GetTotalHardDiskSpace() const = 0;
 		UTILITIES_API virtual unsigned int GetAvailableHardDiskSpace() const = 0;
 		UTILITIES_API virtual unsigned int GetCPUSpeed() const = 0;
+		UTILITIES_API virtual void Destroy() = 0;
 		UTILITIES_API static IResourceChecker * TheResourceChecker();
 	};
 }
-#endif
+#endif // Checks_h__

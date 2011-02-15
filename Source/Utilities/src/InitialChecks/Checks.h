@@ -1,3 +1,15 @@
+// ***************************************************************
+//  Checks   version:  1.0   Ankur Sheel  date: 2011/02/15
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef Checks_h__
+#define Checks_h__
+
 #include "Checks.hxx"
 
 namespace Utilities
@@ -22,6 +34,7 @@ namespace Utilities
 		unsigned int GetTotalHardDiskSpace() const;
 		unsigned int GetAvailableHardDiskSpace() const;
 		unsigned int GetCPUSpeed() const;
+		void Destroy();
 		static void CreateResourceChecker();
 	private:
 		unsigned int m_TotalPhysicalMemory;
@@ -33,5 +46,8 @@ namespace Utilities
 		unsigned int m_CPUSpeed;
 	};
 
+#include "Checks.inl"
+
 	static cResourceChecker * s_pResourceChecker = NULL;
 }
+#endif // Checks_h__

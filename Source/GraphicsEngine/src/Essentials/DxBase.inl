@@ -17,7 +17,7 @@ inline void cDXBase::EndRender( const HRESULT hr )
 		m_pd3dDevice->EndScene() ;
 	}
 	m_pd3dDevice->Present(NULL, NULL, NULL, NULL) ;
-}
+	}
 // ***************************************************************
 
 // ***************************************************************

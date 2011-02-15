@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef XMLFileIO_h__
+#define XMLFileIO_h__
+
 #include "XMLFileIO.hxx"
 #include <map>
 #include <string>
@@ -41,3 +44,4 @@ namespace Utilities
 
 	};
 }
+#endif // XMLFileIO_h__

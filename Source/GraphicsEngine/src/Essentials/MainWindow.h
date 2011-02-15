@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef MainWindow_hxx__
+#define MainWindow_hxx__
+
 #include "MainWindow.hxx"
 
 namespace Utilities
@@ -54,7 +57,7 @@ namespace Graphics
 		void LockKey( const DWORD dwKey );
 		long GetAbsXMousePos() const;
 		long GetAbsYMousePos() const;
-
+		void Destroy();
 	private:
 		HWND					m_Hwnd ;				// holds the window handle
 		HINSTANCE				m_hInstance ;			// holds the application instance
@@ -69,5 +72,7 @@ namespace Graphics
 		Graphics::IInput *		m_pInput;				// pointer to input class
 		Graphics::IFPS *		m_pFPS;
 	};
+
 	static IMainWindow * s_pWindow = NULL;
 }
+#endif // MainWindow_h__

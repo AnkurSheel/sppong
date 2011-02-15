@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef MouseZone_h__
-#define MouseZone_h__
+#ifndef MouseZone_hxx__
+#define MouseZone_hxx__
 
 #include "GraphicEngineDefines.h"
 

@@ -235,6 +235,10 @@
 				RelativePath=".\src\InitialChecks\Checks.hxx"
 				>
 			</File>
+			<File
+				RelativePath=".\src\InitialChecks\Checks.inl"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="FileIO"

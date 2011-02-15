@@ -190,16 +190,24 @@ HRESULT cDXBase::BeginRender()
 }
 // ***************************************************************
 
+void cDXBase::CreateDXBase()
+{
+	s_pDXBase = DEBUG_NEW cDXBase();
+}
+
+void cDXBase::Destroy()
+{
+	delete this;
+}
+
 // ***************************************************************
 // returns an instance of the class
 // ***************************************************************
 IDXBase* IDXBase::GetInstance()
 {
+	if(!s_pDXBase)
+		cDXBase::CreateDXBase();
 	return s_pDXBase;
 }
 // ******************	*********************************************
 
-void IDXBase::CreateDXBase()
-{
-	s_pDXBase = DEBUG_NEW cDXBase();
-}

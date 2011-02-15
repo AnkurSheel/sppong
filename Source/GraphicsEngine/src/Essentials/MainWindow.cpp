@@ -56,8 +56,6 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const c
 	m_iFullScreenWidth = iFullScreenWidth ; 
 	m_iFullScreenHeight = iFullScreenHeight ;
 
-	IDXBase::CreateDXBase();
-
 	//Register the Window Class
 	RegisterWin();
 
@@ -111,7 +109,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWind
 		lpWindowTitle,
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		100, 100,
+		CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, 
 		NULL, 
 		m_hInstance, 
@@ -299,14 +297,15 @@ void cMainWindow::OnDestroyDevice()
 
 	SAFE_DELETE(m_pFPS);
 
-
 	// release the graphic object
-	IDXBase::GetInstance()->Cleanup();
+	if (IDXBase::GetInstance())
+	{
+		IDXBase::GetInstance()->Cleanup();
+		IDXBase::GetInstance()->Destroy();
+	}
 
 	ReleaseCapture() ;
 	PostQuitMessage(0) ;
-
-	delete this;
 }
 // ***************************************************************
 
@@ -474,6 +473,13 @@ long cMainWindow::GetAbsYMousePos() const
 	return m_pInput->GetY();
 }
 // ***************************************************************
+
+void cMainWindow::Destroy()
+{
+	delete this;
+}
+// ***************************************************************
+
 
 // ***************************************************************
 // returns an instance of the class

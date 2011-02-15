@@ -300,39 +300,9 @@ bool cResourceChecker::CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq)
 	return true; 
 }
 
-unsigned int cResourceChecker::GetTotalPhysicalMemory() const
+void  cResourceChecker::Destroy()
 {
-	return m_TotalPhysicalMemory;
-}
-
-unsigned int cResourceChecker::GetAvailablePhysicalMemory() const
-{
-	return m_AvailablePhysicalMemory;
-}
-
-unsigned int cResourceChecker::GetTotalVirtualMemory() const
-{
-	return m_TotalVirtualMemory;
-}
-
-unsigned int cResourceChecker::GetAvailableVirtualMemory() const
-{
-	return m_AvailableVirtualMemory;
-}
-
-unsigned int cResourceChecker::GetTotalHardDiskSpace() const
-{
-	return m_TotalHardDiskSpace;
-}
-
-unsigned int cResourceChecker::GetAvailableHardDiskSpace() const
-{
-	return m_AvailableHardDiskSpace;
-}
-
-unsigned int cResourceChecker::GetCPUSpeed() const
-{
-	return m_CPUSpeed;
+	delete this;
 }
 
 void  cResourceChecker::CreateResourceChecker()

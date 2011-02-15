@@ -1,5 +1,5 @@
 // ***************************************************************
-//  MainWindow   version:  1.0   Ankur Sheel  date: 04/28/2008
+//  MainWindow   version:  1.0   Ankur Sheel  date: 2011/02/16
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef mywinmainclass_h__
-#define mywinmainclass_h__
+#ifndef MainWindow_h__
+#define MainWindow_h__
 
 #include "GraphicEngineDefines.h"
 
@@ -32,7 +32,8 @@ namespace Graphics
 		GRAPHIC_API virtual void LockKey( const DWORD dwKey ) = 0;
 		GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
 		GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
+		GRAPHIC_API virtual void Destroy() = 0;
 		GRAPHIC_API static void CreateMyWindow();
 	};
 }
-#endif // mywinmainclass_h__
+#endif // MainWindow_h__

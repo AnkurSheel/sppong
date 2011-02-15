@@ -60,3 +60,13 @@ inline long cInput::GetY() const
 	return m_lPosY;
 }
 // ***************************************************************
+// ***************************************************************
+// locks a key on the keyboard so that it is read only once per
+// key press
+// ***************************************************************
+inline void cInput::LockKey( const DWORD dwKey )
+{
+	m_bLockedKeys[dwKey] = true;
+}
+// ***************************************************************
+

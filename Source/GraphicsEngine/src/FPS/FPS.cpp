@@ -98,5 +98,4 @@ IFPS* IFPS::CreateFPS()
 {
 	cFPS * pFPS= DEBUG_NEW cFPS();
 	return pFPS;
-
 }

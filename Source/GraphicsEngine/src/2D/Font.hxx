@@ -1,5 +1,5 @@
 // ***************************************************************
-//  font   version:  1.0   Ankur Sheel  date: 05/16/2008
+//  Font   version:  1.0   Ankur Sheel  date: 2011/02/16
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef font_h__
-#define font_h__
+#ifndef Font_hxx__
+#define Font_hxx__
 
 #include "GraphicEngineDefines.h"
 
@@ -23,4 +23,4 @@ namespace Graphics
 		GRAPHIC_API static IFont * CreateMyFont();
 	} ;
 }
-#endif // font_h__
+#endif // Font_h__

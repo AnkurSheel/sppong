@@ -11,7 +11,6 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
-
 using namespace Utilities;
 using namespace Graphics;
 // ***************************************************************
@@ -142,15 +141,6 @@ void cSprite::Cleanup()
 
 	// release the sprite
 	SAFE_RELEASE(m_pSprite);
-}
-// ***************************************************************
-
-// ***************************************************************
-// get the current position of the sprite
-// ***************************************************************
-D3DXVECTOR3 cSprite::GetPosition() const
-{
-	return m_vPosition;
 }
 // ***************************************************************
 
