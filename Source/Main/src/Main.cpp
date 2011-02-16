@@ -27,6 +27,15 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 {
 
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
+	pGame = IGame::CreateGame();
+#ifndef MULTIPLEINSTANCES
+	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->GetGameTitle()))
+	{
+		PostQuitMessage(0);
+		return -1;
+	}
+#endif
+
 	if(!IResourceChecker::TheResourceChecker()->CheckMemory(32, 64) || !IResourceChecker::TheResourceChecker()->CheckHardDisk(6) || !IResourceChecker::TheResourceChecker()->CheckCPUSpeedinMhz(266))
 	{
 		PostQuitMessage(0);
@@ -40,7 +49,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	CheckForMemoryLeaks() ;
 	
 	IMainWindow::CreateMyWindow();
-	pGame = IGame::CreateGame();
 
 	int iWidth = GetSystemMetrics(SM_CXSCREEN);
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);

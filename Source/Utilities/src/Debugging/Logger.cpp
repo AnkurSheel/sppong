@@ -98,6 +98,18 @@ void cLogger::CreateHeader()
 	m_fXml->AddNode("Configuration", "Processor", "Processor", "");
 	_ltoa_s(IResourceChecker::TheResourceChecker()->GetCPUSpeed(), str, 100, 10);
 	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", str);
+
+	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::TheResourceChecker()->GetCPUBrand());
+
+	time_t currentTime;
+	time(&currentTime );
+	ctime_s(str, 100, &currentTime);
+	str[24] = ' '; // remove the '/n' from the time string
+
+	m_fXml->AddNode("Session", "Started", "Started", "");
+	m_fXml->AddNode("Started", "Time", "Time", str);
+
+	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion());
 }
 
 int cLogger::Log( const char * const lpFmt, ... )

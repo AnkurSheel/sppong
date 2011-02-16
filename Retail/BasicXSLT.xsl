@@ -144,14 +144,6 @@
 				<xsl:value-of select="Session/Started/Time"/>
 			</font>
 		</i>
-		<font face="Arial" size="2" color="#000000">
-			on 
-		</font>
-		<i>
-			<font face="Arial" size="2" color="#808080">
-				<xsl:value-of select="Session/Started/Date"/>
-			</font>
-		</i>
 		<br/>
 		<font face="Arial" size="2" color="#000000">
 			Operating environment: 
