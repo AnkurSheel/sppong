@@ -109,7 +109,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWind
 		lpWindowTitle,
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		100, 100,
 		NULL, 
 		NULL, 
 		m_hInstance, 
@@ -480,20 +480,14 @@ void cMainWindow::Destroy()
 }
 // ***************************************************************
 
-
 // ***************************************************************
 // returns an instance of the class
 // ***************************************************************
 IMainWindow * IMainWindow::TheWindow()
 {
+	if(!s_pWindow)
+		s_pWindow = DEBUG_NEW cMainWindow();
 	return s_pWindow;
-}
-// ***************************************************************
-// creates a window
-// ***************************************************************
-void IMainWindow::CreateMyWindow()
-{
-	s_pWindow = DEBUG_NEW cMainWindow();
 }
 // ***************************************************************
 

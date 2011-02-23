@@ -33,7 +33,6 @@ namespace Graphics
 		GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
 		GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
 		GRAPHIC_API virtual void Destroy() = 0;
-		GRAPHIC_API static void CreateMyWindow();
 	};
 }
 #endif // MainWindow_h__
