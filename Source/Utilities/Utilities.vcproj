@@ -244,6 +244,14 @@
 			Name="FileIO"
 			>
 			<File
+				RelativePath=".\src\FileIO\FileIO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\FileIO.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\FileIO\tinystr.cpp"
 				>
 			</File>
