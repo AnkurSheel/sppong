@@ -12,6 +12,11 @@
 
 #include "UtilitiesDefines.h"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Utilities
 {
 	class IResourceChecker
@@ -29,8 +34,8 @@ namespace Utilities
 		UTILITIES_API virtual unsigned int GetTotalHardDiskSpace() const = 0;
 		UTILITIES_API virtual unsigned int GetAvailableHardDiskSpace() const = 0;
 		UTILITIES_API virtual unsigned int GetCPUSpeed() const = 0;
-		UTILITIES_API virtual const char * const GetCPUBrand() = 0;
-		UTILITIES_API virtual const char * const GetOSVersion() = 0;
+		UTILITIES_API virtual Base::cString GetCPUBrand() = 0;
+		UTILITIES_API virtual Base::cString GetOSVersion() = 0;
 		UTILITIES_API virtual void Destroy() = 0;
 		UTILITIES_API static IResourceChecker * TheResourceChecker();
 	};

@@ -33,3 +33,21 @@ inline unsigned int cResourceChecker::GetCPUSpeed() const
 	return m_CPUSpeed;
 }
 
+inline Base::cString cResourceChecker::GetCPUBrand() 
+{
+	if(m_strCPUBrand.IsEmpty())
+	{
+		CalcCPUBrand();
+	}
+	return m_strCPUBrand;
+}
+
+
+inline Base::cString cResourceChecker::GetOSVersion()
+{
+	if(m_strOsVersion.IsEmpty())
+	{
+		CalcOSVersion();
+	}
+	return m_strOsVersion;
+}

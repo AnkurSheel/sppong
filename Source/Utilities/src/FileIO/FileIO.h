@@ -1,11 +1,16 @@
 #pragma once
 
-class cFileIO
-{
-public:
-	bool OpenTry(const char * const strFileName);
+#include "myString.h"
 
-private:
-	FILE *			m_fStdOut;
-	char			m_strFileName[MAX_PATH];
-};
+namespace Utilities
+{
+	class cFileIO
+	{
+	public:
+		bool Open(Base::cString strFileName);
+
+	private:
+		FILE *			m_fStdOut;
+		Base::cString	m_strFileName;
+	};
+}

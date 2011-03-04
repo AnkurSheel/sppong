@@ -5,7 +5,9 @@
 #include <time.h>
 #include <mmsystem.h>
 #include <intrin.h>
+#include <mystring.h>
 
+using namespace Base;
 using namespace Utilities;
 
 #define MEGABYTE (1024 * 1024)
@@ -44,7 +46,7 @@ bool cResourceChecker::IsOnlyInstance(LPCTSTR gameTitle)
 	return true; 
 }
 
-const char * const cResourceChecker::GetOSVersion()
+void cResourceChecker::CalcOSVersion()
 { 
 	OSVERSIONINFOEX osvi;
 	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
@@ -54,55 +56,55 @@ const char * const cResourceChecker::GetOSVersion()
 
 	if(osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 && osvi.wProductType == VER_NT_WORKSTATION)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows 7");
+		m_strOsVersion = "Windows 7";
 	}
 	else if(osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 && osvi.wProductType != VER_NT_WORKSTATION)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows Server 2008 R2");
+		m_strOsVersion = "Windows Server 2008 R2";
 	}
 	else if(osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 && osvi.wProductType != VER_NT_WORKSTATION)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows Server 2008");
+		m_strOsVersion = "Windows Server 2008";
 	}
 	else if(osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 && osvi.wProductType == VER_NT_WORKSTATION)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows Vista");
+		m_strOsVersion = "Windows Vista";
 	}
 	else if(osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 && GetSystemMetrics(SM_SERVERR2) != 0)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows Server 2003 R2");
+		m_strOsVersion = "Windows Server 2003 R2";
 	}
 	else if(osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 && GetSystemMetrics(SM_SERVERR2) == 0)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows Server 2003");
+		m_strOsVersion = "Windows Server 2003";
 	}
 	else if(osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows XP");
+		m_strOsVersion = "Windows XP";
 	}
 	else if(osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0)
 	{
-		strcpy_s(m_strOsVersion, 100, "Windows 2000");
+		m_strOsVersion = "Windows 2000";
 	}
 
 	if(osvi.wSuiteMask && VER_SUITE_PERSONAL )
 	{
-		sprintf_s(m_strOsVersion, 100, "%s Home Edition", m_strOsVersion);
+		m_strOsVersion += " Home Edition";
 	}
-	sprintf_s(m_strOsVersion, 100, "%s %s", m_strOsVersion, osvi.szCSDVersion);
-
-	return m_strOsVersion;
+	m_strOsVersion += osvi.szCSDVersion;
 }
 
-const char * const cResourceChecker::GetCPUBrand() 
+void cResourceChecker::CalcCPUBrand() 
 { 
+
+	char strCPUBrand[0x40];
 	// Get extended ids.
     int CPUInfo[4] = {-1};
     __cpuid(CPUInfo, 0x80000000);
     unsigned int nExIds = CPUInfo[0];
 
     // Get the information associated with each extended ID.
-    m_strCPUBrand[0] = '\0';
+    strCPUBrand[0] = '\0';
     for( unsigned int i=0x80000000; i<=nExIds; ++i)
     {
         __cpuid(CPUInfo, i);
@@ -110,23 +112,22 @@ const char * const cResourceChecker::GetCPUBrand()
         // Interpret CPU brand string and cache information.
         if  (i == 0x80000002)
         {
-            memcpy( m_strCPUBrand,
+            memcpy( strCPUBrand,
             CPUInfo,
             sizeof(CPUInfo));
         }
         else if( i == 0x80000003 )
         {
-            memcpy( m_strCPUBrand + 16,
+            memcpy( strCPUBrand + 16,
             CPUInfo,
             sizeof(CPUInfo));
         }
         else if( i == 0x80000004 )
         {
-            memcpy(m_strCPUBrand + 32, CPUInfo, sizeof(CPUInfo));
+            memcpy(strCPUBrand + 32, CPUInfo, sizeof(CPUInfo));
         }
 }
-
-    return m_strCPUBrand;
+	m_strCPUBrand = strCPUBrand;
 }
 
 bool cResourceChecker::CheckHardDisk(const unsigned int diskSpaceNeeded) 

@@ -12,6 +12,8 @@
 
 #include "Checks.hxx"
 
+#include "mystring.h"
+
 namespace Utilities
 {
 	class cResourceChecker
@@ -34,10 +36,15 @@ namespace Utilities
 		unsigned int GetTotalHardDiskSpace() const;
 		unsigned int GetAvailableHardDiskSpace() const;
 		unsigned int GetCPUSpeed() const;
-		const char * const GetCPUBrand();
-		const char * const GetOSVersion();
+		Base::cString GetCPUBrand();
+		Base::cString GetOSVersion();
 		void Destroy();
 		static void CreateResourceChecker();
+	
+	private:
+		void CalcCPUBrand();
+		void CalcOSVersion();
+
 	private:
 		unsigned int m_TotalPhysicalMemory;
 		unsigned int m_AvailablePhysicalMemory;
@@ -46,8 +53,8 @@ namespace Utilities
 		unsigned int m_AvailableHardDiskSpace;
 		unsigned int m_TotalHardDiskSpace;
 		unsigned int m_CPUSpeed;
-		char		 m_strCPUBrand[0x40];
-		char		 m_strOsVersion[128];
+		Base::cString m_strCPUBrand;
+		Base::cString m_strOsVersion;
 	};
 
 #include "Checks.inl"

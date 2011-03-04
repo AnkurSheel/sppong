@@ -2,11 +2,11 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Utilities"
-	ProjectGUID="{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}"
-	RootNamespace="Utilities"
+	Name="Base"
+	ProjectGUID="{74220F22-9039-453B-81F0-44BEA935E6D9}"
+	RootNamespace="Base"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="131072"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			OutputDirectory="..\..\Test"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
-			CharacterSet="0"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BASE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -50,7 +50,6 @@
 				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
 				AssemblerListingLocation="$(IntDir)\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -64,7 +63,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxmld.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Test\"
@@ -73,8 +71,6 @@
 				GenerateMapFile="true"
 				MapFileName="$(IntDir)$(TargetName).map"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -104,7 +100,7 @@
 			OutputDirectory="..\..\bin"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
-			CharacterSet="0"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -124,14 +120,16 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BASE_EXPORTS"
 				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
 				AssemblerListingLocation="$(IntDir)\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -145,10 +143,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxml.lib Base.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -156,8 +152,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -186,108 +180,16 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Timing"
-			>
-			<File
-				RelativePath=".\src\Timing\Timer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Timing\Timer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Timing\Timer.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Timing\Timer.inl"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Debugging"
-			>
-			<File
-				RelativePath=".\src\Debugging\Logger.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Debugging\Logger.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Debugging\Logger.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="InitialChecks"
-			>
-			<File
-				RelativePath=".\src\InitialChecks\Checks.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\InitialChecks\Checks.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\InitialChecks\Checks.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\InitialChecks\Checks.inl"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="FileIO"
-			>
-			<File
-				RelativePath=".\src\FileIO\FileIO.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\FileIO.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\tinystr.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\tinystr.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\tinyxml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\tinyxml.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\tinyxmlerror.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\XMLFileIO.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\XMLFileIO.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\XMLFileIO.hxx"
-				>
-			</File>
-		</Filter>
 		<File
-			RelativePath=".\src\Macros.h"
+			RelativePath=".\src\BaseDefines.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\myString.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\myString.h"
 			>
 		</File>
 		<File
@@ -296,10 +198,6 @@
 		</File>
 		<File
 			RelativePath=".\src\stdafx.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\UtilitiesDefines.h"
 			>
 		</File>
 	</Files>

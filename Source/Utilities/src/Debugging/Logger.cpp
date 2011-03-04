@@ -13,8 +13,10 @@
 #include "FileIO/XMLFileIO.hxx"
 #include <stdlib.h>
 #include "InitialChecks/Checks.hxx"
+#include "myString.h"
 
 using namespace Utilities;
+using namespace Base;
 
 int cLogger::m_iCurrentId = 1;
 // ***************************************************************
@@ -99,7 +101,7 @@ void cLogger::CreateHeader()
 	_ltoa_s(IResourceChecker::TheResourceChecker()->GetCPUSpeed(), str, 100, 10);
 	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", str);
 
-	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::TheResourceChecker()->GetCPUBrand());
+	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::TheResourceChecker()->GetCPUBrand().GetData());
 
 	time_t currentTime;
 	time(&currentTime );
@@ -109,7 +111,7 @@ void cLogger::CreateHeader()
 	m_fXml->AddNode("Session", "Started", "Started", "");
 	m_fXml->AddNode("Started", "Time", "Time", str);
 
-	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion());
+	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion().GetData());
 }
 
 int cLogger::Log( const char * const lpFmt, ... )

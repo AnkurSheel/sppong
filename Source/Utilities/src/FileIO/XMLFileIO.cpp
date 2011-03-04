@@ -10,7 +10,9 @@
 #include "stdafx.h"
 #include "XMLFileIO.h"
 #include "tinyxml.h"
+#include "myString.h"
 
+using namespace Base;
 using namespace Utilities;
 
 // ***************************************************************
@@ -39,7 +41,7 @@ cXMLFileIO::~cXMLFileIO()
 // ***************************************************************
 // Init : Initialises the xml file with the root as the rootname
 // ***************************************************************
-void cXMLFileIO::Init( const char * const strRootId, const char * const strRootName, const char * const strStyleSheetPath /*= NULL*/ )
+void cXMLFileIO::Init( Base::cString strRootId, Base::cString strRootName, Base::cString strStyleSheetPath /*= ""*/ )
 {
 	SAFE_DELETE(m_pDoc);
 	m_pDoc = DEBUG_NEW TiXmlDocument();
@@ -47,12 +49,12 @@ void cXMLFileIO::Init( const char * const strRootId, const char * const strRootN
 	TiXmlDeclaration* decl = DEBUG_NEW TiXmlDeclaration( "1.0", "", "" );  
 	m_pDoc->LinkEndChild( decl ); 
 
-	if (strStyleSheetPath)
+	if (!strStyleSheetPath.IsEmpty())
 	{
-		TiXmlStylesheetReference *pRef = DEBUG_NEW TiXmlStylesheetReference("text/xsl", strStyleSheetPath);
+		TiXmlStylesheetReference *pRef = DEBUG_NEW TiXmlStylesheetReference("text/xsl", strStyleSheetPath.GetData());
 		m_pDoc->LinkEndChild(pRef);
 	}
-	TiXmlElement * root = DEBUG_NEW TiXmlElement(strRootName);  
+	TiXmlElement * root = DEBUG_NEW TiXmlElement(strRootName.GetData());  
 	m_pDoc->LinkEndChild( root );  
 
 	m_ElementMap.insert(std::make_pair(strRootId, root));
@@ -62,12 +64,12 @@ void cXMLFileIO::Init( const char * const strRootId, const char * const strRootN
 // ***************************************************************
 // Init : Initialises the xml file with the root as the rootname
 // ***************************************************************
-void cXMLFileIO::AddComment( const char * const strParentId, const char * const strComment )
+void cXMLFileIO::AddComment( Base::cString strParentId, Base::cString strComment )
 {
 	TiXmlComment*	comment;
 
 	comment = DEBUG_NEW TiXmlComment();
-	comment->SetValue(strComment); 
+	comment->SetValue(strComment.GetData()); 
 	ElementMap::iterator  curr = m_ElementMap.find(strParentId);
 	const_cast<TiXmlElement*> (curr->second)->LinkEndChild(comment);
 }
@@ -76,10 +78,10 @@ void cXMLFileIO::AddComment( const char * const strParentId, const char * const 
 // ***************************************************************
 // AddNode : Adds a node to the xml document
 // ***************************************************************
-void cXMLFileIO::AddNode( const char * const strParentId, const char * const strId, const char * const strNode, const char * const strNodeValue )
+void cXMLFileIO::AddNode( Base::cString strParentId, Base::cString strId, Base::cString strNode, Base::cString strNodeValue )
 {
-	TiXmlElement *element = DEBUG_NEW TiXmlElement(strNode);
-	element->LinkEndChild(DEBUG_NEW TiXmlText(strNodeValue));
+	TiXmlElement *element = DEBUG_NEW TiXmlElement(strNode.GetData());
+	element->LinkEndChild(DEBUG_NEW TiXmlText(strNodeValue.GetData()));
 	ElementMap::iterator  curr = m_ElementMap.find(strParentId);
 	const_cast<TiXmlElement*> (curr->second)->LinkEndChild(element);
 	m_ElementMap.insert(std::make_pair(strId, element));
@@ -89,24 +91,24 @@ void cXMLFileIO::AddNode( const char * const strParentId, const char * const str
 // ***************************************************************
 // AddNode : Adds a node to the xml document
 // ***************************************************************
-void cXMLFileIO::AddAttribute(const char * const strId
-						   , const char * const strAttributeNode
+void cXMLFileIO::AddAttribute(Base::cString strId
+						   , Base::cString strAttributeNode
 						   , const int iValue )
 {
 	ElementMap::iterator  curr = m_ElementMap.find(strId);
-	const_cast<TiXmlElement*> (curr->second)->SetAttribute(strAttributeNode, iValue);
+	const_cast<TiXmlElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), iValue);
 }
 // ***************************************************************
 
 // ***************************************************************
 // AddNode : Adds a node to the xml document
 // ***************************************************************
-void cXMLFileIO::AddAttribute( const char * const strId
-						   , const char * const strAttributeNode
-						   , const char * const strValue )
+void cXMLFileIO::AddAttribute( Base::cString strId
+						   , Base::cString strAttributeNode
+						   , Base::cString strValue )
 {
 	ElementMap::iterator  curr = m_ElementMap.find(strId);
-	const_cast<TiXmlElement*> (curr->second)->SetAttribute(strAttributeNode, strValue);
+	const_cast<TiXmlElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), strValue.GetData());
 
 }
 // ***************************************************************
@@ -114,20 +116,20 @@ void cXMLFileIO::AddAttribute( const char * const strId
 // ***************************************************************
 // AddNode : Adds a node to the xml document
 // ***************************************************************
-void cXMLFileIO::Save( const char * const strFilePath )
+void cXMLFileIO::Save( Base::cString strFilePath )
 {
-	m_pDoc->SaveFile(strFilePath);
+	m_pDoc->SaveFile(strFilePath.GetData());
 }
 // ***************************************************************
 
 // ***************************************************************
 // AddNode : Adds a node to the xml document
 // ***************************************************************
-const char * const cXMLFileIO::Load( const char * const strFilePath )
+Base::cString cXMLFileIO::Load( Base::cString strFilePath )
 {
 	SAFE_DELETE(m_pDoc);
-	m_pDoc = DEBUG_NEW TiXmlDocument(strFilePath);
-	if (!m_pDoc->LoadFile(strFilePath))
+	m_pDoc = DEBUG_NEW TiXmlDocument(strFilePath.GetData());
+	if (!m_pDoc->LoadFile(strFilePath.GetData()))
 	{
 		return NULL;
 	}
@@ -142,7 +144,7 @@ const char * const cXMLFileIO::Load( const char * const strFilePath )
 // ***************************************************************
 // AddNode : Adds a node to the xml document
 // ***************************************************************
-const char * const cXMLFileIO::GetNodeName( const char * const strParent, const int iIndex )
+Base::cString cXMLFileIO::GetNodeName( Base::cString strParent, const int iIndex )
 {
 	TiXmlElement *pElem;
 
@@ -161,7 +163,7 @@ const char * const cXMLFileIO::GetNodeName( const char * const strParent, const 
 // ***************************************************************
 // AddNode : Adds a node to the xml document
 // ***************************************************************
-const char * const cXMLFileIO::GetNodeValue( const char * const strNode )
+Base::cString cXMLFileIO::GetNodeValue( Base::cString strNode )
 {
 	TiXmlElement *pElem;
 
