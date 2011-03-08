@@ -12,6 +12,11 @@
 
 #include "FPS.hxx"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics
 {
 	class IFont;
@@ -33,11 +38,11 @@ namespace Graphics
 		void OnLostDevice();
 		void Cleanup();
 	private:
-		IFont *		m_pFont;
-		RECT		m_BoundingRect;
-		DWORD		m_dwFormat;
-		char		m_strValue[20];
-		D3DCOLOR	m_FontColor;
+		IFont *				m_pFont;
+		RECT				m_BoundingRect;
+		DWORD				m_dwFormat;
+		Base::cString		m_strValue;
+		D3DCOLOR			m_FontColor;
 
 	};
 }

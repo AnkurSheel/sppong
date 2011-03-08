@@ -23,7 +23,7 @@ namespace Utilities
 	{
 	public:
 		UTILITIES_API virtual ~IResourceChecker(){}
-		UTILITIES_API virtual bool IsOnlyInstance(LPCTSTR gameTitle) = 0;
+		UTILITIES_API virtual bool IsOnlyInstance(const Base::cString &  gameTitle) = 0;
 		UTILITIES_API virtual bool CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded) = 0; 
 		UTILITIES_API virtual bool CheckHardDisk(const unsigned int diskSpaceNeeded) = 0; 
 		UTILITIES_API virtual bool CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq) = 0;

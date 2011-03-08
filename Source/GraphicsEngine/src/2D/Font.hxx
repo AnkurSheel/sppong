@@ -12,14 +12,19 @@
 
 #include "GraphicEngineDefines.h"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics
 {
 	class IFont
 	{
 	public:
 		virtual ~IFont(){}
-		GRAPHIC_API virtual void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) = 0;
-		GRAPHIC_API virtual void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) = 0;
+		GRAPHIC_API virtual void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) = 0;
+		GRAPHIC_API virtual void DisplayText(IDirect3DDevice9 *pd3dDevice, const Base::cString &  strString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) = 0;
 		GRAPHIC_API static IFont * CreateMyFont();
 	} ;
 }

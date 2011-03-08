@@ -20,6 +20,10 @@ enum eMouseClickType
 	LEFTANDRIGHTBUTTON,
 	HOVER
 };
+namespace Base
+{
+	class cString;
+}
 
 namespace Graphics
 {
@@ -28,9 +32,9 @@ namespace Graphics
 	public:
 		virtual ~IMouseZone(){}
 		GRAPHIC_API virtual void FreeZones() = 0;
-		GRAPHIC_API virtual void AddZone( char const * const  szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType) = 0;
-		GRAPHIC_API virtual void RemoveZone(LPCTSTR szZoneName) = 0;
-		GRAPHIC_API virtual bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName) = 0;
+		GRAPHIC_API virtual void AddZone( const Base::cString & strZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType) = 0;
+		GRAPHIC_API virtual void RemoveZone(const Base::cString &  strZoneName) = 0;
+		GRAPHIC_API virtual bool CheckZones(const int iPosX, const int iPosY, const bool* const pbMouseButtons, Base::cString & strHitZoneName) = 0;
 		GRAPHIC_API static IMouseZone * TheMouseZone();
 		GRAPHIC_API static IMouseZone * CreateMouseZone();
 	};

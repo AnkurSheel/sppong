@@ -1,4 +1,14 @@
-#pragma once
+// ***************************************************************
+//  myString   version:  1.0   Ankur Sheel  date: 2011/03/08
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef myString_h__
+#define myString_h__
 
 #include "BaseDefines.h"
 #include <string>
@@ -13,7 +23,8 @@ namespace Base
 		BASE_API cString(std::string const & s);
 		BASE_API cString(const char * s, int n);
 		BASE_API cString(const char * s, int p, int n);
-		BASE_API cString(const cString&){} // ankur - move to private when changing back to char * instead of string
+		BASE_API cString(const cString & str); // ankur - move to private when changing back to char * instead of string
+		BASE_API cString operator =(const cString & str);
 		
 		BASE_API explicit cString(int iMaxSize, const char * const  lpFmt, ...);
 
@@ -25,11 +36,9 @@ namespace Base
 		BASE_API const char * const GetData()const;
 		BASE_API bool IsEmpty() const ;
 		BASE_API static cString TimeToString(time_t time);
-	private:
-		
-		cString operator =(const cString&){}
 
 	public:
 		std::string m_str;
 	};
 }
+#endif // myString_h__

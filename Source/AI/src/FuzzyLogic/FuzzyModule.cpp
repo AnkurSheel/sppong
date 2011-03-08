@@ -13,6 +13,7 @@
 #include "FuzzyRule.h"
 #include "AIDefines.h"
 
+using namespace Base;
 //----------------------------------------------------------------------------
 // Construction and Destruction
 //----------------------------------------------------------------------------
@@ -59,11 +60,11 @@ void cFuzzyModule::SetConfidencesofConsequentsToZero()
 // creates a empty fuzzy variable and returns a reference to its Construction
 // and Destruction
 //----------------------------------------------------------------------------
-cFuzzyVariable* cFuzzyModule::CreateFLV(const char * const& varName)
+cFuzzyVariable* cFuzzyModule::CreateFLV(const cString & varName)
 {
-	m_Variables.insert(std::make_pair(varName, DEBUG_NEW cFuzzyVariable()));
+	m_Variables.insert(std::make_pair(varName.GetData(), DEBUG_NEW cFuzzyVariable()));
 
-	return m_Variables[varName];
+	return m_Variables[varName.GetData()];
 }
 //----------------------------------------------------------------------------
 
@@ -80,9 +81,9 @@ void cFuzzyModule::AddRule(cFuzzyTerm* antecedent, cFuzzyTerm* consequent)
 //----------------------------------------------------------------------------
 // returns a crisp value
 //----------------------------------------------------------------------------
-float cFuzzyModule::DeFuzzify(const char * const& key, const DeFuzzifyMethod method)
+float cFuzzyModule::DeFuzzify(const cString & key, const DeFuzzifyMethod method)
 {
-	_ASSERT((m_Variables.find(key) != m_Variables.end()));
+	_ASSERT((m_Variables.find(key.GetData()) != m_Variables.end()));
 
 	SetConfidencesofConsequentsToZero();
 
@@ -96,11 +97,11 @@ float cFuzzyModule::DeFuzzify(const char * const& key, const DeFuzzifyMethod met
 	switch(method)
 	{
 	case Max_average:
-		return(m_Variables[key]->DeFuzzifyMaxAv());
+		return(m_Variables[key.GetData()]->DeFuzzifyMaxAv());
 		break;
 
 	case Centroid:
-		return(m_Variables[key]->DeFuzzifyCentroid(m_iNumSamples));
+		return(m_Variables[key.GetData()]->DeFuzzifyCentroid(m_iNumSamples));
 		break;
 
 	}
@@ -112,9 +113,9 @@ float cFuzzyModule::DeFuzzify(const char * const& key, const DeFuzzifyMethod met
 // this method calls the Fuzzify method of the variable with the same name as 
 // the key
 //----------------------------------------------------------------------------
-void cFuzzyModule::Fuzzify(const char * const& nameOfFLV, const float val)
+void cFuzzyModule::Fuzzify(const cString & nameOfFLV, const float val)
 {
-	_ASSERT((m_Variables.find(nameOfFLV) != m_Variables.end()));
-	m_Variables[nameOfFLV]->Fuzzify(val);
+	_ASSERT((m_Variables.find(nameOfFLV.GetData()) != m_Variables.end()));
+	m_Variables[nameOfFLV.GetData()]->Fuzzify(val);
 }
 //----------------------------------------------------------------------------

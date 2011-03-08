@@ -22,15 +22,15 @@ cResourceChecker::cResourceChecker()
 {
 }
 
-bool cResourceChecker::IsOnlyInstance(LPCTSTR gameTitle) 
+bool cResourceChecker::IsOnlyInstance(const cString & gameTitle) 
 { 
 	// Find the window. If active, set and return false 
 	// Only one game instance may have this mutex at a time... 
-	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle); 
+	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle.GetData()); 
 	
 	if (GetLastError() != ERROR_SUCCESS) 
 	{ 
-		HWND hWnd = FindWindow(NULL, gameTitle); 
+		HWND hWnd = FindWindow(NULL, gameTitle.GetData()); 
 		if (hWnd) 
 		{ 
 			// An instance of your game is already running. 
@@ -139,7 +139,7 @@ bool cResourceChecker::CheckHardDisk(const unsigned int diskSpaceNeeded)
 	m_AvailableHardDiskSpace = (unsigned int)((float)diskfree.avail_clusters/MEGABYTE) * diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
 	if (m_AvailableHardDiskSpace < diskSpaceNeeded) 
 	{ 
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough HardDisk Space - Required : %ld, Available %ld \n", diskSpaceNeeded, m_AvailableHardDiskSpace).GetData());
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough HardDisk Space - Required : %ld, Available %ld \n", diskSpaceNeeded, m_AvailableHardDiskSpace));
 		return false; 
 	} 
 	return true;
@@ -159,13 +159,13 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 
 	if (m_AvailablePhysicalMemory < (physicalRAMNeeded)) 
 	{ 
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Physical Memory - Required : %ld, Available %ld \n", physicalRAMNeeded, m_AvailablePhysicalMemory).GetData());
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Physical Memory - Required : %ld, Available %ld \n", physicalRAMNeeded, m_AvailablePhysicalMemory));
 		return false; 
 	} 
 	// Check for enough free memory. 
 	if (status.ullAvailVirtual < virtualRAMNeeded) 
 	{ 
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory).GetData());
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory));
 		// Tell the player to shut down the copy of Visual Studio running in the 
 		// background, or whatever seems to be sucking the memory dry. 
 		return false; 
@@ -375,7 +375,7 @@ bool cResourceChecker::CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq)
 	m_CPUSpeed = CalcCPUSpeed(); 
 	if(m_CPUSpeed < uMinSpeedReq)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString( 100, "CPU is too slow - Required speed: %ld, Actual Speed %ld \n", uMinSpeedReq, m_CPUSpeed).GetData());
+		Log_Write_L1(ILogger::LT_ERROR, cString( 100, "CPU is too slow - Required speed: %ld, Actual Speed %ld \n", uMinSpeedReq, m_CPUSpeed));
 		return false;
 	}
 	return true; 

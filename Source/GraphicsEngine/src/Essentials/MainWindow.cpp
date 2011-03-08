@@ -48,7 +48,7 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp )
+HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp )
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
@@ -101,17 +101,17 @@ void cMainWindow::RegisterWin()
 // ***************************************************************
 // Creates the window
 // ***************************************************************
-HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWindowTitle )
+HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle )
 {
 #ifdef WINDOWED
 	// create the window in windowed mode
 	m_Hwnd = CreateWindowEx(
 		WS_EX_CLIENTEDGE,
 		"Window",
-		lpWindowTitle,
+		lpWindowTitle.GetData(),
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		100, 100,
+		CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, 
 		NULL, 
 		m_hInstance, 
@@ -121,7 +121,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const char * const lpWind
 	m_Hwnd = CreateWindowEx(
 		WS_EX_CLIENTEDGE,
 		"Window",
-		lpWindowTitle,
+		lpWindowTitle.GetData(),
 		WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE,
 		0, 0, 
 		m_iFullScreenWidth,m_iFullScreenHeight,

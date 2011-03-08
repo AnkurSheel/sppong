@@ -12,6 +12,7 @@
 
 using namespace Graphics;
 using namespace std;
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -42,11 +43,11 @@ void cMouseZone::FreeZones()
 // ***************************************************************
 // Add a new zone
 // ***************************************************************
-void cMouseZone::AddZone( char const * const szZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType )
+void cMouseZone::AddZone( const cString & strZoneName, const int iPosX, const int iPosY, const int iWidth, const int iHeight, const eMouseClickType eClickType )
 {
 
 	stHotSpot hotSpot;
-	hotSpot.m_szZoneName = const_cast<char *>(szZoneName);
+	hotSpot.m_strZoneName = strZoneName;
 	hotSpot.m_iZoneXPos = iPosX;
 	hotSpot.m_iZoneYPos = iPosY;
 	hotSpot.m_iZoneWidth = iWidth;
@@ -61,12 +62,12 @@ void cMouseZone::AddZone( char const * const szZoneName, const int iPosX, const 
 // ***************************************************************
 // Deactivates a Zone as per the zone name
 // ***************************************************************
-void cMouseZone::RemoveZone( LPCTSTR szZoneName )
+void cMouseZone::RemoveZone( const cString & strZoneName )
 {
 	list <stHotSpot>::iterator iter;
 	for (iter = m_HotSpots.begin(); iter != m_HotSpots.end(); iter++)
 	{
-		if (strcmp(iter->m_szZoneName, szZoneName) == 0)
+		if (strcmp(iter->m_strZoneName.GetData(), strZoneName.GetData()) == 0)
 		{
 			if (iter->m_bActive)
 			{
@@ -80,7 +81,7 @@ void cMouseZone::RemoveZone( LPCTSTR szZoneName )
 // ***************************************************************
 // Checks if any zone is selected
 // ***************************************************************
-bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const bool* const pbMouseButtons, char * szHitZoneName )
+bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const bool* const pbMouseButtons, cString & strHitZoneName )
 {
 	// check if a click has taken place or not
 	if (!(pbMouseButtons[RIGHTBUTTON] || pbMouseButtons[LEFTBUTTON]))
@@ -105,8 +106,7 @@ bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const bool* const
 					&& (iter->m_iZoneYPos <= iPosY)
 					&& (iter->m_iZoneYPos + iter->m_iZoneHeight >= iPosY))
 				{
-					//_tcscpy_s(szHitZoneName, _tcslen(iter->m_szZoneName)+1, iter->m_szZoneName);
-					strcpy_s(szHitZoneName, strlen(iter->m_szZoneName)+1, iter->m_szZoneName);
+					strHitZoneName = iter->m_strZoneName;
 					return true;
 				}
 			}

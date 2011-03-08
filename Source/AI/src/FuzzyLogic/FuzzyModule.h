@@ -18,14 +18,19 @@ class cFuzzyRule;
 #include <vector>
 #include "AIDefines.h"
 
+namespace Base
+{
+	class cString;
+}
+
 class cFuzzyModule
 {
 protected:
 	struct compstr
 	{
-		bool operator () (const char * const str1, const char * const str2) const
+		bool operator () (const Base::cString & str1, const Base::cString & str2) const
 		{
-			return strcmp(str1, str2) < 0;	
+			return strcmp(str1.GetData(), str2.GetData()) < 0;	
 		}
 	};
 
@@ -40,10 +45,10 @@ public:
 public:
 	AI_API cFuzzyModule();
 	AI_API virtual ~cFuzzyModule();
-	AI_API cFuzzyVariable* CreateFLV(const char * const& varName);
+	AI_API cFuzzyVariable* CreateFLV(const Base::cString & varName);
 	AI_API void AddRule(cFuzzyTerm* antecedent, cFuzzyTerm* consequent);
-	AI_API float DeFuzzify(const char * const& key, const DeFuzzifyMethod method);
-	AI_API void Fuzzify(const char * const& nameOfFLV, const float val);
+	AI_API float DeFuzzify(const Base::cString & key, const DeFuzzifyMethod method);
+	AI_API void Fuzzify(const Base::cString & nameOfFLV, const float val);
 
 protected:
 	void SetConfidencesofConsequentsToZero();

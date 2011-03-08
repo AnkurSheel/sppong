@@ -32,13 +32,13 @@
 //1 - very basic debug output
 //2 - comprehensive debug output
 //3 - all output, and a transcript of all messages
-//#ifdef _DEBUG
+#ifdef _DEBUG
 //Set the output level for 'DEBUG' builds
 #define SYSTEM_DEBUG_LEVEL 2
-//#else
+#else
 //Set the output level for 'RELEASE' builds
-//#define SYSTEM_DEBUG_LEVEL 1
-//#endif
+#define SYSTEM_DEBUG_LEVEL 1
+#endif
 
 #define Log_Write( linetype, linetext )  \
 	ILogger::TheLogger()->WriteLogEntry( \

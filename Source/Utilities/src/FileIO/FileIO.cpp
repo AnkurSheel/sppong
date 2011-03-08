@@ -11,7 +11,7 @@ bool cFileIO::Open(const cString & strFileName)
 	{
 		if(fclose(m_fStdOut))
 		{
-			Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not close file: %s", strFileName).GetData());
+			Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not close file: %s", strFileName.GetData()));
 			return false;
 		}
 	}
@@ -19,6 +19,6 @@ bool cFileIO::Open(const cString & strFileName)
 	err = fopen_s(&m_fStdOut, strFileName.GetData(), "r");
 	if(err != 0)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not open file: %s", strFileName).GetData());
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not open file: %s", strFileName.GetData()));
 	}
 }

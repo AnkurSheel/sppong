@@ -51,10 +51,6 @@
 #include "Debugging/Logger.hxx"
 #include "myString.h"
 
-#ifndef _DEBUG
-#define WINDOWED
-#endif
-
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
 #else

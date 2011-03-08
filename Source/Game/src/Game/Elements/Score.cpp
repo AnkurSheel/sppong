@@ -13,7 +13,7 @@
 #include "Constants.h"
 
 using namespace Graphics;
-
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -64,10 +64,7 @@ void cScore::Init( const D3DXVECTOR3& vInitialPos )
 	m_BoundingRect.top  = (long)vInitialPos.y;
 	m_BoundingRect.bottom = 50;
 	
-
-	//_stprintf_s(m_strValue, _countof(m_strValue) - 1, _T("%02d"), m_iValue) ;
-	sprintf_s(m_strValue, "%02d", m_iValue) ;
-	m_strValue[_countof(m_strValue) - 1] = TEXT('\0') ;
+	m_strValue = cString(20, "%02d", m_iValue);
 
 }
 // ***************************************************************
@@ -107,8 +104,6 @@ void cScore::IncrementScore()
 {
 	m_iValue++;
 
-	//_stprintf_s(m_strValue, _countof(m_strValue) - 1, _T("%02d"), m_iValue) ;
-	sprintf_s(m_strValue, _countof(m_strValue) - 1, "%02d", m_iValue) ;
-	m_strValue[_countof(m_strValue) - 1] = TEXT('\0') ;
+	m_strValue = cString(20, "%02d", m_iValue) ;
 }
 // ***************************************************************

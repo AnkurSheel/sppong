@@ -14,6 +14,7 @@
 #include "2D/Polygon.h"
 
 using namespace Graphics;
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -31,7 +32,7 @@ cBall::~cBall()
 // ***************************************************************
 // Initialize the ball
 // ***************************************************************
-void cBall::Init( const D3DXVECTOR3& vInitialPos, const char * const strFilename)
+void cBall::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename)
 {
 	cPongGameElement::Init(vInitialPos, strFilename);
 

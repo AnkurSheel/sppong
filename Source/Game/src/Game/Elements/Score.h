@@ -10,6 +10,11 @@
 #ifndef Score_h__
 #define Score_h__
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics
 {
 	class IFont ;
@@ -34,7 +39,7 @@ private:
 	RECT				m_BoundingRect;
 	DWORD				m_dwFormat;
 	UINT				m_iValue;
-	char				m_strValue[20];
+	Base::cString		m_strValue;
 
 };
 #endif // Score_h__

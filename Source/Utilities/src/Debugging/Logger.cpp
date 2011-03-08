@@ -75,22 +75,22 @@ void cLogger::CreateHeader()
 	m_fXml->AddNode("LogHeader", "Session", "Session", "");
 	m_fXml->AddNode("Session", "Configuration", "Configuration", "");
 	m_fXml->AddNode("Configuration", "Memory", "Memory", "");
-	m_fXml->AddNode("Memory", "AvailablePhysical", "AvailablePhysical", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailablePhysicalMemory()).GetData());
+	m_fXml->AddNode("Memory", "AvailablePhysical", "AvailablePhysical", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailablePhysicalMemory()));
 
-	m_fXml->AddNode("Memory", "TotalPhysical", "TotalPhysical", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalPhysicalMemory()).GetData());
+	m_fXml->AddNode("Memory", "TotalPhysical", "TotalPhysical", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalPhysicalMemory()));
 
-	m_fXml->AddNode("Memory", "AvailableVirtual", "AvailableVirtual", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailableVirtualMemory()).GetData());
+	m_fXml->AddNode("Memory", "AvailableVirtual", "AvailableVirtual", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailableVirtualMemory()));
 
-	m_fXml->AddNode("Memory", "TotalVirtual", "TotalVirtual", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalVirtualMemory()).GetData());
+	m_fXml->AddNode("Memory", "TotalVirtual", "TotalVirtual", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalVirtualMemory()));
 
-	m_fXml->AddNode("Memory", "AvailableHardDiskSpace", "AvailableHardDiskSpace", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailableHardDiskSpace()).GetData());
+	m_fXml->AddNode("Memory", "AvailableHardDiskSpace", "AvailableHardDiskSpace", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailableHardDiskSpace()));
 
-	m_fXml->AddNode("Memory", "TotalHardDiskSpace", "TotalHardDiskSpace", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalHardDiskSpace()).GetData());
+	m_fXml->AddNode("Memory", "TotalHardDiskSpace", "TotalHardDiskSpace", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalHardDiskSpace()));
 
 	m_fXml->AddNode("Configuration", "Processor", "Processor", "");
-	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetCPUSpeed()).GetData());
+	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetCPUSpeed()));
 
-	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::TheResourceChecker()->GetCPUBrand().GetData());
+	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::TheResourceChecker()->GetCPUBrand());
 
 	m_fXml->AddNode("Session", "Started", "Started", "");
 
@@ -98,7 +98,7 @@ void cLogger::CreateHeader()
 	time(&currentTime );
 	m_fXml->AddNode("Started", "Time", "Time", cString::TimeToString(currentTime));
 
-	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion().GetData());
+	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion());
 }
 
 int cLogger::Log( const cString & lpFmt, ... )

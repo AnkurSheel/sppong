@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Sound\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Sound\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;SOUND_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -186,34 +186,6 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="FMOD"
-			>
-			<File
-				RelativePath=".\src\Fmod\fmod.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Fmod\fmod.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Fmod\fmod_codec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Fmod\fmod_dsp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Fmod\fmod_errors.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Fmod\fmod_output.h"
-				>
-			</File>
-		</Filter>
 		<File
 			RelativePath=".\src\Sound.cpp"
 			>

@@ -12,6 +12,7 @@
 #include "2D/Sprite.hxx"
 #include "2D/Polygon.h"
 
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -31,7 +32,7 @@ cPaddle::~cPaddle()
 // ***************************************************************
 // Initializes the paddle
 // ***************************************************************
-void cPaddle::Init( const D3DXVECTOR3& vInitialPos, const char * const strFilename )
+void cPaddle::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename )
 {
 	cGameElement::Init(vInitialPos, strFilename);
 

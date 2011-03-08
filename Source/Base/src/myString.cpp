@@ -1,3 +1,12 @@
+// ***************************************************************
+//  myString   version:  1.0   Ankur Sheel  date: 2011/03/08
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
 #include "stdafx.h"
 #include "myString.h"
 #include <time.h>
@@ -42,6 +51,16 @@ cString::cString(int iMaxSize, const char * const lpFmt, ... )
 	SAFE_DELETE_ARRAY(szBuffer);
 }
 
+cString::cString( const cString & str)
+{
+	m_str = str.m_str;
+}
+
+cString cString::operator=( const cString & str)
+{
+	m_str = str.m_str;
+	return m_str;
+}
 
 const char * const cString::operator () ()
 { 

@@ -19,7 +19,7 @@ namespace Utilities
 	{
 	public:
 		cResourceChecker();
-		bool IsOnlyInstance(LPCTSTR gameTitle);
+		bool IsOnlyInstance(const Base::cString &  gameTitle);
 		bool CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded); 
 		bool CheckHardDisk(const unsigned int diskSpaceNeeded); 
 		bool CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq);

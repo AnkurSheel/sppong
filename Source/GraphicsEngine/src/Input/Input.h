@@ -32,7 +32,13 @@ namespace Graphics
 		long GetMouseZDelta() const;
 		void LockKey(const DWORD dwKey);
 		void Cleanup();
-
+	
+	private:
+		cInput(const cInput&){}
+		cInput operator = (const cInput&){}
+		void CreateKeyboard();
+		void CreateMouse();
+		void ConstrainMouseCursor();
 	private:
 		LPDIRECTINPUT8			m_pdInput;				// the input object
 		LPDIRECTINPUTDEVICE8	m_pdInputKeyboard;		// the keyboard device
@@ -47,11 +53,6 @@ namespace Graphics
 		long					m_lPosY;
 		UINT					m_iTableHeight;
 		UINT					m_iTableWidth;
-		cInput(const cInput&){}
-		cInput operator = (const cInput&){}
-		void CreateKeyboard();
-		void CreateMouse();
-		void ConstrainMouseCursor();
 	};
 
 #include "Input.inl"

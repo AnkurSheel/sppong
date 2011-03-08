@@ -12,6 +12,11 @@
 
 #include "PongGameElement.h"
 
+namespace Base
+{
+	class cString;
+}
+
 class cPaddle 
 	: public cPongGameElement
 {
@@ -21,7 +26,7 @@ private:
 public:
 	cPaddle();
 	~cPaddle();
-	void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
+	void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename);
 	void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = Graphics::WHITE, const RECT* pSrcRect = NULL);
 	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 	void MoveDown(const float fElapsedTime);
