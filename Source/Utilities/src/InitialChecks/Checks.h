@@ -12,17 +12,11 @@
 
 #include "Checks.hxx"
 
-#include "mystring.h"
-
 namespace Utilities
 {
 	class cResourceChecker
 		: public IResourceChecker
 	{
-	private:
-		int StartTimingCPU();
-		void UpdateCPUTime(); 
-		int CalcCPUSpeed(); 
 	public:
 		cResourceChecker();
 		bool IsOnlyInstance(LPCTSTR gameTitle);
@@ -42,8 +36,13 @@ namespace Utilities
 		static void CreateResourceChecker();
 	
 	private:
+		int StartTimingCPU();
+		void UpdateCPUTime(); 
+		int CalcCPUSpeed(); 
 		void CalcCPUBrand();
 		void CalcOSVersion();
+		cResourceChecker(const cResourceChecker&){}
+		cResourceChecker operator =(const cResourceChecker&){}
 
 	private:
 		unsigned int m_TotalPhysicalMemory;

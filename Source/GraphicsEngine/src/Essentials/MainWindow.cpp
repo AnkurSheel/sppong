@@ -17,6 +17,8 @@
 
 using namespace Utilities;
 using namespace Graphics;
+using namespace Base;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************

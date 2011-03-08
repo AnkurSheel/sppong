@@ -5,7 +5,6 @@
 #include <time.h>
 #include <mmsystem.h>
 #include <intrin.h>
-#include <mystring.h>
 
 using namespace Base;
 using namespace Utilities;
@@ -140,9 +139,7 @@ bool cResourceChecker::CheckHardDisk(const unsigned int diskSpaceNeeded)
 	m_AvailableHardDiskSpace = (unsigned int)((float)diskfree.avail_clusters/MEGABYTE) * diskfree.sectors_per_cluster * diskfree.bytes_per_sector;
 	if (m_AvailableHardDiskSpace < diskSpaceNeeded) 
 	{ 
-		char strReason[100];
-		sprintf_s(strReason, 100, "Not Enough HardDisk Space - Required : %ld, Available %ld \n", diskSpaceNeeded, m_AvailableHardDiskSpace);
-		Log_Write_L1(ILogger::LT_ERROR, strReason);
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough HardDisk Space - Required : %ld, Available %ld \n", diskSpaceNeeded, m_AvailableHardDiskSpace).GetData());
 		return false; 
 	} 
 	return true;
@@ -155,7 +152,6 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 
 	GlobalMemoryStatusEx(&status); 
 
-	char strReason[100];
 	m_TotalPhysicalMemory = (unsigned int)(status.ullTotalPhys/MEGABYTE);
 	m_AvailablePhysicalMemory= (unsigned int)(status.ullAvailPhys/MEGABYTE);
 	m_AvailableVirtualMemory = (unsigned int)(status.ullAvailVirtual/MEGABYTE);
@@ -163,15 +159,13 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 
 	if (m_AvailablePhysicalMemory < (physicalRAMNeeded)) 
 	{ 
-		sprintf_s(strReason, 100, "Not Enough Physical Memory - Required : %ld, Available %ld \n", physicalRAMNeeded, m_AvailablePhysicalMemory);
-		Log_Write_L1(ILogger::LT_ERROR, strReason);
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Physical Memory - Required : %ld, Available %ld \n", physicalRAMNeeded, m_AvailablePhysicalMemory).GetData());
 		return false; 
 	} 
 	// Check for enough free memory. 
 	if (status.ullAvailVirtual < virtualRAMNeeded) 
 	{ 
-		sprintf_s(strReason, 100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory);
-		Log_Write_L1(ILogger::LT_ERROR, strReason);
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Not Enough Virtual Memory - Required : %ld, Available %ld \n", virtualRAMNeeded, m_AvailableVirtualMemory).GetData());
 		// Tell the player to shut down the copy of Visual Studio running in the 
 		// background, or whatever seems to be sucking the memory dry. 
 		return false; 
@@ -381,8 +375,7 @@ bool cResourceChecker::CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq)
 	m_CPUSpeed = CalcCPUSpeed(); 
 	if(m_CPUSpeed < uMinSpeedReq)
 	{
-		char strReason[100];
-		sprintf_s(strReason, 100, "CPU is too slow - Required speed: %ld, Actual Speed %ld \n", uMinSpeedReq, m_CPUSpeed);
+		Log_Write_L1(ILogger::LT_ERROR, cString( 100, "CPU is too slow - Required speed: %ld, Actual Speed %ld \n", uMinSpeedReq, m_CPUSpeed).GetData());
 		return false;
 	}
 	return true; 

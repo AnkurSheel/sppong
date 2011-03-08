@@ -7,6 +7,7 @@ using namespace std;
 using namespace FMOD;
 using namespace Utilities;
 using namespace MySound;
+using namespace Base;
 
 stSounds::stSounds() 
 : pSound(NULL)
@@ -44,9 +45,7 @@ void cSound::Init()
 	if(!CheckError(result))
 	{
 		bValid = false;
-		sprintf_s(strReason, 100, "Could not create system. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
-		Log_Write_L1(ILogger::LT_ERROR, strReason);
-
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create system. FMOD error! (%d) %s\n", result, FMOD_ErrorString(result)).GetData());
 		return;
 	}
 

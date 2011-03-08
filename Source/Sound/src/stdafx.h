@@ -29,6 +29,7 @@
 #include <crtdbg.h>
 #include "Macros.h"
 #include "Debugging/Logger.hxx"
+#include "myString.h"
 
 // TODO: reference additional headers your program requires here
 

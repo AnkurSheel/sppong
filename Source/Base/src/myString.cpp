@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "myString.h"
+#include <time.h>
 
 using namespace Base;
 
@@ -26,6 +27,21 @@ cString::cString(const char * s, int p, int n)
 : m_str(s, p, n)
 {
 }
+
+cString::cString(int iMaxSize, const char * const lpFmt, ... )
+{
+	char * szBuffer = new char[iMaxSize+1];//(CharType*)alloca(cbMax+1);
+	va_list argptr;
+	int cnt;
+
+	va_start(argptr, lpFmt);
+	cnt = vsprintf_s(szBuffer, iMaxSize, lpFmt, argptr);
+	va_end(argptr);
+	
+	m_str += szBuffer;
+	SAFE_DELETE_ARRAY(szBuffer);
+}
+
 
 const char * const cString::operator () ()
 { 
@@ -55,4 +71,13 @@ const char * const cString::GetData() const
 bool cString::IsEmpty() const
 {
 	return m_str.empty();
+}
+
+cString cString::TimeToString(time_t time)
+{
+	
+	char str[26];
+	ctime_s(str, 26, &time);
+	str[24] = ' '; // remove the '/n' from the time string
+	return str;
 }

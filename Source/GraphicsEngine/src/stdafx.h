@@ -49,6 +49,7 @@
 #include "constants.h"
 #include "Macros.h"
 #include "Debugging/Logger.hxx"
+#include "myString.h"
 
 #ifndef _DEBUG
 #define WINDOWED

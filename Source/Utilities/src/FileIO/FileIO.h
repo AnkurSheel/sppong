@@ -1,13 +1,11 @@
 #pragma once
 
-#include "myString.h"
-
 namespace Utilities
 {
 	class cFileIO
 	{
 	public:
-		bool Open(Base::cString strFileName);
+		bool Open(const Base::cString & strFileName);
 
 	private:
 		FILE *			m_fStdOut;

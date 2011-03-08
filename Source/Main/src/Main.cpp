@@ -15,6 +15,7 @@
 
 using namespace Utilities;
 using namespace Graphics;
+using namespace Base;
 
 static IBaseApp * pGame = NULL;
 // ***************************************************************
