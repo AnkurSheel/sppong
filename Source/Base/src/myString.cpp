@@ -77,9 +77,24 @@ void cString::operator += (const char * const str)
 	m_str += str;
 }
 
-bool cString::operator<(const cString & str) const
+bool cString::operator < (const cString & str) const
 {
 	return m_str < str.m_str;
+}
+
+bool cString::operator == (const char * szRight) const
+{
+	return strcmp(m_str.c_str(), szRight) == 0;
+}
+
+bool cString::operator == (const cString & strRight) const 
+{
+	return m_str.compare(strRight.m_str) == 0;
+}
+
+int cString::Compare (const cString & strRight) const
+{
+	return m_str.compare(strRight.m_str);
 }
 
 const char * const cString::GetData() const
@@ -94,7 +109,6 @@ bool cString::IsEmpty() const
 
 cString cString::TimeToString(time_t time)
 {
-	
 	char str[26];
 	ctime_s(str, 26, &time);
 	str[24] = ' '; // remove the '/n' from the time string

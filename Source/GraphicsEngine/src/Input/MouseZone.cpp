@@ -67,7 +67,7 @@ void cMouseZone::RemoveZone( const cString & strZoneName )
 	list <stHotSpot>::iterator iter;
 	for (iter = m_HotSpots.begin(); iter != m_HotSpots.end(); iter++)
 	{
-		if (strcmp(iter->m_strZoneName.GetData(), strZoneName.GetData()) == 0)
+		if (iter->m_strZoneName == strZoneName)
 		{
 			if (iter->m_bActive)
 			{

@@ -267,7 +267,7 @@ void cGame::ProcessInput( const long xDelta,
 	{
 		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
 		{
-			if (strcmp(strZoneName.GetData(), "Title Screen") == 0)
+			if (strZoneName == "Title Screen")
 			{
 				m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
 			}
@@ -275,18 +275,18 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (m_pStateMachine->GetCurrentState() == cStateMenuScreen::Instance())
 		{
-			if (strcmp(strZoneName.GetData(), "Single Player") == 0)
+			if (strZoneName == "Single Player")
 			{
 				m_bSinglePlayer = true;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
 
-			if (strcmp(strZoneName.GetData(), "Two Player") == 0)
+			if (strZoneName == "Two Player")
 			{
 				m_bSinglePlayer = false;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
-			if (strcmp(strZoneName.GetData(), "Quit") == 0)
+			if (strZoneName == "Quit")
 			{
 				PostQuitMessage(0);
 			}
