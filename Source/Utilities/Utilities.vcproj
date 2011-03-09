@@ -254,6 +254,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\FileIO\FileIO.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\FileIO\XMLFileIO.cpp"
 				>
 			</File>

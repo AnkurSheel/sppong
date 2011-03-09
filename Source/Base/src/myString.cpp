@@ -39,7 +39,7 @@ cString::cString(const char * s, int p, int n)
 
 cString::cString(int iMaxSize, const char * const lpFmt, ... )
 {
-	char * szBuffer = new char[iMaxSize+1];//(CharType*)alloca(cbMax+1);
+	char * szBuffer = DEBUG_NEW char[iMaxSize+1];
 	va_list argptr;
 	int cnt;
 
