@@ -15,6 +15,7 @@
 
 using namespace Utilities;
 using namespace Graphics;
+using namespace Base;
 
 static IBaseApp * pGame = NULL;
 // ***************************************************************
@@ -48,8 +49,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	CheckForMemoryLeaks() ;
 	
-	IMainWindow::CreateMyWindow();
-
 	int iWidth = GetSystemMetrics(SM_CXSCREEN);
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);
 

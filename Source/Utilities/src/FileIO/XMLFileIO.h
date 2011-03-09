@@ -17,6 +17,11 @@
 class TiXmlElement;
 class TiXmlDocument;
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Utilities
 {
 	class cXMLFileIO
@@ -25,15 +30,15 @@ namespace Utilities
 	public:
 		cXMLFileIO();
 		~cXMLFileIO();
-		void Init(const char * const strRootId, const char * const strRootName, const char * const strStyleSheetPath = NULL);
-		void AddComment(const char * const strParentId, const char * const strComment);
-		void AddNode(const char * const strParentId, const char * const strId, const char * const strNode, const char * const strNodeValue);
-		void AddAttribute(const char * const strId, const char * const strAttributeNode, const int iValue );
-		void AddAttribute(const char * const strId, const char * const strAttributeNode, const char * const strValue );
-		void Save(const char * const strFilePath);
-		const char * const Load(const char * const strFilePath);
-		const char * const GetNodeName(const char * const strParent, const int iIndex) ;
-		const char * const GetNodeValue(const char * const strNode);
+		void Init(const Base::cString & strRootId, const Base::cString & strRootName, const Base::cString & strStyleSheetPath);
+		void AddComment(const Base::cString & strParentId, const Base::cString & strComment);
+		void AddNode(const Base::cString & strParentId, const Base::cString & strId, const Base::cString & strNode, const Base::cString & strNodeValue);
+		void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const int iValue );
+		void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const Base::cString & strValue );
+		void Save(const Base::cString & strFilePath);
+		Base::cString Load(const Base::cString & strFilePath);
+		Base::cString GetNodeName(const Base::cString & strParent, const int iIndex) ;
+		Base::cString GetNodeValue(const Base::cString & strNode);
 
 	private:
 		typedef std::map<std::string , const TiXmlElement*> ElementMap;

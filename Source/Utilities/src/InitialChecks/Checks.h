@@ -17,13 +17,9 @@ namespace Utilities
 	class cResourceChecker
 		: public IResourceChecker
 	{
-	private:
-		int StartTimingCPU();
-		void UpdateCPUTime(); 
-		int CalcCPUSpeed(); 
 	public:
 		cResourceChecker();
-		bool IsOnlyInstance(LPCTSTR gameTitle);
+		bool IsOnlyInstance(const Base::cString &  gameTitle);
 		bool CheckMemory( const UINT physicalRAMNeeded, const UINT virtualRAMNeeded); 
 		bool CheckHardDisk(const unsigned int diskSpaceNeeded); 
 		bool CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq);
@@ -34,10 +30,20 @@ namespace Utilities
 		unsigned int GetTotalHardDiskSpace() const;
 		unsigned int GetAvailableHardDiskSpace() const;
 		unsigned int GetCPUSpeed() const;
-		const char * const GetCPUBrand();
-		const char * const GetOSVersion();
+		Base::cString GetCPUBrand();
+		Base::cString GetOSVersion();
 		void Destroy();
 		static void CreateResourceChecker();
+	
+	private:
+		int StartTimingCPU();
+		void UpdateCPUTime(); 
+		int CalcCPUSpeed(); 
+		void CalcCPUBrand();
+		void CalcOSVersion();
+		cResourceChecker(const cResourceChecker&){}
+		cResourceChecker operator =(const cResourceChecker&){}
+
 	private:
 		unsigned int m_TotalPhysicalMemory;
 		unsigned int m_AvailablePhysicalMemory;
@@ -46,8 +52,8 @@ namespace Utilities
 		unsigned int m_AvailableHardDiskSpace;
 		unsigned int m_TotalHardDiskSpace;
 		unsigned int m_CPUSpeed;
-		char		 m_strCPUBrand[0x40];
-		char		 m_strOsVersion[128];
+		Base::cString m_strCPUBrand;
+		Base::cString m_strOsVersion;
 	};
 
 #include "Checks.inl"

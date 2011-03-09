@@ -12,6 +12,11 @@
 
 #include "Game.hxx"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics
 {
 	class ISprite;
@@ -69,7 +74,7 @@ public:
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
-	const char * const GetGameTitle(); 
+	Base::cString GetGameTitle();	
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;

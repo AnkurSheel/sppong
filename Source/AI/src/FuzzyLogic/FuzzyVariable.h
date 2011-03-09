@@ -16,6 +16,11 @@ class cFuzzySet;
 class cFuzzyModule;
 class cFuzzySetProxy;
 
+namespace Base
+{
+	class cString;
+}
+
 class cFuzzyVariable
 {
 protected:
@@ -25,11 +30,11 @@ public:
 	cFuzzyVariable();
 	virtual ~cFuzzyVariable();
 	cFuzzyVariable& operator=(const cFuzzyVariable& var);
-	cFuzzySetProxy* AddLeftShoulderSet(const char * const name , const float minBound, const float peak , const float maxBound);
-	cFuzzySetProxy* AddRightShoulderSet(const char * const& name
+	cFuzzySetProxy* AddLeftShoulderSet(const Base::cString & name , const float minBound, const float peak , const float maxBound);
+	cFuzzySetProxy* AddRightShoulderSet(const Base::cString & name
 									, const float minBound, const float peak
 									, const float maxBound);
-	cFuzzySetProxy* AddangleSet(const char * const& name, const float minBound
+	cFuzzySetProxy* AddangleSet(const Base::cString & name, const float minBound
 									, const float peak, const float maxBound);
 	void Fuzzify(const float val);
 	float DeFuzzifyMaxAv();

@@ -13,6 +13,7 @@
 
 using namespace Utilities;
 using namespace Graphics;
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -41,13 +42,11 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilename )
+void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename )
 {
-	char strReason[100];
-	sprintf_s(strReason, 100, "Loading Sprite : %s", strFilename );
-	Log_Write_L2(ILogger::LT_EVENT, strReason);
+	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
 
-	strcpy_s(m_strFilename, MAX_FILENAME_WIDTH, strFilename);
+	m_strFilename = strFilename;
 
 	if (m_pSprite)
 	{
@@ -56,23 +55,21 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const char * const strFilen
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
-		sprintf_s(strReason, 100, "Sprite Creation failed : %s", strFilename );
-		Log_Write_L1(ILogger::LT_ERROR, strReason);
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite Creation failed : %s", strFilename.GetData() ));
 		PostQuitMessage(0);
 	}
 
 	// Create the texture associated with this sprite
-	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename, &m_pTexture)))
+	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename.GetData(), &m_pTexture)))
 	{
-		sprintf_s(strReason, 100, "Texture Creation failed : %s", strFilename );
-		Log_Write_L1(ILogger::LT_ERROR, strReason);
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Texture Creation failed : %s", strFilename.GetData() ));
 		PostQuitMessage(0);
 	}
 
 	D3DXIMAGE_INFO imageInfo;	// contents of the image file	
 
 	// get the contents of the image file
-	D3DXGetImageInfoFromFile(strFilename, &imageInfo);
+	D3DXGetImageInfoFromFile(strFilename.GetData(), &imageInfo);
 
 	//get the image height and width
 	m_uiHeight = imageInfo.Height;
@@ -132,9 +129,7 @@ void cSprite::Cleanup()
 {
 	m_vPosition = D3DXVECTOR3(0,0,0);
 
-	char strReason[100];
-	sprintf_s(strReason, 100, "Releasing Texture : %s", m_strFilename);
-	Log_Write_L2(ILogger::LT_EVENT, strReason);
+	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Texture : %s", m_strFilename.GetData()));
 
 	// release the texture
 	SAFE_RELEASE(m_pTexture);

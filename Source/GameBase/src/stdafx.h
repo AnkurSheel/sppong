@@ -36,6 +36,7 @@
 #include <d3dx9.h>
 #include "Macros.h"
 #include <crtdbg.h>
+#include "myString.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)

@@ -12,6 +12,11 @@
 
 #include "GraphicEngineDefines.h"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics
 {
 	class IBaseApp;
@@ -23,7 +28,7 @@ namespace Graphics
 	{
 	public:
 		virtual ~IMainWindow(){}
-		GRAPHIC_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp * const pGameApp) = 0;
+		GRAPHIC_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp * const pGameApp) = 0;
 		GRAPHIC_API virtual void Run() = 0;
 		GRAPHIC_API static IMainWindow * TheWindow();
 		GRAPHIC_API virtual void DisplayFPS() = 0;
@@ -33,7 +38,6 @@ namespace Graphics
 		GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
 		GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
 		GRAPHIC_API virtual void Destroy() = 0;
-		GRAPHIC_API static void CreateMyWindow();
 	};
 }
 #endif // MainWindow_h__

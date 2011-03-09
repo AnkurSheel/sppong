@@ -23,6 +23,7 @@
 
 using namespace MySound;
 using namespace Graphics;
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -261,12 +262,12 @@ void cGame::ProcessInput( const long xDelta,
 		HandlePaddleAI(fElapsedTime);
 	}
 
-	char szZoneName[64];
-	if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, szZoneName))
+	cString strZoneName;
+	if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, strZoneName))
 	{
 		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
 		{
-			if (strcmp(szZoneName, "Title Screen") == 0)
+			if (strZoneName == "Title Screen")
 			{
 				m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
 			}
@@ -274,18 +275,18 @@ void cGame::ProcessInput( const long xDelta,
 
 		if (m_pStateMachine->GetCurrentState() == cStateMenuScreen::Instance())
 		{
-			if (strcmp(szZoneName, "Single Player") == 0)
+			if (strZoneName == "Single Player")
 			{
 				m_bSinglePlayer = true;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
 
-			if (strcmp(szZoneName, "Two Player") == 0)
+			if (strZoneName == "Two Player")
 			{
 				m_bSinglePlayer = false;
 				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
 			}
-			if (strcmp(szZoneName, "Quit") == 0)
+			if (strZoneName == "Quit")
 			{
 				PostQuitMessage(0);
 			}
@@ -439,7 +440,7 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	}
 }
 
-const char * const cGame::GetGameTitle()
+cString cGame::GetGameTitle()
 {
 	return "MPong";
 }

@@ -13,6 +13,7 @@
 #include "Constants.h"
 
 using namespace Graphics;
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -38,11 +39,8 @@ cFPS::~cFPS()
 // ***************************************************************
 void cFPS::Render( LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue )
 {
-	//_stprintf_s(m_strValue, _countof(m_strValue) - 1, _T("%0.2f"), fFPSValue) ;
-	sprintf_s(m_strValue, _countof(m_strValue) - 1, "%0.2f", fFPSValue) ;
-	m_strValue[_countof(m_strValue) - 1] = TEXT('\0') ;
-
-	m_pFont->DisplayText(pDevice, m_strValue, &m_BoundingRect, &m_dwFormat, m_FontColor);
+	m_strValue = cString(20, "%0.2f", fFPSValue);
+	m_pFont->DisplayText(pDevice, m_strValue.GetData(), &m_BoundingRect, &m_dwFormat, m_FontColor);
 }
 // ***************************************************************
 

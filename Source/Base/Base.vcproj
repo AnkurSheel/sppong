@@ -2,11 +2,11 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="AI"
-	ProjectGUID="{B1A264DA-55CA-4CC8-9EAF-5D251ECAE276}"
-	RootNamespace="AI"
+	Name="Base"
+	ProjectGUID="{74220F22-9039-453B-81F0-44BEA935E6D9}"
+	RootNamespace="Base"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="131072"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;AI_EXPORTS"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BASE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -50,7 +50,6 @@
 				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
 				AssemblerListingLocation="$(IntDir)\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -64,7 +63,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Utilities_D.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Test\"
@@ -73,8 +71,6 @@
 				GenerateMapFile="true"
 				MapFileName="$(IntDir)$(TargetName).map"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -124,14 +120,16 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)AI\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;AI_EXPORTS"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BASE_EXPORTS"
 				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
 				AssemblerListingLocation="$(IntDir)\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -145,10 +143,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Utilities.lib Base.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -156,8 +152,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -186,96 +180,16 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="FSM"
-			>
-			<File
-				RelativePath=".\src\FSM\State.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FSM\StateMachine.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FSM\Statemachine.inl"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FSM\Telegram.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="FuzzySystem"
-			>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyModule.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyModule.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyOperators.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyOperators.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyRule.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyRule.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzySet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzySet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzySetProxy.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzySetProxy.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzySetTypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzySetTypes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyTerm.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyTerm.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyVariable.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FuzzyLogic\FuzzyVariable.h"
-				>
-			</File>
-		</Filter>
 		<File
-			RelativePath=".\src\AIDefines.h"
+			RelativePath=".\src\BaseDefines.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\myString.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\myString.h"
 			>
 		</File>
 		<File

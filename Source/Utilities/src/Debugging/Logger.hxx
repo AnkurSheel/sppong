@@ -12,6 +12,10 @@
 
 #include "UtilitiesDefines.h"
 
+namespace Base
+{
+	class cString;
+}
 namespace Utilities
 {
 	class ILogger
@@ -30,11 +34,11 @@ namespace Utilities
 		};
 	public:
 		virtual ~ILogger(){}
-		UTILITIES_API virtual void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL) = 0;
+		UTILITIES_API virtual void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName) = 0;
 		UTILITIES_API virtual void CreateHeader() = 0;
 		UTILITIES_API static ILogger * TheLogger();
 		UTILITIES_API void Destroy();
-		UTILITIES_API virtual void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage ) = 0;
+		UTILITIES_API virtual void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage) = 0;
 	};
 }
 #endif // Logger_h__

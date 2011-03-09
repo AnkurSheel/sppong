@@ -12,6 +12,16 @@
 
 #include "Font.hxx"
 
+namespace Base
+{
+	class cString;
+}
+
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics
 {
 	class cMyFont
@@ -24,8 +34,8 @@ namespace Graphics
 	public:
 		cMyFont() ;
 		~cMyFont() ;
-		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName) ;
-		void DisplayText(IDirect3DDevice9 *pd3dDevice, const char * const  szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) ;
+		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
+		void DisplayText(IDirect3DDevice9 *pd3dDevice, const Base::cString &  strString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) ;
 	protected:
 		ID3DXFont	*m_pFont ;
 	} ;

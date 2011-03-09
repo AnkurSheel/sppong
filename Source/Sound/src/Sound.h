@@ -14,6 +14,11 @@
 #include "FMOD/fmod.h"
 #include <map>
 
+namespace Base
+{
+	class cString;
+}
+
 namespace FMOD
 {
 	class Sound;
@@ -43,11 +48,11 @@ namespace MySound
 		cSound();
 		~cSound();
 		void Init();
-		void CreateSound(int index, const char * const strFilename);
+		void CreateSound(int index, const Base::cString & strFilename);
 		void PlaySound(int iSoundIndex);
 		void StopSound(int iSoundIndex);
 		void Update();
-		void CreateStream( int index, const char * const strFilename );
+		void CreateStream( int index, const Base::cString & strFilename );
 		void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex);
 		void RemoveSound(int iSoundIndex);
 	private:

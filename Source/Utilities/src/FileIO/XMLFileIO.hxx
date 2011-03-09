@@ -10,21 +10,26 @@
 #ifndef XMLFileIO_hxx__
 #define XMLFileIO_hxx__
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Utilities
 {
 	class IXMLFileIO
 	{
 	public:
 		virtual ~IXMLFileIO(){};
-		virtual void Init(const char * const strRootId, const char * const strRootName, const char * const strStyleSheetPath = NULL) = 0;
-		virtual void AddComment(const char * const strParentId, const char * const strComment) = 0;
-		virtual void AddNode(const char * const strParentId, const char * const strId, const char * const strNode, const char * const strNodeValue) = 0;
-		virtual void AddAttribute(const char * const strId, const char * const strAttributeNode, const int iValue ) = 0;
-		virtual void AddAttribute(const char * const strId, const char * const strAttributeNode, const char * const strValue ) = 0;
-		virtual void Save(const char * const strFilePath) = 0;
-		virtual const char * const Load(const char * const strFilePath) = 0;
-		virtual const char * const GetNodeName(const char * const strParent, const int iIndex) = 0;
-		virtual const char * const GetNodeValue(const char * const strNode) = 0;
+		virtual void Init(const Base::cString & strRootId, const Base::cString & strRootName, const Base::cString & strStyleSheetPath) = 0;
+		virtual void AddComment(const Base::cString & strParentId, const Base::cString & strComment) = 0;
+		virtual void AddNode(const Base::cString & strParentId, const Base::cString & strId, const Base::cString & strNode, const Base::cString & strNodeValue) = 0;
+		virtual void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const int iValue ) = 0;
+		virtual void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const Base::cString & strValue ) = 0;
+		virtual void Save(const Base::cString & strFilePath) = 0;
+		virtual Base::cString Load(const Base::cString & strFilePath) = 0;
+		virtual Base::cString GetNodeName(const Base::cString & strParent, const int iIndex) = 0;
+		virtual Base::cString GetNodeValue(const Base::cString & strNode) = 0;
 		static IXMLFileIO * CreateXMLFile();
 	};
 }

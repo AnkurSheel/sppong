@@ -11,6 +11,7 @@
 #include "Wall.h"
 #include "2D/Sprite.hxx"
 
+using namespace Base;
 // ***************************************************************
 // Constructor
 // *************************************************************** 	
@@ -30,7 +31,7 @@ cWall::~cWall()
 // ***************************************************************
 // Initialize the wall
 // *************************************************************** 	
-void cWall::Init( const D3DXVECTOR3& vPosition, const char * const strFilename )
+void cWall::Init( const D3DXVECTOR3& vPosition, const cString & strFilename )
 {
 	cPongGameElement::Init(vPosition, strFilename);
 }

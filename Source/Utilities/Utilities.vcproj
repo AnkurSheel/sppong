@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,9 +64,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxmld.lib"
+				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxmld.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\..\Test\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -123,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -144,9 +145,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxml.lib"
+				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxml.lib Base.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\bin\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -244,23 +246,15 @@
 			Name="FileIO"
 			>
 			<File
-				RelativePath=".\src\FileIO\tinystr.cpp"
+				RelativePath=".\src\FileIO\FileIO.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\tinystr.h"
+				RelativePath=".\src\FileIO\FileIO.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\tinyxml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\tinyxml.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FileIO\tinyxmlerror.cpp"
+				RelativePath=".\src\FileIO\FileIO.hxx"
 				>
 			</File>
 			<File

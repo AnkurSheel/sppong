@@ -14,7 +14,7 @@
 #include "FuzzySetProxy.h"
 
 #pragma warning(disable:4150) 
-
+using namespace Base;
 //----------------------------------------------------------------------------
 // Construction and Destruction
 //----------------------------------------------------------------------------
@@ -69,16 +69,16 @@ void cFuzzyVariable::AdjustRangeToFit(const float min, const float max)
 // adds a left shoulder set to the member set map. returns a proxy class 
 // representing the newly created instance
 //----------------------------------------------------------------------------
-cFuzzySetProxy* cFuzzyVariable::AddLeftShoulderSet( const char * const name , const float minBound, const float peak , const float maxBound )
+cFuzzySetProxy* cFuzzyVariable::AddLeftShoulderSet( const cString & name , const float minBound, const float peak , const float maxBound )
 {
-	 m_MemberSets[name] = DEBUG_NEW cFuzzySetLtShoulder(peak, peak-minBound, 
+	 m_MemberSets[name.GetData()] = DEBUG_NEW cFuzzySetLtShoulder(peak, peak-minBound, 
 																maxBound- peak);
 	 
 	 //adjust range if req
 	 AdjustRangeToFit(minBound,maxBound);
 
 	 //It is the Callee's responsibility to free it
-	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name]);
+	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name.GetData()]);
 
 	 //return  m_MemberSets[name];
 
@@ -90,18 +90,18 @@ cFuzzySetProxy* cFuzzyVariable::AddLeftShoulderSet( const char * const name , co
 // adds a right shoulder set to the member set map. returns a proxy class 
 // representing the newly created instance
 //----------------------------------------------------------------------------
-cFuzzySetProxy* cFuzzyVariable::AddRightShoulderSet(const char * const& name,
+cFuzzySetProxy* cFuzzyVariable::AddRightShoulderSet(const cString & name,
 												  const float minBound,
 												  const float peak,
 												  const float maxBound)
 {
-	 m_MemberSets[name] = DEBUG_NEW cFuzzySetRtShoulder(peak, peak-minBound, 
+	 m_MemberSets[name.GetData()] = DEBUG_NEW cFuzzySetRtShoulder(peak, peak-minBound, 
 																maxBound- peak);
 	 
 	 //adjust range if req
 	 AdjustRangeToFit(minBound,maxBound);
 
-	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name]);
+	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name.GetData()]);
 
 	 //return  m_MemberSets[name];
 
@@ -113,17 +113,17 @@ cFuzzySetProxy* cFuzzyVariable::AddRightShoulderSet(const char * const& name,
 // adds a angle set to the member set map. returns a proxy class representing
 // the newly created instance
 //----------------------------------------------------------------------------
-cFuzzySetProxy* cFuzzyVariable::AddangleSet(const char * const& name, 
+cFuzzySetProxy* cFuzzyVariable::AddangleSet(const cString & name, 
 											 const float minBound, 
 											 const float peak, 
 											 const float maxBound)
 {
-	m_MemberSets[name] = DEBUG_NEW cFuzzySetangle(peak, peak-minBound, maxBound- peak);
+	m_MemberSets[name.GetData()] = DEBUG_NEW cFuzzySetangle(peak, peak-minBound, maxBound- peak);
 	 
 	 //adjust range if req
 	 AdjustRangeToFit(minBound,maxBound);
 
-	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name]);
+	 cFuzzySetProxy* tmp = DEBUG_NEW cFuzzySetProxy(*m_MemberSets[name.GetData()]);
 
 	 return tmp;
 }

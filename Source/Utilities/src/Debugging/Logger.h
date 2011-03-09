@@ -13,6 +13,11 @@
 
 #include "Logger.hxx"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Utilities
 {
 	class IXMLFileIO;
@@ -23,20 +28,20 @@ namespace Utilities
 	class cLogger
 		: public ILogger
 	{
-	private:
-		cLogger(const cLogger&){}
-		cLogger operator =(const cLogger&){}
-		void LogTypeToString( LogType eLogEntryType, char * str );
 	public:
 		cLogger();
 		~cLogger();
-		void StartConsoleWin(const int ciWidth = 80, const int ciHeight = 40, const char* const cfName = NULL);
-		int Log(const char * const  lpFmt, ...);
+		void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName);
+		int Log(const Base::cString & lpFmt, ...);
 		void Close();
-		void WriteLogEntry(LogType eLogEntryType, const char * const strSourceFile, const char * const strFunction, int iSourceLine, const char * const strMessage);
+		void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage);
 		static void CreateLogger();
 		void CreateHeader();
 
+	private:
+		cLogger(const cLogger&){}
+		cLogger operator =(const cLogger&){}
+		void LogTypeToString( LogType eLogEntryType, Base::cString & str );
 
 	private:
 		FILE *			m_fStdOut;

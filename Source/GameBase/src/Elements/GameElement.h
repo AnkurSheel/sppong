@@ -13,6 +13,11 @@
 #include "GameBaseDefines.h"
 #include "Constants.h"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics
 {
 	class ISprite;
@@ -30,7 +35,7 @@ namespace GameBase
 		GAMEBASE_API cGameElement();
 	public:
 		GAMEBASE_API ~cGameElement();
-		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const char * const strFilename);
+		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename);
 		GAMEBASE_API virtual void SetBoundingRectangle();
 		GAMEBASE_API virtual Graphics::cPolygon& GetBoundingRectangle();
 		GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
@@ -47,7 +52,7 @@ namespace GameBase
 		D3DXVECTOR3				m_vPosition;
 		D3DXVECTOR3				m_vPrevPosition;
 		Graphics::cPolygon *	m_pBoundingPolygon;
-		char					m_strFileName[MAX_FILENAME_WIDTH];
+		Base::cString			m_strFileName;
 	};
 #include "GameElement.inl"
 }

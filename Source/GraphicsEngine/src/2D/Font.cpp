@@ -11,6 +11,7 @@
 #include "Font.h"
 
 using namespace Graphics;
+using namespace Base;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -32,7 +33,7 @@ cMyFont::~cMyFont()
 // ***************************************************************
 // Initializes the font
 // ***************************************************************
-void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const char * const szFaceName )
+void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const cString & strFaceName )
 {
 	D3DXFONT_DESC		fonttype ;
 
@@ -42,7 +43,7 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 	fonttype.Weight		= iWeight ;
 	fonttype.Italic		= bItalic ;
 	fonttype.CharSet	= charset ;
-	strcpy_s(fonttype.FaceName, LF_FACESIZE, szFaceName) ;
+	strcpy_s(fonttype.FaceName, LF_FACESIZE, strFaceName.GetData()) ;
 
 	D3DXCreateFontIndirect(pd3dDevice, &fonttype, &m_pFont) ;
 }
@@ -51,9 +52,9 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 // ***************************************************************
 // Displays the text
 // ***************************************************************
-void cMyFont::DisplayText( IDirect3DDevice9 *pd3dDevice, const char * const szString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col )
+void cMyFont::DisplayText( IDirect3DDevice9 *pd3dDevice, const cString & strString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col )
 {	
-	m_pFont->DrawText(NULL, szString, -1, pRect, *pformat, Col) ;
+	m_pFont->DrawText(NULL, strString.GetData(), -1, pRect, *pformat, Col) ;
 }
 // ***************************************************************
 

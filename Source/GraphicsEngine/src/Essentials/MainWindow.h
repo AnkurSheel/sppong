@@ -12,6 +12,11 @@
 
 #include "MainWindow.hxx"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Utilities
 {
 	class ITimer;
@@ -33,7 +38,7 @@ namespace Graphics
 		cMainWindow(const cMainWindow&){}
 		cMainWindow operator =(const cMainWindow&){}
 		void RegisterWin() ;
-		HWND CreateMyWindow(const int &nCmdShow, const char * const  lpWindowTitle);
+		HWND CreateMyWindow(const int &nCmdShow, const Base::cString &  lpWindowTitle);
 		LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
 		void OnRender();
 		void OnDestroyDevice();
@@ -48,7 +53,7 @@ namespace Graphics
 	public:
 		cMainWindow() ;
 		~cMainWindow() ;
-		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const char * const lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp) ;
+		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp) ;
 		//IMainWindow * TheWindow() ;
 		void Run();
 		void DisplayFPS();

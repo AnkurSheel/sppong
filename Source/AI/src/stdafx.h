@@ -28,6 +28,7 @@
 #include <windows.h>
 #include "Macros.h"
 #include <crtdbg.h>
+#include "myString.h"
 
 // TODO: reference additional headers your program requires here
 #ifdef _DEBUG

@@ -12,6 +12,11 @@
 
 #include "Sprite.hxx"
 
+namespace Base
+{
+	class cString;
+}
+
 namespace Graphics 
 {
 	class cSprite
@@ -24,7 +29,7 @@ namespace Graphics
 	public:
 		cSprite();
 		~cSprite();
-		void Init(LPDIRECT3DDEVICE9 const pDevice, const char  * const  strFilename) ;
+		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
 		void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
 		void Cleanup();
@@ -41,7 +46,7 @@ namespace Graphics
 		D3DXVECTOR3			m_vScale ;		// the scaling info for the image
 		D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
 		D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
-		char				m_strFilename[MAX_FILENAME_WIDTH];
+		Base::cString		m_strFilename;
 	};
 #include "Sprite.inl"
 }
