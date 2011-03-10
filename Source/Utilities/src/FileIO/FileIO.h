@@ -15,9 +15,10 @@ namespace Utilities
 	public:
 		cFileIO();
 		~cFileIO();
-		bool OpenAndRead(const Base::cString & strFileName);
+		bool Open(const Base::cString & strFileName);
+		Base::cString Read();
 		bool Close();
-		Base::cString GetBuffer();
+		Base::cString GetBuffer() const;
 
 	private:
 		FILE *			m_fStdOut;

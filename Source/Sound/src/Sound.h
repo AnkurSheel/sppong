@@ -11,7 +11,7 @@
 #define Sound_h__
 
 #include "Sound.hxx"
-#include "FMOD/fmod.h"
+#include "FModex\fmod.h"
 #include <map>
 
 namespace Base

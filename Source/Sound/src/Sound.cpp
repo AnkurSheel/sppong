@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Sound.h"
-#include "Fmod/fmod.hpp"
-#include "Fmod/fmod_errors.h"
+#include "FModex\fmod.hpp"
+#include "FModex\fmod_errors.h"
 
 using namespace std;
 using namespace FMOD;

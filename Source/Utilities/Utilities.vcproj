@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Test"
+			OutputDirectory="..\..\Debug\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,10 +64,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxmld.lib Base_D.lib"
+				AdditionalDependencies="Winmm.lib tinyxmld.lib Base_D.lib zdll.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Test\"
+				AdditionalLibraryDirectories="..\..\Debug\;&quot;$(SolutionDir)..\extern\Lib\ZLib\&quot;;&quot;$(SolutionDir)..\extern\Lib\TinyXml\&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -145,10 +145,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxml.lib Base.lib"
+				AdditionalDependencies="tinyxml.lib Winmm.lib Base.lib zdll.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)..\extern\Lib\ZLib\&quot;;&quot;$(SolutionDir)..\extern\Lib\TinyXml\&quot;;..\..\bin\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -267,6 +267,18 @@
 			</File>
 			<File
 				RelativePath=".\src\FileIO\XMLFileIO.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Zip"
+			>
+			<File
+				RelativePath=".\src\Zip\ZipFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Zip\ZipFile.h"
 				>
 			</File>
 		</Filter>

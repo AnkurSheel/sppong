@@ -13,9 +13,10 @@ namespace Utilities
 	{
 	public:
 		UTILITIES_API virtual ~IFileIO(){ Destroy(); }
-		UTILITIES_API virtual bool OpenAndRead(const Base::cString & strFileName) = 0;
+		UTILITIES_API virtual bool Open(const Base::cString & strFileName) = 0;
 		UTILITIES_API virtual bool Close() = 0;
-		UTILITIES_API virtual Base::cString GetBuffer() = 0;
+		UTILITIES_API virtual Base::cString Read() = 0;
+		UTILITIES_API virtual Base::cString GetBuffer() const = 0;
 		
 		UTILITIES_API static  IFileIO * CreateFile();
 		UTILITIES_API void  Destroy();
