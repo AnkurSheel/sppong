@@ -77,6 +77,11 @@ void cString::operator += (const char * const str)
 	m_str += str;
 }
 
+void cString::operator += (const cString & str)
+{
+	m_str += str.GetData();
+}
+
 bool cString::operator < (const cString & str) const
 {
 	return m_str < str.m_str;

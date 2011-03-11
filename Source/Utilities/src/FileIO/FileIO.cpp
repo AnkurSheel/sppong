@@ -18,7 +18,8 @@ cFileIO::~cFileIO()
 
 bool cFileIO::Open(const cString & strFileName)
 {
-	Close();
+	if(m_fStdOut)
+		Close();
 	errno_t err;
 	
 	m_strFileName = strFileName;
@@ -51,7 +52,7 @@ bool cFileIO::Close()
 	return false;
 }
 
-cString cFileIO::Read()
+cString cFileIO::ReadAll()
 {
 	if(!m_fStdOut)
 	{
@@ -66,15 +67,25 @@ cString cFileIO::Read()
 		return false;
 	}
 
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Size of File %s : %d", m_strFileName.GetData(), fileStat.st_size));
+	return Read(fileStat.st_size);
 	unsigned int cLength = (unsigned int)fileStat.st_size;
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Size of File %s : %d", m_strFileName.GetData(), cLength));
+}
 
-	char * szbuffer = DEBUG_NEW char[cLength];
-	unsigned int nNoOfItemsRead = fread(szbuffer, 1, cLength, m_fStdOut);
+cString cFileIO::Read(size_t size)
+{
+	if(!m_fStdOut)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "File Handle not found : %s", m_strFileName.GetData()));
+		return "";
+	}
+	
+	char * szbuffer = DEBUG_NEW char[size];
+	unsigned int nNoOfItemsRead = fread(szbuffer, 1, size, m_fStdOut);
 
 	errno_t err = errno;
 
-	if(ferror(m_fStdOut) || nNoOfItemsRead != cLength)
+	if(ferror(m_fStdOut) || nNoOfItemsRead != size)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "File open failed (couldn't get file size): %s, %s", m_strFileName.GetData(), strerror(errno)));
 	}
@@ -89,14 +100,8 @@ cString cFileIO::GetBuffer() const
 	return m_strBuffer;
 }
 
-IFileIO * IFileIO::CreateFile()
+IFileIO * IFileIO::CreateUserFile()
 {
 	IFileIO * pFile = new cFileIO();
 	return pFile;
 }
-
-void  IFileIO::Destroy()
-{
-	delete this;
-}
-

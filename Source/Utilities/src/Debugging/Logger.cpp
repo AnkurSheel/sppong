@@ -23,7 +23,8 @@ int cLogger::m_iCurrentId = 1;
 // ***************************************************************
 cLogger::cLogger()
 : m_fStdOut(NULL)
-,m_hStdOut(NULL) 
+, m_hStdOut(NULL) 
+, m_fXml(NULL)
 {
 }
 
@@ -43,13 +44,15 @@ cLogger::~cLogger()
 void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cString & cfName /*= NULL*/ )
 {
 #ifdef _DEBUG
-	AllocConsole();
-	SetConsoleTitle("Console Logger");
-	m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	if( AllocConsole() != 0)
+	{
+		SetConsoleTitle("Console Logger");
+		m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	COORD co = {ciWidth, ciHeight};
+		COORD co = {ciWidth, ciHeight};
 
-	SetConsoleScreenBufferSize(m_hStdOut, co);
+		SetConsoleScreenBufferSize(m_hStdOut, co);
+	}
 #endif
 	if (!cfName.IsEmpty())
 	{
@@ -63,6 +66,8 @@ void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cStr
 }
 void cLogger::CreateHeader()
 {
+	if(!m_fXml)
+		return;
 #if SYSTEM_DEBUG_LEVEL == 3
 	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Extra Comprehensive debugging information (Level 3)");
 #elif SYSTEM_DEBUG_LEVEL == 2
@@ -101,37 +106,30 @@ void cLogger::CreateHeader()
 	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion());
 }
 
-int cLogger::Log( const cString & lpFmt, ... )
+void cLogger::Log(const Base::cString & str)
 {
-	char s[256];
 	char strtime[100];
-	va_list argptr;
-	int cnt;
-
-	va_start(argptr, lpFmt);
-	cnt = vsprintf_s(s, lpFmt.GetData(), argptr);
-	va_end(argptr);
-
 	time_t currentTime;
 	time(&currentTime );
 	ctime_s(strtime, 100, &currentTime);
-	strtime[24] = ' '; // remove the '/n' from the time string
+	strtime[24] = ' ';
 
 #ifdef _DEBUG
 	DWORD dwCharsWritten;
 	if(m_hStdOut)
 	{
-		WriteConsole(m_hStdOut, strtime, (DWORD)strlen(s), &dwCharsWritten, NULL);
-		WriteConsole(m_hStdOut, s, (DWORD)strlen(s), &dwCharsWritten, NULL);
+		WriteConsole(m_hStdOut, strtime, (DWORD)strlen(strtime), &dwCharsWritten, NULL);
+		WriteConsole(m_hStdOut, str.GetData(), (DWORD)strlen(str.GetData()), &dwCharsWritten, NULL);
+		WriteConsole(m_hStdOut, "\n", 1, &dwCharsWritten, NULL);
 	}
 #endif
 	if (m_fStdOut)
 	{
 		fprintf(m_fStdOut, strtime);
-		fprintf(m_fStdOut, s);
+		fprintf(m_fStdOut, str.GetData());
+		fprintf(m_fStdOut, "\n");
 		fflush(m_fStdOut); 
 	}
-	return cnt;
 }
 // ***************************************************************
 
@@ -143,6 +141,10 @@ void cLogger::Close()
 
 void cLogger::WriteLogEntry( LogType eLogEntryType, const cString & strSourceFile, const cString & strFunction, int iSourceLine, const cString & strMessage )
 {
+	Log(strMessage);
+	if(!m_fXml)
+		return;
+
 	cString strEvent(20, "LogEvent%d", m_iCurrentId);
 	m_fXml->AddNode("LogEvents", strEvent, "LogEvent", "");
 	m_fXml->AddAttribute(strEvent,"id", m_iCurrentId);

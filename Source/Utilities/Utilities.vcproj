@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
+				AdditionalIncludeDirectories="src;&quot;..\..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -67,7 +67,7 @@
 				AdditionalDependencies="Winmm.lib tinyxmld.lib Base_D.lib zdll.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Debug\;&quot;$(SolutionDir)..\extern\Lib\ZLib\&quot;;&quot;$(SolutionDir)..\extern\Lib\TinyXml\&quot;"
+				AdditionalLibraryDirectories="..\..\Debug\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
+				AdditionalIncludeDirectories="src;&quot;..\..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -148,7 +148,7 @@
 				AdditionalDependencies="tinyxml.lib Winmm.lib Base.lib zdll.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)..\extern\Lib\ZLib\&quot;;&quot;$(SolutionDir)..\extern\Lib\TinyXml\&quot;;..\..\bin\"
+				AdditionalLibraryDirectories="..\..\bin\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -269,16 +269,12 @@
 				RelativePath=".\src\FileIO\XMLFileIO.hxx"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Zip"
-			>
 			<File
-				RelativePath=".\src\Zip\ZipFile.cpp"
+				RelativePath=".\src\FileIO\ZipFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Zip\ZipFile.h"
+				RelativePath=".\src\FileIO\ZipFile.h"
 				>
 			</File>
 		</Filter>

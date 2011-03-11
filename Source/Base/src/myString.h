@@ -31,6 +31,7 @@ namespace Base
 		BASE_API const char * const operator ()();
 		BASE_API void operator = (const char * const str);
 		BASE_API void operator += (const char * const str);
+		BASE_API void operator += (const cString & str);
 		BASE_API bool operator < (const cString & str) const;
 		BASE_API bool operator == (const char * szRight) const;
 		BASE_API bool operator == (const cString & strRight) const;
