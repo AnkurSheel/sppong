@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "FileIO\ZipFile.h"
+#include "FileIO\ZipFile.hxx"
 #include "Debugging\Logger.hxx"
 #include <direct.h>
 
@@ -37,83 +37,91 @@ void main(int argc, char * argv[])
 
 void MakePath(const char *pszPath)
 {
-  if (pszPath[0] == '\0')
-    return;
+	if (pszPath[0] == '\0')
+		return;
 
-  char buf[1000];
-  const char *p = pszPath;
+	char buf[1000];
+	const char *p = pszPath;
 
-//  printf("MakePath(\"%s\")\n", pszPath);
+	 printf("MakePath(\"%s\")\n", pszPath);
 
-  // Skip machine name in network paths like \\MyMachine\blah...
-  if (p[0] == '\\' && p[1] == '\\')
-    p = strchr(p+2, '\\');
+	// Skip machine name in network paths like \\MyMachine\blah...
+	if (p[0] == '\\' && p[1] == '\\')
+		p = strchr(p+2, '\\');
 
-  while (p != NULL && *p != '\0')
-  {
-    p = strchr(p, '\\');
+	while (p != NULL && *p != '\0')
+	{
+		p = strchr(p, '\\');
 
-    if (p)
-    {
-      memcpy(buf, pszPath, p - pszPath);
-      buf[p - pszPath] = 0;
-      p++;
-    }
-    else
-      strcpy(buf, pszPath);
+		if (p)
+		{
+			memcpy(buf, pszPath, p - pszPath);
+			buf[p - pszPath] = 0;
+			p++;
+		}
+		else
+			strcpy(buf, pszPath);
 
-    if (buf[0] != '\0' && strcmp(buf, ".") && strcmp(buf, ".."))
-    {
-//      printf("  Making path: \"%s\"\n", buf);
-      _mkdir(buf);
-    }
-  }
+		if (buf[0] != '\0' && strcmp(buf, ".") && strcmp(buf, ".."))
+		{
+			//      printf("  Making path: \"%s\"\n", buf);
+			_mkdir(buf);
+		}
+	}
 }
 
 void TestZipFile(cString & strPath)
 {
-	cZipFile zip;
+	IZipFile * pZip = IZipFile::CreateZipFile();;
 
-	if (!zip.Init(strPath))
-		printf("Bad Zip file: \"%s\"\n",strPath.GetData());
+	if(pZip)
+	{
+		if (!pZip->Init(strPath))
+			printf("Bad Zip file: \"%s\"\n",strPath.GetData());
+		else
+		{
+			for (int i = 0; i < pZip->GetNumFiles(); i++)
+			{
+				int len = pZip->GetFileLen(i);
+				cString strFileName;
+
+				strFileName = pZip->GetFilename(i);
+
+				printf("File \"%s\" (%d bytes): ", strFileName.GetData(), len);
+
+				char *pData = new char[len];
+				if (!pData)
+					printf("OUT OF MEMORY\n");
+				else if (true == pZip->ReadFile(i, pData))
+				{
+					printf("OK\n");
+					cString dpath(100, "Data\\Test\\%s", strFileName.GetData());
+
+					char *p = strrchr(const_cast<char *>(dpath.GetData()), '\\');
+					if (p)
+					{
+						*p = '\0';
+						MakePath(dpath.GetData());
+						*p = '\\';
+					}
+					FILE *fo = fopen(dpath.GetData(), "wb");
+					if (fo)
+					{
+						fwrite(pData, len, 1, fo);
+						fclose(fo);
+					}
+				}
+				else
+					printf("ERROR\n");
+				delete[] pData;
+			}
+			pZip->End();
+			SAFE_DELETE(pZip);
+		}
+	}
 	else
 	{
-		for (int i = 0; i < zip.GetNumFiles(); i++)
-		{
-			int len = zip.GetFileLen(i);
-			cString strFileName;
-
-			strFileName = zip.GetFilename(i);
-
-			printf("File \"%s\" (%d bytes): ", strFileName.GetData(), len);
-
-			char *pData = new char[len];
-			if (!pData)
-				printf("OUT OF MEMORY\n");
-			else if (true == zip.ReadFile(i, pData))
-			{
-				printf("OK\n");
-				cString dpath(100, "Data\\Test\\%s", strFileName.GetData());
-
-				char *p = strrchr(const_cast<char *>(dpath.GetData()), '\\');
-				if (p)
-				{
-					*p = '\0';
-					MakePath(dpath.GetData());
-					*p = '\\';
-				}
-				FILE *fo = fopen(dpath.GetData(), "wb");
-				if (fo)
-				{
-					fwrite(pData, len, 1, fo);
-					fclose(fo);
-				}
-			}
-			else
-				printf("ERROR\n");
-			delete[] pData;
-		}
-		zip.End();
+		printf("Could Not Create Zipfile object\n");
 	}
 }
 

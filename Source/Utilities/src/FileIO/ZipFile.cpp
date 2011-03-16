@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ZipFile.h"
 #include "zlib\zlib.h"
-#include "FileIO\FileIO.hxx"
+#include "FileIO\FileInput.hxx"
 
 using namespace Utilities;
 // --------------------------------------------------------------------------
@@ -181,6 +181,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 		}
 	}
 	m_nEntries = dh.nDirEntries;
+	return true;
 }
 
 int cZipFile::GetNumFiles() const 
@@ -252,9 +253,6 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 {
 	if (pBuf == NULL || i < 0 || i >= m_nEntries)
 		return false;
-
-	// Quick'n dirty read, the whole file at once.
-	// Ungood if the ZIP has huge files inside
 
 	// Go to the actual file and read the local header.
 	fseek(m_fStdOut, m_papDir[i]->hdrOffset, SEEK_SET);
@@ -370,8 +368,8 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 	stream.avail_in = (uInt)h.cSize;
 	stream.next_out = (Bytef*)pBuf;
 	stream.avail_out = (128 * 1024); //  read 128k at a time h.ucSize;
-	stream.zalloc = (alloc_func)0;
-	stream.zfree = (free_func)0;
+	stream.zalloc = Z_NULL;
+	stream.zfree = Z_NULL;
 
 	// Perform inflation. wbits < 0 indicates no zlib header inside the data.
 	err = inflateInit2(&stream, -MAX_WBITS);
@@ -405,4 +403,10 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 
 	delete[] pcData;
 	return ret;
+}
+
+IZipFile * IZipFile::CreateZipFile()
+{
+	IZipFile * pZipFile = DEBUG_NEW cZipFile();
+	return pZipFile;
 }

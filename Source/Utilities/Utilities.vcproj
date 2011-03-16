@@ -246,15 +246,15 @@
 			Name="FileIO"
 			>
 			<File
-				RelativePath=".\src\FileIO\FileIO.cpp"
+				RelativePath=".\src\FileIO\FileInput.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\FileIO.h"
+				RelativePath=".\src\FileIO\FileInput.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\FileIO.hxx"
+				RelativePath=".\src\FileIO\FileInput.hxx"
 				>
 			</File>
 			<File
@@ -275,6 +275,10 @@
 			</File>
 			<File
 				RelativePath=".\src\FileIO\ZipFile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\ZipFile.hxx"
 				>
 			</File>
 		</Filter>

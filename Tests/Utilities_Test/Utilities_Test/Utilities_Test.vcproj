@@ -61,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D.lib Utilities_D.lib zdll.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\Debug;..\..\..\extern\Lib\Zlib"
+				AdditionalLibraryDirectories="..\..\..\Debug;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -136,7 +136,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Base_D Utilities_D"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\..\bin"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

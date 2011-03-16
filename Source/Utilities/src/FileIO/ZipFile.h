@@ -1,8 +1,8 @@
 #pragma once
 
-#include "UtilitiesDefines.h"
 #include <map>
-#include "FileIO/FileIO.h"
+#include "ZipFile.hxx"
+#include "FileInput.h"
 
 namespace Base
 {
@@ -12,26 +12,29 @@ namespace Base
 namespace Utilities
 {
 	class cZipFile :
-		public cFileIO
+		public IZipFile,
+		public cFileInput
+
 	{
 	private:
 		typedef std::map<std::string, int> ZipContentsMap;		// maps path to a zip content id
+	
 	public:
-		UTILITIES_API cZipFile();
-		UTILITIES_API virtual ~cZipFile();
+		cZipFile();
+		~cZipFile();
 
-		UTILITIES_API bool Init(const Base::cString & resFileName);
-		UTILITIES_API void End();
+		bool Init(const Base::cString & resFileName);
+		void End();
 
-		UTILITIES_API int GetNumFiles() const;
-		UTILITIES_API Base::cString GetFilename(int i) const;
-		UTILITIES_API int GetFileLen(int i) const;
-		UTILITIES_API bool ReadFile(int i, void *pBuf);
+		int GetNumFiles() const;
+		Base::cString GetFilename(int i) const;
+		int GetFileLen(int i) const;
+		bool ReadFile(int i, void *pBuf);
 
 		// Added to show multi-threaded decompression
-		UTILITIES_API bool ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &));
+		bool ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &));
 
-		UTILITIES_API int Find(const char *path) const;
+		int Find(const char *path) const;
 
 	private:
 
