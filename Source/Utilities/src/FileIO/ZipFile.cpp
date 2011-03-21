@@ -252,7 +252,10 @@ int cZipFile::GetFileLen(int i) const
 bool cZipFile::ReadFile(int i, void *pBuf)
 {
 	if (pBuf == NULL || i < 0 || i >= m_nEntries)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Passed Index %d invalid: in %s. Total Entries : %d", i, m_strFileName.GetData(), m_nEntries));
 		return false;
+	}
 
 	// Go to the actual file and read the local header.
 	fseek(m_fStdOut, m_papDir[i]->hdrOffset, SEEK_SET);
@@ -261,20 +264,27 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	memset(&h, 0, sizeof(h));
 	fread(&h, sizeof(h), 1, m_fStdOut);
 	if (h.sig != TZipLocalHeader::SIGNATURE)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Corrupt ZipFile: %s. Local Header Signature did not match", m_strFileName.GetData()));
 		return false;
+	}
 
 	// Skip extra fields
 	fseek(m_fStdOut, h.fnameLen + h.xtraLen, SEEK_CUR);
 
 	if (h.compression == Z_NO_COMPRESSION)
 	{
+		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "No Compression for ZipFile: %s.", m_strFileName.GetData()));
 		// Simply read in raw stored data.
 		fread(pBuf, h.cSize, 1, m_fStdOut);
+
 		return true;
 	}
 	else if (h.compression != Z_DEFLATED)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Unknown Compression for ZipFile: %s. ", m_strFileName.GetData()));
 		return false;
-
+	}
 	// Alloc compressed data buffer and read the whole stream
 	char *pcData = DEBUG_NEW char[h.cSize];
 	if (!pcData)
@@ -293,8 +303,8 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	stream.avail_in = (uInt)h.cSize;
 	stream.next_out = (Bytef*)pBuf;
 	stream.avail_out = h.ucSize;
-	stream.zalloc = (alloc_func)0;
-	stream.zfree = (free_func)0;
+	stream.zalloc = Z_NULL;
+	stream.zfree = Z_NULL;
 
 	// Perform inflation. wbits < 0 indicates no zlib header inside the data.
 	err = inflateInit2(&stream, -MAX_WBITS);
@@ -309,7 +319,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	if (err != Z_OK)
 		ret = false;
 
-	delete[] pcData;
+	SAFE_DELETE_ARRAY(pcData);
 	return ret;
 }
 
@@ -401,7 +411,7 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 	if (err != Z_OK)
 		ret = false;
 
-	delete[] pcData;
+	SAFE_DELETE_ARRAY(pcData);
 	return ret;
 }
 

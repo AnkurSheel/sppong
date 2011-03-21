@@ -55,7 +55,7 @@ void cPaddle::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NU
 void cPaddle::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice)
 {
 	m_pSprite->Init(pDevice, m_strFileName);
-	m_pSprite->SetSize((float)m_siTableWidth/50, (float)m_siTableHeight/5);
+	m_pSprite->SetSize((float)m_siTableWidth/40, (float)m_siTableHeight/5);
 
 	// align the paddle at the other end
 	if (m_vPosition.x > m_siTableWidth /2)

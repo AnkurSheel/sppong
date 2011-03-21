@@ -111,7 +111,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 		lpWindowTitle.GetData(),
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		100, 100,
+		640, 480,
 		NULL, 
 		NULL, 
 		m_hInstance, 
