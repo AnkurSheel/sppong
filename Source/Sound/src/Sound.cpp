@@ -280,6 +280,11 @@ void cSound::RemoveSound( int iSoundIndex )
 	StopSound(iSoundIndex);
 
 	iterSound = m_apSounds.find(iSoundIndex);
+	if(iterSound == m_apSounds.end())
+	{
+		Log_Write_L1(ILogger::LT_WARNING, cString(100, "Could not Find Sound in RemoveSound. iSoundIndex = %d.\n", iSoundIndex));
+		return;
+	}
 	char strFileName[MAX_FILENAME_WIDTH];
 	iterSound->second->pSound->getName(strFileName, MAX_FILENAME_WIDTH);
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Removing Sound : %s\n", strFileName));

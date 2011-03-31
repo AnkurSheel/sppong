@@ -66,7 +66,7 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	cResource resource(strFilename);
 	shared_ptr<cResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(resource);
 	// Create the texture associated with this sprite
-	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, strFilename.GetData(), texture->GetSize(), &m_pTexture)))
+	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, texture->GetBuffer(), texture->GetSize(), &m_pTexture)))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Texture Creation failed : %s", strFilename.GetData() ));
 		PostQuitMessage(0);
@@ -75,7 +75,7 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	D3DXIMAGE_INFO imageInfo;	// contents of the image file	
 
 	// get the contents of the image file
-	D3DXGetImageInfoFromFile(strFilename.GetData(), &imageInfo);
+	D3DXGetImageInfoFromFileInMemory(texture->GetBuffer(), texture->GetSize(), &imageInfo);
 
 	//get the image height and width
 	m_uiHeight = imageInfo.Height;

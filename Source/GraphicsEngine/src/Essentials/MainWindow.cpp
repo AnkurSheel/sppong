@@ -113,7 +113,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 		lpWindowTitle.GetData(),
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		100, 100,
+		CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, 
 		NULL, 
 		m_hInstance, 
@@ -355,9 +355,10 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	m_pFPS = IFPS::CreateFPS();
 	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
 
-	m_pResourceCache = DEBUG_NEW cResCache(30, DEBUG_NEW cResourceZipFile("test.zip"));
+	m_pResourceCache = DEBUG_NEW cResCache(30, DEBUG_NEW cResourceZipFile("resources.zip"));
 	if(!m_pResourceCache->Init())
 	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
 		PostQuitMessage(0);
 		return;
 	}

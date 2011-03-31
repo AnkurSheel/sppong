@@ -30,7 +30,7 @@ void main(int argc, char * argv[])
 {
 	CheckForMemoryLeaks() ;
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
-	TestZipFile(Base::cString("test.zip"));
+	TestZipFile(Base::cString("resources.zip"));
 
 	ILogger::TheLogger()->Destroy();
 }

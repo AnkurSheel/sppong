@@ -1,3 +1,12 @@
+// ***************************************************************
+//  ZipFile   version:  1.0   Ankur Sheel  date: 2011/03/12
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
 #include "stdafx.h"
 #include "ZipFile.h"
 #include "zlib\zlib.h"
@@ -187,11 +196,6 @@ bool cZipFile::Init(const Base::cString & resFileName)
 	return true;
 }
 
-int cZipFile::GetNumFiles() const 
-{ 
-	return m_nEntries; 
-}
-
 int cZipFile::Find(const Base::cString & strPath) const
 {
 	char lwrPath[_MAX_PATH];
@@ -204,13 +208,6 @@ int cZipFile::Find(const Base::cString & strPath) const
 	return (*i).second;
 }
 
-
-
-// --------------------------------------------------------------------------
-// Function:      End
-// Purpose:       Finish the object
-// Parameters:    
-// --------------------------------------------------------------------------
 void cZipFile::End()
 {
 	m_ZipContentsMap.empty();

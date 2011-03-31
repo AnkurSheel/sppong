@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib tinyxmld.lib Base_D.lib zdll.lib"
+				AdditionalDependencies="Winmm.lib tinyxmld.lib Base_D.lib zlibwapi.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"
@@ -101,7 +101,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin"
+			OutputDirectory="..\..\..\bin"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="tinyxml.lib Winmm.lib Base.lib zdll.lib"
+				AdditionalDependencies="tinyxml.lib Winmm.lib Base.lib zlibwapi.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"
@@ -279,6 +279,10 @@
 			</File>
 			<File
 				RelativePath=".\src\FileIO\ZipFile.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\Zipfile.inl"
 				>
 			</File>
 		</Filter>

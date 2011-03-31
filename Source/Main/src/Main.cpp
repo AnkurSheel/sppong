@@ -40,7 +40,9 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	}
 #endif
 
-	if(!IResourceChecker::TheResourceChecker()->CheckMemory(32, 64) || !IResourceChecker::TheResourceChecker()->CheckHardDisk(6) || !IResourceChecker::TheResourceChecker()->CheckCPUSpeedinMhz(266))
+	if(!IResourceChecker::TheResourceChecker()->CheckMemory(32, 64) 
+		|| !IResourceChecker::TheResourceChecker()->CheckHardDisk(6) 
+		|| !IResourceChecker::TheResourceChecker()->CheckCPUSpeedinMhz(266))
 	{
 		PostQuitMessage(0);
 		return -1;

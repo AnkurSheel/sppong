@@ -1,4 +1,14 @@
-#pragma once
+// ***************************************************************
+//  ResCache   version:  1.0   Ankur Sheel  date: 2011/04/01
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef ResCache_h__
+#define ResCache_h__
 
 #include "ResCache.hxx"
 #include <list>
@@ -33,7 +43,7 @@ namespace Utilities
 		virtual ~cResHandle();
 		virtual void Load(IResourceFile * pFile);
 		UTILITIES_API unsigned int GetSize() const;
-		char * GetBuffer() const;
+		UTILITIES_API char * GetBuffer() const;
 
 	protected:
 		cResource		m_Resource;
@@ -97,5 +107,5 @@ namespace Utilities
 		Base::cString m_strResFileName;
 
 	};
-
 }
+#endif // ResCache_h__

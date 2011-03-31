@@ -1,3 +1,6 @@
+#ifndef Macros_h__
+#define Macros_h__
+
 #define DegtoRad(x)(x* D3DX_PI/180)
 
 #define SAFE_DELETE(p) \
@@ -76,3 +79,4 @@
 
 
 const int MAX_FILENAME_WIDTH = 256;
+#endif // Macros_h__

@@ -1,5 +1,7 @@
 #pragma once
 
+#define ZLIB_WINAPI
+
 #include <map>
 #include "ZipFile.hxx"
 #include "FileInput.h"
@@ -50,6 +52,7 @@ namespace Utilities
 
 		ZipContentsMap m_ZipContentsMap;
 	};
+#include "Zipfile.inl"
 }
 
 
