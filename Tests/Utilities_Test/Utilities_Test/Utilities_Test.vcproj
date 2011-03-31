@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D Utilities_D"
+				AdditionalDependencies="Base.lib Utilities.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\bin"
 				GenerateDebugInformation="true"

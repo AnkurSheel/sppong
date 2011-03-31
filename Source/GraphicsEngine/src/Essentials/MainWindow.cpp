@@ -14,6 +14,7 @@
 #include "Timing/Timer.hxx"
 #include "Input/Input.hxx"
 #include "fps/FPS.hxx"
+#include "ResourceCache/ResCache.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -32,6 +33,7 @@ cMainWindow::cMainWindow()
 , m_iFullScreenWidth(0)
 , m_pGameTimer(NULL)
 , m_pFPS(NULL)
+, m_pResourceCache(NULL)
 {
 }
 // ***************************************************************
@@ -111,7 +113,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 		lpWindowTitle.GetData(),
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		640, 480,
+		100, 100,
 		NULL, 
 		NULL, 
 		m_hInstance, 
@@ -299,6 +301,8 @@ void cMainWindow::OnDestroyDevice()
 
 	SAFE_DELETE(m_pFPS);
 
+	SAFE_DELETE(m_pResourceCache);
+
 	// release the graphic object
 	if (IDXBase::GetInstance())
 	{
@@ -351,6 +355,12 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	m_pFPS = IFPS::CreateFPS();
 	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
 
+	m_pResourceCache = DEBUG_NEW cResCache(30, DEBUG_NEW cResourceZipFile("test.zip"));
+	if(!m_pResourceCache->Init())
+	{
+		PostQuitMessage(0);
+		return;
+	}
 
 #ifdef WINDOWED
 	m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), m_iClientHeight, m_iClientWidth);
@@ -476,6 +486,11 @@ long cMainWindow::GetAbsYMousePos() const
 }
 // ***************************************************************
 
+cResCache * cMainWindow::GetResourceCache() const
+{
+	return m_pResourceCache;
+}
+
 void cMainWindow::Destroy()
 {
 	delete this;
@@ -492,4 +507,5 @@ IMainWindow * IMainWindow::TheWindow()
 	return s_pWindow;
 }
 // ***************************************************************
+
 

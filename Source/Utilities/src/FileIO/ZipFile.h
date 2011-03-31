@@ -34,7 +34,7 @@ namespace Utilities
 		// Added to show multi-threaded decompression
 		bool ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &));
 
-		int Find(const char *path) const;
+		int Find(const Base::cString & strPath) const;
 
 	private:
 

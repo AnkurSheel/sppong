@@ -10,10 +10,14 @@
 
 #include "stdafx.h"
 #include "Sprite.h"
+#include "ResourceCache/ResCache.h"
+#include <memory>
+#include "Essentials/MainWindow.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
+using namespace std::tr1;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -59,8 +63,10 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 		PostQuitMessage(0);
 	}
 
+	cResource resource(strFilename);
+	shared_ptr<cResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(resource);
 	// Create the texture associated with this sprite
-	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename.GetData(), &m_pTexture)))
+	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, strFilename.GetData(), texture->GetSize(), &m_pTexture)))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Texture Creation failed : %s", strFilename.GetData() ));
 		PostQuitMessage(0);

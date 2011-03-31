@@ -21,7 +21,7 @@ namespace Utilities
 		UTILITIES_API virtual int GetFileLen(int i) const = 0;
 		UTILITIES_API virtual bool ReadFile(int i, void *pBuf) = 0;
 
-		UTILITIES_API virtual int Find(const char *path) const = 0;
+		UTILITIES_API virtual int Find(const Base::cString & strPath) const = 0;
 
 		UTILITIES_API static IZipFile * CreateZipFile();
 	};

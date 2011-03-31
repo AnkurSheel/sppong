@@ -282,6 +282,22 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="ResourceCache"
+			>
+			<File
+				RelativePath=".\src\ResourceCache\ResCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ResourceCache\ResCache.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ResourceCache\ResCache.hxx"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\src\Macros.h"
 			>

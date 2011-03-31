@@ -106,7 +106,10 @@ bool cZipFile::Init(const Base::cString & resFileName)
 {
 	End();
 
-	Open(resFileName);
+	if(!Open(resFileName))
+	{
+		return false;
+	}
 
 	// Assuming no extra comment at the end, read the whole end record.
 	TZipDirHeader dh;
@@ -189,10 +192,10 @@ int cZipFile::GetNumFiles() const
 	return m_nEntries; 
 }
 
-int cZipFile::Find(const char *path) const
+int cZipFile::Find(const Base::cString & strPath) const
 {
 	char lwrPath[_MAX_PATH];
-	strcpy(lwrPath, path);
+	strcpy(lwrPath, strPath.GetData());
 	_strlwr(lwrPath);
 	ZipContentsMap::const_iterator i = m_ZipContentsMap.find(lwrPath);
 	if (i==m_ZipContentsMap.end())
