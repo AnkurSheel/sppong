@@ -183,7 +183,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 			char fileName[_MAX_PATH];
 			memcpy(fileName, pfh, fh.fnameLen);
 			fileName[fh.fnameLen]=0;
-			_strlwr(fileName);
+			_strlwr_s(fileName, _MAX_PATH);
 
 			std::string spath = fileName;
 			m_ZipContentsMap[spath] = i;
@@ -198,9 +198,9 @@ bool cZipFile::Init(const Base::cString & resFileName)
 
 int cZipFile::Find(const Base::cString & strPath) const
 {
-	char lwrPath[_MAX_PATH];
-	strcpy(lwrPath, strPath.GetData());
-	_strlwr(lwrPath);
+	char lwrPath[MAX_PATH_WIDTH];
+	strcpy_s(lwrPath, MAX_PATH_WIDTH, strPath.GetData());
+	_strlwr_s(lwrPath, MAX_PATH_WIDTH);
 	ZipContentsMap::const_iterator i = m_ZipContentsMap.find(lwrPath);
 	if (i==m_ZipContentsMap.end())
 		return -1;

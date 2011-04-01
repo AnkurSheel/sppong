@@ -77,6 +77,9 @@
       
 #endif
 
+const int  KILOBYTE = 1024;
+const int  MEGABYTE = KILOBYTE * KILOBYTE;
 
 const int MAX_FILENAME_WIDTH = 256;
+const int MAX_PATH_WIDTH = 260;
 #endif // Macros_h__

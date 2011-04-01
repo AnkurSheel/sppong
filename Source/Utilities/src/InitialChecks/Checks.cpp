@@ -9,8 +9,6 @@
 using namespace Base;
 using namespace Utilities;
 
-#define MEGABYTE (1024 * 1024)
-
 cResourceChecker::cResourceChecker()
 : m_TotalPhysicalMemory(0)
 , m_AvailablePhysicalMemory(0)

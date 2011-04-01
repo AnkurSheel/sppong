@@ -64,7 +64,13 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	}
 
 	cResource resource(strFilename);
-	shared_ptr<cResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(resource);
+	shared_ptr<IResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(resource);
+
+	if(texture.get() == NULL)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not add to cache: %s", strFilename.GetData() ));
+		PostQuitMessage(0);
+	}
 	// Create the texture associated with this sprite
 	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, texture->GetBuffer(), texture->GetSize(), &m_pTexture)))
 	{

@@ -20,12 +20,17 @@ cResource::cResource(const cString & strFileName)
 {
 }
 
-cResHandle * cResource::CreateHandle(const char * pBuffer, unsigned int size, cResCache *pResCache)
+IResHandle * cResource::CreateHandle(const char * pBuffer, unsigned int size, IResCache *pResCache)
 {
 	return DEBUG_NEW cResHandle((*this), (char *)pBuffer, size, pResCache);
 }
 
-cResHandle::cResHandle(cResource & resource, char * pBuffer, unsigned int iSize, cResCache * pResCache)
+Base::cString cResource::GetFileName() const
+{
+	return m_strFileName;
+}
+
+cResHandle::cResHandle(cResource & resource, char * pBuffer, unsigned int iSize, IResCache * pResCache)
 : m_Resource(resource)
 , m_pBuffer(pBuffer)
 , m_iSize(iSize)
@@ -54,10 +59,15 @@ char * cResHandle::GetBuffer() const
 	return m_pBuffer;
 }
 
+const IResource * cResHandle::GetResource() const
+{
+	return &m_Resource;
+}
+
 using namespace std::tr1;
 
 cResCache::cResCache(unsigned int iCacheSizeInMB, const IResourceFile * pResFile)
-: m_iCacheSize(iCacheSizeInMB * 1024 * 1024)
+: m_iCacheSize(iCacheSizeInMB * MEGABYTE)
 , m_iTotalMemoryAllocated(0)
 {
 	m_pFile = const_cast<IResourceFile *>(pResFile);
@@ -78,9 +88,9 @@ bool cResCache::Init()
 	return m_pFile->Open();
 }
 
-shared_ptr<cResHandle> cResCache::GetHandle(cResource & r)
+shared_ptr<IResHandle> cResCache::GetHandle(IResource & r)
 {
-	shared_ptr<cResHandle> handle(Find(r));
+	shared_ptr<IResHandle> handle(Find(r));
 	if(handle == NULL)
 	{
 		handle = Load(r);
@@ -96,63 +106,67 @@ void cResCache::Flush()
 {
 	while(m_lru.empty())
 	{
-		shared_ptr<cResHandle> handle = *(m_lru.begin());
+		shared_ptr<IResHandle> handle = *(m_lru.begin());
 		Free(handle);
 		m_lru.pop_front();
 	}
 }
 
-shared_ptr<cResHandle> cResCache::Find(const cResource & r)
+shared_ptr<IResHandle> cResCache::Find(const IResource & r)
 {
-	ResHandleMap::iterator itr = m_Resources.find(r.m_strFileName);
+	ResHandleMap::iterator itr = m_Resources.find(r.GetFileName());
 	if(itr == m_Resources.end())
 	{
-		return shared_ptr<cResHandle>(); 
+		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Could not find %s in cache", r.GetFileName().GetData()));
+		return shared_ptr<IResHandle>(); 
 	}
+	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Found %s in cache", r.GetFileName().GetData()));
 
 	return (*itr).second;
 }
 
-const void cResCache::Update(shared_ptr<cResHandle> handle)
+const void cResCache::Update(shared_ptr<IResHandle> handle)
 {
 	m_lru.remove(handle);
 	m_lru.push_front(handle);
 }
 
-shared_ptr<cResHandle> cResCache::Load(cResource & r)
+shared_ptr<IResHandle> cResCache::Load(IResource & r)
 {
 	int iSize = m_pFile->GetResourceSize(r);
 	char * pBuffer = Allocate(iSize);
 	if(pBuffer == NULL)
 	{
-		return shared_ptr<cResHandle>();
+		return shared_ptr<IResHandle>();
 	}
 
-	shared_ptr<cResHandle> handle(r.CreateHandle(pBuffer, iSize, this));
+	shared_ptr<IResHandle> handle(r.CreateHandle(pBuffer, iSize, this));
 
 	handle->Load(m_pFile);
 
 	m_lru.push_front(handle);
-	m_Resources[r.m_strFileName] = handle;
+	m_Resources[r.GetFileName()] = handle;
 
 	return handle;
 }
 
-void cResCache::Free(shared_ptr<cResHandle> handle)
+void cResCache::Free(shared_ptr<IResHandle> handle)
 {
 	m_lru.remove(handle);
-	m_Resources.erase(handle->m_Resource.m_strFileName);
+	m_Resources.erase(handle->GetResource()->GetFileName());
 }
 
 bool cResCache::MakeRoom(unsigned int iSize)
 {
 	if(iSize > m_iCacheSize)
 	{
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "File size %d greater than cache size %d",iSize, m_iCacheSize));
 		return false;
 	}
 
 	while(iSize > (m_iCacheSize - m_iTotalMemoryAllocated))
 	{
+		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Cache needs to be freed to make space"));
 		if(m_lru.empty())
 		{
 			return false;
@@ -173,8 +187,9 @@ char * cResCache::Allocate(unsigned int iSize)
 	if(pBuffer)
 	{	
 		m_iTotalMemoryAllocated += iSize;
-	}
+		Log_Write_L1(ILogger::LT_DEBUG, cString(300, "Allocating Memory. File Size : %u KB. Currently using %u KB (%0.2f MB) out of %u MB in cache", iSize/KILOBYTE, m_iTotalMemoryAllocated/KILOBYTE, (float)m_iTotalMemoryAllocated/MEGABYTE, m_iCacheSize/MEGABYTE));
 
+	}
 	return pBuffer;
 }
 
@@ -184,14 +199,16 @@ void cResCache::FreeOneResource()
 	ResHandleList::iterator itr = m_lru.end();
 	
 	itr--;
-	shared_ptr<cResHandle> handle = *itr;
+	shared_ptr<IResHandle> handle = *itr;
 	m_lru.pop_back();
-	m_Resources.erase(handle->m_Resource.m_strFileName);
+	m_Resources.erase(handle->GetResource()->GetFileName());
+	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Removed file %s from cache", handle->GetResource()->GetFileName().GetData()));
 }
 
 void cResCache::MemoryHasBeenFreed(unsigned int iSize)
 {
 	m_iTotalMemoryAllocated -= iSize;
+	Log_Write_L1(ILogger::LT_DEBUG, cString(300, "Freeing Memory. File Size : %u KB. Currently using %u KB (%0.2f MB) out of %u MB in cache", iSize/KILOBYTE, m_iTotalMemoryAllocated/KILOBYTE, (float)m_iTotalMemoryAllocated/MEGABYTE, m_iCacheSize/MEGABYTE));
 }
 
 
@@ -216,10 +233,10 @@ bool cResourceZipFile::Open()
 	return false;
 }
 
-int cResourceZipFile::GetResourceSize(const cResource &r)
+int cResourceZipFile::GetResourceSize(const IResource &r)
 {
 	int iSize = 0;
-	int resNum = m_pZipFile->Find(r.m_strFileName);
+	int resNum = m_pZipFile->Find(r.GetFileName());
 	if(resNum != -1)
 	{
 		iSize = m_pZipFile->GetFileLen(resNum);
@@ -227,10 +244,10 @@ int cResourceZipFile::GetResourceSize(const cResource &r)
 	return iSize;
 }
 
-void cResourceZipFile::GetResource(const cResource &r, char *buffer)
+void cResourceZipFile::GetResource(const IResource &r, char *buffer)
 {
 	int iSize = 0;
-	int resNum = m_pZipFile->Find(r.m_strFileName);
+	int resNum = m_pZipFile->Find(r.GetFileName());
 	if(resNum != -1)
 	{
 		iSize = m_pZipFile->GetFileLen(resNum);
