@@ -1,3 +1,6 @@
+#ifndef Macros_h__
+#define Macros_h__
+
 #define DegtoRad(x)(x* D3DX_PI/180)
 
 #define SAFE_DELETE(p) \
@@ -32,13 +35,13 @@
 //1 - very basic debug output
 //2 - comprehensive debug output
 //3 - all output, and a transcript of all messages
-#ifdef _DEBUG
+//#ifdef _DEBUG
 //Set the output level for 'DEBUG' builds
 #define SYSTEM_DEBUG_LEVEL 2
-#else
+//#else
 //Set the output level for 'RELEASE' builds
-#define SYSTEM_DEBUG_LEVEL 1
-#endif
+//#define SYSTEM_DEBUG_LEVEL 1
+//#endif
 
 #define Log_Write( linetype, linetext )  \
 	ILogger::TheLogger()->WriteLogEntry( \
@@ -74,5 +77,9 @@
       
 #endif
 
+const int  KILOBYTE = 1024;
+const int  MEGABYTE = KILOBYTE * KILOBYTE;
 
 const int MAX_FILENAME_WIDTH = 256;
+const int MAX_PATH_WIDTH = 260;
+#endif // Macros_h__

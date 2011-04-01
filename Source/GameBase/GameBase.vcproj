@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Test"
+			OutputDirectory="..\..\Debug\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -66,7 +66,7 @@
 				AdditionalDependencies="GraphicsEngine_D.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Test\"
+				AdditionalLibraryDirectories="..\..\Debug\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"

@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Test"
+			OutputDirectory="..\..\Debug\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -67,7 +67,7 @@
 				AdditionalDependencies="Base_D.lib Utilities_D.lib d3dx9d.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Test\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
+				AdditionalLibraryDirectories="..\..\Debug\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"

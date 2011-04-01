@@ -2,11 +2,11 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Main"
-	ProjectGUID="{41D68749-4742-41D8-9EE5-2B36837FAF2F}"
-	RootNamespace="Game"
+	Name="Utilities_Test"
+	ProjectGUID="{B8B555DC-9549-4C38-BCB9-0F9DEB079ABB}"
+	RootNamespace="Utilities_Test"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="131072"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -18,10 +18,10 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Debug\"
-			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="0"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,16 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories="..\..\..\Source\Base\src;..\..\..\Source\Utilities\src"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
-				AssemblerListingLocation="$(IntDir)\"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -64,17 +61,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Game_d.lib GraphicsEngine_D.lib Utilities_D.lib Base_D.lib"
-				OutputFile="$(OutDir)/$(ProjectName)_D.exe"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Debug\"
+				AdditionalLibraryDirectories="..\..\..\Debug;"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
-				GenerateMapFile="true"
-				MapFileName="$(IntDir)$(TargetName).map"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -101,10 +92,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin"
-			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="0"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -124,14 +115,14 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="..\..\..\Source\Base\src;..\..\..\Source\Utilities\src"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
-				AssemblerListingLocation="$(IntDir)\"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -145,19 +136,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Game.lib GraphicsEngine.lib Utilities.lib Base.lib"
-				OutputFile="$(OutDir)/$(ProjectName).exe"
+				AdditionalDependencies="Base.lib Utilities.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
+				AdditionalLibraryDirectories="..\..\..\bin"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
-				GenerateMapFile="true"
-				MapFileName="$(IntDir)$(TargetName).map"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -186,22 +171,52 @@
 	<References>
 	</References>
 	<Files>
-		<File
-			RelativePath=".\src\Main.cpp"
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-		</File>
-		<File
-			RelativePath=".\src\Main.h"
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\Utilities_Test.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-		</File>
-		<File
-			RelativePath=".\src\stdafx.cpp"
+			<File
+				RelativePath=".\stdafx.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</File>
-		<File
-			RelativePath=".\src\stdafx.h"
-			>
-		</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

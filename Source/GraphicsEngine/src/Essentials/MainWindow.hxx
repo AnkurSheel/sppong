@@ -22,6 +22,10 @@ namespace Graphics
 	class IBaseApp;
 }
 
+namespace Utilities
+{
+	class cResCache;
+}
 namespace Graphics
 {
 	class IMainWindow
@@ -37,7 +41,9 @@ namespace Graphics
 		GRAPHIC_API virtual void LockKey( const DWORD dwKey ) = 0;
 		GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
 		GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
+		GRAPHIC_API virtual Utilities::cResCache * GetResourceCache() const= 0;
 		GRAPHIC_API virtual void Destroy() = 0;
 	};
 }
 #endif // MainWindow_h__
+

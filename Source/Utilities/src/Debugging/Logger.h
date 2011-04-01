@@ -32,7 +32,6 @@ namespace Utilities
 		cLogger();
 		~cLogger();
 		void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName);
-		int Log(const Base::cString & lpFmt, ...);
 		void Close();
 		void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage);
 		static void CreateLogger();
@@ -42,6 +41,7 @@ namespace Utilities
 		cLogger(const cLogger&){}
 		cLogger operator =(const cLogger&){}
 		void LogTypeToString( LogType eLogEntryType, Base::cString & str );
+		void Log(const Base::cString & str);
 
 	private:
 		FILE *			m_fStdOut;

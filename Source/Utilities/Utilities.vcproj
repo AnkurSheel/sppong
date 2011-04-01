@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Test"
+			OutputDirectory="..\..\Debug\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
+				AdditionalIncludeDirectories="src;&quot;..\..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,10 +64,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxmld.lib Base_D.lib"
+				AdditionalDependencies="Winmm.lib tinyxmld.lib Base_D.lib zlibwapi.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Test\"
+				AdditionalLibraryDirectories="..\..\Debug\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -101,7 +101,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin"
+			OutputDirectory="..\..\bin\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)Base\src&quot;"
+				AdditionalIncludeDirectories="src;&quot;..\..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -145,10 +145,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib ..\..\extern\TinyXml\tinyxml.lib Base.lib"
+				AdditionalDependencies="tinyxml.lib Winmm.lib Base.lib zlibwapi.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
+				AdditionalLibraryDirectories="..\..\bin\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -246,15 +246,15 @@
 			Name="FileIO"
 			>
 			<File
-				RelativePath=".\src\FileIO\FileIO.cpp"
+				RelativePath=".\src\FileIO\FileInput.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\FileIO.h"
+				RelativePath=".\src\FileIO\FileInput.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\FileIO.hxx"
+				RelativePath=".\src\FileIO\FileInput.hxx"
 				>
 			</File>
 			<File
@@ -267,6 +267,38 @@
 			</File>
 			<File
 				RelativePath=".\src\FileIO\XMLFileIO.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\ZipFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\ZipFile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\ZipFile.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileIO\Zipfile.inl"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="ResourceCache"
+			>
+			<File
+				RelativePath=".\src\ResourceCache\ResCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ResourceCache\ResCache.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ResourceCache\ResCache.hxx"
 				>
 			</File>
 		</Filter>

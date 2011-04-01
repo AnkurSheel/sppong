@@ -67,7 +67,7 @@ void cBall::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL
 void cBall::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice)
 {
 	m_pSprite->Init(pDevice, m_strFileName);
-	m_pSprite->SetSize((float)m_siTableHeight/30, (float)m_siTableHeight/30);
+	m_pSprite->SetSize((float)m_siTableHeight/30, (float)m_siTableHeight/25);
 	SetBoundingRectangle();
 }
 // ***************************************************************

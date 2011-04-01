@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Test"
+			OutputDirectory="..\..\Debug\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Sound\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Sound\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;SOUND_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,10 +64,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\extern\FModex\fmodex_vc.lib Utilities_D.lib Base_D.lib"
+				AdditionalDependencies="fmodex_vc.lib Utilities_D.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\bin\External_lib;..\..\Test\"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)..\extern\Lib\FModex\&quot;;..\..\Debug\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Sound\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Sound\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SOUND_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -145,10 +145,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\extern\FModex\fmodex_vc.lib Utilities.lib Base.lib"
+				AdditionalDependencies="fmodex_vc.lib Utilities.lib Base.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\External_lib;..\..\bin\"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)..\extern\Lib\FModex\&quot;;..\..\bin\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"

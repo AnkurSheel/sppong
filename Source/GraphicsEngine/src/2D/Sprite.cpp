@@ -10,10 +10,14 @@
 
 #include "stdafx.h"
 #include "Sprite.h"
+#include "ResourceCache/ResCache.h"
+#include <memory>
+#include "Essentials/MainWindow.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
+using namespace std::tr1;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -59,8 +63,16 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 		PostQuitMessage(0);
 	}
 
+	cResource resource(strFilename);
+	shared_ptr<IResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(resource);
+
+	if(texture.get() == NULL)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not add to cache: %s", strFilename.GetData() ));
+		PostQuitMessage(0);
+	}
 	// Create the texture associated with this sprite
-	if(FAILED(D3DXCreateTextureFromFile(pDevice, strFilename.GetData(), &m_pTexture)))
+	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, texture->GetBuffer(), texture->GetSize(), &m_pTexture)))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Texture Creation failed : %s", strFilename.GetData() ));
 		PostQuitMessage(0);
@@ -69,7 +81,7 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	D3DXIMAGE_INFO imageInfo;	// contents of the image file	
 
 	// get the contents of the image file
-	D3DXGetImageInfoFromFile(strFilename.GetData(), &imageInfo);
+	D3DXGetImageInfoFromFileInMemory(texture->GetBuffer(), texture->GetSize(), &imageInfo);
 
 	//get the image height and width
 	m_uiHeight = imageInfo.Height;
