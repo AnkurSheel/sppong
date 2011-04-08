@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+# Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngine", "GraphicsEngine\GraphicsEngine.vcproj", "{00226575-C4FA-463A-941B-EA9FB2012521}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A} = {D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}
@@ -47,6 +47,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Base", "Base\Base.vcproj", "{74220F22-9039-453B-81F0-44BEA935E6D9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Common\Common.vcproj", "{B9FE949A-2706-4F74-AA18-BA466C49ED9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -85,6 +87,10 @@ Global
 		{74220F22-9039-453B-81F0-44BEA935E6D9}.Debug|Win32.Build.0 = Debug|Win32
 		{74220F22-9039-453B-81F0-44BEA935E6D9}.Release|Win32.ActiveCfg = Release|Win32
 		{74220F22-9039-453B-81F0-44BEA935E6D9}.Release|Win32.Build.0 = Release|Win32
+		{B9FE949A-2706-4F74-AA18-BA466C49ED9B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B9FE949A-2706-4F74-AA18-BA466C49ED9B}.Debug|Win32.Build.0 = Debug|Win32
+		{B9FE949A-2706-4F74-AA18-BA466C49ED9B}.Release|Win32.ActiveCfg = Release|Win32
+		{B9FE949A-2706-4F74-AA18-BA466C49ED9B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

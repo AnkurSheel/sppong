@@ -29,7 +29,7 @@
 
 #include <windows.h>
 #include <crtdbg.h>
-#include "..\..\Utilities\src\Macros.h"
+#include "Macros.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
