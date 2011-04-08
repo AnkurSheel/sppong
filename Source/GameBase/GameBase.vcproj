@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -123,7 +123,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
+				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"

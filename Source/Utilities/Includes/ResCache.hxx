@@ -10,6 +10,8 @@
 #ifndef ResCache_hxx__
 #define ResCache_hxx__
 
+#include <memory>
+
 namespace Base
 {
 	class cString;

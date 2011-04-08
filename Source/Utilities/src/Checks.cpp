@@ -1,4 +1,4 @@
-#include <stdafx.h>
+#include "stdafx.h"
 #include "Checks.h"
 #include <direct.h>
 #include <math.h>
@@ -130,7 +130,7 @@ void cResourceChecker::CalcCPUBrand()
 bool cResourceChecker::CheckHardDisk(const unsigned int diskSpaceNeeded) 
 { 
 	// Check for enough free disk space on the current disk. 
-	int const drive = _getdrive(); 
+	const int drive = _getdrive(); 
 	struct _diskfree_t diskfree; 
 	_getdiskfree(drive, &diskfree); 
 	m_TotalHardDiskSpace = (unsigned int)((float)diskfree.total_clusters/MEGABYTE) * diskfree.sectors_per_cluster * diskfree.bytes_per_sector;

@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "ResCache.h"
 #include "ZipFile.hxx"
+#include "Optional.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -247,10 +248,10 @@ bool cResourceZipFile::Open()
 int cResourceZipFile::GetResourceSize(const IResource &r)
 {
 	int iSize = 0;
-	int resNum = m_pZipFile->Find(r.GetFileName());
-	if(resNum != -1)
+	tOptional<int> resNum = m_pZipFile->Find(r.GetFileName());
+	if(resNum.IsValid())
 	{
-		iSize = m_pZipFile->GetFileLen(resNum);
+		iSize = m_pZipFile->GetFileLen(*resNum);
 	}
 	return iSize;
 }
@@ -258,10 +259,10 @@ int cResourceZipFile::GetResourceSize(const IResource &r)
 void cResourceZipFile::GetResource(const IResource &r, char *buffer)
 {
 	int iSize = 0;
-	int resNum = m_pZipFile->Find(r.GetFileName());
-	if(resNum != -1)
+	tOptional<int> resNum = m_pZipFile->Find(r.GetFileName());
+	if(resNum.IsValid())
 	{
-		iSize = m_pZipFile->GetFileLen(resNum);
-		m_pZipFile->ReadFile(resNum, buffer);
+		iSize = m_pZipFile->GetFileLen(*resNum);
+		m_pZipFile->ReadFile(*resNum, buffer);
 	}
 }

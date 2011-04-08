@@ -32,8 +32,9 @@
 #include <crtdbg.h>
 #include "Macros.h"
 #include <windows.h>
-#include "Debugging/Logger.hxx"
-#include "..\..\Base\src\myString.h"
+#include "Logger.hxx"
+#include "myString.h"
+#include "Optional.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)

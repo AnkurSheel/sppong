@@ -9,6 +9,8 @@
 namespace Base
 {
 	class cString;
+	template<class T>
+	class tOptional;
 }
 
 namespace Utilities
@@ -36,7 +38,7 @@ namespace Utilities
 		// Added to show multi-threaded decompression
 		bool ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &));
 
-		int Find(const Base::cString & strPath) const;
+		Base::tOptional<int> Find(const Base::cString & strPath) const;
 
 	private:
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace Utilities
 {
 	static const int PROCESS_FLAG_ATTACHED		= 0x00000001;

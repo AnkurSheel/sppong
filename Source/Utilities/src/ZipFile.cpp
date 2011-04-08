@@ -196,7 +196,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 	return true;
 }
 
-int cZipFile::Find(const Base::cString & strPath) const
+tOptional<int> cZipFile::Find(const Base::cString & strPath) const
 {
 	char lwrPath[MAX_PATH_WIDTH];
 	strcpy_s(lwrPath, MAX_PATH_WIDTH, strPath.GetData());
