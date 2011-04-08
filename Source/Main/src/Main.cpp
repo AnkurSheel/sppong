@@ -11,7 +11,7 @@
 #include "Main.h"
 #include "Essentials\MainWindow.hxx"
 #include "Game\Game.hxx"
-#include "InitialChecks\Checks.hxx"
+#include "Checks.hxx"
 
 using namespace Utilities;
 using namespace Graphics;

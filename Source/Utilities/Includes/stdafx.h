@@ -26,12 +26,15 @@
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
 #include <windows.h>
-#include <crtdbg.h>
-#include "Macros.h"
-#include "Logger.hxx"
-#include "myString.h"
 
 // TODO: reference additional headers your program requires here
+#include <stdio.h>
+#include <crtdbg.h>
+#include "Macros.h"
+#include <windows.h>
+#include "Logger.hxx"
+#include "myString.h"
+#include <memory>
 
 #ifdef _DEBUG
 #define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)

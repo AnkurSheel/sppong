@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "ZipFile.h"
 #include "zlib\zlib.h"
-#include "FileIO\FileInput.hxx"
+#include "FileInput.hxx"
 
 using namespace Utilities;
 // --------------------------------------------------------------------------

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
+				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
+				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\src&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -190,19 +190,19 @@
 			Name="Timing"
 			>
 			<File
-				RelativePath=".\src\Timing\Timer.cpp"
+				RelativePath=".\src\Timer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Timing\Timer.h"
+				RelativePath=".\src\Timer.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Timing\Timer.hxx"
+				RelativePath=".\Includes\Timer.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Timing\Timer.inl"
+				RelativePath=".\src\Timer.inl"
 				>
 			</File>
 		</Filter>
@@ -210,15 +210,15 @@
 			Name="Debugging"
 			>
 			<File
-				RelativePath=".\src\Debugging\Logger.cpp"
+				RelativePath=".\src\Logger.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Debugging\Logger.h"
+				RelativePath=".\src\Logger.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Debugging\Logger.hxx"
+				RelativePath=".\Includes\Logger.hxx"
 				>
 			</File>
 		</Filter>
@@ -226,19 +226,19 @@
 			Name="InitialChecks"
 			>
 			<File
-				RelativePath=".\src\InitialChecks\Checks.cpp"
+				RelativePath=".\src\Checks.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\InitialChecks\Checks.h"
+				RelativePath=".\src\Checks.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\InitialChecks\Checks.hxx"
+				RelativePath=".\Includes\Checks.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\InitialChecks\Checks.inl"
+				RelativePath=".\src\Checks.inl"
 				>
 			</File>
 		</Filter>
@@ -246,43 +246,43 @@
 			Name="FileIO"
 			>
 			<File
-				RelativePath=".\src\FileIO\FileInput.cpp"
+				RelativePath=".\src\FileInput.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\FileInput.h"
+				RelativePath=".\src\FileInput.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\FileInput.hxx"
+				RelativePath=".\Includes\FileInput.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\XMLFileIO.cpp"
+				RelativePath=".\src\XMLFileIO.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\XMLFileIO.h"
+				RelativePath=".\src\XMLFileIO.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\XMLFileIO.hxx"
+				RelativePath=".\Includes\XMLFileIO.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\ZipFile.cpp"
+				RelativePath=".\src\ZipFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\ZipFile.h"
+				RelativePath=".\src\ZipFile.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\ZipFile.hxx"
+				RelativePath=".\src\ZipFile.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FileIO\Zipfile.inl"
+				RelativePath=".\src\Zipfile.inl"
 				>
 			</File>
 		</Filter>
@@ -290,32 +290,52 @@
 			Name="ResourceCache"
 			>
 			<File
-				RelativePath=".\src\ResourceCache\ResCache.cpp"
+				RelativePath=".\src\ResCache.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ResourceCache\ResCache.h"
+				RelativePath=".\src\ResCache.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ResourceCache\ResCache.hxx"
+				RelativePath=".\Includes\ResCache.hxx"
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\src\Macros.h"
+		<Filter
+			Name="Process"
 			>
-		</File>
+			<File
+				RelativePath=".\src\Process.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Process.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Process.inl"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ProcessManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ProcessManager.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\src\stdafx.h"
+			RelativePath=".\Includes\stdafx.h"
 			>
 		</File>
 		<File
-			RelativePath=".\src\UtilitiesDefines.h"
+			RelativePath=".\Includes\UtilitiesDefines.h"
 			>
 		</File>
 	</Files>

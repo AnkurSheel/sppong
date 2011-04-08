@@ -10,9 +10,9 @@
 #include "stdafx.h"
 #include "Logger.h"
 #include <time.h>
-#include "FileIO/XMLFileIO.hxx"
+#include "XMLFileIO.hxx"
 #include <stdlib.h>
-#include "InitialChecks/Checks.hxx"
+#include "Checks.hxx"
 
 using namespace Utilities;
 using namespace Base;

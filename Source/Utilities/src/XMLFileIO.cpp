@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "XMLFileIO.h"
-#include "tinyxml.h"
+#include "TinyXml\tinyxml.h"
 
 using namespace Base;
 using namespace Utilities;

@@ -44,7 +44,7 @@
 #include <d3dx9.h>
 #include <dinput.h>
 #include "Macros.h"
-#include "Debugging/Logger.hxx"
+#include "Logger.hxx"
 #include "myString.h"
 
 #ifdef _DEBUG

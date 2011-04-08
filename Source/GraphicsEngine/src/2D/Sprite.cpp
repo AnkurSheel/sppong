@@ -10,8 +10,7 @@
 
 #include "stdafx.h"
 #include "Sprite.h"
-#include "ResourceCache/ResCache.h"
-#include <memory>
+#include "ResCache.hxx"
 #include "Essentials/MainWindow.hxx"
 
 using namespace Utilities;
@@ -63,8 +62,8 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 		PostQuitMessage(0);
 	}
 
-	cResource resource(strFilename);
-	shared_ptr<IResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(resource);
+	IResource * pResource = IResource::CreateResource(strFilename);
+	shared_ptr<IResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(*pResource);
 
 	if(texture.get() == NULL)
 	{
@@ -86,6 +85,8 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	//get the image height and width
 	m_uiHeight = imageInfo.Height;
 	m_uiWidth = imageInfo.Width;
+
+	SAFE_DELETE(pResource);
 }
 // ***************************************************************
 

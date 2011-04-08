@@ -11,10 +11,10 @@
 #include "MainWindow.h"
 #include "DxBase.hxx"
 #include "BaseApp.hxx"
-#include "Timing/Timer.hxx"
+#include "Timer.hxx"
 #include "Input/Input.hxx"
 #include "fps/FPS.hxx"
-#include "ResourceCache/ResCache.h"
+#include "ResCache.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -355,7 +355,7 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	m_pFPS = IFPS::CreateFPS();
 	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
 
-	m_pResourceCache = DEBUG_NEW cResCache(30, DEBUG_NEW cResourceZipFile("resources.zip"));
+	m_pResourceCache = IResCache::CreateResourceCache(30, "resources.zip");
 	if(!m_pResourceCache->Init())
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
@@ -487,7 +487,7 @@ long cMainWindow::GetAbsYMousePos() const
 }
 // ***************************************************************
 
-cResCache * cMainWindow::GetResourceCache() const
+IResCache * cMainWindow::GetResourceCache() const
 {
 	return m_pResourceCache;
 }

@@ -10,8 +10,6 @@
 #ifndef ResCache_hxx__
 #define ResCache_hxx__
 
-#include <memory>
-
 namespace Base
 {
 	class cString;
@@ -28,6 +26,7 @@ namespace Utilities
 		virtual ~IResource() {}
 		virtual Base::cString GetFileName() const = 0;
 		virtual IResHandle * CreateHandle(const char * pBuffer, unsigned int size, IResCache * pResCache) = 0;
+		UTILITIES_API static IResource * CreateResource(const Base::cString & strFileName);
 	};
 
 	class IResourceFile
@@ -56,6 +55,7 @@ namespace Utilities
 		UTILITIES_API virtual bool Init() = 0;
 		UTILITIES_API virtual std::tr1::shared_ptr<IResHandle> GetHandle(IResource & r) = 0;
 		virtual void MemoryHasBeenFreed(unsigned int iSize) = 0;
+		UTILITIES_API static IResCache * CreateResourceCache(const int iSizeInMB, const Base::cString & strFileName);
 	};
 }
 #endif // ResCache_hxx__

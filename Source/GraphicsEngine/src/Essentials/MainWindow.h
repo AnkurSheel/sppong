@@ -20,7 +20,7 @@ namespace Base
 namespace Utilities
 {
 	class ITimer;
-	class cResCache;
+	class IResCache;
 }
 
 namespace Graphics
@@ -63,7 +63,7 @@ namespace Graphics
 		void LockKey( const DWORD dwKey );
 		long GetAbsXMousePos() const;
 		long GetAbsYMousePos() const;
-		Utilities::cResCache * GetResourceCache() const;
+		Utilities::IResCache * GetResourceCache() const;
 		void Destroy();
 	private:
 		HWND					m_Hwnd ;				// holds the window handle
@@ -78,7 +78,7 @@ namespace Graphics
 		Utilities::ITimer *		m_pGameTimer;			// pointer to a game timer
 		Graphics::IInput *		m_pInput;				// pointer to input class
 		Graphics::IFPS *		m_pFPS;
-		Utilities::cResCache *	m_pResourceCache;
+		Utilities::IResCache *	m_pResourceCache;
 	};
 
 	static IMainWindow * s_pWindow = NULL;

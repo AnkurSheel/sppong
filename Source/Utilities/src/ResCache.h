@@ -29,7 +29,7 @@ namespace Utilities
 		: public IResource
 	{
 	public:
-		UTILITIES_API cResource(const Base::cString & strFileName);
+		cResource(const Base::cString & strFileName);
 		IResHandle * CreateHandle(const char * pBuffer, unsigned int size, IResCache * pResCache);
 		Base::cString GetFileName() const;
 	public:
@@ -65,7 +65,7 @@ namespace Utilities
 		: public IResCache
 	{
 	public:
-		UTILITIES_API cResCache(unsigned int iCacheSizeInMB, const IResourceFile * pResFile);
+		cResCache(unsigned int iCacheSizeInMB, const IResourceFile * pResFile);
 		~cResCache();
 		bool Init();
 		std::tr1::shared_ptr<IResHandle> GetHandle(IResource & r);
@@ -98,7 +98,7 @@ namespace Utilities
 	class cResourceZipFile : public IResourceFile
 	{
 	public:
-		UTILITIES_API cResourceZipFile(const Base::cString & resFileName);
+		cResourceZipFile(const Base::cString & resFileName);
 		virtual ~cResourceZipFile();
 
 		virtual bool Open();

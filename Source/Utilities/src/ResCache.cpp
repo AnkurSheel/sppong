@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "ResCache.h"
-#include "FileIO/ZipFile.hxx"
+#include "ZipFile.hxx"
 
 using namespace Utilities;
 using namespace Base;
@@ -28,6 +28,12 @@ IResHandle * cResource::CreateHandle(const char * pBuffer, unsigned int size, IR
 Base::cString cResource::GetFileName() const
 {
 	return m_strFileName;
+}
+
+IResource * IResource::CreateResource(const Base::cString & strFileName)
+{
+	cResource * pResource = DEBUG_NEW cResource(strFileName);
+	return pResource;
 }
 
 cResHandle::cResHandle(cResource & resource, char * pBuffer, unsigned int iSize, IResCache * pResCache)
@@ -211,7 +217,12 @@ void cResCache::MemoryHasBeenFreed(unsigned int iSize)
 	Log_Write_L1(ILogger::LT_DEBUG, cString(300, "Freeing Memory. File Size : %u KB. Currently using %u KB (%0.2f MB) out of %u MB in cache", iSize/KILOBYTE, m_iTotalMemoryAllocated/KILOBYTE, (float)m_iTotalMemoryAllocated/MEGABYTE, m_iCacheSize/MEGABYTE));
 }
 
+IResCache * IResCache::CreateResourceCache(const int iSizeInMB, const Base::cString & strFileName)
+{
+	cResCache * pResCache = DEBUG_NEW cResCache(iSizeInMB, DEBUG_NEW cResourceZipFile(strFileName));
+	return pResCache;
 
+}
 cResourceZipFile::cResourceZipFile(const Base::cString & resFileName) 
 : m_pZipFile(NULL)
 , m_strResFileName(resFileName) 

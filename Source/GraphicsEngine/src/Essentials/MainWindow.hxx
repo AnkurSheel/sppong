@@ -24,7 +24,7 @@ namespace Graphics
 
 namespace Utilities
 {
-	class cResCache;
+	class IResCache;
 }
 namespace Graphics
 {
@@ -41,7 +41,7 @@ namespace Graphics
 		GRAPHIC_API virtual void LockKey( const DWORD dwKey ) = 0;
 		GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
 		GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
-		GRAPHIC_API virtual Utilities::cResCache * GetResourceCache() const= 0;
+		GRAPHIC_API virtual Utilities::IResCache * GetResourceCache() const= 0;
 		GRAPHIC_API virtual void Destroy() = 0;
 	};
 }

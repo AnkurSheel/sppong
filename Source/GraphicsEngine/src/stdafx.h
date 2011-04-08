@@ -48,8 +48,9 @@
 #include <dinput.h>
 #include "constants.h"
 #include "Macros.h"
-#include "Debugging/Logger.hxx"
+#include "Logger.hxx"
 #include "myString.h"
+#include <memory>
 
 #ifndef _DEBUG
 #define WINDOWED
