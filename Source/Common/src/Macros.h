@@ -82,4 +82,12 @@ const int  MEGABYTE = KILOBYTE * KILOBYTE;
 
 const int MAX_FILENAME_WIDTH = 256;
 const int MAX_PATH_WIDTH = 260;
+
+#ifdef _DEBUG
+#define DEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_NEW new
+#endif 
+
+
 #endif // Macros_h__

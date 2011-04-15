@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
+				AdditionalIncludeDirectories="Includes;..\Common\src;..\Base\Includes;..\..\extern\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)..\extern\Include&quot;"
+				AdditionalIncludeDirectories="Includes;..\Common\src;..\Base\Includes;..\..\extern\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

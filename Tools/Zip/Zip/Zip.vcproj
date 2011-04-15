@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="GameBase"
-	ProjectGUID="{D6C5B6D7-4503-42DD-9174-37B3B81C5926}"
-	RootNamespace="GameBase"
+	Name="Zip"
+	ProjectGUID="{5577CBC3-A39D-4EE3-AB9F-268AD7DCA2E3}"
+	RootNamespace="Zip"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,9 +18,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Debug\"
-			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
-			ConfigurationType="2"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -41,14 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\extern\Include\Zlib"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
-				AssemblerListingLocation="$(IntDir)\"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -63,15 +61,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine_D.lib Base_D.lib"
-				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
+				AdditionalDependencies="zlibwapi.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Debug\"
+				AdditionalLibraryDirectories="..\..\..\extern\Lib\Zlib"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
-				GenerateMapFile="true"
-				MapFileName="$(IntDir)$(TargetName).map"
-				SubSystem="2"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -98,9 +92,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin"
-			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
-			ConfigurationType="2"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -123,13 +117,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
+				AdditionalIncludeDirectories="..\..\extern\Include\Zlib"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
-				AssemblerListingLocation="$(IntDir)\"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -144,15 +136,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine.lib Base.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				AdditionalDependencies="zlibwapi.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
+				AdditionalLibraryDirectories="..\..\..\extern\Lib\Zlib"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
-				GenerateMapFile="true"
-				MapFileName="$(IntDir)$(TargetName).map"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -184,35 +172,29 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Elements"
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\Elements\GameElement.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Elements\GameElement.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Elements\GameElement.inl"
+				RelativePath=".\Zip.cpp"
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\src\GameBaseDefines.h"
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-		</File>
-		<File
-			RelativePath=".\src\GameLogic.h"
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</File>
+		</Filter>
 		<File
-			RelativePath=".\src\stdafx.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\src\stdafx.h"
+			RelativePath=".\ReadMe.txt"
 			>
 		</File>
 	</Files>

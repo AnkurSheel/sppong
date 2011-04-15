@@ -2,10 +2,9 @@
 //
 
 #include "stdafx.h"
-#include "FileIO\ZipFile.hxx"
-#include "FileIO\ZipFile.hxx"
-#include "Debugging\Logger.hxx"
-#include "ResourceCache/ResCache.h"
+#include "ZipFile.hxx"
+#include "Logger.hxx"
+#include "ResCache.hxx"
 #include <direct.h>
 #include <vector>
 #include <memory>
@@ -44,6 +43,8 @@ void main(int argc, char * argv[])
 	TestResourceCache(Base::cString("resources.zip"));
 
 	ILogger::TheLogger()->Destroy();
+
+	system("pause");
 }
 
 void MakePath(const char *pszPath)
@@ -139,7 +140,7 @@ void TestZipFile(cString & strPath)
 
 void TestResourceCache(cString & strPath)
 {
-	IResCache * pResCache =  DEBUG_NEW cResCache(50, DEBUG_NEW cResourceZipFile(strPath));
+	IResCache * pResCache =  IResCache::CreateResourceCache(50, strPath);
 	if(!pResCache->Init())
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
@@ -170,12 +171,17 @@ void TestResourceCache(cString & strPath)
 	vector<cString>::iterator iter;
 	for (iter = strFileNames.begin(); iter != strFileNames.end(); iter++)
 	{
-		cResource resource((*iter));
-		shared_ptr<IResHandle> texture = pResCache->GetHandle(resource);
+		IResource * pResource = IResource::CreateResource(*iter);
+		shared_ptr<IResHandle> texture = pResCache->GetHandle(*pResource);
 		if(texture.get() == NULL)
 		{
 			printf("Could not create cache for %s\n", (*iter).GetData());
 		}
+		else
+		{
+			printf("added in cache : %s\n", (*iter).GetData());
+		}
+		SAFE_DELETE(pResource);
 	}	
 
 	strFileNames.clear();

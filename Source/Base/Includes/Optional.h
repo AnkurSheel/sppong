@@ -1,6 +1,7 @@
 #pragma once
 
 #include <assert.h>
+#include "Macros.h"
 
 namespace Base
 {
