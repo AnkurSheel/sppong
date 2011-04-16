@@ -327,6 +327,18 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\src\RandomGenerator.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\RandomGenerator.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\RandomGenerator.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>

@@ -1,3 +1,13 @@
+// ***************************************************************
+//  FileInput   version:  1.0   Ankur Sheel  date: 2011/04/12
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+
 #include "stdafx.h"
 #include "FileInput.h"
 #include <sys/stat.h>
@@ -69,7 +79,6 @@ cString cFileInput::ReadAll()
 
 	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Size of File %s : %d", m_strFileName.GetData(), fileStat.st_size));
 	return Read(fileStat.st_size);
-	unsigned int cLength = (unsigned int)fileStat.st_size;
 }
 
 cString cFileInput::Read(size_t size)

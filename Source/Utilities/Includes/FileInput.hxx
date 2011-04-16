@@ -1,4 +1,14 @@
-#pragma once
+// ***************************************************************
+//  FileInput   version:  1.0   Ankur Sheel  date: 2011/04/12
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef FileInput_hxx__
+#define FileInput_hxx__
 
 #include "UtilitiesDefines.h"
 
@@ -22,3 +32,4 @@ namespace Utilities
 		UTILITIES_API static  IFileInput * CreateUserFile();
 	};
 }
+#endif // FileInput_h__

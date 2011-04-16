@@ -27,8 +27,6 @@
 
 
 // TODO: reference additional headers your program requires here
-#pragma once
-
 #define STRSAFE_NO_CB_FUNCTIONS
 #define NULLCHAR '\0'
 

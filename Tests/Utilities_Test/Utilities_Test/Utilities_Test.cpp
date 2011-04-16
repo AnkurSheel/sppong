@@ -5,6 +5,7 @@
 #include "ZipFile.hxx"
 #include "Logger.hxx"
 #include "ResCache.hxx"
+#include "RandomGenerator.hxx"
 #include <direct.h>
 #include <vector>
 #include <memory>
@@ -28,8 +29,9 @@ void CheckForMemoryLeaks()
 #endif	_DEBUG
 }
 
-void TestZipFile(cString & strPath);
-void TestResourceCache(cString & strPath);
+void TestZipFile();
+void TestResourceCache();
+void TestRandomGenerator();
 
 void main(int argc, char * argv[])
 {
@@ -37,10 +39,14 @@ void main(int argc, char * argv[])
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
 
 	printf("Testing Zip File\n");
-	TestZipFile(Base::cString("resources.zip"));
+	TestZipFile();
 
 	printf("\n\n\nTesting Resource Cache\n");
-	TestResourceCache(Base::cString("resources.zip"));
+	TestResourceCache();
+
+	printf("\n\n\nTesting Random Generator\n");
+	TestRandomGenerator();
+
 
 	ILogger::TheLogger()->Destroy();
 
@@ -55,7 +61,7 @@ void MakePath(const char *pszPath)
 	char buf[1000];
 	const char *p = pszPath;
 
-	 printf("MakePath(\"%s\")\n", pszPath);
+	printf("MakePath(\"%s\")\n", pszPath);
 
 	// Skip machine name in network paths like \\MyMachine\blah...
 	if (p[0] == '\\' && p[1] == '\\')
@@ -82,14 +88,20 @@ void MakePath(const char *pszPath)
 	}
 }
 
-void TestZipFile(cString & strPath)
+void TestZipFile()
 {
 	IZipFile * pZip = IZipFile::CreateZipFile();;
 
+	
 	if(pZip)
 	{
-		if (!pZip->Init(strPath))
-			printf("Bad Zip file: \"%s\"\n",strPath.GetData());
+		char szPath[MAX_PATH_WIDTH];
+		printf("Enter Zip file path : ");
+		gets(szPath);
+		if (!pZip->Init(szPath))
+		{
+			printf("Bad Zip file: \"%s\"\n",szPath);
+		}
 		else
 		{
 			for (int i = 0; i < pZip->GetNumFiles(); i++)
@@ -128,62 +140,96 @@ void TestZipFile(cString & strPath)
 				delete[] pData;
 			}
 			pZip->End();
-			SAFE_DELETE(pZip);
 		}
 	}
 	else
 	{
 		printf("Could Not Create Zipfile object\n");
 	}
+	SAFE_DELETE(pZip);
 }
 
 
-void TestResourceCache(cString & strPath)
+void TestResourceCache()
 {
-	IResCache * pResCache =  IResCache::CreateResourceCache(50, strPath);
+	char szPath[MAX_PATH_WIDTH];
+	printf("Enter Zip file path : ");
+	gets(szPath);
+
+	IResCache * pResCache =  IResCache::CreateResourceCache(50, szPath);
 	if(!pResCache->Init())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
-		return;
+		printf("Bad Zip file for Resource Cache: \"%s\"\n",szPath);
 	}
-
-	IZipFile * pZip = IZipFile::CreateZipFile();;
-
-	vector<cString> strFileNames;
-	if(pZip)
+	else
 	{
-		if (!pZip->Init(strPath))
-			printf("Bad Zip file: \"%s\"\n",strPath.GetData());
-		else
+		IZipFile * pZip = IZipFile::CreateZipFile();;
+
+		vector<cString> strFileNames;
+		if(pZip)
 		{
-			for (int i = 0; i < pZip->GetNumFiles(); i++)
+			if (!pZip->Init(szPath))
+				printf("Bad Zip file: \"%s\"\n",szPath);
+			else
 			{
-				int len = pZip->GetFileLen(i);
-				if(len > 0)
+				for (int i = 0; i < pZip->GetNumFiles(); i++)
 				{
-					strFileNames.push_back(pZip->GetFilename(i));
+					int len = pZip->GetFileLen(i);
+					if(len > 0)
+					{
+						strFileNames.push_back(pZip->GetFilename(i));
+					}
 				}
+				pZip->End();
+				SAFE_DELETE(pZip);
 			}
-			pZip->End();
-			SAFE_DELETE(pZip);
 		}
-	}
-	vector<cString>::iterator iter;
-	for (iter = strFileNames.begin(); iter != strFileNames.end(); iter++)
-	{
-		IResource * pResource = IResource::CreateResource(*iter);
-		shared_ptr<IResHandle> texture = pResCache->GetHandle(*pResource);
-		if(texture.get() == NULL)
+		vector<cString>::iterator iter;
+		for (iter = strFileNames.begin(); iter != strFileNames.end(); iter++)
 		{
-			printf("Could not create cache for %s\n", (*iter).GetData());
-		}
-		else
-		{
-			printf("added in cache : %s\n", (*iter).GetData());
-		}
-		SAFE_DELETE(pResource);
-	}	
+			IResource * pResource = IResource::CreateResource(*iter);
+			shared_ptr<IResHandle> texture = pResCache->GetHandle(*pResource);
+			if(texture.get() == NULL)
+			{
+				printf("Could not create cache for %s\n", (*iter).GetData());
+			}
+			else
+			{
+				printf("added in cache : %s\n", (*iter).GetData());
+			}
+			SAFE_DELETE(pResource);
+		}	
 
-	strFileNames.clear();
+		strFileNames.clear();
+	}
 	SAFE_DELETE(pResCache);
+}
+
+void TestRandomGenerator()
+{
+	IRandomGenerator * pRandomGenerator =	IRandomGenerator::CreateRandomGenerator();
+
+	printf("Generating Random Seed \n");
+	pRandomGenerator->Randomize();
+	int nSeed = pRandomGenerator->GetRandomSeed();
+	printf("Seed : %d\n", nSeed);
+	printf("Generating 100 Random no.s between 1 to 100\n");
+	for (int i = 0; i < 100; i++)
+	{
+		printf("%d ", pRandomGenerator->Random(100));
+	}
+
+	SAFE_DELETE(pRandomGenerator);
+
+	pRandomGenerator =	IRandomGenerator::CreateRandomGenerator();
+	pRandomGenerator->SetRandomSeed(nSeed);
+	printf("\n\nRegenerating Random no.s using seed : %d\n", nSeed);
+	printf("Generating 100 Random no.s between 1 to 100\n");
+	for (int i = 0; i < 100; i++)
+	{
+		printf("%d ", pRandomGenerator->Random(100));
+	}
+
+	SAFE_DELETE(pRandomGenerator);
+
 }

@@ -15,7 +15,6 @@
 using namespace Utilities;
 using namespace Base;
 	
-
 cResource::cResource(const cString & strFileName)
 : m_strFileName(strFileName)
 {
