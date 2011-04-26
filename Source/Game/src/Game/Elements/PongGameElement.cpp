@@ -30,21 +30,6 @@ cPongGameElement::~cPongGameElement()
 }
 // ***************************************************************
 
-// ***************************************************************
-// Called when the game restarts
-// ***************************************************************
-void cPongGameElement::OnRestart( const D3DXVECTOR3& vInitialPos )
-{
-	m_vPosition = vInitialPos;
-	if(m_vPrevPosition != m_vPosition)
-	{
-		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
-		m_pBoundingPolygon->Translate(trans);
-		m_vPrevPosition = m_vPosition;
-	}
-}
-// ***************************************************************
-
 void cPongGameElement::SetTableHeight( UINT val )
 {
 	m_siTableHeight = val;

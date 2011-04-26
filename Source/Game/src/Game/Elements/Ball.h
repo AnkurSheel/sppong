@@ -16,6 +16,10 @@ namespace Base
 {
 	class cString;
 }
+namespace Utilities
+{
+	class IRandomGenerator;
+}
 
 class cBall  
 	: public cPongGameElement
@@ -30,8 +34,11 @@ public:
 	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 	void ChangeSpeedX();
 	void ChangeSpeedY();
+	void OnRestart(const D3DXVECTOR3& vInitialPos);
+	void Cleanup();
 	cBall * CastToBall();
 private:
-	D3DXVECTOR3		m_vSpeed;
+	D3DXVECTOR3			m_vSpeed;
+	Utilities::IRandomGenerator *	m_pRandomGenerator;
 };
 #endif // Ball_h__

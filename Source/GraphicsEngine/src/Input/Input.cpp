@@ -118,7 +118,7 @@ void cInput::CreateMouse()
 	// create the keyboard device
 	m_pdInput->CreateDevice(GUID_SysMouse,&m_pdInputMouse, NULL);
 
-	// set the data format to keyboard format
+	// set the data format to mouse format
 	m_pdInputMouse->SetDataFormat(&c_dfDIMouse);
 
 	// set the control over the keyboard

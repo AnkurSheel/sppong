@@ -24,7 +24,6 @@ private :
 public:
 	cPongGameElement();
 	~cPongGameElement();
-	void OnRestart(const D3DXVECTOR3& vInitialPos);
 	static void SetTableHeight(UINT val);
 	static void SetTableWidth(UINT val);
 	virtual cPaddle * CastToPaddle();

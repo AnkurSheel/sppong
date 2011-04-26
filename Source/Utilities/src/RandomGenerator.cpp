@@ -98,5 +98,9 @@ void cRandomGenerator::Randomize()
 IRandomGenerator * IRandomGenerator::CreateRandomGenerator()
 {
 	cRandomGenerator * pRandomGenerator = DEBUG_NEW cRandomGenerator();
+	if (pRandomGenerator)
+	{
+		pRandomGenerator->Randomize();
+	}
 	return pRandomGenerator;
 }

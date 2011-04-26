@@ -12,13 +12,16 @@
 #include "2D/Sprite.hxx"
 #include "Essentials/MainWindow.hxx"
 #include "2D/Polygon.h"
+#include "RandomGenerator.hxx"
 
 using namespace Graphics;
 using namespace Base;
+using namespace Utilities;
 // ***************************************************************
 // Constructor
 // ***************************************************************
 cBall::cBall()
+: m_pRandomGenerator(NULL)
 {
 }
 // ***************************************************************
@@ -28,6 +31,7 @@ cBall::cBall()
 // ***************************************************************
 cBall::~cBall()
 {
+	SAFE_DELETE(m_pRandomGenerator);
 }
 // ***************************************************************
 // Initialize the ball
@@ -35,10 +39,12 @@ cBall::~cBall()
 void cBall::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename)
 {
 	cPongGameElement::Init(vInitialPos, strFilename);
-
+	m_pRandomGenerator = IRandomGenerator::CreateRandomGenerator();
+	if (m_pRandomGenerator)
+	{
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
+	}
 	m_vSpeed = D3DXVECTOR3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
-
-
 }
 // ***************************************************************
 
@@ -87,6 +93,32 @@ void cBall::ChangeSpeedX()
 void cBall::ChangeSpeedY()
 {
 	m_vSpeed.y = - m_vSpeed.y;
+}
+// ***************************************************************
+
+void cBall::OnRestart( const D3DXVECTOR3& vInitialPos )
+{
+	cPongGameElement::OnRestart(vInitialPos);
+	int iSpeedDirection = m_pRandomGenerator->Random(2);
+	if (iSpeedDirection == 1)
+	{
+		m_vSpeed.x = -m_vSpeed.x;
+	}
+
+	iSpeedDirection = m_pRandomGenerator->Random(2);
+	if (iSpeedDirection == 1)
+	{
+		m_vSpeed.y = -m_vSpeed.y;
+	}
+
+
+}
+// ***************************************************************
+
+void cBall::Cleanup()
+{
+	SAFE_DELETE(m_pRandomGenerator);
+	cGameElement::Cleanup();
 }
 // ***************************************************************
 
