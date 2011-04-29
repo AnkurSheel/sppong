@@ -98,5 +98,8 @@ const int MAX_PATH_WIDTH = 260;
 #define DEBUG_NEW new
 #endif 
 
+typedef DWORD TICK;
+
+const unsigned int SCREEN_REFRESH_RATE(1000/60);
 
 #endif // Macros_h__

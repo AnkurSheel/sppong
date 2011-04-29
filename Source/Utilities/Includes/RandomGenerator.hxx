@@ -15,6 +15,7 @@ namespace Utilities
 	class IRandomGenerator
 	{
 	public:
+		UTILITIES_API virtual ~IRandomGenerator() {}
 		UTILITIES_API virtual unsigned int Random(unsigned int nMax) = 0;
 		UTILITIES_API virtual float Random() = 0;
 		UTILITIES_API virtual void SetRandomSeed(unsigned int nSeed) = 0 ;
