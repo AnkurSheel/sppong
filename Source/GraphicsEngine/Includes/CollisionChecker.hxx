@@ -14,7 +14,7 @@
 
 namespace Graphics
 {
-	class cPolygon;
+	class IPolygon;
 }
 
 namespace Graphics
@@ -23,7 +23,7 @@ namespace Graphics
 	{
 	public:
 		GRAPHIC_API ~ICollisionChecker(){}
-		GRAPHIC_API virtual bool CheckFor2DCollisions(const Graphics::cPolygon &polygonA, const Graphics::cPolygon &polygonB) = 0;
+		GRAPHIC_API virtual bool CheckFor2DCollisions(const Graphics::IPolygon * polygonA, const Graphics::IPolygon * polygonB) = 0;
 		GRAPHIC_API static ICollisionChecker * TheCollisionChecker();
 		GRAPHIC_API virtual void Destroy() = 0;
 		GRAPHIC_API static void CreateCollisionChecker();

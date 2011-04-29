@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Wall.h"
-#include "2D/Sprite.hxx"
+#include "Sprite.hxx"
 
 using namespace Base;
 // ***************************************************************

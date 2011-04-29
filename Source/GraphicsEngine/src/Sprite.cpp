@@ -11,7 +11,7 @@
 #include "stdafx.h"
 #include "Sprite.h"
 #include "ResCache.hxx"
-#include "Essentials/MainWindow.hxx"
+#include "MainWindow.hxx"
 
 using namespace Utilities;
 using namespace Graphics;

@@ -9,9 +9,9 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Ball.h"
-#include "2D/Sprite.hxx"
-#include "Essentials/MainWindow.hxx"
-#include "2D/Polygon.h"
+#include "Sprite.hxx"
+#include "MainWindow.hxx"
+#include "Polygon.hxx"
 #include "RandomGenerator.hxx"
 
 using namespace Graphics;

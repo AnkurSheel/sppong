@@ -12,8 +12,8 @@
 #include "DxBase.hxx"
 #include "BaseApp.hxx"
 #include "Timer.hxx"
-#include "Input/Input.hxx"
-#include "fps/FPS.hxx"
+#include "Input.hxx"
+#include "FPS.hxx"
 #include "ResCache.hxx"
 
 using namespace Utilities;
@@ -113,7 +113,7 @@ HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 		lpWindowTitle.GetData(),
 		WS_OVERLAPPEDWINDOW ,
 		0, 0, 
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		200, 200,
 		NULL, 
 		NULL, 
 		m_hInstance, 

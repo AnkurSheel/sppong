@@ -9,8 +9,8 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "GameElement.h"
-#include "2D/Sprite.hxx"
-#include "2D/Polygon.h"
+#include "Sprite.hxx"
+#include "Polygon.hxx"
 
 using namespace Graphics;
 using namespace GameBase;
@@ -59,7 +59,7 @@ void cGameElement::SetBoundingRectangle()
 		D3DXVECTOR2(m_vPosition.x, m_vPosition.y + m_pSprite->GetScaledHeight())
 	};
 
-	m_pBoundingPolygon = DEBUG_NEW cPolygon(v1, 4);
+	m_pBoundingPolygon = IPolygon::CreatePolygon(v1, 4);
 }
 // ***************************************************************
 

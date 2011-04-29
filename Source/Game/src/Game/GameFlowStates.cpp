@@ -15,10 +15,10 @@
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
 #include "Elements/Ball.h"
-#include "Essentials/MainWindow.hxx"
-#include "2D/Sprite.hxx"
+#include "MainWindow.hxx"
+#include "Sprite.hxx"
 #include "CollisionChecker.hxx"
-#include "Input/MouseZone.h"
+#include "MouseZone.hxx"
 #include "Sound.hxx"
 
 using namespace MySound;
@@ -94,7 +94,7 @@ void cStateTitleScreen::OnResetDevice(cGame *pGame)
 	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
 	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\cursor.png");
-	pGame->m_pCursorSprite->SetSize(16.0f, 16.0f);
+	pGame->m_pCursorSprite->SetSize((float)pGame->m_iDisplayWidth/30, (float)pGame->m_iDisplayHeight/30);
 }
 // ***************************************************************
 
@@ -184,7 +184,7 @@ void cStateMenuScreen::OnResetDevice(cGame *pGame)
 	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
 	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\cursor.png");
-	pGame->m_pCursorSprite->SetSize(16.0f, 16.0f);
+	pGame->m_pCursorSprite->SetSize((float)pGame->m_iDisplayWidth/30, (float)pGame->m_iDisplayHeight/30);
 
 	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\SinglePlayer.jpg");
 	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);

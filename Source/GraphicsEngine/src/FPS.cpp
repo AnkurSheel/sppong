@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "FPS.h"
-#include "2D/Font.hxx"
+#include "Font.hxx"
 #include "Constants.h"
 
 using namespace Graphics;

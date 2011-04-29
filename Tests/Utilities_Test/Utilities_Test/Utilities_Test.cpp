@@ -156,7 +156,7 @@ void TestResourceCache()
 	printf("Enter Zip file path : ");
 	gets(szPath);
 
-	IResCache * pResCache =  IResCache::CreateResourceCache(50, szPath);
+	IResCache * pResCache =  IResCache::CreateResourceCache(1, szPath);
 	if(!pResCache->Init())
 	{
 		printf("Bad Zip file for Resource Cache: \"%s\"\n",szPath);
@@ -231,5 +231,4 @@ void TestRandomGenerator()
 	}
 
 	SAFE_DELETE(pRandomGenerator);
-
 }

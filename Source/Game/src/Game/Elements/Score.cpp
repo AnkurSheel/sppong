@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Score.h"
-#include "2D/font.hxx"
+#include "font.hxx"
 #include "Constants.h"
 
 using namespace Graphics;

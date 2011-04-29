@@ -33,3 +33,9 @@ void cPolygon::Translate( const D3DXVECTOR2 & trans )
 		m_pVertices[i] += trans;
 	}
 }
+
+IPolygon * IPolygon::CreatePolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices)
+{
+	IPolygon * pPolygon = DEBUG_NEW cPolygon(pVertices, nNoOfVertices);
+	return pPolygon;
+}

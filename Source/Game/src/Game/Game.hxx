@@ -11,7 +11,7 @@
 #define Game_hxx__
 
 #include "GameDefines.h"
-#include "Essentials/BaseApp.hxx"
+#include "BaseApp.hxx"
 
 class IGame 
 	: public Graphics::IBaseApp

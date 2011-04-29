@@ -21,6 +21,7 @@ namespace Graphics
 		cInput();
 		~cInput();
 		void Init(const HINSTANCE hInst, const HWND hWnd, const UINT iTableWidth = 0 , const UINT iTableHeight= 0);
+		bool CheckForJoyStick(HWND hWnd);
 		void DetectKeys();
 		void DetectMouseMovement();
 		const bool* const GetPressedKeys() const;

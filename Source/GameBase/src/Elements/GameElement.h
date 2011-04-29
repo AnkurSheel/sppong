@@ -21,7 +21,7 @@ namespace Base
 namespace Graphics
 {
 	class ISprite;
-	class cPolygon;
+	class IPolygon;
 }
 
 namespace GameBase
@@ -37,7 +37,7 @@ namespace GameBase
 		GAMEBASE_API ~cGameElement();
 		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename);
 		GAMEBASE_API virtual void SetBoundingRectangle();
-		GAMEBASE_API virtual Graphics::cPolygon& GetBoundingRectangle();
+		GAMEBASE_API virtual Graphics::IPolygon& GetBoundingRectangle();
 		GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
 		GAMEBASE_API virtual const D3DXVECTOR3& GetPosition();
 		GAMEBASE_API virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = Graphics::WHITE, const RECT* pSrcRect = NULL);
@@ -51,7 +51,7 @@ namespace GameBase
 		Graphics::ISprite *		m_pSprite;
 		D3DXVECTOR3				m_vPosition;
 		D3DXVECTOR3				m_vPrevPosition;
-		Graphics::cPolygon *	m_pBoundingPolygon;
+		Graphics::IPolygon *	m_pBoundingPolygon;
 		Base::cString			m_strFileName;
 	};
 #include "GameElement.inl"

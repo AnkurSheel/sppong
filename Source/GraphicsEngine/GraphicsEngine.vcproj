@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
+				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS;WINDOWED"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="src;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
+				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -190,47 +190,51 @@
 			Name="2D"
 			>
 			<File
-				RelativePath=".\src\2D\Font.cpp"
+				RelativePath=".\src\Font.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Font.h"
+				RelativePath=".\src\Font.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Font.hxx"
+				RelativePath=".\Includes\Font.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Polygon.cpp"
+				RelativePath=".\src\Polygon.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Polygon.h"
+				RelativePath=".\src\Polygon.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Sprite.cpp"
+				RelativePath=".\Includes\Polygon.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Sprite.h"
+				RelativePath=".\src\Sprite.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Sprite.hxx"
+				RelativePath=".\src\Sprite.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\Sprite.inl"
+				RelativePath=".\Includes\Sprite.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\VertexStruct.cpp"
+				RelativePath=".\src\Sprite.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\src\2D\vertexstruct.h"
+				RelativePath=".\src\VertexStruct.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vertexstruct.h"
 				>
 			</File>
 		</Filter>
@@ -238,35 +242,39 @@
 			Name="Essentials"
 			>
 			<File
-				RelativePath=".\src\Essentials\BaseApp.hxx"
+				RelativePath=".\Includes\BaseApp.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Essentials\DxBase.cpp"
+				RelativePath=".\Includes\Constants.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Essentials\DxBase.h"
+				RelativePath=".\src\DxBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Essentials\DxBase.hxx"
+				RelativePath=".\src\DxBase.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Essentials\DxBase.inl"
+				RelativePath=".\Includes\DxBase.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Essentials\MainWindow.cpp"
+				RelativePath=".\src\DxBase.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Essentials\MainWindow.h"
+				RelativePath=".\src\MainWindow.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Essentials\MainWindow.hxx"
+				RelativePath=".\src\MainWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\MainWindow.hxx"
 				>
 			</File>
 		</Filter>
@@ -274,49 +282,31 @@
 			Name="Input"
 			>
 			<File
-				RelativePath=".\src\Input\Input.cpp"
+				RelativePath=".\src\Input.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Input\Input.h"
+				RelativePath=".\src\Input.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Input\Input.hxx"
+				RelativePath=".\Includes\Input.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Input\Input.inl"
+				RelativePath=".\src\Input.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Input\MouseZone.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\src\Input\MouseZone.h"
+				RelativePath=".\src\MouseZone.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Input\MouseZone.hxx"
+				RelativePath=".\src\MouseZone.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\MouseZone.hxx"
 				>
 			</File>
 		</Filter>
@@ -324,15 +314,15 @@
 			Name="FPS"
 			>
 			<File
-				RelativePath=".\src\FPS\FPS.cpp"
+				RelativePath=".\src\FPS.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FPS\FPS.h"
+				RelativePath=".\src\FPS.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\FPS\FPS.hxx"
+				RelativePath=".\Includes\FPS.hxx"
 				>
 			</File>
 		</Filter>
@@ -345,15 +335,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\src\CollisionChecker.hxx"
+			RelativePath=".\Includes\CollisionChecker.hxx"
 			>
 		</File>
 		<File
-			RelativePath=".\src\Constants.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\GraphicEngineDefines.h"
+			RelativePath=".\Includes\GraphicEngineDefines.h"
 			>
 		</File>
 		<File

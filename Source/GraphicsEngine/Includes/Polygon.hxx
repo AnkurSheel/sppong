@@ -7,22 +7,17 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Polygon_h__
-#define Polygon_h__
+#ifndef Polygon_hxx__
+#define Polygon_hxx__
 
 #include "GraphicEngineDefines.h"
 namespace Graphics
 {
-	class cPolygon
+	class IPolygon
 	{
 	public:
-		GRAPHIC_API cPolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices);
-		GRAPHIC_API ~cPolygon();
-		GRAPHIC_API void Translate(const D3DXVECTOR2 & trans);
-
-	public:
-		D3DXVECTOR2 *	m_pVertices;
-		int				m_nNoOfVertices;
+		virtual void Translate(const D3DXVECTOR2 & trans) = 0;
+		GRAPHIC_API static IPolygon * CreatePolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices);
 	};
 }
-#endif // Polygon_h__
+#endif // Polygon_hxx_

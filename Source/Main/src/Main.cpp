@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Main.h"
-#include "Essentials\MainWindow.hxx"
+#include "MainWindow.hxx"
 #include "Game\Game.hxx"
 #include "Checks.hxx"
 

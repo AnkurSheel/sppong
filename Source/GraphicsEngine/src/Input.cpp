@@ -51,6 +51,29 @@ void cInput::Init( const HINSTANCE hInst,
 	}
 
 }
+
+bool cInput::CheckForJoyStick(HWND hWnd)
+{
+	JOYINFO joyinfo; 
+	UINT wNumDevices; 
+	BOOL bDevice1Attached, bDevice2Attached; 
+	if((wNumDevices = joyGetNumDevs()) == 0)
+	{
+		return false; 
+	}
+	
+	bDevice1Attached = joyGetPos(JOYSTICKID1,&joyinfo) != JOYERR_UNPLUGGED; 
+	bDevice2Attached = joyGetPos(JOYSTICKID2,&joyinfo) != JOYERR_UNPLUGGED; 
+	if(bDevice1Attached)
+	{
+		joySetCapture(hWnd, JOYSTICKID1, 1000/30, true); 
+	}
+	if (bDevice2Attached) 
+	{
+		joySetCapture(hWnd, JOYSTICKID2, 1000/30, true); 
+	}
+	return true; 
+}
 // ***************************************************************
 
 // ***************************************************************

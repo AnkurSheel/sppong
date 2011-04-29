@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "CollisionChecker.h"
-#include "2D/Polygon.h"
+#include "Polygon.h"
 
 using namespace Graphics;
 // ***************************************************************
@@ -32,7 +32,7 @@ cCollisionChecker::~cCollisionChecker()
 // Checks for collisions for 2D objects.
 // returns true if there is a collision
 // ***************************************************************
-bool cCollisionChecker::CheckFor2DCollisions(const cPolygon &polygonA, const cPolygon &polygonB)
+bool cCollisionChecker::CheckFor2DCollisions(const IPolygon * pPolygon1, const IPolygon * pPolygon2)
 {
 	//axis along the poly's edge
 	D3DXVECTOR2 edge;
@@ -40,18 +40,21 @@ bool cCollisionChecker::CheckFor2DCollisions(const cPolygon &polygonA, const cPo
 	// flag mtv as invalid
 	float fLengthSquared = -1.0f; 
 
+	const cPolygon * pPolygonA = static_cast<const cPolygon *>(pPolygon1);
+	const cPolygon * pPolygonB = static_cast<const cPolygon *>(pPolygon2);
+
 	//loop through all the m_pVertices in polygonA
-	for (int i = 0; i < polygonA.m_nNoOfVertices; i++)
+	for (int i = 0; i < pPolygonA->m_nNoOfVertices; i++)
 	{
 		//Join the last vertex with the first
-		if (i == polygonA.m_nNoOfVertices - 1)
+		if (i == pPolygonA->m_nNoOfVertices - 1)
 		{
-			edge = polygonA.m_pVertices[polygonA.m_nNoOfVertices - 1] - polygonA.m_pVertices[0];
+			edge = pPolygonA->m_pVertices[pPolygonA->m_nNoOfVertices - 1] - pPolygonA->m_pVertices[0];
 		}
 		//Join the m_pVertices
 		else
 		{
-			edge = polygonA.m_pVertices[i + 1] - polygonA.m_pVertices[i];
+			edge = pPolygonA->m_pVertices[i + 1] - pPolygonA->m_pVertices[i];
 		}
 
 		//Get the normal and normalise 
@@ -59,24 +62,24 @@ bool cCollisionChecker::CheckFor2DCollisions(const cPolygon &polygonA, const cPo
 		D3DXVec2Normalize(&axis, &axis);
 
 		//Check to see if the polygons overlap along the current axis
-		if (NoOverlap(axis, polygonA, polygonB, fLengthSquared))
+		if (NoOverlap(axis, *pPolygonA, *pPolygonB, fLengthSquared))
 			return false;
 
 		//Do the same for the other m_pVertices in this polygon
 	}
 
 	//Loop through all the m_pVertices in polygonB
-	for (int i = 0; i < polygonB.m_nNoOfVertices; i++)
+	for (int i = 0; i < pPolygonB->m_nNoOfVertices; i++)
 	{
 		//Join the last vertex with the first 
-		if (i == polygonB.m_nNoOfVertices - 1)
+		if (i == pPolygonB->m_nNoOfVertices - 1)
 		{
-			edge = polygonB.m_pVertices[polygonB.m_nNoOfVertices - 1] - polygonB.m_pVertices[0];
+			edge = pPolygonB->m_pVertices[pPolygonB->m_nNoOfVertices - 1] - pPolygonB->m_pVertices[0];
 		}
 		//Join the m_pVertices to make the edge
 		else
 		{
-			edge = polygonB.m_pVertices[i + 1] - polygonB.m_pVertices[i];
+			edge = pPolygonB->m_pVertices[i + 1] - pPolygonB->m_pVertices[i];
 		}
 
 		//Get the normal and normalise 
@@ -84,7 +87,7 @@ bool cCollisionChecker::CheckFor2DCollisions(const cPolygon &polygonA, const cPo
 		D3DXVec2Normalize(&axis, &axis);
 
 		//Check to see if the polygons overlap along the current axis
-		if (NoOverlap(axis, polygonA, polygonB, fLengthSquared))
+		if (NoOverlap(axis, *pPolygonA, *pPolygonB, fLengthSquared))
 			return false;
 	}
 
@@ -93,7 +96,7 @@ bool cCollisionChecker::CheckFor2DCollisions(const cPolygon &polygonA, const cPo
 	return true;
 }
 
-bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon &polygon1, const cPolygon &polygon2, float & fLengthSquared)
+bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon & polygon1, const cPolygon & polygon2, float & fLengthSquared)
 {
 	float poly1Min, poly1Max;
 
