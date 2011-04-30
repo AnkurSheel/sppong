@@ -24,6 +24,7 @@
 using namespace MySound;
 using namespace Graphics;
 using namespace Base;
+using namespace GameBase;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -445,7 +446,7 @@ cString cGame::GetGameTitle()
 	return "MPong";
 }
 
-IGame * IGame::CreateGame()
+IBaseApp * IGame::CreateGame()
 {
 	cGame * pGame = DEBUG_NEW cGame();
 	return pGame;

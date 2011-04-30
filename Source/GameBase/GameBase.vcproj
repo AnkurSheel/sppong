@@ -200,6 +200,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\src\BaseApp.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\GameBaseDefines.h"
 			>
 		</File>

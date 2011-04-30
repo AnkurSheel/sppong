@@ -19,6 +19,7 @@
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
+using namespace GameBase;
 
 // ***************************************************************
 // Constructor

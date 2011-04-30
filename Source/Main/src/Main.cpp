@@ -16,6 +16,7 @@
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
+using namespace GameBase;
 
 static IBaseApp * pGame = NULL;
 // ***************************************************************
@@ -29,9 +30,10 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	CheckForMemoryLeaks() ;
 
-
 	ILogger::TheLogger()->StartConsoleWin(80,60, "");
+
 	pGame = IGame::CreateGame();
+
 #ifndef MULTIPLEINSTANCES
 	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->GetGameTitle()))
 	{
