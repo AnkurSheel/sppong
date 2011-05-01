@@ -242,10 +242,6 @@
 			Name="Essentials"
 			>
 			<File
-				RelativePath=".\Includes\BaseApp.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\Includes\Constants.h"
 				>
 			</File>

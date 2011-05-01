@@ -17,7 +17,7 @@ namespace Graphics
 	public:
 		virtual ~IFPS(){}
 		virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue) = 0;
-		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color = BLACK) = 0;
+		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color) = 0;
 		virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
 		virtual void OnLostDevice() = 0;
 		virtual void Cleanup() = 0;

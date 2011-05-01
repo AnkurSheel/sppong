@@ -16,6 +16,7 @@
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
+using namespace GameBase;
 
 static IBaseApp * pGame = NULL;
 // ***************************************************************
@@ -29,9 +30,10 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	CheckForMemoryLeaks() ;
 
-
 	ILogger::TheLogger()->StartConsoleWin(80,60, "");
+
 	pGame = IGame::CreateGame();
+
 #ifndef MULTIPLEINSTANCES
 	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->GetGameTitle()))
 	{
@@ -56,7 +58,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	//Initialize the window class
-	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight, pGame);
+	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight);
 
 	if(hwnd == NULL)
 	{

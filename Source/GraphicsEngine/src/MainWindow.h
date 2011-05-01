@@ -54,7 +54,7 @@ namespace Graphics
 	public:
 		cMainWindow() ;
 		~cMainWindow() ;
-		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp) ;
+		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight) ;
 		//IMainWindow * TheWindow() ;
 		void Run();
 		void DisplayFPS();
@@ -72,7 +72,7 @@ namespace Graphics
 		int						m_iClientHeight ;		// the height of the client area
 		int						m_iTopPos ;				// the Y coordinate of the top left corner of the window
 		int						m_iLeftPos ;			// the X coordinate of the top left corner of the window
-		IBaseApp *				m_pGameApp;				// pointer to the game app
+		//GameBase::IBaseApp *	m_pGameApp;				// pointer to the game app
 		int						m_iFullScreenWidth ;	// the full screen width
 		int						m_iFullScreenHeight ;	// the full screen height
 		Utilities::ITimer *		m_pGameTimer;			// pointer to a game timer

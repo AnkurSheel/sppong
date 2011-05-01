@@ -10,7 +10,9 @@
 #ifndef ProcessManager_hxx__
 #define ProcessManager_hxx__
 
-namespace GameBase
+#include "UtilitiesDefines.h"
+
+namespace Utilities
 {
 	class IProcessManager
 	{

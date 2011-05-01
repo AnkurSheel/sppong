@@ -10,7 +10,6 @@
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "DxBase.hxx"
-#include "BaseApp.hxx"
 #include "Timer.hxx"
 #include "Input.hxx"
 #include "FPS.hxx"
@@ -28,7 +27,7 @@ cMainWindow::cMainWindow()
 , m_hInstance(NULL)
 , m_iClientHeight(0)
 , m_iClientWidth(0)
-, m_pGameApp(NULL)
+//, m_pGameApp(NULL)
 , m_iFullScreenHeight(0)
 , m_iFullScreenWidth(0)
 , m_pGameTimer(NULL)
@@ -50,12 +49,12 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp )
+HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight )
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
 
-	m_pGameApp = pGameApp;
+	//m_pGameApp = pGameApp;
 
 	m_iFullScreenWidth = iFullScreenWidth ; 
 	m_iFullScreenHeight = iFullScreenHeight ;
@@ -277,10 +276,10 @@ void cMainWindow::OnRender()
 		if (SUCCEEDED(hr))
 		{
 			// process the user inputs according to game logic
-			m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), m_pGameTimer->GetElapsedTime()) ;
+			//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), m_pGameTimer->GetElapsedTime()) ;
 
 			// render the game graphics
-			m_pGameApp->Render();
+			//m_pGameApp->Render();
 
 			IDXBase::GetInstance()->EndRender(hr);
 		}
@@ -325,10 +324,10 @@ void cMainWindow::OnResetDevice()
 	{
 		GetWinRect() ;
 		IDXBase::GetInstance()->ResetDevice();
-		if (m_pGameApp)
-		{
-			m_pGameApp->OnResetDevice() ;
-		}
+		//if (m_pGameApp)
+		//{
+		//	m_pGameApp->OnResetDevice() ;
+		//}
 
 		if (m_pFPS)
 		{
@@ -353,7 +352,7 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	m_pInput->Init(hInst, hWnd, m_iClientWidth, m_iClientHeight);
 
 	m_pFPS = IFPS::CreateFPS();
-	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
+	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f), BLACK);
 
 	m_pResourceCache = IResCache::CreateResourceCache(30, "resources.zip");
 	if(!m_pResourceCache->Init())
@@ -364,9 +363,9 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	}
 
 #ifdef WINDOWED
-	m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), m_iClientHeight, m_iClientWidth);
+	//m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), m_iClientHeight, m_iClientWidth);
 #else
-	m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), IDXBase::GetInstance()->GetDisplayHeight(), IDXBase::GetInstance()->GetDisplayWidth());
+	//m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), IDXBase::GetInstance()->GetDisplayHeight(), IDXBase::GetInstance()->GetDisplayWidth());
 #endif
 
 	SetForegroundWindow(m_Hwnd);
@@ -402,10 +401,10 @@ void cMainWindow::HandleLostDevice(HRESULT hr)
 // ***************************************************************
 void cMainWindow::OnLostDevice()
 {
-	if (m_pGameApp)
-	{
-		m_pGameApp->OnLostDevice();
-	}
+	//if (m_pGameApp)
+	//{
+	//	m_pGameApp->OnLostDevice();
+	//}
 
 	if (m_pFPS)
 	{

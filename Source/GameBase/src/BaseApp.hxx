@@ -9,6 +9,9 @@
 // ***************************************************************
 #ifndef BaseApp_h__
 #define BaseApp_h__
+
+#include "GameBaseDefines.h"
+
 typedef struct IDirect3DDevice9 *LPDIRECT3DDEVICE9;
 
 namespace Base
@@ -16,7 +19,7 @@ namespace Base
 	class cString;
 }
 
-namespace Graphics
+namespace GameBase
 {
 	class IBaseApp
 	{
