@@ -20,6 +20,7 @@
 #include "CollisionChecker.hxx"
 #include "MouseZone.hxx"
 #include "Sound.hxx"
+#include "MPongView.h"
 
 using namespace MySound;
 using namespace Graphics;
@@ -43,12 +44,14 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 
 void cStateTitleScreen::Enter(cGame *pGame)
 {
-	m_fCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
+	m_tickCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
 
 	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
 	pGame->m_pCursorSprite = ISprite::CreateSprite();
 
 	OnResetDevice(pGame);
+
+	pGame->m_pPongView->PushElement(pGame->m_pTitleScreenSprite);
 
 	pGame->m_pMouseZones->FreeZones();
 	pGame->m_pMouseZones->AddZone("Title Screen", 0, 0, pGame->m_iDisplayWidth, pGame->m_iDisplayHeight, LEFTBUTTON);
@@ -57,19 +60,23 @@ void cStateTitleScreen::Enter(cGame *pGame)
 
 void cStateTitleScreen::Execute(cGame *pGame)
 {
-	pGame->m_pTitleScreenSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
+	pGame->m_pPongView->OnRender(m_tickCurrentTime, IMainWindow::TheWindow()->GetElapsedTime());
 	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
-	
-	// display the title screen for 2 secs before displaying the menu screen
- 	if(IMainWindow::TheWindow()->GetRunningTime() - m_fCurrentTime > 2.0)
- 	{
- 		pGame->m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
- 	}
+
+	//ankur - temp comment
+	//// display the title screen for 2 secs before displaying the menu screen
+ 	//if(IMainWindow::TheWindow()->GetRunningTime() - m_fCurrentTime > 2.0)
+ 	//{
+ 	//	pGame->m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
+ 	//}
+	//end ankur - temp comment
 }
 // ***************************************************************
 
 void cStateTitleScreen::Exit(cGame *pGame)
 {
+	pGame->m_pPongView->PopElement(pGame->m_pTitleScreenSprite);
+
 	SAFE_DELETE(pGame->m_pTitleScreenSprite);
 	SAFE_DELETE(pGame->m_pCursorSprite);
 }

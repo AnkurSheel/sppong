@@ -28,7 +28,6 @@ namespace Graphics
 	public:
 		virtual ~IMainWindow(){}
 		GRAPHIC_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight) = 0;
-		GRAPHIC_API virtual void Run() = 0;
 		GRAPHIC_API static IMainWindow * TheWindow();
 		GRAPHIC_API virtual void DisplayFPS() = 0;
 		GRAPHIC_API virtual float GetElapsedTime() const = 0;
@@ -38,6 +37,9 @@ namespace Graphics
 		GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
 		GRAPHIC_API virtual Utilities::IResCache * GetResourceCache() const= 0;
 		GRAPHIC_API virtual void Destroy() = 0;
+		GRAPHIC_API virtual int GetClientWindowHeight() = 0;
+		GRAPHIC_API virtual int GetClientWindowWidth() = 0;
+
 	};
 }
 #endif // MainWindow_h__

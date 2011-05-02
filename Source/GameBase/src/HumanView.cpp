@@ -82,7 +82,7 @@ void cHumanView::OnEndRender(const HRESULT hr)
 	IDXBase::GetInstance()->EndRender(hr);
 }
 
-void cHumanView::OnRender(float fTime, float fElapsedTime)
+void cHumanView::OnRender(TICK fTime, float fElapsedTime)
 {
 
 	// process the user inputs according to game logic
@@ -150,6 +150,16 @@ GameViewId cHumanView::GetId() const
 void cHumanView::OnAttach(GameViewId id)
 {
 	m_idView = id;
+}
+
+void cHumanView::PushElement(Graphics::ISprite * pScreenElement)
+{
+	m_pElementList.push_front(pScreenElement);
+}
+
+void cHumanView::PopElement(Graphics::ISprite * pScreenElement)
+{
+	m_pElementList.remove(pScreenElement);
 }
 
 void cHumanView::OnUpdate( int deltaMilliseconds )

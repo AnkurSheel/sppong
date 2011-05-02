@@ -28,7 +28,7 @@ class cStateTitleScreen
 {
 private:
 	cStateTitleScreen();
-	float m_fCurrentTime;
+	TICK m_tickCurrentTime;
 public:
 	~cStateTitleScreen();
 	static cStateTitleScreen *Instance();

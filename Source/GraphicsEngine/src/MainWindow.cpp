@@ -214,77 +214,45 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 // ***************************************************************
 
 // ***************************************************************
-// the message loop
-// ***************************************************************
-void cMainWindow::Run()
-{
-	MSG Msg ;
-
-	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
-	// run till completed
-	while (Msg.message!=WM_QUIT)
-	{
-		// is there a message to process?
-		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
-		{
-			// dispatch the message
-			TranslateMessage(&Msg) ;
-			DispatchMessage(&Msg) ;
-		}
-		else
-		{
-			//No message to process?
-			// Then do your game stuff here
-
-			OnRender();
-		}
-	}
-
-	// a WM_Quit message has been sent so destroy the window
-	DestroyWindow(m_Hwnd);
-}
-// ***************************************************************
-
-// ***************************************************************
 // Function called to handle the rendering
 // ***************************************************************
-void cMainWindow::OnRender()
-{
-	HRESULT hr;
-
-	// update the game timer
-	if (m_pGameTimer)
-	{
-		m_pGameTimer->Update();
-	}
-
-	// check if the device is available
-	hr = IDXBase::GetInstance()->IsAvailable() ;
-
-	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
-	{
-		HandleLostDevice(hr) ;
-	}
-
-	// get user inputs
-	GetInput();
-
-	if(SUCCEEDED(hr))
-	{
-
-		hr = IDXBase::GetInstance()->BeginRender();
-		if (SUCCEEDED(hr))
-		{
-			// process the user inputs according to game logic
-			//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), m_pGameTimer->GetElapsedTime()) ;
-
-			// render the game graphics
-			//m_pGameApp->Render();
-
-			IDXBase::GetInstance()->EndRender(hr);
-		}
-	}
-}
+//void cMainWindow::OnRender()
+//{
+//	HRESULT hr;
+//
+//	// update the game timer
+//	if (m_pGameTimer)
+//	{
+//		m_pGameTimer->Update();
+//	}
+//
+//	// check if the device is available
+//	hr = IDXBase::GetInstance()->IsAvailable() ;
+//
+//	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
+//	{
+//		HandleLostDevice(hr) ;
+//	}
+//
+//	// get user inputs
+//	GetInput();
+//
+//	if(SUCCEEDED(hr))
+//	{
+//
+//		hr = IDXBase::GetInstance()->BeginRender();
+//		if (SUCCEEDED(hr))
+//		{
+//			// process the user inputs according to game logic
+//			//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), m_pGameTimer->GetElapsedTime()) ;
+//
+//			// render the game graphics
+//			//m_pGameApp->Render();
+//
+//			IDXBase::GetInstance()->EndRender(hr);
+//		}
+//	}
+//}
 // ***************************************************************
 
 // ***************************************************************
@@ -317,24 +285,24 @@ void cMainWindow::OnDestroyDevice()
 // ***************************************************************
 // Function called when the device needs to be reset
 // ***************************************************************
-void cMainWindow::OnResetDevice()
-{
-	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->GetDevice();
-	if (pDevice)
-	{
-		GetWinRect() ;
-		IDXBase::GetInstance()->ResetDevice();
-		//if (m_pGameApp)
-		//{
-		//	m_pGameApp->OnResetDevice() ;
-		//}
-
-		if (m_pFPS)
-		{
-			m_pFPS->OnResetDevice(pDevice);
-		}
-	}
-}
+//void cMainWindow::OnResetDevice()
+//{
+//	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->GetDevice();
+//	if (pDevice)
+//	{
+//		GetWinRect() ;
+//		IDXBase::GetInstance()->ResetDevice();
+//		//if (m_pGameApp)
+//		//{
+//		//	m_pGameApp->OnResetDevice() ;
+//		//}
+//
+//		if (m_pFPS)
+//		{
+//			m_pFPS->OnResetDevice(pDevice);
+//		}
+//	}
+//}
 // ***************************************************************
 
 // ***************************************************************
@@ -376,41 +344,41 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 // ***************************************************************
 // Tries to restore a lost device
 // ***************************************************************
-void cMainWindow::HandleLostDevice(HRESULT hr)
-{
-	if(hr == D3DERR_DEVICELOST)
-	{
-		Sleep(50) ;
-		return;
-	}
-	else 
-	{
-		if(hr == D3DERR_DEVICENOTRESET) 
-		{
-			OnLostDevice();
-			hr = IDXBase::GetInstance()->ResetDevice() ;
-
-			OnResetDevice();
-		}
-	}
-}
+//void cMainWindow::HandleLostDevice(HRESULT hr)
+//{
+//	if(hr == D3DERR_DEVICELOST)
+//	{
+//		Sleep(50) ;
+//		return;
+//	}
+//	else 
+//	{
+//		if(hr == D3DERR_DEVICENOTRESET) 
+//		{
+//			OnLostDevice();
+//			hr = IDXBase::GetInstance()->ResetDevice() ;
+//
+//			OnResetDevice();
+//		}
+//	}
+//}
 // ***************************************************************
 
 // ***************************************************************
 // Function called when the device is  to free the resources
 // ***************************************************************
-void cMainWindow::OnLostDevice()
-{
-	//if (m_pGameApp)
-	//{
-	//	m_pGameApp->OnLostDevice();
-	//}
-
-	if (m_pFPS)
-	{
-		m_pFPS->OnLostDevice();
-	}
-}
+//void cMainWindow::OnLostDevice()
+//{
+//	//if (m_pGameApp)
+//	//{
+//	//	m_pGameApp->OnLostDevice();
+//	//}
+//
+//	if (m_pFPS)
+//	{
+//		m_pFPS->OnLostDevice();
+//	}
+//}
 // ***************************************************************
 
 // ***************************************************************
@@ -491,8 +459,20 @@ IResCache * cMainWindow::GetResourceCache() const
 	return m_pResourceCache;
 }
 
+int cMainWindow::GetClientWindowHeight()
+{
+	return m_iClientHeight;
+}
+
+int cMainWindow::GetClientWindowWidth()
+{
+	return m_iClientWidth;
+}
+
 void cMainWindow::Destroy()
 {
+	DestroyWindow(m_Hwnd);
+
 	delete this;
 }
 // ***************************************************************

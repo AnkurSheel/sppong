@@ -20,6 +20,8 @@
 #include "GameFlowStates.h"
 #include "Sound.hxx"
 #include "MouseZone.hxx"
+#include "MPongView.h"
+#include "DXBase.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -42,6 +44,7 @@ cGame::cGame()
 , m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
 , m_pSound(NULL)
+, m_pPongView(NULL)
 {
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
@@ -94,11 +97,10 @@ void cGame::OnLostDevice()
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice, 
-				   const UINT iDisplayHeight, 
+void cGame::OnInit(const UINT iDisplayHeight, 
 				   const UINT iDisplayWidth )
 {
-	m_pD3dDevice = pDevice;
+	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
 	m_iDisplayHeight = iDisplayHeight;
 	m_iDisplayWidth = iDisplayWidth;
 
@@ -108,6 +110,8 @@ void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice,
 	m_pSound = ISound::CreateSound();
 	m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
+	m_pPongView = DEBUG_NEW cMPongView();
+
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
 // ***************************************************************
@@ -445,6 +449,37 @@ cString cGame::GetGameTitle()
 {
 	return "MPong";
 }
+
+
+// ***************************************************************
+// the message loop
+// ***************************************************************
+void cGame::Run()
+{
+	MSG Msg ;
+
+	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
+	// run till completed
+	while (Msg.message!=WM_QUIT)
+	{
+		// is there a message to process?
+		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
+		{
+			// dispatch the message
+			TranslateMessage(&Msg) ;
+			DispatchMessage(&Msg) ;
+		}
+		else
+		{
+			//No message to process?
+			// Then do your game stuff here
+
+			Render();
+		}
+	}
+}
+
+// ***************************************************************
 
 IBaseApp * IGame::CreateGame()
 {

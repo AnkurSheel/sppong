@@ -41,12 +41,12 @@ namespace Graphics
 		void RegisterWin() ;
 		HWND CreateMyWindow(const int &nCmdShow, const Base::cString &  lpWindowTitle);
 		LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
-		void OnRender();
+		//void OnRender();
 		void OnDestroyDevice();
-		void OnResetDevice();
-		void OnLostDevice();
+		//void OnResetDevice();
+		//void OnLostDevice();
 		void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd);
-		void HandleLostDevice(HRESULT hr);
+		//void HandleLostDevice(HRESULT hr);
 		void GetWinRect() ;
 		void MoveWin() ;
 		void GetInput()  const;
@@ -56,7 +56,7 @@ namespace Graphics
 		~cMainWindow() ;
 		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight) ;
 		//IMainWindow * TheWindow() ;
-		void Run();
+		
 		void DisplayFPS();
 		float GetElapsedTime() const;
 		float GetRunningTime() const;
@@ -64,6 +64,9 @@ namespace Graphics
 		long GetAbsXMousePos() const;
 		long GetAbsYMousePos() const;
 		Utilities::IResCache * GetResourceCache() const;
+		int GetClientWindowHeight();
+		int GetClientWindowWidth();
+
 		void Destroy();
 	private:
 		HWND					m_Hwnd ;				// holds the window handle

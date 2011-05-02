@@ -24,10 +24,9 @@ namespace Graphics
 }
 
 class cScore;
-
 class cPongGameElement;
-
 class cGameFlowStateMachine;
+class cMPongView;
 
 namespace MySound
 {
@@ -68,12 +67,13 @@ public:
 	void Render();
 	void OnResetDevice();
 	void OnLostDevice();
-	void OnInit(LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, const UINT iDisplayWidth);
+	void OnInit(const UINT iDisplayHeight, const UINT iDisplayWidth);
 	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
 	void Cleanup();
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
+	void Run();
 	Base::cString GetGameTitle();	
 
 private:
@@ -93,6 +93,7 @@ private:
 	bool						m_bSinglePlayer;
 	cGameFlowStateMachine *		m_pStateMachine;
 	Graphics::IMouseZone *		m_pMouseZones;
+	cMPongView	*				m_pPongView;
 
 private:
 	friend class cStateTitleScreen;

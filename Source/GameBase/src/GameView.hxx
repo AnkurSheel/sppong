@@ -26,7 +26,7 @@ namespace GameBase
 	public:
 		virtual ~IGameView() {}
 		virtual HRESULT OnResetDevice() = 0;
-		virtual void OnRender(float fTime, float fElapsedTime) = 0;
+		virtual void OnRender(TICK tickCurrent, float fElapsedTime) = 0;
 		virtual void OnLostDevice() = 0;
 		virtual GAMEVIEWTYPE GetType() = 0;
 		virtual GameViewId GetId() const = 0;

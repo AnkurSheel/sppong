@@ -2,10 +2,12 @@
 
 #include "stdafx.h"
 #include "MpongView.h"
+#include "Sprite.hxx"
+#include "DxBase.hxx"
 
-using namespace Game;
 using namespace Utilities;
 using namespace Graphics;
+using namespace GameBase;
 
 cMPongView::cMPongView()
 {
@@ -16,11 +18,17 @@ cMPongView::~cMPongView()
 }
 
 
-void cMPongView::OnRender(float fTime, float fElapsedTime)
+void cMPongView::OnRender(TICK tickCurrent, float fElapsedTime)
 {
-	HRESULT hr = OnBeginRender(fTime);
+	HRESULT hr = OnBeginRender(tickCurrent);
 	if(SUCCEEDED(hr))
 	{
+		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
+		{
+			(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
+		}
+		//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
+
 	// process the user inputs according to game logic
 	//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), fElapsedTime) ;
 

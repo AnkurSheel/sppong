@@ -2,6 +2,8 @@
 
 #include "GameBaseDefines.h"
 #include "GameView.hxx"
+#include <list>
+#include <memory>
 
 namespace Utilities
 {
@@ -18,20 +20,23 @@ namespace Graphics
 
 namespace GameBase
 {
+	typedef std::list<Graphics::ISprite *> ScreenElementList;
+
 	class cHumanView : public IGameView
 	{
 	public:
 		GAMEBASE_API cHumanView();
 		GAMEBASE_API virtual ~cHumanView();
 		GAMEBASE_API virtual HRESULT OnResetDevice();
-		virtual void OnRender(float fTime, float fElapsedTime);
+		virtual void OnRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void OnLostDevice();
 		GAMEBASE_API virtual void OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
 		GAMEBASE_API virtual void OnDestroyDevice();
 		GAMEBASE_API GAMEVIEWTYPE GetType();
 		GAMEBASE_API GameViewId GetId() const;
 		GAMEBASE_API virtual void OnAttach(GameViewId id);
-
+		GAMEBASE_API virtual void PushElement(Graphics::ISprite * pScreenElement);
+		GAMEBASE_API virtual void PopElement(Graphics::ISprite * pScreenElement);
 		virtual void OnUpdate( int deltaMilliseconds );
 
 	protected:
@@ -48,6 +53,7 @@ namespace GameBase
 		TICK							m_tickCurrent;
 		TICK							m_tickLastDraw;
 		bool							m_bRunFullSpeed;
+		ScreenElementList				m_pElementList;
 		//IFont *							m_pFont;
 		//ISprite *						m_pTextSprite;
 		//GameBase::IBaseApp *						m_pGameApp;				// pointer to the game app

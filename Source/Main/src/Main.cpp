@@ -60,13 +60,15 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	//Initialize the window class
 	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight);
 
+	pGame->OnInit(IMainWindow::TheWindow()->GetClientWindowHeight(),  IMainWindow::TheWindow()->GetClientWindowWidth());
+
 	if(hwnd == NULL)
 	{
 		PostQuitMessage(0) ;
 	}
 	else
 	{
-		IMainWindow::TheWindow()->Run();
+		pGame->Run();
 	}
 	
 	Cleanup() ;
