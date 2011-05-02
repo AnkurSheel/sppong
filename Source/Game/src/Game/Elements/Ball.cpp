@@ -53,7 +53,7 @@ void cBall::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename)
 // ***************************************************************
 void cBall::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL*/, const D3DCOLOR& tint /*= WHITE*/, const RECT* pSrcRect/* = NULL*/)
 {
-	m_vPosition += (m_vSpeed * IMainWindow::TheWindow()->GetElapsedTime());
+	//m_vPosition += (m_vSpeed * IMainWindow::TheWindow()->GetElapsedTime());
 	// update the position of the ball
 	m_pSprite->DrawSprite(pDevice, m_vPosition, D3DXSPRITE_ALPHABLEND);
 

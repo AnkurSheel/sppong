@@ -22,11 +22,13 @@
 #include "MouseZone.hxx"
 #include "MPongView.h"
 #include "DXBase.hxx"
+#include "Timer.hxx"
 
 using namespace MySound;
 using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
+using namespace Utilities;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -65,9 +67,10 @@ cGame::~cGame()
 // ***************************************************************
 // Display the Graphics
 // ***************************************************************
-void cGame::Render()
+void cGame::Render(TICK tickCurrent, float fElapsedTime)
 {
 	m_pStateMachine->Update();
+	m_pPongView->OnRender(tickCurrent, fElapsedTime);
 	m_pSound->Update();
 	if (m_bDisplayFPS)
 	{
@@ -458,6 +461,9 @@ void cGame::Run()
 {
 	MSG Msg ;
 
+	ITimer * pGameTimer = ITimer::CreateTimer();
+	pGameTimer->Start();
+
 	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
 	// run till completed
 	while (Msg.message!=WM_QUIT)
@@ -473,8 +479,7 @@ void cGame::Run()
 		{
 			//No message to process?
 			// Then do your game stuff here
-
-			Render();
+			Render(pGameTimer->GetRunningTime(), pGameTimer->GetElapsedTime());
 		}
 	}
 }

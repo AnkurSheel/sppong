@@ -44,7 +44,7 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 
 void cStateTitleScreen::Enter(cGame *pGame)
 {
-	m_tickCurrentTime = IMainWindow::TheWindow()->GetRunningTime();
+	//m_tickCurrentTime = pGame->GetRunningTime();
 
 	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
 	pGame->m_pCursorSprite = ISprite::CreateSprite();
@@ -60,7 +60,6 @@ void cStateTitleScreen::Enter(cGame *pGame)
 
 void cStateTitleScreen::Execute(cGame *pGame)
 {
-	pGame->m_pPongView->OnRender(m_tickCurrentTime, IMainWindow::TheWindow()->GetElapsedTime());
 	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
 
 	//ankur - temp comment

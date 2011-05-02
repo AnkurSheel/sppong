@@ -12,7 +12,8 @@ using namespace GameBase;
 using namespace Utilities;
 using namespace Graphics;
 
-cHumanView::cHumanView()// :
+cHumanView::cHumanView() :
+m_bRunFullSpeed(false)
 //  m_pGameApp(pGameApp)
 //, m_pFPS(NULL)
 //, m_pInput(NULL)

@@ -30,7 +30,6 @@ cMainWindow::cMainWindow()
 //, m_pGameApp(NULL)
 , m_iFullScreenHeight(0)
 , m_iFullScreenWidth(0)
-, m_pGameTimer(NULL)
 , m_pFPS(NULL)
 , m_pResourceCache(NULL)
 {
@@ -220,12 +219,6 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 //{
 //	HRESULT hr;
 //
-//	// update the game timer
-//	if (m_pGameTimer)
-//	{
-//		m_pGameTimer->Update();
-//	}
-//
 //	// check if the device is available
 //	hr = IDXBase::GetInstance()->IsAvailable() ;
 //
@@ -260,9 +253,6 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 // ***************************************************************
 void cMainWindow::OnDestroyDevice()
 {
-	// delete the game timer
-	SAFE_DELETE(m_pGameTimer);
-
 	// delete the input handler
 	SAFE_DELETE(m_pInput);
 
@@ -313,9 +303,6 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	// initialize DirectX
 	IDXBase::GetInstance()->Init(hWnd, TAN);
 
-	m_pGameTimer = ITimer::CreateTimer();
-	m_pGameTimer->Start();
-
 	m_pInput = IInput::CreateInputDevice();
 	m_pInput->Init(hInst, hWnd, m_iClientWidth, m_iClientHeight);
 
@@ -339,29 +326,6 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 	SetForegroundWindow(m_Hwnd);
 
 }
-// ***************************************************************
-
-// ***************************************************************
-// Tries to restore a lost device
-// ***************************************************************
-//void cMainWindow::HandleLostDevice(HRESULT hr)
-//{
-//	if(hr == D3DERR_DEVICELOST)
-//	{
-//		Sleep(50) ;
-//		return;
-//	}
-//	else 
-//	{
-//		if(hr == D3DERR_DEVICENOTRESET) 
-//		{
-//			OnLostDevice();
-//			hr = IDXBase::GetInstance()->ResetDevice() ;
-//
-//			OnResetDevice();
-//		}
-//	}
-//}
 // ***************************************************************
 
 // ***************************************************************
@@ -405,25 +369,7 @@ void cMainWindow::MoveWin()
 // ***************************************************************
 void cMainWindow::DisplayFPS()
 {
-	m_pFPS->Render(IDXBase::GetInstance()->GetDevice(), m_pGameTimer->GetFPS());
-}
-// ***************************************************************
-
-// ***************************************************************
-// returns the time between the last and current frame
-// ***************************************************************
-float cMainWindow::GetElapsedTime() const
-{
-	return m_pGameTimer->GetElapsedTime();
-}
-// ***************************************************************
-
-// ***************************************************************
-// Gets the running time
-// ***************************************************************
-float cMainWindow::GetRunningTime() const
-{
-	return m_pGameTimer->GetRunningTime();
+	//m_pFPS->Render(IDXBase::GetInstance()->GetDevice(), m_pGameTimer->GetFPS());
 }
 // ***************************************************************
 

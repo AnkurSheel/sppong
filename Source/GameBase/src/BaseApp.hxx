@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef BaseApp_h__
-#define BaseApp_h__
+#ifndef BaseApp_hxx__
+#define BaseApp_hxx__
 
 #include "GameBaseDefines.h"
 
@@ -25,7 +25,7 @@ namespace GameBase
 	{
 	public:
 		virtual ~IBaseApp(){}
-		virtual void Render() = 0;
+		virtual void Render(TICK tickCurrent, float fElapsedTime) = 0;
 		virtual void OnResetDevice() = 0;
 		virtual void OnLostDevice() = 0;
 		virtual void OnInit(const UINT iDisplayHeight, const UINT iDisplayWidth) = 0;
@@ -35,4 +35,4 @@ namespace GameBase
 		GAMEBASE_API virtual void Run() = 0;
 	};
 }
-#endif // BaseApp_h__
+#endif // BaseApp_hxx__

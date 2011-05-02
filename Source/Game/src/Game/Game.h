@@ -64,7 +64,7 @@ private:
 public:
 	cGame();
 	~cGame();
-	void Render();
+	void Render(TICK tickCurrent, float fElapsedTime);
 	void OnResetDevice();
 	void OnLostDevice();
 	void OnInit(const UINT iDisplayHeight, const UINT iDisplayWidth);
