@@ -38,11 +38,8 @@ namespace Graphics
 		cMainWindow() ;
 		~cMainWindow() ;
 		
-		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight) ;
+		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) ;
 		void DisplayFPS();
-		void LockKey( const DWORD dwKey );
-		long GetAbsXMousePos() const;
-		long GetAbsYMousePos() const;
 		Utilities::IResCache * GetResourceCache() const;
 		int GetClientWindowHeight();
 		int GetClientWindowWidth();
@@ -52,17 +49,12 @@ namespace Graphics
 		cMainWindow(const cMainWindow&){}
 		cMainWindow operator =(const cMainWindow&){}
 		void RegisterWin() ;
-		HWND CreateMyWindow(const int &nCmdShow, const Base::cString &  lpWindowTitle);
+		HWND CreateMyWindow(const int &nCmdShow, const Base::cString &  lpWindowTitle, const bool bFullScreen);
 		LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
-		//void OnRender();
 		void OnDestroyDevice();
-		//void OnResetDevice();
-		//void OnLostDevice();
-		void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd);
-		//void HandleLostDevice(HRESULT hr);
+		void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd, const bool bFullScreen);
 		void GetWinRect() ;
 		void MoveWin() ;
-		void GetInput()  const;
 		static LRESULT CALLBACK StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
 
 	private:
@@ -74,7 +66,6 @@ namespace Graphics
 		int						m_iLeftPos ;			// the X coordinate of the top left corner of the window
 		int						m_iFullScreenWidth ;	// the full screen width
 		int						m_iFullScreenHeight ;	// the full screen height
-		Graphics::IInput *		m_pInput;				// pointer to input class
 		Graphics::IFPS *		m_pFPS;
 		Utilities::IResCache *	m_pResourceCache;
 	};

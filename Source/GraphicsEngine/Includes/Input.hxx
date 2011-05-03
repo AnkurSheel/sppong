@@ -10,6 +10,8 @@
 #ifndef Input_hxx__
 #define Input_hxx__
 
+#include "GraphicEngineDefines.h"
+
 namespace Graphics
 {
 	class IInput
@@ -28,7 +30,7 @@ namespace Graphics
 		virtual long GetMouseZDelta() const = 0;
 		virtual void LockKey(const DWORD dwKey) = 0;	
 		virtual void Cleanup() = 0;
-		static IInput * CreateInputDevice();
+		GRAPHIC_API static IInput * CreateInputDevice();
 	};
 }
 #endif // Input_h__

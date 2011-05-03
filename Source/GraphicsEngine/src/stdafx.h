@@ -49,7 +49,3 @@
 #include "Logger.hxx"
 #include "myString.h"
 #include <memory>
-
-#ifndef _DEBUG
-#define WINDOWED
-#endif

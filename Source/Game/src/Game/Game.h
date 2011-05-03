@@ -23,6 +23,10 @@ namespace Graphics
 	class IMouseZone;
 }
 
+namespace Utilities
+{
+	class ITimer;
+}
 class cScore;
 class cPongGameElement;
 class cGameFlowStateMachine;
@@ -67,7 +71,7 @@ public:
 	void Render(TICK tickCurrent, float fElapsedTime);
 	void OnResetDevice();
 	void OnLostDevice();
-	void OnInit(const UINT iDisplayHeight, const UINT iDisplayWidth);
+	void OnInit(const HINSTANCE hInstance, const HWND hwnd, const UINT iDisplayHeight, const UINT iDisplayWidth, const bool bFullScreen);
 	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
 	void Cleanup();
 	void Restart();
@@ -94,6 +98,7 @@ private:
 	cGameFlowStateMachine *		m_pStateMachine;
 	Graphics::IMouseZone *		m_pMouseZones;
 	cMPongView	*				m_pPongView;
+	Utilities::ITimer *			m_pGameTimer;
 
 private:
 	friend class cStateTitleScreen;

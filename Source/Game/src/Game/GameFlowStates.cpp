@@ -60,7 +60,7 @@ void cStateTitleScreen::Enter(cGame *pGame)
 
 void cStateTitleScreen::Execute(cGame *pGame)
 {
-	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
+	//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
 
 	//ankur - temp comment
 	//// display the title screen for 2 secs before displaying the menu screen
@@ -153,7 +153,7 @@ void cStateMenuScreen::Execute(cGame *pGame)
 	pGame->m_pSinglePlayerSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pSinglePlayerSprite->GetScaledWidth()/2, (float)m_iSinglePlayerSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
 	pGame->m_pTwoPlayerSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pTwoPlayerSprite->GetScaledWidth()/2, (float)m_iTwoPlayerSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
 	pGame->m_pQuitSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pQuitSprite->GetScaledWidth()/2, (float)m_iQuitSpritePosY, 0.0f), D3DXSPRITE_ALPHABLEND);
-	pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
+	//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
 }
 // ***************************************************************
 

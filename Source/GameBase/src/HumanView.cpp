@@ -1,5 +1,12 @@
-#pragma once
-
+// ***************************************************************
+//  HumanView   version:  1.0   Ankur Sheel  date: 2011/05/02
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
 #include "stdafx.h"
 #include "HumanView.h"
 #include "DxBase.hxx"
@@ -7,6 +14,7 @@
 #include "BaseApp.hxx"
 #include "Input.hxx"
 #include "FPS.hxx"
+#include "Sprite.hxx"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -16,7 +24,7 @@ cHumanView::cHumanView() :
 m_bRunFullSpeed(false)
 //  m_pGameApp(pGameApp)
 //, m_pFPS(NULL)
-//, m_pInput(NULL)
+, m_pInput(NULL)
 {
 }
 
@@ -48,17 +56,13 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 {
 	m_tickCurrent = tickCurrent; 
 
-	if (m_tickCurrent == m_tickLastDraw) 
-	{
-		return false; 
-	}
-
 	// check if the device is available
 	HRESULT hr = IDXBase::GetInstance()->IsAvailable() ;
 
 	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
 	{
 		HandleLostDevice(hr) ;
+		return S_FALSE;
 	}
 
 	if(SUCCEEDED(hr))
@@ -73,7 +77,7 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 			}
 		}
 	}
-	return false;
+	return S_FALSE;
 }
 
 void cHumanView::OnEndRender(const HRESULT hr)
@@ -83,31 +87,49 @@ void cHumanView::OnEndRender(const HRESULT hr)
 	IDXBase::GetInstance()->EndRender(hr);
 }
 
-void cHumanView::OnRender(TICK fTime, float fElapsedTime)
+void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
 {
+	GetInput();
+	HRESULT hr = OnBeginRender(tickCurrent);
+	if (FAILED(hr))
+	{
+		OnResetDevice();
+	}
+	if(SUCCEEDED(hr))
+	{
+		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
+		{
+			(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
+		}
+		//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
 
-	// process the user inputs according to game logic
-	//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), fElapsedTime) ;
+		// process the user inputs according to game logic
+		//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), fElapsedTime) ;
 
-	// render the game graphics
-//	m_pGameApp->Render();
-	
-	/*CDXUTTextHelper txtHelper( m_pFont, m_pTextSprite, 15 ); 
-VRenderText(txtHelper); 
+		// render the game graphics
+		//	m_pGameApp->Render();
 
-m_ScreenElements.sort( SortBy_SharedPtr_Content<IScreenElement>()); 
-for(ScreenElementList::iterator i=m_ScreenElements.begin(); i!=m_ScreenElements.end(); ++i)
-{ 
-	if ( (*i)->VIsVisible() ) 
-	{ (*i)->VOnRender(fTime, fElapsedTime); 
-	} 
-}*/
+		/*CDXUTTextHelper txtHelper( m_pFont, m_pTextSprite, 15 ); 
+		VRenderText(txtHelper); 
+
+		m_ScreenElements.sort( SortBy_SharedPtr_Content<IScreenElement>()); 
+		for(ScreenElementList::iterator i=m_ScreenElements.begin(); i!=m_ScreenElements.end(); ++i)
+		{ 
+		if ( (*i)->VIsVisible() ) 
+		{ (*i)->VOnRender(fTime, fElapsedTime); 
+		} 
+		}*/
+
+		OnEndRender(hr);
+	}
 }
 
 void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight)
 {
-	//m_pInput = IInput::CreateInputDevice();
-	//m_pInput->Init(hInst, hWnd, iClientWidth, iClientHeight);
+	OnResetDevice();
+
+	m_pInput = IInput::CreateInputDevice();
+	m_pInput->Init(hInst, hWnd, iClientWidth, iClientHeight);
 
 	//m_pFPS = IFPS::CreateFPS();
 	//m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)iClientWidth/2, 10.0f, 0.0f));
@@ -131,7 +153,7 @@ void cHumanView::OnLostDevice()
 void cHumanView::OnDestroyDevice()
 {
 	// delete the input handler
-	//SAFE_DELETE(m_pInput);
+	SAFE_DELETE(m_pInput);
 
 	//SAFE_DELETE(m_pFPS);
 
@@ -201,7 +223,16 @@ void cHumanView::HandleLostDevice(HRESULT hr)
 // ***************************************************************
 void cHumanView::GetInput() const
 {
-	//m_pInput->DetectKeys();
-	//m_pInput->DetectMouseMovement();
+	m_pInput->DetectKeys();
+	m_pInput->DetectMouseMovement();
 }
 // ***************************************************************
+
+// ***************************************************************
+// Locks the key on the keyboard
+// ***************************************************************
+void cHumanView::LockKey( const DWORD dwKey ) 
+{
+	m_pInput->LockKey(dwKey);
+}
+

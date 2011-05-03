@@ -57,10 +57,13 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	int iWidth = GetSystemMetrics(SM_CXSCREEN);
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);
 
-	//Initialize the window class
-	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight);
 
-	pGame->OnInit(IMainWindow::TheWindow()->GetClientWindowHeight(),  IMainWindow::TheWindow()->GetClientWindowWidth());
+	bool bFullScreen = false;
+#ifndef _DEBUG
+		bFullScreen = true;
+#endif
+	//Initialize the window class
+	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight, bFullScreen);
 
 	if(hwnd == NULL)
 	{
@@ -68,6 +71,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	}
 	else
 	{
+		pGame->OnInit(hInstance, hwnd, IMainWindow::TheWindow()->GetClientWindowHeight(),  IMainWindow::TheWindow()->GetClientWindowWidth(), bFullScreen);
 		pGame->Run();
 	}
 	

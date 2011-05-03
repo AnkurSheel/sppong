@@ -100,6 +100,6 @@ const int MAX_PATH_WIDTH = 260;
 
 typedef DWORD TICK;
 
-const unsigned int SCREEN_REFRESH_RATE(1000/60);
+const unsigned int SCREEN_REFRESH_RATE(1000/59);
 
 #endif // Macros_h__

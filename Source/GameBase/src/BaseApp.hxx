@@ -28,7 +28,7 @@ namespace GameBase
 		virtual void Render(TICK tickCurrent, float fElapsedTime) = 0;
 		virtual void OnResetDevice() = 0;
 		virtual void OnLostDevice() = 0;
-		virtual void OnInit(const UINT iDisplayHeight, const UINT iDisplayWidth) = 0;
+		virtual void OnInit(const HINSTANCE hInstance, const HWND hwnd, const UINT iDisplayHeight, const UINT iDisplayWidth, const bool bFullscreen) = 0;
 		virtual void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime ) = 0;
 		virtual void Restart() = 0;
 		virtual Base::cString GetGameTitle() = 0; 

@@ -18,7 +18,7 @@ namespace Graphics
 	{
 	public:
 		virtual ~IDXBase(){}
-		virtual void Init(const HWND hWnd, const D3DCOLOR & bkColor)  = 0;
+		virtual void Init(const HWND hWnd, const D3DCOLOR & bkColor, const bool bFullScreen)  = 0;
 		virtual HRESULT ResetDevice()  = 0;
 		virtual void Cleanup()  = 0;
 		virtual HRESULT BeginRender() = 0;

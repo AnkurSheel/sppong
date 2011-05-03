@@ -151,7 +151,7 @@ HRESULT cDXBase::ResetDevice()
 		hr = m_pd3dDevice->Reset(&m_d3dpp) ;
 		return hr ;
 	}
-	
+
 	return 0;
 }
 // ***************************************************************
@@ -159,17 +159,13 @@ HRESULT cDXBase::ResetDevice()
 // ***************************************************************
 // Initializes the directX object
 // ***************************************************************
-void cDXBase::Init( const HWND hWnd, const D3DCOLOR& bkColor)
+void cDXBase::Init( const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen)
 {
 	m_Hwnd = hWnd;
 	m_BkColor = bkColor;
 
 	DirectxInit() ;
-#ifdef WINDOWED
-	SetParameters(false) ;	
-#else
-	SetParameters(true) ;
-#endif
+	SetParameters(bFullScreen) ;
 	CreateDirectxDevice() ;
 }
 // ***************************************************************
@@ -179,10 +175,10 @@ void cDXBase::Init( const HWND hWnd, const D3DCOLOR& bkColor)
 // ***************************************************************
 HRESULT cDXBase::BeginRender()
 {
- 	HRESULT hr;
+	HRESULT hr;
 
 	// clear the frame
-	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER,m_BkColor, 1.0f, 0) ;
+	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, m_BkColor, 1.0f, 0) ;
 
 	hr = m_pd3dDevice->BeginScene() ;
 

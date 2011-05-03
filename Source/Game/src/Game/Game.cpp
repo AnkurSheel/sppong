@@ -23,6 +23,7 @@
 #include "MPongView.h"
 #include "DXBase.hxx"
 #include "Timer.hxx"
+#include "ProcessManager.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -47,6 +48,7 @@ cGame::cGame()
 , m_bSinglePlayer(false)
 , m_pSound(NULL)
 , m_pPongView(NULL)
+, m_pGameTimer(NULL)
 {
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
@@ -100,13 +102,23 @@ void cGame::OnLostDevice()
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::OnInit(const UINT iDisplayHeight, 
-				   const UINT iDisplayWidth )
+void cGame::OnInit(const HINSTANCE hInstance, 
+				   const HWND hwnd,
+				   const UINT iDisplayHeight, 
+				   const UINT iDisplayWidth,
+				   const bool bFullScreen)
 {
 	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
-	m_iDisplayHeight = iDisplayHeight;
-	m_iDisplayWidth = iDisplayWidth;
-
+	if(bFullScreen)
+	{
+		m_iDisplayHeight = IDXBase::GetInstance()->GetDisplayHeight();
+		m_iDisplayWidth = IDXBase::GetInstance()->GetDisplayWidth();
+	}
+	else
+	{
+		m_iDisplayHeight = iDisplayHeight;
+		m_iDisplayWidth = iDisplayWidth;
+	}
 
 	m_pMouseZones = IMouseZone::CreateMouseZone();
 
@@ -114,6 +126,8 @@ void cGame::OnInit(const UINT iDisplayHeight,
 	m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 	m_pPongView = DEBUG_NEW cMPongView();
+
+	m_pPongView->OnCreateDevice(hInstance, hwnd, m_iDisplayWidth, m_iDisplayHeight);
 
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
@@ -133,7 +147,7 @@ void cGame::ProcessInput( const long xDelta,
 	if (pbPressedKeys[DIK_F2])
 	{
 		// lock the F2 key
-		IMainWindow::TheWindow()->LockKey(DIK_F2) ;
+		//IMainWindow::TheWindow()->LockKey(DIK_F2) ;
 
 		m_bDisplayFPS = !m_bDisplayFPS;
 	}
@@ -141,7 +155,7 @@ void cGame::ProcessInput( const long xDelta,
 	if (pbPressedKeys[DIK_ESCAPE])
 	{
 		// lock the ESC key
-		IMainWindow::TheWindow()->LockKey(DIK_ESCAPE) ;
+		//IMainWindow::TheWindow()->LockKey(DIK_ESCAPE) ;
 
 		// if the current state is the title screen and the user presses ESC
 		// go the game screen
@@ -205,12 +219,12 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_P])
 	{
-		IMainWindow::TheWindow()->LockKey(DIK_P) ;
+		//IMainWindow::TheWindow()->LockKey(DIK_P) ;
 		m_pSound->ChangeMusicVolume(true, GS_MAIN_MENU_MUSIC);
 	}
 	if (pbPressedKeys[DIK_L])
 	{
-		IMainWindow::TheWindow()->LockKey(DIK_L) ;
+		//IMainWindow::TheWindow()->LockKey(DIK_L) ;
 		m_pSound->ChangeMusicVolume(false, GS_MAIN_MENU_MUSIC);
 	}
 
@@ -271,7 +285,7 @@ void cGame::ProcessInput( const long xDelta,
 	}
 
 	cString strZoneName;
-	if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, strZoneName))
+	//if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, strZoneName))
 	{
 		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
 		{
@@ -324,6 +338,10 @@ void cGame::Cleanup()
 	SAFE_DELETE(m_pTwoPlayerSprite);
 	SAFE_DELETE(m_pQuitSprite);
 	SAFE_DELETE(m_pSound);
+
+	m_pPongView->OnDestroyDevice();
+	SAFE_DELETE(m_pPongView);
+	SAFE_DELETE(m_pGameTimer);
 
 	if(ICollisionChecker::TheCollisionChecker())
 		ICollisionChecker::TheCollisionChecker()->Destroy();
@@ -461,8 +479,8 @@ void cGame::Run()
 {
 	MSG Msg ;
 
-	ITimer * pGameTimer = ITimer::CreateTimer();
-	pGameTimer->Start();
+	m_pGameTimer = ITimer::CreateTimer();
+	m_pGameTimer->Start();
 
 	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
 	// run till completed
@@ -479,7 +497,7 @@ void cGame::Run()
 		{
 			//No message to process?
 			// Then do your game stuff here
-			Render(pGameTimer->GetRunningTime(), pGameTimer->GetElapsedTime());
+			Render(m_pGameTimer->GetRunningTime(), m_pGameTimer->GetElapsedTime());
 		}
 	}
 }

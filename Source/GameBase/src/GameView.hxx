@@ -1,4 +1,14 @@
-#pragma once
+// ***************************************************************
+//  GameView   version:  1.0   Ankur Sheel  date: 2011/05/02
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef GameView_hxx__
+#define GameView_hxx__
 
 namespace GameBase
 {
@@ -36,3 +46,4 @@ namespace GameBase
 		virtual void OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight ) = 0;
 	};
 }
+#endif // GameView_h__
