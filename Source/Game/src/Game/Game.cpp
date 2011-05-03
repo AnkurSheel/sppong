@@ -19,7 +19,6 @@
 #include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
 #include "Sound.hxx"
-#include "MouseZone.hxx"
 #include "MPongView.h"
 #include "DXBase.hxx"
 #include "Timer.hxx"
@@ -35,15 +34,10 @@ using namespace Utilities;
 // ***************************************************************
 cGame::cGame()
 : m_pTableSprite(NULL)
-, m_pTitleScreenSprite(NULL)
 , m_pScore(NULL)
 , m_bDisplayFPS(false)
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
-, m_pMouseZones(NULL)
-, m_pSinglePlayerSprite(NULL)
-, m_pTwoPlayerSprite(NULL)
-, m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
 , m_pSound(NULL)
 , m_pPongView(NULL)
@@ -118,8 +112,6 @@ void cGame::OnInit(const HINSTANCE hInstance,
 		m_iDisplayHeight = iDisplayHeight;
 		m_iDisplayWidth = iDisplayWidth;
 	}
-
-	m_pMouseZones = IMouseZone::CreateMouseZone();
 
 	m_pSound = ISound::CreateSound();
 	m_pSound->Init();
@@ -282,37 +274,6 @@ void cGame::ProcessInput( const long xDelta,
 	{
 		HandlePaddleAI(fElapsedTime);
 	}
-
-	cString strZoneName;
-	//if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, strZoneName))
-	{
-		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
-		{
-			if (strZoneName == "Title Screen")
-			{
-				m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
-			}
-		}
-
-		if (m_pStateMachine->GetCurrentState() == cStateMenuScreen::Instance())
-		{
-			if (strZoneName == "Single Player")
-			{
-				m_bSinglePlayer = true;
-				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
-			}
-
-			if (strZoneName == "Two Player")
-			{
-				m_bSinglePlayer = false;
-				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
-			}
-			if (strZoneName == "Quit")
-			{
-				PostQuitMessage(0);
-			}
-		}
-	}
 }
 // ***************************************************************
 
@@ -328,13 +289,8 @@ void cGame::Cleanup()
 
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
-	SAFE_DELETE(m_pMouseZones);
 	SAFE_DELETE(m_pTableSprite);
 
-	SAFE_DELETE(m_pTitleScreenSprite);
-	SAFE_DELETE(m_pSinglePlayerSprite);
-	SAFE_DELETE(m_pTwoPlayerSprite);
-	SAFE_DELETE(m_pQuitSprite);
 	SAFE_DELETE(m_pSound);
 
 	m_pPongView->OnDestroyDevice();

@@ -14,19 +14,23 @@
 #include "GameBaseDefines.h"
 #include "GameView.hxx"
 #include <list>
-#include <memory>
 
 namespace Utilities
 {
 	class IProcessManager;
 }
 
+namespace Base
+{
+	class cString;
+}
 namespace Graphics
 {
 	class IFont;
 	class ISprite;
 	class IInput;
 	class IFPS;
+	class IMouseZone;
 }
 
 namespace GameBase
@@ -46,9 +50,12 @@ namespace GameBase
 		GAMEBASE_API GAMEVIEWTYPE GetType();
 		GAMEBASE_API GameViewId GetId() const;
 		GAMEBASE_API virtual void OnAttach(GameViewId id);
-		GAMEBASE_API virtual void PushElement(Graphics::ISprite * pScreenElement);
+		GAMEBASE_API virtual void PushElement(Graphics::ISprite * pScreenElement, const Base::cString & strZoneName);
 		GAMEBASE_API virtual void PopElement(Graphics::ISprite * pScreenElement);
+		GAMEBASE_API virtual void RemoveElements();
+		GAMEBASE_API virtual void FreeZones();
 		GAMEBASE_API void OnUpdate( int deltaMilliseconds );
+		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
 
 	protected:
 		void RenderText();
@@ -68,6 +75,7 @@ namespace GameBase
 		ScreenElementList				m_pElementList;
 		Graphics::IInput *				m_pInput;				// pointer to input class
 		Graphics::ISprite *				m_pCursorSprite;		// the sprite for the cursor
+		Graphics::IMouseZone *			m_pMouseZones;
 
 		//IFont *							m_pFont;
 		//ISprite *						m_pTextSprite;

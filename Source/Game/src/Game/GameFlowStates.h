@@ -43,9 +43,6 @@ class cStateMenuScreen
 {
 private:
 	cStateMenuScreen();
-	int		m_iSinglePlayerSpritePosY;
-	int		m_iTwoPlayerSpritePosY;
-	int		m_iQuitSpritePosY;
 public:
 	~cStateMenuScreen();
 	static cStateMenuScreen *Instance();

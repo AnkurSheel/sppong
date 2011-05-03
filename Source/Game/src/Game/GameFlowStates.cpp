@@ -15,15 +15,15 @@
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
 #include "Elements/Ball.h"
-#include "MainWindow.hxx"
 #include "Sprite.hxx"
 #include "CollisionChecker.hxx"
-#include "MouseZone.hxx"
 #include "Sound.hxx"
 #include "MPongView.h"
+#include "myString.h"
 
 using namespace MySound;
 using namespace Graphics;
+using namespace Base;
 
 cStateTitleScreen::cStateTitleScreen()
 {
@@ -46,13 +46,12 @@ void cStateTitleScreen::Enter(cGame *pGame)
 {
 	m_tickCurrentTime = pGame->GetRunningTime();
 
-	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
+	ISprite * pTitleScreenSprite = ISprite::CreateSprite();
 
+	pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
+	pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
-	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
-	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
-
-	pGame->m_pPongView->PushElement(pGame->m_pTitleScreenSprite);
+	pGame->m_pPongView->PushElement(pTitleScreenSprite, "");
 }
 // ***************************************************************
 
@@ -70,9 +69,8 @@ void cStateTitleScreen::Execute(cGame *pGame)
 
 void cStateTitleScreen::Exit(cGame *pGame)
 {
-	pGame->m_pPongView->PopElement(pGame->m_pTitleScreenSprite);
-
-	SAFE_DELETE(pGame->m_pTitleScreenSprite);
+	pGame->m_pPongView->RemoveElements();
+ 	pGame->m_pPongView->FreeZones();
 }
 // ***************************************************************
 
@@ -101,41 +99,39 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 
 void cStateMenuScreen::Enter(cGame *pGame)
 {
-	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
-	pGame->m_pSinglePlayerSprite = ISprite::CreateSprite();
-	pGame->m_pTwoPlayerSprite = ISprite::CreateSprite();
-	pGame->m_pQuitSprite = ISprite::CreateSprite();
+	ISprite * pTitleScreenSprite = ISprite::CreateSprite();
+	ISprite * pSinglePlayerSprite = ISprite::CreateSprite();
+	ISprite * pTwoPlayerSprite = ISprite::CreateSprite();
+	ISprite * pQuitSprite = ISprite::CreateSprite();
 
- 	pGame->m_pMouseZones->FreeZones();
+	pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
+	pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
+	pTitleScreenSprite->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pGame->m_pPongView->PushElement(pTitleScreenSprite, "");
 
-	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
-	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
-	pGame->m_pTitleScreenSprite->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	pGame->m_pPongView->PushElement(pGame->m_pTitleScreenSprite);
+	int iSinglePlayerSpritePosY = pTitleScreenSprite->GetScaledHeight() + pGame->m_iDisplayHeight/5;
 
-	m_iSinglePlayerSpritePosY = pGame->m_pTitleScreenSprite->GetScaledHeight() + pGame->m_iDisplayHeight/5;
-	pGame->m_pMouseZones->AddZone("Single Player", (pGame->m_iDisplayWidth/2 - pGame->m_pSinglePlayerSprite->GetScaledWidth()/2), m_iSinglePlayerSpritePosY , pGame->m_pSinglePlayerSprite->GetScaledWidth(), pGame->m_pSinglePlayerSprite->GetScaledHeight(), LEFTBUTTON);
+	pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\SinglePlayer.jpg");
+	pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
+	pSinglePlayerSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pSinglePlayerSprite->GetScaledWidth()/2, 
+												 (float)iSinglePlayerSpritePosY, 0.0f));
+	pGame->m_pPongView->PushElement(pSinglePlayerSprite, "Single Player");
 
-	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\SinglePlayer.jpg");
-	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
-	pGame->m_pSinglePlayerSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pSinglePlayerSprite->GetScaledWidth()/2, (float)m_iSinglePlayerSpritePosY, 0.0f));
-	pGame->m_pPongView->PushElement(pGame->m_pSinglePlayerSprite);
-
-	m_iTwoPlayerSpritePosY = m_iSinglePlayerSpritePosY + pGame->m_pSinglePlayerSprite->GetScaledHeight() + pGame->m_iDisplayHeight/15;
-	pGame->m_pMouseZones->AddZone("Two Player", pGame->m_iDisplayWidth/2 - pGame->m_pTwoPlayerSprite->GetScaledWidth()/2, m_iTwoPlayerSpritePosY , pGame->m_pTwoPlayerSprite->GetScaledWidth(), pGame->m_pTwoPlayerSprite->GetScaledHeight(), LEFTBUTTON);
+	int iTwoPlayerSpritePosY = iSinglePlayerSpritePosY + pSinglePlayerSprite->GetScaledHeight() + pGame->m_iDisplayHeight/15;
 	
-	pGame->m_pTwoPlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\TwoPlayer.jpg");
-	pGame->m_pTwoPlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
-	pGame->m_pTwoPlayerSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pTwoPlayerSprite->GetScaledWidth()/2, (float)m_iTwoPlayerSpritePosY, 0.0f));
-	pGame->m_pPongView->PushElement(pGame->m_pTwoPlayerSprite);
+	pTwoPlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\TwoPlayer.jpg");
+	pTwoPlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
+	pTwoPlayerSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pTwoPlayerSprite->GetScaledWidth()/2, 
+											(float)iTwoPlayerSpritePosY, 0.0f));
+	pGame->m_pPongView->PushElement(pTwoPlayerSprite, "Two Player");
 
-	m_iQuitSpritePosY = m_iTwoPlayerSpritePosY + pGame->m_pTwoPlayerSprite->GetScaledHeight() + pGame->m_iDisplayHeight/15;
-	pGame->m_pMouseZones->AddZone("Quit", pGame->m_iDisplayWidth/2 - pGame->m_pQuitSprite->GetScaledWidth()/2, m_iQuitSpritePosY, pGame->m_pQuitSprite->GetScaledWidth(), pGame->m_pQuitSprite->GetScaledHeight(), LEFTBUTTON);
+	int iQuitSpritePosY = iTwoPlayerSpritePosY + pTwoPlayerSprite->GetScaledHeight() + pGame->m_iDisplayHeight/15;
 	
-	pGame->m_pQuitSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Quit.jpg");
-	pGame->m_pQuitSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
-	pGame->m_pQuitSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pGame->m_pQuitSprite->GetScaledWidth()/2, (float)m_iQuitSpritePosY, 0.0f));
-	pGame->m_pPongView->PushElement(pGame->m_pQuitSprite);
+	pQuitSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Quit.jpg");
+	pQuitSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
+	pQuitSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pQuitSprite->GetScaledWidth()/2, 
+										(float)iQuitSpritePosY, 0.0f));
+	pGame->m_pPongView->PushElement(pQuitSprite, "Quit");
 	
 	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
 	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
@@ -145,6 +141,24 @@ void cStateMenuScreen::Enter(cGame *pGame)
 
 void cStateMenuScreen::Execute(cGame *pGame)
 {
+	cString strZoneName;
+	if (pGame->m_pPongView->CheckZones(strZoneName))
+	{
+		if (strZoneName == "Single Player")
+		{
+			pGame->m_bSinglePlayer = true;
+			pGame->m_pStateMachine->ChangeState(cStatePlayGame::Instance());
+		}
+		else if (strZoneName == "Two Player")
+		{
+			pGame->m_bSinglePlayer = false;
+			pGame->m_pStateMachine->ChangeState(cStatePlayGame::Instance());
+		}
+		else if (strZoneName == "Quit")
+		{
+			PostQuitMessage(0);
+		}
+	}
 }
 // ***************************************************************
 
@@ -152,15 +166,8 @@ void cStateMenuScreen::Exit(cGame *pGame)
 {
 	pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);
 
-	pGame->m_pPongView->PopElement(pGame->m_pTitleScreenSprite);
-	pGame->m_pPongView->PopElement(pGame->m_pSinglePlayerSprite);
-	pGame->m_pPongView->PopElement(pGame->m_pTwoPlayerSprite);
-	pGame->m_pPongView->PopElement(pGame->m_pQuitSprite);
-
-	SAFE_DELETE(pGame->m_pTitleScreenSprite);
-	SAFE_DELETE(pGame->m_pSinglePlayerSprite);
-	SAFE_DELETE(pGame->m_pTwoPlayerSprite);
-	SAFE_DELETE(pGame->m_pQuitSprite);
+	pGame->m_pPongView->RemoveElements();
+ 	pGame->m_pPongView->FreeZones();
 }
 // ***************************************************************
 

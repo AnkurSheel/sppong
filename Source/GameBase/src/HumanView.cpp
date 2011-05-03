@@ -15,15 +15,19 @@
 #include "Input.hxx"
 #include "FPS.hxx"
 #include "Sprite.hxx"
+#include "MouseZone.hxx"
+#include "myString.h"
 
 using namespace GameBase;
 using namespace Utilities;
 using namespace Graphics;
+using namespace Base;
 
 cHumanView::cHumanView() :
 m_bRunFullSpeed(true)
 //, m_pFPS(NULL)
 , m_pInput(NULL)
+, m_pMouseZones(NULL)
 {
 }
 
@@ -132,6 +136,8 @@ void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iCl
 	m_pInput = IInput::CreateInputDevice();
 	m_pInput->Init(hInst, hWnd, iClientWidth, iClientHeight);
 
+	m_pMouseZones = IMouseZone::CreateMouseZone();
+
 	m_pCursorSprite = ISprite::CreateSprite();
 	m_pCursorSprite->Init(IDXBase::GetInstance()->GetDevice(), "resources\\Sprites\\cursor.png");
 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
@@ -162,6 +168,7 @@ void cHumanView::OnDestroyDevice()
 	SAFE_DELETE(m_pInput);
 
 	SAFE_DELETE(m_pCursorSprite);
+	SAFE_DELETE(m_pMouseZones);
 
 	//SAFE_DELETE(m_pFPS);
 
@@ -183,14 +190,41 @@ void cHumanView::OnAttach(GameViewId id)
 	m_idView = id;
 }
 
-void cHumanView::PushElement(Graphics::ISprite * pScreenElement)
+void cHumanView::PushElement(ISprite * pScreenElement, const cString & strZoneName)
 {
 	m_pElementList.push_front(pScreenElement);
+	if(!strZoneName.IsEmpty())
+	{
+		m_pMouseZones->AddZone(strZoneName,
+								(int)pScreenElement->GetPosition().x,
+								(int)pScreenElement->GetPosition().y,
+								pScreenElement->GetScaledWidth(),
+								pScreenElement->GetScaledHeight(),
+								LEFTBUTTON);
+	}
 }
 
-void cHumanView::PopElement(Graphics::ISprite * pScreenElement)
+void cHumanView::PopElement(ISprite * pScreenElement)
 {
 	m_pElementList.remove(pScreenElement);
+}
+
+void cHumanView::RemoveElements()
+{
+	m_pElementList.clear();
+}
+
+void cHumanView::FreeZones()
+{
+	m_pMouseZones->FreeZones();
+}
+
+bool cHumanView::CheckZones(cString & strHitZoneName )
+{
+	return(m_pMouseZones->CheckZones(m_pInput->GetX(), 
+									m_pInput->GetY(), 
+									m_pInput->GetPressedButtons(), 
+									strHitZoneName));
 }
 
 void cHumanView::OnUpdate( int deltaMilliseconds )
