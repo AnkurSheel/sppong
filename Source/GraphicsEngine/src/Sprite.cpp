@@ -46,7 +46,7 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename )
+void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename)
 {
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
 
@@ -113,14 +113,20 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 // Render the sprite
 // ***************************************************************
 void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, 
-						 const D3DXVECTOR3& vPosition, 
 						 const DWORD dwFlags /*= NULL*/, 
 						 const D3DCOLOR& tint /*= WHITE*/, 
 						 const RECT* pSrcRect /*= NULL*/ )
 {
+	// draw the sprite
+	m_pSprite->Begin(dwFlags);
+	m_pSprite->Draw(m_pTexture, pSrcRect, NULL, NULL, tint); 
+	m_pSprite->End();
+}
+// ***************************************************************
 
-	// get the new position and create the transform matrix
-	if (m_vPosition != vPosition)
+void cSprite::SetPosition(const D3DXVECTOR3& vPosition)
+{
+	if(m_vPosition != vPosition)
 	{
 		D3DXMATRIX transMatrix;
 		D3DXMatrixTranslation(&transMatrix, vPosition.x, vPosition.y, vPosition.z);
@@ -128,11 +134,6 @@ void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice,
 		m_vPosition = vPosition ;
 		m_pSprite->SetTransform(&transMatrix);
 	}
-
-	// draw the sprite
-	m_pSprite->Begin(dwFlags);
-	m_pSprite->Draw(m_pTexture, pSrcRect, NULL, NULL, tint); 
-	m_pSprite->End();
 }
 // ***************************************************************
 

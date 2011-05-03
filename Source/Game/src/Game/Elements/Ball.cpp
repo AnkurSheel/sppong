@@ -55,7 +55,8 @@ void cBall::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL
 {
 	//m_vPosition += (m_vSpeed * IMainWindow::TheWindow()->GetElapsedTime());
 	// update the position of the ball
-	m_pSprite->DrawSprite(pDevice, m_vPosition, D3DXSPRITE_ALPHABLEND);
+	m_pSprite->SetPosition(m_vPosition);
+	m_pSprite->DrawSprite(pDevice, dwFlags);
 
 	if(m_vPrevPosition != m_vPosition)
 	{

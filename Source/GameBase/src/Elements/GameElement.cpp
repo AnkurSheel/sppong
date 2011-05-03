@@ -84,7 +84,8 @@ void cGameElement::Render(LPDIRECT3DDEVICE9 const pDevice,
 						  const D3DCOLOR& tint/* = WHITE*/,
 						  const RECT* pSrcRect/* = NULL*/)
 {
-	m_pSprite->DrawSprite(pDevice, m_vPosition, dwFlags);
+	m_pSprite->SetPosition(m_vPosition);
+	m_pSprite->DrawSprite(pDevice, dwFlags);
 }
 
 void cGameElement::Cleanup()

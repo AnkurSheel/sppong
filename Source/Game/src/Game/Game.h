@@ -78,7 +78,8 @@ public:
 	void CheckForWin();
 	void CheckForCollisions();
 	void Run();
-	Base::cString GetGameTitle();	
+	Base::cString GetGameTitle();
+	TICK GetRunningTime();
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;

@@ -101,9 +101,10 @@ void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
 	{
 		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 		{
-			(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
+			(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
 		}
-		m_pCursorSprite->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f), D3DXSPRITE_ALPHABLEND);
+		m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
+		m_pCursorSprite->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
 		
 		// process the user inputs according to game logic
 		//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), fElapsedTime) ;

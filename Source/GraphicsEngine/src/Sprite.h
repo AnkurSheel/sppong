@@ -31,13 +31,14 @@ namespace Graphics
 		~cSprite();
 		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
-		void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+		void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
 		void Cleanup();
 		void OnLostDevice();
 		void OnResetDevice();
 		UINT GetScaledHeight() const;
 		UINT GetScaledWidth() const;
 		D3DXVECTOR3 GetPosition() const;
+		void SetPosition(const D3DXVECTOR3& vPosition);
 
 	private:
 

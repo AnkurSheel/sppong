@@ -41,15 +41,6 @@ void cPaddle::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename 
 // ***************************************************************
 
 // ***************************************************************
-// Renders the paddle
-// ***************************************************************
-void cPaddle::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL*/, const D3DCOLOR& tint/* = WHITE*/, const RECT* pSrcRect/* = NULL*/)
-{
-	m_pSprite->DrawSprite(pDevice, m_vPosition, D3DXSPRITE_ALPHABLEND);
-}
-// ***************************************************************
-
-// ***************************************************************
 // called when the device is reset
 // ***************************************************************
 void cPaddle::OnResetDevice(LPDIRECT3DDEVICE9 const pDevice)
