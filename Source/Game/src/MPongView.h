@@ -17,7 +17,6 @@ class cMPongView : public GameBase::cHumanView
 public:
 	cMPongView();
 	~cMPongView();
-	void OnLostDevice();
 	HRESULT OnResetDevice();
 };
 #endif // MPongView_h__

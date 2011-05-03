@@ -36,7 +36,6 @@ using namespace Utilities;
 cGame::cGame()
 : m_pTableSprite(NULL)
 , m_pTitleScreenSprite(NULL)
-, m_pCursorSprite(NULL)
 , m_pScore(NULL)
 , m_bDisplayFPS(false)
 , m_pStateMachine(NULL)
@@ -333,7 +332,6 @@ void cGame::Cleanup()
 	SAFE_DELETE(m_pTableSprite);
 
 	SAFE_DELETE(m_pTitleScreenSprite);
-	SAFE_DELETE(m_pCursorSprite);
 	SAFE_DELETE(m_pSinglePlayerSprite);
 	SAFE_DELETE(m_pTwoPlayerSprite);
 	SAFE_DELETE(m_pQuitSprite);

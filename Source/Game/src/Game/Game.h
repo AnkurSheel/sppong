@@ -87,7 +87,6 @@ private:
 	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
 	cScore*						m_pScore;				// ptr to Scoreboard
 	Graphics::ISprite *			m_pTitleScreenSprite;	// the sprite for the title screen
-	Graphics::ISprite *			m_pCursorSprite;		// the sprite for the title screen
 	Graphics::ISprite *			m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
 	Graphics::ISprite *			m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
 	Graphics::ISprite *			m_pQuitSprite;		// the sprite for the Single Player Menu

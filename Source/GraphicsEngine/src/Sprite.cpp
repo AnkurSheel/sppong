@@ -12,6 +12,7 @@
 #include "Sprite.h"
 #include "ResCache.hxx"
 #include "MainWindow.hxx"
+#include "DxBase.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -132,6 +133,19 @@ void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice,
 	m_pSprite->Begin(dwFlags);
 	m_pSprite->Draw(m_pTexture, pSrcRect, NULL, NULL, tint); 
 	m_pSprite->End();
+}
+// ***************************************************************
+
+void cSprite::OnLostDevice()
+{
+	Cleanup();
+}
+// ***************************************************************
+
+void cSprite::OnResetDevice()
+{
+	Init(IDXBase::GetInstance()->GetDevice(), m_strFilename);
+	m_pSprite->SetTransform(&m_mScaleMatrix);
 }
 // ***************************************************************
 

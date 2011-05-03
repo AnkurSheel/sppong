@@ -47,21 +47,17 @@ void cStateTitleScreen::Enter(cGame *pGame)
 	//m_tickCurrentTime = pGame->GetRunningTime();
 
 	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
-	pGame->m_pCursorSprite = ISprite::CreateSprite();
 
-	OnResetDevice(pGame);
+
+	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
+	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
 	pGame->m_pPongView->PushElement(pGame->m_pTitleScreenSprite);
-
-	pGame->m_pMouseZones->FreeZones();
-	pGame->m_pMouseZones->AddZone("Title Screen", 0, 0, pGame->m_iDisplayWidth, pGame->m_iDisplayHeight, LEFTBUTTON);
 }
 // ***************************************************************
 
 void cStateTitleScreen::Execute(cGame *pGame)
 {
-	//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
-
 	//ankur - temp comment
 	//// display the title screen for 2 secs before displaying the menu screen
  	//if(IMainWindow::TheWindow()->GetRunningTime() - m_fCurrentTime > 2.0)
@@ -77,30 +73,12 @@ void cStateTitleScreen::Exit(cGame *pGame)
 	pGame->m_pPongView->PopElement(pGame->m_pTitleScreenSprite);
 
 	SAFE_DELETE(pGame->m_pTitleScreenSprite);
-	SAFE_DELETE(pGame->m_pCursorSprite);
 }
 // ***************************************************************
 
 bool cStateTitleScreen::OnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
-}
-// ***************************************************************
-
-void cStateTitleScreen::OnLostDevice(cGame *pGame)
-{
-	pGame->m_pTitleScreenSprite->Cleanup();
-	pGame->m_pCursorSprite->Cleanup();
-}
-// ***************************************************************
-
-void cStateTitleScreen::OnResetDevice(cGame *pGame)
-{
-	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
-	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
-
-	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\cursor.png");
-	pGame->m_pCursorSprite->SetSize((float)pGame->m_iDisplayWidth/30, (float)pGame->m_iDisplayHeight/30);
 }
 // ***************************************************************
 
@@ -124,7 +102,7 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 void cStateMenuScreen::Enter(cGame *pGame)
 {
 	pGame->m_pTitleScreenSprite = ISprite::CreateSprite();
-	pGame->m_pCursorSprite = ISprite::CreateSprite();
+	//pGame->m_pCursorSprite = ISprite::CreateSprite();
 	pGame->m_pSinglePlayerSprite = ISprite::CreateSprite();
 	pGame->m_pTwoPlayerSprite = ISprite::CreateSprite();
 	pGame->m_pQuitSprite = ISprite::CreateSprite();
@@ -161,7 +139,7 @@ void cStateMenuScreen::Exit(cGame *pGame)
 {
 	pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);
 	SAFE_DELETE(pGame->m_pTitleScreenSprite);
-	SAFE_DELETE(pGame->m_pCursorSprite);
+	//SAFE_DELETE(pGame->m_pCursorSprite);
 	SAFE_DELETE(pGame->m_pSinglePlayerSprite);
 	SAFE_DELETE(pGame->m_pTwoPlayerSprite);
 	SAFE_DELETE(pGame->m_pQuitSprite);
@@ -177,7 +155,7 @@ bool cStateMenuScreen::OnMessage(cGame *pGame, const Telegram &msg)
 void cStateMenuScreen::OnLostDevice(cGame *pGame)
 {
 	pGame->m_pTitleScreenSprite->Cleanup();
-	pGame->m_pCursorSprite->Cleanup();
+	//pGame->m_pCursorSprite->Cleanup();
 	pGame->m_pSinglePlayerSprite->Cleanup();
 	pGame->m_pTwoPlayerSprite->Cleanup();
 	pGame->m_pQuitSprite->Cleanup();
@@ -189,8 +167,8 @@ void cStateMenuScreen::OnResetDevice(cGame *pGame)
 	pGame->m_pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
 	pGame->m_pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 
-	pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\cursor.png");
-	pGame->m_pCursorSprite->SetSize((float)pGame->m_iDisplayWidth/30, (float)pGame->m_iDisplayHeight/30);
+	//pGame->m_pCursorSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\cursor.png");
+	//pGame->m_pCursorSprite->SetSize((float)pGame->m_iDisplayWidth/30, (float)pGame->m_iDisplayHeight/30);
 
 	pGame->m_pSinglePlayerSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\SinglePlayer.jpg");
 	pGame->m_pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);

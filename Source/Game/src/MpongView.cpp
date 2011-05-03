@@ -36,12 +36,3 @@ HRESULT cMPongView::OnResetDevice()
 	}
 	return hr;
 }
-
-void cMPongView::OnLostDevice()
-{
-	cHumanView::OnLostDevice();
-	/*if (m_pGameApp)
-	{
-	m_pGameApp->OnLostDevice();
-	}*/
-}

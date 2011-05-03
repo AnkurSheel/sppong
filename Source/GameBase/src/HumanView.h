@@ -67,6 +67,7 @@ namespace GameBase
 		bool							m_bRunFullSpeed;
 		ScreenElementList				m_pElementList;
 		Graphics::IInput *				m_pInput;				// pointer to input class
+		Graphics::ISprite *				m_pCursorSprite;		// the sprite for the cursor
 
 		//IFont *							m_pFont;
 		//ISprite *						m_pTextSprite;

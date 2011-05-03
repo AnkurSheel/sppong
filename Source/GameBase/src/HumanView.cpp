@@ -21,8 +21,7 @@ using namespace Utilities;
 using namespace Graphics;
 
 cHumanView::cHumanView() :
-m_bRunFullSpeed(false)
-//  m_pGameApp(pGameApp)
+m_bRunFullSpeed(true)
 //, m_pFPS(NULL)
 , m_pInput(NULL)
 {
@@ -39,12 +38,15 @@ HRESULT cHumanView::OnResetDevice()
 	if (pDevice)
 	{
 		hr = IDXBase::GetInstance()->ResetDevice();
-		/*if (m_pGameApp)
-		{
-			m_pGameApp->OnResetDevice() ;
-		}
 
-		if (m_pFPS)
+		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
+		{
+			(*i)->OnResetDevice();
+		}
+		m_pCursorSprite->OnResetDevice();
+
+
+		/*if (m_pFPS)
 		{
 			m_pFPS->OnResetDevice(pDevice);
 		}*/
@@ -101,8 +103,8 @@ void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
 		{
 			(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXSPRITE_ALPHABLEND);
 		}
-		//pGame->m_pCursorSprite->DrawSprite(pGame->m_pD3dDevice, D3DXVECTOR3((float)IMainWindow::TheWindow()->GetAbsXMousePos(), (float)IMainWindow::TheWindow()->GetAbsYMousePos(), 0.0f), D3DXSPRITE_ALPHABLEND);
-
+		m_pCursorSprite->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f), D3DXSPRITE_ALPHABLEND);
+		
 		// process the user inputs according to game logic
 		//m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), fElapsedTime) ;
 
@@ -126,10 +128,12 @@ void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
 
 void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight)
 {
-	OnResetDevice();
-
 	m_pInput = IInput::CreateInputDevice();
 	m_pInput->Init(hInst, hWnd, iClientWidth, iClientHeight);
+
+	m_pCursorSprite = ISprite::CreateSprite();
+	m_pCursorSprite->Init(IDXBase::GetInstance()->GetDevice(), "resources\\Sprites\\cursor.png");
+	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 
 	//m_pFPS = IFPS::CreateFPS();
 	//m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)iClientWidth/2, 10.0f, 0.0f));
@@ -138,12 +142,13 @@ void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iCl
 
 void cHumanView::OnLostDevice()
 {
-	/*if (m_pGameApp)
+	for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 	{
-	m_pGameApp->OnLostDevice();
+		(*i)->OnLostDevice();
 	}
-
-	if (m_pFPS)
+	m_pCursorSprite->OnLostDevice();
+	
+	/*if (m_pFPS)
 	{
 	m_pFPS->OnLostDevice();
 	}*/
@@ -154,6 +159,8 @@ void cHumanView::OnDestroyDevice()
 {
 	// delete the input handler
 	SAFE_DELETE(m_pInput);
+
+	SAFE_DELETE(m_pCursorSprite);
 
 	//SAFE_DELETE(m_pFPS);
 
