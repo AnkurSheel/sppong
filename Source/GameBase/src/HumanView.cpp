@@ -28,6 +28,7 @@ m_bRunFullSpeed(true)
 //, m_pFPS(NULL)
 , m_pInput(NULL)
 , m_pMouseZones(NULL)
+, m_pProcessManager(NULL)
 {
 }
 
@@ -236,9 +237,12 @@ bool cHumanView::CheckZones(cString & strHitZoneName )
 									strHitZoneName));
 }
 
-void cHumanView::OnUpdate( int deltaMilliseconds )
+void cHumanView::OnUpdate(float fElapsedTime)
 {
-	m_pProcessManager->UpdateProcesses(deltaMilliseconds);
+	if(m_pProcessManager)
+	{
+		m_pProcessManager->UpdateProcesses(fElapsedTime);
+	}
 }
 
 void cHumanView::RenderText()

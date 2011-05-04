@@ -19,6 +19,6 @@ class cMPongView : public GameBase::cHumanView
 public:
 	cMPongView();
 	~cMPongView();
-	void OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime);
+	void OnUpdate(cGame * pGame, float fElapsedTime);
 };
 #endif // MPongView_h__

@@ -68,8 +68,6 @@ public:
 	cGame();
 	~cGame();
 	void Render(TICK tickCurrent, float fElapsedTime);
-	void OnResetDevice();
-	void OnLostDevice();
 	void OnInit(const HINSTANCE hInstance, const HWND hwnd, const UINT iDisplayHeight, const UINT iDisplayWidth, const bool bFullScreen);
 	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
 	void Cleanup();
@@ -79,6 +77,7 @@ public:
 	void Run();
 	Base::cString GetGameTitle();
 	TICK GetRunningTime();
+	void OnUpdate();
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;

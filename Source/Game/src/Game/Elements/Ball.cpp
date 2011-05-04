@@ -85,6 +85,12 @@ void cBall::OnRestart( const D3DXVECTOR3& vInitialPos )
 }
 // ***************************************************************
 
+void cBall::OnUpdate(float fElapsedTime)
+{
+	m_vPosition += (m_vSpeed * fElapsedTime);
+	UpdatePosition();
+}
+
 void cBall::Cleanup()
 {
 	SAFE_DELETE(m_pRandomGenerator);

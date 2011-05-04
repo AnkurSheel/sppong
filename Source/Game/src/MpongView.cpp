@@ -26,12 +26,27 @@ cMPongView::~cMPongView()
 {
 }
 
-void cMPongView::OnRender(cGame * pGame,  TICK tickCurrent, float fElapsedTime)
+void cMPongView::OnUpdate(cGame * pGame, float fElapsedTime)
 {
-	cHumanView::OnRender(tickCurrent, fElapsedTime);
+	cHumanView::OnUpdate(fElapsedTime);
+
+	const bool* const pbPressedKeys = m_pInput->GetPressedKeys();
+
+	if (pbPressedKeys[DIK_F2])
+	{
+		// lock the F2 key
+		m_pInput->LockKey(DIK_F2) ;
+
+		//m_bDisplayFPS = !m_bDisplayFPS;
+	}
+	if (pbPressedKeys[DIK_ESCAPE])
+	{
+		// lock the ESC key
+		m_pInput->LockKey(DIK_ESCAPE) ;
+
+		PostQuitMessage(0);
+	}
 
 	// process the user inputs according to game logic
-	pGame->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), fElapsedTime) ;
-
-
+	pGame->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), pbPressedKeys, m_pInput->GetPressedButtons(), fElapsedTime) ;
 }

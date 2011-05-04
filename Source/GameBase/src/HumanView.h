@@ -54,7 +54,7 @@ namespace GameBase
 		GAMEBASE_API virtual void PopElement(Graphics::ISprite * pScreenElement);
 		GAMEBASE_API virtual void RemoveElements();
 		GAMEBASE_API virtual void FreeZones();
-		GAMEBASE_API void OnUpdate( int deltaMilliseconds );
+		GAMEBASE_API void OnUpdate(float fElapsedTime);
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
 
 	protected:

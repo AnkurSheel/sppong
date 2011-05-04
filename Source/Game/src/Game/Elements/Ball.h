@@ -34,6 +34,7 @@ public:
 	void ChangeSpeedY();
 	void OnRestart(const D3DXVECTOR3& vInitialPos);
 	void Cleanup();
+	void OnUpdate(float fElapsedTime);
 	cBall * CastToBall();
 private:
 	D3DXVECTOR3						m_vSpeed;

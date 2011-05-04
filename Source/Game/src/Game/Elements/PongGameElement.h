@@ -28,6 +28,7 @@ public:
 	static void SetTableWidth(UINT val);
 	virtual cPaddle * CastToPaddle();
 	virtual cBall * CastToBall();
+	virtual void OnUpdate(float fElapsedTime) {}
 protected:
 	static UINT		m_siTableHeight;
 	static UINT		m_siTableWidth;

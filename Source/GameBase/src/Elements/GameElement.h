@@ -43,6 +43,7 @@ namespace GameBase
 		GAMEBASE_API virtual void SetSprite(Graphics::ISprite* const sprite );
 		GAMEBASE_API virtual const Graphics::ISprite * GetSprite() const;
 		GAMEBASE_API virtual void Cleanup();
+		GAMEBASE_API virtual void OnUpdate(float fElapsedTime) = 0;
 	
 	protected:
 		GAMEBASE_API void OnBeginInit(const Base::cString & strFilename, const D3DXVECTOR2 & vSize);

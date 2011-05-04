@@ -58,36 +58,24 @@ cGame::~cGame()
 }
 // ***************************************************************
 
+void cGame::OnUpdate()
+{
+	m_pGameTimer->Update();
+	m_pStateMachine->Update();
+	m_pSound->Update();
+	m_pPongView->OnUpdate(this, m_pGameTimer->GetElapsedTime());
+
+}
 // ***************************************************************
 // Display the Graphics
 // ***************************************************************
 void cGame::Render(TICK tickCurrent, float fElapsedTime)
 {
-	m_pStateMachine->Update();
-	m_pPongView->OnRender(this, tickCurrent, fElapsedTime);
-	m_pSound->Update();
+	m_pPongView->OnRender(tickCurrent, fElapsedTime);
 	if (m_bDisplayFPS)
 	{
 		IMainWindow::TheWindow()->DisplayFPS();
 	}
-}
-// ***************************************************************
-
-// ***************************************************************
-// Initialize the resources that are volatile
-// ***************************************************************
-void cGame::OnResetDevice()
-{
-	m_pStateMachine->OnResetDevice(this);
-}
-// ***************************************************************
-
-// ***************************************************************
-// Free the resources that are volatile
-// ***************************************************************
-void cGame::OnLostDevice()
-{
-	m_pStateMachine->OnLostDevice(this);
 }
 // ***************************************************************
 
@@ -134,34 +122,10 @@ void cGame::ProcessInput( const long xDelta,
 						 const float fElapsedTime )
 {
 
-	if (pbPressedKeys[DIK_F2])
-	{
-		// lock the F2 key
-		//IMainWindow::TheWindow()->LockKey(DIK_F2) ;
-
-		m_bDisplayFPS = !m_bDisplayFPS;
-	}
-
-	if (pbPressedKeys[DIK_ESCAPE])
-	{
-		// lock the ESC key
-		//IMainWindow::TheWindow()->LockKey(DIK_ESCAPE) ;
-
-		// if the current state is the title screen and the user presses ESC
-		// go the game screen
-		if (m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
-		{
-			m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
-		}
-		else
-		{
-			// if the current state is the game screen and the user presses ESC, QUIT
-			PostQuitMessage(0);
-		}
-	}
 	if (pbPressedKeys[DIK_S])
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
+																			 &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
 		{
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
@@ -173,7 +137,8 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_W])
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
+																				&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
 		{
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
@@ -461,7 +426,7 @@ void cGame::Run()
 		{
 			//No message to process?
 			// Then do your game stuff here
-			m_pGameTimer->Update();
+			OnUpdate();
 			Render(m_pGameTimer->GetRunningTime(), m_pGameTimer->GetElapsedTime());
 		}
 	}
