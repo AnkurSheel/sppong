@@ -12,11 +12,13 @@
 
 #include "HumanView.h"
 
+class cGame;
+
 class cMPongView : public GameBase::cHumanView
 {
 public:
 	cMPongView();
 	~cMPongView();
-	HRESULT OnResetDevice();
+	void OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime);
 };
 #endif // MPongView_h__

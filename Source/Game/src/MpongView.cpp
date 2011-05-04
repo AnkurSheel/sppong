@@ -11,6 +11,8 @@
 #include "MpongView.h"
 #include "Sprite.hxx"
 #include "DxBase.hxx"
+#include "Game/Game.h"
+#include "Input.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -24,15 +26,12 @@ cMPongView::~cMPongView()
 {
 }
 
-HRESULT cMPongView::OnResetDevice()
+void cMPongView::OnRender(cGame * pGame,  TICK tickCurrent, float fElapsedTime)
 {
-	HRESULT hr = cHumanView::OnResetDevice();
-	if(SUCCEEDED(hr))
-	{
-		/*if (m_pGameApp)
-		{
-		m_pGameApp->OnResetDevice() ;
-		}*/
-	}
-	return hr;
+	cHumanView::OnRender(tickCurrent, fElapsedTime);
+
+	// process the user inputs according to game logic
+	pGame->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), fElapsedTime) ;
+
+
 }

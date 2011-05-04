@@ -47,6 +47,7 @@ namespace GameBase
 	protected:
 		GAMEBASE_API void OnBeginInit(const Base::cString & strFilename, const D3DXVECTOR2 & vSize);
 		GAMEBASE_API void OnEndInit(const D3DXVECTOR3& vInitialPos);
+		GAMEBASE_API void UpdatePosition();
 
 	protected:
 		Graphics::ISprite *		m_pSprite;

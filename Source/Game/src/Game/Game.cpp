@@ -64,7 +64,7 @@ cGame::~cGame()
 void cGame::Render(TICK tickCurrent, float fElapsedTime)
 {
 	m_pStateMachine->Update();
-	m_pPongView->OnRender(tickCurrent, fElapsedTime);
+	m_pPongView->OnRender(this, tickCurrent, fElapsedTime);
 	m_pSound->Update();
 	if (m_bDisplayFPS)
 	{

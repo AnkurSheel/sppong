@@ -94,3 +94,16 @@ void cGameElement::Cleanup()
 	SAFE_DELETE(m_pBoundingPolygon);
 }
 // ***************************************************************
+
+void cGameElement::UpdatePosition()
+{
+	if(m_vPrevPosition != m_vPosition)
+	{
+		m_pSprite->SetPosition(m_vPosition);
+		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+		m_pBoundingPolygon->Translate(trans);
+		m_vPrevPosition = m_vPosition;
+	}
+
+}
+// ***************************************************************
