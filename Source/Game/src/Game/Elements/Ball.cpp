@@ -37,44 +37,14 @@ cBall::~cBall()
 // ***************************************************************
 void cBall::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename)
 {
-	cPongGameElement::Init(vInitialPos, strFilename);
+	cPongGameElement::OnBeginInit(strFilename, D3DXVECTOR2((float)m_siTableHeight/30, (float)m_siTableHeight/25));
 	m_pRandomGenerator = IRandomGenerator::CreateRandomGenerator();
 	if (m_pRandomGenerator)
 	{
 		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
 	}
 	m_vSpeed = D3DXVECTOR3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
-}
-// ***************************************************************
-
-// ***************************************************************
-// Renders the ball
-// ***************************************************************
-void cBall::Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags/* = NULL*/, const D3DCOLOR& tint /*= WHITE*/, const RECT* pSrcRect/* = NULL*/)
-{
-	//m_vPosition += (m_vSpeed * IMainWindow::TheWindow()->GetElapsedTime());
-	// update the position of the ball
-	m_pSprite->SetPosition(m_vPosition);
-	m_pSprite->DrawSprite(pDevice, dwFlags);
-
-	if(m_vPrevPosition != m_vPosition)
-	{
-		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
-		m_pBoundingPolygon->Translate(trans);
-		m_vPrevPosition = m_vPosition;
-	}
-
-}
-// ***************************************************************
-
-// ***************************************************************
-// Function called when the device needs to be reset
-// ***************************************************************
-void cBall::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice)
-{
-	m_pSprite->Init(pDevice, m_strFileName);
-	m_pSprite->SetSize((float)m_siTableHeight/30, (float)m_siTableHeight/25);
-	SetBoundingRectangle();
+	cPongGameElement::OnEndInit(vInitialPos);
 }
 // ***************************************************************
 

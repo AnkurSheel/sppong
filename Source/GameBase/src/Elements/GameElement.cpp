@@ -11,6 +11,7 @@
 #include "GameElement.h"
 #include "Sprite.hxx"
 #include "Polygon.hxx"
+#include "DxBase.hxx"
 
 using namespace Graphics;
 using namespace GameBase;
@@ -38,14 +39,22 @@ cGameElement::~cGameElement()
 // ***************************************************************
 // Initializes the game element
 // ***************************************************************
-void cGameElement::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename)
+void cGameElement::OnBeginInit(const cString & strFilename, const D3DXVECTOR2 & vSize)
+{
+	m_pSprite = ISprite::CreateSprite();
+	m_strFileName = strFilename;
+	m_pSprite->Init(IDXBase::GetInstance()->GetDevice(), m_strFileName);
+	m_pSprite->SetSize(vSize.x, vSize.y);
+}
+// ***************************************************************
+
+void cGameElement::OnEndInit(const D3DXVECTOR3& vInitialPos)
 {
 	m_vPosition = vInitialPos;
 	m_vPrevPosition = m_vPosition;
-	m_pSprite = ISprite::CreateSprite();
-	m_strFileName = strFilename;
+	m_pSprite->SetPosition(vInitialPos);
+	SetBoundingRectangle();
 }
-// ***************************************************************
 
 // ***************************************************************
 // Sets the bounding rectangle for the Game Element
@@ -79,22 +88,9 @@ void cGameElement::OnRestart( const D3DXVECTOR3& vInitialPos )
 }
 // ***************************************************************
 
-void cGameElement::Render(LPDIRECT3DDEVICE9 const pDevice,
-						  const DWORD dwFlags /*= NULL*/,
-						  const D3DCOLOR& tint/* = WHITE*/,
-						  const RECT* pSrcRect/* = NULL*/)
-{
-	m_pSprite->SetPosition(m_vPosition);
-	m_pSprite->DrawSprite(pDevice, dwFlags);
-}
-
 void cGameElement::Cleanup()
 {
-	SAFE_DELETE(m_pSprite);
+	//SAFE_DELETE(m_pSprite);
 	SAFE_DELETE(m_pBoundingPolygon);
 }
-
-void cGameElement::OnLostDevice()
-{
-	m_pSprite->Cleanup();
-}
+// ***************************************************************

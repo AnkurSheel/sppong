@@ -25,4 +25,3 @@ inline const Graphics::ISprite * cGameElement::GetSprite() const
 {
 	return m_pSprite;
 }
-

@@ -210,18 +210,23 @@ void cStatePlayGame::Enter(cGame *pGame)
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
+	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite()), "");
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
+	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite()), "");
 
 	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "resources\\Sprites\\wall.png");
+	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite()), "");
 
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "resources\\Sprites\\wall.png");
+	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite()), "");
 
 	pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	pGame->m_pGameElements[pGame->PGE_BALL]->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\ball.png");
+	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite()), "");
 
 	pGame->m_pScore = DEBUG_NEW cScore[2]();
 	pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -240,10 +245,6 @@ void cStatePlayGame::Enter(cGame *pGame)
 
 void cStatePlayGame::Execute(cGame *pGame)
 {
-	//for(int i=0;i<pGame->PGE_TOTAL;i++)
-	//{
-	//	pGame->m_pGameElements[i]->Render(pGame->m_pD3dDevice); 
-	//}
 	//pGame->m_pScore[0].Render(pGame->m_pD3dDevice);
 	//pGame->m_pScore[1].Render(pGame->m_pD3dDevice);
 
@@ -255,6 +256,7 @@ void cStatePlayGame::Execute(cGame *pGame)
 void cStatePlayGame::Exit(cGame *pGame)
 {
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
+	pGame->m_pPongView->RemoveElements();
 	for(int i=0;i<pGame->PGE_TOTAL;i++)
 	{
 		SAFE_DELETE(pGame->m_pGameElements[i]);
@@ -275,10 +277,6 @@ bool cStatePlayGame::OnMessage(cGame *pGame, const Telegram &msg)
 
 void cStatePlayGame::OnLostDevice( cGame *pGame )
 {
-	for(int i=0;i<pGame->PGE_TOTAL;i++)
-	{
-		pGame->m_pGameElements[i]->OnLostDevice();
-	}
 	pGame->m_pScore[0].OnLostDevice();
 	pGame->m_pScore[1].OnLostDevice();
 }
@@ -286,11 +284,6 @@ void cStatePlayGame::OnLostDevice( cGame *pGame )
 
 void cStatePlayGame::OnResetDevice( cGame *pGame )
 {
-	for(int i=0;i<pGame->PGE_TOTAL;i++)
-	{
-		pGame->m_pGameElements[i]->OnResetDevice(pGame->m_pD3dDevice);
-	}
-
 	pGame->m_pScore[0].OnResetDevice(pGame->m_pD3dDevice);
 	pGame->m_pScore[1].OnResetDevice(pGame->m_pD3dDevice);
 }

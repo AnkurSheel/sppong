@@ -195,7 +195,7 @@ void cHumanView::OnAttach(GameViewId id)
 
 void cHumanView::PushElement(ISprite * pScreenElement, const cString & strZoneName)
 {
-	m_pElementList.push_front(pScreenElement);
+	m_pElementList.push_back(pScreenElement);
 	if(!strZoneName.IsEmpty())
 	{
 		m_pMouseZones->AddZone(strZoneName,

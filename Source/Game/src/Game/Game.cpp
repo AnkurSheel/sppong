@@ -281,6 +281,9 @@ void cGame::ProcessInput( const long xDelta,
 // ***************************************************************
 void cGame::Cleanup()
 {
+	m_pPongView->OnDestroyDevice();
+	SAFE_DELETE(m_pPongView);
+
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
 		if (m_pGameElements[i])
@@ -295,8 +298,6 @@ void cGame::Cleanup()
 
 	SAFE_DELETE(m_pSound);
 
-	m_pPongView->OnDestroyDevice();
-	SAFE_DELETE(m_pPongView);
 	SAFE_DELETE(m_pGameTimer);
 
 	if(ICollisionChecker::TheCollisionChecker())
