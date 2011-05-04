@@ -86,7 +86,6 @@ private:
 	UINT						m_iDisplayWidth ;		// the display width of the window
 	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
 	cScore*						m_pScore;				// ptr to Scoreboard
-	Graphics::ISprite *			m_pTableSprite;		// the sprite for the Single Player Menu
 	MySound::ISound *			m_pSound;
 	bool						m_bDisplayFPS;
 	bool						m_bSinglePlayer;

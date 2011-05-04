@@ -34,7 +34,7 @@ namespace GameBase
 	protected:
 		GAMEBASE_API cGameElement();
 	public:
-		GAMEBASE_API ~cGameElement();
+		GAMEBASE_API virtual  ~cGameElement();
 		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename);
 		GAMEBASE_API virtual void SetBoundingRectangle();
 		GAMEBASE_API virtual Graphics::IPolygon& GetBoundingRectangle();

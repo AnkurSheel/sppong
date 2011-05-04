@@ -149,7 +149,7 @@ void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iCl
 
 void cHumanView::OnLostDevice()
 {
-	for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
+	for(ScreenElementList::iterator i = m_pElementList.begin(); i != m_pElementList.end(); ++i)
 	{
 		(*i)->OnLostDevice();
 	}
@@ -164,6 +164,9 @@ void cHumanView::OnLostDevice()
 
 void cHumanView::OnDestroyDevice()
 {
+	RemoveElements();
+	FreeZones();
+
 	// delete the input handler
 	SAFE_DELETE(m_pInput);
 
@@ -211,12 +214,20 @@ void cHumanView::PopElement(ISprite * pScreenElement)
 
 void cHumanView::RemoveElements()
 {
-	m_pElementList.clear();
+	while (!m_pElementList.empty())
+	{
+		ISprite * pSprite = m_pElementList.front();
+		SAFE_DELETE(pSprite);
+		m_pElementList.pop_front();
+	}
 }
 
 void cHumanView::FreeZones()
 {
-	m_pMouseZones->FreeZones();
+	if (m_pMouseZones)
+	{
+		m_pMouseZones->FreeZones();
+	}
 }
 
 bool cHumanView::CheckZones(cString & strHitZoneName )
@@ -277,4 +288,3 @@ void cHumanView::LockKey( const DWORD dwKey )
 {
 	m_pInput->LockKey(dwKey);
 }
-

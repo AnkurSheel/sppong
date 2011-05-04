@@ -198,7 +198,12 @@ void cStatePlayGame::Enter(cGame *pGame)
 {
 	ICollisionChecker::CreateCollisionChecker();
 
-	pGame->m_pTableSprite = ISprite::CreateSprite();
+	ISprite * pTableSprite = ISprite::CreateSprite();
+
+	pTableSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Table.jpg");
+	pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
+	pTableSprite->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pGame->m_pPongView->PushElement(pTableSprite, "");
 
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
 	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
@@ -235,15 +240,12 @@ void cStatePlayGame::Enter(cGame *pGame)
 
 void cStatePlayGame::Execute(cGame *pGame)
 {
-	pGame->m_pTableSprite->SetPosition(D3DXVECTOR3(0,0,0));
-	pGame->m_pTableSprite->DrawSprite(pGame->m_pD3dDevice, D3DXSPRITE_ALPHABLEND);
-	
-	for(int i=0;i<pGame->PGE_TOTAL;i++)
-	{
-		pGame->m_pGameElements[i]->Render(pGame->m_pD3dDevice); 
-	}
-	pGame->m_pScore[0].Render(pGame->m_pD3dDevice);
-	pGame->m_pScore[1].Render(pGame->m_pD3dDevice);
+	//for(int i=0;i<pGame->PGE_TOTAL;i++)
+	//{
+	//	pGame->m_pGameElements[i]->Render(pGame->m_pD3dDevice); 
+	//}
+	//pGame->m_pScore[0].Render(pGame->m_pD3dDevice);
+	//pGame->m_pScore[1].Render(pGame->m_pD3dDevice);
 
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
@@ -252,7 +254,6 @@ void cStatePlayGame::Execute(cGame *pGame)
 
 void cStatePlayGame::Exit(cGame *pGame)
 {
-	SAFE_DELETE(pGame->m_pTableSprite);
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
 	for(int i=0;i<pGame->PGE_TOTAL;i++)
 	{
@@ -278,7 +279,6 @@ void cStatePlayGame::OnLostDevice( cGame *pGame )
 	{
 		pGame->m_pGameElements[i]->OnLostDevice();
 	}
-	pGame->m_pTableSprite->Cleanup();
 	pGame->m_pScore[0].OnLostDevice();
 	pGame->m_pScore[1].OnLostDevice();
 }
@@ -286,9 +286,6 @@ void cStatePlayGame::OnLostDevice( cGame *pGame )
 
 void cStatePlayGame::OnResetDevice( cGame *pGame )
 {
-	pGame->m_pTableSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Table.jpg");
-	pGame->m_pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
-
 	for(int i=0;i<pGame->PGE_TOTAL;i++)
 	{
 		pGame->m_pGameElements[i]->OnResetDevice(pGame->m_pD3dDevice);

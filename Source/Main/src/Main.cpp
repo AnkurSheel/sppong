@@ -106,13 +106,14 @@ void Cleanup()
 {
 	SAFE_DELETE(pGame);
 
-	if(ILogger::TheLogger())
-		ILogger::TheLogger()->Destroy();
-
 	if (IResourceChecker::TheResourceChecker())
 		IResourceChecker::TheResourceChecker()->Destroy();
 
 	if (IMainWindow::TheWindow())
 		IMainWindow::TheWindow()->Destroy();
+
+	if(ILogger::TheLogger())
+		ILogger::TheLogger()->Destroy();
+
 }
 // ***************************************************************

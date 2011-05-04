@@ -128,11 +128,8 @@ void cSprite::SetPosition(const D3DXVECTOR3& vPosition)
 {
 	if(m_vPosition != vPosition)
 	{
-		D3DXMATRIX transMatrix;
-		D3DXMatrixTranslation(&transMatrix, vPosition.x, vPosition.y, vPosition.z);
-		D3DXMatrixMultiply(&transMatrix, &m_mScaleMatrix, &transMatrix);
 		m_vPosition = vPosition ;
-		m_pSprite->SetTransform(&transMatrix);
+		MakeTransformMatrix();
 	}
 }
 // ***************************************************************
@@ -146,7 +143,7 @@ void cSprite::OnLostDevice()
 void cSprite::OnResetDevice()
 {
 	Init(IDXBase::GetInstance()->GetDevice(), m_strFilename);
-	m_pSprite->SetTransform(&m_mScaleMatrix);
+	MakeTransformMatrix();
 }
 // ***************************************************************
 
@@ -155,8 +152,6 @@ void cSprite::OnResetDevice()
 // ***************************************************************
 void cSprite::Cleanup()
 {
-	m_vPosition = D3DXVECTOR3(0,0,0);
-
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Texture : %s", m_strFilename.GetData()));
 
 	// release the texture
@@ -164,6 +159,14 @@ void cSprite::Cleanup()
 
 	// release the sprite
 	SAFE_RELEASE(m_pSprite);
+}
+
+void cSprite::MakeTransformMatrix()
+{
+	D3DXMATRIX transMatrix;
+	D3DXMatrixTranslation(&transMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixMultiply(&transMatrix, &m_mScaleMatrix, &transMatrix);
+	m_pSprite->SetTransform(&transMatrix);
 }
 // ***************************************************************
 

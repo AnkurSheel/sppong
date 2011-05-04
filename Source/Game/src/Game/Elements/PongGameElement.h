@@ -23,7 +23,7 @@ private :
 	cPongGameElement operator =(const cPongGameElement&){}
 public:
 	cPongGameElement();
-	~cPongGameElement();
+	virtual ~cPongGameElement();
 	static void SetTableHeight(UINT val);
 	static void SetTableWidth(UINT val);
 	virtual cPaddle * CastToPaddle();

@@ -33,8 +33,7 @@ using namespace Utilities;
 // Constructor
 // ***************************************************************
 cGame::cGame()
-: m_pTableSprite(NULL)
-, m_pScore(NULL)
+: m_pScore(NULL)
 , m_bDisplayFPS(false)
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
@@ -284,12 +283,15 @@ void cGame::Cleanup()
 {
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
-		SAFE_DELETE(m_pGameElements[i]);
+		if (m_pGameElements[i])
+		{
+			m_pGameElements[i]->Cleanup();
+			SAFE_DELETE(m_pGameElements[i]);
+		}
 	}
 
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
-	SAFE_DELETE(m_pTableSprite);
 
 	SAFE_DELETE(m_pSound);
 
