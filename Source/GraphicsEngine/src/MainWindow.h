@@ -19,14 +19,7 @@ namespace Base
 
 namespace Utilities
 {
-	class ITimer;
 	class IResCache;
-}
-
-namespace Graphics
-{
-	class IInput;
-	class IFPS;
 }
 
 namespace Graphics
@@ -65,7 +58,6 @@ namespace Graphics
 		int						m_iLeftPos ;			// the X coordinate of the top left corner of the window
 		int						m_iFullScreenWidth ;	// the full screen width
 		int						m_iFullScreenHeight ;	// the full screen height
-		Graphics::IFPS *		m_pFPS;
 		Utilities::IResCache *	m_pResourceCache;
 	};
 

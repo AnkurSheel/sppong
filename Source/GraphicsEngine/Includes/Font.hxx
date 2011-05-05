@@ -11,6 +11,7 @@
 #define Font_hxx__
 
 #include "GraphicEngineDefines.h"
+#include "ScreenElement.hxx"
 
 namespace Base
 {
@@ -20,11 +21,15 @@ namespace Base
 namespace Graphics
 {
 	class IFont
+		: public IScreenElement
 	{
 	public:
 		virtual ~IFont(){}
 		GRAPHIC_API virtual void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) = 0;
-		GRAPHIC_API virtual void DisplayText(IDirect3DDevice9 *pd3dDevice, const Base::cString &  strString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) = 0;
+		GRAPHIC_API virtual void SetText(const Base::cString & strString) = 0;
+		GRAPHIC_API virtual void SetRect(const RECT & boundingRect) = 0;
+		GRAPHIC_API virtual void SetFormat(const DWORD dwFormat) = 0;
+		GRAPHIC_API virtual void SetTextColor(const D3DCOLOR & color) = 0;
 		GRAPHIC_API static IFont * CreateMyFont();
 	} ;
 }

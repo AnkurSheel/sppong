@@ -11,7 +11,11 @@
 #define FPS_hxx__
 
 #include "GraphicEngineDefines.h"
-
+				 
+namespace Graphics
+{
+	class IFont;
+}
 namespace Graphics
 {
 	class IFPS
@@ -23,6 +27,7 @@ namespace Graphics
 		virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
 		virtual void OnLostDevice() = 0;
 		virtual void Cleanup() = 0;
+		virtual IFont * GetFont() = 0;
 		GRAPHIC_API static IFPS * CreateFPS();
 	};
 }

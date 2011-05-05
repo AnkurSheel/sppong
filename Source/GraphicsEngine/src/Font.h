@@ -35,9 +35,25 @@ namespace Graphics
 		cMyFont() ;
 		~cMyFont() ;
 		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
-		void DisplayText(IDirect3DDevice9 *pd3dDevice, const Base::cString &  strString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col) ;
+		void Render(LPDIRECT3DDEVICE9 const pDevice) ;
+		void SetText(const Base::cString & strString);
+		void SetRect(const RECT & boundingRect);
+		void SetFormat(const DWORD dwFormat);
+		void SetTextColor(const D3DCOLOR & color);
+		void OnLostDevice();
+		void OnResetDevice();
+		bool IsVisible();
+		void Cleanup();
+		void SetVisible(const bool bVisible);
+
 	protected:
-		ID3DXFont	*m_pFont ;
+		ID3DXFont *		m_pFont ;
+		D3DXFONT_DESC	m_fonttype; 
+		Base::cString	m_strString;
+		RECT			m_boundingRect; 
+		DWORD 			m_dwFormat;
+		D3DCOLOR		m_Color;
+		bool			m_bVisible;
 	} ;
 }
 #endif // Font_h__

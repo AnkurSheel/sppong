@@ -18,13 +18,10 @@ struct Telegram;
 class IGameFlowStates
 	: public AI::IState<cGame>
 {
-public:
-	virtual void OnLostDevice(cGame *pGame) = 0;
-	virtual void OnResetDevice(cGame *pGame) = 0;
 };
 
 class cStateTitleScreen 
-	: public AI::IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStateTitleScreen();
@@ -39,7 +36,7 @@ public:
 };
 
 class cStateMenuScreen 
-	: public AI::IState<cGame>
+	: public IGameFlowStates
 {
 private:
 	cStateMenuScreen();
@@ -64,8 +61,5 @@ public:
 	virtual void Execute(cGame *pGame);
 	virtual void Exit(cGame *pGame);
 	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
-	void OnLostDevice(cGame *pGame);
-	void OnResetDevice(cGame *pGame);
-
 };
 #endif // GameFlowStates_h__

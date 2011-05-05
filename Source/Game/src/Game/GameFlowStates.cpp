@@ -21,6 +21,7 @@
 #include "MPongView.h"
 #include "myString.h"
 #include "Timer.hxx"
+#include "Font.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -247,8 +248,12 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pScore = DEBUG_NEW cScore[2]();
+	
 	pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pGame->m_pPongView->PushElement(pGame->m_pScore[0].GetFont(), "");
+	
 	pGame->m_pScore[1].Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth, 0.0f, 0.0f));
+	pGame->m_pPongView->PushElement(pGame->m_pScore[1].GetFont(), "");
 	
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_WALL_COLLISION, "resources\\Sounds\\SFX\\collision1.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
@@ -258,8 +263,6 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
 	pGame->m_pPongView->SetCursorVisible(false);
-
-	OnResetDevice(pGame);
 }
 // ***************************************************************
 
@@ -293,19 +296,5 @@ void cStatePlayGame::Exit(cGame *pGame)
 bool cStatePlayGame::OnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
-}
-// ***************************************************************
-
-void cStatePlayGame::OnLostDevice( cGame *pGame )
-{
-	pGame->m_pScore[0].OnLostDevice();
-	pGame->m_pScore[1].OnLostDevice();
-}
-// ***************************************************************
-
-void cStatePlayGame::OnResetDevice( cGame *pGame )
-{
-	pGame->m_pScore[0].OnResetDevice(pGame->m_pD3dDevice);
-	pGame->m_pScore[1].OnResetDevice(pGame->m_pD3dDevice);
 }
 // ***************************************************************

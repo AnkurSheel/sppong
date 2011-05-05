@@ -40,7 +40,9 @@ namespace Graphics
 		void SetPosition(const D3DXVECTOR3& vPosition);
 		bool IsVisible();
 		void SetVisible(const bool bVisible);
-		void cSprite::SetFlags(const DWORD dwFlags);
+		void SetFlags(const DWORD dwFlags);
+		void SetTintColor(const D3DCOLOR & tintColor);
+		void SetSourceRect(const RECT &	rectSrc);
 	private:
 		void Cleanup();
 		void MakeTransformMatrix();

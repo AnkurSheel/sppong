@@ -21,7 +21,5 @@ class cGameFlowStateMachine :
 public:
 	cGameFlowStateMachine(cGame *pGame);
 	~cGameFlowStateMachine(void);
-	void OnLostDevice(cGame *pGame);
-	void OnResetDevice(cGame *pGame);
 };
 #endif // GameFlowStateMachine_h__

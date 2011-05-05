@@ -66,11 +66,6 @@ void cMPongView::OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
 			m_pFPS->Render(pGame->GetFPS());
 
 		}
-		if (pGame->m_pScore)
-		{
-			pGame->m_pScore[0].Render();
-			pGame->m_pScore[1].Render();
-		}
 		OnEndRender(hr);
 	}
 

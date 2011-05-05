@@ -20,8 +20,6 @@ using namespace Base;
 // ***************************************************************
 cFPS::cFPS()
 : m_pFont(NULL)
-, m_dwFormat(0)
-, m_FontColor(BLACK)
 {
 }
 // ***************************************************************
@@ -40,8 +38,8 @@ cFPS::~cFPS()
 // ***************************************************************
 void cFPS::Render(const float fFPSValue)
 {
-	m_strValue = cString(20, "%0.2f", fFPSValue);
-	m_pFont->DisplayText(IDXBase::GetInstance()->GetDevice(), m_strValue.GetData(), &m_BoundingRect, &m_dwFormat, m_FontColor);
+	m_pFont->SetText(cString(20, "%0.2f", fFPSValue));
+	m_pFont->Render(IDXBase::GetInstance()->GetDevice());
 }
 // ***************************************************************
 
@@ -55,13 +53,15 @@ void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice,
 	m_pFont = IFont::CreateMyFont();
 	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
 
-	m_BoundingRect.left = (long)vInitialPos.x- 75;
-	m_BoundingRect.right = m_BoundingRect.left + 150;
-	m_BoundingRect.top  = (long)vInitialPos.y;
-	m_BoundingRect.bottom = m_BoundingRect.top + 30;
-	m_dwFormat = DT_LEFT | DT_TOP;
+	RECT boundingRect;
+	boundingRect.left = (long)vInitialPos.x- 75;
+	boundingRect.right = boundingRect.left + 150;
+	boundingRect.top  = (long)vInitialPos.y;
+	boundingRect.bottom = boundingRect.top + 30;
+	m_pFont->SetRect(boundingRect);
 
-	m_FontColor = color;
+	m_pFont->SetFormat(DT_LEFT | DT_TOP);
+	m_pFont->SetTextColor(color);
 }
 // ***************************************************************
 
@@ -81,6 +81,12 @@ void cFPS::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice )
 void cFPS::OnLostDevice()
 {
 	SAFE_DELETE(m_pFont);
+}
+// ***************************************************************
+
+IFont * cFPS::GetFont()
+{
+	return m_pFont;
 }
 // ***************************************************************
 

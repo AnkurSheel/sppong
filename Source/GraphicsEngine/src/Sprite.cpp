@@ -157,6 +157,7 @@ void cSprite::Cleanup()
 {
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Texture : %s", m_strFilename.GetData()));
 
+	SAFE_DELETE(m_pSrcRect)
 	// release the texture
 	SAFE_RELEASE(m_pTexture);
 
@@ -186,6 +187,17 @@ void cSprite::SetVisible(const bool bVisible)
 void cSprite::SetFlags(const DWORD dwFlags)
 {
 	m_dwFlags = dwFlags;
+}
+
+void cSprite::SetTintColor(const D3DCOLOR & tintColor)
+{
+	m_tintColor = tintColor;
+}	
+
+void cSprite::SetSourceRect(const RECT & rectSrc)
+{
+	SAFE_DELETE(m_pSrcRect);
+	m_pSrcRect = DEBUG_NEW RECT(rectSrc);
 }
 
 // ***************************************************************

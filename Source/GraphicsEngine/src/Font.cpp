@@ -9,6 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Font.h"
+#include "DxBase.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -17,6 +18,8 @@ using namespace Base;
 // ***************************************************************
 cMyFont::cMyFont()
 : m_pFont(NULL)
+, m_Color(BLACK)
+, m_bVisible(true)
 {
 }
 // ***************************************************************
@@ -26,7 +29,7 @@ cMyFont::cMyFont()
 // ***************************************************************
 cMyFont::~cMyFont()
 {
-	SAFE_RELEASE(m_pFont) ;
+	Cleanup();
 }
 // ***************************************************************
 
@@ -35,28 +38,71 @@ cMyFont::~cMyFont()
 // ***************************************************************
 void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const cString & strFaceName )
 {
-	D3DXFONT_DESC		fonttype ;
+	ZeroMemory(&m_fonttype, sizeof(D3DXFONT_DESC)) ;
+	m_fonttype.Height		= iHeight ;
+	m_fonttype.Width		= iWidth ;
+	m_fonttype.Weight		= iWeight ;
+	m_fonttype.Italic		= bItalic ;
+	m_fonttype.CharSet	= charset ;
+	strcpy_s(m_fonttype.FaceName, LF_FACESIZE, strFaceName.GetData()) ;
 
-	ZeroMemory(&fonttype, sizeof(D3DXFONT_DESC)) ;
-	fonttype.Height		= iHeight ;
-	fonttype.Width		= iWidth ;
-	fonttype.Weight		= iWeight ;
-	fonttype.Italic		= bItalic ;
-	fonttype.CharSet	= charset ;
-	strcpy_s(fonttype.FaceName, LF_FACESIZE, strFaceName.GetData()) ;
-
-	D3DXCreateFontIndirect(pd3dDevice, &fonttype, &m_pFont) ;
+	D3DXCreateFontIndirect(pd3dDevice, &m_fonttype, &m_pFont) ;
 }
 // ***************************************************************
 
 // ***************************************************************
 // Displays the text
 // ***************************************************************
-void cMyFont::DisplayText( IDirect3DDevice9 *pd3dDevice, const cString & strString, const LPRECT pRect, DWORD *pformat, D3DCOLOR Col )
+void cMyFont::Render(LPDIRECT3DDEVICE9 const pDevice)
 {	
-	m_pFont->DrawText(NULL, strString.GetData(), -1, pRect, *pformat, Col) ;
+	m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, m_dwFormat, m_Color) ;
 }
 // ***************************************************************
+
+void cMyFont::SetText(const cString & strString)
+{
+	m_strString = strString;
+}
+
+void cMyFont::SetRect(const RECT & boundingRect)
+{
+	m_boundingRect = boundingRect;
+}
+
+void cMyFont::SetFormat(const DWORD dwFormat)
+{
+	m_dwFormat = dwFormat;
+}
+
+void cMyFont::SetTextColor(const D3DCOLOR & color)
+{
+	m_Color = color;
+}
+
+void cMyFont::OnLostDevice()
+{
+	Cleanup();
+}
+
+void cMyFont::OnResetDevice()
+{
+	D3DXCreateFontIndirect(IDXBase::GetInstance()->GetDevice(), &m_fonttype, &m_pFont);
+}
+
+bool cMyFont::IsVisible()
+{
+	return m_bVisible;
+}
+
+void cMyFont::Cleanup()
+{
+	SAFE_RELEASE(m_pFont);
+}
+
+void cMyFont::SetVisible(const bool bVisible)
+{
+	m_bVisible = bVisible;
+}
 
 // ***************************************************************
 // Creates a font

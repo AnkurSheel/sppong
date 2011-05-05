@@ -36,14 +36,10 @@ namespace Graphics
 		void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color = BLACK);
 		void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 		void OnLostDevice();
+		IFont * GetFont();
 		void Cleanup();
 	private:
 		IFont *				m_pFont;
-		RECT				m_BoundingRect;
-		DWORD				m_dwFormat;
-		Base::cString		m_strValue;
-		D3DCOLOR			m_FontColor;
-
 	};
 }
 #endif // FPS_h__

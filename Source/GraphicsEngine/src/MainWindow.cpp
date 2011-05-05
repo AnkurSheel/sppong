@@ -10,9 +10,6 @@
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "DxBase.hxx"
-#include "Timer.hxx"
-#include "Input.hxx"
-#include "FPS.hxx"
 #include "ResCache.hxx"
 
 using namespace Utilities;
@@ -29,7 +26,6 @@ cMainWindow::cMainWindow()
 , m_iClientWidth(0)
 , m_iFullScreenHeight(0)
 , m_iFullScreenWidth(0)
-, m_pFPS(NULL)
 , m_pResourceCache(NULL)
 {
 }
@@ -216,8 +212,6 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 // ***************************************************************
 void cMainWindow::OnDestroyDevice()
 {
-	SAFE_DELETE(m_pFPS);
-
 	SAFE_DELETE(m_pResourceCache);
 
 	// release the graphic object
@@ -239,9 +233,6 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const 
 {
 	// initialize DirectX
 	IDXBase::GetInstance()->Init(hWnd, TAN, bFullScreen);
-
-	m_pFPS = IFPS::CreateFPS();
-	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f), BLACK);
 
 	m_pResourceCache = IResCache::CreateResourceCache(30, "resources.zip");
 	if(!m_pResourceCache->Init())
