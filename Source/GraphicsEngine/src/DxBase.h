@@ -29,7 +29,7 @@ namespace Graphics
 		cDXBase() ;
 		~cDXBase() ;
 
-		void Init(const HWND hWnd, const D3DCOLOR& bkColor) ;
+		void Init(const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen) ;
 		HRESULT ResetDevice() ;
 
 		void Cleanup() ;

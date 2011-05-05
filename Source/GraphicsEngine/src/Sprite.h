@@ -31,12 +31,22 @@ namespace Graphics
 		~cSprite();
 		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
-		void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vPosition, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
-		void Cleanup();
+		void Render(LPDIRECT3DDEVICE9 const pDevice);
+		void OnLostDevice();
+		void OnResetDevice();
 		UINT GetScaledHeight() const;
 		UINT GetScaledWidth() const;
 		D3DXVECTOR3 GetPosition() const;
-
+		void SetPosition(const D3DXVECTOR3& vPosition);
+		bool IsVisible();
+		void SetVisible(const bool bVisible);
+		void SetFlags(const DWORD dwFlags);
+		void SetTintColor(const D3DCOLOR & tintColor);
+		void SetSourceRect(const RECT &	rectSrc);
+	private:
+		void Cleanup();
+		void MakeTransformMatrix();
+	
 	private:
 
 		LPD3DXSPRITE		m_pSprite;		// ptr to the sprite 
@@ -47,6 +57,10 @@ namespace Graphics
 		D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
 		D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
 		Base::cString		m_strFilename;
+		bool				m_bIsVisible;
+		DWORD				m_dwFlags;
+		D3DCOLOR			m_tintColor;
+		RECT *				m_pSrcRect;
 	};
 #include "Sprite.inl"
 }

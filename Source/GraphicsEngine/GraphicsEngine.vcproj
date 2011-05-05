@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
+				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS;WINDOWED"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GameBase\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
+				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -211,6 +211,10 @@
 			</File>
 			<File
 				RelativePath=".\Includes\Polygon.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\ScreenElement.hxx"
 				>
 			</File>
 			<File
@@ -303,22 +307,6 @@
 			</File>
 			<File
 				RelativePath=".\Includes\MouseZone.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="FPS"
-			>
-			<File
-				RelativePath=".\src\FPS.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FPS.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\FPS.hxx"
 				>
 			</File>
 		</Filter>

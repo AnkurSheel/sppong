@@ -25,6 +25,7 @@ namespace Utilities
 		UTILITIES_API virtual bool IsStopped() const = 0;
 		UTILITIES_API virtual float GetFPS() const = 0;
 		UTILITIES_API virtual float GetRunningTime() const = 0;
+		UTILITIES_API virtual TICK GetRunningTicks() const = 0;
 		UTILITIES_API virtual float GetElapsedTime() const = 0; 
 		UTILITIES_API static ITimer * CreateTimer();
 	};

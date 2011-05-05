@@ -30,15 +30,14 @@ public:
 	cBall();
 	~cBall();
 	void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename);
-	void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = Graphics::WHITE, const RECT* pSrcRect = NULL);
-	void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice);
 	void ChangeSpeedX();
 	void ChangeSpeedY();
 	void OnRestart(const D3DXVECTOR3& vInitialPos);
 	void Cleanup();
+	void OnUpdate(float fElapsedTime);
 	cBall * CastToBall();
 private:
-	D3DXVECTOR3			m_vSpeed;
+	D3DXVECTOR3						m_vSpeed;
 	Utilities::IRandomGenerator *	m_pRandomGenerator;
 };
 #endif // Ball_h__

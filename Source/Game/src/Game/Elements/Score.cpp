@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "Score.h"
 #include "font.hxx"
+#include "DxBase.hxx"
 #include "Constants.h"
 
 using namespace Graphics;
@@ -19,7 +20,6 @@ using namespace Base;
 // ***************************************************************
 cScore::cScore()
 : m_pFont(NULL)
-, m_dwFormat(0)
 , m_iValue(0)
 {
 }
@@ -35,56 +35,33 @@ cScore::~cScore()
 // ***************************************************************
 
 // ***************************************************************
-// Renders the text
-// ***************************************************************
-void cScore::Render( LPDIRECT3DDEVICE9 const pDevice )
-{
-	m_pFont->DisplayText(pDevice, m_strValue, &m_BoundingRect, &m_dwFormat, TURQUOISE );
-}
-
-// ***************************************************************
-
-// ***************************************************************
 // Initializes the font
 // ***************************************************************
 void cScore::Init( const D3DXVECTOR3& vInitialPos )
 {
+	m_pFont = IFont::CreateMyFont();
+	m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), 40, 30, 500, false, DEFAULT_CHARSET, "Forte");
+
+	RECT boundingRect;
 	if (vInitialPos.x > 0 )
 	{
-		m_BoundingRect.left = (long)vInitialPos.x - 80;
-		m_BoundingRect.right = (long)vInitialPos.x;
-		m_dwFormat = DT_RIGHT | DT_TOP;
+		boundingRect.left = (long)vInitialPos.x - 80;
+		boundingRect.right = (long)vInitialPos.x;
+		m_pFont->SetFormat(DT_RIGHT | DT_TOP);
 	}
 	else
 	{
-		m_BoundingRect.left = (long)vInitialPos.x;
-		m_BoundingRect.right = 90;
-		m_dwFormat = DT_LEFT | DT_TOP;
+		boundingRect.left = (long)vInitialPos.x;
+		boundingRect.right = 90;
+		m_pFont->SetFormat(DT_LEFT | DT_TOP);
 	}
-	m_BoundingRect.top  = (long)vInitialPos.y;
-	m_BoundingRect.bottom = 50;
-	
-	m_strValue = cString(20, "%02d", m_iValue);
+	boundingRect.top  = (long)vInitialPos.y;
+	boundingRect.bottom = 50;
 
-}
-// ***************************************************************
+	m_pFont->SetRect(boundingRect);
+	m_pFont->SetText(cString(20, "%02d", m_iValue));
+	m_pFont->SetTextColor(TURQUOISE);
 
-// ***************************************************************
-// called when the device is reset
-// ***************************************************************
-void cScore::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice )
-{
-	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(pDevice, 40, 30, 500, false, DEFAULT_CHARSET, "Forte");
-}
-// ***************************************************************
-
-// ***************************************************************
-// called when the device is lost
-// *************************************************************** 
-void cScore::OnLostDevice()
-{
-	SAFE_DELETE(m_pFont);
 }
 // ***************************************************************
 
@@ -93,7 +70,6 @@ void cScore::OnLostDevice()
 // *************************************************************** 	
 void cScore::Cleanup()
 {
-	SAFE_DELETE(m_pFont);
 }
 // ***************************************************************
 
@@ -103,7 +79,12 @@ void cScore::Cleanup()
 void cScore::IncrementScore()
 {
 	m_iValue++;
+	m_pFont->SetText(cString(20, "%02d", m_iValue));
+}
+// ***************************************************************
 
-	m_strValue = cString(20, "%02d", m_iValue) ;
+IFont * cScore::GetFont()
+{
+	return m_pFont;
 }
 // ***************************************************************

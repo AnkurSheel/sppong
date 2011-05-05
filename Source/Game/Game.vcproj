@@ -267,6 +267,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\MpongView.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\MPongView.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>

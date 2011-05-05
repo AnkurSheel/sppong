@@ -34,24 +34,29 @@ namespace GameBase
 	protected:
 		GAMEBASE_API cGameElement();
 	public:
-		GAMEBASE_API ~cGameElement();
-		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename);
+		GAMEBASE_API virtual  ~cGameElement();
+		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename) = 0;
 		GAMEBASE_API virtual void SetBoundingRectangle();
 		GAMEBASE_API virtual Graphics::IPolygon& GetBoundingRectangle();
 		GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
 		GAMEBASE_API virtual const D3DXVECTOR3& GetPosition();
-		GAMEBASE_API virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = Graphics::WHITE, const RECT* pSrcRect = NULL);
 		GAMEBASE_API virtual void SetSprite(Graphics::ISprite* const sprite );
 		GAMEBASE_API virtual const Graphics::ISprite * GetSprite() const;
 		GAMEBASE_API virtual void Cleanup();
-		GAMEBASE_API virtual void OnLostDevice();
-		GAMEBASE_API virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
+		GAMEBASE_API virtual void OnUpdate(float fElapsedTime) = 0;
+	
+	protected:
+		GAMEBASE_API void OnBeginInit(const Base::cString & strFilename, const D3DXVECTOR2 & vSize);
+		GAMEBASE_API void OnEndInit(const D3DXVECTOR3& vInitialPos);
+		GAMEBASE_API void UpdatePosition();
 
 	protected:
 		Graphics::ISprite *		m_pSprite;
 		D3DXVECTOR3				m_vPosition;
 		D3DXVECTOR3				m_vPrevPosition;
 		Graphics::IPolygon *	m_pBoundingPolygon;
+	
+	private:
 		Base::cString			m_strFileName;
 	};
 #include "GameElement.inl"

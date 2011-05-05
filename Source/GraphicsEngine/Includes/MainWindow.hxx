@@ -17,11 +17,6 @@ namespace Base
 	class cString;
 }
 
-namespace GameBase
-{
-	class IBaseApp;
-}
-
 namespace Utilities
 {
 	class IResCache;
@@ -32,17 +27,13 @@ namespace Graphics
 	{
 	public:
 		virtual ~IMainWindow(){}
-		GRAPHIC_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, GameBase::IBaseApp * const pGameApp) = 0;
-		GRAPHIC_API virtual void Run() = 0;
+		GRAPHIC_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) = 0;
 		GRAPHIC_API static IMainWindow * TheWindow();
-		GRAPHIC_API virtual void DisplayFPS() = 0;
-		GRAPHIC_API virtual float GetElapsedTime() const = 0;
-		GRAPHIC_API virtual float GetRunningTime() const = 0;
-		GRAPHIC_API virtual void LockKey( const DWORD dwKey ) = 0;
-		GRAPHIC_API virtual long GetAbsXMousePos() const = 0;
-		GRAPHIC_API virtual long GetAbsYMousePos() const= 0;
 		GRAPHIC_API virtual Utilities::IResCache * GetResourceCache() const= 0;
 		GRAPHIC_API virtual void Destroy() = 0;
+		GRAPHIC_API virtual int GetClientWindowHeight() = 0;
+		GRAPHIC_API virtual int GetClientWindowWidth() = 0;
+
 	};
 }
 #endif // MainWindow_h__

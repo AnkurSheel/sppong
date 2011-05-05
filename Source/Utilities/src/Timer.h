@@ -32,7 +32,8 @@ namespace Utilities
 		bool IsStopped() const;
 		float GetFPS() const;
 		float GetRunningTime() const;
-		float GetElapsedTime() const; 
+		float GetElapsedTime() const;
+		TICK GetRunningTicks() const;
 
 	private:
 		INT64		m_iTicksPerSecond;

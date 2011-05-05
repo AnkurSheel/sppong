@@ -10,16 +10,11 @@
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "DxBase.hxx"
-#include "BaseApp.hxx"
-#include "Timer.hxx"
-#include "Input.hxx"
-#include "FPS.hxx"
 #include "ResCache.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
-using namespace GameBase;
 
 // ***************************************************************
 // Constructor
@@ -29,11 +24,8 @@ cMainWindow::cMainWindow()
 , m_hInstance(NULL)
 , m_iClientHeight(0)
 , m_iClientWidth(0)
-, m_pGameApp(NULL)
 , m_iFullScreenHeight(0)
 , m_iFullScreenWidth(0)
-, m_pGameTimer(NULL)
-, m_pFPS(NULL)
 , m_pResourceCache(NULL)
 {
 }
@@ -51,12 +43,10 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, IBaseApp* const pGameApp )
+HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen )
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
-
-	m_pGameApp = pGameApp;
 
 	m_iFullScreenWidth = iFullScreenWidth ; 
 	m_iFullScreenHeight = iFullScreenHeight ;
@@ -65,10 +55,9 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const c
 	RegisterWin();
 
 	//Create the Window
-	hWnd = CreateMyWindow(nCmdShow, lpWindowTitle) ;
+	hWnd = CreateMyWindow(nCmdShow, lpWindowTitle, bFullScreen) ;
 
-	OnCreateDevice(hInstance,hWnd);
-	//OnResetDevice();
+	OnCreateDevice(hInstance,hWnd, bFullScreen);
 
 	return hWnd;
 }
@@ -104,35 +93,38 @@ void cMainWindow::RegisterWin()
 // ***************************************************************
 // Creates the window
 // ***************************************************************
-HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle )
+HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle, const bool bFullScreen)
 {
-#ifdef WINDOWED
-	// create the window in windowed mode
-	m_Hwnd = CreateWindowEx(
-		WS_EX_CLIENTEDGE,
-		"Window",
-		lpWindowTitle.GetData(),
-		WS_OVERLAPPEDWINDOW ,
-		0, 0, 
-		200, 200,
-		NULL, 
-		NULL, 
-		m_hInstance, 
-		this) ;
-#else
-	// create the window in full screen mode
-	m_Hwnd = CreateWindowEx(
-		WS_EX_CLIENTEDGE,
-		"Window",
-		lpWindowTitle.GetData(),
-		WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE,
-		0, 0, 
-		m_iFullScreenWidth,m_iFullScreenHeight,
-		NULL, 
-		NULL, 
-		m_hInstance, 
-		this) ;
-#endif
+	if(bFullScreen)
+	{
+		// create the window in full screen mode
+		m_Hwnd = CreateWindowEx(
+			WS_EX_CLIENTEDGE,
+			"Window",
+			lpWindowTitle.GetData(),
+			WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE,
+			0, 0, 
+			m_iFullScreenWidth,m_iFullScreenHeight,
+			NULL, 
+			NULL, 
+			m_hInstance, 
+			this) ;
+	}
+	else
+	{
+		// create the window in windowed mode
+		m_Hwnd = CreateWindowEx(
+			WS_EX_CLIENTEDGE,
+			"Window",
+			lpWindowTitle.GetData(),
+			WS_OVERLAPPEDWINDOW ,
+			0, 0, 
+			CW_USEDEFAULT, CW_USEDEFAULT,
+			NULL, 
+			NULL, 
+			m_hInstance, 
+			this) ;
+	}
 
 	if(m_Hwnd == NULL)
 	{
@@ -216,92 +208,10 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 // ***************************************************************
 
 // ***************************************************************
-// the message loop
-// ***************************************************************
-void cMainWindow::Run()
-{
-	MSG Msg ;
-
-	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
-	// run till completed
-	while (Msg.message!=WM_QUIT)
-	{
-		// is there a message to process?
-		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
-		{
-			// dispatch the message
-			TranslateMessage(&Msg) ;
-			DispatchMessage(&Msg) ;
-		}
-		else
-		{
-			//No message to process?
-			// Then do your game stuff here
-
-			OnRender();
-		}
-	}
-
-	// a WM_Quit message has been sent so destroy the window
-	DestroyWindow(m_Hwnd);
-}
-// ***************************************************************
-
-// ***************************************************************
-// Function called to handle the rendering
-// ***************************************************************
-void cMainWindow::OnRender()
-{
-	HRESULT hr;
-
-	// update the game timer
-	if (m_pGameTimer)
-	{
-		m_pGameTimer->Update();
-	}
-
-	// check if the device is available
-	hr = IDXBase::GetInstance()->IsAvailable() ;
-
-	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
-	{
-		HandleLostDevice(hr) ;
-	}
-
-	// get user inputs
-	GetInput();
-
-	if(SUCCEEDED(hr))
-	{
-
-		hr = IDXBase::GetInstance()->BeginRender();
-		if (SUCCEEDED(hr))
-		{
-			// process the user inputs according to game logic
-			m_pGameApp->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), m_pInput->GetPressedKeys(), m_pInput->GetPressedButtons(), m_pGameTimer->GetElapsedTime()) ;
-
-			// render the game graphics
-			m_pGameApp->Render();
-
-			IDXBase::GetInstance()->EndRender(hr);
-		}
-	}
-}
-// ***************************************************************
-
-// ***************************************************************
 // Function called when the application quits
 // ***************************************************************
 void cMainWindow::OnDestroyDevice()
 {
-	// delete the game timer
-	SAFE_DELETE(m_pGameTimer);
-
-	// delete the input handler
-	SAFE_DELETE(m_pInput);
-
-	SAFE_DELETE(m_pFPS);
-
 	SAFE_DELETE(m_pResourceCache);
 
 	// release the graphic object
@@ -317,44 +227,12 @@ void cMainWindow::OnDestroyDevice()
 // ***************************************************************
 
 // ***************************************************************
-// Function called when the device needs to be reset
-// ***************************************************************
-void cMainWindow::OnResetDevice()
-{
-	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->GetDevice();
-	if (pDevice)
-	{
-		GetWinRect() ;
-		IDXBase::GetInstance()->ResetDevice();
-		if (m_pGameApp)
-		{
-			m_pGameApp->OnResetDevice() ;
-		}
-
-		if (m_pFPS)
-		{
-			m_pFPS->OnResetDevice(pDevice);
-		}
-	}
-}
-// ***************************************************************
-
-// ***************************************************************
 // Function called when the device is created
 // ***************************************************************
-void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
+void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const bool bFullScreen )
 {
 	// initialize DirectX
-	IDXBase::GetInstance()->Init(hWnd, TAN);
-
-	m_pGameTimer = ITimer::CreateTimer();
-	m_pGameTimer->Start();
-
-	m_pInput = IInput::CreateInputDevice();
-	m_pInput->Init(hInst, hWnd, m_iClientWidth, m_iClientHeight);
-
-	m_pFPS = IFPS::CreateFPS();
-	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)m_iClientWidth/2, 10.0f, 0.0f));
+	IDXBase::GetInstance()->Init(hWnd, TAN, bFullScreen);
 
 	m_pResourceCache = IResCache::CreateResourceCache(30, "resources.zip");
 	if(!m_pResourceCache->Init())
@@ -364,64 +242,8 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd )
 		return;
 	}
 
-#ifdef WINDOWED
-	m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), m_iClientHeight, m_iClientWidth);
-#else
-	m_pGameApp->OnInit(IDXBase::GetInstance()->GetDevice(), IDXBase::GetInstance()->GetDisplayHeight(), IDXBase::GetInstance()->GetDisplayWidth());
-#endif
-
 	SetForegroundWindow(m_Hwnd);
 
-}
-// ***************************************************************
-
-// ***************************************************************
-// Tries to restore a lost device
-// ***************************************************************
-void cMainWindow::HandleLostDevice(HRESULT hr)
-{
-	if(hr == D3DERR_DEVICELOST)
-	{
-		Sleep(50) ;
-		return;
-	}
-	else 
-	{
-		if(hr == D3DERR_DEVICENOTRESET) 
-		{
-			OnLostDevice();
-			hr = IDXBase::GetInstance()->ResetDevice() ;
-
-			OnResetDevice();
-		}
-	}
-}
-// ***************************************************************
-
-// ***************************************************************
-// Function called when the device is  to free the resources
-// ***************************************************************
-void cMainWindow::OnLostDevice()
-{
-	if (m_pGameApp)
-	{
-		m_pGameApp->OnLostDevice();
-	}
-
-	if (m_pFPS)
-	{
-		m_pFPS->OnLostDevice();
-	}
-}
-// ***************************************************************
-
-// ***************************************************************
-// Gets User Inputs 
-// ***************************************************************
-void cMainWindow::GetInput() const
-{
-	m_pInput->DetectKeys();
-	m_pInput->DetectMouseMovement();
 }
 // ***************************************************************
 
@@ -434,67 +256,28 @@ void cMainWindow::MoveWin()
 }
 // ***************************************************************
 
-// ***************************************************************
-// Display the FPS
-// ***************************************************************
-void cMainWindow::DisplayFPS()
-{
-	m_pFPS->Render(IDXBase::GetInstance()->GetDevice(), m_pGameTimer->GetFPS());
-}
-// ***************************************************************
-
-// ***************************************************************
-// returns the time between the last and current frame
-// ***************************************************************
-float cMainWindow::GetElapsedTime() const
-{
-	return m_pGameTimer->GetElapsedTime();
-}
-// ***************************************************************
-
-// ***************************************************************
-// Gets the running time
-// ***************************************************************
-float cMainWindow::GetRunningTime() const
-{
-	return m_pGameTimer->GetRunningTime();
-}
-// ***************************************************************
-
-// ***************************************************************
-// Locks the key on the keyboard
-// ***************************************************************
-void cMainWindow::LockKey( const DWORD dwKey ) 
-{
-	m_pInput->LockKey(dwKey);
-}
-// ***************************************************************
-
-// ***************************************************************
-// Gets the absolute X position of the cursor
-// ***************************************************************
-long cMainWindow::GetAbsXMousePos() const
-{
-	return m_pInput->GetX();
-}
-// ***************************************************************
-
-// ***************************************************************
-// Locks the key on the keyboard
-// ***************************************************************
-long cMainWindow::GetAbsYMousePos() const
-{
-	return m_pInput->GetY();
-}
-// ***************************************************************
-
 IResCache * cMainWindow::GetResourceCache() const
 {
 	return m_pResourceCache;
 }
+// ***************************************************************
+
+int cMainWindow::GetClientWindowHeight()
+{
+	return m_iClientHeight;
+}
+// ***************************************************************
+
+int cMainWindow::GetClientWindowWidth()
+{
+	return m_iClientWidth;
+}
+// ***************************************************************
 
 void cMainWindow::Destroy()
 {
+	DestroyWindow(m_Hwnd);
+
 	delete this;
 }
 // ***************************************************************
@@ -509,5 +292,3 @@ IMainWindow * IMainWindow::TheWindow()
 	return s_pWindow;
 }
 // ***************************************************************
-
-

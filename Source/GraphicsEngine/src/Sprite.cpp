@@ -12,6 +12,7 @@
 #include "Sprite.h"
 #include "ResCache.hxx"
 #include "MainWindow.hxx"
+#include "DxBase.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -27,6 +28,10 @@ cSprite::cSprite()
 , m_uiWidth(0)
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
 , m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
+, m_bIsVisible(true)
+, m_dwFlags(NULL)
+, m_tintColor(WHITE)
+, m_pSrcRect(NULL)
 {
 	D3DXMatrixIdentity(&m_mScaleMatrix) ; 
 	D3DXMatrixScaling(&m_mScaleMatrix, m_vScale.x, m_vScale.y, m_vScale.z);
@@ -45,7 +50,7 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename )
+void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename)
 {
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
 
@@ -111,27 +116,35 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 // ***************************************************************
 // Render the sprite
 // ***************************************************************
-void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, 
-						 const D3DXVECTOR3& vPosition, 
-						 const DWORD dwFlags /*= NULL*/, 
-						 const D3DCOLOR& tint /*= WHITE*/, 
-						 const RECT* pSrcRect /*= NULL*/ )
+void cSprite::Render( LPDIRECT3DDEVICE9 const pDevice)
 {
-
-	// get the new position and create the transform matrix
-	if (m_vPosition != vPosition)
-	{
-		D3DXMATRIX transMatrix;
-		D3DXMatrixTranslation(&transMatrix, vPosition.x, vPosition.y, vPosition.z);
-		D3DXMatrixMultiply(&transMatrix, &m_mScaleMatrix, &transMatrix);
-		m_vPosition = vPosition ;
-		m_pSprite->SetTransform(&transMatrix);
-	}
-
 	// draw the sprite
-	m_pSprite->Begin(dwFlags);
-	m_pSprite->Draw(m_pTexture, pSrcRect, NULL, NULL, tint); 
+	m_pSprite->Begin(m_dwFlags);
+	m_pSprite->Draw(m_pTexture, m_pSrcRect, NULL, NULL, m_tintColor); 
 	m_pSprite->End();
+}
+// ***************************************************************
+
+void cSprite::SetPosition(const D3DXVECTOR3& vPosition)
+{
+	if(m_vPosition != vPosition)
+	{
+		m_vPosition = vPosition ;
+		MakeTransformMatrix();
+	}
+}
+// ***************************************************************
+
+void cSprite::OnLostDevice()
+{
+	Cleanup();
+}
+// ***************************************************************
+
+void cSprite::OnResetDevice()
+{
+	Init(IDXBase::GetInstance()->GetDevice(), m_strFilename);
+	MakeTransformMatrix();
 }
 // ***************************************************************
 
@@ -140,15 +153,54 @@ void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice,
 // ***************************************************************
 void cSprite::Cleanup()
 {
-	m_vPosition = D3DXVECTOR3(0,0,0);
-
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Texture : %s", m_strFilename.GetData()));
 
+	SAFE_DELETE(m_pSrcRect)
 	// release the texture
 	SAFE_RELEASE(m_pTexture);
 
 	// release the sprite
 	SAFE_RELEASE(m_pSprite);
+}
+// ***************************************************************
+
+void cSprite::MakeTransformMatrix()
+{
+	D3DXMATRIX transMatrix;
+	D3DXMatrixTranslation(&transMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixMultiply(&transMatrix, &m_mScaleMatrix, &transMatrix);
+	m_pSprite->SetTransform(&transMatrix);
+}
+// ***************************************************************
+
+bool cSprite::IsVisible()
+{
+	return m_bIsVisible;
+}
+// ***************************************************************
+
+void cSprite::SetVisible(const bool bVisible)
+{
+	m_bIsVisible = bVisible;
+}
+// ***************************************************************
+
+void cSprite::SetFlags(const DWORD dwFlags)
+{
+	m_dwFlags = dwFlags;
+}
+// ***************************************************************
+
+void cSprite::SetTintColor(const D3DCOLOR & tintColor)
+{
+	m_tintColor = tintColor;
+}	
+// ***************************************************************
+
+void cSprite::SetSourceRect(const RECT & rectSrc)
+{
+	SAFE_DELETE(m_pSrcRect);
+	m_pSrcRect = DEBUG_NEW RECT(rectSrc);
 }
 // ***************************************************************
 

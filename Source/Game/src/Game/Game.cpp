@@ -15,33 +15,30 @@
 #include "CollisionChecker.hxx"
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
-#include "MainWindow.hxx"
 #include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
 #include "Sound.hxx"
-#include "MouseZone.hxx"
+#include "MPongView.h"
+#include "DXBase.hxx"
+#include "Timer.hxx"
+#include "ProcessManager.hxx"
 
 using namespace MySound;
 using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
+using namespace Utilities;
 // ***************************************************************
 // Constructor
 // ***************************************************************
 cGame::cGame()
-: m_pTableSprite(NULL)
-, m_pTitleScreenSprite(NULL)
-, m_pCursorSprite(NULL)
-, m_pScore(NULL)
-, m_bDisplayFPS(false)
+: m_pScore(NULL)
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
-, m_pMouseZones(NULL)
-, m_pSinglePlayerSprite(NULL)
-, m_pTwoPlayerSprite(NULL)
-, m_pQuitSprite(NULL)
 , m_bSinglePlayer(false)
 , m_pSound(NULL)
+, m_pPongView(NULL)
+, m_pGameTimer(NULL)
 {
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
@@ -59,55 +56,51 @@ cGame::~cGame()
 }
 // ***************************************************************
 
+void cGame::OnUpdate()
+{
+	m_pGameTimer->Update();
+	m_pStateMachine->Update();
+	m_pSound->Update();
+	m_pPongView->OnUpdate(this, m_pGameTimer->GetElapsedTime());
+
+}
 // ***************************************************************
 // Display the Graphics
 // ***************************************************************
-void cGame::Render()
+void cGame::Render(TICK tickCurrent, float fElapsedTime)
 {
-	m_pStateMachine->Update();
-	m_pSound->Update();
-	if (m_bDisplayFPS)
-	{
-		IMainWindow::TheWindow()->DisplayFPS();
-	}
-}
-// ***************************************************************
-
-// ***************************************************************
-// Initialize the resources that are volatile
-// ***************************************************************
-void cGame::OnResetDevice()
-{
-	m_pStateMachine->OnResetDevice(this);
-}
-// ***************************************************************
-
-// ***************************************************************
-// Free the resources that are volatile
-// ***************************************************************
-void cGame::OnLostDevice()
-{
-	m_pStateMachine->OnLostDevice(this);
+	m_pPongView->OnRender(this, tickCurrent, fElapsedTime);
 }
 // ***************************************************************
 
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::OnInit( LPDIRECT3DDEVICE9 const pDevice, 
+void cGame::OnInit(const HINSTANCE hInstance, 
+				   const HWND hwnd,
 				   const UINT iDisplayHeight, 
-				   const UINT iDisplayWidth )
+				   const UINT iDisplayWidth,
+				   const bool bFullScreen)
 {
-	m_pD3dDevice = pDevice;
-	m_iDisplayHeight = iDisplayHeight;
-	m_iDisplayWidth = iDisplayWidth;
-
-
-	m_pMouseZones = IMouseZone::CreateMouseZone();
+	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
+	if(bFullScreen)
+	{
+		m_iDisplayHeight = IDXBase::GetInstance()->GetDisplayHeight();
+		m_iDisplayWidth = IDXBase::GetInstance()->GetDisplayWidth();
+	}
+	else
+	{
+		m_iDisplayHeight = iDisplayHeight;
+		m_iDisplayWidth = iDisplayWidth;
+	}
 
 	m_pSound = ISound::CreateSound();
 	m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
+	m_pPongView = DEBUG_NEW cMPongView();
+
+	m_pPongView->OnCreateDevice(hInstance, hwnd, m_iDisplayWidth, m_iDisplayHeight);
+
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
 // ***************************************************************
@@ -123,34 +116,10 @@ void cGame::ProcessInput( const long xDelta,
 						 const float fElapsedTime )
 {
 
-	if (pbPressedKeys[DIK_F2])
-	{
-		// lock the F2 key
-		IMainWindow::TheWindow()->LockKey(DIK_F2) ;
-
-		m_bDisplayFPS = !m_bDisplayFPS;
-	}
-
-	if (pbPressedKeys[DIK_ESCAPE])
-	{
-		// lock the ESC key
-		IMainWindow::TheWindow()->LockKey(DIK_ESCAPE) ;
-
-		// if the current state is the title screen and the user presses ESC
-		// go the game screen
-		if (m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
-		{
-			m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
-		}
-		else
-		{
-			// if the current state is the game screen and the user presses ESC, QUIT
-			PostQuitMessage(0);
-		}
-	}
 	if (pbPressedKeys[DIK_S])
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
+																			 &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
 		{
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
@@ -162,7 +131,8 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_W])
 	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
+																				&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
 		{
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
@@ -198,12 +168,12 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_P])
 	{
-		IMainWindow::TheWindow()->LockKey(DIK_P) ;
+		//IMainWindow::TheWindow()->LockKey(DIK_P) ;
 		m_pSound->ChangeMusicVolume(true, GS_MAIN_MENU_MUSIC);
 	}
 	if (pbPressedKeys[DIK_L])
 	{
-		IMainWindow::TheWindow()->LockKey(DIK_L) ;
+		//IMainWindow::TheWindow()->LockKey(DIK_L) ;
 		m_pSound->ChangeMusicVolume(false, GS_MAIN_MENU_MUSIC);
 	}
 
@@ -262,37 +232,6 @@ void cGame::ProcessInput( const long xDelta,
 	{
 		HandlePaddleAI(fElapsedTime);
 	}
-
-	cString strZoneName;
-	if (m_pMouseZones->CheckZones(IMainWindow::TheWindow()->GetAbsXMousePos(), IMainWindow::TheWindow()->GetAbsYMousePos(), pbMouseButtons, strZoneName))
-	{
-		if(m_pStateMachine->GetCurrentState() == cStateTitleScreen::Instance())
-		{
-			if (strZoneName == "Title Screen")
-			{
-				m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
-			}
-		}
-
-		if (m_pStateMachine->GetCurrentState() == cStateMenuScreen::Instance())
-		{
-			if (strZoneName == "Single Player")
-			{
-				m_bSinglePlayer = true;
-				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
-			}
-
-			if (strZoneName == "Two Player")
-			{
-				m_bSinglePlayer = false;
-				m_pStateMachine->ChangeState(cStatePlayGame::Instance());
-			}
-			if (strZoneName == "Quit")
-			{
-				PostQuitMessage(0);
-			}
-		}
-	}
 }
 // ***************************************************************
 
@@ -301,22 +240,24 @@ void cGame::ProcessInput( const long xDelta,
 // ***************************************************************
 void cGame::Cleanup()
 {
+	m_pPongView->OnDestroyDevice();
+	SAFE_DELETE(m_pPongView);
+
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
-		SAFE_DELETE(m_pGameElements[i]);
+		if (m_pGameElements[i])
+		{
+			m_pGameElements[i]->Cleanup();
+			SAFE_DELETE(m_pGameElements[i]);
+		}
 	}
 
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
-	SAFE_DELETE(m_pMouseZones);
-	SAFE_DELETE(m_pTableSprite);
 
-	SAFE_DELETE(m_pTitleScreenSprite);
-	SAFE_DELETE(m_pCursorSprite);
-	SAFE_DELETE(m_pSinglePlayerSprite);
-	SAFE_DELETE(m_pTwoPlayerSprite);
-	SAFE_DELETE(m_pQuitSprite);
 	SAFE_DELETE(m_pSound);
+
+	SAFE_DELETE(m_pGameTimer);
 
 	if(ICollisionChecker::TheCollisionChecker())
 		ICollisionChecker::TheCollisionChecker()->Destroy();
@@ -446,8 +387,69 @@ cString cGame::GetGameTitle()
 	return "MPong";
 }
 
+float cGame::GetRunningTime()
+{
+	if(m_pGameTimer)
+		return m_pGameTimer->GetRunningTime();
+
+	return 0.f;
+}
+// ***************************************************************
+
+TICK cGame::GetRunningTicks()
+{
+	if(m_pGameTimer)
+		return m_pGameTimer->GetRunningTicks();
+
+	return 0;
+}
+// ***************************************************************
+
+// ***************************************************************
+// the message loop
+// ***************************************************************
+void cGame::Run()
+{
+	MSG Msg ;
+
+	m_pGameTimer = ITimer::CreateTimer();
+	m_pGameTimer->Start();
+
+	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
+	// run till completed
+	while (Msg.message!=WM_QUIT)
+	{
+		// is there a message to process?
+		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
+		{
+			// dispatch the message
+			TranslateMessage(&Msg) ;
+			DispatchMessage(&Msg) ;
+		}
+		else
+		{
+			//No message to process?
+			// Then do your game stuff here
+			OnUpdate();
+			Render(m_pGameTimer->GetRunningTicks(), m_pGameTimer->GetElapsedTime());
+		}
+	}
+}
+// ***************************************************************
+
+
+// ***************************************************************
+// Display the FPS
+// ***************************************************************
+float cGame::GetFPS()
+{
+	return m_pGameTimer->GetFPS();
+}
+// ***************************************************************
+
 IBaseApp * IGame::CreateGame()
 {
 	cGame * pGame = DEBUG_NEW cGame();
 	return pGame;
 }
+// ***************************************************************

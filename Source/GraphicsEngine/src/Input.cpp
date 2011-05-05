@@ -130,6 +130,7 @@ void cInput::CreateKeyboard()
 
 	// set the control over the keyboard
 	m_pdInputKeyboard->SetCooperativeLevel(m_hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+	DetectKeys();
 }
 // ***************************************************************
 
@@ -153,6 +154,10 @@ void cInput::CreateMouse()
 	ScreenToClient( m_hWnd, &pt );
 	m_lPosX = pt.x;
 	m_lPosY = pt.y;
+
+	DetectMouseMovement();
+
+
 }
 // ***************************************************************
 

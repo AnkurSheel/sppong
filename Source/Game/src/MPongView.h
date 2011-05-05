@@ -1,5 +1,5 @@
 // ***************************************************************
-//  GameFlowStateMachine   version:  1.0   Ankur Sheel  date: 2011/01/21
+//  MPongView   version:  1.0   Ankur Sheel  date: 2011/05/02
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,19 +7,21 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef GameFlowStateMachine_h__
-#define GameFlowStateMachine_h__
+#ifndef MPongView_h__
+#define MPongView_h__
 
-#include "fsm\statemachine.h"
-#include "Game.h"
+#include "HumanView.h"
 
-class IGameFlowStates;
+class cGame;
 
-class cGameFlowStateMachine :
-	public AI::cStateMachine<cGame>
+class cMPongView : public GameBase::cHumanView
 {
 public:
-	cGameFlowStateMachine(cGame *pGame);
-	~cGameFlowStateMachine(void);
+	cMPongView();
+	~cMPongView();
+	void OnUpdate(cGame * pGame, float fElapsedTime);
+	void OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime);
+private:
+	bool m_bDisplayFPS;
 };
-#endif // GameFlowStateMachine_h__
+#endif // MPongView_h__

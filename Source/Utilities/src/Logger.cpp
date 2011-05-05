@@ -216,4 +216,6 @@ void ILogger::Destroy()
 {
 	s_pLogger->Close();
 	delete this;
+	s_pLogger = NULL;
+
 }

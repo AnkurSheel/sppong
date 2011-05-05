@@ -17,17 +17,14 @@ namespace Base
 	class cString;
 }
 
-namespace Graphics
+namespace Utilities
 {
-	class ISprite;
-	class IMouseZone;
+	class ITimer;
 }
-
 class cScore;
-
 class cPongGameElement;
-
 class cGameFlowStateMachine;
+class cMPongView;
 
 namespace MySound
 {
@@ -65,34 +62,32 @@ private:
 public:
 	cGame();
 	~cGame();
-	void Render();
-	void OnResetDevice();
-	void OnLostDevice();
-	void OnInit(LPDIRECT3DDEVICE9 const pDevice, const UINT iDisplayHeight, const UINT iDisplayWidth);
+	void Render(TICK tickCurrent, float fElapsedTime);
+	void OnInit(const HINSTANCE hInstance, const HWND hwnd, const UINT iDisplayHeight, const UINT iDisplayWidth, const bool bFullScreen);
 	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
 	void Cleanup();
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
-	Base::cString GetGameTitle();	
+	void Run();
+	Base::cString GetGameTitle();
+	TICK GetRunningTicks();
+	float GetRunningTime();
+	void OnUpdate();
+	float GetFPS();
+
+	cScore*						m_pScore;				// ptr to Scoreboard
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
 	UINT						m_iDisplayHeight ;		// the display height of the window
 	UINT						m_iDisplayWidth ;		// the display width of the window
 	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
-	cScore*						m_pScore;				// ptr to Scoreboard
-	Graphics::ISprite *			m_pTitleScreenSprite;	// the sprite for the title screen
-	Graphics::ISprite *			m_pCursorSprite;		// the sprite for the title screen
-	Graphics::ISprite *			m_pSinglePlayerSprite;	// the sprite for the Single Player Menu
-	Graphics::ISprite *			m_pTwoPlayerSprite;		// the sprite for the Single Player Menu
-	Graphics::ISprite *			m_pQuitSprite;		// the sprite for the Single Player Menu
-	Graphics::ISprite *			m_pTableSprite;		// the sprite for the Single Player Menu
 	MySound::ISound *			m_pSound;
-	bool						m_bDisplayFPS;
 	bool						m_bSinglePlayer;
 	cGameFlowStateMachine *		m_pStateMachine;
-	Graphics::IMouseZone *		m_pMouseZones;
+	cMPongView	*				m_pPongView;
+	Utilities::ITimer *			m_pGameTimer;
 
 private:
 	friend class cStateTitleScreen;

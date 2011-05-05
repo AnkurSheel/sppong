@@ -18,9 +18,6 @@ struct Telegram;
 class IGameFlowStates
 	: public AI::IState<cGame>
 {
-public:
-	virtual void OnLostDevice(cGame *pGame) = 0;
-	virtual void OnResetDevice(cGame *pGame) = 0;
 };
 
 class cStateTitleScreen 
@@ -28,7 +25,7 @@ class cStateTitleScreen
 {
 private:
 	cStateTitleScreen();
-	float m_fCurrentTime;
+	TICK m_tickCurrentTime;
 public:
 	~cStateTitleScreen();
 	static cStateTitleScreen *Instance();
@@ -36,8 +33,6 @@ public:
 	void Execute(cGame *pGame);
 	void Exit(cGame *pGame);
 	bool OnMessage(cGame *pGame, const Telegram &msg);
-	void OnLostDevice(cGame *pGame);
-	void OnResetDevice(cGame *pGame);
 };
 
 class cStateMenuScreen 
@@ -45,9 +40,6 @@ class cStateMenuScreen
 {
 private:
 	cStateMenuScreen();
-	int		m_iSinglePlayerSpritePosY;
-	int		m_iTwoPlayerSpritePosY;
-	int		m_iQuitSpritePosY;
 public:
 	~cStateMenuScreen();
 	static cStateMenuScreen *Instance();
@@ -55,8 +47,6 @@ public:
 	void Execute(cGame *pGame);
 	void Exit(cGame *pGame);
 	bool OnMessage(cGame *pGame, const Telegram &msg);
-	void OnLostDevice(cGame *pGame);
-	void OnResetDevice(cGame *pGame);
 };
 
 class cStatePlayGame 
@@ -71,8 +61,5 @@ public:
 	virtual void Execute(cGame *pGame);
 	virtual void Exit(cGame *pGame);
 	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
-	void OnLostDevice(cGame *pGame);
-	void OnResetDevice(cGame *pGame);
-
 };
 #endif // GameFlowStates_h__
