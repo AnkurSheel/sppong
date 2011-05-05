@@ -10,7 +10,6 @@
 #ifndef HumanView_h__
 #define HumanView_h__
 
-
 #include "GameBaseDefines.h"
 #include "GameView.hxx"
 #include <list>
@@ -62,8 +61,9 @@ namespace GameBase
 		void HandleLostDevice(HRESULT hr);
 		void GetInput()  const;
 		void LockKey( const DWORD dwKey );
-		HRESULT OnBeginRender(TICK tickCurrent);
-		void OnEndRender(const HRESULT hr);
+		GAMEBASE_API HRESULT OnBeginRender(TICK tickCurrent);
+		GAMEBASE_API void OnEndRender(const HRESULT hr);
+		GAMEBASE_API HRESULT RenderPrivate( HRESULT & hr );
 
 
 	protected:
@@ -76,11 +76,7 @@ namespace GameBase
 		Graphics::IInput *				m_pInput;				// pointer to input class
 		Graphics::ISprite *				m_pCursorSprite;		// the sprite for the cursor
 		Graphics::IMouseZone *			m_pMouseZones;
-
-		//IFont *							m_pFont;
-		//ISprite *						m_pTextSprite;
-		//GameBase::IBaseApp *						m_pGameApp;				// pointer to the game app
-		//Graphics::IFPS *				m_pFPS;
+		Graphics::IFPS *				m_pFPS;
 	};
 }
 #endif // HumanView_h__

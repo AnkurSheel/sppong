@@ -78,15 +78,16 @@ public:
 	Base::cString GetGameTitle();
 	TICK GetRunningTime();
 	void OnUpdate();
+	float GetFPS();
+
+	cScore*						m_pScore;				// ptr to Scoreboard
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
 	UINT						m_iDisplayHeight ;		// the display height of the window
 	UINT						m_iDisplayWidth ;		// the display width of the window
 	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
-	cScore*						m_pScore;				// ptr to Scoreboard
 	MySound::ISound *			m_pSound;
-	bool						m_bDisplayFPS;
 	bool						m_bSinglePlayer;
 	cGameFlowStateMachine *		m_pStateMachine;
 	cMPongView	*				m_pPongView;

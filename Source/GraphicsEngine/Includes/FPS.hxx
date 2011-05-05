@@ -10,18 +10,20 @@
 #ifndef FPS_hxx__
 #define FPS_hxx__
 
+#include "GraphicEngineDefines.h"
+
 namespace Graphics
 {
 	class IFPS
 	{
 	public:
 		virtual ~IFPS(){}
-		virtual void Render(LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue) = 0;
+		virtual void Render(const float fFPSValue) = 0;
 		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const D3DXVECTOR3& vInitialPos, const D3DXCOLOR& color) = 0;
 		virtual void OnResetDevice(LPDIRECT3DDEVICE9 const pDevice) = 0;
 		virtual void OnLostDevice() = 0;
 		virtual void Cleanup() = 0;
-		static IFPS * CreateFPS();
+		GRAPHIC_API static IFPS * CreateFPS();
 	};
 }
 #endif // FPS_h__

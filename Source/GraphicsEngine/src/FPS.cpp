@@ -11,6 +11,7 @@
 #include "FPS.h"
 #include "Font.hxx"
 #include "Constants.h"
+#include "DxBase.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -37,10 +38,10 @@ cFPS::~cFPS()
 // ***************************************************************
 // Display the FPS
 // ***************************************************************
-void cFPS::Render( LPDIRECT3DDEVICE9 const pDevice, const float fFPSValue )
+void cFPS::Render(const float fFPSValue)
 {
 	m_strValue = cString(20, "%0.2f", fFPSValue);
-	m_pFont->DisplayText(pDevice, m_strValue.GetData(), &m_BoundingRect, &m_dwFormat, m_FontColor);
+	m_pFont->DisplayText(IDXBase::GetInstance()->GetDevice(), m_strValue.GetData(), &m_BoundingRect, &m_dwFormat, m_FontColor);
 }
 // ***************************************************************
 

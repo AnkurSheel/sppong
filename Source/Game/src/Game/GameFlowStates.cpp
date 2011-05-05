@@ -250,10 +250,6 @@ void cStatePlayGame::Execute(cGame *pGame)
 	{
 		pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->GetElapsedTime());
 	}
-
-	pGame->m_pScore[0].Render(pGame->m_pD3dDevice);
-	pGame->m_pScore[1].Render(pGame->m_pD3dDevice);
-
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
 }

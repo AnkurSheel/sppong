@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "Score.h"
 #include "font.hxx"
+#include "DxBase.hxx"
 #include "Constants.h"
 
 using namespace Graphics;
@@ -37,9 +38,9 @@ cScore::~cScore()
 // ***************************************************************
 // Renders the text
 // ***************************************************************
-void cScore::Render( LPDIRECT3DDEVICE9 const pDevice )
+void cScore::Render()
 {
-	m_pFont->DisplayText(pDevice, m_strValue, &m_BoundingRect, &m_dwFormat, TURQUOISE );
+	m_pFont->DisplayText(IDXBase::GetInstance()->GetDevice(), m_strValue, &m_BoundingRect, &m_dwFormat, TURQUOISE );
 }
 
 // ***************************************************************

@@ -39,7 +39,6 @@ namespace Graphics
 		~cMainWindow() ;
 		
 		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) ;
-		void DisplayFPS();
 		Utilities::IResCache * GetResourceCache() const;
 		int GetClientWindowHeight();
 		int GetClientWindowWidth();

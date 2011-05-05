@@ -20,5 +20,8 @@ public:
 	cMPongView();
 	~cMPongView();
 	void OnUpdate(cGame * pGame, float fElapsedTime);
+	void OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime);
+private:
+	bool m_bDisplayFPS;
 };
 #endif // MPongView_h__

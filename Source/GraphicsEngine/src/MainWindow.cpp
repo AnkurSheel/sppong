@@ -265,15 +265,6 @@ void cMainWindow::MoveWin()
 }
 // ***************************************************************
 
-// ***************************************************************
-// Display the FPS
-// ***************************************************************
-void cMainWindow::DisplayFPS()
-{
-	//m_pFPS->Render(IDXBase::GetInstance()->GetDevice(), m_pGameTimer->GetFPS());
-}
-// ***************************************************************
-
 IResCache * cMainWindow::GetResourceCache() const
 {
 	return m_pResourceCache;

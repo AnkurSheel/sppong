@@ -25,7 +25,7 @@ using namespace Base;
 
 cHumanView::cHumanView() :
 m_bRunFullSpeed(true)
-//, m_pFPS(NULL)
+, m_pFPS(NULL)
 , m_pInput(NULL)
 , m_pMouseZones(NULL)
 , m_pProcessManager(NULL)
@@ -50,11 +50,10 @@ HRESULT cHumanView::OnResetDevice()
 		}
 		m_pCursorSprite->OnResetDevice();
 
-
-		/*if (m_pFPS)
+		if (m_pFPS)
 		{
 			m_pFPS->OnResetDevice(pDevice);
-		}*/
+		}
 	}
 	return hr;
 }
@@ -94,10 +93,8 @@ void cHumanView::OnEndRender(const HRESULT hr)
 	IDXBase::GetInstance()->EndRender(hr);
 }
 
-void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
+HRESULT cHumanView::RenderPrivate( HRESULT & hr )
 {
-	GetInput();
-	HRESULT hr = OnBeginRender(tickCurrent);
 	if (FAILED(hr))
 	{
 		OnResetDevice();
@@ -110,10 +107,6 @@ void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
 		}
 		m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
 		m_pCursorSprite->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
-		
-
-		// render the game graphics
-		//	m_pGameApp->Render();
 
 		/*CDXUTTextHelper txtHelper( m_pFont, m_pTextSprite, 15 ); 
 		VRenderText(txtHelper); 
@@ -126,6 +119,17 @@ void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
 		} 
 		}*/
 
+	}
+	return hr;
+}
+
+void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
+{
+	HRESULT hr;
+	hr = OnBeginRender(tickCurrent);
+	RenderPrivate(hr);
+	if (SUCCEEDED(hr))
+	{
 		OnEndRender(hr);
 	}
 }
@@ -141,8 +145,8 @@ void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iCl
 	m_pCursorSprite->Init(IDXBase::GetInstance()->GetDevice(), "resources\\Sprites\\cursor.png");
 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 
-	//m_pFPS = IFPS::CreateFPS();
-	//m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)iClientWidth/2, 10.0f, 0.0f));
+	m_pFPS = IFPS::CreateFPS();
+	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)iClientWidth/2, 10.0f, 0.0f), BLACK);
 
 }
 
@@ -154,11 +158,10 @@ void cHumanView::OnLostDevice()
 	}
 	m_pCursorSprite->OnLostDevice();
 	
-	/*if (m_pFPS)
+	if (m_pFPS)
 	{
-	m_pFPS->OnLostDevice();
-	}*/
-
+		m_pFPS->OnLostDevice();
+	}
 }
 
 void cHumanView::OnDestroyDevice()
@@ -172,7 +175,7 @@ void cHumanView::OnDestroyDevice()
 	SAFE_DELETE(m_pCursorSprite);
 	SAFE_DELETE(m_pMouseZones);
 
-	//SAFE_DELETE(m_pFPS);
+	SAFE_DELETE(m_pFPS);
 
 }
 // ***************************************************************
@@ -239,6 +242,7 @@ bool cHumanView::CheckZones(cString & strHitZoneName )
 
 void cHumanView::OnUpdate(float fElapsedTime)
 {
+	GetInput();
 	if(m_pProcessManager)
 	{
 		m_pProcessManager->UpdateProcesses(fElapsedTime);

@@ -13,12 +13,15 @@
 #include "DxBase.hxx"
 #include "Game/Game.h"
 #include "Input.hxx"
+#include "FPS.hxx"
+#include "Game/Elements/Score.h"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace GameBase;
 
 cMPongView::cMPongView()
+: m_bDisplayFPS(false)
 {
 }
 
@@ -37,7 +40,7 @@ void cMPongView::OnUpdate(cGame * pGame, float fElapsedTime)
 		// lock the F2 key
 		m_pInput->LockKey(DIK_F2) ;
 
-		//m_bDisplayFPS = !m_bDisplayFPS;
+		m_bDisplayFPS = !m_bDisplayFPS;
 	}
 	if (pbPressedKeys[DIK_ESCAPE])
 	{
@@ -49,4 +52,26 @@ void cMPongView::OnUpdate(cGame * pGame, float fElapsedTime)
 
 	// process the user inputs according to game logic
 	pGame->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), pbPressedKeys, m_pInput->GetPressedButtons(), fElapsedTime) ;
+}
+
+void cMPongView::OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
+{
+	HRESULT hr;
+	hr = OnBeginRender(tickCurrent);
+	RenderPrivate(hr);
+	if (SUCCEEDED(hr))
+	{
+		if (m_bDisplayFPS)
+		{
+			m_pFPS->Render(pGame->GetFPS());
+
+		}
+		if (pGame->m_pScore)
+		{
+			pGame->m_pScore[0].Render();
+			pGame->m_pScore[1].Render();
+		}
+		OnEndRender(hr);
+	}
+
 }

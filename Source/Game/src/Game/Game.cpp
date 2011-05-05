@@ -34,7 +34,6 @@ using namespace Utilities;
 // ***************************************************************
 cGame::cGame()
 : m_pScore(NULL)
-, m_bDisplayFPS(false)
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
 , m_bSinglePlayer(false)
@@ -71,11 +70,7 @@ void cGame::OnUpdate()
 // ***************************************************************
 void cGame::Render(TICK tickCurrent, float fElapsedTime)
 {
-	m_pPongView->OnRender(tickCurrent, fElapsedTime);
-	if (m_bDisplayFPS)
-	{
-		IMainWindow::TheWindow()->DisplayFPS();
-	}
+	m_pPongView->OnRender(this, tickCurrent, fElapsedTime);
 }
 // ***************************************************************
 
@@ -431,7 +426,16 @@ void cGame::Run()
 		}
 	}
 }
+// ***************************************************************
 
+
+// ***************************************************************
+// Display the FPS
+// ***************************************************************
+float cGame::GetFPS()
+{
+	return m_pGameTimer->GetFPS();
+}
 // ***************************************************************
 
 IBaseApp * IGame::CreateGame()
