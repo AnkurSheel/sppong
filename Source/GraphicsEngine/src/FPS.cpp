@@ -70,8 +70,7 @@ void cFPS::Init( LPDIRECT3DDEVICE9 const pDevice,
 // ***************************************************************
 void cFPS::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice )
 {
-	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(pDevice, 14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
+	m_pFont->OnResetDevice();
 }
 // ***************************************************************
 
@@ -80,7 +79,7 @@ void cFPS::OnResetDevice( LPDIRECT3DDEVICE9 const pDevice )
 // ***************************************************************
 void cFPS::OnLostDevice()
 {
-	SAFE_DELETE(m_pFont);
+	m_pFont->OnLostDevice();
 }
 // ***************************************************************
 

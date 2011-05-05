@@ -91,8 +91,6 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	m_uiHeight = imageInfo.Height;
 	m_uiWidth = imageInfo.Width;
 
-	m_bIsVisible = true;
-
 	SAFE_DELETE(pResource);
 }
 // ***************************************************************

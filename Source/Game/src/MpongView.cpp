@@ -64,9 +64,7 @@ void cMPongView::OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
 		if (m_bDisplayFPS)
 		{
 			m_pFPS->Render(pGame->GetFPS());
-
 		}
 		OnEndRender(hr);
 	}
-
 }
