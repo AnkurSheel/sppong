@@ -31,7 +31,7 @@ namespace Graphics
 		~cSprite();
 		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
-		void DrawSprite(LPDIRECT3DDEVICE9 const pDevice, const DWORD dwFlags = NULL, const D3DCOLOR& tint = WHITE, const RECT* pSrcRect = NULL);
+		void Render(LPDIRECT3DDEVICE9 const pDevice);
 		void OnLostDevice();
 		void OnResetDevice();
 		UINT GetScaledHeight() const;
@@ -40,6 +40,7 @@ namespace Graphics
 		void SetPosition(const D3DXVECTOR3& vPosition);
 		bool IsVisible();
 		void SetVisible(const bool bVisible);
+		void cSprite::SetFlags(const DWORD dwFlags);
 	private:
 		void Cleanup();
 		void MakeTransformMatrix();
@@ -55,6 +56,9 @@ namespace Graphics
 		D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
 		Base::cString		m_strFilename;
 		bool				m_bIsVisible;
+		DWORD				m_dwFlags;
+		D3DCOLOR			m_tintColor;
+		RECT *				m_pSrcRect;
 	};
 #include "Sprite.inl"
 }

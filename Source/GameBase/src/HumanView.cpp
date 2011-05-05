@@ -17,6 +17,7 @@
 #include "Sprite.hxx"
 #include "MouseZone.hxx"
 #include "myString.h"
+#include "ScreenElement.hxx"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -105,13 +106,13 @@ HRESULT cHumanView::RenderPrivate( HRESULT & hr )
 		{
 			if ((*i)->IsVisible())
 			{
-				(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
+				(*i)->Render(IDXBase::GetInstance()->GetDevice());
 			}
 		}
 		if (m_pCursorSprite->IsVisible())
 		{
 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
-			m_pCursorSprite->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
+			m_pCursorSprite->Render(IDXBase::GetInstance()->GetDevice());
 		}
 	}
 	return hr;
@@ -138,6 +139,7 @@ void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iCl
 	m_pCursorSprite = ISprite::CreateSprite();
 	m_pCursorSprite->Init(IDXBase::GetInstance()->GetDevice(), "resources\\Sprites\\cursor.png");
 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
+	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
 	m_pFPS = IFPS::CreateFPS();
 	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)iClientWidth/2, 10.0f, 0.0f), BLACK);
@@ -188,21 +190,25 @@ void cHumanView::OnAttach(GameViewId id)
 	m_idView = id;
 }
 
-void cHumanView::PushElement(ISprite * pScreenElement, const cString & strZoneName)
+void cHumanView::PushElement(IScreenElement * pScreenElement, const cString & strZoneName)
 {
 	m_pElementList.push_back(pScreenElement);
 	if(!strZoneName.IsEmpty())
 	{
-		m_pMouseZones->AddZone(strZoneName,
-								(int)pScreenElement->GetPosition().x,
-								(int)pScreenElement->GetPosition().y,
-								pScreenElement->GetScaledWidth(),
-								pScreenElement->GetScaledHeight(),
-								LEFTBUTTON);
+		ISprite * pSprite = dynamic_cast<ISprite *>(pScreenElement);
+		if(pSprite)
+		{
+			m_pMouseZones->AddZone(strZoneName,
+									(int)pSprite->GetPosition().x,
+									(int)pSprite->GetPosition().y,
+									pSprite->GetScaledWidth(),
+									pSprite->GetScaledHeight(),
+									LEFTBUTTON);
+		}
 	}
 }
 
-void cHumanView::PopElement(ISprite * pScreenElement)
+void cHumanView::PopElement(IScreenElement * pScreenElement)
 {
 	m_pElementList.remove(pScreenElement);
 }
@@ -211,8 +217,8 @@ void cHumanView::RemoveElements()
 {
 	while (!m_pElementList.empty())
 	{
-		ISprite * pSprite = m_pElementList.front();
-		SAFE_DELETE(pSprite);
+		IScreenElement * pScreenElement = m_pElementList.front();
+		SAFE_DELETE(pScreenElement);
 		m_pElementList.pop_front();
 	}
 }

@@ -51,7 +51,7 @@ void cStateTitleScreen::Enter(cGame *pGame)
 
 	pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
 	pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
-
+	pTitleScreenSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pTitleScreenSprite, "");
 }
 // ***************************************************************
@@ -108,6 +108,7 @@ void cStateMenuScreen::Enter(cGame *pGame)
 	pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
 	pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
 	pTitleScreenSprite->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pTitleScreenSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pTitleScreenSprite, "");
 
 	int iSinglePlayerSpritePosY = pTitleScreenSprite->GetScaledHeight() + pGame->m_iDisplayHeight/5;
@@ -116,6 +117,7 @@ void cStateMenuScreen::Enter(cGame *pGame)
 	pSinglePlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 	pSinglePlayerSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pSinglePlayerSprite->GetScaledWidth()/2, 
 												 (float)iSinglePlayerSpritePosY, 0.0f));
+	pSinglePlayerSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSinglePlayerSprite, "Single Player");
 
 	int iTwoPlayerSpritePosY = iSinglePlayerSpritePosY + pSinglePlayerSprite->GetScaledHeight() + pGame->m_iDisplayHeight/15;
@@ -124,6 +126,7 @@ void cStateMenuScreen::Enter(cGame *pGame)
 	pTwoPlayerSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 	pTwoPlayerSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pTwoPlayerSprite->GetScaledWidth()/2, 
 											(float)iTwoPlayerSpritePosY, 0.0f));
+	pTwoPlayerSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pTwoPlayerSprite, "Two Player");
 
 	int iQuitSpritePosY = iTwoPlayerSpritePosY + pTwoPlayerSprite->GetScaledHeight() + pGame->m_iDisplayHeight/15;
@@ -132,6 +135,7 @@ void cStateMenuScreen::Enter(cGame *pGame)
 	pQuitSprite->SetSize((float)pGame->m_iDisplayWidth/10, (float)pGame->m_iDisplayHeight/10);
 	pQuitSprite->SetPosition(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2 - pQuitSprite->GetScaledWidth()/2, 
 										(float)iQuitSpritePosY, 0.0f));
+	pQuitSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pQuitSprite, "Quit");
 	
 	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
@@ -204,35 +208,48 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pTableSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Table.jpg");
 	pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
 	pTableSprite->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pTableSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pTableSprite, "");
 
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
 	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
 
+	ISprite * pSprite = NULL;
+
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
-	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite()), "");
+	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite());
+	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
+	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
-	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite()), "");
+	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
+	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
+	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "resources\\Sprites\\wall.png");
-	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite()), "");
+	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite());
+	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
+	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "resources\\Sprites\\wall.png");
-	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite()), "");
+	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite());
+	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
+	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	pGame->m_pGameElements[pGame->PGE_BALL]->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\ball.png");
-	pGame->m_pPongView->PushElement(const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite()), "");
+	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
+	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
+	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pScore = DEBUG_NEW cScore[2]();
 	pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	pGame->m_pScore[1].Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth, 0.0f, 0.0f));
-
+	
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_WALL_COLLISION, "resources\\Sounds\\SFX\\collision1.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");

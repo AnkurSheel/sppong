@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Includes\ScreenElement.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Sprite.cpp"
 				>
 			</File>

@@ -29,6 +29,9 @@ cSprite::cSprite()
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
 , m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
 , m_bIsVisible(true)
+, m_dwFlags(NULL)
+, m_tintColor(WHITE)
+, m_pSrcRect(NULL)
 {
 	D3DXMatrixIdentity(&m_mScaleMatrix) ; 
 	D3DXMatrixScaling(&m_mScaleMatrix, m_vScale.x, m_vScale.y, m_vScale.z);
@@ -115,14 +118,11 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 // ***************************************************************
 // Render the sprite
 // ***************************************************************
-void cSprite::DrawSprite( LPDIRECT3DDEVICE9 const pDevice, 
-						 const DWORD dwFlags /*= NULL*/, 
-						 const D3DCOLOR& tint /*= WHITE*/, 
-						 const RECT* pSrcRect /*= NULL*/ )
+void cSprite::Render( LPDIRECT3DDEVICE9 const pDevice)
 {
 	// draw the sprite
-	m_pSprite->Begin(dwFlags);
-	m_pSprite->Draw(m_pTexture, pSrcRect, NULL, NULL, tint); 
+	m_pSprite->Begin(m_dwFlags);
+	m_pSprite->Draw(m_pTexture, m_pSrcRect, NULL, NULL, m_tintColor); 
 	m_pSprite->End();
 }
 // ***************************************************************
@@ -182,6 +182,12 @@ void cSprite::SetVisible(const bool bVisible)
 {
 	m_bIsVisible = bVisible;
 }
+
+void cSprite::SetFlags(const DWORD dwFlags)
+{
+	m_dwFlags = dwFlags;
+}
+
 // ***************************************************************
 // Creates a Sprite
 // ***************************************************************
