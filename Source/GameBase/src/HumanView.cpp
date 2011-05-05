@@ -13,7 +13,7 @@
 #include "ProcessManager.hxx"
 #include "BaseApp.hxx"
 #include "Input.hxx"
-#include "FPS.hxx"
+#include "Font.hxx"
 #include "Sprite.hxx"
 #include "MouseZone.hxx"
 #include "myString.h"
@@ -24,9 +24,9 @@ using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
 
-cHumanView::cHumanView() :
-m_bRunFullSpeed(true)
-, m_pFPS(NULL)
+cHumanView::cHumanView()
+: m_bRunFullSpeed(false)
+, m_pFont(NULL)
 , m_pInput(NULL)
 , m_pMouseZones(NULL)
 , m_pProcessManager(NULL)
@@ -51,9 +51,9 @@ HRESULT cHumanView::OnResetDevice()
 		}
 		m_pCursorSprite->OnResetDevice();
 
-		if (m_pFPS)
+		if (m_pFont)
 		{
-			m_pFPS->OnResetDevice(pDevice);
+			m_pFont->OnResetDevice();
 		}
 	}
 	return hr;
@@ -141,8 +141,18 @@ void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iCl
 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
-	m_pFPS = IFPS::CreateFPS();
-	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)iClientWidth/2, 10.0f, 0.0f), BLACK);
+	m_pFont = IFont::CreateMyFont();
+	m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), 14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
+
+	RECT boundingRect;
+	boundingRect.left = iClientWidth/2- 75;
+	boundingRect.right = boundingRect.left + 150;
+	boundingRect.top  = 10;
+	boundingRect.bottom = boundingRect.top + 30;
+	m_pFont->SetRect(boundingRect);
+
+	m_pFont->SetFormat(DT_LEFT | DT_TOP);
+	m_pFont->SetTextColor(WHITE);
 }
 
 void cHumanView::OnLostDevice()
@@ -153,9 +163,9 @@ void cHumanView::OnLostDevice()
 	}
 	m_pCursorSprite->OnLostDevice();
 	
-	if (m_pFPS)
+	if (m_pFont)
 	{
-		m_pFPS->OnLostDevice();
+		m_pFont->OnLostDevice();
 	}
 }
 
@@ -170,7 +180,7 @@ void cHumanView::OnDestroyDevice()
 	SAFE_DELETE(m_pCursorSprite);
 	SAFE_DELETE(m_pMouseZones);
 
-	SAFE_DELETE(m_pFPS);
+	SAFE_DELETE(m_pFont);
 
 }
 // ***************************************************************

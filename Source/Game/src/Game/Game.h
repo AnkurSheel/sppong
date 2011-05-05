@@ -76,7 +76,8 @@ public:
 	void CheckForCollisions();
 	void Run();
 	Base::cString GetGameTitle();
-	TICK GetRunningTime();
+	TICK GetRunningTicks();
+	float GetRunningTime();
 	void OnUpdate();
 	float GetFPS();
 

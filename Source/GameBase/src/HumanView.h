@@ -27,7 +27,7 @@ namespace Graphics
 {
 	class IScreenElement;
 	class IInput;
-	class IFPS;
+	class IFont;
 	class IMouseZone;
 	class ISprite;
 }
@@ -77,7 +77,7 @@ namespace GameBase
 		Graphics::IInput *				m_pInput;				// pointer to input class
 		Graphics::ISprite  *			m_pCursorSprite;		// the sprite for the cursor
 		Graphics::IMouseZone *			m_pMouseZones;
-		Graphics::IFPS *				m_pFPS;
+		Graphics::IFont *				m_pFont;
 	};
 }
 #endif // HumanView_h__

@@ -388,13 +388,23 @@ cString cGame::GetGameTitle()
 	return "MPong";
 }
 
-TICK cGame::GetRunningTime()
+float cGame::GetRunningTime()
 {
 	if(m_pGameTimer)
 		return m_pGameTimer->GetRunningTime();
 
+	return 0.f;
+}
+// ***************************************************************
+
+TICK cGame::GetRunningTicks()
+{
+	if(m_pGameTimer)
+		return m_pGameTimer->GetRunningTicks();
+
 	return 0;
 }
+// ***************************************************************
 
 // ***************************************************************
 // the message loop
@@ -422,7 +432,7 @@ void cGame::Run()
 			//No message to process?
 			// Then do your game stuff here
 			OnUpdate();
-			Render(m_pGameTimer->GetRunningTime(), m_pGameTimer->GetElapsedTime());
+			Render(m_pGameTimer->GetRunningTicks(), m_pGameTimer->GetElapsedTime());
 		}
 	}
 }

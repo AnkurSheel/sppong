@@ -310,22 +310,6 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="FPS"
-			>
-			<File
-				RelativePath=".\src\FPS.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FPS.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\FPS.hxx"
-				>
-			</File>
-		</Filter>
 		<File
 			RelativePath=".\src\CollisionChecker.cpp"
 			>

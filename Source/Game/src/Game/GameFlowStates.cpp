@@ -46,7 +46,7 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 
 void cStateTitleScreen::Enter(cGame *pGame)
 {
-	m_tickCurrentTime = pGame->GetRunningTime();
+	m_tickCurrentTime = pGame->GetRunningTicks();
 
 	ISprite * pTitleScreenSprite = ISprite::CreateSprite();
 
@@ -61,7 +61,7 @@ void cStateTitleScreen::Execute(cGame *pGame)
 {
 	//ankur - temp comment
 	//// display the title screen for 2 secs before displaying the menu screen
-	if(pGame->GetRunningTime() - m_tickCurrentTime > 2.0)
+	if(pGame->GetRunningTicks() - m_tickCurrentTime > 2)
  	{
  		pGame->m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
  	}

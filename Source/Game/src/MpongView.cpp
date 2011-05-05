@@ -13,12 +13,13 @@
 #include "DxBase.hxx"
 #include "Game/Game.h"
 #include "Input.hxx"
-#include "FPS.hxx"
+#include "Font.hxx"
 #include "Game/Elements/Score.h"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace GameBase;
+using namespace Base;
 
 cMPongView::cMPongView()
 : m_bDisplayFPS(false)
@@ -63,7 +64,8 @@ void cMPongView::OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
 	{
 		if (m_bDisplayFPS)
 		{
-			m_pFPS->Render(pGame->GetFPS());
+			m_pFont->SetText(cString(20, "%0.2f", pGame->GetFPS()));
+			m_pFont->Render(IDXBase::GetInstance()->GetDevice());
 		}
 		OnEndRender(hr);
 	}
