@@ -28,6 +28,7 @@ cSprite::cSprite()
 , m_uiWidth(0)
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
 , m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
+, m_bIsVisible(true)
 {
 	D3DXMatrixIdentity(&m_mScaleMatrix) ; 
 	D3DXMatrixScaling(&m_mScaleMatrix, m_vScale.x, m_vScale.y, m_vScale.z);
@@ -86,6 +87,8 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	//get the image height and width
 	m_uiHeight = imageInfo.Height;
 	m_uiWidth = imageInfo.Width;
+
+	m_bIsVisible = true;
 
 	SAFE_DELETE(pResource);
 }
@@ -170,6 +173,15 @@ void cSprite::MakeTransformMatrix()
 }
 // ***************************************************************
 
+bool cSprite::IsVisible()
+{
+	return m_bIsVisible;
+}
+
+void cSprite::SetVisible(const bool bVisible)
+{
+	m_bIsVisible = bVisible;
+}
 // ***************************************************************
 // Creates a Sprite
 // ***************************************************************

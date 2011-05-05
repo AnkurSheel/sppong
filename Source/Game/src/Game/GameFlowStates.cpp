@@ -240,6 +240,8 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
 	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
+	pGame->m_pPongView->SetCursorVisible(false);
+
 	OnResetDevice(pGame);
 }
 // ***************************************************************

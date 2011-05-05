@@ -55,6 +55,7 @@ namespace GameBase
 		GAMEBASE_API virtual void FreeZones();
 		GAMEBASE_API void OnUpdate(float fElapsedTime);
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
+		GAMEBASE_API void SetCursorVisible(bool bVisible);
 
 	protected:
 		void RenderText();

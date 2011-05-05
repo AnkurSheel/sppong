@@ -103,22 +103,16 @@ HRESULT cHumanView::RenderPrivate( HRESULT & hr )
 	{
 		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 		{
-			(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
+			if ((*i)->IsVisible())
+			{
+				(*i)->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
+			}
 		}
-		m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
-		m_pCursorSprite->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
-
-		/*CDXUTTextHelper txtHelper( m_pFont, m_pTextSprite, 15 ); 
-		VRenderText(txtHelper); 
-
-		m_ScreenElements.sort( SortBy_SharedPtr_Content<IScreenElement>()); 
-		for(ScreenElementList::iterator i=m_ScreenElements.begin(); i!=m_ScreenElements.end(); ++i)
-		{ 
-		if ( (*i)->VIsVisible() ) 
-		{ (*i)->VOnRender(fTime, fElapsedTime); 
-		} 
-		}*/
-
+		if (m_pCursorSprite->IsVisible())
+		{
+			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
+			m_pCursorSprite->DrawSprite(IDXBase::GetInstance()->GetDevice(), D3DXSPRITE_ALPHABLEND);
+		}
 	}
 	return hr;
 }
@@ -147,7 +141,6 @@ void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iCl
 
 	m_pFPS = IFPS::CreateFPS();
 	m_pFPS->Init(IDXBase::GetInstance()->GetDevice(), D3DXVECTOR3((float)iClientWidth/2, 10.0f, 0.0f), BLACK);
-
 }
 
 void cHumanView::OnLostDevice()
@@ -293,4 +286,12 @@ void cHumanView::GetInput() const
 void cHumanView::LockKey( const DWORD dwKey ) 
 {
 	m_pInput->LockKey(dwKey);
+}
+
+void cHumanView::SetCursorVisible( bool bVisible )
+{
+	if (m_pCursorSprite)
+	{
+		m_pCursorSprite->SetVisible(bVisible);
+	}
 }

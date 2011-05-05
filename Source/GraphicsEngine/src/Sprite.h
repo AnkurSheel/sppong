@@ -38,7 +38,8 @@ namespace Graphics
 		UINT GetScaledWidth() const;
 		D3DXVECTOR3 GetPosition() const;
 		void SetPosition(const D3DXVECTOR3& vPosition);
-	
+		bool IsVisible();
+		void SetVisible(const bool bVisible);
 	private:
 		void Cleanup();
 		void MakeTransformMatrix();
@@ -53,6 +54,7 @@ namespace Graphics
 		D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
 		D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
 		Base::cString		m_strFilename;
+		bool				m_bIsVisible;
 	};
 #include "Sprite.inl"
 }

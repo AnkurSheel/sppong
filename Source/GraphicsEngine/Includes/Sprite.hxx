@@ -34,6 +34,8 @@ namespace Graphics
 		GRAPHIC_API virtual void SetPosition(const D3DXVECTOR3& vPosition) = 0;
 		GRAPHIC_API virtual void OnLostDevice() = 0;
 		GRAPHIC_API virtual void OnResetDevice() = 0;
+		GRAPHIC_API virtual bool IsVisible() = 0;
+		GRAPHIC_API virtual void SetVisible(const bool bVisible) = 0;
 		GRAPHIC_API static ISprite * CreateSprite();
 	};
 }
