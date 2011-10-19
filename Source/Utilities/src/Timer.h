@@ -49,7 +49,5 @@ namespace Utilities
 	};
 
 #include "Timer.inl"
-
-	static cTimer * s_pTimer = NULL;
 }
 #endif // Timer_h__

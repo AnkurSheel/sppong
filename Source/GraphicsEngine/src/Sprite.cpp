@@ -153,7 +153,7 @@ void cSprite::OnResetDevice()
 // ***************************************************************
 void cSprite::Cleanup()
 {
-	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Texture : %s", m_strFilename.GetData()));
+	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Sprite : %s", m_strFilename.GetData()));
 
 	SAFE_DELETE(m_pSrcRect)
 	// release the texture

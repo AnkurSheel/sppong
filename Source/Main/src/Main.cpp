@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "Main.h"
 #include "MainWindow.hxx"
-#include "Game\Game.hxx"
+#include "BaseApp.hxx"
 #include "Checks.hxx"
 
 using namespace Utilities;
@@ -32,7 +32,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	ILogger::TheLogger()->StartConsoleWin(80,60, "");
 
-	pGame = IGame::CreateGame();
+	pGame = IBaseApp::CreateGame();
 
 #ifndef MULTIPLEINSTANCES
 	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->GetGameTitle()))

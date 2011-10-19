@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngine", "GraphicsEngine\GraphicsEngine.vcproj", "{00226575-C4FA-463A-941B-EA9FB2012521}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A} = {D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}

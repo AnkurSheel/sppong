@@ -30,10 +30,7 @@ cLogger::cLogger()
 
 cLogger::~cLogger()
 {
-	if (m_fStdOut)
-	{
-		fclose(m_fStdOut);
-	}
+	Close();
 	SAFE_DELETE(m_fXml);
 }
 // ***************************************************************
@@ -135,7 +132,11 @@ void cLogger::Log(const Base::cString & str)
 
 void cLogger::Close()
 {
-	s_pLogger->m_fXml->Save("log.xml");
+	m_fXml->Save("log.xml");
+	if (m_fStdOut)
+	{
+		fclose(m_fStdOut);
+	}
 }
 // ***************************************************************
 
@@ -219,3 +220,4 @@ void ILogger::Destroy()
 	s_pLogger = NULL;
 
 }
+// ***************************************************************

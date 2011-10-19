@@ -42,7 +42,7 @@ namespace Graphics
 		cMainWindow operator =(const cMainWindow&){}
 		void RegisterWin() ;
 		HWND CreateMyWindow(const int &nCmdShow, const Base::cString &  lpWindowTitle, const bool bFullScreen);
-		LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
+		LRESULT CALLBACK WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );	
 		void OnDestroyDevice();
 		void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd, const bool bFullScreen);
 		void GetWinRect() ;

@@ -12,8 +12,6 @@
 
 #include "GameBaseDefines.h"
 
-typedef struct IDirect3DDevice9 *LPDIRECT3DDEVICE9;
-
 namespace Base
 {
 	class cString;
@@ -21,6 +19,14 @@ namespace Base
 
 namespace GameBase
 {
+	struct AppMsg
+	{
+		HWND	m_hWnd;
+		UINT	m_uMsg;
+		WPARAM	m_wParam;
+		LPARAM	m_lParam;
+	};
+
 	class IBaseApp
 	{
 	public:
@@ -31,7 +37,10 @@ namespace GameBase
 		virtual void Restart() = 0;
 		virtual Base::cString GetGameTitle() = 0; 
 		virtual void OnUpdate() = 0;
+		GAMEBASE_API static void OnMsgProc(const AppMsg & msg){}
 		GAMEBASE_API virtual void Run() = 0;
+		GAMEBASE_API static IBaseApp * CreateGame();
+
 	};
 }
 #endif // BaseApp_hxx__

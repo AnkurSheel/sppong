@@ -391,6 +391,7 @@ bool cResourceChecker::CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq)
 void  cResourceChecker::Destroy()
 {
 	delete this;
+	s_pResourceChecker = NULL;
 }
 
 void  cResourceChecker::CreateResourceChecker()

@@ -447,9 +447,8 @@ float cGame::GetFPS()
 }
 // ***************************************************************
 
-IBaseApp * IGame::CreateGame()
+IBaseApp * IBaseApp::CreateGame()
 {
-	cGame * pGame = DEBUG_NEW cGame();
-	return pGame;
+	return DEBUG_NEW cGame();
 }
 // ***************************************************************

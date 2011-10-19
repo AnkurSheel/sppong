@@ -24,6 +24,7 @@ namespace Graphics
 		void DirectxInit() ;
 		void CreateDirectxDevice() ;
 		void SetParameters(const BOOL bFullScreen) ;
+		void Cleanup() ;
 
 	public:
 		cDXBase() ;
@@ -31,8 +32,6 @@ namespace Graphics
 
 		void Init(const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen) ;
 		HRESULT ResetDevice() ;
-
-		void Cleanup() ;
 		HRESULT BeginRender();
 		void EndRender(const HRESULT hr);
 		LPDIRECT3DDEVICE9 GetDevice() const;

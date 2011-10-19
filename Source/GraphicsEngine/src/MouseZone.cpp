@@ -96,9 +96,9 @@ bool cMouseZone::CheckZones( const int iPosX, const int iPosY, const bool* const
 		if (iter->m_bActive)
 		{
 			// check if the zone can handle the click that has taken place
-			if ((pbMouseButtons[LEFTBUTTON] && iter->m_eClickType == 0)
-				||(pbMouseButtons[RIGHTBUTTON] && iter->m_eClickType == 1)
-				||(pbMouseButtons[RIGHTBUTTON] || pbMouseButtons[LEFTBUTTON] && iter->m_eClickType == 2))
+			if ((pbMouseButtons[LEFTBUTTON] && iter->m_eClickType == LEFTBUTTON)
+				||(pbMouseButtons[RIGHTBUTTON] && iter->m_eClickType == RIGHTBUTTON)
+				||(pbMouseButtons[RIGHTBUTTON] || pbMouseButtons[LEFTBUTTON] && iter->m_eClickType == LEFTANDRIGHTBUTTON))
 			{
 				// check if the click is in the zone
 				if ((iter->m_iZoneXPos <= iPosX)

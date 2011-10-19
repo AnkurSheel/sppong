@@ -11,6 +11,7 @@
 #define Game_h__
 
 #include "Game.hxx"
+#include "BaseApp.h"
 
 namespace Base
 {

@@ -1,5 +1,5 @@
 // ***************************************************************
-//  Game   version:  1.0   Ankur Sheel  date: 2011/02/16
+//  GameBaseDefines   version:  1.0   Ankur Sheel  date: 2011/01/04
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,20 +7,14 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Game_hxx__
-#define Game_hxx__
+#ifndef GameBaseDefines_h__
+#define GameBaseDefines_h__
 
-#include "GameDefines.h"
-#include "BaseApp.hxx"
+#ifdef GAMEBASE_EXPORTS
+#define GAMEBASE_API __declspec(dllexport)
+#else
+#define GAMEBASE_API __declspec(dllimport)
+#endif
 
-class IGame 
-	: public GameBase::IBaseApp
 
-{
-public:
-	GAME_API virtual ~IGame(){}
-	GAME_API virtual void Cleanup() = 0;
-	GAME_API virtual void CheckForWin() = 0;
-	GAME_API virtual void CheckForCollisions() = 0;
-};
-#endif // Game_h__
+#endif // GraphicEngineDefines_h__

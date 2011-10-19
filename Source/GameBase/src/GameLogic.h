@@ -1,4 +1,14 @@
-#pragma once
+// ***************************************************************
+//  GameLogic   version:  1.0   Ankur Sheel  date: 2011/05/05
+//  -------------------------------------------------------------
+//  
+//  -------------------------------------------------------------
+//  Copyright (C) 2008 - All Rights Reserved
+// ***************************************************************
+// 
+// ***************************************************************
+#ifndef GameLogic_h__
+#define GameLogic_h__
 
 #include <memory>
 
@@ -18,3 +28,4 @@ namespace GameBase
 		virtual void OnUpdate(float time, float elapsedTime) = 0;
 	};
 }
+#endif // GameLogic_h__

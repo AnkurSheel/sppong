@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="GameBase"
-	ProjectGUID="{D6C5B6D7-4503-42DD-9174-37B3B81C5926}"
-	RootNamespace="GameBase"
+	Name="GraphicsEngine_Test"
+	ProjectGUID="{06ABEBB4-72B5-4673-86A8-2A230FD2719F}"
+	RootNamespace="GraphicsEngine_Test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,9 +18,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Debug\"
-			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
-			ConfigurationType="2"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -41,14 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\Includes&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Common\src;..\..\..\Source\Utilities\Includes;..\..\..\Source\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
-				AssemblerListingLocation="$(IntDir)\"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -63,14 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine_D.lib Base_D.lib Utilities_D.lib"
-				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
+				AdditionalDependencies="Base_D.lib GraphicsEngine_D.lib Utilities_D.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Debug\"
+				AdditionalLibraryDirectories="..\..\..\Debug;"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
-				GenerateMapFile="true"
-				MapFileName="$(IntDir)$(TargetName).map"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -98,9 +92,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin"
-			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
-			ConfigurationType="2"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -123,13 +117,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)GraphicsEngine\Includes&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Common\src;..\..\..\Source\Utilities\Includes;..\..\..\Source\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
-				AssemblerListingLocation="$(IntDir)\"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -144,14 +136,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine.lib Base.lib Utilities.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				AdditionalDependencies="Base.lib GraphicsEngine.lib Utilities.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
+				AdditionalLibraryDirectories="..\..\..\bin"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
-				GenerateMapFile="true"
-				MapFileName="$(IntDir)$(TargetName).map"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -184,61 +172,51 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Elements"
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\GameElement.cpp"
+				RelativePath=".\GraphicsEngine_Test.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\GameElement.h"
+				RelativePath=".\stdafx.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath=".\src\GameElement.inl"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\src\BaseApp.cpp"
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</File>
-		<File
-			RelativePath=".\src\BaseApp.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Includes\BaseApp.hxx"
-			>
-		</File>
-		<File
-			RelativePath=".\Includes\GameBaseDefines.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\GameLogic.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Includes\GameView.hxx"
-			>
-		</File>
-		<File
-			RelativePath=".\src\HumanView.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\src\HumanView.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\stdafx.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\src\stdafx.h"
-			>
-		</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
