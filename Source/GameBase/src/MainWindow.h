@@ -17,12 +17,7 @@ namespace Base
 	class cString;
 }
 
-namespace Utilities
-{
-	class IResCache;
-}
-
-namespace Graphics
+namespace GameBase
 {
 	class cMainWindow
 		: public IMainWindow
@@ -32,7 +27,6 @@ namespace Graphics
 		~cMainWindow() ;
 		
 		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) ;
-		Utilities::IResCache * GetResourceCache() const;
 		int GetClientWindowHeight();
 		int GetClientWindowWidth();
 		void Destroy();
@@ -58,7 +52,6 @@ namespace Graphics
 		int						m_iLeftPos ;			// the X coordinate of the top left corner of the window
 		int						m_iFullScreenWidth ;	// the full screen width
 		int						m_iFullScreenHeight ;	// the full screen height
-		Utilities::IResCache *	m_pResourceCache;
 	};
 
 	static IMainWindow * s_pWindow = NULL;

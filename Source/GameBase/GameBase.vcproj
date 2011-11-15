@@ -21,7 +21,7 @@
 			OutputDirectory="..\..\Debug\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -101,7 +101,7 @@
 			OutputDirectory="..\..\bin"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -229,6 +229,18 @@
 		</File>
 		<File
 			RelativePath=".\src\HumanView.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\MainWindow.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\MainWindow.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\MainWindow.hxx"
 			>
 		</File>
 		<File

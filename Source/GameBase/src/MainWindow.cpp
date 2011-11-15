@@ -10,13 +10,16 @@
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "DxBase.hxx"
-#include "ResCache.hxx"
 #include "BaseApp.hxx"
+#include "Logger.hxx"
+#include "ResourceManager.hxx"
+#include "Constants.h"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -27,7 +30,6 @@ cMainWindow::cMainWindow()
 , m_iClientWidth(0)
 , m_iFullScreenHeight(0)
 , m_iFullScreenWidth(0)
-, m_pResourceCache(NULL)
 {
 }
 // ***************************************************************
@@ -225,13 +227,13 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 // ***************************************************************
 void cMainWindow::OnDestroyDevice()
 {
-	SAFE_DELETE(m_pResourceCache);
-
 	// release the graphic object
 	if (IDXBase::GetInstance())
 	{
 		IDXBase::GetInstance()->Destroy();
 	}
+	
+	IResourceManager::TheResourceManager()->OnDestroyDevice();
 
 	ReleaseCapture() ;
 	PostQuitMessage(0) ;
@@ -245,15 +247,7 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const 
 {
 	// initialize DirectX
 	IDXBase::GetInstance()->Init(hWnd, TAN, bFullScreen);
-
-	m_pResourceCache = IResCache::CreateResourceCache(30, "resources.zip");
-	if(!m_pResourceCache->Init())
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
-		PostQuitMessage(0);
-		return;
-	}
-
+	IResourceManager::TheResourceManager()->Init();
 	SetForegroundWindow(m_Hwnd);
 
 }
@@ -265,12 +259,6 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const 
 void cMainWindow::MoveWin()
 {
 	MoveWindow(m_Hwnd,m_iLeftPos,m_iTopPos,m_iClientWidth,m_iClientHeight,true) ;
-}
-// ***************************************************************
-
-IResCache * cMainWindow::GetResourceCache() const
-{
-	return m_pResourceCache;
 }
 // ***************************************************************
 

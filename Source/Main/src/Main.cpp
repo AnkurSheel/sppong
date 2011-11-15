@@ -12,10 +12,12 @@
 #include "MainWindow.hxx"
 #include "BaseApp.hxx"
 #include "Checks.hxx"
+#include "ResourceManager.hxx"
 
 using namespace Utilities;
 using namespace Base;
 using namespace GameBase;
+using namespace  Graphics;
 
 static IBaseApp * pGame = NULL;
 // ***************************************************************
@@ -110,6 +112,9 @@ void Cleanup()
 
 	if (IMainWindow::TheWindow())
 		IMainWindow::TheWindow()->Destroy();
+
+	if(IResourceManager::TheResourceManager())
+		IResourceManager::TheResourceManager()->Destroy();
 
 	if(ILogger::TheLogger())
 		ILogger::TheLogger()->Destroy();

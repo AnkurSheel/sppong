@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes;..\GameBase\Includes"
+				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS;WINDOWED"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D.lib Utilities_D.lib GameBase_D.lib d3dx9d.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib d3dx9d.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes;..\GameBase\Includes"
+				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base.lib Utilities.lib GameBase.lib d3dx9.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="Base.lib Utilities.lib d3dx9.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
@@ -266,15 +266,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\MainWindow.cpp"
+				RelativePath=".\src\ResourceManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\MainWindow.h"
+				RelativePath=".\src\ResourceManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Includes\MainWindow.hxx"
+				RelativePath=".\Includes\ResourceManager.hxx"
 				>
 			</File>
 		</Filter>

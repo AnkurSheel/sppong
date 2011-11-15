@@ -11,7 +11,7 @@
 #include "stdafx.h"
 #include "Sprite.h"
 #include "ResCache.hxx"
-#include "MainWindow.hxx"
+#include "ResourceManager.hxx"
 #include "DxBase.hxx"
 
 using namespace Utilities;
@@ -68,7 +68,7 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	}
 
 	IResource * pResource = IResource::CreateResource(strFilename);
-	shared_ptr<IResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(*pResource);
+	shared_ptr<IResHandle> texture = IResourceManager::TheResourceManager()->GetResourceCache()->GetHandle(*pResource);
 
 	if(texture.get() == NULL)
 	{
