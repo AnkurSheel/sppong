@@ -27,7 +27,7 @@ namespace GameBase
 	{
 	public:
 		virtual ~IMainWindow(){}
-		GAMEBASE_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) = 0;
+		GAMEBASE_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle, const bool bFullScreen) = 0;
 		GAMEBASE_API static IMainWindow * TheWindow();
 		GAMEBASE_API virtual void Destroy() = 0;
 		GAMEBASE_API virtual int GetClientWindowHeight() = 0;

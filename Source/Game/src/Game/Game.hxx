@@ -22,5 +22,7 @@ public:
 	GAME_API virtual void Cleanup() = 0;
 	GAME_API virtual void CheckForWin() = 0;
 	GAME_API virtual void CheckForCollisions() = 0;
+	GAME_API static IBaseApp * CreateGame();
+
 };
 #endif // Game_h__

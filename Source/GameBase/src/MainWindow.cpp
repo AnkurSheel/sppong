@@ -46,13 +46,13 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen )
+HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle, const bool bFullScreen )
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
 
-	m_iFullScreenWidth = iFullScreenWidth ; 
-	m_iFullScreenHeight = iFullScreenHeight ;
+	m_iFullScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+	m_iFullScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	//Register the Window Class
 	RegisterWin();

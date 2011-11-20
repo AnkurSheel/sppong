@@ -9,15 +9,12 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Main.h"
-#include "MainWindow.hxx"
-#include "BaseApp.hxx"
 #include "Checks.hxx"
-#include "ResourceManager.hxx"
+#include "Game/Game.hxx"
 
 using namespace Utilities;
 using namespace Base;
 using namespace GameBase;
-using namespace  Graphics;
 
 static IBaseApp * pGame = NULL;
 // ***************************************************************
@@ -33,7 +30,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	ILogger::TheLogger()->StartConsoleWin(80,60, "");
 
-	pGame = IBaseApp::CreateGame();
+	pGame = IGame::CreateGame();
 
 #ifndef MULTIPLEINSTANCES
 	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->GetGameTitle()))
@@ -53,28 +50,12 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	ILogger::TheLogger()->CreateHeader();
 
-	HWND	hwnd ;
-
-	int iWidth = GetSystemMetrics(SM_CXSCREEN);
-	int iHeight = GetSystemMetrics(SM_CYSCREEN);
-
-
 	bool bFullScreen = false;
 #ifndef _DEBUG
 		bFullScreen = true;
 #endif
-	//Initialize the window class
-	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight, bFullScreen);
-
-	if(hwnd == NULL)
-	{
-		PostQuitMessage(0) ;
-	}
-	else
-	{
-		pGame->OnInit(hInstance, hwnd, IMainWindow::TheWindow()->GetClientWindowHeight(),  IMainWindow::TheWindow()->GetClientWindowWidth(), bFullScreen);
-		pGame->Run();
-	}
+	pGame->OnInit(hInstance, nCmdShow, bFullScreen);
+	pGame->Run();
 	
 	Cleanup() ;
 
@@ -109,12 +90,6 @@ void Cleanup()
 
 	if (IResourceChecker::TheResourceChecker())
 		IResourceChecker::TheResourceChecker()->Destroy();
-
-	if (IMainWindow::TheWindow())
-		IMainWindow::TheWindow()->Destroy();
-
-	if(IResourceManager::TheResourceManager())
-		IResourceManager::TheResourceManager()->Destroy();
 
 	if(ILogger::TheLogger())
 		ILogger::TheLogger()->Destroy();

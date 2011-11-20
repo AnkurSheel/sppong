@@ -64,7 +64,7 @@ public:
 	cGame();
 	~cGame();
 	void Render(TICK tickCurrent, float fElapsedTime);
-	void OnInit(const HINSTANCE hInstance, const HWND hwnd, const UINT iDisplayHeight, const UINT iDisplayWidth, const bool bFullScreen);
+	void OnInit(const HINSTANCE hInstance, const int nCmdShow, const bool bFullScreen);
 	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
 	void Cleanup();
 	void Restart();

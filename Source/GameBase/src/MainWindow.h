@@ -26,7 +26,7 @@ namespace GameBase
 		cMainWindow() ;
 		~cMainWindow() ;
 		
-		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) ;
+		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle, const bool bFullScreen) ;
 		int GetClientWindowHeight();
 		int GetClientWindowWidth();
 		void Destroy();

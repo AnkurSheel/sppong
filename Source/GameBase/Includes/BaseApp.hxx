@@ -32,15 +32,13 @@ namespace GameBase
 	public:
 		virtual ~IBaseApp(){}
 		virtual void Render(TICK tickCurrent, float fElapsedTime) = 0;
-		virtual void OnInit(const HINSTANCE hInstance, const HWND hwnd, const UINT iDisplayHeight, const UINT iDisplayWidth, const bool bFullscreen) = 0;
+		virtual void OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen) = 0;
 		virtual void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime ) = 0;
 		virtual void Restart() = 0;
 		virtual Base::cString GetGameTitle() = 0; 
 		virtual void OnUpdate() = 0;
 		GAMEBASE_API static void OnMsgProc(const AppMsg & msg){}
 		GAMEBASE_API virtual void Run() = 0;
-		GAMEBASE_API static IBaseApp * CreateGame();
-
 	};
 }
 #endif // BaseApp_hxx__

@@ -22,6 +22,8 @@
 #include "DXBase.hxx"
 #include "Timer.hxx"
 #include "ProcessManager.hxx"
+#include "MainWindow.hxx"
+#include "ResourceManager.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -77,11 +79,17 @@ void cGame::Render(TICK tickCurrent, float fElapsedTime)
 // Function called when the window is created
 // ***************************************************************
 void cGame::OnInit(const HINSTANCE hInstance, 
-				   const HWND hwnd,
-				   const UINT iDisplayHeight, 
-				   const UINT iDisplayWidth,
+				   const int nCmdShow,
 				   const bool bFullScreen)
 {
+	HWND hwnd = IMainWindow::TheWindow()->Init(hInstance, nCmdShow, GetGameTitle(), bFullScreen);
+
+	if(hwnd == NULL)
+	{
+		PostQuitMessage(0) ;
+		return;
+	}
+
 	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
 	if(bFullScreen)
 	{
@@ -90,8 +98,8 @@ void cGame::OnInit(const HINSTANCE hInstance,
 	}
 	else
 	{
-		m_iDisplayHeight = iDisplayHeight;
-		m_iDisplayWidth = iDisplayWidth;
+		m_iDisplayHeight = IMainWindow::TheWindow()->GetClientWindowHeight();
+		m_iDisplayWidth = IMainWindow::TheWindow()->GetClientWindowWidth();
 	}
 
 	m_pSound = ISound::CreateSound();
@@ -262,6 +270,11 @@ void cGame::Cleanup()
 	if(ICollisionChecker::TheCollisionChecker())
 		ICollisionChecker::TheCollisionChecker()->Destroy();
 
+	if (IMainWindow::TheWindow())
+		IMainWindow::TheWindow()->Destroy();
+
+	if(IResourceManager::TheResourceManager())
+		IResourceManager::TheResourceManager()->Destroy();
 }
 // ***************************************************************
 
@@ -447,7 +460,7 @@ float cGame::GetFPS()
 }
 // ***************************************************************
 
-IBaseApp * IBaseApp::CreateGame()
+IBaseApp * IGame::CreateGame()
 {
 	return DEBUG_NEW cGame();
 }

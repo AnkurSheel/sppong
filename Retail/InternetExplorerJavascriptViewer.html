@@ -18,21 +18,12 @@
 		
 			//These are the global container for the currently selected options
 			var g_eventType		= 'all';
-			var g_nameSpace		= 'any';
 			var g_specificFile	= '';
 			
 			function setEventType( eventType )
 				{
 				
 					g_eventType = eventType;
-					generateLink( );
-					
-				}
-				
-			function setNameSpace( nameSpace )
-				{
-				
-					g_nameSpace = nameSpace;
 					generateLink( );
 					
 				}
@@ -67,13 +58,13 @@
 								
 								if( g_specificFile == '' )
 									{
-										linkText = linkText + "from <b>all files</b> in the code namespace '<b>" + g_nameSpace + "</b>'.";
+										linkText = linkText + "from <b>all files</b>.";
 									}
 								else
 									{
 										linkText = linkText + "from <b>'";
 										linkText = linkText + g_specificFile;
-										linkText = linkText + "'</b> in the code namespace '<b>" + g_nameSpace + "</b>'.";
+										linkText = linkText + "'</b>.";
 									}
 								
 							linkText = linkText + "</i>";
@@ -111,7 +102,6 @@
 				xslProcessor = xslTemplate.createProcessor( );
 				xslProcessor.input = xmlDoc;
 				xslProcessor.addParameter( "eventType",		g_eventType );
-				xslProcessor.addParameter( "nameSpace",		g_nameSpace );
 				xslProcessor.addParameter( "specificFile",	g_specificFile );
 				xslProcessor.transform();
 
@@ -267,7 +257,7 @@
 				<td width="12%" bgcolor="#FFFFFF">
 					<font size="1" face="Arial" color="#000000">
 						<center>
-							<a href="javascript:setNameSpace('default');">None</a>
+							<a href="javascript:setNameSpace('');">None</a>
 						</center>
 					</font>
 				</td>
@@ -281,35 +271,43 @@
 				<td width="12%" bgcolor="#FFFFFF">
 					<font size="1" face="Arial" color="#000000">
 						<center>
-							<a href="javascript:setNameSpace('Engines');">Engines</a>
+							<a href="javascript:setNameSpace('AI');">AI</a>
 						</center>
 					</font>
 				</td>
 				<td width="12%" bgcolor="#FFFFFF">
 					<font size="1" face="Arial" color="#000000">
 						<center>
-							<a href="javascript:setNameSpace('Game');">Game</a>
+							<a href="javascript:setNameSpace('Base');">Base</a>
 						</center>
 					</font>
 				</td>
 				<td width="12%" bgcolor="#FFFFFF">
 					<font size="1" face="Arial" color="#000000">
 						<center>
-							<a href="javascript:setNameSpace('UI');">GUI</a>
+							<a href="javascript:setNameSpace('GameBase');">GameBase</a>
 						</center>
 					</font>
 				</td>
 				<td width="12%" bgcolor="#FFFFFF">
 					<font size="1" face="Arial" color="#000000">
 						<center>
-							<a href="javascript:setNameSpace('Vars');">Variables</a>
+							<a href="javascript:setNameSpace('Graphics');">Graphics</a>
 						</center>
 					</font>
 				</td>
-				<!-- Dummy cell -->
 				<td width="12%" bgcolor="#FFFFFF">
 					<font size="1" face="Arial" color="#000000">
-						
+						<center>
+							<a href="javascript:setNameSpace('MySound');">Sound</a>
+						</center>
+					</font>
+				</td>
+				<td width="12%" bgcolor="#FFFFFF">
+					<font size="1" face="Arial" color="#000000">
+						<center>
+							<a href="javascript:setNameSpace('Utilities');">Utilities</a>
+						</center>
 					</font>
 				</td>
 			</tr>
