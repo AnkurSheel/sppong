@@ -23,11 +23,16 @@ namespace Utilities
 }
 namespace GameBase
 {
+	class IBaseApp;
+}
+
+namespace GameBase
+{
 	class IMainWindow
 	{
 	public:
 		virtual ~IMainWindow(){}
-		GAMEBASE_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle, const bool bFullScreen) = 0;
+		GAMEBASE_API virtual HWND Init( const HINSTANCE & hInstance, const int &nCmdShow, IBaseApp * const pGame, const bool bFullScreen) = 0;
 		GAMEBASE_API static IMainWindow * TheWindow();
 		GAMEBASE_API virtual void Destroy() = 0;
 		GAMEBASE_API virtual int GetClientWindowHeight() = 0;

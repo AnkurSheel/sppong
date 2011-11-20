@@ -26,7 +26,7 @@ namespace GameBase
 		cMainWindow() ;
 		~cMainWindow() ;
 		
-		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle, const bool bFullScreen) ;
+		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseApp * const pGame, const bool bFullScreen) ;
 		int GetClientWindowHeight();
 		int GetClientWindowWidth();
 		void Destroy();
@@ -52,6 +52,7 @@ namespace GameBase
 		int						m_iLeftPos ;			// the X coordinate of the top left corner of the window
 		int						m_iFullScreenWidth ;	// the full screen width
 		int						m_iFullScreenHeight ;	// the full screen height
+		IBaseApp *				m_pGame;
 	};
 
 	static IMainWindow * s_pWindow = NULL;

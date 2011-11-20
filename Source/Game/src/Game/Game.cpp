@@ -82,7 +82,7 @@ void cGame::OnInit(const HINSTANCE hInstance,
 				   const int nCmdShow,
 				   const bool bFullScreen)
 {
-	HWND hwnd = IMainWindow::TheWindow()->Init(hInstance, nCmdShow, GetGameTitle(), bFullScreen);
+	HWND hwnd = IMainWindow::TheWindow()->Init(hInstance, nCmdShow, this, bFullScreen);
 
 	if(hwnd == NULL)
 	{
@@ -395,7 +395,7 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	}
 }
 
-cString cGame::GetGameTitle()
+cString cGame::GetGameTitle() const
 {
 	return "MPong";
 }
@@ -457,6 +457,12 @@ void cGame::Run()
 float cGame::GetFPS()
 {
 	return m_pGameTimer->GetFPS();
+}
+// ***************************************************************
+
+void cGame::OnMsgProc( const GameBase::AppMsg & msg )
+{
+
 }
 // ***************************************************************
 

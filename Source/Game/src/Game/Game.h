@@ -11,7 +11,7 @@
 #define Game_h__
 
 #include "Game.hxx"
-#include "BaseApp.h"
+#include "BaseApp.hxx"
 
 namespace Base
 {
@@ -34,6 +34,7 @@ namespace MySound
 
 class cGame 
 	: public IGame
+	, public GameBase::IBaseApp
 {
 private:
 	enum PONGGAMEELEMENTS
@@ -71,13 +72,12 @@ public:
 	void CheckForWin();
 	void CheckForCollisions();
 	void Run();
-	Base::cString GetGameTitle();
+	Base::cString GetGameTitle() const;
 	TICK GetRunningTicks();
 	float GetRunningTime();
 	void OnUpdate();
 	float GetFPS();
-
-	cScore*						m_pScore;				// ptr to Scoreboard
+	void OnMsgProc(const GameBase::AppMsg & msg);
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
@@ -89,6 +89,8 @@ private:
 	cGameFlowStateMachine *		m_pStateMachine;
 	cMPongView	*				m_pPongView;
 	Utilities::ITimer *			m_pGameTimer;
+	cScore*						m_pScore;				// ptr to Scoreboard
+
 
 private:
 	friend class cStateTitleScreen;

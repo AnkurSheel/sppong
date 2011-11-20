@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "Main.h"
 #include "Checks.hxx"
+#include "BaseApp.hxx"
 #include "Game/Game.hxx"
 
 using namespace Utilities;

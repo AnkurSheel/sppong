@@ -30,6 +30,7 @@ cMainWindow::cMainWindow()
 , m_iClientWidth(0)
 , m_iFullScreenHeight(0)
 , m_iFullScreenWidth(0)
+, m_pGame(NULL)
 {
 }
 // ***************************************************************
@@ -46,7 +47,7 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle, const bool bFullScreen )
+HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseApp * const pGame, const bool bFullScreen )
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
@@ -57,8 +58,10 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const c
 	//Register the Window Class
 	RegisterWin();
 
+	m_pGame = pGame;
+
 	//Create the Window
-	hWnd = CreateMyWindow(nCmdShow, lpWindowTitle, bFullScreen) ;
+	hWnd = CreateMyWindow(nCmdShow, pGame->GetGameTitle(), bFullScreen) ;
 
 	OnCreateDevice(hInstance,hWnd, bFullScreen);
 
@@ -190,10 +193,10 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		msg.m_wParam = wParam;
 		msg.m_lParam = lParam;
 
-		//if (IBaseApp::TheGame())
-		//{
-		//	IBaseApp::TheGame()->OnMsgProc(msg);
-		//}
+		if (m_pGame)
+		{
+			m_pGame->OnMsgProc(msg);
+		}
 		return 0;
 	default:
 		return DefWindowProc(hwnd, uMsg, wParam, lParam) ;
