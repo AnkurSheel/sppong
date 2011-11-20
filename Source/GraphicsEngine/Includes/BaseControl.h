@@ -29,28 +29,32 @@ namespace Graphics
 		cBaseControl * AddChildControl(cBaseControl * pControl);
 		cBaseControl * RemoveChildControl(cBaseControl * pControl);
 		void RemoveAllChildren();
-		int GetNoOfChildren();
+		int GetNoOfChildren() const;
 		void SetParentControl( cBaseControl * pParentControl );
-		ISprite * GetSprite();
+		ISprite * GetSprite() const;
 		void SetSprite( ISprite * pSprite );
-		cBaseControl * GetFirstChild();
-		cBaseControl * GetNextSibling();
+		cBaseControl * GetFirstChild() const;
+		cBaseControl * GetNextSibling() const;
 		void SetNextSibling( cBaseControl * pControl );
+		cBaseControl * GetPreviousSibling() const;
 		void SetPreviousSibling( cBaseControl * temp );
-		cBaseControl * GetPreviousSibling();
-		void GetAbsolutePosition(D3DXVECTOR2 & vPosition);
-	
+		void GetAbsolutePosition(D3DXVECTOR2 & vPosition) const;
+
+		virtual void OnMouseUp(const int iButton, const int X, const int Y) = 0;
+		virtual void OnMouseDown(const int iButton, const int X, const int Y) = 0;
+		virtual void OnMouseMove(const int X, const int Y) = 0;
+		
 	private:
-		DWORD			m_dwWidth; // width of Canvas
-		DWORD			m_dwHeight; // Height of Canvas
-		bool			m_bVisible;
-		ISprite *		m_pCanvasSprite; 
-		cBaseControl *	m_pChildControls;
-		cBaseControl *	m_pNextSibling;
-		cBaseControl *	m_pPreviousSibling;
-		cBaseControl *	m_pParentControl;
-		int				m_iNoOfChildren;
-		D3DXVECTOR2		m_vPosition;		
+		DWORD				m_dwWidth; // width of Canvas
+		DWORD				m_dwHeight; // Height of Canvas
+		bool				m_bVisible;
+		ISprite *			m_pCanvasSprite; 
+		cBaseControl *		m_pChildControls;
+		cBaseControl *		m_pNextSibling;
+		cBaseControl *		m_pPreviousSibling;
+		cBaseControl *		m_pParentControl;
+		int					m_iNoOfChildren;
+		D3DXVECTOR2			m_vPosition;		
 	};
 	#include "BaseControl.inl"
 }

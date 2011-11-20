@@ -44,6 +44,7 @@
 //1 - very basic debug output
 //2 - comprehensive debug output
 //3 - all output, and a transcript of all messages
+
 //#ifdef _DEBUG
 //Set the output level for 'DEBUG' builds
 #define SYSTEM_DEBUG_LEVEL 2
@@ -83,7 +84,6 @@
   #define Log_Write_L1( linetype, linetext )
   #define Log_Write_L2( linetype, linetext )
   #define Log_Write_L3( linetype, linetext )
-      
 #endif
 
 const int  KILOBYTE = 1024;

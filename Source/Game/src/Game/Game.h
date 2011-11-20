@@ -11,7 +11,7 @@
 #define Game_h__
 
 #include "Game.hxx"
-#include "BaseApp.hxx"
+#include "BaseApp.h"
 
 namespace Base
 {
@@ -34,7 +34,7 @@ namespace MySound
 
 class cGame 
 	: public IGame
-	, public GameBase::IBaseApp
+	, public GameBase::cBaseApp
 {
 private:
 	enum PONGGAMEELEMENTS

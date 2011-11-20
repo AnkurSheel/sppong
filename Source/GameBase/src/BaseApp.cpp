@@ -10,4 +10,18 @@
 #include "stdafx.h"
 #include "BaseApp.h"
 #include "Logger.hxx"
+#include "MainWindow.hxx"
 
+using namespace GameBase;
+using namespace Base;
+
+void GameBase::cBaseApp::OnInit( const HINSTANCE hInstance, const int nCmdShow, const bool bFullScreen, HWND & outHwnd )
+{
+	outHwnd = IMainWindow::TheWindow()->Init(hInstance, nCmdShow, this, bFullScreen);
+
+	if(outHwnd == NULL)
+	{
+		PostQuitMessage(0) ;
+		return;
+	}
+}

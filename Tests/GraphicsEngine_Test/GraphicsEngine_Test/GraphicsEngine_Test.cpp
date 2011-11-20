@@ -7,10 +7,12 @@
 #include "Timer.hxx"
 #include "DxBase.hxx"
 #include "Input.hxx"
+#include "Game.h"
 
 using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
+using namespace GameBase;
 
 void CheckForMemoryLeaks() 
 {
@@ -42,20 +44,16 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 #ifndef _DEBUG
 	bFullScreen = true;
 #endif
-	//Initialize the window class
-	HWND hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, "Graphics Engine Test", iWidth, iHeight, bFullScreen);
 
-	if (hwnd == NULL)
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not initialize window"));
-		PostQuitMessage(0);
-	}
+	cGame * pGame = new cGame();
+
+	HWND hWnd = pGame->OnInit(hInstance, nCmdShow, bFullScreen);
 
 	Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window initialized"));
 	
 	Graphics::IInput * pInput;
 	pInput= IInput::CreateInputDevice();
-	pInput->Init(hInstance, hwnd, iWidth, iHeight);
+	pInput->Init(hInstance, hWnd, iWidth, iHeight);
 
 	HRESULT hr;
 
@@ -102,12 +100,16 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
 	}
 
+
 	if (ILogger::TheLogger())
 	{
 		ILogger::TheLogger()->Destroy();
 	}
-	
+
 	SAFE_DELETE(pInput);
+
+	SAFE_DELETE(pGame);
+
 #ifdef _DEBUG
 	system("pause");
 #endif // _DEBUG

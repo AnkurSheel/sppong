@@ -61,7 +61,15 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseAp
 	m_pGame = pGame;
 
 	//Create the Window
-	hWnd = CreateMyWindow(nCmdShow, pGame->GetGameTitle(), bFullScreen) ;
+	if (pGame)
+	{
+		hWnd = CreateMyWindow(nCmdShow, pGame->GetGameTitle(), bFullScreen) ;
+	}
+	else
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "No Game object");
+	}
+	
 
 	OnCreateDevice(hInstance,hWnd, bFullScreen);
 

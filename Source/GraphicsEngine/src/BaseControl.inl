@@ -1,9 +1,9 @@
-cBaseControl * cBaseControl::GetFirstChild()
+cBaseControl * cBaseControl::GetFirstChild() const
 {
 	return m_pChildControls;
 }
 
-cBaseControl * cBaseControl::GetNextSibling()
+cBaseControl * cBaseControl::GetNextSibling() const
 {
 	return m_pNextSibling;
 }
@@ -13,7 +13,7 @@ void cBaseControl::SetParentControl( cBaseControl * pParentControl )
 	m_pParentControl = pParentControl;
 }
 
-ISprite * cBaseControl::GetSprite()
+ISprite * cBaseControl::GetSprite() const
 {
 	return m_pCanvasSprite;
 }
@@ -28,12 +28,12 @@ void cBaseControl::SetNextSibling( cBaseControl * pControl )
 	m_pNextSibling = pControl;
 }
 
-cBaseControl * cBaseControl::GetPreviousSibling()
+cBaseControl * cBaseControl::GetPreviousSibling() const
 {
 	return m_pPreviousSibling;
 }
 
-int cBaseControl::GetNoOfChildren()
+int cBaseControl::GetNoOfChildren() const
 {
 	return m_iNoOfChildren;
 }

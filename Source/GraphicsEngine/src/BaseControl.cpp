@@ -86,7 +86,7 @@ void cBaseControl::RemoveAllChildren()
 	m_iNoOfChildren = 0;
 }
 
-void cBaseControl::GetAbsolutePosition( D3DXVECTOR2 & vPosition )
+void cBaseControl::GetAbsolutePosition( D3DXVECTOR2 & vPosition ) const
 {
 	vPosition.x += m_vPosition.x;
 	vPosition.y += m_vPosition.y;

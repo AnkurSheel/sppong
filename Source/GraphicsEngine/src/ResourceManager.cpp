@@ -29,6 +29,7 @@ Graphics::cResourceManager::~cResourceManager()
 void Graphics::cResourceManager::OnDestroyDevice()
 {
 	SAFE_DELETE(m_pResourceCache);
+	Destroy();
 }
 
 void Graphics::cResourceManager::Init()

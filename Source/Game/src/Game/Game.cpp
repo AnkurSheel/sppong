@@ -82,13 +82,8 @@ void cGame::OnInit(const HINSTANCE hInstance,
 				   const int nCmdShow,
 				   const bool bFullScreen)
 {
-	HWND hwnd = IMainWindow::TheWindow()->Init(hInstance, nCmdShow, this, bFullScreen);
-
-	if(hwnd == NULL)
-	{
-		PostQuitMessage(0) ;
-		return;
-	}
+	HWND hwnd;
+	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, hwnd);
 
 	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
 	if(bFullScreen)
