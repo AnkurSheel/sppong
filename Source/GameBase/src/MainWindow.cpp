@@ -14,6 +14,7 @@
 #include "Logger.hxx"
 #include "ResourceManager.hxx"
 #include "Constants.h"
+#include "Structures.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -193,9 +194,17 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		OnDestroyDevice();
 		return 0 ;
 
-	case  WM_KEYDOWN:
-	case WM_KEYUP:
-		GameBase::AppMsg msg;
+	case  WM_LBUTTONDBLCLK:
+	case  WM_LBUTTONDOWN:
+	case  WM_LBUTTONUP:
+	case  WM_MBUTTONDBLCLK:
+	case  WM_MBUTTONDOWN:
+	case  WM_MBUTTONUP:
+	case  WM_MOUSEMOVE:
+	case  WM_RBUTTONDBLCLK:
+	case  WM_RBUTTONDOWN:
+	case  WM_RBUTTONUP:
+		Graphics::AppMsg msg;
 		msg.m_hWnd = hwnd;
 		msg.m_uMsg = uMsg;
 		msg.m_wParam = wParam;
@@ -206,6 +215,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 			m_pGame->OnMsgProc(msg);
 		}
 		return 0;
+
 	default:
 		return DefWindowProc(hwnd, uMsg, wParam, lParam) ;
 	}

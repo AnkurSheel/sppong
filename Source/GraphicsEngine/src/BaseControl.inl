@@ -1,44 +1,111 @@
-cBaseControl * cBaseControl::GetFirstChild() const
+inline cBaseControl * cBaseControl::GetFirstChild() const
 {
 	return m_pChildControls;
 }
+// ***************************************************************
 
-cBaseControl * cBaseControl::GetNextSibling() const
+inline cBaseControl * cBaseControl::GetNextSibling() const
 {
 	return m_pNextSibling;
 }
+// ***************************************************************
 
-void cBaseControl::SetParentControl( cBaseControl * pParentControl )
+inline cBaseControl * Graphics::cBaseControl::GetParentControl()
+{
+	return m_pParentControl;
+}
+// ***************************************************************
+
+inline void cBaseControl::SetParentControl( cBaseControl * pParentControl )
 {
 	m_pParentControl = pParentControl;
 }
+// ***************************************************************
 
-ISprite * cBaseControl::GetSprite() const
+inline ISprite * cBaseControl::GetSprite() const
 {
 	return m_pCanvasSprite;
 }
+// ***************************************************************
 
-void cBaseControl::SetSprite( ISprite * pSprite )
+inline void cBaseControl::SetSprite( ISprite * pSprite )
 {
 	m_pCanvasSprite = pSprite;
 }
+// ***************************************************************
 
-void cBaseControl::SetNextSibling( cBaseControl * pControl )
+inline void cBaseControl::SetNextSibling( cBaseControl * pControl )
 {
 	m_pNextSibling = pControl;
 }
+// ***************************************************************
 
-cBaseControl * cBaseControl::GetPreviousSibling() const
+inline cBaseControl * cBaseControl::GetPreviousSibling() const
 {
 	return m_pPreviousSibling;
 }
+// ***************************************************************
 
-int cBaseControl::GetNoOfChildren() const
+inline int cBaseControl::GetNoOfChildren() const
 {
 	return m_iNoOfChildren;
 }
+// ***************************************************************
 
-void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
+inline void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
 {
 	m_pPreviousSibling = pControl;
 }
+// ***************************************************************
+
+inline DWORD Graphics::cBaseControl::GetHeight()
+{
+	return m_dwHeight;
+}
+// ***************************************************************
+inline void Graphics::cBaseControl::SetHeight(DWORD dwHeight)
+{
+	m_dwHeight = dwHeight;
+}
+// ***************************************************************
+
+inline DWORD Graphics::cBaseControl::GetWidth()
+{
+	return m_dwWidth;
+}
+// ***************************************************************
+
+inline void Graphics::cBaseControl::SetWidth( DWORD dwWidth )
+{
+	m_dwWidth = dwWidth;
+}
+// ***************************************************************
+inline cBaseControl * Graphics::cBaseControl::GetFocusControl()
+{
+	return m_pFocusControl;
+}
+// ***************************************************************
+
+inline bool Graphics::cBaseControl::GetVisible() const
+{
+	return m_bVisible;
+}
+// ***************************************************************
+
+inline void Graphics::cBaseControl::SetVisible( bool bIsVisible )
+{
+	m_bVisible = bIsVisible;
+}
+// ***************************************************************
+
+inline D3DXVECTOR3 Graphics::cBaseControl::GetPosition() const
+{
+	return m_vPosition;
+}
+// ***************************************************************
+
+inline void Graphics::cBaseControl::SetPosition( const D3DXVECTOR3 & vPosition )
+{
+	m_vPosition = vPosition;
+}
+// ***************************************************************

@@ -8,6 +8,7 @@
 #include "DxBase.hxx"
 #include "Input.hxx"
 #include "Game.h"
+#include "BaseControl.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -51,6 +52,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window initialized"));
 	
+
 	Graphics::IInput * pInput;
 	pInput= IInput::CreateInputDevice();
 	pInput->Init(hInstance, hWnd, iWidth, iHeight);
@@ -76,6 +78,8 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 			hr = IDXBase::GetInstance()->BeginRender();
 			if (SUCCEEDED(hr))
 			{
+				pGame->Run();
+
 				pInput->DetectKeys();
 
 				const bool* const pbPressedKeys = pInput->GetPressedKeys();
@@ -100,15 +104,14 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
 	}
 
+	SAFE_DELETE(pInput);
+
+	SAFE_DELETE(pGame);
 
 	if (ILogger::TheLogger())
 	{
 		ILogger::TheLogger()->Destroy();
 	}
-
-	SAFE_DELETE(pInput);
-
-	SAFE_DELETE(pGame);
 
 #ifdef _DEBUG
 	system("pause");

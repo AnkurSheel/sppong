@@ -17,23 +17,19 @@ namespace Base
 	class cString;
 }
 
+namespace Graphics
+{
+	struct AppMsg;
+}
 namespace GameBase
 {
-	struct AppMsg
-	{
-		HWND	m_hWnd;
-		UINT	m_uMsg;
-		WPARAM	m_wParam;
-		LPARAM	m_lParam;
-	};
-
 	class IBaseApp
 	{
 	public:
 		virtual ~IBaseApp(){}
 		virtual HWND OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen) = 0;
 		virtual Base::cString GetGameTitle() const = 0; 
-		virtual  void OnMsgProc(const AppMsg & msg) = 0;
+		virtual  void OnMsgProc(const Graphics::AppMsg & msg) = 0;
 		virtual void Run() = 0;
 	};
 }

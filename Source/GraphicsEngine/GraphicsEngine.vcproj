@@ -277,6 +277,10 @@
 				RelativePath=".\Includes\ResourceManager.hxx"
 				>
 			</File>
+			<File
+				RelativePath=".\Includes\Structures.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Input"
@@ -346,7 +350,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Includes\BaseControl.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\BaseControl.inl"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WindowControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WindowControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WindowControl.inl"
 				>
 			</File>
 		</Filter>

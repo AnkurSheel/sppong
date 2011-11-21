@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "BaseControl.h"
 #include "Sprite.hxx"
+#include "Structures.h"
 
 using namespace Graphics;
 
@@ -24,40 +25,56 @@ cBaseControl::cBaseControl()
 , m_pParentControl(NULL) 
 , m_iNoOfChildren(0)
 , m_vPosition(D3DXVECTOR2(0.0f, 0.0f))
+, m_bFocus(false)
+, m_pFocusControl(NULL)
 {
 
 }
+// ***************************************************************
+
 cBaseControl::~cBaseControl()
 {
+	if (m_pCanvasSprite)
+	{
+		SAFE_DELETE(m_pCanvasSprite);
+	}
+	RemoveAllChildren();
 
 }
+// ***************************************************************
 
-cBaseControl * cBaseControl::AddChildControl( cBaseControl * pControl )
+IBaseControl * cBaseControl::AddChildControl( IBaseControl * pControl )
 {
-	pControl->SetParentControl(this);
-	ISprite * pSprite = pControl->GetSprite();
-	SAFE_DELETE(pSprite);
-	pControl->SetSprite(m_pCanvasSprite);
-
-	if (!m_pChildControls)
+	cBaseControl* pBaseControl = dynamic_cast<cBaseControl *>(pControl);
+	if (pBaseControl)
 	{
-		m_pChildControls = pControl;
-	}
-	else
-	{
-		cBaseControl * temp = GetFirstChild();
+		pBaseControl->SetParentControl(this);
+//		ISprite * pSprite = pBaseControl->GetSprite();
+//		SAFE_DELETE(pSprite);
+//		pBaseControl->SetSprite(m_pCanvasSprite);
 
-		while (temp->GetNextSibling())
+		if (!m_pChildControls)
 		{
-			temp = temp->GetNextSibling();
+			m_pChildControls = pBaseControl;
 		}
+		else
+		{
+			cBaseControl * temp = GetFirstChild();
 
-		temp->SetNextSibling(pControl);
-		pControl->SetPreviousSibling(temp);
+			while (temp->GetNextSibling())
+			{
+				temp = temp->GetNextSibling();
+			}
+
+			temp->SetNextSibling(pBaseControl);
+			pBaseControl->SetPreviousSibling(temp);
+		}
+		m_iNoOfChildren++;
+		return pBaseControl;
 	}
-	m_iNoOfChildren++;
-	return pControl;
+	return NULL;
 }
+// ***************************************************************
 
 cBaseControl * cBaseControl::RemoveChildControl( cBaseControl * pControl )
 {
@@ -72,6 +89,7 @@ cBaseControl * cBaseControl::RemoveChildControl( cBaseControl * pControl )
 
 	return pControl;
 }
+// ***************************************************************
 
 void cBaseControl::RemoveAllChildren()
 {
@@ -85,8 +103,9 @@ void cBaseControl::RemoveAllChildren()
 	}
 	m_iNoOfChildren = 0;
 }
+// ***************************************************************
 
-void cBaseControl::GetAbsolutePosition( D3DXVECTOR2 & vPosition ) const
+void cBaseControl::GetAbsolutePosition( D3DXVECTOR3 & vPosition ) const
 {
 	vPosition.x += m_vPosition.x;
 	vPosition.y += m_vPosition.y;
@@ -96,3 +115,149 @@ void cBaseControl::GetAbsolutePosition( D3DXVECTOR2 & vPosition ) const
 		m_pParentControl->GetAbsolutePosition(vPosition);
 	}
 }
+// ***************************************************************
+
+bool Graphics::cBaseControl::IsCursorIntersect( const float fX, const float fY )
+{
+	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f,0.f, 0.f);
+
+	GetAbsolutePosition(vControlAbsolutePosition);
+
+
+	if((fX >= vControlAbsolutePosition.x) && (fX <= vControlAbsolutePosition.x + GetWidth()))
+	{
+		if((fY >= vControlAbsolutePosition.y) && (fY <= vControlAbsolutePosition.y + GetHeight()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+// ***************************************************************
+
+bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
+{
+	switch(msg.m_uMsg)
+	{
+	case WM_LBUTTONDOWN:
+		if(IsCursorIntersect(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)))
+		{
+			cBaseControl * pTempControl = PostToAll(msg);
+			if(!pTempControl)
+			{
+				OnMouseDown(msg.m_uMsg, LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+				if (m_pParentControl)
+				{
+					m_pParentControl->MoveToFront(this);
+				}
+				m_pFocusControl = this;
+			}
+			return true;
+		}
+		break;
+
+	case WM_KEYUP:
+		if(m_pFocusControl)
+		{
+			m_pFocusControl->OnKeyUp(msg);
+		}
+		break;
+
+	case  WM_KEYDOWN:
+		if(m_pFocusControl)
+		{
+			m_pFocusControl->OnKeyDown(msg);
+		}
+		break;
+
+	case WM_RENDER:
+		if (m_bVisible)
+		{
+			OnRender(msg);
+			if (m_pChildControls)
+			{
+				PostToAllReverse(m_pChildControls, msg);
+			}
+		}
+		break;
+	}
+
+	return false;
+}
+// ***************************************************************
+
+cBaseControl * Graphics::cBaseControl::PostToAll( const AppMsg & msg )
+{
+	cBaseControl * pTempControl = GetFirstChild();
+
+	while(pTempControl)
+	{
+		cBaseControl * pNextControl = pTempControl->GetNextSibling();
+		if (pTempControl->PostMsg(msg))
+		{
+			return pTempControl;
+		}
+		pTempControl = pNextControl;
+	}
+	return NULL;
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::SetFocusControl( const cBaseControl * const pControl )
+{
+	if(!m_pFocusControl)
+	{
+		if (m_pParentControl)
+		{
+			m_pParentControl->SetFocusControl(pControl);
+		}
+		else
+		{
+			if(m_pFocusControl)
+			{
+				m_pFocusControl->m_bFocus = false;
+			}
+			m_pFocusControl = const_cast<cBaseControl *>(pControl);
+			m_bFocus = true;
+		}
+
+	}
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::PostToAllReverse( cBaseControl * const pControl, const AppMsg & msg )
+{
+	cBaseControl *  pNextControl = pControl->GetNextSibling();
+	if(pNextControl)
+	{
+		pNextControl->PostToAllReverse(pNextControl, msg);
+	}
+	pControl->PostMsg(msg);
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::MoveToFront( cBaseControl * const pControl )
+{
+	cBaseControl * pNextControl = pControl->GetNextSibling();
+	cBaseControl * pPrevControl = pControl->GetPreviousSibling();
+
+	if (pPrevControl) // not in front
+	{
+		pPrevControl->SetNextSibling(pNextControl);
+		if (pNextControl)
+		{
+			pNextControl->SetPreviousSibling(pPrevControl);
+		}
+	}
+	else
+	{
+		return;
+	}
+
+	pControl->SetNextSibling(m_pChildControls);
+	m_pChildControls->SetPreviousSibling(pControl);
+	pControl->SetPreviousSibling(NULL);
+	m_pChildControls = pControl;
+
+}
+// ***************************************************************
