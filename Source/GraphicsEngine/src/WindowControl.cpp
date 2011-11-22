@@ -13,6 +13,8 @@
 #include "DxBase.hxx"
 
 using namespace Graphics;
+using namespace Utilities;
+using namespace Base;
 
 Graphics::cWindowControl::cWindowControl(WINDOWTYPE wType)
 : m_bIsParentWindow(false)
@@ -70,6 +72,7 @@ void Graphics::cWindowControl::OnMouseDown( const int iButton, const int X, cons
 		m_iX = X - vControlAbsolutePosition.x;
 		m_iY = Y - vControlAbsolutePosition.y;
 		m_bIsMouseDown = true;
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "cWindowControl::OnMouseDown" ));
 	}
 }
 // ***************************************************************
@@ -78,7 +81,7 @@ void Graphics::cWindowControl::OnMouseMove( const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		if (!m_bIsMouseDown)
+		if (m_bIsMouseDown)
 		{
 			D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
 			GetAbsolutePosition(vControlAbsolutePosition);
@@ -86,6 +89,7 @@ void Graphics::cWindowControl::OnMouseMove( const int X, const int Y )
 			m_vPosition.x = m_vPosition.x + (X - vControlAbsolutePosition.x) - m_iX;
 			m_vPosition.y = m_vPosition.y + (Y - vControlAbsolutePosition.y) - m_iY;
 		}
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "cWindowControl::OnMouseMove - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
 	}
 }
 // ***************************************************************
@@ -95,6 +99,7 @@ void Graphics::cWindowControl::OnMouseUp( const int iButton, const int X, const 
 	if (m_eWindowType != WT_DESKTOP)
 	{
 		m_bIsMouseDown = false;
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "cWindowControl::OnMouseUp"));
 	}
 }
 

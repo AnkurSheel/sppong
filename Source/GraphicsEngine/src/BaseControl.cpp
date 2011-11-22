@@ -137,12 +137,13 @@ bool Graphics::cBaseControl::IsCursorIntersect( const float fX, const float fY )
 
 bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 {
+	cBaseControl * pTempControl = NULL;
 	switch(msg.m_uMsg)
 	{
 	case WM_LBUTTONDOWN:
 		if(IsCursorIntersect(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)))
 		{
-			cBaseControl * pTempControl = PostToAll(msg);
+			pTempControl = PostToAll(msg);
 			if(!pTempControl)
 			{
 				OnMouseDown(msg.m_uMsg, LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
@@ -156,17 +157,47 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 		}
 		break;
 
-	case WM_KEYUP:
-		if(m_pFocusControl)
+	case WM_LBUTTONUP:
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
 		{
-			m_pFocusControl->OnKeyUp(msg);
+			if (m_pFocusControl)
+			{
+				m_pFocusControl->OnMouseUp(msg.m_uMsg, LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+			}
+		}
+		break;
+
+	case WM_MOUSEMOVE:
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
+		{
+			if (m_pFocusControl)
+			{
+				m_pFocusControl->OnMouseMove(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+			}
+		}
+		break;
+
+	case WM_KEYUP:
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
+		{
+			if(m_pFocusControl)
+			{
+				m_pFocusControl->OnKeyUp(msg);
+			}
 		}
 		break;
 
 	case  WM_KEYDOWN:
-		if(m_pFocusControl)
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
 		{
-			m_pFocusControl->OnKeyDown(msg);
+			if(m_pFocusControl)
+			{
+				m_pFocusControl->OnKeyDown(msg);
+			}
 		}
 		break;
 

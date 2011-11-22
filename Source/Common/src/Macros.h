@@ -39,12 +39,15 @@
 	} \
 }
 
+#define TEST
 //configure some basic precompilation defines
 //0 - no debugging wanted
 //1 - very basic debug output
 //2 - comprehensive debug output
 //3 - all output, and a transcript of all messages
-
+#ifdef TEST
+#define SYSTEM_DEBUG_LEVEL 3
+#else
 //#ifdef _DEBUG
 //Set the output level for 'DEBUG' builds
 #define SYSTEM_DEBUG_LEVEL 2
@@ -52,6 +55,8 @@
 //Set the output level for 'RELEASE' builds
 //#define SYSTEM_DEBUG_LEVEL 1
 //#endif
+
+#endif
 
 #define Log_Write( linetype, linetext )  \
 	ILogger::TheLogger()->WriteLogEntry( \

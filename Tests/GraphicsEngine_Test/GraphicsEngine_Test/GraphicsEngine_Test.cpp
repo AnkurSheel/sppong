@@ -53,9 +53,9 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window initialized"));
 	
 
-	Graphics::IInput * pInput;
-	pInput= IInput::CreateInputDevice();
-	pInput->Init(hInstance, hWnd, iWidth, iHeight);
+	//Graphics::IInput * pInput;
+	//pInput= IInput::CreateInputDevice();
+	//pInput->Init(hInstance, hWnd, iWidth, iHeight);
 
 	HRESULT hr;
 
@@ -80,7 +80,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 			{
 				pGame->Run();
 
-				pInput->DetectKeys();
+				/*pInput->DetectKeys();
 
 				const bool* const pbPressedKeys = pInput->GetPressedKeys();
 				if (pbPressedKeys[DIK_ESCAPE])
@@ -91,7 +91,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 					PostQuitMessage(0);
 				}
 
-				pInput->DetectMouseMovement();
+				pInput->DetectMouseMovement();*/
 
 				IDXBase::GetInstance()->EndRender(hr);
 			}
@@ -104,7 +104,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
 	}
 
-	SAFE_DELETE(pInput);
+	//SAFE_DELETE(pInput);
 
 	SAFE_DELETE(pGame);
 
