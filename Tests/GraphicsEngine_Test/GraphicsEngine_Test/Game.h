@@ -22,6 +22,7 @@ public:
 private:
 	Graphics::IBaseControl *		m_pParentControl;
 	Graphics::IBaseControl *		m_pWindowControl;
+	Graphics::IBaseControl *		m_pLabelControl;
 
 };
 

@@ -25,8 +25,8 @@ namespace Graphics
 	public:
 		cBaseControl();
 		virtual ~cBaseControl();
-		IBaseControl * AddChildControl(IBaseControl * pControl);
-		cBaseControl * RemoveChildControl(cBaseControl * pControl);
+		IBaseControl * AddChildControl( IBaseControl * const pChildControl);
+		const cBaseControl * RemoveChildControl(const cBaseControl * pChildControl);
 		void RemoveAllChildren();
 		int GetNoOfChildren() const;
 		cBaseControl * GetParentControl();

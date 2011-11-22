@@ -78,7 +78,7 @@ void cGame::Render(TICK tickCurrent, float fElapsedTime)
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::OnInit(const HINSTANCE hInstance, 
+HWND cGame::OnInit(const HINSTANCE hInstance, 
 				   const int nCmdShow,
 				   const bool bFullScreen)
 {
@@ -105,6 +105,8 @@ void cGame::OnInit(const HINSTANCE hInstance,
 	m_pPongView->OnCreateDevice(hInstance, hwnd, m_iDisplayWidth, m_iDisplayHeight);
 
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
+
+	return hwnd;
 }
 // ***************************************************************
 
@@ -455,7 +457,7 @@ float cGame::GetFPS()
 }
 // ***************************************************************
 
-void cGame::OnMsgProc( const GameBase::AppMsg & msg )
+void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 {
 
 }

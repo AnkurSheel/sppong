@@ -34,6 +34,7 @@ namespace Graphics
 		void LoadCanvasFromFile(const Base::cString & strFileName);
 		void Minimize(const int iWidth, const int iHeight, const int iX, const int iY);
 		void Restore();
+	
 	private :
 		cWindowControl(const cWindowControl&){}
 		cWindowControl operator =(const cWindowControl&){}

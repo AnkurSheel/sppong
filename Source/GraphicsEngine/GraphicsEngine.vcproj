@@ -358,6 +358,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\LabelControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LabelControl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\WindowControl.cpp"
 				>
 			</File>

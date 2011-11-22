@@ -145,9 +145,13 @@ void Graphics::cWindowControl::Restore()
 }
 // ***************************************************************
 
-IBaseControl * Graphics::IBaseControl::CreateWindowControl(WINDOWTYPE wType)
+IBaseControl * Graphics::IBaseControl::CreateWindowControl( WINDOWTYPE wType, const Base::cString & strFileName)
 {
 	cWindowControl * pControl = DEBUG_NEW cWindowControl(wType);
+	if (!strFileName.IsEmpty())
+	{
+		pControl->LoadCanvasFromFile(strFileName);
+	}
 	return pControl;
 }
 // ***************************************************************

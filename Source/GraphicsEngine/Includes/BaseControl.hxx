@@ -34,15 +34,14 @@ namespace Graphics
 	{
 	public:
 		virtual ~IBaseControl(){}
-		virtual void SetHeight(DWORD dwHeight) = 0;
-		virtual void SetWidth(DWORD dwWidth) = 0;
-		virtual void SetPosition(const D3DXVECTOR3 & vPosition) = 0;
-		virtual IBaseControl * AddChildControl(IBaseControl * pControl) = 0;
 		virtual bool PostMsg(const AppMsg & msg) = 0;
+		virtual IBaseControl * AddChildControl( IBaseControl * const pChildControl) = 0;
+		virtual void SetHeight(DWORD dwHeight) = 0;
+		virtual void SetPosition(const D3DXVECTOR3 & vPosition) = 0;
+		virtual void SetWidth(DWORD dwWidth) = 0;
 
-		virtual void LoadCanvasFromFile(const Base::cString & strFileName){}
-		
-		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType);
+		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType, const Base::cString & strFileName);
+		GRAPHIC_API static IBaseControl * CreateLabelControl(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption);
 	};
 }
 #endif // BaseControl_hxx__

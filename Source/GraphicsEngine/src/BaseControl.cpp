@@ -43,19 +43,19 @@ cBaseControl::~cBaseControl()
 }
 // ***************************************************************
 
-IBaseControl * cBaseControl::AddChildControl( IBaseControl * pControl )
+IBaseControl * cBaseControl::AddChildControl(IBaseControl * const pChildControl )
 {
-	cBaseControl* pBaseControl = dynamic_cast<cBaseControl *>(pControl);
-	if (pBaseControl)
+	cBaseControl * const pControl = dynamic_cast<cBaseControl * const>(pChildControl);
+	if (pControl)
 	{
-		pBaseControl->SetParentControl(this);
+		pControl->SetParentControl(this);
 //		ISprite * pSprite = pBaseControl->GetSprite();
 //		SAFE_DELETE(pSprite);
 //		pBaseControl->SetSprite(m_pCanvasSprite);
 
 		if (!m_pChildControls)
 		{
-			m_pChildControls = pBaseControl;
+			m_pChildControls = pControl;
 		}
 		else
 		{
@@ -66,28 +66,28 @@ IBaseControl * cBaseControl::AddChildControl( IBaseControl * pControl )
 				temp = temp->GetNextSibling();
 			}
 
-			temp->SetNextSibling(pBaseControl);
-			pBaseControl->SetPreviousSibling(temp);
+			temp->SetNextSibling(pControl);
+			pControl->SetPreviousSibling(temp);
 		}
 		m_iNoOfChildren++;
-		return pBaseControl;
+		return pControl;
 	}
 	return NULL;
 }
 // ***************************************************************
 
-cBaseControl * cBaseControl::RemoveChildControl( cBaseControl * pControl )
+const cBaseControl * cBaseControl::RemoveChildControl( const cBaseControl * pChildControl )
 {
-	cBaseControl * pNextControl = pControl->GetNextSibling();
-	cBaseControl * pPreviousControl = pControl->GetPreviousSibling();
-	SAFE_DELETE(pControl);
+	cBaseControl * pNextControl = pChildControl->GetNextSibling();
+	cBaseControl * pPreviousControl = pChildControl->GetPreviousSibling();
+	SAFE_DELETE(pChildControl);
 	pNextControl->SetPreviousSibling(pPreviousControl);
 	pPreviousControl->SetNextSibling(pNextControl);
-	pControl = pNextControl;
+	pChildControl = pNextControl;
 
 	m_iNoOfChildren--;
 
-	return pControl;
+	return pChildControl;
 }
 // ***************************************************************
 
