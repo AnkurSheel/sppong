@@ -27,6 +27,7 @@ cBaseControl::cBaseControl()
 , m_vPosition(D3DXVECTOR2(0.0f, 0.0f))
 , m_bFocus(false)
 , m_pFocusControl(NULL)
+, m_bIsMouseDown(false)
 {
 
 }
@@ -290,5 +291,56 @@ void Graphics::cBaseControl::MoveToFront( cBaseControl * const pControl )
 	pControl->SetPreviousSibling(NULL);
 	m_pChildControls = pControl;
 
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::OnMouseDown( const int iButton, const int X, const int Y )
+{
+	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
+	GetAbsolutePosition(vControlAbsolutePosition);
+
+	m_iMouseDownXPos = X - vControlAbsolutePosition.x;
+	m_iMouseDownYPos = Y - vControlAbsolutePosition.y;
+	m_bIsMouseDown = true;
+}
+
+void Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
+{
+	if (m_bIsMouseDown)
+	{
+		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
+		GetAbsolutePosition(vControlAbsolutePosition);
+
+		float x = m_vPosition.x + (X - vControlAbsolutePosition.x) - m_iMouseDownXPos;
+		float y = m_vPosition.y + (Y - vControlAbsolutePosition.y) - m_iMouseDownYPos;
+
+		// constrain child control in parent control
+		if (m_pParentControl)
+		{
+			if (x < 0)
+			{
+				x = 0; 
+			}
+			if ((x + m_dwWidth) > m_pParentControl->GetWidth())
+			{
+				x = m_pParentControl->GetWidth() - m_dwWidth; 
+			}
+			if (y < 0)
+			{
+				y = 0; 
+			}
+			if ((y + m_dwHeight) > m_pParentControl->GetHeight())
+			{
+				y = m_pParentControl->GetHeight() - m_dwHeight; 
+			}
+		}
+		m_vPosition.x = x;
+		m_vPosition.y = y;
+	}
+}
+
+void Graphics::cBaseControl::OnMouseUp( const int iButton, const int X, const int Y )
+{
+	m_bIsMouseDown = false;
 }
 // ***************************************************************

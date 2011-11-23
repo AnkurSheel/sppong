@@ -56,9 +56,9 @@ namespace Graphics
 		void PostToAllReverse(cBaseControl * const pControl, const AppMsg & msg);
 		void MoveToFront(cBaseControl * const pControl);
 		
-		virtual void OnMouseUp(const int iButton, const int X, const int Y) = 0;
-		virtual void OnMouseDown(const int iButton, const int X, const int Y) = 0;
-		virtual void OnMouseMove(const int X, const int Y) = 0;
+		virtual void OnMouseUp(const int iButton, const int X, const int Y);
+		virtual void OnMouseDown(const int iButton, const int X, const int Y);
+		virtual void OnMouseMove(const int X, const int Y);
 		virtual void OnKeyDown(const AppMsg & msg ) = 0;
 		virtual void OnKeyUp(const AppMsg & msg ) = 0;
 		virtual void OnRender(const AppMsg & msg) = 0;
@@ -76,6 +76,10 @@ namespace Graphics
 		cBaseControl *		m_pParentControl;
 		int					m_iNoOfChildren;
 		D3DXVECTOR3			m_vPosition;		
+		int					m_iMouseDownXPos;
+		int					m_iMouseDownYPos;
+		bool				m_bIsMouseDown;
+
 	};
 	#include "BaseControl.inl"
 }

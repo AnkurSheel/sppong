@@ -13,6 +13,7 @@
 #include "ResCache.hxx"
 #include "ResourceManager.hxx"
 #include "DxBase.hxx"
+#include "Texture.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -67,31 +68,13 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 		PostQuitMessage(0);
 	}
 
-	IResource * pResource = IResource::CreateResource(strFilename);
-	shared_ptr<IResHandle> texture = IResourceManager::TheResourceManager()->GetResourceCache()->GetHandle(*pResource);
-
-	if(texture.get() == NULL)
+	if (m_pTexture == NULL)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not add to cache: %s", strFilename.GetData() ));
-		PostQuitMessage(0);
+		m_pTexture = ITexture::CreateTexture();
 	}
-	// Create the texture associated with this sprite
-	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, texture->GetBuffer(), texture->GetSize(), &m_pTexture)))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Texture Creation failed : %s", strFilename.GetData() ));
-		PostQuitMessage(0);
-	}
+	
+	m_pTexture->Init(pDevice, strFilename, m_uiHeight, m_uiWidth);
 
-	D3DXIMAGE_INFO imageInfo;	// contents of the image file	
-
-	// get the contents of the image file
-	D3DXGetImageInfoFromFileInMemory(texture->GetBuffer(), texture->GetSize(), &imageInfo);
-
-	//get the image height and width
-	m_uiHeight = imageInfo.Height;
-	m_uiWidth = imageInfo.Width;
-
-	SAFE_DELETE(pResource);
 }
 // ***************************************************************
 
@@ -120,7 +103,7 @@ void cSprite::Render( LPDIRECT3DDEVICE9 const pDevice)
 {
 	// draw the sprite
 	m_pSprite->Begin(m_dwFlags);
-	m_pSprite->Draw(m_pTexture, m_pSrcRect, NULL, NULL, m_tintColor); 
+	m_pSprite->Draw(m_pTexture->GetTexture(), m_pSrcRect, NULL, NULL, m_tintColor); 
 	m_pSprite->End();
 }
 // ***************************************************************
@@ -157,7 +140,7 @@ void cSprite::Cleanup()
 
 	SAFE_DELETE(m_pSrcRect)
 	// release the texture
-	SAFE_RELEASE(m_pTexture);
+	SAFE_DELETE(m_pTexture);
 
 	// release the sprite
 	SAFE_RELEASE(m_pSprite);

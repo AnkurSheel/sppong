@@ -234,6 +234,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Texture.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Texture.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\src\VertexStruct.cpp"
 				>
 			</File>

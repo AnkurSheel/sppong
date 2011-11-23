@@ -31,24 +31,6 @@ Graphics::cLabelControl::~cLabelControl()
 }
 // ***************************************************************
 
-void Graphics::cLabelControl::OnMouseUp( const int iButton, const int X, const int Y )
-{
-
-}
-// ***************************************************************
-
-void Graphics::cLabelControl::OnMouseDown( const int iButton, const int X, const int Y )
-{
-
-}
-// ***************************************************************
-
-void Graphics::cLabelControl::OnMouseMove( const int X, const int Y )
-{
-
-}
-// ***************************************************************
-
 void Graphics::cLabelControl::OnKeyDown( const AppMsg & msg )
 {
 
@@ -70,6 +52,11 @@ void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 
 		if (m_vPrevControlPosition != vControlAbsolutePosition)
 		{
+			if (m_dwWidth == 0 || m_dwHeight == 0)
+			{
+				Log_Write_L1(ILogger::LT_ERROR, cString(100, "Label control height or width is 0"));
+			}
+
 			m_vPrevControlPosition = vControlAbsolutePosition;
 			m_rectBoundary.left = (LONG)vControlAbsolutePosition.x;
 			m_rectBoundary.top = (LONG)vControlAbsolutePosition.y;
@@ -86,10 +73,13 @@ void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption )
 {
 	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
-	m_pFont->SetFormat(dwFormat);
-	m_pFont->SetTextColor(color);
-	m_pFont->SetText(strCaption);
+	if (m_pFont != NULL)
+	{
+		m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
+		m_pFont->SetFormat(dwFormat);
+		m_pFont->SetTextColor(color);
+		m_pFont->SetText(strCaption);
+	}
 }
 // ***************************************************************
 

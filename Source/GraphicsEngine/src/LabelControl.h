@@ -25,9 +25,6 @@ namespace Graphics
 		cLabelControl();
 		~cLabelControl();
 		
-		void OnMouseUp(const int iButton, const int X, const int Y);
-		void OnMouseDown(const int iButton, const int X, const int Y);
-		void OnMouseMove(const int X, const int Y);
 		void OnKeyDown(const AppMsg & msg );
 		void OnKeyUp(const AppMsg & msg );
 		void OnRender(const AppMsg & msg);

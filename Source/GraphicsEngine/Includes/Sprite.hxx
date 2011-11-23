@@ -25,7 +25,7 @@ namespace Graphics
 		: public IScreenElement
 	{
 	public:
-		virtual ~ISprite(){};
+		virtual ~ISprite(){}
 		GRAPHIC_API virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) = 0;
 		GRAPHIC_API virtual void SetSize(const float fNewWidth, const float fNewHeight) = 0;
 		GRAPHIC_API virtual UINT GetScaledHeight() const = 0;

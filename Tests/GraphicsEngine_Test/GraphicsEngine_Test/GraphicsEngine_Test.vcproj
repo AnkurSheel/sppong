@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base.lib GraphicsEngine.lib Utilities.lib GambeBase.lib"
+				AdditionalDependencies="Base.lib GraphicsEngine.lib Utilities.lib GameBase.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\bin"
 				GenerateDebugInformation="true"

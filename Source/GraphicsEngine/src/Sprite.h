@@ -17,6 +17,11 @@ namespace Base
 	class cString;
 }
 
+namespace Graphics
+{
+	class ITexture;
+}
+
 namespace Graphics 
 {
 	class cSprite
@@ -50,7 +55,7 @@ namespace Graphics
 	private:
 
 		LPD3DXSPRITE		m_pSprite;		// ptr to the sprite 
-		LPDIRECT3DTEXTURE9	m_pTexture;		// the texture associated with this sprite
+		ITexture *			m_pTexture;		// the texture associated with this sprite
 		UINT				m_uiHeight;		// the height of the image
 		UINT				m_uiWidth;		// the width of the image
 		D3DXVECTOR3			m_vScale ;		// the scaling info for the image

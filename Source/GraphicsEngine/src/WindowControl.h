@@ -27,10 +27,6 @@ namespace Graphics
 		void OnKeyDown(const AppMsg & msg ){}
 		void OnKeyUp(const AppMsg & msg ){}
 		void OnRender(const AppMsg & msg);
-		void OnSetFocus();
-		void OnLostFocus();
-		bool IsParentWindow();
-		void SetParentWindow(const bool bIsParentWindow);
 		void LoadCanvasFromFile(const Base::cString & strFileName);
 		void Minimize(const int iWidth, const int iHeight, const int iX, const int iY);
 		void Restore();
@@ -40,19 +36,13 @@ namespace Graphics
 		cWindowControl operator =(const cWindowControl&){}
 
 	private:
-		bool		m_bIsParentWindow;
-		bool		m_bIsMouseDown;
-		int			m_iLastNormalPosX;
-		int			m_iLastNormalPosY;
-		int			m_iLastNormalWidth;
-		int			m_iLastNormalHeight;
-		bool		m_bIsMinimized;
-		int			m_iX;
-		int			m_iY;
-		WINDOWTYPE	m_eWindowType;
+		int					m_iLastNormalPosX;
+		int					m_iLastNormalPosY;
+		int					m_iLastNormalWidth;
+		int					m_iLastNormalHeight;
+		bool				m_bIsMinimized;
+		WINDOWTYPE			m_eWindowType;
 	};
-
-#include "WindowControl.inl"
 }
 
 #endif // WindowControl_h__

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "BaseControl.hxx"
-#include "DxBase.hxx"
+#include "MainWindow.hxx"
 #include "Structures.h"
 #include "Constants.h"
 
@@ -27,17 +27,17 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	cBaseApp::OnInit(hInstance, nCmdShow, bFullscreen, hWnd);
 
 	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "");
-	m_pParentControl->SetHeight(IDXBase::GetInstance()->GetDisplayHeight());
-	m_pParentControl->SetWidth(IDXBase::GetInstance()->GetDisplayWidth());
+	m_pParentControl->SetHeight(IMainWindow::TheWindow()->GetClientWindowHeight());
+	m_pParentControl->SetWidth(IMainWindow::TheWindow()->GetClientWindowWidth());
 	m_pParentControl->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
 	m_pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
 	m_pWindowControl->SetPosition(D3DXVECTOR3(100.f, 100.f, 0.f));
 
-	m_pLabelControl = IBaseControl::CreateLabelControl(14, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, WHITE, "Label");
-	m_pLabelControl->SetHeight(100);
-	m_pLabelControl->SetWidth(100);
-	m_pLabelControl->SetPosition(D3DXVECTOR3(0.f, 50.f, 0.f));
+	m_pLabelControl = IBaseControl::CreateLabelControl(14, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
+	m_pLabelControl->SetHeight(15);
+	m_pLabelControl->SetWidth(75);
+	m_pLabelControl->SetPosition(D3DXVECTOR3(0.f, 20.f, 0.f));
 
 	m_pParentControl->AddChildControl(m_pWindowControl);
 	m_pWindowControl->AddChildControl(m_pLabelControl);
