@@ -26,9 +26,11 @@ namespace Graphics
 	public:
 		cTexture();
 		~cTexture();
-		void Init(LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, DWORD & outdwHeight, DWORD & outdwWidth);
+		void Init(LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename);
 		LPDIRECT3DTEXTURE9 GetTexture();
 		void Cleanup();
+		DWORD GetWidth();
+		DWORD GetHeight();
 
 	private :
 		cTexture(const cTexture&){}
@@ -36,6 +38,8 @@ namespace Graphics
 	
 	private:
 		LPDIRECT3DTEXTURE9	m_pTexture;
+		DWORD m_dwHeight;
+		DWORD m_dwWidth;
 	};
 #include "Texture.inl"
 }

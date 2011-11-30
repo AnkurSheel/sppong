@@ -34,7 +34,7 @@ namespace Graphics
 	public:
 		cSprite();
 		~cSprite();
-		void Init(LPDIRECT3DDEVICE9 const pDevice);
+		void Init(LPDIRECT3DDEVICE9 const pDevice, std::tr1::shared_ptr<ITexture> const pTexture);
 		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
 		void Render(LPDIRECT3DDEVICE9 const pDevice);

@@ -15,6 +15,7 @@
 #include "Sprite.hxx"
 
 using namespace Graphics;
+using namespace Utilities;
 
 Graphics::cButtonControl::cButtonControl()
 : m_pLabelCaption(NULL)
@@ -42,22 +43,19 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage,
 	{
 		m_pDefaultTexture = ITexture::CreateTexture();
 	}
-	m_pDefaultTexture->Init(IDXBase::GetInstance()->GetDevice(), strDefaultImage, m_dwHeight, m_dwWidth);
+	m_pDefaultTexture->Init(IDXBase::GetInstance()->GetDevice(), strDefaultImage);
 
 	if(m_pPressedTexture == NULL)
 	{
 		m_pPressedTexture = ITexture::CreateTexture();
 	}
-	m_pPressedTexture->Init(IDXBase::GetInstance()->GetDevice(), strPressedImage, m_dwHeight, m_dwWidth);
+	m_pPressedTexture->Init(IDXBase::GetInstance()->GetDevice(), strPressedImage);
 
 	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->Init(IDXBase::GetInstance()->GetDevice());
-	m_pCanvasSprite->SetTexture(m_pDefaultTexture);
+	m_pCanvasSprite->Init(IDXBase::GetInstance()->GetDevice(), m_pDefaultTexture);
 
 	SAFE_DELETE(m_pLabelCaption);
 	m_pLabelCaption = IBaseControl::CreateLabelControl(iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, strCaption);
-	m_pLabelCaption->SetHeight(m_dwHeight);
-	m_pLabelCaption->SetWidth(m_dwWidth);
 }
 // ***************************************************************
 
@@ -73,6 +71,7 @@ void Graphics::cButtonControl::OnMouseUp( const int iButton, const int X, const 
 	m_bPressed = false;
 	m_pCanvasSprite->SetTexture(m_pDefaultTexture);
 	cBaseControl::OnMouseUp(iButton, X, Y);
+	Log_Write_L3(ILogger::LT_COMMENT, "Button Released");
 }
 // ***************************************************************
 
@@ -81,6 +80,7 @@ void Graphics::cButtonControl::OnMouseDown( const int iButton, const int X, cons
 	m_bPressed = true;
 	m_pCanvasSprite->SetTexture(m_pPressedTexture);
 	cBaseControl::OnMouseDown(iButton, X, Y);
+	Log_Write_L3(ILogger::LT_COMMENT, "Button Pressed");
 }
 // ***************************************************************
 
@@ -101,10 +101,23 @@ void Graphics::cButtonControl::OnRender( const AppMsg & msg )
 	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
 	GetAbsolutePosition(vControlAbsolutePosition);
 
-	m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-	m_pLabelCaption->SetPosition(vControlAbsolutePosition);
+	if (IsPositionChanged(vControlAbsolutePosition))
+	{
+		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
+		m_pLabelCaption->SetPosition(D3DXVECTOR3(m_dwWidth/2.0f, m_dwHeight/2.0f, 0.0f));
+		m_pLabelCaption->SetPosition(D3DXVECTOR3(vControlAbsolutePosition.x + m_dwWidth/4.0f, vControlAbsolutePosition.y + m_dwHeight/2.0f, 0.0f));
+	}
 	m_pCanvasSprite->Render(IDXBase::GetInstance()->GetDevice());
 	m_pLabelCaption->OnRender(msg);
+}
+
+void Graphics::cButtonControl::SetSize( const float fNewWidth, const float fNewHeight )
+{
+	cBaseControl::SetSize(fNewWidth, fNewHeight);
+	if (m_pLabelCaption)
+	{
+		m_pLabelCaption->SetSize(fNewWidth, fNewHeight);
+	}
 }
 // ***************************************************************
 

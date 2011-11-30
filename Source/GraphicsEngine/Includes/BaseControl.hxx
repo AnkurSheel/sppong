@@ -36,10 +36,10 @@ namespace Graphics
 		virtual ~IBaseControl(){}
 		virtual bool PostMsg(const AppMsg & msg) = 0;
 		virtual IBaseControl * AddChildControl( IBaseControl * const pChildControl) = 0;
-		virtual void SetHeight(DWORD dwHeight) = 0;
 		virtual void SetPosition(const D3DXVECTOR3 & vPosition) = 0;
-		virtual void SetWidth(DWORD dwWidth) = 0;
 		virtual void OnRender(const AppMsg & msg) = 0;
+		virtual void SetSize(const float fNewWidth, const float fNewHeight) = 0;
+		virtual D3DXVECTOR3 GetPosition() const = 0;
 
 		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType, const Base::cString & strFileName);
 		GRAPHIC_API static IBaseControl * CreateLabelControl(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption);

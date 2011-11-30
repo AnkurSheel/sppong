@@ -13,6 +13,8 @@
 #include "Structures.h"
 
 using namespace Graphics;
+using namespace Utilities;
+using namespace Base;
 
 cBaseControl::cBaseControl()
 : m_dwWidth(0)
@@ -28,6 +30,7 @@ cBaseControl::cBaseControl()
 , m_bFocus(false)
 , m_pFocusControl(NULL)
 , m_bIsMouseDown(false)
+, m_vPrevControlPosition(D3DXVECTOR3(0.f, 0.f, 0.f))
 {
 
 }
@@ -303,6 +306,7 @@ void Graphics::cBaseControl::OnMouseDown( const int iButton, const int X, const 
 	m_iMouseDownYPos = Y - vControlAbsolutePosition.y;
 	m_bIsMouseDown = true;
 }
+// ***************************************************************
 
 void Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
 {
@@ -338,9 +342,32 @@ void Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
 		m_vPosition.y = y;
 	}
 }
+// ***************************************************************
 
 void Graphics::cBaseControl::OnMouseUp( const int iButton, const int X, const int Y )
 {
 	m_bIsMouseDown = false;
+}
+// ***************************************************************
+
+bool Graphics::cBaseControl::IsPositionChanged( const D3DXVECTOR3 & vControlPosition )
+{
+	if (m_vPrevControlPosition != vControlPosition)
+	{
+		return true;
+	}
+	return false;
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::SetSize( const float fNewWidth, const float fNewHeight )
+{
+	m_dwHeight = fNewHeight;
+	m_dwWidth = fNewWidth;
+
+	if(m_pCanvasSprite)
+	{
+		m_pCanvasSprite->SetSize(m_dwWidth, m_dwHeight);
+	}
 }
 // ***************************************************************

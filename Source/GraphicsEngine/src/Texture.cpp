@@ -20,6 +20,8 @@ using namespace std::tr1;
 
 cTexture::cTexture()
 : m_pTexture(NULL)
+, m_dwHeight(0)
+, m_dwWidth(0)
 {
 
 }
@@ -29,7 +31,7 @@ cTexture::~cTexture()
 	Cleanup();
 }
 
-void Graphics::cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, DWORD & outdwHeight, DWORD & outdwWidth )
+void Graphics::cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename )
 {
 	SAFE_RELEASE(m_pTexture);	
 	IResource * pResource = IResource::CreateResource(strFilename);
@@ -53,8 +55,8 @@ void Graphics::cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & 
 	D3DXGetImageInfoFromFileInMemory(texture->GetBuffer(), texture->GetSize(), &imageInfo);
 
 	//get the image height and width
-	outdwHeight = imageInfo.Height;
-	outdwWidth = imageInfo.Width;
+	m_dwHeight = imageInfo.Height;
+	m_dwWidth = imageInfo.Width;
 	SAFE_DELETE(pResource);
 
 }
@@ -63,6 +65,7 @@ void Graphics::cTexture::Cleanup()
 {
 	SAFE_RELEASE(m_pTexture);
 }
+// ***************************************************************
 
 std::tr1::shared_ptr<ITexture> Graphics::ITexture::CreateTexture()
 {

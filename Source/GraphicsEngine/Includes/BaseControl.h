@@ -43,10 +43,8 @@ namespace Graphics
 		void SetFocusControl(const cBaseControl * const pControl);
 		bool GetVisible() const;
 		void SetVisible(bool bIsVisible);
-		DWORD GetHeight();
-		void SetHeight(DWORD dwHeight);
-		DWORD GetWidth();
-		void SetWidth(DWORD dwWidth);
+		DWORD GetHeight() const;
+		DWORD GetWidth() const;
 		D3DXVECTOR3 GetPosition() const;
 		void SetPosition(const D3DXVECTOR3 & vPosition);
 
@@ -61,7 +59,10 @@ namespace Graphics
 		virtual void OnMouseMove(const int X, const int Y);
 		virtual void OnKeyDown(const AppMsg & msg ) = 0;
 		virtual void OnKeyUp(const AppMsg & msg ) = 0;
+		virtual void SetSize(const float fNewWidth, const float fNewHeight);
 
+	protected:
+		bool IsPositionChanged(const D3DXVECTOR3 & vControlPosition);
 	protected:
 		bool				m_bFocus;
 		cBaseControl *		m_pFocusControl;
@@ -78,7 +79,7 @@ namespace Graphics
 		int					m_iMouseDownXPos;
 		int					m_iMouseDownYPos;
 		bool				m_bIsMouseDown;
-
+		D3DXVECTOR3			m_vPrevControlPosition;
 	};
 	#include "BaseControl.inl"
 }

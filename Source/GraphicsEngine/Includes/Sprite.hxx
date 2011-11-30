@@ -32,7 +32,7 @@ namespace Graphics
 	{
 	public:
 		virtual ~ISprite(){}
-		virtual void Init(LPDIRECT3DDEVICE9 const pDevice) = 0;
+		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, std::tr1::shared_ptr<ITexture> const pTexture) = 0;
 		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) = 0;
 		virtual void SetSize(const float fNewWidth, const float fNewHeight) = 0;
 		virtual UINT GetScaledHeight() const = 0;

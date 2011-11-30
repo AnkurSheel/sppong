@@ -58,28 +58,18 @@ inline void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
 }
 // ***************************************************************
 
-inline DWORD Graphics::cBaseControl::GetHeight()
+inline DWORD Graphics::cBaseControl::GetHeight() const
 {
 	return m_dwHeight;
 }
 // ***************************************************************
-inline void Graphics::cBaseControl::SetHeight(DWORD dwHeight)
-{
-	m_dwHeight = dwHeight;
-}
-// ***************************************************************
 
-inline DWORD Graphics::cBaseControl::GetWidth()
+inline DWORD Graphics::cBaseControl::GetWidth() const
 {
 	return m_dwWidth;
 }
 // ***************************************************************
 
-inline void Graphics::cBaseControl::SetWidth( DWORD dwWidth )
-{
-	m_dwWidth = dwWidth;
-}
-// ***************************************************************
 inline cBaseControl * Graphics::cBaseControl::GetFocusControl()
 {
 	return m_pFocusControl;

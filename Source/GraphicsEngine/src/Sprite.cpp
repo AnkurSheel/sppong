@@ -48,7 +48,7 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice)
+void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice, std::tr1::shared_ptr<ITexture> const pTexture)
 {
 	if (m_pSprite)
 	{
@@ -60,6 +60,14 @@ void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice)
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite Creation failed : %s", m_strFilename.GetData() ));
 		PostQuitMessage(0);
 	}
+
+	if (!m_pTexture)
+	{
+		m_pTexture = pTexture;
+	}
+
+	m_dwHeight = m_pTexture->GetHeight();
+	m_dwWidth = m_pTexture->GetWidth();
 }
 // ***************************************************************
 
@@ -73,7 +81,6 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
 
-	Init(pDevice);
 
 
 	if (m_pTexture == NULL)
@@ -81,7 +88,10 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 		m_pTexture = ITexture::CreateTexture();
 	}
 	
-	m_pTexture->Init(pDevice, strFilename, m_dwHeight, m_dwWidth);
+	m_pTexture->Init(pDevice, strFilename);
+
+	Init(pDevice, m_pTexture);
+
 }
 // ***************************************************************
 
@@ -91,6 +101,11 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 // ***************************************************************
 void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 {
+	if (m_dwWidth == 0 || m_dwHeight == 0)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite height or width is 0"));
+	}
+
 	m_vScale.x = (float)fNewWidth/m_dwWidth;
 	m_vScale.y = (float)fNewHeight/m_dwHeight;
 	m_vScale.z = 1.0f;

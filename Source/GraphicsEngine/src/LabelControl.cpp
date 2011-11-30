@@ -18,7 +18,6 @@ using namespace Graphics;
 
 Graphics::cLabelControl::cLabelControl()
 : m_pFont(NULL)
-, m_vPrevControlPosition(D3DXVECTOR3(0.f, 0.f, 0.f))
 {
 
 }
@@ -50,7 +49,7 @@ void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
 		GetAbsolutePosition(vControlAbsolutePosition);
 
-		if (m_vPrevControlPosition != vControlAbsolutePosition)
+		if (IsPositionChanged(vControlAbsolutePosition))
 		{
 			if (m_dwWidth == 0 || m_dwHeight == 0)
 			{

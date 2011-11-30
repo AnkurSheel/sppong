@@ -38,7 +38,6 @@ namespace Graphics
 	private:
 		IFont *				m_pFont;
 		RECT				m_rectBoundary;
-		D3DXVECTOR3			m_vPrevControlPosition;
 	};
 }
 #endif // LabelControl_h__

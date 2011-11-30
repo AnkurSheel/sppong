@@ -25,20 +25,20 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	cBaseApp::OnInit(hInstance, nCmdShow, bFullscreen, hWnd);
 
 	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "");
-	m_pParentControl->SetHeight(IMainWindow::TheWindow()->GetClientWindowHeight());
-	m_pParentControl->SetWidth(IMainWindow::TheWindow()->GetClientWindowWidth());
+	m_pParentControl->SetSize(IMainWindow::TheWindow()->GetClientWindowWidth(), IMainWindow::TheWindow()->GetClientWindowHeight());
 	m_pParentControl->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
 	pWindowControl->SetPosition(D3DXVECTOR3(100.f, 100.f, 0.f));
+	pWindowControl->SetSize(400, 400);
 
 	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(14, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
-	pLabelControl->SetHeight(15);
-	pLabelControl->SetWidth(75);
-	pLabelControl->SetPosition(D3DXVECTOR3(0.f, 20.f, 0.f));
+	pLabelControl->SetSize(75, 15);
+	pLabelControl->SetPosition(D3DXVECTOR3(0.f, 40.f, 0.f));
 
-	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 4, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, GREEN);
-	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 30.f, 0.f));
+	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 8, 8, 10, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLACK);
+	pButtonControl->SetSize(100, 100);
+	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
 	m_pParentControl->AddChildControl(pWindowControl);
 	pWindowControl->AddChildControl(pLabelControl);
 	pWindowControl->AddChildControl(pButtonControl);
