@@ -10,8 +10,6 @@
 
 #include "stdafx.h"
 #include "Sprite.h"
-#include "ResCache.hxx"
-#include "ResourceManager.hxx"
 #include "DxBase.hxx"
 #include "Texture.hxx"
 
@@ -25,8 +23,8 @@ using namespace std::tr1;
 cSprite::cSprite()
 : m_pSprite(NULL)
 , m_pTexture(NULL)
-, m_uiHeight(0)
-, m_uiWidth(0)
+, m_dwHeight(0)
+, m_dwWidth(0)
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
 , m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
 , m_bIsVisible(true)
@@ -51,12 +49,8 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename)
+void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice)
 {
-	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
-
-	m_strFilename = strFilename;
-
 	if (m_pSprite)
 	{
 		Cleanup();
@@ -64,17 +58,31 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite Creation failed : %s", strFilename.GetData() ));
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite Creation failed : %s", m_strFilename.GetData() ));
 		PostQuitMessage(0);
 	}
+}
+// ***************************************************************
+
+// ***************************************************************
+// Initialize the sprite
+// ***************************************************************
+void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename)
+{
+
+	m_strFilename = strFilename;
+
+	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
+
+	Init(pDevice);
+
 
 	if (m_pTexture == NULL)
 	{
 		m_pTexture = ITexture::CreateTexture();
 	}
 	
-	m_pTexture->Init(pDevice, strFilename, m_uiHeight, m_uiWidth);
-
+	m_pTexture->Init(pDevice, strFilename, m_dwHeight, m_dwWidth);
 }
 // ***************************************************************
 
@@ -84,8 +92,8 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 // ***************************************************************
 void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 {
-	m_vScale.x = (float)fNewWidth/m_uiWidth;
-	m_vScale.y = (float)fNewHeight/m_uiHeight;
+	m_vScale.x = (float)fNewWidth/m_dwWidth;
+	m_vScale.y = (float)fNewHeight/m_dwHeight;
 	m_vScale.z = 1.0f;
 
 	// create the scale matrix

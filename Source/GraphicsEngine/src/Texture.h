@@ -26,7 +26,7 @@ namespace Graphics
 	public:
 		cTexture();
 		~cTexture();
-		void Init(LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, UINT & outuiHeight, UINT & outuiWidth);
+		void Init(LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, DWORD & outdwHeight, DWORD & outdwWidth);
 		LPDIRECT3DTEXTURE9 GetTexture();
 		void Cleanup();
 

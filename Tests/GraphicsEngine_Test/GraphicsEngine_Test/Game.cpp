@@ -10,8 +10,6 @@ using namespace Graphics;
 
 cGame::cGame()
 : m_pParentControl(NULL)
-, m_pWindowControl(NULL)
-, m_pLabelControl(NULL)
 {
 
 }
@@ -31,16 +29,19 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	m_pParentControl->SetWidth(IMainWindow::TheWindow()->GetClientWindowWidth());
 	m_pParentControl->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
-	m_pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
-	m_pWindowControl->SetPosition(D3DXVECTOR3(100.f, 100.f, 0.f));
+	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
+	pWindowControl->SetPosition(D3DXVECTOR3(100.f, 100.f, 0.f));
 
-	m_pLabelControl = IBaseControl::CreateLabelControl(14, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
-	m_pLabelControl->SetHeight(15);
-	m_pLabelControl->SetWidth(75);
-	m_pLabelControl->SetPosition(D3DXVECTOR3(0.f, 20.f, 0.f));
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(14, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
+	pLabelControl->SetHeight(15);
+	pLabelControl->SetWidth(75);
+	pLabelControl->SetPosition(D3DXVECTOR3(0.f, 20.f, 0.f));
 
-	m_pParentControl->AddChildControl(m_pWindowControl);
-	m_pWindowControl->AddChildControl(m_pLabelControl);
+	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 4, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, GREEN);
+	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 30.f, 0.f));
+	m_pParentControl->AddChildControl(pWindowControl);
+	pWindowControl->AddChildControl(pLabelControl);
+	pWindowControl->AddChildControl(pButtonControl);
 
 	return hWnd;
 }

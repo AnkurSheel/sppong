@@ -23,7 +23,7 @@ namespace Graphics
 	{
 	public:
 		virtual ~ITexture(){}
-		virtual void Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, UINT & outuiHeight, UINT & outuiWidth ) = 0;
+		virtual void Init(LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, DWORD & outdwHeight, DWORD & outdwWidth) = 0;
 		virtual LPDIRECT3DTEXTURE9 GetTexture() = 0;
 		GRAPHIC_API static ITexture * CreateTexture();
 	};

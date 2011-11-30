@@ -61,7 +61,6 @@ namespace Graphics
 		virtual void OnMouseMove(const int X, const int Y);
 		virtual void OnKeyDown(const AppMsg & msg ) = 0;
 		virtual void OnKeyUp(const AppMsg & msg ) = 0;
-		virtual void OnRender(const AppMsg & msg) = 0;
 
 	protected:
 		bool				m_bFocus;

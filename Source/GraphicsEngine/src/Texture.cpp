@@ -29,7 +29,7 @@ cTexture::~cTexture()
 	Cleanup();
 }
 
-void cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, UINT & outuiHeight, UINT & outuiWidth)
+void Graphics::cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, DWORD & outdwHeight, DWORD & outdwWidth )
 {
 	SAFE_RELEASE(m_pTexture);	
 	IResource * pResource = IResource::CreateResource(strFilename);
@@ -53,8 +53,8 @@ void cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilenam
 	D3DXGetImageInfoFromFileInMemory(texture->GetBuffer(), texture->GetSize(), &imageInfo);
 
 	//get the image height and width
-	outuiHeight = imageInfo.Height;
-	outuiWidth = imageInfo.Width;
+	outdwHeight = imageInfo.Height;
+	outdwWidth = imageInfo.Width;
 	SAFE_DELETE(pResource);
 
 }
