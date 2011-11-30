@@ -24,7 +24,7 @@ inline D3DXVECTOR3 cSprite::GetPosition() const
 }
 // ***************************************************************
 
-inline void Graphics::cSprite::SetTexture( ITexture * const pTexture )
+inline void Graphics::cSprite::SetTexture( std::tr1::shared_ptr<ITexture> const pTexture )
 {
 	m_pTexture = pTexture;
 }

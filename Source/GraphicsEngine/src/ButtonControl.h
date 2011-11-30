@@ -40,10 +40,10 @@ namespace Graphics
 		cButtonControl operator =(const cButtonControl&){}
 		void Cleanup();
 	private:
-		IBaseControl *		m_pLabelCaption;
-		ITexture *			m_pDefaultTexture;
-		ITexture *			m_pPressedTexture;
-		bool				m_bPressed;
+		IBaseControl *							m_pLabelCaption;
+		std::tr1::shared_ptr<ITexture>			m_pDefaultTexture;
+		std::tr1::shared_ptr<ITexture>			m_pPressedTexture;
+		bool									m_bPressed;
 	};
 }
 #endif // ButtonControl_h__

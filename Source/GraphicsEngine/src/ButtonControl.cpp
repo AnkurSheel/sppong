@@ -18,8 +18,6 @@ using namespace Graphics;
 
 Graphics::cButtonControl::cButtonControl()
 : m_pLabelCaption(NULL)
-, m_pDefaultTexture(NULL)
-, m_pPressedTexture(NULL)
 , m_bPressed(false)
 {
 
@@ -66,9 +64,6 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage,
 void Graphics::cButtonControl::Cleanup()
 {
 	SAFE_DELETE(m_pLabelCaption);
-	SAFE_DELETE(m_pDefaultTexture);
-	SAFE_DELETE(m_pPressedTexture);
-	m_pCanvasSprite->SetTexture(NULL);
 }
 // ***************************************************************
 

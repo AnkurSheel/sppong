@@ -25,7 +25,7 @@ namespace Graphics
 		virtual ~ITexture(){}
 		virtual void Init(LPDIRECT3DDEVICE9 pDevice, const Base::cString & strFilename, DWORD & outdwHeight, DWORD & outdwWidth) = 0;
 		virtual LPDIRECT3DTEXTURE9 GetTexture() = 0;
-		GRAPHIC_API static ITexture * CreateTexture();
+		GRAPHIC_API static std::tr1::shared_ptr<ITexture> CreateTexture();
 	};
 }
 

@@ -64,8 +64,7 @@ void Graphics::cTexture::Cleanup()
 	SAFE_RELEASE(m_pTexture);
 }
 
-ITexture * Graphics::ITexture::CreateTexture()
+std::tr1::shared_ptr<ITexture> Graphics::ITexture::CreateTexture()
 {
-	cTexture * pTexture = DEBUG_NEW cTexture();
-	return pTexture;
+	return std::tr1::shared_ptr<ITexture> (DEBUG_NEW cTexture());
 }

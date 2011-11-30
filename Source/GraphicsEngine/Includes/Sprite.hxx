@@ -13,6 +13,7 @@
 #include "GraphicEngineDefines.h"
 #include "Constants.h"
 #include "ScreenElement.hxx"
+#include <memory>
 
 namespace Base
 {
@@ -41,7 +42,7 @@ namespace Graphics
 		virtual void SetFlags(const DWORD dwFlags) = 0;
 		virtual void SetTintColor(const D3DCOLOR & tintColor) = 0;
 		virtual void SetSourceRect(const RECT &	pSrcRect) = 0;
-		virtual void SetTexture( ITexture * const pTexture) = 0;
+		virtual void SetTexture( std::tr1::shared_ptr<ITexture> const pTexture) = 0;
 
 		GRAPHIC_API static ISprite * CreateSprite();
 	};

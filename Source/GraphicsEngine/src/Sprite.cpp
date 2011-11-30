@@ -22,7 +22,6 @@ using namespace std::tr1;
 // ***************************************************************
 cSprite::cSprite()
 : m_pSprite(NULL)
-, m_pTexture(NULL)
 , m_dwHeight(0)
 , m_dwWidth(0)
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
@@ -147,8 +146,6 @@ void cSprite::Cleanup()
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Sprite : %s", m_strFilename.GetData()));
 
 	SAFE_DELETE(m_pSrcRect)
-	// release the texture
-	SAFE_DELETE(m_pTexture);
 
 	// release the sprite
 	SAFE_RELEASE(m_pSprite);
