@@ -10,7 +10,7 @@
 #ifndef MainWindow_h__
 #define MainWindow_h__
 
-#include "GraphicEngineDefines.h"
+#include "GameBaseDefines.h"
 
 namespace Base
 {
@@ -21,18 +21,22 @@ namespace Utilities
 {
 	class IResCache;
 }
-namespace Graphics
+namespace GameBase
+{
+	class IBaseApp;
+}
+
+namespace GameBase
 {
 	class IMainWindow
 	{
 	public:
 		virtual ~IMainWindow(){}
-		GRAPHIC_API virtual HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) = 0;
-		GRAPHIC_API static IMainWindow * TheWindow();
-		GRAPHIC_API virtual Utilities::IResCache * GetResourceCache() const= 0;
-		GRAPHIC_API virtual void Destroy() = 0;
-		GRAPHIC_API virtual int GetClientWindowHeight() = 0;
-		GRAPHIC_API virtual int GetClientWindowWidth() = 0;
+		GAMEBASE_API virtual HWND Init( const HINSTANCE & hInstance, const int &nCmdShow, IBaseApp * const pGame, const bool bFullScreen) = 0;
+		GAMEBASE_API static IMainWindow * TheWindow();
+		GAMEBASE_API virtual void Destroy() = 0;
+		GAMEBASE_API virtual int GetClientWindowHeight() = 0;
+		GAMEBASE_API virtual int GetClientWindowWidth() = 0;
 
 	};
 }

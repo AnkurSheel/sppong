@@ -10,6 +10,7 @@
 #ifndef ResCache_hxx__
 #define ResCache_hxx__
 
+#include "UtilitiesDefines.h"
 #include <memory>
 
 namespace Base

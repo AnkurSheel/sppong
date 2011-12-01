@@ -17,6 +17,11 @@ namespace Base
 	class cString;
 }
 
+namespace Graphics
+{
+	class ITexture;
+}
+
 namespace Graphics 
 {
 	class cSprite
@@ -29,6 +34,7 @@ namespace Graphics
 	public:
 		cSprite();
 		~cSprite();
+		void Init(LPDIRECT3DDEVICE9 const pDevice, std::tr1::shared_ptr<ITexture> const pTexture);
 		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
 		void Render(LPDIRECT3DDEVICE9 const pDevice);
@@ -43,24 +49,26 @@ namespace Graphics
 		void SetFlags(const DWORD dwFlags);
 		void SetTintColor(const D3DCOLOR & tintColor);
 		void SetSourceRect(const RECT &	rectSrc);
+		void SetTexture( std::tr1::shared_ptr<ITexture> const pTexture);
+
 	private:
 		void Cleanup();
 		void MakeTransformMatrix();
 	
 	private:
 
-		LPD3DXSPRITE		m_pSprite;		// ptr to the sprite 
-		LPDIRECT3DTEXTURE9	m_pTexture;		// the texture associated with this sprite
-		UINT				m_uiHeight;		// the height of the image
-		UINT				m_uiWidth;		// the width of the image
-		D3DXVECTOR3			m_vScale ;		// the scaling info for the image
-		D3DXVECTOR3			m_vPosition ;	// the scaling info for the image
-		D3DXMATRIX			m_mScaleMatrix;	// the scaling matrix
-		Base::cString		m_strFilename;
-		bool				m_bIsVisible;
-		DWORD				m_dwFlags;
-		D3DCOLOR			m_tintColor;
-		RECT *				m_pSrcRect;
+		LPD3DXSPRITE					m_pSprite;		// ptr to the sprite 
+		std::tr1::shared_ptr<ITexture>	m_pTexture;		// the texture associated with this sprite
+		DWORD							m_dwHeight;		// the height of the image
+		DWORD							m_dwWidth;		// the width of the image
+		D3DXVECTOR3						m_vScale;		// the scaling info for the image
+		D3DXVECTOR3						m_vPosition;	// the scaling info for the image
+		D3DXMATRIX						m_mScaleMatrix;	// the scaling matrix
+		Base::cString					m_strFilename;
+		bool							m_bIsVisible;
+		DWORD							m_dwFlags;
+		D3DCOLOR						m_tintColor;
+		RECT *							m_pSrcRect;
 	};
 #include "Sprite.inl"
 }

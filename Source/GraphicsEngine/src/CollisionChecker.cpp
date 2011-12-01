@@ -170,6 +170,7 @@ bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon & poly
 void cCollisionChecker::Destroy()
 {
 	delete this;
+	s_pCollisionChecker = NULL;
 }
 // ***************************************************************
 

@@ -46,8 +46,8 @@ void cInput::Init( const HINSTANCE hInst,
 	CreateMouse();
 	if (iTableHeight >0 && iTableWidth > 0)
 	{
-		m_iTableHeight = iTableHeight;
-		m_iTableWidth = iTableWidth;
+		m_iHeight = iTableHeight;
+		m_iWidth = iTableWidth;
 	}
 
 }
@@ -83,13 +83,13 @@ void cInput::DetectKeys()
 {
 	m_pdInputKeyboard->Acquire();
 
-	m_pdInputKeyboard->GetDeviceState(256, (LPVOID)m_cKeyState);
+	m_pdInputKeyboard->GetDeviceState(iNoOfKeys, (LPVOID)m_cKeyState);
 
-	for (unsigned int iKey=0;iKey<256;iKey++)
+	for (unsigned int iKey = 0; iKey < iNoOfKeys; iKey++)
 	{
 		if (m_cKeyState[iKey] & 0x80)
 		{
-			// key is pressed if it isnt locked
+			// key is pressed if it is not locked
 			m_bPressedKeys[iKey] = !(m_bLockedKeys[iKey]);
 		}
 		else
@@ -139,13 +139,13 @@ void cInput::CreateKeyboard()
 // ***************************************************************
 void cInput::CreateMouse()
 {
-	// create the keyboard device
+	// create the mouse device
 	m_pdInput->CreateDevice(GUID_SysMouse,&m_pdInputMouse, NULL);
 
 	// set the data format to mouse format
 	m_pdInputMouse->SetDataFormat(&c_dfDIMouse);
 
-	// set the control over the keyboard
+	// set the control over the mouse
 	m_pdInputMouse->SetCooperativeLevel(m_hWnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
 
 	// get the current position of the cursor
@@ -156,8 +156,6 @@ void cInput::CreateMouse()
 	m_lPosY = pt.y;
 
 	DetectMouseMovement();
-
-
 }
 // ***************************************************************
 
@@ -170,8 +168,8 @@ void cInput::DetectMouseMovement()
 	
 	m_pdInputMouse->GetDeviceState(sizeof(DIMOUSESTATE), LPVOID(&m_MouseState));
 
-	m_lPosX += m_MouseState.lX;
-	m_lPosY += m_MouseState.lY; 
+	m_lPosX += GetMouseXDelta();
+	m_lPosY += GetMouseYDelta(); 
 
 	ConstrainMouseCursor();
 
@@ -204,9 +202,9 @@ void cInput::ConstrainMouseCursor()
 	}
 	else
 	{
-		if (m_lPosX > (int)m_iTableWidth - 16)
+		if (m_lPosX > (int)m_iWidth - 16)
 		{
-			m_lPosX = m_iTableWidth - 16;
+			m_lPosX = m_iWidth - 16;
 		}
 	}
 
@@ -216,9 +214,9 @@ void cInput::ConstrainMouseCursor()
 	}
 	else
 	{
-		if (m_lPosY > (int)m_iTableHeight - 16)
+		if (m_lPosY > (int)m_iHeight - 16)
 		{
-			m_lPosY = m_iTableHeight - 16;
+			m_lPosY = m_iHeight - 16;
 		}
 	}
 }

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)GraphicsEngine\Includes&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;;&quot;$(SolutionDir)GameBase\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;;&quot;$(SolutionDir)GameBase\Includes&quot;;&quot;$(SolutionDir)Game\src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Game_d.lib GraphicsEngine_D.lib Utilities_D.lib Base_D.lib"
+				AdditionalDependencies="Utilities_D.lib Base_D.lib Game_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Game\src&quot;;&quot;$(SolutionDir)GraphicsEngine\Includes&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;;&quot;$(SolutionDir)GameBase\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;;&quot;$(SolutionDir)GameBase\Includes&quot;;&quot;$(SolutionDir)Game\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Game.lib GraphicsEngine.lib Utilities.lib Base.lib"
+				AdditionalDependencies="Utilities.lib Base.lib Game.lib"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\"

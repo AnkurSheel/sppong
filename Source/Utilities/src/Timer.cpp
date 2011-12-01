@@ -106,6 +106,6 @@ void cTimer::Update()
 // ***************************************************************
 ITimer * ITimer::CreateTimer()
 {
-	return s_pTimer = DEBUG_NEW cTimer();
+	return DEBUG_NEW cTimer();
 }
 // ***************************************************************

@@ -10,7 +10,7 @@
 #ifndef PongGameElement_h__
 #define PongGameElement_h__
 
-#include "Elements/GameElement.h"
+#include "GameElement.h"
 
 class cPaddle;
 class cBall;

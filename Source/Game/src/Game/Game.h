@@ -11,6 +11,7 @@
 #define Game_h__
 
 #include "Game.hxx"
+#include "BaseApp.h"
 
 namespace Base
 {
@@ -33,6 +34,7 @@ namespace MySound
 
 class cGame 
 	: public IGame
+	, public GameBase::cBaseApp
 {
 private:
 	enum PONGGAMEELEMENTS
@@ -63,20 +65,19 @@ public:
 	cGame();
 	~cGame();
 	void Render(TICK tickCurrent, float fElapsedTime);
-	void OnInit(const HINSTANCE hInstance, const HWND hwnd, const UINT iDisplayHeight, const UINT iDisplayWidth, const bool bFullScreen);
+	HWND OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen);
 	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
 	void Cleanup();
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
 	void Run();
-	Base::cString GetGameTitle();
+	Base::cString GetGameTitle() const;
 	TICK GetRunningTicks();
 	float GetRunningTime();
 	void OnUpdate();
 	float GetFPS();
-
-	cScore*						m_pScore;				// ptr to Scoreboard
+	void OnMsgProc(const Graphics::AppMsg & msg);
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
@@ -88,6 +89,8 @@ private:
 	cGameFlowStateMachine *		m_pStateMachine;
 	cMPongView	*				m_pPongView;
 	Utilities::ITimer *			m_pGameTimer;
+	cScore*						m_pScore;				// ptr to Scoreboard
+
 
 private:
 	friend class cStateTitleScreen;

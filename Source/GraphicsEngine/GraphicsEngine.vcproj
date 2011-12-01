@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
+				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS;WINDOWED"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="Includes;&quot;$(SolutionDir)Common\src&quot;;&quot;$(DXSDK_DIR)\Include&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;"
+				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -234,6 +234,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Texture.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Texture.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\src\VertexStruct.cpp"
 				>
 			</File>
@@ -266,15 +282,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\MainWindow.cpp"
+				RelativePath=".\src\ResourceManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\MainWindow.h"
+				RelativePath=".\src\ResourceManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Includes\MainWindow.hxx"
+				RelativePath=".\Includes\ResourceManager.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Structures.h"
 				>
 			</File>
 		</Filter>
@@ -298,6 +318,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Includes\MouseHandler.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\MouseZone.cpp"
 				>
 			</File>
@@ -307,6 +331,74 @@
 			</File>
 			<File
 				RelativePath=".\Includes\MouseZone.hxx"
+				>
+			</File>
+			<Filter
+				Name="Keyboard"
+				>
+				<File
+					RelativePath=".\src\KeyboardHandler.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\KeyboardHandler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Includes\KeyboardHandler.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\src\KeyboardHandler.inl"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Controls"
+			>
+			<File
+				RelativePath=".\src\BaseControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\BaseControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\BaseControl.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BaseControl.inl"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ButtonControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ButtonControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LabelControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LabelControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WindowControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WindowControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\WindowControl.inl"
 				>
 			</File>
 		</Filter>

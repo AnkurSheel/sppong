@@ -29,5 +29,8 @@ namespace Graphics
 	// #define LEFTBUTTON 0
 	// #define RIGHTBUTTON 1
 	// #define WHEELBUTTON 2
+
+#define WM_RENDER WM_USER +1
+
 }
 #endif // Constants_h__

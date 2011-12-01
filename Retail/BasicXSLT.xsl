@@ -25,28 +25,6 @@
 <!-- ******************************************************************************* -->
 	<xsl:param name="eventType"				select="'all'"/>
 	
-	
-	
-<!-- ******************************************************************************* -->
-<!-- The "nameSpace" parameter is used to filter the messages depending on the       -->
-<!-- general location that the message originated from within the source code        -->
-<!--                                                                                 -->
-<!-- The following special values are defined:                                       -->
-<!-- *****************************************                                       -->
-<!-- 'any'          : This will effectively disable namespace filtering              -->
-<!--                                                                                 -->
-<!-- The following are the currently used namespace names:                           -->
-<!-- *****************************************************                           -->
-<!-- default        : Originating in the root (unnamed) C++ namespace                -->
-<!-- Engines        : The files that make up the core/underlying engine code         -->
-<!-- Game           : The files that make up the actual game                         -->
-<!-- UI             : The files that make up the user interface (mostly controls)    -->
-<!-- Vars           : The data storage components of the code                        -->
-<!-- ******************************************************************************* -->
-	<xsl:param name="nameSpace"				select="'any'"/>
-
-
-
 <!-- ******************************************************************************* -->
 <!-- The "specificFile" parameter is used to restrict the messages down to a         -->
 <!-- particular file within the C++ code base. There are no particular rules, but    -->
@@ -90,10 +68,6 @@
 					that originated from
 					<b>
 						<xsl:copy-of select="$specificFile"/>
-					</b>
-					within the namespace 
-					<b>
-						'<xsl:copy-of select="$nameSpace"/>'
 					</b>
 				</font>
 				<br/>
@@ -255,183 +229,169 @@
 			<xsl:choose>
 				<xsl:when test="Type='Comment'">
 					<xsl:if test="$eventType='all' or $eventType='tracking' or $eventType='Comment'">
-						<xsl:if test="$nameSpace='any' or $nameSpace=NameSpace">
-							<tr bgcolor="#80FF80" valign="middle">
+						<tr bgcolor="#80FF80" valign="middle">
 
-								<td>				
-									<font size="2" face="Arial" color="#202020">
-										<center>
-											<xsl:value-of select="@id"/>
-										</center>
-									</font>
-								</td>
-								
-								<xsl:apply-templates select="TimeIndex"/>
-								<xsl:apply-templates select="File"/>
-								<xsl:apply-templates select="Function"/>
-								<xsl:apply-templates select="LineNumber"/>
+							<td>				
+								<font size="2" face="Arial" color="#202020">
+									<center>
+										<xsl:value-of select="@id"/>
+									</center>
+								</font>
+							</td>
+							
+							<xsl:apply-templates select="TimeIndex"/>
+							<xsl:apply-templates select="File"/>
+							<xsl:apply-templates select="Function"/>
+							<xsl:apply-templates select="LineNumber"/>
 
-							</tr>
-							<tr bgcolor="#AAFFAA">
-								<xsl:apply-templates select="Message"/>
-							</tr>
-						</xsl:if>
+						</tr>
+						<tr bgcolor="#AAFFAA">
+							<xsl:apply-templates select="Message"/>
+						</tr>
 					</xsl:if>
 					
 				</xsl:when>
 				<xsl:when test="Type='Unknown'">
 					<xsl:if test="$eventType='all' or $eventType='Unknown'">
-						<xsl:if test="$nameSpace='any' or $nameSpace=NameSpace">
-							<tr bgcolor="#EEEEEE" valign="middle">
+						<tr bgcolor="#EEEEEE" valign="middle">
+						
+							<td>				
+								<font size="2" face="Arial" color="#202020">
+									<center>
+										<xsl:value-of select="@id"/>
+									</center>
+								</font>
+							</td>
 							
-								<td>				
-									<font size="2" face="Arial" color="#202020">
-										<center>
-											<xsl:value-of select="@id"/>
-										</center>
-									</font>
-								</td>
-								
-								<xsl:apply-templates select="TimeIndex"/>
-								<xsl:apply-templates select="File"/>
-								<xsl:apply-templates select="Function"/>
-								<xsl:apply-templates select="LineNumber"/>
-								
-							</tr>
-							<tr bgcolor="#AAAAAA">
-								<xsl:apply-templates select="Message"/>
-							</tr>
-						</xsl:if>
+							<xsl:apply-templates select="TimeIndex"/>
+							<xsl:apply-templates select="File"/>
+							<xsl:apply-templates select="Function"/>
+							<xsl:apply-templates select="LineNumber"/>
+							
+						</tr>
+						<tr bgcolor="#AAAAAA">
+							<xsl:apply-templates select="Message"/>
+						</tr>
 					</xsl:if>
 					
 				</xsl:when>
 				<xsl:when test="Type='Error'">
 					<xsl:if test="$eventType='all' or $eventType='failures' or $eventType='Error'">
-						<xsl:if test="$nameSpace='any' or $nameSpace=NameSpace">
-							<tr bgcolor="#FF8080" valign="middle">
+						<tr bgcolor="#FF8080" valign="middle">
+						
+							<td>				
+								<font size="2" face="Arial" color="#202020">
+									<center>
+										<xsl:value-of select="@id"/>
+									</center>
+								</font>
+							</td>
 							
-								<td>				
-									<font size="2" face="Arial" color="#202020">
-										<center>
-											<xsl:value-of select="@id"/>
-										</center>
-									</font>
-								</td>
-								
-								<xsl:apply-templates select="TimeIndex"/>
-								<xsl:apply-templates select="File"/>
-								<xsl:apply-templates select="Function"/>
-								<xsl:apply-templates select="LineNumber"/>
-								
-							</tr>
-							<tr bgcolor="#FFAAAA">
-								<xsl:apply-templates select="Message"/>
-							</tr>
-						</xsl:if>
+							<xsl:apply-templates select="TimeIndex"/>
+							<xsl:apply-templates select="File"/>
+							<xsl:apply-templates select="Function"/>
+							<xsl:apply-templates select="LineNumber"/>
+							
+						</tr>
+						<tr bgcolor="#FFAAAA">
+							<xsl:apply-templates select="Message"/>
+						</tr>
 					</xsl:if>
 					
 				</xsl:when>
 				<xsl:when test="Type='Warning'">
 					<xsl:if test="$eventType='all' or $eventType='failures' or $eventType='Warning'">
-						<xsl:if test="$nameSpace='any' or $nameSpace=NameSpace">
-							<tr bgcolor="#FFAA80" valign="middle">
+						<tr bgcolor="#FFAA80" valign="middle">
 
-								<td>				
-									<font size="2" face="Arial" color="#202020">
-										<center>
-											<xsl:value-of select="@id"/>
-										</center>
-									</font>
-								</td>
-								
-								<xsl:apply-templates select="TimeIndex"/>
-								<xsl:apply-templates select="File"/>
-								<xsl:apply-templates select="Function"/>
-								<xsl:apply-templates select="LineNumber"/>
-								
-							</tr>
-							<tr bgcolor="#FFDDAA">
-								<xsl:apply-templates select="Message"/>
-							</tr>
-						</xsl:if>
+							<td>				
+								<font size="2" face="Arial" color="#202020">
+									<center>
+										<xsl:value-of select="@id"/>
+									</center>
+								</font>
+							</td>
+							
+							<xsl:apply-templates select="TimeIndex"/>
+							<xsl:apply-templates select="File"/>
+							<xsl:apply-templates select="Function"/>
+							<xsl:apply-templates select="LineNumber"/>
+							
+						</tr>
+						<tr bgcolor="#FFDDAA">
+							<xsl:apply-templates select="Message"/>
+						</tr>
 					</xsl:if>
 					
 				</xsl:when>
 				<xsl:when test="Type='Event'">
 					<xsl:if test="$eventType='all' or $eventType='tracking' or $eventType='Event'">
-						<xsl:if test="$nameSpace='any' or $nameSpace=NameSpace">
-							<tr bgcolor="#8080FF" valign="middle">
+						<tr bgcolor="#8080FF" valign="middle">
+						
+							<td>				
+								<font size="2" face="Arial" color="#202020">
+									<center>
+										<xsl:value-of select="@id"/>
+									</center>
+								</font>
+							</td>
 							
-								<td>				
-									<font size="2" face="Arial" color="#202020">
-										<center>
-											<xsl:value-of select="@id"/>
-										</center>
-									</font>
-								</td>
-								
-								<xsl:apply-templates select="TimeIndex"/>
-								<xsl:apply-templates select="File"/>
-								<xsl:apply-templates select="Function"/>
-								<xsl:apply-templates select="LineNumber"/>
-								
-							</tr>
-							<tr bgcolor="#AAAAFF">
-								<xsl:apply-templates select="Message"/>
-							</tr>
-						</xsl:if>
+							<xsl:apply-templates select="TimeIndex"/>
+							<xsl:apply-templates select="File"/>
+							<xsl:apply-templates select="Function"/>
+							<xsl:apply-templates select="LineNumber"/>
+							
+						</tr>
+						<tr bgcolor="#AAAAFF">
+							<xsl:apply-templates select="Message"/>
+						</tr>
 					</xsl:if>
 					
 				</xsl:when>
 				<xsl:when test="Type='Debug'">
 					<xsl:if test="$eventType='all' or $eventType='Debug'">
-						<xsl:if test="$nameSpace='any' or $nameSpace=NameSpace">
-							<tr bgcolor="#FFF880" valign="middle" align="left">
+						<tr bgcolor="#FFF880" valign="middle" align="left">
+						
+							<td>				
+								<font size="2" face="Arial" color="#202020">
+									<center>
+										<xsl:value-of select="@id"/>
+									</center>
+								</font>
+							</td>
 							
-								<td>				
-									<font size="2" face="Arial" color="#202020">
-										<center>
-											<xsl:value-of select="@id"/>
-										</center>
-									</font>
-								</td>
-								
-								<xsl:apply-templates select="TimeIndex"/>
-								<xsl:apply-templates select="File"/>
-								<xsl:apply-templates select="Function"/>
-								<xsl:apply-templates select="LineNumber"/>
-								
-							</tr>
-							<tr bgcolor="#FFFF99">
-								<xsl:apply-templates select="Message"/>
-							</tr>
-						</xsl:if>
+							<xsl:apply-templates select="TimeIndex"/>
+							<xsl:apply-templates select="File"/>
+							<xsl:apply-templates select="Function"/>
+							<xsl:apply-templates select="LineNumber"/>
+							
+						</tr>
+						<tr bgcolor="#FFFF99">
+							<xsl:apply-templates select="Message"/>
+						</tr>
 					</xsl:if>
 					
 				</xsl:when>
 				<xsl:when test="Type='Game Message'">
 					<xsl:if test="$eventType='all' or $eventType='tracking' or $eventType='Game Message'">
-						<xsl:if test="$nameSpace='any' or $nameSpace=NameSpace">
-							<tr bgcolor="#FF8020" valign="middle">
+						<tr bgcolor="#FF8020" valign="middle">
+						
+							<td>				
+								<font size="2" face="Arial" color="#202020">
+									<center>
+										<xsl:value-of select="@id"/>
+									</center>
+								</font>
+							</td>
 							
-								<td>				
-									<font size="2" face="Arial" color="#202020">
-										<center>
-											<xsl:value-of select="@id"/>
-										</center>
-									</font>
-								</td>
-								
-								<xsl:apply-templates select="TimeIndex"/>
-								<xsl:apply-templates select="File"/>
-								<xsl:apply-templates select="Function"/>
-								<xsl:apply-templates select="LineNumber"/>
-								
-							</tr>
-							<tr bgcolor="#FFAA80">
-								<xsl:apply-templates select="Message"/>
-							</tr>
-						</xsl:if>
+							<xsl:apply-templates select="TimeIndex"/>
+							<xsl:apply-templates select="File"/>
+							<xsl:apply-templates select="Function"/>
+							<xsl:apply-templates select="LineNumber"/>
+							
+						</tr>
+						<tr bgcolor="#FFAA80">
+							<xsl:apply-templates select="Message"/>
+						</tr>
 					</xsl:if>
 					
 				</xsl:when>

@@ -48,7 +48,6 @@ namespace Utilities
 		HANDLE			m_hStdOut;
 		IXMLFileIO	*	m_fXml;
 		static int		m_iCurrentId;
-
 	};
 
 	static cLogger * s_pLogger = NULL;

@@ -4,7 +4,7 @@
 // ***************************************************************
 inline UINT cSprite::GetScaledHeight() const
 {
-	return (UINT)(m_uiHeight * m_vScale.y);
+	return (UINT)(m_dwHeight * m_vScale.y);
 }
 
 // ***************************************************************
@@ -12,7 +12,7 @@ inline UINT cSprite::GetScaledHeight() const
 // ***************************************************************
 inline UINT cSprite::GetScaledWidth() const
 {
-	return (UINT)(m_uiWidth * m_vScale.x);
+	return (UINT)(m_dwWidth * m_vScale.x);
 }
 
 // ***************************************************************
@@ -24,3 +24,8 @@ inline D3DXVECTOR3 cSprite::GetPosition() const
 }
 // ***************************************************************
 
+inline void Graphics::cSprite::SetTexture( std::tr1::shared_ptr<ITexture> const pTexture )
+{
+	m_pTexture = pTexture;
+}
+// ***************************************************************

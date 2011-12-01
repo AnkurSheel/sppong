@@ -10,11 +10,16 @@
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "DxBase.hxx"
-#include "ResCache.hxx"
+#include "BaseApp.hxx"
+#include "Logger.hxx"
+#include "ResourceManager.hxx"
+#include "Constants.h"
+#include "Structures.h"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
+using namespace GameBase;
 
 // ***************************************************************
 // Constructor
@@ -26,7 +31,7 @@ cMainWindow::cMainWindow()
 , m_iClientWidth(0)
 , m_iFullScreenHeight(0)
 , m_iFullScreenWidth(0)
-, m_pResourceCache(NULL)
+, m_pGame(NULL)
 {
 }
 // ***************************************************************
@@ -43,19 +48,29 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, const cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen )
+HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseApp * const pGame, const bool bFullScreen )
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
 
-	m_iFullScreenWidth = iFullScreenWidth ; 
-	m_iFullScreenHeight = iFullScreenHeight ;
+	m_iFullScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+	m_iFullScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	//Register the Window Class
 	RegisterWin();
 
+	m_pGame = pGame;
+
 	//Create the Window
-	hWnd = CreateMyWindow(nCmdShow, lpWindowTitle, bFullScreen) ;
+	if (pGame)
+	{
+		hWnd = CreateMyWindow(nCmdShow, pGame->GetGameTitle(), bFullScreen) ;
+	}
+	else
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "No Game object");
+	}
+	
 
 	OnCreateDevice(hInstance,hWnd, bFullScreen);
 
@@ -159,14 +174,13 @@ void cMainWindow::GetWinRect()
 // ***************************************************************
 // Window procedure to handle the window messages
 // ***************************************************************
-LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 	PAINTSTRUCT		ps ;
 	HDC				hdc ;
 
-	switch(msg)
+	switch(uMsg)
 	{
-
 	case WM_PAINT:
 		hdc = BeginPaint (hwnd, &ps) ;
 		EndPaint (hwnd, &ps) ;
@@ -180,8 +194,30 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		OnDestroyDevice();
 		return 0 ;
 
+	case  WM_LBUTTONDBLCLK:
+	case  WM_LBUTTONDOWN:
+	case  WM_LBUTTONUP:
+	case  WM_MBUTTONDBLCLK:
+	case  WM_MBUTTONDOWN:
+	case  WM_MBUTTONUP:
+	case  WM_MOUSEMOVE:
+	case  WM_RBUTTONDBLCLK:
+	case  WM_RBUTTONDOWN:
+	case  WM_RBUTTONUP:
+		Graphics::AppMsg msg;
+		msg.m_hWnd = hwnd;
+		msg.m_uMsg = uMsg;
+		msg.m_wParam = wParam;
+		msg.m_lParam = lParam;
+
+		if (m_pGame)
+		{
+			m_pGame->OnMsgProc(msg);
+		}
+		return 0;
+
 	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam) ;
+		return DefWindowProc(hwnd, uMsg, wParam, lParam) ;
 	}
 }
 // ***************************************************************
@@ -212,14 +248,13 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 // ***************************************************************
 void cMainWindow::OnDestroyDevice()
 {
-	SAFE_DELETE(m_pResourceCache);
-
 	// release the graphic object
 	if (IDXBase::GetInstance())
 	{
-		IDXBase::GetInstance()->Cleanup();
 		IDXBase::GetInstance()->Destroy();
 	}
+	
+	IResourceManager::TheResourceManager()->OnDestroyDevice();
 
 	ReleaseCapture() ;
 	PostQuitMessage(0) ;
@@ -233,15 +268,7 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const 
 {
 	// initialize DirectX
 	IDXBase::GetInstance()->Init(hWnd, TAN, bFullScreen);
-
-	m_pResourceCache = IResCache::CreateResourceCache(30, "resources.zip");
-	if(!m_pResourceCache->Init())
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
-		PostQuitMessage(0);
-		return;
-	}
-
+	IResourceManager::TheResourceManager()->Init();
 	SetForegroundWindow(m_Hwnd);
 
 }
@@ -253,12 +280,6 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const 
 void cMainWindow::MoveWin()
 {
 	MoveWindow(m_Hwnd,m_iLeftPos,m_iTopPos,m_iClientWidth,m_iClientHeight,true) ;
-}
-// ***************************************************************
-
-IResCache * cMainWindow::GetResourceCache() const
-{
-	return m_pResourceCache;
 }
 // ***************************************************************
 
@@ -279,6 +300,7 @@ void cMainWindow::Destroy()
 	DestroyWindow(m_Hwnd);
 
 	delete this;
+	s_pWindow = NULL;
 }
 // ***************************************************************
 

@@ -9,12 +9,11 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Main.h"
-#include "MainWindow.hxx"
-#include "Game\Game.hxx"
 #include "Checks.hxx"
+#include "BaseApp.hxx"
+#include "Game/Game.hxx"
 
 using namespace Utilities;
-using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
 
@@ -52,28 +51,12 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	ILogger::TheLogger()->CreateHeader();
 
-	HWND	hwnd ;
-
-	int iWidth = GetSystemMetrics(SM_CXSCREEN);
-	int iHeight = GetSystemMetrics(SM_CYSCREEN);
-
-
 	bool bFullScreen = false;
 #ifndef _DEBUG
 		bFullScreen = true;
 #endif
-	//Initialize the window class
-	hwnd = IMainWindow::TheWindow()->Init( hInstance, nCmdShow, pGame->GetGameTitle(), iWidth, iHeight, bFullScreen);
-
-	if(hwnd == NULL)
-	{
-		PostQuitMessage(0) ;
-	}
-	else
-	{
-		pGame->OnInit(hInstance, hwnd, IMainWindow::TheWindow()->GetClientWindowHeight(),  IMainWindow::TheWindow()->GetClientWindowWidth(), bFullScreen);
-		pGame->Run();
-	}
+	pGame->OnInit(hInstance, nCmdShow, bFullScreen);
+	pGame->Run();
 	
 	Cleanup() ;
 
@@ -108,9 +91,6 @@ void Cleanup()
 
 	if (IResourceChecker::TheResourceChecker())
 		IResourceChecker::TheResourceChecker()->Destroy();
-
-	if (IMainWindow::TheWindow())
-		IMainWindow::TheWindow()->Destroy();
 
 	if(ILogger::TheLogger())
 		ILogger::TheLogger()->Destroy();

@@ -22,6 +22,8 @@
 #include "DXBase.hxx"
 #include "Timer.hxx"
 #include "ProcessManager.hxx"
+#include "MainWindow.hxx"
+#include "ResourceManager.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -76,12 +78,13 @@ void cGame::Render(TICK tickCurrent, float fElapsedTime)
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::OnInit(const HINSTANCE hInstance, 
-				   const HWND hwnd,
-				   const UINT iDisplayHeight, 
-				   const UINT iDisplayWidth,
+HWND cGame::OnInit(const HINSTANCE hInstance, 
+				   const int nCmdShow,
 				   const bool bFullScreen)
 {
+	HWND hwnd;
+	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, hwnd);
+
 	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
 	if(bFullScreen)
 	{
@@ -90,8 +93,8 @@ void cGame::OnInit(const HINSTANCE hInstance,
 	}
 	else
 	{
-		m_iDisplayHeight = iDisplayHeight;
-		m_iDisplayWidth = iDisplayWidth;
+		m_iDisplayHeight = IMainWindow::TheWindow()->GetClientWindowHeight();
+		m_iDisplayWidth = IMainWindow::TheWindow()->GetClientWindowWidth();
 	}
 
 	m_pSound = ISound::CreateSound();
@@ -102,6 +105,8 @@ void cGame::OnInit(const HINSTANCE hInstance,
 	m_pPongView->OnCreateDevice(hInstance, hwnd, m_iDisplayWidth, m_iDisplayHeight);
 
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
+
+	return hwnd;
 }
 // ***************************************************************
 
@@ -262,6 +267,11 @@ void cGame::Cleanup()
 	if(ICollisionChecker::TheCollisionChecker())
 		ICollisionChecker::TheCollisionChecker()->Destroy();
 
+	if (IMainWindow::TheWindow())
+		IMainWindow::TheWindow()->Destroy();
+
+	if(IResourceManager::TheResourceManager())
+		IResourceManager::TheResourceManager()->Destroy();
 }
 // ***************************************************************
 
@@ -382,7 +392,7 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	}
 }
 
-cString cGame::GetGameTitle()
+cString cGame::GetGameTitle() const
 {
 	return "MPong";
 }
@@ -447,9 +457,14 @@ float cGame::GetFPS()
 }
 // ***************************************************************
 
+void cGame::OnMsgProc( const Graphics::AppMsg & msg )
+{
+
+}
+// ***************************************************************
+
 IBaseApp * IGame::CreateGame()
 {
-	cGame * pGame = DEBUG_NEW cGame();
-	return pGame;
+	return DEBUG_NEW cGame();
 }
 // ***************************************************************

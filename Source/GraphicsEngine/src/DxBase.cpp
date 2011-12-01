@@ -192,7 +192,9 @@ void cDXBase::CreateDXBase()
 
 void cDXBase::Destroy()
 {
+	Cleanup();
 	delete this;
+	s_pDXBase = NULL;
 }
 
 // ***************************************************************
@@ -204,5 +206,5 @@ IDXBase* IDXBase::GetInstance()
 		cDXBase::CreateDXBase();
 	return s_pDXBase;
 }
-// ******************	*********************************************
+// ***************************************************************
 

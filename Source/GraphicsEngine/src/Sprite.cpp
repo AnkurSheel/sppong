@@ -10,9 +10,8 @@
 
 #include "stdafx.h"
 #include "Sprite.h"
-#include "ResCache.hxx"
-#include "MainWindow.hxx"
 #include "DxBase.hxx"
+#include "Texture.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -23,9 +22,8 @@ using namespace std::tr1;
 // ***************************************************************
 cSprite::cSprite()
 : m_pSprite(NULL)
-, m_pTexture(NULL)
-, m_uiHeight(0)
-, m_uiWidth(0)
+, m_dwHeight(0)
+, m_dwWidth(0)
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
 , m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
 , m_bIsVisible(true)
@@ -50,12 +48,8 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename)
+void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice, std::tr1::shared_ptr<ITexture> const pTexture)
 {
-	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
-
-	m_strFilename = strFilename;
-
 	if (m_pSprite)
 	{
 		Cleanup();
@@ -63,35 +57,41 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 	// Create the Sprite
 	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite Creation failed : %s", strFilename.GetData() ));
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite Creation failed : %s", m_strFilename.GetData() ));
 		PostQuitMessage(0);
 	}
 
-	IResource * pResource = IResource::CreateResource(strFilename);
-	shared_ptr<IResHandle> texture = IMainWindow::TheWindow()->GetResourceCache()->GetHandle(*pResource);
-
-	if(texture.get() == NULL)
+	if (!m_pTexture)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not add to cache: %s", strFilename.GetData() ));
-		PostQuitMessage(0);
+		m_pTexture = pTexture;
 	}
-	// Create the texture associated with this sprite
-	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, texture->GetBuffer(), texture->GetSize(), &m_pTexture)))
+
+	m_dwHeight = m_pTexture->GetHeight();
+	m_dwWidth = m_pTexture->GetWidth();
+}
+// ***************************************************************
+
+// ***************************************************************
+// Initialize the sprite
+// ***************************************************************
+void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename)
+{
+
+	m_strFilename = strFilename;
+
+	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
+
+
+
+	if (m_pTexture == NULL)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Texture Creation failed : %s", strFilename.GetData() ));
-		PostQuitMessage(0);
+		m_pTexture = ITexture::CreateTexture();
 	}
+	
+	m_pTexture->Init(pDevice, strFilename);
 
-	D3DXIMAGE_INFO imageInfo;	// contents of the image file	
+	Init(pDevice, m_pTexture);
 
-	// get the contents of the image file
-	D3DXGetImageInfoFromFileInMemory(texture->GetBuffer(), texture->GetSize(), &imageInfo);
-
-	//get the image height and width
-	m_uiHeight = imageInfo.Height;
-	m_uiWidth = imageInfo.Width;
-
-	SAFE_DELETE(pResource);
 }
 // ***************************************************************
 
@@ -101,8 +101,13 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 // ***************************************************************
 void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 {
-	m_vScale.x = (float)fNewWidth/m_uiWidth;
-	m_vScale.y = (float)fNewHeight/m_uiHeight;
+	if (m_dwWidth == 0 || m_dwHeight == 0)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite height or width is 0"));
+	}
+
+	m_vScale.x = (float)fNewWidth/m_dwWidth;
+	m_vScale.y = (float)fNewHeight/m_dwHeight;
 	m_vScale.z = 1.0f;
 
 	// create the scale matrix
@@ -120,7 +125,7 @@ void cSprite::Render( LPDIRECT3DDEVICE9 const pDevice)
 {
 	// draw the sprite
 	m_pSprite->Begin(m_dwFlags);
-	m_pSprite->Draw(m_pTexture, m_pSrcRect, NULL, NULL, m_tintColor); 
+	m_pSprite->Draw(m_pTexture->GetTexture(), m_pSrcRect, NULL, NULL, m_tintColor); 
 	m_pSprite->End();
 }
 // ***************************************************************
@@ -153,11 +158,9 @@ void cSprite::OnResetDevice()
 // ***************************************************************
 void cSprite::Cleanup()
 {
-	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Texture : %s", m_strFilename.GetData()));
+	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Releasing Sprite : %s", m_strFilename.GetData()));
 
 	SAFE_DELETE(m_pSrcRect)
-	// release the texture
-	SAFE_RELEASE(m_pTexture);
 
 	// release the sprite
 	SAFE_RELEASE(m_pSprite);

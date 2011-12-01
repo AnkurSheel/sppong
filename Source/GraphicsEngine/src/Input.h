@@ -14,6 +14,8 @@
 
 namespace Graphics
 {
+	const int iNoOfKeys = 256;
+
 	class cInput
 		: public IInput
 	{
@@ -44,16 +46,16 @@ namespace Graphics
 		LPDIRECTINPUT8			m_pdInput;				// the input object
 		LPDIRECTINPUTDEVICE8	m_pdInputKeyboard;		// the keyboard device
 		LPDIRECTINPUTDEVICE8	m_pdInputMouse;			// the mouse device
-		BYTE					m_cKeyState[256];		// stores the pressed keys on the keyboard
-		bool					m_bPressedKeys[256];	// array of pressed keys on the keyboard
-		bool					m_bLockedKeys[256];		// array of locked keys on the keyboard
+		BYTE					m_cKeyState[iNoOfKeys];		// stores the pressed keys on the keyboard
+		bool					m_bPressedKeys[iNoOfKeys];	// array of pressed keys on the keyboard
+		bool					m_bLockedKeys[iNoOfKeys];		// array of locked keys on the keyboard
 		bool					m_bPressedButtons[4];	// stores the pressed buttons on the mouse
 		HWND					m_hWnd;					// handle to the window
 		DIMOUSESTATE			m_MouseState;			// stores the mouse state
 		long					m_lPosX;
 		long					m_lPosY;
-		UINT					m_iTableHeight;
-		UINT					m_iTableWidth;
+		UINT					m_iHeight;
+		UINT					m_iWidth;
 	};
 
 #include "Input.inl"

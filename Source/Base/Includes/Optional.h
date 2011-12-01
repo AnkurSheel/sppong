@@ -11,7 +11,6 @@
 #define Optional_h__
 
 #include <assert.h>
-#include "Macros.h"
 
 namespace Base
 {

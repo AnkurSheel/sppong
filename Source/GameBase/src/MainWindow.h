@@ -17,12 +17,7 @@ namespace Base
 	class cString;
 }
 
-namespace Utilities
-{
-	class IResCache;
-}
-
-namespace Graphics
+namespace GameBase
 {
 	class cMainWindow
 		: public IMainWindow
@@ -31,8 +26,7 @@ namespace Graphics
 		cMainWindow() ;
 		~cMainWindow() ;
 		
-		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, const Base::cString & lpWindowTitle,const int iFullScreenWidth, const int iFullScreenHeight, const bool bFullScreen) ;
-		Utilities::IResCache * GetResourceCache() const;
+		HWND Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseApp * const pGame, const bool bFullScreen) ;
 		int GetClientWindowHeight();
 		int GetClientWindowWidth();
 		void Destroy();
@@ -42,7 +36,7 @@ namespace Graphics
 		cMainWindow operator =(const cMainWindow&){}
 		void RegisterWin() ;
 		HWND CreateMyWindow(const int &nCmdShow, const Base::cString &  lpWindowTitle, const bool bFullScreen);
-		LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );	
+		LRESULT CALLBACK WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );	
 		void OnDestroyDevice();
 		void OnCreateDevice(const HINSTANCE hInst, const HWND hWnd, const bool bFullScreen);
 		void GetWinRect() ;
@@ -58,7 +52,7 @@ namespace Graphics
 		int						m_iLeftPos ;			// the X coordinate of the top left corner of the window
 		int						m_iFullScreenWidth ;	// the full screen width
 		int						m_iFullScreenHeight ;	// the full screen height
-		Utilities::IResCache *	m_pResourceCache;
+		IBaseApp *				m_pGame;
 	};
 
 	static IMainWindow * s_pWindow = NULL;
