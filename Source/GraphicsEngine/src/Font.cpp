@@ -13,6 +13,7 @@
 
 using namespace Graphics;
 using namespace Base;
+using namespace Utilities;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -21,6 +22,10 @@ cMyFont::cMyFont()
 , m_Color(BLACK)
 , m_bVisible(true)
 {
+	m_boundingRect.top = 0;
+	m_boundingRect.bottom = 0;
+	m_boundingRect.left = 0;
+	m_boundingRect.right = 0;
 }
 // ***************************************************************
 
@@ -59,30 +64,6 @@ void cMyFont::Render(LPDIRECT3DDEVICE9 const pDevice)
 }
 // ***************************************************************
 
-void cMyFont::SetText(const cString & strString)
-{
-	m_strString = strString;
-}
-// ***************************************************************
-
-void cMyFont::SetRect(const RECT & boundingRect)
-{
-	m_boundingRect = boundingRect;
-}
-// ***************************************************************
-
-void cMyFont::SetFormat(const DWORD dwFormat)
-{
-	m_dwFormat = dwFormat;
-}
-// ***************************************************************
-
-void cMyFont::SetTextColor(const D3DCOLOR & color)
-{
-	m_Color = color;
-}
-// ***************************************************************
-
 void cMyFont::OnLostDevice()
 {
 	Cleanup();
@@ -95,24 +76,36 @@ void cMyFont::OnResetDevice()
 }
 // ***************************************************************
 
-bool cMyFont::IsVisible()
-{
-	return m_bVisible;
-}
-// ***************************************************************
-
 void cMyFont::Cleanup()
 {
 	SAFE_RELEASE(m_pFont);
 }
 // ***************************************************************
 
-void cMyFont::SetVisible(const bool bVisible)
+void Graphics::cMyFont::CalculateAndSetRect()
 {
-	m_bVisible = bVisible;
+	if (m_strString.IsEmpty())
+	{
+		Log_Write_L2(ILogger::LT_ERROR, "m_strString is empty");
+	}
+	m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, DT_CALCRECT, m_Color);
 }
 // ***************************************************************
 
+const RECT Graphics::cMyFont::GetRect( const Base::cString & strText ) const
+{
+	if (strText.IsEmpty())
+	{
+		Log_Write_L2(ILogger::LT_ERROR, "Calculating Boundary Rectangle for Empty String");
+	}
+	RECT boundingRect;
+	boundingRect.top = 0;
+	boundingRect.bottom = 0;
+	boundingRect.left = 0;
+	boundingRect.right = 0;
+	m_pFont->DrawText(NULL, strText.GetData(), -1, &boundingRect, DT_CALCRECT, m_Color);
+	return boundingRect;
+}
 // ***************************************************************
 // Creates a font
 // ***************************************************************

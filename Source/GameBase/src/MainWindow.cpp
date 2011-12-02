@@ -194,16 +194,19 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		OnDestroyDevice();
 		return 0 ;
 
-	case  WM_LBUTTONDBLCLK:
-	case  WM_LBUTTONDOWN:
-	case  WM_LBUTTONUP:
-	case  WM_MBUTTONDBLCLK:
-	case  WM_MBUTTONDOWN:
-	case  WM_MBUTTONUP:
-	case  WM_MOUSEMOVE:
-	case  WM_RBUTTONDBLCLK:
-	case  WM_RBUTTONDOWN:
-	case  WM_RBUTTONUP:
+	case WM_LBUTTONDBLCLK:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_MBUTTONDBLCLK:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+	case WM_MOUSEMOVE:
+	case WM_RBUTTONDBLCLK:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	//case WM_KEYDOWN:
+	//case WM_KEYUP:
+	case WM_CHAR:
 		Graphics::AppMsg msg;
 		msg.m_hWnd = hwnd;
 		msg.m_uMsg = uMsg;

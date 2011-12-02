@@ -46,17 +46,12 @@ void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 {
 	if (m_pFont)
 	{
-		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-		GetAbsolutePosition(vControlAbsolutePosition);
+		D3DXVECTOR3 vControlAbsolutePosition;
+		bool bIsPositionChanged;
+		RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
 
-		if (IsPositionChanged(vControlAbsolutePosition))
+		if (bIsPositionChanged)
 		{
-			if (m_dwWidth == 0 || m_dwHeight == 0)
-			{
-				Log_Write_L1(ILogger::LT_ERROR, cString(100, "Label control height or width is 0"));
-			}
-
-			m_vPrevControlPosition = vControlAbsolutePosition;
 			m_rectBoundary.left = (LONG)vControlAbsolutePosition.x;
 			m_rectBoundary.top = (LONG)vControlAbsolutePosition.y;
 			m_rectBoundary.right = m_rectBoundary.left + m_dwWidth;
@@ -78,6 +73,13 @@ void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const U
 		m_pFont->SetFormat(dwFormat);
 		m_pFont->SetTextColor(color);
 		m_pFont->SetText(strCaption);
+		m_pFont->CalculateAndSetRect();
+
+		RECT rect = m_pFont->GetRect();
+		m_dwHeight = rect.bottom - rect.top;
+		m_dwWidth = rect.right - rect.left;
+
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Label Height : %d, Label Width : %d", m_dwHeight, m_dwWidth));
 	}
 }
 // ***************************************************************

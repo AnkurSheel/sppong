@@ -194,7 +194,8 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 		}
 		break;
 
-	case  WM_KEYDOWN:
+	//case WM_KEYDOWN:
+	case WM_CHAR:
 		pTempControl = PostToAll(msg);
 		if(!pTempControl)
 		{
@@ -368,6 +369,24 @@ void Graphics::cBaseControl::SetSize( const float fNewWidth, const float fNewHei
 	if(m_pCanvasSprite)
 	{
 		m_pCanvasSprite->SetSize(m_dwWidth, m_dwHeight);
+	}
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::RenderPrivate( D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged )
+{
+
+	vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
+	GetAbsolutePosition(vControlAbsolutePosition);
+
+	bIsPositionChanged = IsPositionChanged(vControlAbsolutePosition);
+	if (bIsPositionChanged)
+	{
+		if (m_dwWidth == 0 || m_dwHeight == 0)
+		{
+			Log_Write_L1(ILogger::LT_ERROR, cString(100, "Label control height or width is 0"));
+		}
+		m_vPrevControlPosition = vControlAbsolutePosition;
 	}
 }
 // ***************************************************************

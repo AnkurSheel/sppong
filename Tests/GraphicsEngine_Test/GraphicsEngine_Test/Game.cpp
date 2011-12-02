@@ -32,16 +32,22 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	pWindowControl->SetPosition(D3DXVECTOR3(100.f, 100.f, 0.f));
 	pWindowControl->SetSize(400, 400);
 
-	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(14, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
-	pLabelControl->SetSize(75, 15);
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
 	pLabelControl->SetPosition(D3DXVECTOR3(0.f, 40.f, 0.f));
 
-	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 8, 8, 10, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLACK);
+	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
 	pButtonControl->SetSize(100, 100);
 	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
+
+	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png", 10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, BLACK);
+	pTextBoxControl->SetSize(200, 30);
+	pTextBoxControl->SetPosition(D3DXVECTOR3(0.f, 200.f, 0.f));
+
+
 	m_pParentControl->AddChildControl(pWindowControl);
 	pWindowControl->AddChildControl(pLabelControl);
 	pWindowControl->AddChildControl(pButtonControl);
+	pWindowControl->AddChildControl(pTextBoxControl);
 
 	return hWnd;
 }
@@ -60,8 +66,9 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 	case WM_LBUTTONDOWN:
 	case WM_KEYUP:
 	case WM_KEYDOWN:
+	case WM_CHAR:
 		m_pParentControl->PostMsg(msg);
-		break;;
+		break;
 	}
 }
 

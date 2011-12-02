@@ -62,7 +62,11 @@ namespace Graphics
 		virtual void SetSize(const float fNewWidth, const float fNewHeight);
 
 	protected:
+		virtual void RenderPrivate(D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged);
+
+	private:
 		bool IsPositionChanged(const D3DXVECTOR3 & vControlPosition);
+
 	protected:
 		bool				m_bFocus;
 		cBaseControl *		m_pFocusControl;

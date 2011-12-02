@@ -37,7 +37,10 @@ namespace Graphics
 		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
 		void Render(LPDIRECT3DDEVICE9 const pDevice) ;
 		void SetText(const Base::cString & strString);
+		const RECT & GetRect() const;
+		const RECT GetRect(const Base::cString & strText) const;
 		void SetRect(const RECT & boundingRect);
+		void CalculateAndSetRect();
 		void SetFormat(const DWORD dwFormat);
 		void SetTextColor(const D3DCOLOR & color);
 		void OnLostDevice();
@@ -55,5 +58,6 @@ namespace Graphics
 		D3DCOLOR		m_Color;
 		bool			m_bVisible;
 	} ;
+#include "Font.inl"
 }
 #endif // Font_h__

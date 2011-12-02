@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Font.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Polygon.cpp"
 				>
 			</File>
@@ -318,10 +322,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Includes\MouseHandler.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\src\MouseZone.cpp"
 				>
 			</File>
@@ -333,26 +333,6 @@
 				RelativePath=".\Includes\MouseZone.hxx"
 				>
 			</File>
-			<Filter
-				Name="Keyboard"
-				>
-				<File
-					RelativePath=".\src\KeyboardHandler.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\KeyboardHandler.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Includes\KeyboardHandler.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\src\KeyboardHandler.inl"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Controls"
@@ -387,6 +367,14 @@
 			</File>
 			<File
 				RelativePath=".\src\LabelControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TextBoxControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TextBoxControl.h"
 				>
 			</File>
 			<File

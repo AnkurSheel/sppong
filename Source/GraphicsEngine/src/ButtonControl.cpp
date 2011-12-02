@@ -98,14 +98,14 @@ void Graphics::cButtonControl::OnKeyUp( const AppMsg & msg )
 
 void Graphics::cButtonControl::OnRender( const AppMsg & msg )
 {
-	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-	GetAbsolutePosition(vControlAbsolutePosition);
+	D3DXVECTOR3 vControlAbsolutePosition;
+	bool bIsPositionChanged;
+	RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
 
-	if (IsPositionChanged(vControlAbsolutePosition))
+	if (bIsPositionChanged)
 	{
 		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-		m_pLabelCaption->SetPosition(D3DXVECTOR3(m_dwWidth/2.0f, m_dwHeight/2.0f, 0.0f));
-		m_pLabelCaption->SetPosition(D3DXVECTOR3(vControlAbsolutePosition.x + m_dwWidth/4.0f, vControlAbsolutePosition.y + m_dwHeight/2.0f, 0.0f));
+		m_pLabelCaption->SetPosition(vControlAbsolutePosition);
 	}
 	m_pCanvasSprite->Render(IDXBase::GetInstance()->GetDevice());
 	m_pLabelCaption->OnRender(msg);

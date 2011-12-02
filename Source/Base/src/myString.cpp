@@ -119,3 +119,32 @@ cString cString::TimeToString(time_t time)
 	str[24] = ' '; // remove the '/n' from the time string
 	return str;
 }
+// ***************************************************************
+
+int Base::cString::GetLength() const
+{
+	return m_str.length();
+}
+// ***************************************************************
+
+Base::cString Base::cString::GetSubString( const int iStartIndex, const int iEndIndex )
+{
+	if (iStartIndex < 0 || iEndIndex > m_str.length())
+	{
+		return "";
+	}
+
+	return m_str.substr(iStartIndex, iEndIndex);
+}
+// ***************************************************************
+
+void Base::cString::Insert( const int iIndex, const cString & strText )
+{
+	m_str.insert(iIndex, strText.GetData());
+}
+// ***************************************************************
+
+void Base::cString::Remove( const int iIndex, const int iQuantity )
+{
+	m_str.erase(iIndex, iQuantity);
+}
