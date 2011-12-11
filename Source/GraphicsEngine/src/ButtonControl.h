@@ -34,12 +34,12 @@ namespace Graphics
 		void OnKeyDown(const AppMsg & msg );
 		void OnKeyUp(const AppMsg & msg );
 		void OnRender(const AppMsg & msg);
-		void SetSize(const float fNewWidth, const float fNewHeight);
 
 	private:
 		cButtonControl(const cButtonControl&){}
 		cButtonControl operator =(const cButtonControl&){}
 		void Cleanup();
+		void SetSize(const float fNewWidth, const float fNewHeight);
 
 	private:
 		IBaseControl *							m_pLabelCaption;

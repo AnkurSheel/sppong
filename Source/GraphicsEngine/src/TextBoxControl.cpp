@@ -24,6 +24,7 @@ Graphics::cTextBoxControl::cTextBoxControl()
 , m_bIsCaretVisible(false)
 , m_iTextWidth(0)
 , m_iCaretPos(0)
+, m_bTextBoxFull(false)
 {
 
 }
@@ -49,6 +50,9 @@ void Graphics::cTextBoxControl::Init( const Base::cString & strDefaultImage, con
 	m_pCanvasSprite = ISprite::CreateSprite();
 	m_pCanvasSprite->Init(IDXBase::GetInstance()->GetDevice(), strDefaultImage);
 
+	m_avCaretVector[0] = D3DXVECTOR2(0.f, 0.f);
+	m_avCaretVector[1] = D3DXVECTOR2(0.f, 0.f);
+	D3DXCreateLine(IDXBase::GetInstance()->GetDevice(), &m_pCaretLine);
 }
 // ***************************************************************
 
@@ -77,28 +81,72 @@ void Graphics::cTextBoxControl::OnRender( const AppMsg & msg )
 	{
 		m_pFont->Render(IDXBase::GetInstance()->GetDevice());
 	}
+	
+	if(m_bFocus)
+	{
+		if (m_bIsCaretVisible)
+		{
+			if (m_pCaretLine)
+			{
+				D3DXVECTOR2 Absolute[2];
+				ZeroMemory(Absolute, sizeof(D3DXVECTOR2) * 2);
+				Absolute[0].x = vControlAbsolutePosition.x + m_avCaretVector[0].x;
+				Absolute[0].y = vControlAbsolutePosition.y + m_avCaretVector[0].y;
+				Absolute[1].x = vControlAbsolutePosition.x + m_avCaretVector[0].x;
+				Absolute[1].y = vControlAbsolutePosition.y + m_avCaretVector[0].y + GetHeight();
+				m_pCaretLine->Draw(Absolute, 2, D3DCOLOR_XRGB(255,255,255));
+			}
+			m_bIsCaretVisible = false;
+		}
+		else
+		{
+			m_bIsCaretVisible = true;
+		}
+	}
 }
 // ***************************************************************
 
 void Graphics::cTextBoxControl::OnKeyDown( const AppMsg & msg )
 {
-	switch (msg.m_wParam)
+	// some messages are handled by both keydown and char
+	if (msg.m_uMsg == WM_CHAR)
 	{
-	case VK_BACK:
-	case VK_DELETE:
-		RemoveText(1);
-		break;
+		switch (msg.m_wParam)
+		{
+		case VK_BACK:
+			RemoveText(1);
+			break;
 
-	case VK_LEFT:
-		SetCaratPosition(m_iCaretPos - 1);
-		break;
+		case VK_ESCAPE:
+			SetFocusControl(NULL);
+			break;
 
-	case VK_RIGHT:
-		SetCaratPosition(m_iCaretPos + 1);
-		break;
+		default:
+			InsertText((char *)&msg.m_wParam);
+		}
+	}
+	else if (msg.m_uMsg == WM_KEYDOWN)
+	{
+		switch (msg.m_wParam)
+		{
+		case VK_DELETE:
+			//if (m_iCaretPos < m_strText.GetLength())
+			{
+				if(SetCaratPosition(m_iCaretPos + 1))
+				{
+					RemoveText(1);
+				}
+			}
+			break;
 
-	default:
-		InsertText((char *)&msg.m_wParam);
+		case VK_LEFT:
+			SetCaratPosition(m_iCaretPos - 1);
+			break;
+
+		case VK_RIGHT:
+			SetCaratPosition(m_iCaretPos + 1);
+			break;
+		}
 	}
 }
 // ***************************************************************
@@ -122,6 +170,7 @@ int Graphics::cTextBoxControl::GetStringWidth( const Base::cString & strText )
 		RECT rectStringInfo = m_pFont->GetRect(strText);
 		return rectStringInfo.right;
 	}
+	return 0;
 }
 // ***************************************************************
 
@@ -132,6 +181,7 @@ int Graphics::cTextBoxControl::GetStringHeight()
 		RECT rectStringInfo = m_pFont->GetRect();
 		return rectStringInfo.bottom;
 	}
+	return 0;
 }
 // ***************************************************************
 
@@ -148,7 +198,7 @@ void Graphics::cTextBoxControl::SetText( const Base::cString & strText )
 }
 // ***************************************************************
 
-void Graphics::cTextBoxControl::SetCaratPosition( const long iPos )
+bool Graphics::cTextBoxControl::SetCaratPosition( const long iPos )
 {
 	if (iPos >= 0 && iPos <= m_strText.GetLength())
 	{
@@ -156,17 +206,17 @@ void Graphics::cTextBoxControl::SetCaratPosition( const long iPos )
 		m_avCaretVector[0].x = GetStringWidth(subStr);
 		m_avCaretVector[1].x = m_avCaretVector[0].x ;
 		m_iCaretPos = iPos;
+		return true;
 	}
-	else
-	{
-		Log_Write_L2(ILogger::LT_ERROR, "Pos is < 0 or pos > strlen");
-	}
+	Log_Write_L2(ILogger::LT_ERROR, "Pos is < 0 or pos > strlen");
+	return false;
 }
 // ***************************************************************
 
 bool Graphics::cTextBoxControl::InsertText( const Base::cString & strText )
 {
-	if((m_iTextWidth + GetStringWidth(strText)) <= m_dwWidth)
+	if(!m_bTextBoxFull 
+		&& (m_iTextWidth + GetStringWidth(strText)) <= m_dwWidth)
 	{
 		m_strText.Insert(m_iCaretPos, strText);
 		m_iTextWidth = GetStringWidth();
@@ -174,15 +224,19 @@ bool Graphics::cTextBoxControl::InsertText( const Base::cString & strText )
 		SetText(m_strText);
 		return true;
 	}
+	m_bTextBoxFull = true;
 	return false;
 }
 // ***************************************************************
 
 long Graphics::cTextBoxControl::RemoveText( const long iQuantity )
 {
-	SetCaratPosition(m_iCaretPos - iQuantity);
-	m_strText.Remove(m_iCaretPos, iQuantity);
-	SetText(m_strText);
+	if(SetCaratPosition(m_iCaretPos - iQuantity))
+	{
+		m_strText.Remove(m_iCaretPos, iQuantity);
+		SetText(m_strText);
+		m_bTextBoxFull = false;
+	}
 	return m_iTextWidth;
 }
 // ***************************************************************

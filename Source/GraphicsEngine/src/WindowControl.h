@@ -28,12 +28,13 @@ namespace Graphics
 		void OnKeyUp(const AppMsg & msg ){}
 		void OnRender(const AppMsg & msg);
 		void LoadCanvasFromFile(const Base::cString & strFileName);
-		void Minimize(const int iWidth, const int iHeight, const int iX, const int iY);
-		void Restore();
 	
 	private :
 		cWindowControl(const cWindowControl&){}
 		cWindowControl operator =(const cWindowControl&){}
+
+		void Minimize(const int iWidth, const int iHeight, const int iX, const int iY);
+		void Restore();
 
 	private:
 		int					m_iLastNormalPosX;

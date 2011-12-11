@@ -204,8 +204,8 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 	case WM_RBUTTONDBLCLK:
 	case WM_RBUTTONDOWN:
 	case WM_RBUTTONUP:
-	//case WM_KEYDOWN:
-	//case WM_KEYUP:
+	case WM_KEYDOWN:
+	case WM_KEYUP:
 	case WM_CHAR:
 		Graphics::AppMsg msg;
 		msg.m_hWnd = hwnd;

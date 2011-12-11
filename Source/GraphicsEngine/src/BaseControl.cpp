@@ -155,7 +155,8 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 				{
 					m_pParentControl->MoveToFront(this);
 				}
-				m_pFocusControl = this;
+				
+				SetFocusControl(this);
 			}
 			return true;
 		}
@@ -194,7 +195,7 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 		}
 		break;
 
-	//case WM_KEYDOWN:
+	case WM_KEYDOWN:
 	case WM_CHAR:
 		pTempControl = PostToAll(msg);
 		if(!pTempControl)
@@ -241,7 +242,7 @@ cBaseControl * Graphics::cBaseControl::PostToAll( const AppMsg & msg )
 
 void Graphics::cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 {
-	if(!m_pFocusControl)
+	if (!m_bFocus || m_pFocusControl != pControl)
 	{
 		if (m_pParentControl)
 		{
@@ -249,14 +250,18 @@ void Graphics::cBaseControl::SetFocusControl( const cBaseControl * const pContro
 		}
 		else
 		{
+			m_bFocus =true;
 			if(m_pFocusControl)
 			{
 				m_pFocusControl->m_bFocus = false;
 			}
+			
 			m_pFocusControl = const_cast<cBaseControl *>(pControl);
-			m_bFocus = true;
+			if (m_pFocusControl)
+			{
+				m_pFocusControl->m_bFocus = true;
+			}
 		}
-
 	}
 }
 // ***************************************************************

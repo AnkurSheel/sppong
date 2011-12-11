@@ -29,15 +29,9 @@ namespace Graphics
 	public:
 		cTextBoxControl();
 		~cTextBoxControl();
-		void Init(const Base::cString & strDefaultImage, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
-		int	GetStringWidth();
-		int	GetStringWidth(const Base::cString & strText);
-		int	GetStringHeight();
-		void SetText(const Base::cString & strText);
-		void SetCaratPosition(const long iPos);
-		bool InsertText(const Base::cString & strText);
-		long RemoveText(const long iQuantity);
 		
+		void Init(const Base::cString & strDefaultImage, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
+
 		void OnRender(const AppMsg & msg);
 		void OnKeyDown(const AppMsg & msg );
 		void OnKeyUp(const AppMsg & msg );
@@ -45,6 +39,14 @@ namespace Graphics
 	private:
 		cTextBoxControl(cTextBoxControl&){}
 		cTextBoxControl operator =(const cTextBoxControl&){}
+
+		int	GetStringWidth();
+		int	GetStringWidth(const Base::cString & strText);
+		int	GetStringHeight();
+		void SetText(const Base::cString & strText);
+		bool SetCaratPosition(const long iPos);
+		bool InsertText(const Base::cString & strText);
+		long RemoveText(const long iQuantity);
 
 	private:
 		IFont *				m_pFont;
@@ -55,6 +57,7 @@ namespace Graphics
 		int					m_iTextWidth;
 		RECT				m_rectBoundary;
 		long				m_iCaretPos;
+		bool				m_bTextBoxFull;
 	};
 }
 #endif // TextBoxControl_h__s

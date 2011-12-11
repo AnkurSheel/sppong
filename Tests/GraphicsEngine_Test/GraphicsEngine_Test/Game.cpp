@@ -74,7 +74,6 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 
 void cGame::Run()
 {
-
 	AppMsg appMsg;
 	appMsg.m_uMsg = WM_RENDER;
 	appMsg.m_lParam = 0;
