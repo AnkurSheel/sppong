@@ -39,6 +39,16 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage,
 									const Base::cString & strFaceName, 
 									DWORD dwFormat, const D3DXCOLOR & color )
 {
+
+	Init(strDefaultImage, strPressedImage);
+
+	SAFE_DELETE(m_pLabelCaption);
+	m_pLabelCaption = IBaseControl::CreateLabelControl(iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, strCaption);
+}
+// ***************************************************************
+
+void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, const Base::cString & strPressedImage )
+{
 	if(m_pDefaultTexture == NULL)
 	{
 		m_pDefaultTexture = ITexture::CreateTexture();
@@ -53,9 +63,6 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage,
 
 	m_pCanvasSprite = ISprite::CreateSprite();
 	m_pCanvasSprite->Init(IDXBase::GetInstance()->GetDevice(), m_pDefaultTexture);
-
-	SAFE_DELETE(m_pLabelCaption);
-	m_pLabelCaption = IBaseControl::CreateLabelControl(iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, strCaption);
 }
 // ***************************************************************
 
@@ -105,10 +112,16 @@ void Graphics::cButtonControl::OnRender( const AppMsg & msg )
 	if (bIsPositionChanged)
 	{
 		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-		m_pLabelCaption->SetPosition(vControlAbsolutePosition);
+		if (m_pLabelCaption)
+		{
+			m_pLabelCaption->SetPosition(vControlAbsolutePosition);
+		}
 	}
 	m_pCanvasSprite->Render(IDXBase::GetInstance()->GetDevice());
-	m_pLabelCaption->OnRender(msg);
+	if (m_pLabelCaption)
+	{	
+		m_pLabelCaption->OnRender(msg);
+	}
 }
 
 void Graphics::cButtonControl::SetSize( const float fNewWidth, const float fNewHeight )
@@ -121,10 +134,17 @@ void Graphics::cButtonControl::SetSize( const float fNewWidth, const float fNewH
 }
 // ***************************************************************
 
-GRAPHIC_API  IBaseControl * Graphics::IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, const Base::cString & strPressedImage, const Base::cString & strCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
+IBaseControl * Graphics::IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, const Base::cString & strPressedImage, const Base::cString & strCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
 	pControl->Init(strDefaultImage, strPressedImage, strCaption, iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color);
 	return pControl;
 }
 // ***************************************************************
+
+IBaseControl * Graphics::IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, const Base::cString & strPressedImage )
+{
+	cButtonControl * pControl = DEBUG_NEW cButtonControl();
+	pControl->Init(strDefaultImage, strPressedImage);
+	return pControl;
+}

@@ -28,6 +28,7 @@ namespace Graphics
 		~cButtonControl();
 
 		void Init(const Base::cString & strDefaultImage, const Base::cString & strPressedImage, const Base::cString & strCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
+		void Init(const Base::cString & strDefaultImage, const Base::cString & strPressedImage);
 
 		void OnMouseUp(const int iButton, const int X, const int Y);
 		void OnMouseDown(const int iButton, const int X, const int Y);

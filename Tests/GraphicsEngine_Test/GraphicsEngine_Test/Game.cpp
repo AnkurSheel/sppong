@@ -39,15 +39,24 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	pButtonControl->SetSize(100, 100);
 	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
 
+	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png");
+	pButtonControl1->SetSize(30, 30);
+	pButtonControl1->SetPosition(D3DXVECTOR3(150.f, 90.f, 0.f));
+
 	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png", 10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, BLACK);
 	pTextBoxControl->SetSize(200, 30);
 	pTextBoxControl->SetPosition(D3DXVECTOR3(0.f, 200.f, 0.f));
 
 
+	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png", "Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
+	pCheckBoxControl->SetPosition(D3DXVECTOR3(0.f, 250.f, 0.f));
+
 	m_pParentControl->AddChildControl(pWindowControl);
 	pWindowControl->AddChildControl(pLabelControl);
 	pWindowControl->AddChildControl(pButtonControl);
+	pWindowControl->AddChildControl(pButtonControl1);
 	pWindowControl->AddChildControl(pTextBoxControl);
+	pWindowControl->AddChildControl(pCheckBoxControl);
 
 	return hWnd;
 }
