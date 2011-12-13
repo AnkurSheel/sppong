@@ -40,7 +40,7 @@
 
 #include <windows.h>
 #include <crtdbg.h>
-#include "Macros.h"
 #include "Logger.hxx"
 #include "myString.h"
 
+#include "Includes.h"

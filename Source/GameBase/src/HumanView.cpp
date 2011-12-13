@@ -26,7 +26,7 @@ using namespace Base;
 
 cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
-, m_pFont(NULL)
+//, m_pFont(NULL)
 , m_pInput(NULL)
 , m_pMouseZones(NULL)
 , m_pProcessManager(NULL)
@@ -177,10 +177,10 @@ void cHumanView::OnDestroyDevice()
 	// delete the input handler
 	SAFE_DELETE(m_pInput);
 
-	SAFE_DELETE(m_pCursorSprite);
+	//SAFE_DELETE(m_pCursorSprite);
 	SAFE_DELETE(m_pMouseZones);
 
-	SAFE_DELETE(m_pFont);
+	//SAFE_DELETE(m_pFont);
 
 }
 // ***************************************************************
@@ -200,12 +200,12 @@ void cHumanView::OnAttach(GameViewId id)
 	m_idView = id;
 }
 
-void cHumanView::PushElement(IScreenElement * pScreenElement, const cString & strZoneName)
+void cHumanView::PushElement(shared_ptr<IScreenElement> pScreenElement, const cString & strZoneName)
 {
 	m_pElementList.push_back(pScreenElement);
 	if(!strZoneName.IsEmpty())
 	{
-		ISprite * pSprite = dynamic_cast<ISprite *>(pScreenElement);
+		shared_ptr<ISprite> pSprite = dynamic_pointer_cast<ISprite>(pScreenElement);
 		if(pSprite)
 		{
 			m_pMouseZones->AddZone(strZoneName,
@@ -218,7 +218,7 @@ void cHumanView::PushElement(IScreenElement * pScreenElement, const cString & st
 	}
 }
 
-void cHumanView::PopElement(IScreenElement * pScreenElement)
+void cHumanView::PopElement(shared_ptr<IScreenElement> pScreenElement)
 {
 	m_pElementList.remove(pScreenElement);
 }
@@ -227,8 +227,6 @@ void cHumanView::RemoveElements()
 {
 	while (!m_pElementList.empty())
 	{
-		IScreenElement * pScreenElement = m_pElementList.front();
-		SAFE_DELETE(pScreenElement);
 		m_pElementList.pop_front();
 	}
 }
@@ -249,12 +247,12 @@ bool cHumanView::CheckZones(cString & strHitZoneName )
 									strHitZoneName));
 }
 
-void cHumanView::OnUpdate(float fElapsedTime)
+void cHumanView::OnUpdate(const int iDeltaMilliSeconds)
 {
 	GetInput();
 	if(m_pProcessManager)
 	{
-		m_pProcessManager->UpdateProcesses(fElapsedTime);
+		m_pProcessManager->UpdateProcesses(iDeltaMilliSeconds);
 	}
 }
 

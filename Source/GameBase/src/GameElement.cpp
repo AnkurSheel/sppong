@@ -20,8 +20,8 @@ using namespace Base;
 // Constructor
 // ***************************************************************
 cGameElement::cGameElement()
-: m_pSprite(NULL)
-, m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
+//: m_pSprite(NULL)
+: m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
 , m_vPrevPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
 {
 }

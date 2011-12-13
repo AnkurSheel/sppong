@@ -62,6 +62,10 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\src\Includes.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\Macros.h"
 			>
 		</File>

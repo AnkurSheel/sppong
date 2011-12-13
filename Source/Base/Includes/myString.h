@@ -39,7 +39,7 @@ namespace Base
 		BASE_API const char * const GetData()const;
 		BASE_API bool IsEmpty() const ;
 		BASE_API int GetLength() const;
-		BASE_API cString GetSubString(const int iStartIndex, const int iEndIndex);
+		BASE_API cString GetSubString(const size_t iStartIndex, const size_t iEndIndex);
 		BASE_API void Insert(const int iIndex, const cString & strText);
 		BASE_API void Remove(const int iIndex, const int iQuantity);
 		BASE_API int Compare (const cString & strRight) const;

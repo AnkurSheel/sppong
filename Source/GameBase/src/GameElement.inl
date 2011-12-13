@@ -16,12 +16,12 @@ inline const D3DXVECTOR3& cGameElement::GetPosition()
 }
 // ***************************************************************
 
-inline void cGameElement::SetSprite(Graphics::ISprite * const sprite )
+inline void cGameElement::SetSprite(shared_ptr<Graphics::ISprite> const pSprite )
 {
-	m_pSprite = sprite;
+	m_pSprite = pSprite;
 }
 
-inline const Graphics::ISprite * cGameElement::GetSprite() const
+inline const shared_ptr<Graphics::ISprite> cGameElement::GetSprite() const
 {
 	return m_pSprite;
 }

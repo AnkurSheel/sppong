@@ -16,7 +16,6 @@
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
-using namespace std::tr1;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -48,7 +47,7 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice, std::tr1::shared_ptr<ITexture> const pTexture)
+void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice, shared_ptr<ITexture> const pTexture)
 {
 	if (m_pSprite)
 	{
@@ -210,9 +209,8 @@ void cSprite::SetSourceRect(const RECT & rectSrc)
 // ***************************************************************
 // Creates a Sprite
 // ***************************************************************
-ISprite * ISprite::CreateSprite()
+shared_ptr<ISprite> ISprite::CreateSprite()
 {
-	cSprite* pSprite = DEBUG_NEW cSprite();
-	return pSprite;
+	return shared_ptr<ISprite> (DEBUG_NEW cSprite());
 }
 // ***************************************************************

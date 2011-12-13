@@ -14,6 +14,7 @@
 using namespace Graphics;
 using namespace Base;
 using namespace Utilities;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -21,6 +22,7 @@ cMyFont::cMyFont()
 : m_pFont(NULL)
 , m_Color(BLACK)
 , m_bVisible(true)
+, m_iSpaceWidth(0)
 {
 	m_boundingRect.top = 0;
 	m_boundingRect.bottom = 0;
@@ -52,6 +54,14 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 	strcpy_s(m_fonttype.FaceName, LF_FACESIZE, strFaceName.GetData()) ;
 
 	D3DXCreateFontIndirect(pd3dDevice, &m_fonttype, &m_pFont) ;
+
+/*	RECT rctA = {0,0,0,0};
+	m_pFont->DrawText(NULL, "A", -1, &rctA, DT_CALCRECT, BLACK);
+
+	RECT rctSpc = {0,0,0,0};
+	m_pFont->DrawText( NULL, "A A", -1, &rctSpc, DT_CALCRECT, BLACK);
+
+	m_iSpaceWidth = rctSpc.right - rctA.right * 2;*/
 }
 // ***************************************************************
 
@@ -107,11 +117,21 @@ const RECT Graphics::cMyFont::GetRect( const Base::cString & strText ) const
 	return boundingRect;
 }
 // ***************************************************************
+
+void Graphics::cMyFont::AddTrailingSpaceWidth( const Base::cString & strText , RECT & boundingRect ) const
+{
+	int index = m_strString.GetLength() - 1;
+	while(strText.GetData()[index] == ' ')
+	{
+		boundingRect.right += m_iSpaceWidth;
+		index--;
+	}
+}
+// ***************************************************************
 // Creates a font
 // ***************************************************************
-IFont * IFont::CreateMyFont()
+shared_ptr<IFont> IFont::CreateMyFont()
 {
-	cMyFont * pFont = DEBUG_NEW cMyFont();
-	return pFont;
+	return shared_ptr<IFont> (DEBUG_NEW cMyFont());
 }
 // ***************************************************************

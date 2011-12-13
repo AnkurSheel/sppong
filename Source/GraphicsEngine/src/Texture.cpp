@@ -11,12 +11,10 @@
 #include "Texture.h"
 #include "ResourceManager.hxx"
 #include "ResCache.hxx"
-#include <memory>
 
 using namespace Base;
 using namespace Graphics;
 using namespace Utilities;
-using namespace std::tr1;
 
 cTexture::cTexture()
 : m_pTexture(NULL)
@@ -67,7 +65,7 @@ void Graphics::cTexture::Cleanup()
 }
 // ***************************************************************
 
-std::tr1::shared_ptr<ITexture> Graphics::ITexture::CreateTexture()
+shared_ptr<ITexture> Graphics::ITexture::CreateTexture()
 {
-	return std::tr1::shared_ptr<ITexture> (DEBUG_NEW cTexture());
+	return shared_ptr<ITexture> (DEBUG_NEW cTexture());
 }

@@ -12,7 +12,6 @@
 #include "Process.h"
 
 using namespace Utilities;
-using namespace std::tr1;
 
 cProcessManager::~cProcessManager()
 {	
@@ -22,7 +21,7 @@ cProcessManager::~cProcessManager()
 	}
 }
 
-void cProcessManager::Attach(std::tr1::shared_ptr<cProcess> pProcess)
+void cProcessManager::Attach(shared_ptr<cProcess> pProcess)
 {
 	m_pProcessList.push_back(pProcess);
 	pProcess->SetAttached(true);
@@ -72,7 +71,7 @@ void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 	}
 }
 
-void cProcessManager::Detach(std::tr1::shared_ptr<cProcess> pProcess)
+void cProcessManager::Detach(shared_ptr<cProcess> pProcess)
 {
 	m_pProcessList.remove(pProcess);
 	pProcess->SetAttached(false);

@@ -10,9 +10,6 @@
 #ifndef Process_h__
 #define Process_h__
 
-
-#include <memory>
-
 namespace Utilities
 {
 	static const int PROCESS_FLAG_ATTACHED		= 0x00000001;
@@ -32,8 +29,8 @@ namespace Utilities
 		void SetAttached(const bool bAttached);
 		bool IsPaused() const;
 		bool IsInitialized() const;
-		std::tr1::shared_ptr<cProcess> const GetNext() const;
-		void SetNext(std::tr1::shared_ptr<cProcess> pNext);
+		shared_ptr<cProcess> const GetNext() const;
+		void SetNext(shared_ptr<cProcess> pNext);
 		void TogglePause();
 		
 		virtual void OnInitialize(){}
@@ -46,15 +43,15 @@ namespace Utilities
 		const cProcess& operator= (const cProcess &){}
 	
 	protected:
-		int								m_iType;
-		bool							m_bKill;
-		bool							m_bActive;
-		bool							m_bPaused;
-		bool							m_bInitialUpdate;
-		std::tr1::shared_ptr<cProcess>	m_pNext;
+		int						m_iType;
+		bool					m_bKill;
+		bool					m_bActive;
+		bool					m_bPaused;
+		bool					m_bInitialUpdate;
+		shared_ptr<cProcess>	m_pNext;
 	
 	private:
-		unsigned int					m_uProcessFlags;
+		unsigned int			m_uProcessFlags;
 
 	private:
 		friend class cProcessManager;

@@ -41,6 +41,7 @@ namespace Graphics
 		const RECT GetRect(const Base::cString & strText) const;
 		void SetRect(const RECT & boundingRect);
 		void CalculateAndSetRect();
+		void AddTrailingSpaceWidth(const Base::cString & strText , RECT & boundingRect) const;
 		void SetFormat(const DWORD dwFormat);
 		void SetTextColor(const D3DCOLOR & color);
 		void OnLostDevice();
@@ -49,7 +50,7 @@ namespace Graphics
 		void Cleanup();
 		void SetVisible(const bool bVisible);
 
-	protected:
+	private:
 		ID3DXFont *		m_pFont ;
 		D3DXFONT_DESC	m_fonttype; 
 		Base::cString	m_strString;
@@ -57,6 +58,7 @@ namespace Graphics
 		DWORD 			m_dwFormat;
 		D3DCOLOR		m_Color;
 		bool			m_bVisible;
+		int				m_iSpaceWidth;
 	} ;
 #include "Font.inl"
 }

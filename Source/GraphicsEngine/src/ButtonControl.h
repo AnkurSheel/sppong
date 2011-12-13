@@ -43,10 +43,10 @@ namespace Graphics
 		void SetSize(const float fNewWidth, const float fNewHeight);
 
 	private:
-		IBaseControl *							m_pLabelCaption;
-		std::tr1::shared_ptr<ITexture>			m_pDefaultTexture;
-		std::tr1::shared_ptr<ITexture>			m_pPressedTexture;
-		bool									m_bPressed;
+		IBaseControl *				m_pLabelCaption;
+		shared_ptr<ITexture>		m_pDefaultTexture;
+		shared_ptr<ITexture>		m_pPressedTexture;
+		bool						m_bPressed;
 	};
 }
 #endif // ButtonControl_h__

@@ -58,8 +58,8 @@ namespace Utilities
 	};
 
 	//LRU
-	typedef std::list<std::tr1::shared_ptr <IResHandle> > ResHandleList;
-	typedef std::map<Base::cString, std::tr1::shared_ptr <IResHandle> > ResHandleMap;
+	typedef std::list<shared_ptr <IResHandle> > ResHandleList;
+	typedef std::map<Base::cString, shared_ptr <IResHandle> > ResHandleMap;
 
 	class cResCache
 		: public IResCache
@@ -68,14 +68,14 @@ namespace Utilities
 		cResCache(unsigned int iCacheSizeInMB, const IResourceFile * pResFile);
 		~cResCache();
 		bool Init();
-		std::tr1::shared_ptr<IResHandle> GetHandle(IResource & r);
+		shared_ptr<IResHandle> GetHandle(IResource & r);
 		void Flush();
 
 	protected:
-		std::tr1::shared_ptr<IResHandle> Find(const IResource & r);
-		const void Update(std::tr1::shared_ptr<IResHandle> handle);
-		std::tr1::shared_ptr<IResHandle> Load(IResource & r) ; 
-		void Free(std::tr1::shared_ptr<IResHandle> handle);
+		shared_ptr<IResHandle> Find(const IResource & r);
+		const void Update(shared_ptr<IResHandle> handle);
+		shared_ptr<IResHandle> Load(IResource & r) ; 
+		void Free(shared_ptr<IResHandle> handle);
 		bool MakeRoom(unsigned int iSize);
 		char * Allocate(unsigned int iSize);
 		void FreeOneResource();

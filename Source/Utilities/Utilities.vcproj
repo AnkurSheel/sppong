@@ -343,7 +343,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Includes\stdafx.h"
+			RelativePath=".\src\stdafx.h"
 			>
 		</File>
 		<File

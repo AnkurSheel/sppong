@@ -33,7 +33,7 @@ namespace Graphics
 		virtual const RECT GetRect(const Base::cString & strText) const = 0;
 		virtual void SetFormat(const DWORD dwFormat) = 0;
 		virtual void SetTextColor(const D3DCOLOR & color) = 0;
-		GRAPHIC_API static IFont * CreateMyFont();
+		GRAPHIC_API static shared_ptr<IFont> CreateMyFont();
 	} ;
 }
 #endif // Font_h__

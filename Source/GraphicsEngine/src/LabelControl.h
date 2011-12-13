@@ -36,8 +36,8 @@ namespace Graphics
 		cLabelControl operator =(const cLabelControl&){}
 
 	private:
-		IFont *				m_pFont;
-		RECT				m_rectBoundary;
+		shared_ptr<IFont>		m_pFont;
+		RECT					m_rectBoundary;
 	};
 }
 #endif // LabelControl_h__

@@ -76,7 +76,10 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 	case WM_KEYUP:
 	case WM_KEYDOWN:
 	case WM_CHAR:
-		m_pParentControl->PostMsg(msg);
+		if (m_pParentControl)
+		{
+			m_pParentControl->PostMsg(msg);
+		}
 		break;
 	}
 }
@@ -88,5 +91,9 @@ void cGame::Run()
 	appMsg.m_lParam = 0;
 	appMsg.m_wParam = 0;
 
-	m_pParentControl->PostMsg(appMsg);
+	if (m_pParentControl)
+	{
+		m_pParentControl->PostMsg(appMsg);
+	}
+	
 }

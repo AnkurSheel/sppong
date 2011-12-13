@@ -30,10 +30,10 @@ public:
 	void Init(const D3DXVECTOR3& vInitialPos);
 	void Cleanup();
 	void IncrementScore();
-	Graphics::IFont * GetFont();
+	shared_ptr<Graphics::IFont> GetFont();
 
 private:
-	Graphics::IFont *	m_pFont;
-	UINT				m_iValue;
+	shared_ptr<Graphics::IFont>		m_pFont;
+	UINT							m_iValue;
 };
 #endif // Score_h__

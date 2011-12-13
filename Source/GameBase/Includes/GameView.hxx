@@ -33,7 +33,7 @@ namespace GameBase
 		virtual GAMEVIEWTYPE GetType() = 0;
 		virtual GameViewId GetId() const = 0;
 		virtual void OnAttach(GameViewId vid) = 0;
-		virtual void OnUpdate(float fElapsedTime) = 0;
+		virtual void OnUpdate(const int iDeltaMilliSeconds) = 0;
 		virtual void OnDestroyDevice() = 0;
 		virtual void OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight ) = 0;
 	};

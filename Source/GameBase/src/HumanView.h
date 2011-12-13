@@ -34,7 +34,7 @@ namespace Graphics
 
 namespace GameBase
 {
-	typedef std::list<Graphics::IScreenElement *> ScreenElementList;
+	typedef std::list<shared_ptr<Graphics::IScreenElement> > ScreenElementList;
 
 	class cHumanView : public IGameView
 	{
@@ -49,11 +49,11 @@ namespace GameBase
 		GAMEBASE_API GAMEVIEWTYPE GetType();
 		GAMEBASE_API GameViewId GetId() const;
 		GAMEBASE_API virtual void OnAttach(GameViewId id);
-		GAMEBASE_API virtual void PushElement(Graphics::IScreenElement * pScreenElement, const Base::cString & strZoneName);
-		GAMEBASE_API virtual void PopElement(Graphics::IScreenElement * pScreenElement);
+		GAMEBASE_API virtual void PushElement(shared_ptr<Graphics::IScreenElement> pScreenElement, const Base::cString & strZoneName);
+		GAMEBASE_API virtual void PopElement(shared_ptr<Graphics::IScreenElement> pScreenElement);
 		GAMEBASE_API virtual void RemoveElements();
 		GAMEBASE_API virtual void FreeZones();
-		GAMEBASE_API void OnUpdate(float fElapsedTime);
+		GAMEBASE_API void OnUpdate(const int iDeltaMilliSeconds);
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
 		GAMEBASE_API void SetCursorVisible(bool bVisible);
 
@@ -75,9 +75,9 @@ namespace GameBase
 		bool							m_bRunFullSpeed;
 		ScreenElementList				m_pElementList;
 		Graphics::IInput *				m_pInput;				// pointer to input class
-		Graphics::ISprite  *			m_pCursorSprite;		// the sprite for the cursor
+		shared_ptr<Graphics::ISprite>	m_pCursorSprite;		// the sprite for the cursor
 		Graphics::IMouseZone *			m_pMouseZones;
-		Graphics::IFont *				m_pFont;
+		shared_ptr<Graphics::IFont>		m_pFont;
 	};
 }
 #endif // HumanView_h__

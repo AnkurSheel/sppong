@@ -17,7 +17,7 @@ using namespace Utilities;
 using namespace Graphics;
 
 Graphics::cLabelControl::cLabelControl()
-: m_pFont(NULL)
+//: m_pFont(NULL)
 {
 
 }
@@ -26,7 +26,7 @@ Graphics::cLabelControl::cLabelControl()
 
 Graphics::cLabelControl::~cLabelControl()
 {
-	SAFE_DELETE(m_pFont);
+	//SAFE_DELETE(m_pFont);
 }
 // ***************************************************************
 

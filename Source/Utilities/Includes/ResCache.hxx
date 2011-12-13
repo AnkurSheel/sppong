@@ -11,7 +11,6 @@
 #define ResCache_hxx__
 
 #include "UtilitiesDefines.h"
-#include <memory>
 
 namespace Base
 {
@@ -56,7 +55,7 @@ namespace Utilities
 	public:
 		UTILITIES_API virtual ~IResCache() {}
 		UTILITIES_API virtual bool Init() = 0;
-		UTILITIES_API virtual std::tr1::shared_ptr<IResHandle> GetHandle(IResource & r) = 0;
+		UTILITIES_API virtual shared_ptr<IResHandle> GetHandle(IResource & r) = 0;
 		virtual void MemoryHasBeenFreed(unsigned int iSize) = 0;
 		UTILITIES_API static IResCache * CreateResourceCache(const int iSizeInMB, const Base::cString & strFileName);
 	};

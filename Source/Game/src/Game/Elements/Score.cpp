@@ -15,12 +15,13 @@
 
 using namespace Graphics;
 using namespace Base;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
 cScore::cScore()
-: m_pFont(NULL)
-, m_iValue(0)
+//: m_pFont(NULL)
+: m_iValue(0)
 {
 }
 // ***************************************************************
@@ -83,7 +84,7 @@ void cScore::IncrementScore()
 }
 // ***************************************************************
 
-IFont * cScore::GetFont()
+shared_ptr<IFont> cScore::GetFont()
 {
 	return m_pFont;
 }

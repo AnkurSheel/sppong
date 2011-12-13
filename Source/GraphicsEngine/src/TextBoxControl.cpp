@@ -19,8 +19,8 @@ using namespace Base;
 using namespace Utilities;
 
 Graphics::cTextBoxControl::cTextBoxControl()
-: m_pFont(NULL)
-, m_pCaretLine(NULL)
+//: m_pFont(NULL)
+: m_pCaretLine(NULL)
 , m_bIsCaretVisible(false)
 , m_iTextWidth(0)
 , m_iCaretPos(0)
@@ -32,7 +32,7 @@ Graphics::cTextBoxControl::cTextBoxControl()
 
 Graphics::cTextBoxControl::~cTextBoxControl()
 {
-	SAFE_DELETE(m_pFont);
+	//SAFE_DELETE(m_pFont);
 	SAFE_RELEASE(m_pCaretLine);
 }
 // ***************************************************************

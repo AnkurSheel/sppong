@@ -127,7 +127,7 @@ int Base::cString::GetLength() const
 }
 // ***************************************************************
 
-Base::cString Base::cString::GetSubString( const int iStartIndex, const int iEndIndex )
+BASE_API cString Base::cString::GetSubString( const size_t iStartIndex, const size_t iEndIndex )
 {
 	if (iStartIndex < 0 || iEndIndex > m_str.length())
 	{

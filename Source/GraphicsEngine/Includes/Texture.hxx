@@ -27,7 +27,7 @@ namespace Graphics
 		virtual LPDIRECT3DTEXTURE9 GetTexture() = 0;
 		virtual DWORD GetWidth() = 0;
 		virtual DWORD GetHeight() = 0;
-		GRAPHIC_API static std::tr1::shared_ptr<ITexture> CreateTexture();
+		GRAPHIC_API static shared_ptr<ITexture> CreateTexture();
 	};
 }
 

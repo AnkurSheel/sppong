@@ -22,13 +22,13 @@ inline void cBaseControl::SetParentControl( cBaseControl * pParentControl )
 }
 // ***************************************************************
 
-inline ISprite * cBaseControl::GetSprite() const
+inline shared_ptr<ISprite> cBaseControl::GetSprite() const
 {
 	return m_pCanvasSprite;
 }
 // ***************************************************************
 
-inline void cBaseControl::SetSprite( ISprite * pSprite )
+inline void cBaseControl::SetSprite(shared_ptr<ISprite> pSprite )
 {
 	m_pCanvasSprite = pSprite;
 }

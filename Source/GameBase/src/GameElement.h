@@ -39,8 +39,8 @@ namespace GameBase
 		GAMEBASE_API virtual Graphics::IPolygon& GetBoundingRectangle();
 		GAMEBASE_API virtual void OnRestart(const D3DXVECTOR3& vInitialPos);
 		GAMEBASE_API virtual const D3DXVECTOR3& GetPosition();
-		GAMEBASE_API virtual void SetSprite(Graphics::ISprite * const sprite );
-		GAMEBASE_API virtual const Graphics::ISprite * GetSprite() const;
+		GAMEBASE_API virtual void SetSprite(shared_ptr<Graphics::ISprite> const pSprite );
+		GAMEBASE_API virtual const shared_ptr<Graphics::ISprite> GetSprite() const;
 		GAMEBASE_API virtual void Cleanup();
 		GAMEBASE_API virtual void OnUpdate(float fElapsedTime) = 0;
 	
@@ -50,13 +50,13 @@ namespace GameBase
 		GAMEBASE_API void UpdatePosition();
 
 	protected:
-		Graphics::ISprite *		m_pSprite;
-		D3DXVECTOR3				m_vPosition;
-		D3DXVECTOR3				m_vPrevPosition;
-		Graphics::IPolygon *	m_pBoundingPolygon;
+		shared_ptr<Graphics::ISprite>		m_pSprite;
+		D3DXVECTOR3							m_vPosition;
+		D3DXVECTOR3							m_vPrevPosition;
+		Graphics::IPolygon *				m_pBoundingPolygon;
 	
 	private:
-		Base::cString			m_strFileName;
+		Base::cString						m_strFileName;
 	};
 #include "GameElement.inl"
 }

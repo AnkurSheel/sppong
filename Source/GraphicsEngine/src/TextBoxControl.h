@@ -49,15 +49,15 @@ namespace Graphics
 		long RemoveText(const long iQuantity);
 
 	private:
-		IFont *				m_pFont;
-		LPD3DXLINE			m_pCaretLine;
-		D3DXVECTOR2			m_avCaretVector[2];
-		bool				m_bIsCaretVisible;
-		Base::cString		m_strText;
-		int					m_iTextWidth;
-		RECT				m_rectBoundary;
-		long				m_iCaretPos;
-		bool				m_bTextBoxFull;
+		shared_ptr<IFont>		m_pFont;
+		LPD3DXLINE				m_pCaretLine;
+		D3DXVECTOR2				m_avCaretVector[2];
+		bool					m_bIsCaretVisible;
+		Base::cString			m_strText;
+		int						m_iTextWidth;
+		RECT					m_rectBoundary;
+		long					m_iCaretPos;
+		bool					m_bTextBoxFull;
 	};
 }
 #endif // TextBoxControl_h__s

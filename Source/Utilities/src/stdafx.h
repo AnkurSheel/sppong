@@ -30,8 +30,9 @@
 // TODO: reference additional headers your program requires here
 #include <stdio.h>
 #include <crtdbg.h>
-#include "Macros.h"
 #include <windows.h>
 #include "Logger.hxx"
 #include "myString.h"
 #include "Optional.h"
+
+#include "Includes.h"

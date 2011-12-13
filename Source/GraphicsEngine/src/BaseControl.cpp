@@ -20,7 +20,7 @@ cBaseControl::cBaseControl()
 : m_dwWidth(0)
 , m_dwHeight(0)
 , m_bVisible(true)
-, m_pCanvasSprite(NULL) 
+//, m_pCanvasSprite(NULL) 
 , m_pChildControls(NULL) 
 , m_pNextSibling(NULL) 
 , m_pPreviousSibling(NULL) 
@@ -38,10 +38,7 @@ cBaseControl::cBaseControl()
 
 cBaseControl::~cBaseControl()
 {
-	if (m_pCanvasSprite)
-	{
-		SAFE_DELETE(m_pCanvasSprite);
-	}
+	//	SAFE_DELETE(m_pCanvasSprite);
 	RemoveAllChildren();
 
 }
@@ -324,26 +321,7 @@ void Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
 		float x = m_vPosition.x + (X - vControlAbsolutePosition.x) - m_iMouseDownXPos;
 		float y = m_vPosition.y + (Y - vControlAbsolutePosition.y) - m_iMouseDownYPos;
 
-		// constrain child control in parent control
-		if (m_pParentControl)
-		{
-			if (x < 0)
-			{
-				x = 0; 
-			}
-			if ((x + m_dwWidth) > m_pParentControl->GetWidth())
-			{
-				x = m_pParentControl->GetWidth() - m_dwWidth; 
-			}
-			if (y < 0)
-			{
-				y = 0; 
-			}
-			if ((y + m_dwHeight) > m_pParentControl->GetHeight())
-			{
-				y = m_pParentControl->GetHeight() - m_dwHeight; 
-			}
-		}
+		ConstrainChildControl(x, y);
 		m_vPosition.x = x;
 		m_vPosition.y = y;
 	}
@@ -392,6 +370,31 @@ void Graphics::cBaseControl::RenderPrivate( D3DXVECTOR3 & vControlAbsolutePositi
 			Log_Write_L1(ILogger::LT_ERROR, cString(100, "Label control height or width is 0"));
 		}
 		m_vPrevControlPosition = vControlAbsolutePosition;
+	}
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::ConstrainChildControl( float &x, float &y )
+{
+	// constrain child control in parent control
+	if (m_pParentControl)
+	{
+		if (x < 0)
+		{
+			x = 0; 
+		}
+		if ((x + m_dwWidth) > m_pParentControl->GetWidth())
+		{
+			x = m_pParentControl->GetWidth() - m_dwWidth; 
+		}
+		if (y < 0)
+		{
+			y = 0; 
+		}
+		if ((y + m_dwHeight) > m_pParentControl->GetHeight())
+		{
+			y = m_pParentControl->GetHeight() - m_dwHeight; 
+		}
 	}
 }
 // ***************************************************************

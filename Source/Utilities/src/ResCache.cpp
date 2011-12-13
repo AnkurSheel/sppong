@@ -70,8 +70,6 @@ const IResource * cResHandle::GetResource() const
 	return &m_Resource;
 }
 
-using namespace std::tr1;
-
 cResCache::cResCache(unsigned int iCacheSizeInMB, const IResourceFile * pResFile)
 : m_iCacheSize(iCacheSizeInMB * MEGABYTE)
 , m_iTotalMemoryAllocated(0)

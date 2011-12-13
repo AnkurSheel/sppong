@@ -45,7 +45,7 @@
 #include <DxErr.h> //For DXGetErrorString9
 #include <dinput.h>
 #include "constants.h"
-#include "Macros.h"
 #include "Logger.hxx"
 #include "myString.h"
-#include <memory>
+
+#include "Includes.h"

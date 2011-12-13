@@ -33,12 +33,12 @@ inline bool cProcess::IsInitialized() const
 	return !m_bInitialUpdate;
 }
 
-inline std::tr1::shared_ptr<cProcess> const cProcess::GetNext() const
+inline shared_ptr<cProcess> const cProcess::GetNext() const
 {
 	return m_pNext;
 }
 
-inline void cProcess::SetNext(std::tr1::shared_ptr<cProcess> pNext)
+inline void cProcess::SetNext(shared_ptr<cProcess> pNext)
 {
 	m_pNext = pNext;
 }

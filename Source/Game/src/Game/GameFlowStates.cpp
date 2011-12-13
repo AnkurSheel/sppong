@@ -48,7 +48,7 @@ void cStateTitleScreen::Enter(cGame *pGame)
 {
 	m_tickCurrentTime = pGame->GetRunningTicks();
 
-	ISprite * pTitleScreenSprite = ISprite::CreateSprite();
+	shared_ptr<ISprite> pTitleScreenSprite = ISprite::CreateSprite();
 
 	pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
 	pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
@@ -99,10 +99,10 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 
 void cStateMenuScreen::Enter(cGame *pGame)
 {
-	ISprite * pTitleScreenSprite = ISprite::CreateSprite();
-	ISprite * pSinglePlayerSprite = ISprite::CreateSprite();
-	ISprite * pTwoPlayerSprite = ISprite::CreateSprite();
-	ISprite * pQuitSprite = ISprite::CreateSprite();
+	shared_ptr<ISprite> pTitleScreenSprite = ISprite::CreateSprite();
+	shared_ptr<ISprite> pSinglePlayerSprite = ISprite::CreateSprite();
+	shared_ptr<ISprite> pTwoPlayerSprite = ISprite::CreateSprite();
+	shared_ptr<ISprite> pQuitSprite = ISprite::CreateSprite();
 
 	pTitleScreenSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\title.jpg");
 	pTitleScreenSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight/5);
@@ -137,8 +137,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 	pQuitSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pQuitSprite, "Quit");
 	
-	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
 }
 // ***************************************************************
@@ -202,7 +202,7 @@ void cStatePlayGame::Enter(cGame *pGame)
 {
 	ICollisionChecker::CreateCollisionChecker();
 
-	ISprite * pTableSprite = ISprite::CreateSprite();
+	shared_ptr<ISprite> pTableSprite = ISprite::CreateSprite();
 
 	pTableSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Table.jpg");
 	pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
@@ -213,35 +213,35 @@ void cStatePlayGame::Enter(cGame *pGame)
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
 	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
 
-	ISprite * pSprite = NULL;
+	shared_ptr<ISprite> pSprite;
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
-	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite());
+	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
-	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
+	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "resources\\Sprites\\wall.png");
-	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite());
+	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "resources\\Sprites\\wall.png");
-	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite());
+	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite, "");
 
 	pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	pGame->m_pGameElements[pGame->PGE_BALL]->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\ball.png");
-	pSprite = const_cast<ISprite *>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
+	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite, "");
 
@@ -257,8 +257,8 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");
 
-	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
 	pGame->m_pPongView->SetCursorVisible(false);
 }
