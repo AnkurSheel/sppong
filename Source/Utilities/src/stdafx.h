@@ -25,12 +25,9 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
-#include <windows.h>
 
 // TODO: reference additional headers your program requires here
 #include <stdio.h>
-#include <crtdbg.h>
-#include <windows.h>
 #include "Logger.hxx"
 #include "myString.h"
 #include "Optional.h"

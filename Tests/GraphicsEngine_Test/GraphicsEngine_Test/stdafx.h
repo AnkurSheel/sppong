@@ -33,7 +33,7 @@
 #include <windows.h>
 #include <d3dx9.h>
 #include <dinput.h>
-#include <crtdbg.h>
-#include "Macros.h"
 #include "Logger.hxx"
 #include "myString.h"
+
+#include "Includes.h"

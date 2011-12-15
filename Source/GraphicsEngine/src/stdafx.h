@@ -39,9 +39,7 @@
 #include <stdio.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <windows.h>
 #include <mmsystem.h>
-#include <crtdbg.h>
 #include <DxErr.h> //For DXGetErrorString9
 #include <dinput.h>
 #include "constants.h"

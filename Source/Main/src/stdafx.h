@@ -38,8 +38,6 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 
-#include <windows.h>
-#include <crtdbg.h>
 #include "Logger.hxx"
 #include "myString.h"
 

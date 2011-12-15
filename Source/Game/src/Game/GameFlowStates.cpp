@@ -137,8 +137,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 	pQuitSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pQuitSprite, "Quit");
 	
-	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
 }
 // ***************************************************************
@@ -257,8 +257,8 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");
 
-	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
 	pGame->m_pPongView->SetCursorVisible(false);
 }

@@ -10,7 +10,9 @@
 #ifndef Includes_h__
 #define Includes_h__
 
+#include <windows.h>
 #include <memory>
+#include <crtdbg.h>
 #include "Macros.h"
 
 using namespace std::tr1;

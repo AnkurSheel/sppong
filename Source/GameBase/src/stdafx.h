@@ -32,9 +32,7 @@
 
 //#define DIRECTINPUT_VERSION 0x0800
 
-#include <windows.h>
 #include <d3dx9.h>
-#include <crtdbg.h>
 #include "myString.h"
 
 #include "Includes.h"

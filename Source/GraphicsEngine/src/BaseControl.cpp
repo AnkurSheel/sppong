@@ -50,9 +50,6 @@ IBaseControl * cBaseControl::AddChildControl(IBaseControl * const pChildControl 
 	if (pControl)
 	{
 		pControl->SetParentControl(this);
-//		ISprite * pSprite = pBaseControl->GetSprite();
-//		SAFE_DELETE(pSprite);
-//		pBaseControl->SetSprite(m_pCanvasSprite);
 
 		if (!m_pChildControls)
 		{

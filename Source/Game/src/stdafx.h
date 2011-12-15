@@ -39,8 +39,6 @@
 #define DIRECTINPUT_VERSION 0x0800
 
 #include <stdio.h>
-#include <windows.h>
-#include <crtdbg.h>
 #include <d3dx9.h>
 #include <dinput.h>
 #include "Logger.hxx"

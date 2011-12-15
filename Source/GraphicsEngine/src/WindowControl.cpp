@@ -51,10 +51,10 @@ void Graphics::cWindowControl::OnRender( const AppMsg & msg )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		//D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-		//GetAbsolutePosition(vControlAbsolutePosition);
+		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
+		GetAbsolutePosition(vControlAbsolutePosition);
 
-		//m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
+		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
 		m_pCanvasSprite->Render(IDXBase::GetInstance()->GetDevice());
 	}
 }
