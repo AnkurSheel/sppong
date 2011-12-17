@@ -31,6 +31,8 @@ namespace GameBase
 		virtual Base::cString GetGameTitle() const = 0; 
 		virtual  void OnMsgProc(const Graphics::AppMsg & msg) = 0;
 		virtual void Run() = 0;
+		virtual HRESULT OnResetDevice() = 0;
+		virtual void OnLostDevice() = 0;
 	};
 }
 #endif // BaseApp_hxx__

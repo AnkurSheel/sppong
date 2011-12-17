@@ -78,7 +78,8 @@ public:
 	void OnUpdate();
 	float GetFPS();
 	void OnMsgProc(const Graphics::AppMsg & msg);
-
+	HRESULT OnResetDevice();
+	void OnLostDevice();
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
 	UINT						m_iDisplayHeight ;		// the display height of the window

@@ -24,6 +24,7 @@
 #include "ProcessManager.hxx"
 #include "MainWindow.hxx"
 #include "ResourceManager.hxx"
+#include "Structures.h"
 
 using namespace MySound;
 using namespace Graphics;
@@ -459,7 +460,29 @@ float cGame::GetFPS()
 
 void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 {
+	switch(msg.m_uMsg)
+	{
+	case WM_CHAR:
+		switch (msg.m_wParam)
+		{ 
+		case VK_SPACE:
+			IMainWindow::TheWindow()->ToggleFullScreen();
+			Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
+			break;
+		}
+	}
+}
+// ***************************************************************
 
+HRESULT cGame::OnResetDevice()
+{
+	return(m_pPongView->OnResetDevice());
+}
+// ***************************************************************
+
+void cGame::OnLostDevice()
+{
+	m_pPongView->OnLostDevice();
 }
 // ***************************************************************
 

@@ -4,9 +4,11 @@
 #include "MainWindow.hxx"
 #include "Structures.h"
 #include "Constants.h"
+#include "Logger.hxx"
 
 using namespace GameBase;
 using namespace Graphics;
+using namespace Utilities;
 
 cGame::cGame()
 : m_pParentControl(NULL)
@@ -29,7 +31,7 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	m_pParentControl->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
-	pWindowControl->SetPosition(D3DXVECTOR3(100.f, 100.f, 0.f));
+	pWindowControl->SetPosition(D3DXVECTOR3(300.f, 300.f, 0.f));
 	pWindowControl->SetSize(400, 400);
 
 	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
@@ -75,10 +77,25 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 	case WM_LBUTTONDOWN:
 	case WM_KEYUP:
 	case WM_KEYDOWN:
-	case WM_CHAR:
 		if (m_pParentControl)
 		{
 			m_pParentControl->PostMsg(msg);
+		}
+		break;
+
+	case WM_CHAR:
+		switch (msg.m_wParam)
+		{ 
+		case VK_SPACE:
+			IMainWindow::TheWindow()->ToggleFullScreen();
+			Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
+			break;
+		
+		default:
+			if (m_pParentControl)
+			{
+				m_pParentControl->PostMsg(msg);
+			}
 		}
 		break;
 	}
@@ -96,4 +113,15 @@ void cGame::Run()
 		m_pParentControl->PostMsg(appMsg);
 	}
 	
+}
+// ***************************************************************
+
+HRESULT cGame::OnResetDevice()
+{
+	return S_OK;
+}
+// ***************************************************************
+
+void cGame::OnLostDevice()
+{
 }

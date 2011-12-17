@@ -40,7 +40,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	int iWidth = GetSystemMetrics(SM_CXSCREEN);
 	int iHeight = GetSystemMetrics(SM_CYSCREEN);
 
-
 	bool bFullScreen = false;
 #ifndef _DEBUG
 	bFullScreen = true;

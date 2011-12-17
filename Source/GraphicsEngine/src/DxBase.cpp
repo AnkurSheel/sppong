@@ -21,6 +21,7 @@ cDXBase::cDXBase()
 , m_pd3dDevice(NULL)
 , m_Hwnd(NULL)
 , m_BkColor(BLACK)
+, m_bFullScreen(false)
 {
 }
 // ***************************************************************
@@ -105,7 +106,7 @@ void cDXBase::Cleanup()
 // ***************************************************************
 // Sets the Presentation Parameters
 // ***************************************************************
-void cDXBase::SetParameters(const BOOL bFullScreen)
+void cDXBase::SetParameters()
 {
 	ZeroMemory(&m_d3dpp, sizeof(m_d3dpp)) ;
 
@@ -121,11 +122,11 @@ void cDXBase::SetParameters(const BOOL bFullScreen)
 	m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8 ; // depth format
 	m_d3dpp.EnableAutoDepthStencil = true ;
 
-	if(bFullScreen)
+	if(m_bFullScreen)
 	{
 		// if its a full screen app
-		m_d3dpp.BackBufferWidth = GetSystemMetrics(SM_CXSCREEN);
-		m_d3dpp.BackBufferHeight = GetSystemMetrics(SM_CYSCREEN);
+		m_d3dpp.BackBufferWidth = m_displayMode.Width;
+		m_d3dpp.BackBufferHeight = m_displayMode.Height;
 		m_d3dpp.Windowed = false; // fullscreen
 		m_d3dpp.FullScreen_RefreshRateInHz = m_displayMode.RefreshRate;
 	}
@@ -162,9 +163,10 @@ void cDXBase::Init( const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullSc
 {
 	m_Hwnd = hWnd;
 	m_BkColor = bkColor;
-
+	m_bFullScreen = bFullScreen;
+	
 	DirectxInit() ;
-	SetParameters(bFullScreen) ;
+	SetParameters() ;
 	CreateDirectxDevice() ;
 }
 // ***************************************************************
@@ -196,6 +198,14 @@ void cDXBase::Destroy()
 	delete this;
 	s_pDXBase = NULL;
 }
+// ***************************************************************
+
+void Graphics::cDXBase::ToggleFullScreen()
+{
+	m_bFullScreen = !m_bFullScreen;
+	SetParameters();
+}
+// ***************************************************************
 
 // ***************************************************************
 // returns an instance of the class
@@ -207,4 +217,3 @@ IDXBase* IDXBase::GetInstance()
 	return s_pDXBase;
 }
 // ***************************************************************
-

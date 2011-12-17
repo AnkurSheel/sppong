@@ -18,9 +18,10 @@ public:
 	Base::cString GetGameTitle() const; 
 	void OnMsgProc(const Graphics::AppMsg & msg);
 	void Run();
-
+	HRESULT OnResetDevice();
+	void OnLostDevice();
 private:
-	Graphics::IBaseControl *		m_pParentControl;
+	Graphics::IBaseControl *	m_pParentControl;
 };
 
 #endif // Game_h__

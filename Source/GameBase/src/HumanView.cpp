@@ -43,8 +43,6 @@ HRESULT cHumanView::OnResetDevice()
 	HRESULT hr = S_FALSE;
 	if (pDevice)
 	{
-		hr = IDXBase::GetInstance()->ResetDevice();
-
 		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 		{
 			(*i)->OnResetDevice();

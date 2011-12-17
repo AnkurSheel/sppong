@@ -25,14 +25,27 @@ using namespace GameBase;
 // Constructor
 // ***************************************************************
 cMainWindow::cMainWindow()
-: m_Hwnd(NULL)
+: m_bFullScreen(false)
+, m_Hwnd(NULL)
 , m_hInstance(NULL)
-, m_iClientHeight(0)
-, m_iClientWidth(0)
-, m_iFullScreenHeight(0)
-, m_iFullScreenWidth(0)
+, m_uClientHeight(0)
+, m_uClientWidth(0)
+, m_uFullScreenHeight(0)
+, m_uFullScreenWidth(0)
 , m_pGame(NULL)
+, m_dwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
+, m_dwWindowedStyle(WS_OVERLAPPEDWINDOW)
 {
+	ZeroMemory( &m_wp, sizeof( WINDOWPLACEMENT ) );
+}
+// ***************************************************************
+
+cMainWindow::cMainWindow( const cMainWindow& )
+: m_dwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
+, m_dwWindowedStyle(WS_OVERLAPPEDWINDOW)
+
+{
+
 }
 // ***************************************************************
 
@@ -52,9 +65,9 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseAp
 {
 	HWND hWnd ;
 	m_hInstance = hInstance;
-
-	m_iFullScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-	m_iFullScreenHeight = GetSystemMetrics(SM_CYSCREEN);
+	m_bFullScreen = bFullScreen;
+	m_uFullScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+	m_uFullScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	//Register the Window Class
 	RegisterWin();
@@ -64,15 +77,16 @@ HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseAp
 	//Create the Window
 	if (pGame)
 	{
-		hWnd = CreateMyWindow(nCmdShow, pGame->GetGameTitle(), bFullScreen) ;
+		hWnd = CreateMyWindow(nCmdShow, pGame->GetGameTitle()) ;
 	}
 	else
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "No Game object");
 	}
 	
-
-	OnCreateDevice(hInstance,hWnd, bFullScreen);
+	OnCreateDevice(hInstance,hWnd);
+	m_wp.length = sizeof(WINDOWPLACEMENT);
+	GetWindowPlacement(m_Hwnd, &m_wp);
 
 	return hWnd;
 }
@@ -108,39 +122,30 @@ void cMainWindow::RegisterWin()
 // ***************************************************************
 // Creates the window
 // ***************************************************************
-HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle, const bool bFullScreen)
+HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
-	if(bFullScreen)
+	DWORD dwStyle; 
+	if(m_bFullScreen)
 	{
-		// create the window in full screen mode
-		m_Hwnd = CreateWindowEx(
-			WS_EX_CLIENTEDGE,
-			"Window",
-			lpWindowTitle.GetData(),
-			WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE,
-			0, 0, 
-			m_iFullScreenWidth,m_iFullScreenHeight,
-			NULL, 
-			NULL, 
-			m_hInstance, 
-			this) ;
+		dwStyle = m_dwFullScreenStyle;
 	}
 	else
 	{
-		// create the window in windowed mode
-		m_Hwnd = CreateWindowEx(
+		dwStyle = m_dwWindowedStyle;
+	}
+		
+	m_Hwnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE,
 			"Window",
 			lpWindowTitle.GetData(),
-			WS_OVERLAPPEDWINDOW ,
-			0, 0, 
-			CW_USEDEFAULT, CW_USEDEFAULT,
+			dwStyle,
+			CW_USEDEFAULT, 0, 
+			m_uFullScreenWidth,m_uFullScreenHeight,
 			NULL, 
 			NULL, 
 			m_hInstance, 
 			this) ;
-	}
-
+	
 	if(m_Hwnd == NULL)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Window Creation Failed");
@@ -164,10 +169,10 @@ void cMainWindow::GetWinRect()
 
 	GetClientRect(m_Hwnd,&clientRect) ;
 	GetWindowRect(m_Hwnd,&windowRect) ;
-	m_iClientWidth = (clientRect.right - clientRect.left) ;
-	m_iClientHeight = (clientRect.bottom - clientRect.top) ;
-	m_iTopPos = (windowRect.top - clientRect.top) ;
-	m_iLeftPos = (windowRect.left - clientRect.left) ;
+	m_uClientWidth = (clientRect.right - clientRect.left) ;
+	m_uClientHeight = (clientRect.bottom - clientRect.top) ;
+	m_uTopPos = (windowRect.top - clientRect.top) ;
+	m_uLeftPos = (windowRect.left - clientRect.left) ;
 }
 // ***************************************************************
 
@@ -267,10 +272,10 @@ void cMainWindow::OnDestroyDevice()
 // ***************************************************************
 // Function called when the device is created
 // ***************************************************************
-void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const bool bFullScreen )
+void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd)
 {
 	// initialize DirectX
-	IDXBase::GetInstance()->Init(hWnd, TAN, bFullScreen);
+	IDXBase::GetInstance()->Init(hWnd, TAN, m_bFullScreen);
 	IResourceManager::TheResourceManager()->Init();
 	SetForegroundWindow(m_Hwnd);
 
@@ -282,19 +287,7 @@ void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, const 
 // ***************************************************************
 void cMainWindow::MoveWin()
 {
-	MoveWindow(m_Hwnd,m_iLeftPos,m_iTopPos,m_iClientWidth,m_iClientHeight,true) ;
-}
-// ***************************************************************
-
-int cMainWindow::GetClientWindowHeight()
-{
-	return m_iClientHeight;
-}
-// ***************************************************************
-
-int cMainWindow::GetClientWindowWidth()
-{
-	return m_iClientWidth;
+	MoveWindow(m_Hwnd,m_uLeftPos,m_uTopPos,m_uClientWidth,m_uClientHeight,true) ;
 }
 // ***************************************************************
 
@@ -307,6 +300,48 @@ void cMainWindow::Destroy()
 }
 // ***************************************************************
 
+void GameBase::cMainWindow::ToggleFullScreen()
+{
+	m_bFullScreen = !m_bFullScreen;
+
+	if (m_bFullScreen)
+	{
+		// Save Current location/size
+		GetWindowPlacement(m_Hwnd, &m_wp);
+
+		//Going to Full Screen mode
+		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_dwFullScreenStyle);
+
+		// hide the window
+		ShowWindow(m_Hwnd, SW_HIDE);
+	}
+	else
+	{
+		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_dwWindowedStyle);
+	}
+
+	IDXBase::GetInstance()->ToggleFullScreen();
+
+	m_pGame->OnLostDevice();
+	IDXBase::GetInstance()->ResetDevice() ;
+	m_pGame->OnResetDevice();
+	if (!m_bFullScreen)
+	{
+		SetWindowPlacement(m_Hwnd, &m_wp);
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "top %d, bottom %d, left %d, right %d", m_wp.rcNormalPosition.top, m_wp.rcNormalPosition.bottom, m_wp.rcNormalPosition.left, m_wp.rcNormalPosition.right));
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Max X %d, Max Y %d", m_wp.ptMaxPosition.x, m_wp.ptMaxPosition.y));
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Min X %d, Min Y %d", m_wp.ptMinPosition.x, m_wp.ptMinPosition.y));
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Flags %d", m_wp.flags));
+	}
+
+	if (!IsWindowVisible(m_Hwnd))
+	{
+		ShowWindow(m_Hwnd, SW_SHOW);
+	}
+
+}
+// ***************************************************************
+
 // ***************************************************************
 // returns an instance of the class
 // ***************************************************************
@@ -316,4 +351,3 @@ IMainWindow * IMainWindow::TheWindow()
 		s_pWindow = DEBUG_NEW cMainWindow();
 	return s_pWindow;
 }
-// ***************************************************************

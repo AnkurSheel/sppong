@@ -80,8 +80,6 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 
 	Log_Write_L2(ILogger::LT_EVENT, cString(100, "Loading Sprite : %s", strFilename.GetData()));
 
-
-
 	if (m_pTexture == NULL)
 	{
 		m_pTexture = ITexture::CreateTexture();

@@ -27,6 +27,7 @@ namespace Graphics
 		virtual UINT GetDisplayWidth() const = 0;
 		virtual HRESULT IsAvailable() const = 0;
 		virtual void Destroy() = 0;
+		virtual void ToggleFullScreen() = 0;
 		GRAPHIC_API static IDXBase * GetInstance() ;
 
 	};

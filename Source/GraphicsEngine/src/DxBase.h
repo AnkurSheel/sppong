@@ -17,15 +17,6 @@ namespace Graphics
 	class cDXBase
 		: public IDXBase
 	{
-	private:
-		cDXBase(const cDXBase&){}
-		cDXBase operator =(const cDXBase&){}
-
-		void DirectxInit() ;
-		void CreateDirectxDevice() ;
-		void SetParameters(const BOOL bFullScreen) ;
-		void Cleanup() ;
-
 	public:
 		cDXBase() ;
 		~cDXBase() ;
@@ -39,7 +30,17 @@ namespace Graphics
 		UINT GetDisplayWidth() const;
 		HRESULT IsAvailable() const;
 		void Destroy();
+		void ToggleFullScreen();
 		static void CreateDXBase();
+
+	private:
+		cDXBase(const cDXBase&){}
+		cDXBase operator =(const cDXBase&){}
+
+		void DirectxInit() ;
+		void CreateDirectxDevice() ;
+		void SetParameters();
+		void Cleanup() ;
 
 	private:
 		LPDIRECT3D9				m_pD3D ;				// pointer to a direct3d object
@@ -51,6 +52,7 @@ namespace Graphics
 		int						m_iWidth;				// the width of the window
 		int						m_iHeight ;				// the height of the window
 		D3DDISPLAYMODE			m_displayMode;			// the display mode
+		bool					m_bFullScreen;
 
 	};
 #include "DxBase.inl"
