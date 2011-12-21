@@ -40,6 +40,7 @@
 }
 
 #define TEST
+
 //configure some basic precompilation defines
 //0 - no debugging wanted
 //1 - very basic debug output
@@ -48,13 +49,13 @@
 #ifdef TEST
 #define SYSTEM_DEBUG_LEVEL 3
 #else
-//#ifdef _DEBUG
+#ifdef _DEBUG
 //Set the output level for 'DEBUG' builds
 #define SYSTEM_DEBUG_LEVEL 2
-//#else
+#else
 //Set the output level for 'RELEASE' builds
-//#define SYSTEM_DEBUG_LEVEL 1
-//#endif
+#define SYSTEM_DEBUG_LEVEL 1
+#endif
 
 #endif
 

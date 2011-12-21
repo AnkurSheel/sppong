@@ -1,5 +1,5 @@
 // ***************************************************************
-//  Includes   version:  1.0   Ankur Sheel  date: 2011/12/13
+//  NonCopyable   version:  1.0   Ankur Sheel  date: 2011/12/20
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,14 +7,19 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Includes_h__
-#define Includes_h__
+#ifndef NonCopyable_h__
+#define NonCopyable_h__
 
-#include <windows.h>
-#include <memory>
-#include <crtdbg.h>
-#include "Macros.h"
-
-using namespace std::tr1;
-
-#endif // Includes_h__
+namespace Base
+{
+	class cNonCopyable
+	{
+	public:
+	protected:
+		cNonCopyable(){}
+	private:
+		cNonCopyable(const cNonCopyable&);
+		cNonCopyable& operator =(const cNonCopyable&);
+	};
+}
+#endif // NonCopyable_h__

@@ -19,7 +19,7 @@ namespace GameBase
 	public:
 		virtual ~cBaseApp(){}
 	protected:
-		GAMEBASE_API virtual void OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, HWND & outHwnd);
+		GAMEBASE_API virtual void OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
 	};
 }
 

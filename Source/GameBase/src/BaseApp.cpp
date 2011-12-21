@@ -15,9 +15,9 @@
 using namespace GameBase;
 using namespace Base;
 
-void GameBase::cBaseApp::OnInit( const HINSTANCE hInstance, const int nCmdShow, const bool bFullScreen, HWND & outHwnd )
+GAMEBASE_API void GameBase::cBaseApp::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd )
 {
-	outHwnd = IMainWindow::TheWindow()->Init(hInstance, nCmdShow, this, bFullScreen);
+	outHwnd = IMainWindow::GetInstance()->Init(hInstance, nCmdShow, this, bFullScreen, iFullScreenWidth, iFullScreenHeight);
 
 	if(outHwnd == NULL)
 	{

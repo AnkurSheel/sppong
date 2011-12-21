@@ -79,12 +79,10 @@ void cGame::Render(TICK tickCurrent, float fElapsedTime)
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-HWND cGame::OnInit(const HINSTANCE hInstance, 
-				   const int nCmdShow,
-				   const bool bFullScreen)
+HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight )
 {
 	HWND hwnd;
-	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, hwnd);
+	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, hwnd);
 
 	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
 	if(bFullScreen)
@@ -94,8 +92,8 @@ HWND cGame::OnInit(const HINSTANCE hInstance,
 	}
 	else
 	{
-		m_iDisplayHeight = IMainWindow::TheWindow()->GetClientWindowHeight();
-		m_iDisplayWidth = IMainWindow::TheWindow()->GetClientWindowWidth();
+		m_iDisplayHeight = iFullScreenHeight;
+		m_iDisplayWidth = iFullScreenWidth;
 	}
 
 	m_pSound = ISound::CreateSound();
@@ -174,12 +172,12 @@ void cGame::ProcessInput( const long xDelta,
 
 	if (pbPressedKeys[DIK_P])
 	{
-		//IMainWindow::TheWindow()->LockKey(DIK_P) ;
+		//IMainWindow::GetInstance()->LockKey(DIK_P) ;
 		m_pSound->ChangeMusicVolume(true, GS_MAIN_MENU_MUSIC);
 	}
 	if (pbPressedKeys[DIK_L])
 	{
-		//IMainWindow::TheWindow()->LockKey(DIK_L) ;
+		//IMainWindow::GetInstance()->LockKey(DIK_L) ;
 		m_pSound->ChangeMusicVolume(false, GS_MAIN_MENU_MUSIC);
 	}
 
@@ -268,8 +266,8 @@ void cGame::Cleanup()
 	if(ICollisionChecker::TheCollisionChecker())
 		ICollisionChecker::TheCollisionChecker()->Destroy();
 
-	if (IMainWindow::TheWindow())
-		IMainWindow::TheWindow()->Destroy();
+	if (IMainWindow::GetInstance())
+		IMainWindow::GetInstance()->Destroy();
 
 	if(IResourceManager::TheResourceManager())
 		IResourceManager::TheResourceManager()->Destroy();
@@ -466,7 +464,7 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 		switch (msg.m_wParam)
 		{ 
 		case VK_SPACE:
-			IMainWindow::TheWindow()->ToggleFullScreen();
+			IMainWindow::GetInstance()->ToggleFullScreen();
 			Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
 			break;
 		}

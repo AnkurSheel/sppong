@@ -27,10 +27,6 @@ namespace Graphics
 	class cSprite
 		: public ISprite
 	{
-	private :
-		cSprite(const cSprite&){}
-		cSprite operator =(const cSprite&){}
-
 	public:
 		cSprite();
 		~cSprite();
@@ -56,19 +52,18 @@ namespace Graphics
 		void MakeTransformMatrix();
 	
 	private:
-
-		LPD3DXSPRITE					m_pSprite;		// ptr to the sprite 
-		shared_ptr<ITexture>			m_pTexture;		// the texture associated with this sprite
-		DWORD							m_dwHeight;		// the height of the image
-		DWORD							m_dwWidth;		// the width of the image
-		D3DXVECTOR3						m_vScale;		// the scaling info for the image
-		D3DXVECTOR3						m_vPosition;	// the scaling info for the image
-		D3DXMATRIX						m_mScaleMatrix;	// the scaling matrix
-		Base::cString					m_strFilename;
-		bool							m_bIsVisible;
-		DWORD							m_dwFlags;
-		D3DCOLOR						m_tintColor;
-		RECT *							m_pSrcRect;
+		LPD3DXSPRITE				m_pSprite;		// ptr to the sprite 
+		shared_ptr<ITexture>		m_pTexture;		// the texture associated with this sprite
+		DWORD						m_dwHeight;		// the height of the image
+		DWORD						m_dwWidth;		// the width of the image
+		D3DXVECTOR3					m_vScale;		// the scaling info for the image
+		D3DXVECTOR3					m_vPosition;	// the scaling info for the image
+		D3DXMATRIX					m_mScaleMatrix;	// the scaling matrix
+		Base::cString				m_strFilename;
+		bool						m_bIsVisible;
+		DWORD						m_dwFlags;
+		D3DCOLOR					m_tintColor;
+		RECT *						m_pSrcRect;
 	};
 #include "Sprite.inl"
 }

@@ -14,7 +14,7 @@ class cGame :
 public:
 	cGame();
 	~cGame();
-	HWND OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen);
+	HWND OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen, const int iFullScreenWidth, const int iFullScreenHeight);
 	Base::cString GetGameTitle() const; 
 	void OnMsgProc(const Graphics::AppMsg & msg);
 	void Run();

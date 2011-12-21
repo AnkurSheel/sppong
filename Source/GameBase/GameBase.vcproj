@@ -244,10 +244,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\src\MainWindow.inl"
-			>
-		</File>
-		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>

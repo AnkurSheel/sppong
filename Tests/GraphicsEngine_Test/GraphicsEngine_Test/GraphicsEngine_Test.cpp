@@ -37,9 +37,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	CheckForMemoryLeaks() ;
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
 
-	int iWidth = GetSystemMetrics(SM_CXSCREEN);
-	int iHeight = GetSystemMetrics(SM_CYSCREEN);
-
 	bool bFullScreen = false;
 #ifndef _DEBUG
 	bFullScreen = true;
@@ -47,7 +44,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	cGame * pGame = new cGame();
 
-	HWND hWnd = pGame->OnInit(hInstance, nCmdShow, bFullScreen);
+	HWND hWnd = pGame->OnInit(hInstance, nCmdShow, bFullScreen, 640, 480);
 
 	Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window initialized"));
 	
@@ -97,9 +94,9 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		}
 	}
 
-	if (IMainWindow::TheWindow())
+	if (IMainWindow::GetInstance())
 	{
-		IMainWindow::TheWindow()->Destroy();
+		IMainWindow::GetInstance()->Destroy();
 		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
 	}
 

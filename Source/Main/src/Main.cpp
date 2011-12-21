@@ -55,7 +55,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 #ifndef _DEBUG
 		bFullScreen = true;
 #endif
-	pGame->OnInit(hInstance, nCmdShow, bFullScreen);
+	pGame->OnInit(hInstance, nCmdShow, bFullScreen, 1024, 768);
 	pGame->Run();
 	
 	Cleanup() ;

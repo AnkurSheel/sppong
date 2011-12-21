@@ -21,13 +21,13 @@ cGame::~cGame()
 	SAFE_DELETE(m_pParentControl);
 }
 
-HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen )
+HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen, const int iFullScreenWidth, const int iFullScreenHeight )
 {
 	HWND hWnd;
-	cBaseApp::OnInit(hInstance, nCmdShow, bFullscreen, hWnd);
+	cBaseApp::OnInit(hInstance, nCmdShow, bFullscreen, iFullScreenWidth, iFullScreenHeight, hWnd);
 
 	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "");
-	m_pParentControl->SetSize(IMainWindow::TheWindow()->GetClientWindowWidth(), IMainWindow::TheWindow()->GetClientWindowHeight());
+	m_pParentControl->SetSize(iFullScreenWidth, iFullScreenHeight);
 	m_pParentControl->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
@@ -72,6 +72,15 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 {
 	switch(msg.m_uMsg)
 	{
+	case WM_CHAR:
+		switch (msg.m_wParam)
+		{ 
+		case VK_SPACE:
+			IMainWindow::GetInstance()->ToggleFullScreen();
+			Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
+			return;
+		}
+
 	case WM_MOUSEMOVE:
 	case WM_LBUTTONUP:
 	case WM_LBUTTONDOWN:
@@ -81,23 +90,7 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 		{
 			m_pParentControl->PostMsg(msg);
 		}
-		break;
-
-	case WM_CHAR:
-		switch (msg.m_wParam)
-		{ 
-		case VK_SPACE:
-			IMainWindow::TheWindow()->ToggleFullScreen();
-			Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
-			break;
-		
-		default:
-			if (m_pParentControl)
-			{
-				m_pParentControl->PostMsg(msg);
-			}
-		}
-		break;
+		return;
 	}
 }
 

@@ -27,10 +27,6 @@ namespace Graphics
 	class cMyFont
 		: public IFont
 	{
-	private:
-		cMyFont(const cMyFont&){}
-		cMyFont operator =(const cMyFont&){}
-
 	public:
 		cMyFont() ;
 		~cMyFont() ;

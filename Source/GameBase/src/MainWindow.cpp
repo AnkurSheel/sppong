@@ -28,24 +28,13 @@ cMainWindow::cMainWindow()
 : m_bFullScreen(false)
 , m_Hwnd(NULL)
 , m_hInstance(NULL)
-, m_uClientHeight(0)
-, m_uClientWidth(0)
-, m_uFullScreenHeight(0)
-, m_uFullScreenWidth(0)
+, m_iFullScreenHeight(0)
+, m_iFullScreenWidth(0)
 , m_pGame(NULL)
-, m_dwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
-, m_dwWindowedStyle(WS_OVERLAPPEDWINDOW)
+, m_kdwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
+, m_kdwWindowedStyle(WS_OVERLAPPEDWINDOW)
 {
 	ZeroMemory( &m_wp, sizeof( WINDOWPLACEMENT ) );
-}
-// ***************************************************************
-
-cMainWindow::cMainWindow( const cMainWindow& )
-: m_dwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
-, m_dwWindowedStyle(WS_OVERLAPPEDWINDOW)
-
-{
-
 }
 // ***************************************************************
 
@@ -61,34 +50,52 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE &hInstance, const int &nCmdShow, IBaseApp * const pGame, const bool bFullScreen )
+HWND cMainWindow::Init( const HINSTANCE & hInstance, 
+						const int & nCmdShow,
+						IBaseApp* const pGame,
+						const bool bFullScreen,
+						const int iFullScreenWidth,
+						const int iFullScreenHeight )
 {
-	HWND hWnd ;
 	m_hInstance = hInstance;
 	m_bFullScreen = bFullScreen;
-	m_uFullScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-	m_uFullScreenHeight = GetSystemMetrics(SM_CYSCREEN);
+	m_iFullScreenWidth = iFullScreenWidth;
+	m_iFullScreenHeight = iFullScreenHeight;
+	if (m_iFullScreenWidth <= 0)
+	{
+		m_iFullScreenWidth = 1;
+		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0");
+	}
+
+	if (m_iFullScreenHeight <= 0)
+	{
+		m_iFullScreenHeight = 1;
+		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0");
+	}
 
 	//Register the Window Class
 	RegisterWin();
 
+	SetDisplayResolution();
+
 	m_pGame = pGame;
 
+	cString strGameTitle = "GameTitle";
 	//Create the Window
 	if (pGame)
 	{
-		hWnd = CreateMyWindow(nCmdShow, pGame->GetGameTitle()) ;
+		strGameTitle = pGame->GetGameTitle() ;
 	}
-	else
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "No Game object");
-	}
-	
-	OnCreateDevice(hInstance,hWnd);
+
+	CreateMyWindow(nCmdShow, strGameTitle) ;
+
+	OnCreateDevice();
+
 	m_wp.length = sizeof(WINDOWPLACEMENT);
+
 	GetWindowPlacement(m_Hwnd, &m_wp);
 
-	return hWnd;
+	return m_Hwnd;
 }
 // ***************************************************************
 
@@ -122,57 +129,45 @@ void cMainWindow::RegisterWin()
 // ***************************************************************
 // Creates the window
 // ***************************************************************
-HWND cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
+void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
 	DWORD dwStyle; 
 	if(m_bFullScreen)
 	{
-		dwStyle = m_dwFullScreenStyle;
+		dwStyle = m_kdwFullScreenStyle;
 	}
 	else
 	{
-		dwStyle = m_dwWindowedStyle;
+		dwStyle = m_kdwWindowedStyle;
 	}
-		
+
+	RECT windowRect;
+	windowRect.left = 0;
+	windowRect.top = 0;
+	windowRect.right = m_iFullScreenWidth;
+	windowRect.bottom = m_iFullScreenHeight;
+	AdjustWindowRectEx(&windowRect, dwStyle, false, 0);
+
 	m_Hwnd = CreateWindowEx(
-			WS_EX_CLIENTEDGE,
-			"Window",
-			lpWindowTitle.GetData(),
-			dwStyle,
-			CW_USEDEFAULT, 0, 
-			m_uFullScreenWidth,m_uFullScreenHeight,
-			NULL, 
-			NULL, 
-			m_hInstance, 
-			this) ;
-	
+		WS_EX_CLIENTEDGE,
+		"Window",
+		lpWindowTitle.GetData(),
+		dwStyle,
+		CW_USEDEFAULT, 0, 
+		windowRect.right - windowRect.left,
+		windowRect.bottom - windowRect.top,
+		NULL, 
+		NULL, 
+		m_hInstance, 
+		this) ;
+
 	if(m_Hwnd == NULL)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Window Creation Failed");
-		return NULL ;
+		PostQuitMessage(0);
 	}
-
-	GetWinRect() ;
+	
 	ShowWindow(m_Hwnd, nCmdShow) ;
-	UpdateWindow(m_Hwnd) ;
-
-	return m_Hwnd ;
-}
-// ***************************************************************
-
-// ***************************************************************
-// Gets the window rectangle
-// ***************************************************************
-void cMainWindow::GetWinRect()
-{
-	RECT	clientRect, windowRect ;
-
-	GetClientRect(m_Hwnd,&clientRect) ;
-	GetWindowRect(m_Hwnd,&windowRect) ;
-	m_uClientWidth = (clientRect.right - clientRect.left) ;
-	m_uClientHeight = (clientRect.bottom - clientRect.top) ;
-	m_uTopPos = (windowRect.top - clientRect.top) ;
-	m_uLeftPos = (windowRect.left - clientRect.left) ;
 }
 // ***************************************************************
 
@@ -199,6 +194,18 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		OnDestroyDevice();
 		return 0 ;
 
+	case WM_ACTIVATE:                       
+	{
+		if (!HIWORD(wParam))
+		{
+			//active
+		}
+		else
+		{
+			//inactive
+		}
+		return 0;
+	}
 	case WM_LBUTTONDBLCLK:
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONUP:
@@ -256,12 +263,10 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 // ***************************************************************
 void cMainWindow::OnDestroyDevice()
 {
+	ChangeDisplaySettings(NULL, 0);
 	// release the graphic object
-	if (IDXBase::GetInstance())
-	{
-		IDXBase::GetInstance()->Destroy();
-	}
-	
+	IDXBase::GetInstance()->Destroy();
+
 	IResourceManager::TheResourceManager()->OnDestroyDevice();
 
 	ReleaseCapture() ;
@@ -272,22 +277,14 @@ void cMainWindow::OnDestroyDevice()
 // ***************************************************************
 // Function called when the device is created
 // ***************************************************************
-void cMainWindow::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd)
+void cMainWindow::OnCreateDevice()
 {
-	// initialize DirectX
-	IDXBase::GetInstance()->Init(hWnd, TAN, m_bFullScreen);
-	IResourceManager::TheResourceManager()->Init();
 	SetForegroundWindow(m_Hwnd);
+	SetFocus(m_Hwnd);
 
-}
-// ***************************************************************
-
-// ***************************************************************
-// Move the window
-// ***************************************************************
-void cMainWindow::MoveWin()
-{
-	MoveWindow(m_Hwnd,m_uLeftPos,m_uTopPos,m_uClientWidth,m_uClientHeight,true) ;
+	// initialize DirectX
+	IDXBase::GetInstance()->Init(m_Hwnd, TAN, m_bFullScreen);
+	IResourceManager::TheResourceManager()->Init();
 }
 // ***************************************************************
 
@@ -304,20 +301,22 @@ void GameBase::cMainWindow::ToggleFullScreen()
 {
 	m_bFullScreen = !m_bFullScreen;
 
+	SetDisplayResolution();
+
 	if (m_bFullScreen)
 	{
 		// Save Current location/size
 		GetWindowPlacement(m_Hwnd, &m_wp);
 
 		//Going to Full Screen mode
-		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_dwFullScreenStyle);
+		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwFullScreenStyle);
 
 		// hide the window
 		ShowWindow(m_Hwnd, SW_HIDE);
 	}
 	else
 	{
-		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_dwWindowedStyle);
+		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwWindowedStyle);
 	}
 
 	IDXBase::GetInstance()->ToggleFullScreen();
@@ -338,14 +337,43 @@ void GameBase::cMainWindow::ToggleFullScreen()
 	{
 		ShowWindow(m_Hwnd, SW_SHOW);
 	}
+}
+// ***************************************************************
 
+void GameBase::cMainWindow::SetDisplayResolution()
+{
+	if (m_bFullScreen)
+	{
+		DEVMODE dmScreenSettings;
+		SecureZeroMemory(&dmScreenSettings, sizeof(dmScreenSettings));
+		if (!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmScreenSettings))
+		{
+			Log_Write_L2(ILogger::LT_DEBUG, "Could not get current display Settings");
+			return;
+		}
+		dmScreenSettings.dmPelsHeight = m_iFullScreenHeight;
+		dmScreenSettings.dmPelsWidth = m_iFullScreenWidth;
+		dmScreenSettings.dmFields = (DM_PELSWIDTH | DM_PELSHEIGHT);
+
+		if (ChangeDisplaySettings(&dmScreenSettings, CDS_TEST) == DISP_CHANGE_SUCCESSFUL)
+		{
+			if(ChangeDisplaySettings(&dmScreenSettings, 0) == DISP_CHANGE_SUCCESSFUL)
+			{
+				Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Resolution set to width %d and height %d", m_iFullScreenWidth, m_iFullScreenHeight));
+				return;
+			}
+		}
+		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Could not set resolution with width %d and height %d", m_iFullScreenWidth, m_iFullScreenHeight));
+	}
+	ChangeDisplaySettings(NULL, 0);
+	return;
 }
 // ***************************************************************
 
 // ***************************************************************
 // returns an instance of the class
 // ***************************************************************
-IMainWindow * IMainWindow::TheWindow()
+IMainWindow * IMainWindow::GetInstance()
 {
 	if(!s_pWindow)
 		s_pWindow = DEBUG_NEW cMainWindow();

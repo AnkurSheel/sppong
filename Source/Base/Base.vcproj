@@ -185,11 +185,23 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Includes\Includes.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\Macros.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\myString.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Includes\myString.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\NonCopyable.h"
 			>
 		</File>
 		<File
