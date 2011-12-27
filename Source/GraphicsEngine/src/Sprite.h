@@ -33,7 +33,7 @@ namespace Graphics
 		void Init(LPDIRECT3DDEVICE9 const pDevice, shared_ptr<ITexture> const pTexture);
 		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
-		void Render(LPDIRECT3DDEVICE9 const pDevice);
+		void OnRender(LPDIRECT3DDEVICE9 const pDevice);
 		void OnLostDevice();
 		void OnResetDevice();
 		UINT GetScaledHeight() const;

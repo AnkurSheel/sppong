@@ -26,9 +26,9 @@ namespace Graphics
 		void SetCheckedState(const bool bState);
 
 		void OnRender(const AppMsg & msg);
-		void OnKeyDown(const AppMsg & msg);
-		void OnKeyUp(const AppMsg & msg);
-		void OnMouseDown(const int iButton, const int X, const int Y);
+		bool OnMouseDown(const int iButton, const int X, const int Y);
+		void OnLostDevice();
+		HRESULT OnResetDevice();
 
 	private:
 		cCheckBoxControl(cCheckBoxControl&){}

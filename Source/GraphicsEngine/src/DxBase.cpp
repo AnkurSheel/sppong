@@ -22,6 +22,8 @@ cDXBase::cDXBase()
 , m_Hwnd(NULL)
 , m_BkColor(BLACK)
 , m_bFullScreen(false)
+, m_iWidth(0)
+, m_iHeight(0)
 {
 }
 // ***************************************************************
@@ -121,21 +123,13 @@ void cDXBase::SetParameters()
 	m_d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8 ; //pixel format
 	m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8 ; // depth format
 	m_d3dpp.EnableAutoDepthStencil = true ;
+	m_d3dpp.BackBufferWidth = m_iWidth;
+	m_d3dpp.BackBufferHeight = m_iHeight;
+	m_d3dpp.Windowed = !m_bFullScreen;
 
 	if(m_bFullScreen)
 	{
-		// if its a full screen app
-		m_d3dpp.BackBufferWidth = m_displayMode.Width;
-		m_d3dpp.BackBufferHeight = m_displayMode.Height;
-		m_d3dpp.Windowed = false; // fullscreen
 		m_d3dpp.FullScreen_RefreshRateInHz = m_displayMode.RefreshRate;
-	}
-	else
-	{
-		// if its a windowed app
-		m_d3dpp.Windowed = true ;
-		m_d3dpp.EnableAutoDepthStencil = TRUE ;
-		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D16 ;
 	}
 }
 // ***************************************************************
@@ -159,12 +153,14 @@ HRESULT cDXBase::ResetDevice()
 // ***************************************************************
 // Initializes the directX object
 // ***************************************************************
-void cDXBase::Init( const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen)
+void cDXBase::Init( const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen, const int iWidth, const int iHeight)
 {
 	m_Hwnd = hWnd;
 	m_BkColor = bkColor;
 	m_bFullScreen = bFullScreen;
-	
+	m_iHeight = iHeight;
+	m_iWidth = iWidth;
+
 	DirectxInit() ;
 	SetParameters() ;
 	CreateDirectxDevice() ;
@@ -187,11 +183,6 @@ HRESULT cDXBase::BeginRender()
 }
 // ***************************************************************
 
-void cDXBase::CreateDXBase()
-{
-	s_pDXBase = DEBUG_NEW cDXBase();
-}
-
 void cDXBase::Destroy()
 {
 	Cleanup();
@@ -213,7 +204,7 @@ void Graphics::cDXBase::ToggleFullScreen()
 IDXBase* IDXBase::GetInstance()
 {
 	if(!s_pDXBase)
-		cDXBase::CreateDXBase();
+		s_pDXBase = DEBUG_NEW cDXBase();
 	return s_pDXBase;
 }
 // ***************************************************************

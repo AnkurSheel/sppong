@@ -21,22 +21,20 @@ namespace Graphics
 		cDXBase() ;
 		~cDXBase() ;
 
-		void Init(const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen) ;
+		void Init(const HWND hWnd,
+					const D3DCOLOR& bkColor, 
+					const bool bFullScreen, 
+					const int iWidth, 
+					const int iHeight);
 		HRESULT ResetDevice() ;
 		HRESULT BeginRender();
 		void EndRender(const HRESULT hr);
 		LPDIRECT3DDEVICE9 GetDevice() const;
-		UINT GetDisplayHeight() const;
-		UINT GetDisplayWidth() const;
 		HRESULT IsAvailable() const;
 		void Destroy();
 		void ToggleFullScreen();
-		static void CreateDXBase();
 
 	private:
-		cDXBase(const cDXBase&){}
-		cDXBase operator =(const cDXBase&){}
-
 		void DirectxInit() ;
 		void CreateDirectxDevice() ;
 		void SetParameters();

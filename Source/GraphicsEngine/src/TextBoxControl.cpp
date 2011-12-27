@@ -75,11 +75,11 @@ void Graphics::cTextBoxControl::OnRender( const AppMsg & msg )
 
 	if(m_pCanvasSprite)
 	{
-		m_pCanvasSprite->Render(IDXBase::GetInstance()->GetDevice());
+		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->GetDevice());
 	}
 	if (m_pFont)
 	{
-		m_pFont->Render(IDXBase::GetInstance()->GetDevice());
+		m_pFont->OnRender(IDXBase::GetInstance()->GetDevice());
 	}
 	
 	if(m_bFocus)
@@ -106,7 +106,7 @@ void Graphics::cTextBoxControl::OnRender( const AppMsg & msg )
 }
 // ***************************************************************
 
-void Graphics::cTextBoxControl::OnKeyDown( const AppMsg & msg )
+bool Graphics::cTextBoxControl::OnKeyDown( const AppMsg & msg )
 {
 	// some messages are handled by both keydown and char
 	if (msg.m_uMsg == WM_CHAR)
@@ -115,14 +115,15 @@ void Graphics::cTextBoxControl::OnKeyDown( const AppMsg & msg )
 		{
 		case VK_BACK:
 			RemoveText(1);
-			break;
+			return true;
 
 		case VK_ESCAPE:
 			SetFocusControl(NULL);
-			break;
+			return true;
 
 		default:
 			InsertText((char *)&msg.m_wParam);
+			return true;
 		}
 	}
 	else if (msg.m_uMsg == WM_KEYDOWN)
@@ -137,23 +138,18 @@ void Graphics::cTextBoxControl::OnKeyDown( const AppMsg & msg )
 					RemoveText(1);
 				}
 			}
-			break;
+			return true;
 
 		case VK_LEFT:
 			SetCaratPosition(m_iCaretPos - 1);
-			break;
+			return true;
 
 		case VK_RIGHT:
 			SetCaratPosition(m_iCaretPos + 1);
-			break;
+			return true;
 		}
 	}
-}
-// ***************************************************************
-
-void Graphics::cTextBoxControl::OnKeyUp( const AppMsg & msg )
-{
-
+	return false;
 }
 // ***************************************************************
 
@@ -238,6 +234,37 @@ long Graphics::cTextBoxControl::RemoveText( const long iQuantity )
 		m_bTextBoxFull = false;
 	}
 	return m_iTextWidth;
+}
+// ***************************************************************
+
+void Graphics::cTextBoxControl::OnLostDevice()
+{
+	if (m_pFont)
+	{
+		m_pFont->OnLostDevice();
+	}
+
+	if (m_pCaretLine)
+	{
+		m_pCaretLine->OnLostDevice();
+	}
+	cBaseControl::OnLostDevice();
+}
+// ***************************************************************
+
+HRESULT Graphics::cTextBoxControl::OnResetDevice()
+{
+	if (m_pFont)
+	{
+		m_pFont->OnResetDevice();
+	}
+
+	if (m_pCaretLine)
+	{
+		m_pCaretLine->OnResetDevice();
+	}
+
+	return cBaseControl::OnResetDevice();
 }
 // ***************************************************************
 

@@ -30,7 +30,9 @@ namespace Graphics
 	// #define RIGHTBUTTON 1
 	// #define WHEELBUTTON 2
 
-#define WM_RENDER WM_USER +1
+#define WM_RENDER WM_USER + 1
+#define WM_DEVICELOST WM_USER + 2
+#define WM_DEVICERESET WM_USER + 3
 
 }
 #endif // Constants_h__

@@ -28,21 +28,3 @@ inline LPDIRECT3DDEVICE9 cDXBase::GetDevice() const
 	return m_pd3dDevice;
 }
 // ***************************************************************
-
-// ***************************************************************
-// Returns the display height
-// ***************************************************************
-inline UINT cDXBase::GetDisplayHeight() const
-{
-	return m_displayMode.Height;
-}
-// ***************************************************************
-
-// ***************************************************************
-// Returns the display width
-// ***************************************************************
-inline UINT cDXBase::GetDisplayWidth() const
-{
-	return m_displayMode.Width;
-}
-// ***************************************************************

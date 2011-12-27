@@ -104,6 +104,5 @@ void cGameElement::UpdatePosition()
 		m_pBoundingPolygon->Translate(trans);
 		m_vPrevPosition = m_vPosition;
 	}
-
 }
 // ***************************************************************

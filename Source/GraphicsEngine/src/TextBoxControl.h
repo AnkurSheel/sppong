@@ -33,9 +33,10 @@ namespace Graphics
 		void Init(const Base::cString & strDefaultImage, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
 
 		void OnRender(const AppMsg & msg);
-		void OnKeyDown(const AppMsg & msg );
-		void OnKeyUp(const AppMsg & msg );
-	
+		bool OnKeyDown(const AppMsg & msg );
+		void OnLostDevice();
+		HRESULT OnResetDevice();
+
 	private:
 		cTextBoxControl(cTextBoxControl&){}
 		cTextBoxControl operator =(const cTextBoxControl&){}

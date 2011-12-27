@@ -68,7 +68,7 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 // ***************************************************************
 // Displays the text
 // ***************************************************************
-void cMyFont::Render(LPDIRECT3DDEVICE9 const pDevice)
+void cMyFont::OnRender(LPDIRECT3DDEVICE9 const pDevice)
 {	
 	m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, m_dwFormat, m_Color) ;
 }

@@ -85,16 +85,8 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, hwnd);
 
 	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
-	if(bFullScreen)
-	{
-		m_iDisplayHeight = IDXBase::GetInstance()->GetDisplayHeight();
-		m_iDisplayWidth = IDXBase::GetInstance()->GetDisplayWidth();
-	}
-	else
-	{
-		m_iDisplayHeight = iFullScreenHeight;
-		m_iDisplayWidth = iFullScreenWidth;
-	}
+	m_iDisplayHeight = iFullScreenHeight;
+	m_iDisplayWidth = iFullScreenWidth;
 
 	m_pSound = ISound::CreateSound();
 	m_pSound->Init();
@@ -293,18 +285,6 @@ void cGame::CheckForWin()
 {
 	D3DXVECTOR3 vBallPosition = m_pGameElements[PGE_BALL]->GetPosition();
 
-	// check if ball hits horizontal wall
-	if (vBallPosition.y >= (m_iDisplayHeight - m_pGameElements[PGE_BALL]->GetSprite()->GetScaledHeight())
-		|| vBallPosition.y <= 0)
-	{
-		cBall * pBall = m_pGameElements[PGE_BALL]->CastToBall();
-		if(pBall)
-		{
-			pBall->ChangeSpeedY();
-		}
-	}
-
-	// check if ball hits vertical wall
 	if(vBallPosition.x <= 0)
 	{
 		m_pSound->PlaySound(GS_WIN);

@@ -31,7 +31,7 @@ namespace Graphics
 		cMyFont() ;
 		~cMyFont() ;
 		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
-		void Render(LPDIRECT3DDEVICE9 const pDevice) ;
+		void OnRender(LPDIRECT3DDEVICE9 const pDevice) ;
 		void SetText(const Base::cString & strString);
 		const RECT & GetRect() const;
 		const RECT GetRect(const Base::cString & strText) const;

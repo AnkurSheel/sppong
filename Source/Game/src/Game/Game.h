@@ -58,8 +58,6 @@ private:
 		GS_TOTAL
 	};
 
-	cGame(const cGame&){}
-	cGame operator =(const cGame&){}
 	void HandlePaddleAI(const float fElapsedTime);
 public:
 	cGame();
@@ -80,18 +78,18 @@ public:
 	void OnMsgProc(const Graphics::AppMsg & msg);
 	HRESULT OnResetDevice();
 	void OnLostDevice();
+
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
-	UINT						m_iDisplayHeight ;		// the display height of the window
-	UINT						m_iDisplayWidth ;		// the display width of the window
+	int							m_iDisplayHeight ;		// the display height of the window
+	int							m_iDisplayWidth ;		// the display width of the window
 	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
 	MySound::ISound *			m_pSound;
 	bool						m_bSinglePlayer;
 	cGameFlowStateMachine *		m_pStateMachine;
-	cMPongView	*				m_pPongView;
+	cMPongView *				m_pPongView;
 	Utilities::ITimer *			m_pGameTimer;
 	cScore*						m_pScore;				// ptr to Scoreboard
-
 
 private:
 	friend class cStateTitleScreen;

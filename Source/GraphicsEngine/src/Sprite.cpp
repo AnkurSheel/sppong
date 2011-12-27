@@ -118,7 +118,7 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 // ***************************************************************
 // Render the sprite
 // ***************************************************************
-void cSprite::Render( LPDIRECT3DDEVICE9 const pDevice)
+void cSprite::OnRender( LPDIRECT3DDEVICE9 const pDevice)
 {
 	// draw the sprite
 	m_pSprite->Begin(m_dwFlags);
@@ -145,7 +145,14 @@ void cSprite::OnLostDevice()
 
 void cSprite::OnResetDevice()
 {
-	Init(IDXBase::GetInstance()->GetDevice(), m_strFilename);
+	if (m_strFilename.IsEmpty())
+	{
+		Init(IDXBase::GetInstance()->GetDevice(), m_pTexture);
+	}
+	else
+	{
+		Init(IDXBase::GetInstance()->GetDevice(), m_strFilename);
+	}
 	MakeTransformMatrix();
 }
 // ***************************************************************

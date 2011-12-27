@@ -20,7 +20,6 @@ cBaseControl::cBaseControl()
 : m_dwWidth(0)
 , m_dwHeight(0)
 , m_bVisible(true)
-//, m_pCanvasSprite(NULL) 
 , m_pChildControls(NULL) 
 , m_pNextSibling(NULL) 
 , m_pPreviousSibling(NULL) 
@@ -38,7 +37,6 @@ cBaseControl::cBaseControl()
 
 cBaseControl::~cBaseControl()
 {
-	//	SAFE_DELETE(m_pCanvasSprite);
 	RemoveAllChildren();
 
 }
@@ -149,7 +147,6 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 				{
 					m_pParentControl->MoveToFront(this);
 				}
-				
 				SetFocusControl(this);
 			}
 			return true;
@@ -173,7 +170,7 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 		{
 			if (m_pFocusControl)
 			{
-				m_pFocusControl->OnMouseMove(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+				return m_pFocusControl->OnMouseMove(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
 			}
 		}
 		break;
@@ -184,7 +181,7 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 		{
 			if(m_pFocusControl)
 			{
-				m_pFocusControl->OnKeyUp(msg);
+				return m_pFocusControl->OnKeyUp(msg);
 			}
 		}
 		break;
@@ -196,7 +193,7 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 		{
 			if(m_pFocusControl)
 			{
-				m_pFocusControl->OnKeyDown(msg);
+				return m_pFocusControl->OnKeyDown(msg);
 			}
 		}
 		break;
@@ -211,8 +208,23 @@ bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
 			}
 		}
 		break;
-	}
 
+	case WM_DEVICELOST:
+		OnLostDevice();
+		if (m_pChildControls)
+		{
+			PostToAll(msg);
+		}
+		break;
+
+	case WM_DEVICERESET:
+		OnResetDevice();
+		if (m_pChildControls)
+		{
+			PostToAllReverse(m_pChildControls, msg);
+		}
+		break;
+	}
 	return false;
 }
 // ***************************************************************
@@ -297,7 +309,7 @@ void Graphics::cBaseControl::MoveToFront( cBaseControl * const pControl )
 }
 // ***************************************************************
 
-void Graphics::cBaseControl::OnMouseDown( const int iButton, const int X, const int Y )
+bool Graphics::cBaseControl::OnMouseDown( const int iButton, const int X, const int Y )
 {
 	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
 	GetAbsolutePosition(vControlAbsolutePosition);
@@ -305,10 +317,11 @@ void Graphics::cBaseControl::OnMouseDown( const int iButton, const int X, const 
 	m_iMouseDownXPos = X - vControlAbsolutePosition.x;
 	m_iMouseDownYPos = Y - vControlAbsolutePosition.y;
 	m_bIsMouseDown = true;
+	return true;
 }
 // ***************************************************************
 
-void Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
+bool Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
 {
 	if (m_bIsMouseDown)
 	{
@@ -321,13 +334,16 @@ void Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
 		ConstrainChildControl(x, y);
 		m_vPosition.x = x;
 		m_vPosition.y = y;
+		return true;
 	}
+	return false;
 }
 // ***************************************************************
 
-void Graphics::cBaseControl::OnMouseUp( const int iButton, const int X, const int Y )
+bool Graphics::cBaseControl::OnMouseUp( const int iButton, const int X, const int Y )
 {
 	m_bIsMouseDown = false;
+	return true;
 }
 // ***************************************************************
 
@@ -393,5 +409,38 @@ void Graphics::cBaseControl::ConstrainChildControl( float &x, float &y )
 			y = m_pParentControl->GetHeight() - m_dwHeight; 
 		}
 	}
+}
+// ***************************************************************
+
+bool Graphics::cBaseControl::OnKeyDown( const AppMsg & msg )
+{
+	return false;
+}
+// ***************************************************************
+
+bool Graphics::cBaseControl::OnKeyUp( const AppMsg & msg )
+{
+	return false;
+}
+// ***************************************************************
+
+void Graphics::cBaseControl::OnLostDevice()
+{
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->OnLostDevice();
+	}
+		
+}
+// ***************************************************************
+
+HRESULT Graphics::cBaseControl::OnResetDevice()
+{
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->OnResetDevice();
+		return S_OK;
+	}
+
 }
 // ***************************************************************

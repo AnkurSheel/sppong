@@ -65,7 +65,7 @@ void cMPongView::OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
 		if (m_bDisplayFPS)
 		{
 			m_pFont->SetText(cString(20, "%0.2f", pGame->GetFPS()));
-			m_pFont->Render(IDXBase::GetInstance()->GetDevice());
+			m_pFont->OnRender(IDXBase::GetInstance()->GetDevice());
 		}
 		OnEndRender(hr);
 	}

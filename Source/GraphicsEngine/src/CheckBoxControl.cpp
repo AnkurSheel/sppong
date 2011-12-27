@@ -60,18 +60,6 @@ void Graphics::cCheckBoxControl::OnRender( const AppMsg & msg )
 }
 // ***************************************************************
 
-void Graphics::cCheckBoxControl::OnKeyDown( const AppMsg & msg )
-{
-
-}
-// ***************************************************************
-
-void Graphics::cCheckBoxControl::OnKeyUp( const AppMsg & msg )
-{
-
-}
-// ***************************************************************
-
 void Graphics::cCheckBoxControl::Cleanup()
 {
 	SAFE_DELETE(m_pTickBox);
@@ -79,7 +67,7 @@ void Graphics::cCheckBoxControl::Cleanup()
 }
 // ***************************************************************
 
-void Graphics::cCheckBoxControl::OnMouseDown( const int iButton, const int X, const int Y )
+bool Graphics::cCheckBoxControl::OnMouseDown( const int iButton, const int X, const int Y )
 {
 	if (m_bChecked)
 	{
@@ -91,7 +79,36 @@ void Graphics::cCheckBoxControl::OnMouseDown( const int iButton, const int X, co
 		m_pTickBox->OnMouseDown(iButton, X, Y);
 		m_bChecked = true;
 	}
-	cBaseControl::OnMouseDown(iButton, X, Y);
+	return cBaseControl::OnMouseDown(iButton, X, Y);
+}
+// ***************************************************************
+
+void Graphics::cCheckBoxControl::OnLostDevice()
+{
+	if (m_pTickBox)
+	{
+		m_pTickBox->OnLostDevice();
+	}
+	if (m_pLabel)
+	{
+		m_pLabel->OnLostDevice();
+	}
+	cBaseControl::OnLostDevice();
+}
+// ***************************************************************
+
+HRESULT Graphics::cCheckBoxControl::OnResetDevice()
+{
+	if (m_pTickBox)
+	{
+		m_pTickBox->OnResetDevice();
+	}
+	if (m_pLabel)
+	{
+		m_pLabel->OnResetDevice();
+	}
+	return cBaseControl::OnResetDevice();
+	
 }
 // ***************************************************************
 

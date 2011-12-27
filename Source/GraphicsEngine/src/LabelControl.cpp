@@ -30,18 +30,6 @@ Graphics::cLabelControl::~cLabelControl()
 }
 // ***************************************************************
 
-void Graphics::cLabelControl::OnKeyDown( const AppMsg & msg )
-{
-
-}
-// ***************************************************************
-
-void Graphics::cLabelControl::OnKeyUp( const AppMsg & msg )
-{
-
-}
-// ***************************************************************
-
 void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 {
 	if (m_pFont)
@@ -59,7 +47,7 @@ void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 			m_pFont->SetRect(m_rectBoundary);
 		}
 
-		m_pFont->Render(IDXBase::GetInstance()->GetDevice());
+		m_pFont->OnRender(IDXBase::GetInstance()->GetDevice());
 	}
 }
 // ***************************************************************
@@ -81,6 +69,28 @@ void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const U
 
 		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Label Height : %d, Label Width : %d", m_dwHeight, m_dwWidth));
 	}
+}
+// ***************************************************************
+
+void Graphics::cLabelControl::OnLostDevice()
+{
+	cBaseControl::OnLostDevice();
+	
+	if (m_pFont)
+	{
+		m_pFont->OnLostDevice();
+	}
+}
+// ***************************************************************
+
+HRESULT Graphics::cLabelControl::OnResetDevice()
+{
+	cBaseControl::OnResetDevice();
+	if (m_pFont)
+	{
+		m_pFont->OnResetDevice();
+	}
+	return S_OK;
 }
 // ***************************************************************
 

@@ -26,14 +26,16 @@ namespace Graphics
 		cBaseControl();
 		virtual ~cBaseControl();
 		
-		virtual void OnMouseUp(const int iButton, const int X, const int Y);
-		virtual void OnMouseDown(const int iButton, const int X, const int Y);
-		virtual void OnMouseMove(const int X, const int Y);
-		virtual void OnKeyDown(const AppMsg & msg ) = 0;
-		virtual void OnKeyUp(const AppMsg & msg ) = 0;
+		virtual bool OnMouseUp(const int iButton, const int X, const int Y);
+		virtual bool OnMouseDown(const int iButton, const int X, const int Y);
+		virtual bool OnMouseMove(const int X, const int Y);
+		virtual bool OnKeyDown(const AppMsg & msg );
+		virtual bool OnKeyUp(const AppMsg & msg );
 		virtual void SetSize(const float fNewWidth, const float fNewHeight);
 		cBaseControl * GetNextSibling() const;
 		void SetVisible(bool bIsVisible);
+		virtual void OnLostDevice();
+		virtual HRESULT OnResetDevice();
 
 	protected:
 		virtual void RenderPrivate(D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged);

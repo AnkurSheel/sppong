@@ -22,7 +22,7 @@ namespace Graphics
 		GRAPHIC_API virtual void OnLostDevice() = 0;
 		GRAPHIC_API virtual void OnResetDevice() = 0;
 		GRAPHIC_API virtual bool IsVisible() = 0;
-		GRAPHIC_API virtual void Render(LPDIRECT3DDEVICE9 const pDevice) = 0;
+		GRAPHIC_API virtual void OnRender(LPDIRECT3DDEVICE9 const pDevice) = 0;
 		GRAPHIC_API virtual void Cleanup() = 0;
 		GRAPHIC_API virtual void SetVisible(const bool bVisible) = 0;
 	};

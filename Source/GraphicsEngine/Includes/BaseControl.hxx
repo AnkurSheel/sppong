@@ -37,12 +37,14 @@ namespace Graphics
 		virtual void SetPosition(const D3DXVECTOR3 & vPosition) = 0;
 		virtual void OnRender(const AppMsg & msg) = 0;
 		virtual void SetSize(const float fNewWidth, const float fNewHeight) = 0;
-		virtual DWORD GetHeight() const = 0;
 		virtual DWORD GetWidth() const = 0;
-		virtual void OnMouseUp(const int iButton, const int X, const int Y) = 0;
-		virtual void OnMouseDown(const int iButton, const int X, const int Y) = 0;
+		virtual DWORD GetHeight() const = 0;
+		virtual bool OnMouseUp(const int iButton, const int X, const int Y) = 0;
+		virtual bool OnMouseDown(const int iButton, const int X, const int Y) = 0;
 		virtual IBaseControl * AddChildControl( IBaseControl * const pChildControl) = 0;
 		virtual bool PostMsg(const AppMsg & msg) = 0;
+		virtual void OnLostDevice() = 0;
+		virtual HRESULT OnResetDevice() = 0;
 
 	protected:
 		virtual D3DXVECTOR3 GetPosition() const = 0;

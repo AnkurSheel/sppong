@@ -44,7 +44,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	cGame * pGame = new cGame();
 
-	HWND hWnd = pGame->OnInit(hInstance, nCmdShow, bFullScreen, 640, 480);
+	HWND hWnd = pGame->OnInit(hInstance, nCmdShow, bFullScreen, 1024, 768);
 
 	Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window initialized"));
 	

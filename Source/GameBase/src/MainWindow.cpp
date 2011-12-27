@@ -32,7 +32,7 @@ cMainWindow::cMainWindow()
 , m_iFullScreenWidth(0)
 , m_pGame(NULL)
 , m_kdwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
-, m_kdwWindowedStyle(WS_OVERLAPPEDWINDOW)
+, m_kdwWindowedStyle(WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION)
 {
 	ZeroMemory( &m_wp, sizeof( WINDOWPLACEMENT ) );
 }
@@ -283,7 +283,7 @@ void cMainWindow::OnCreateDevice()
 	SetFocus(m_Hwnd);
 
 	// initialize DirectX
-	IDXBase::GetInstance()->Init(m_Hwnd, TAN, m_bFullScreen);
+	IDXBase::GetInstance()->Init(m_Hwnd, TAN, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
 	IResourceManager::TheResourceManager()->Init();
 }
 // ***************************************************************
@@ -322,8 +322,9 @@ void GameBase::cMainWindow::ToggleFullScreen()
 	IDXBase::GetInstance()->ToggleFullScreen();
 
 	m_pGame->OnLostDevice();
-	IDXBase::GetInstance()->ResetDevice() ;
+	IDXBase::GetInstance()->ResetDevice();
 	m_pGame->OnResetDevice();
+
 	if (!m_bFullScreen)
 	{
 		SetWindowPlacement(m_Hwnd, &m_wp);

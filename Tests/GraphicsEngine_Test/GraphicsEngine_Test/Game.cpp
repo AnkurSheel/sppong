@@ -34,10 +34,10 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	pWindowControl->SetPosition(D3DXVECTOR3(300.f, 300.f, 0.f));
 	pWindowControl->SetSize(400, 400);
 
-	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Label");
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, BLUE, "Label");
 	pLabelControl->SetPosition(D3DXVECTOR3(0.f, 40.f, 0.f));
 
-	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
+	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Vladimir Script", DT_VCENTER|DT_CENTER, WHITE);
 	pButtonControl->SetSize(100, 100);
 	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
 
@@ -70,17 +70,25 @@ Base::cString cGame::GetGameTitle() const
 
 void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 {
+	bool bHandled = false;
 	switch(msg.m_uMsg)
 	{
 	case WM_CHAR:
-		switch (msg.m_wParam)
-		{ 
-		case VK_SPACE:
-			IMainWindow::GetInstance()->ToggleFullScreen();
-			Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
-			return;
+		if (m_pParentControl)
+		{
+			bHandled = m_pParentControl->PostMsg(msg);
 		}
-
+		if(!bHandled)
+		{
+			switch (msg.m_wParam)
+			{ 
+			case VK_SPACE:
+				IMainWindow::GetInstance()->ToggleFullScreen();
+				Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
+				return;
+			}
+		}
+		break;
 	case WM_MOUSEMOVE:
 	case WM_LBUTTONUP:
 	case WM_LBUTTONDOWN:
@@ -88,7 +96,7 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 	case WM_KEYDOWN:
 		if (m_pParentControl)
 		{
-			m_pParentControl->PostMsg(msg);
+			bHandled = m_pParentControl->PostMsg(msg);
 		}
 		return;
 	}
@@ -111,10 +119,29 @@ void cGame::Run()
 
 HRESULT cGame::OnResetDevice()
 {
+	AppMsg appMsg;
+	appMsg.m_uMsg = WM_DEVICERESET;
+	appMsg.m_lParam = 0;
+	appMsg.m_wParam = 0;
+
+	if (m_pParentControl)
+	{
+		m_pParentControl->PostMsg(appMsg);
+	}
+
 	return S_OK;
 }
 // ***************************************************************
 
 void cGame::OnLostDevice()
 {
+	AppMsg appMsg;
+	appMsg.m_uMsg = WM_DEVICELOST;
+	appMsg.m_lParam = 0;
+	appMsg.m_wParam = 0;
+
+	if (m_pParentControl)
+	{
+		m_pParentControl->PostMsg(appMsg);
+	}
 }

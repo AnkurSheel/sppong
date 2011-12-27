@@ -21,11 +21,9 @@ namespace Graphics
 		cWindowControl(WINDOWTYPE wType);
 		~cWindowControl();
 
-		void OnMouseUp(const int iButton, const int X, const int Y);
-		void OnMouseDown(const int iButton, const int X, const int Y);
-		void OnMouseMove(const int X, const int Y);
-		void OnKeyDown(const AppMsg & msg ){}
-		void OnKeyUp(const AppMsg & msg ){}
+		bool OnMouseUp(const int iButton, const int X, const int Y);
+		bool OnMouseDown(const int iButton, const int X, const int Y);
+		bool OnMouseMove(const int X, const int Y);
 		void OnRender(const AppMsg & msg);
 		void LoadCanvasFromFile(const Base::cString & strFileName);
 	

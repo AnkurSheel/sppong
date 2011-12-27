@@ -35,6 +35,7 @@ cHumanView::cHumanView()
 
 cHumanView::~cHumanView()
 {
+	OnDestroyDevice();
 }
 
 HRESULT cHumanView::OnResetDevice()
@@ -104,13 +105,13 @@ HRESULT cHumanView::RenderPrivate( HRESULT & hr )
 		{
 			if ((*i)->IsVisible())
 			{
-				(*i)->Render(IDXBase::GetInstance()->GetDevice());
+				(*i)->OnRender(IDXBase::GetInstance()->GetDevice());
 			}
 		}
 		if (m_pCursorSprite->IsVisible())
 		{
 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
-			m_pCursorSprite->Render(IDXBase::GetInstance()->GetDevice());
+			m_pCursorSprite->OnRender(IDXBase::GetInstance()->GetDevice());
 		}
 	}
 	return hr;

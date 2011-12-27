@@ -55,40 +55,41 @@ void Graphics::cWindowControl::OnRender( const AppMsg & msg )
 		GetAbsolutePosition(vControlAbsolutePosition);
 
 		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-		m_pCanvasSprite->Render(IDXBase::GetInstance()->GetDevice());
+		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->GetDevice());
 	}
 }
 // ***************************************************************
 
-void Graphics::cWindowControl::OnMouseDown( const int iButton, const int X, const int Y )
+bool Graphics::cWindowControl::OnMouseDown( const int iButton, const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		cBaseControl::OnMouseDown(iButton, X, Y);
 		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "cWindowControl::OnMouseDown" ));
+		return cBaseControl::OnMouseDown(iButton, X, Y);
 	}
 }
 // ***************************************************************
 
-void Graphics::cWindowControl::OnMouseMove( const int X, const int Y )
+bool Graphics::cWindowControl::OnMouseMove( const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		cBaseControl::OnMouseMove(X, Y);
 		if (m_bIsMouseDown)
 		{
 			Log_Write_L3(ILogger::LT_ERROR, cString(100, "cWindowControl::OnMouseMove - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
 		}
+		return cBaseControl::OnMouseMove(X, Y);
+
 	}
 }
 // ***************************************************************
 
-void Graphics::cWindowControl::OnMouseUp( const int iButton, const int X, const int Y )
+bool Graphics::cWindowControl::OnMouseUp( const int iButton, const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		cBaseControl::OnMouseUp(iButton, X, Y);
 		Log_Write_L3(ILogger::LT_ERROR, cString(100, "cWindowControl::OnMouseUp"));
+		return	cBaseControl::OnMouseUp(iButton, X, Y);
 	}
 }
 

@@ -24,6 +24,7 @@ namespace Graphics
 namespace GameBase
 {
 	class IBaseApp
+		: public Base::cNonCopyable
 	{
 	public:
 		virtual ~IBaseApp(){}
