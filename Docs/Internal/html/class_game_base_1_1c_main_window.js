@@ -1,0 +1,25 @@
+var class_game_base_1_1c_main_window =
+[
+    [ "cMainWindow", "class_game_base_1_1c_main_window.html#a2ca82dc61e7ec9215d94bfb370dfda78", null ],
+    [ "~cMainWindow", "class_game_base_1_1c_main_window.html#a5b40588af59f559083925f3f491da1e1", null ],
+    [ "Create", "class_game_base_1_1c_main_window.html#aaa858088a4c2203b36fa917d11798d4c", null ],
+    [ "CreateMyWindow", "class_game_base_1_1c_main_window.html#a0957f015bad2322bb518c96bfb4968da", null ],
+    [ "OnWindowCreated", "class_game_base_1_1c_main_window.html#a21c2d81624366c2264239b7550552b51", null ],
+    [ "OnWindowDestroyed", "class_game_base_1_1c_main_window.html#a706622ac9bba08ed54be1c8afb0eac75", null ],
+    [ "RegisterWin", "class_game_base_1_1c_main_window.html#af22ea267f5a12c3f297a1d0af300b4bf", null ],
+    [ "SetDisplayResolution", "class_game_base_1_1c_main_window.html#ac7c58c9c7715cfee9477b378e4cf21dc", null ],
+    [ "StaticWndProc", "class_game_base_1_1c_main_window.html#ae300f890e0792e50e0311d7f3b8e8614", null ],
+    [ "VOnDestroy", "class_game_base_1_1c_main_window.html#a3eb0aff8ae2fecf8081a40dc31015352", null ],
+    [ "VOnInitialization", "class_game_base_1_1c_main_window.html#a35bfba0963cb73fe59f6127d3ca16d45", null ],
+    [ "VToggleFullScreen", "class_game_base_1_1c_main_window.html#a332eb3c53a163519c8063d8ed920d0cf", null ],
+    [ "WndProc", "class_game_base_1_1c_main_window.html#a34c0302fa66b64a61aaf2830ad28b134", null ],
+    [ "m_bFullScreen", "class_game_base_1_1c_main_window.html#a86504cf9c5cf45b9404ca1983fa9e8ce", null ],
+    [ "m_hInstance", "class_game_base_1_1c_main_window.html#a5f75deceeb79ada4746379fa9d092aeb", null ],
+    [ "m_Hwnd", "class_game_base_1_1c_main_window.html#a904ace28c221002cdcb529a31731601f", null ],
+    [ "m_iFullScreenHeight", "class_game_base_1_1c_main_window.html#a20ed6502157253203d4d1c951290d7ca", null ],
+    [ "m_iFullScreenWidth", "class_game_base_1_1c_main_window.html#a1e261fbb35c950b3b0259dad8f84c42c", null ],
+    [ "m_kdwFullScreenStyle", "class_game_base_1_1c_main_window.html#a49288199090e86f10f71a9ffcac9543a", null ],
+    [ "m_kdwWindowedStyle", "class_game_base_1_1c_main_window.html#a6fd476492260b48c4e6f105e817b5325", null ],
+    [ "m_pGame", "class_game_base_1_1c_main_window.html#aa599ab9886823365c4ce532a58c5150c", null ],
+    [ "m_wp", "class_game_base_1_1c_main_window.html#add15048ac50c58ddbe931b67988bd4b6", null ]
+];

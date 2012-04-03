@@ -96,7 +96,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	if (IMainWindow::GetInstance())
 	{
-		IMainWindow::GetInstance()->Destroy();
+		IMainWindow::GetInstance()-> VOnDestroy();
 		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
 	}
 

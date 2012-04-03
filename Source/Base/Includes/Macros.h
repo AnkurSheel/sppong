@@ -60,18 +60,21 @@
 #endif
 
 #define Log_Write( linetype, linetext )  \
-	ILogger::TheLogger()->WriteLogEntry( \
+	if(ILogger::TheLogger()) \
+	{ \
+		ILogger::TheLogger()->WriteLogEntry( \
       (linetype), \
       __FILE__, \
       __FUNCSIG__, \
       __LINE__, \
-      (linetext) )
+      (linetext) ); \
+	} 
 
 #if SYSTEM_DEBUG_LEVEL == 3
   //enable all macros
   #define Log_Write_L1( linetype, linetext ) Log_Write( linetype, linetext )
   #define Log_Write_L2( linetype, linetext ) Log_Write( linetype, linetext )
-  #define Log_Write_L3( linetype, linetext ) Log_Write_L1( linetype, linetext )
+  #define Log_Write_L3( linetype, linetext ) Log_Write( linetype, linetext )
       
 #elif SYSTEM_DEBUG_LEVEL == 2
   //enable levels 1..2 macros

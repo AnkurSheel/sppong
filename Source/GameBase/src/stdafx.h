@@ -34,3 +34,4 @@
 
 #include <d3dx9.h>
 #include "Includes.h"
+#include "Logger.hxx"

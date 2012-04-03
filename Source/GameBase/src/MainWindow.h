@@ -5,10 +5,10 @@
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
 // ***************************************************************
-// 
+//
 // ***************************************************************
-#ifndef MainWindow_hxx__
-#define MainWindow_hxx__
+#ifndef MainWindow_h__
+#define MainWindow_h__
 
 #include "MainWindow.hxx"
 
@@ -19,40 +19,88 @@ namespace Base
 
 namespace GameBase
 {
+    /********************************************//**
+     * @brief Class Declaration for \c IMainWindow
+     * interface
+     ***********************************************/
 	class cMainWindow
 		: public IMainWindow
 	{
 	public:
+		HWND VOnInitialization(const HINSTANCE& hInstance, const int& nCmdShow,
+					IBaseApp* const pGame, const bool bFullScreen,
+					const int iFullScreenWidth, const int iFullScreenHeight);
+		void VOnDestroy();
+		void VToggleFullScreen();
+		/********************************************//**
+         *
+         * Create and Returns an object of this class
+         ***********************************************/
+		static cMainWindow * Create();
+
+	private:
 		cMainWindow();
 		~cMainWindow();
-		HWND Init(const HINSTANCE& hInstance, const int& nCmdShow,
-					IBaseApp* const pGame, const bool bFullScreen, 
-					const int iFullScreenWidth, const int iFullScreenHeight);
-		void Destroy();
-
-	private:
-		void RegisterWin() ;
-		void CreateMyWindow(const int& nCmdShow, 
-							const Base::cString& lpWindowTitle);
-		LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
-								LPARAM lParam );	
-		void OnDestroyDevice();
-		void OnCreateDevice();
-		void ToggleFullScreen();
-		void SetDisplayResolution();
+		/********************************************//**
+		 * @param[in] hWnd – Unique handle to the window.
+         * @param[in] message – Incoming message.
+         * @param[in] wParam – Parameter of the message (unsigned int).
+         * @param[in] lParam – Parameter of the message (long).
+         *
+		 * Event handler. Routes messages to appropriate instance.
+		 ***********************************************/
 		static LRESULT CALLBACK StaticWndProc(HWND hwnd, UINT msg,
-											WPARAM wParam, LPARAM lParam);	
+											WPARAM wParam, LPARAM lParam);
 
+        /********************************************//**
+         *
+         * Register the window
+         ***********************************************/
+		void RegisterWin() ;
+		/********************************************//**
+		 * @param[in] nCmdShow Controls how the window is to be shown
+		 * @param[in] lpWindowTitle Controls how the window is to be shown
+		 *
+		 * Creates the window
+		 ***********************************************/
+		void CreateMyWindow(const int& nCmdShow,
+							const Base::cString& lpWindowTitle);
+		/********************************************//**
+		 * @param[in] hWnd – Unique handle to the window.
+         * @param[in] message – Incoming message.
+         * @param[in] wParam – Parameter of the message (unsigned int).
+         * @param[in] lParam – Parameter of the message (long).
+         *
+		 *  Application event handler.
+		 ***********************************************/
+		 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam,
+								LPARAM lParam );
+		/********************************************//**
+		 *
+		 * Function called when the window is created
+		 ***********************************************/
+		void OnWindowCreated();
+		/********************************************//**
+		 *
+		 * Function called when the application is closed
+		 ***********************************************/
+		void OnWindowDestroyed();
+        /********************************************//**
+		 *
+		 * Sets the settings of the default display device
+		 * to the specified graphics mode.
+		 ***********************************************/
+		void SetDisplayResolution();
 	private:
-		const DWORD			m_kdwFullScreenStyle;
-		const DWORD			m_kdwWindowedStyle;		
-		WINDOWPLACEMENT		m_wp;					// stores the window placement if in windowed mode
-		bool				m_bFullScreen;			// is true if we are in fullscreen mode
-		HWND				m_Hwnd;					// holds the window handle
-		HINSTANCE			m_hInstance;			// holds the application instance
-		int					m_iFullScreenWidth;		// the full screen width
-		int					m_iFullScreenHeight;	// the full screen height
-		IBaseApp*			m_pGame;				// pointer to the Game
+		const DWORD			m_kdwFullScreenStyle;   /*!< The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE */
+		const DWORD			m_kdwWindowedStyle;     /*!< The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION */
+		WINDOWPLACEMENT		m_wp;					/*!< Stores the window placement if in windowed mode */
+		bool				m_bFullScreen;			/*!< True if in fullscreen mode */
+		HWND				m_Hwnd;					/*!< Window handle */
+		HINSTANCE			m_hInstance;			/*!< Application instance */
+		int					m_iFullScreenWidth;		/*!< Full screen width */
+		int					m_iFullScreenHeight;	/*!< Full screen height */
+		IBaseApp*			m_pGame;				/*!< Pointer to the App */
 	};
 
 	static IMainWindow * s_pWindow = NULL;

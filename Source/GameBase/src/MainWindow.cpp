@@ -1,11 +1,11 @@
 // ***************************************************************
 //  MainWindow   version:  1.0   Ankur Sheel  date: 04/28/2008
 //  -------------------------------------------------------------
-//  
+//
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
 // ***************************************************************
-// 
+//
 // ***************************************************************
 #include "stdafx.h"
 #include "MainWindow.h"
@@ -50,12 +50,12 @@ cMainWindow::~cMainWindow()
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
 // ***************************************************************
-HWND cMainWindow::Init( const HINSTANCE & hInstance, 
-						const int & nCmdShow,
-						IBaseApp* const pGame,
-						const bool bFullScreen,
-						const int iFullScreenWidth,
-						const int iFullScreenHeight )
+HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
+									const int & nCmdShow,
+									IBaseApp* const pGame,
+									const bool bFullScreen,
+									const int iFullScreenWidth,
+									const int iFullScreenHeight )
 {
 	m_hInstance = hInstance;
 	m_bFullScreen = bFullScreen;
@@ -73,7 +73,6 @@ HWND cMainWindow::Init( const HINSTANCE & hInstance,
 		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0");
 	}
 
-	//Register the Window Class
 	RegisterWin();
 
 	SetDisplayResolution();
@@ -81,7 +80,7 @@ HWND cMainWindow::Init( const HINSTANCE & hInstance,
 	m_pGame = pGame;
 
 	cString strGameTitle = "GameTitle";
-	//Create the Window
+
 	if (pGame)
 	{
 		strGameTitle = pGame->GetGameTitle() ;
@@ -89,7 +88,7 @@ HWND cMainWindow::Init( const HINSTANCE & hInstance,
 
 	CreateMyWindow(nCmdShow, strGameTitle) ;
 
-	OnCreateDevice();
+	OnWindowCreated();
 
 	m_wp.length = sizeof(WINDOWPLACEMENT);
 
@@ -99,6 +98,67 @@ HWND cMainWindow::Init( const HINSTANCE & hInstance,
 }
 // ***************************************************************
 
+// ***************************************************************
+// Destroys the window and the singleton object
+// ***************************************************************
+void cMainWindow::VOnDestroy()
+{
+	DestroyWindow(m_Hwnd);
+
+	delete this;
+	s_pWindow = NULL;
+}
+// ***************************************************************
+// Toggles between full screen and windowed mode
+// ***************************************************************
+void cMainWindow::VToggleFullScreen()
+{
+	m_bFullScreen = !m_bFullScreen;
+
+	SetDisplayResolution();
+
+	if (m_bFullScreen)
+	{
+		// Save Current location/size
+		GetWindowPlacement(m_Hwnd, &m_wp);
+
+		//Set style for Full Screen mode
+		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwFullScreenStyle);
+
+		// hide the window
+		ShowWindow(m_Hwnd, SW_HIDE);
+	}
+	else
+	{
+	    //Set style for Windowed mode
+		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwWindowedStyle);
+
+		// reset the window location and size
+		SetWindowPlacement(m_Hwnd, &m_wp);
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "top %d, bottom %d, left %d, right %d", m_wp.rcNormalPosition.top, m_wp.rcNormalPosition.bottom, m_wp.rcNormalPosition.left, m_wp.rcNormalPosition.right));
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Max X %d, Max Y %d", m_wp.ptMaxPosition.x, m_wp.ptMaxPosition.y));
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Min X %d, Min Y %d", m_wp.ptMinPosition.x, m_wp.ptMinPosition.y));
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Flags %d", m_wp.flags));
+	}
+
+	IDXBase::GetInstance()->ToggleFullScreen();
+
+	m_pGame->OnLostDevice();
+	IDXBase::GetInstance()->ResetDevice();
+	m_pGame->OnResetDevice();
+
+	if (!IsWindowVisible(m_Hwnd))
+	{
+		ShowWindow(m_Hwnd, SW_SHOW);
+	}
+}
+// ***************************************************************
+// Create and Returns an object of this class
+// ***************************************************************
+cMainWindow * cMainWindow::Create()
+{
+	return(DEBUG_NEW cMainWindow());
+}
 // ***************************************************************
 // Registers the window
 // ***************************************************************
@@ -131,7 +191,7 @@ void cMainWindow::RegisterWin()
 // ***************************************************************
 void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
-	DWORD dwStyle; 
+	DWORD dwStyle;
 	if(m_bFullScreen)
 	{
 		dwStyle = m_kdwFullScreenStyle;
@@ -146,6 +206,8 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 	windowRect.top = 0;
 	windowRect.right = m_iFullScreenWidth;
 	windowRect.bottom = m_iFullScreenHeight;
+
+	//get the required size of the window rectangle, based on the desired size of the client rectangle
 	AdjustWindowRectEx(&windowRect, dwStyle, false, 0);
 
 	m_Hwnd = CreateWindowEx(
@@ -153,21 +215,44 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 		"Window",
 		lpWindowTitle.GetData(),
 		dwStyle,
-		CW_USEDEFAULT, 0, 
+		CW_USEDEFAULT, 0,
 		windowRect.right - windowRect.left,
 		windowRect.bottom - windowRect.top,
-		NULL, 
-		NULL, 
-		m_hInstance, 
-		this) ;
+		NULL,
+		NULL,
+		m_hInstance,
+		this) ; // pass "this" so that staticwndproc can access the non static data
 
 	if(m_Hwnd == NULL)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Window Creation Failed");
 		PostQuitMessage(0);
 	}
-	
+
 	ShowWindow(m_Hwnd, nCmdShow) ;
+}
+// ***************************************************************
+// Event handler. Routes messages to appropriate instance
+// ***************************************************************
+LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+{
+	if ( msg == WM_CREATE )
+	{
+	    // store the this pointer which is passed when we create the window in lparam
+	    // lpCreateParams contains the value of the lpParam parameter specified in the function call.
+		SetWindowLongPtr( hwnd, GWLP_USERDATA, (LONG)((CREATESTRUCT *)lParam)->lpCreateParams );
+	}
+
+    // get the this pointer for this class using GWLP_USERDATA
+	cMainWindow *targetApp = (cMainWindow*)GetWindowLongPtr( hwnd, GWLP_USERDATA );
+
+	if ( targetApp )
+	{
+	    // let our window handle the msg
+		return targetApp->WndProc( hwnd, msg, wParam, lParam );
+	}
+
+	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 // ***************************************************************
 
@@ -187,14 +272,14 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		return 0 ;
 
 	case WM_CLOSE:
-		OnDestroyDevice();
+		OnWindowDestroyed();
 		return 0 ;
 
 	case WM_DESTROY:
-		OnDestroyDevice();
+		OnWindowDestroyed();
 		return 0 ;
 
-	case WM_ACTIVATE:                       
+	case WM_ACTIVATE:
 	{
 		if (!HIWORD(wParam))
 		{
@@ -238,32 +323,31 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 // ***************************************************************
 
 // ***************************************************************
-// Static Window procedure used to fill the WNDCLASSEX struct
+
 // ***************************************************************
-LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+// Function called when the device is created
+// ***************************************************************
+void cMainWindow::OnWindowCreated()
 {
-	if ( msg == WM_CREATE )
-	{
-		SetWindowLongPtr( hwnd, GWLP_USERDATA, (LONG)((CREATESTRUCT *)lParam)->lpCreateParams );
-	}
+    //Bring the window into the foreground and activates the window
+	SetForegroundWindow(m_Hwnd);
+	//Set the keyboard focus
+	SetFocus(m_Hwnd);
 
-	cMainWindow *targetApp = (cMainWindow*)GetWindowLongPtr( hwnd, GWLP_USERDATA );
+	// initialize DirectX
+	IDXBase::GetInstance()->Init(m_Hwnd, TAN, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
 
-	if ( targetApp )
-	{
-		return targetApp->WndProc( hwnd, msg, wParam, lParam );
-	}
-
-	return DefWindowProc( hwnd, msg, wParam, lParam ); 
+	// initialize resource manager
+	IResourceManager::TheResourceManager()->Init();
 }
-// ***************************************************************
-
 // ***************************************************************
 // Function called when the application quits
 // ***************************************************************
-void cMainWindow::OnDestroyDevice()
+void cMainWindow::OnWindowDestroyed()
 {
+    // return to the default mode
 	ChangeDisplaySettings(NULL, 0);
+
 	// release the graphic object
 	IDXBase::GetInstance()->Destroy();
 
@@ -275,73 +359,15 @@ void cMainWindow::OnDestroyDevice()
 // ***************************************************************
 
 // ***************************************************************
-// Function called when the device is created
-// ***************************************************************
-void cMainWindow::OnCreateDevice()
-{
-	SetForegroundWindow(m_Hwnd);
-	SetFocus(m_Hwnd);
 
-	// initialize DirectX
-	IDXBase::GetInstance()->Init(m_Hwnd, TAN, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
-	IResourceManager::TheResourceManager()->Init();
-}
 // ***************************************************************
 
-void cMainWindow::Destroy()
-{
-	DestroyWindow(m_Hwnd);
-
-	delete this;
-	s_pWindow = NULL;
-}
 // ***************************************************************
 
-void GameBase::cMainWindow::ToggleFullScreen()
-{
-	m_bFullScreen = !m_bFullScreen;
-
-	SetDisplayResolution();
-
-	if (m_bFullScreen)
-	{
-		// Save Current location/size
-		GetWindowPlacement(m_Hwnd, &m_wp);
-
-		//Going to Full Screen mode
-		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwFullScreenStyle);
-
-		// hide the window
-		ShowWindow(m_Hwnd, SW_HIDE);
-	}
-	else
-	{
-		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwWindowedStyle);
-	}
-
-	IDXBase::GetInstance()->ToggleFullScreen();
-
-	m_pGame->OnLostDevice();
-	IDXBase::GetInstance()->ResetDevice();
-	m_pGame->OnResetDevice();
-
-	if (!m_bFullScreen)
-	{
-		SetWindowPlacement(m_Hwnd, &m_wp);
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "top %d, bottom %d, left %d, right %d", m_wp.rcNormalPosition.top, m_wp.rcNormalPosition.bottom, m_wp.rcNormalPosition.left, m_wp.rcNormalPosition.right));
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Max X %d, Max Y %d", m_wp.ptMaxPosition.x, m_wp.ptMaxPosition.y));
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Min X %d, Min Y %d", m_wp.ptMinPosition.x, m_wp.ptMinPosition.y));
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Flags %d", m_wp.flags));
-	}
-
-	if (!IsWindowVisible(m_Hwnd))
-	{
-		ShowWindow(m_Hwnd, SW_SHOW);
-	}
-}
 // ***************************************************************
-
-void GameBase::cMainWindow::SetDisplayResolution()
+// Sets the settings of the default display device to the specified graphics mode
+// ***************************************************************
+void cMainWindow::SetDisplayResolution()
 {
 	if (m_bFullScreen)
 	{
@@ -352,12 +378,16 @@ void GameBase::cMainWindow::SetDisplayResolution()
 			Log_Write_L2(ILogger::LT_DEBUG, "Could not get current display Settings");
 			return;
 		}
+
+		// set the full screen height and width
 		dmScreenSettings.dmPelsHeight = m_iFullScreenHeight;
 		dmScreenSettings.dmPelsWidth = m_iFullScreenWidth;
 		dmScreenSettings.dmFields = (DM_PELSWIDTH | DM_PELSHEIGHT);
 
+        // Test if the requested graphics mode could be set.
 		if (ChangeDisplaySettings(&dmScreenSettings, CDS_TEST) == DISP_CHANGE_SUCCESSFUL)
 		{
+		    // Set the requested graphics mode.
 			if(ChangeDisplaySettings(&dmScreenSettings, 0) == DISP_CHANGE_SUCCESSFUL)
 			{
 				Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Resolution set to width %d and height %d", m_iFullScreenWidth, m_iFullScreenHeight));
@@ -366,9 +396,13 @@ void GameBase::cMainWindow::SetDisplayResolution()
 		}
 		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Could not set resolution with width %d and height %d", m_iFullScreenWidth, m_iFullScreenHeight));
 	}
+
+	// return to the default mode
 	ChangeDisplaySettings(NULL, 0);
 	return;
 }
+// ***************************************************************
+
 // ***************************************************************
 
 // ***************************************************************
@@ -377,6 +411,6 @@ void GameBase::cMainWindow::SetDisplayResolution()
 IMainWindow * IMainWindow::GetInstance()
 {
 	if(!s_pWindow)
-		s_pWindow = DEBUG_NEW cMainWindow();
+		s_pWindow = cMainWindow::Create();
 	return s_pWindow;
 }
