@@ -36,32 +36,32 @@
     <name>GameBase::cMainWindow</name>
     <filename>class_game_base_1_1c_main_window.html</filename>
     <base>GameBase::IMainWindow</base>
-    <member kind="function">
+    <member kind="function" static="yes">
+      <type>static cMainWindow *</type>
+      <name>Create</name>
+      <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
+      <anchor>aaa858088a4c2203b36fa917d11798d4c</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
       <type>HWND</type>
       <name>VOnInitialization</name>
       <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
       <anchor>a35bfba0963cb73fe59f6127d3ca16d45</anchor>
       <arglist>(const HINSTANCE &amp;hInstance, const int &amp;nCmdShow, IBaseApp *const pGame, const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight)</arglist>
     </member>
-    <member kind="function">
+    <member kind="function" protection="private">
       <type>void</type>
       <name>VOnDestroy</name>
       <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
       <anchor>a3eb0aff8ae2fecf8081a40dc31015352</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="function">
+    <member kind="function" protection="private">
       <type>void</type>
       <name>VToggleFullScreen</name>
       <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
       <anchor>a332eb3c53a163519c8063d8ed920d0cf</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static cMainWindow *</type>
-      <name>Create</name>
-      <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
-      <anchor>aaa858088a4c2203b36fa917d11798d4c</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">

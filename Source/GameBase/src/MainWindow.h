@@ -27,11 +27,6 @@ namespace GameBase
 		: public IMainWindow
 	{
 	public:
-		HWND VOnInitialization(const HINSTANCE& hInstance, const int& nCmdShow,
-					IBaseApp* const pGame, const bool bFullScreen,
-					const int iFullScreenWidth, const int iFullScreenHeight);
-		void VOnDestroy();
-		void VToggleFullScreen();
 		/********************************************//**
          *
          * Create and Returns an object of this class
@@ -41,6 +36,11 @@ namespace GameBase
 	private:
 		cMainWindow();
 		~cMainWindow();
+		HWND VOnInitialization(const HINSTANCE& hInstance, const int& nCmdShow,
+			IBaseApp* const pGame, const bool bFullScreen,
+			const int iFullScreenWidth, const int iFullScreenHeight);
+		void VOnDestroy();
+		void VToggleFullScreen();
 		/********************************************//**
 		 * @param[in] hWnd – Unique handle to the window.
          * @param[in] message – Incoming message.

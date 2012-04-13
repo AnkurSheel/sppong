@@ -45,6 +45,7 @@ namespace Graphics
 		virtual bool PostMsg(const AppMsg & msg) = 0;
 		virtual void OnLostDevice() = 0;
 		virtual HRESULT OnResetDevice() = 0;
+		virtual void RemoveAllChildren() = 0;
 
 	protected:
 		virtual D3DXVECTOR3 GetPosition() const = 0;

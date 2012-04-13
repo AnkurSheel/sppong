@@ -71,7 +71,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		{
 			//No message to process?
 			// Then do your game stuff here
-			hr = IDXBase::GetInstance()->BeginRender();
+			hr = IDXBase::GetInstance()->VBeginRender();
 			if (SUCCEEDED(hr))
 			{
 				pGame->Run();
@@ -89,7 +89,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 				pInput->DetectMouseMovement();*/
 
-				IDXBase::GetInstance()->EndRender(hr);
+				IDXBase::GetInstance()->VEndRender(hr);
 			}
 		}
 	}

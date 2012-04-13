@@ -43,7 +43,7 @@ void cGameElement::OnBeginInit(const cString & strFilename, const D3DXVECTOR2 & 
 {
 	m_pSprite = ISprite::CreateSprite();
 	m_strFileName = strFilename;
-	m_pSprite->Init(IDXBase::GetInstance()->GetDevice(), m_strFileName);
+	m_pSprite->Init(IDXBase::GetInstance()->VGetDevice(), m_strFileName);
 	m_pSprite->SetSize(vSize.x, vSize.y);
 }
 // ***************************************************************

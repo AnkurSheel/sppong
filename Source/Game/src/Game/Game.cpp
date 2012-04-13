@@ -24,7 +24,6 @@
 #include "ProcessManager.hxx"
 #include "MainWindow.hxx"
 #include "ResourceManager.hxx"
-#include "Structures.h"
 
 using namespace MySound;
 using namespace Graphics;
@@ -48,7 +47,6 @@ cGame::cGame()
 		m_pGameElements[i] = NULL;
 	}
 }
-// ***************************************************************
 
 // ***************************************************************
 // Destructor
@@ -57,34 +55,17 @@ cGame::~cGame()
 {
 	Cleanup();
 }
-// ***************************************************************
-
-void cGame::OnUpdate()
-{
-	m_pGameTimer->Update();
-	m_pStateMachine->Update();
-	m_pSound->Update();
-	m_pPongView->OnUpdate(this, m_pGameTimer->GetElapsedTime());
-
-}
-// ***************************************************************
-// Display the Graphics
-// ***************************************************************
-void cGame::Render(TICK tickCurrent, float fElapsedTime)
-{
-	m_pPongView->OnRender(this, tickCurrent, fElapsedTime);
-}
-// ***************************************************************
 
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight )
+void cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,
+				   const bool bFullScreen, const int iFullScreenWidth,
+				   const int iFullScreenHeight, HWND & outHwnd )
 {
-	HWND hwnd;
-	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, hwnd);
+	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, outHwnd);
 
-	m_pD3dDevice = IDXBase::GetInstance()->GetDevice();
+	m_pD3dDevice = IDXBase::GetInstance()->VGetDevice();
 	m_iDisplayHeight = iFullScreenHeight;
 	m_iDisplayWidth = iFullScreenWidth;
 
@@ -93,13 +74,46 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 	m_pPongView = DEBUG_NEW cMPongView();
 
-	m_pPongView->OnCreateDevice(hInstance, hwnd, m_iDisplayWidth, m_iDisplayHeight);
+	m_pPongView->OnCreateDevice(hInstance, outHwnd, m_iDisplayWidth, m_iDisplayHeight);
 
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
-
-	return hwnd;
 }
+
 // ***************************************************************
+void cGame::OnLostDevice()
+{
+	m_pPongView->OnLostDevice();
+}
+
+// ***************************************************************
+HRESULT cGame::OnResetDevice()
+{
+	return(m_pPongView->OnResetDevice());
+}
+
+// ***************************************************************
+void cGame::OnUpdate()
+{
+	m_pGameTimer->Update();
+	m_pStateMachine->Update();
+	m_pSound->Update();
+	m_pPongView->OnUpdate(this, m_pGameTimer->GetElapsedTime());
+
+}
+
+// ***************************************************************
+bool cGame::OnMsgProc( const Graphics::AppMsg & msg )
+{
+	return false;
+}
+
+// ***************************************************************
+// Display the Graphics
+// ***************************************************************
+void cGame::Render(TICK tickCurrent, float fElapsedTime)
+{
+	m_pPongView->OnRender(this, tickCurrent, fElapsedTime);
+}
 
 // ***************************************************************
 // Process user input
@@ -115,7 +129,7 @@ void cGame::ProcessInput( const long xDelta,
 	if (pbPressedKeys[DIK_S])
 	{
 		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
-																			 &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
+			&(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
 		{
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
@@ -128,7 +142,7 @@ void cGame::ProcessInput( const long xDelta,
 	if (pbPressedKeys[DIK_W])
 	{
 		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
-																				&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
+			&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
 		{
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
@@ -229,42 +243,37 @@ void cGame::ProcessInput( const long xDelta,
 		HandlePaddleAI(fElapsedTime);
 	}
 }
-// ***************************************************************
 
 // ***************************************************************
-// Deletes the memory
+// the message loop
 // ***************************************************************
-void cGame::Cleanup()
+void cGame::Run()
 {
-	m_pPongView->OnDestroyDevice();
-	SAFE_DELETE(m_pPongView);
+	MSG Msg ;
 
-	for(int i=0;i<PGE_TOTAL;i++)
+	m_pGameTimer = ITimer::CreateTimer();
+	m_pGameTimer->Start();
+
+	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
+	// run till completed
+	while (Msg.message!=WM_QUIT)
 	{
-		if (m_pGameElements[i])
+		// is there a message to process?
+		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
 		{
-			m_pGameElements[i]->Cleanup();
-			SAFE_DELETE(m_pGameElements[i]);
+			// dispatch the message
+			TranslateMessage(&Msg) ;
+			DispatchMessage(&Msg) ;
+		}
+		else
+		{
+			//No message to process?
+			// Then do your game stuff here
+			OnUpdate();
+			Render(m_pGameTimer->GetRunningTicks(), m_pGameTimer->GetElapsedTime());
 		}
 	}
-
-	SAFE_DELETE_ARRAY(m_pScore);
-	SAFE_DELETE(m_pStateMachine);
-
-	SAFE_DELETE(m_pSound);
-
-	SAFE_DELETE(m_pGameTimer);
-
-	if(ICollisionChecker::TheCollisionChecker())
-		ICollisionChecker::TheCollisionChecker()->Destroy();
-
-	if (IMainWindow::GetInstance())
-		IMainWindow::GetInstance()->Destroy();
-
-	if(IResourceManager::TheResourceManager())
-		IResourceManager::TheResourceManager()->Destroy();
 }
-// ***************************************************************
 
 // ***************************************************************
 // Restarts the game
@@ -276,7 +285,6 @@ void cGame::Restart()
 	m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
 	m_pGameElements[PGE_BALL]->OnRestart(D3DXVECTOR3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
 }
-// ***************************************************************
 
 // ***************************************************************
 // Checks if either player has won
@@ -298,7 +306,6 @@ void cGame::CheckForWin()
 		Restart();
 	}
 }
-// ***************************************************************
 
 // ***************************************************************
 // Checks for collisions
@@ -329,7 +336,72 @@ void cGame::CheckForCollisions()
 		m_pSound->PlaySound(GS_BALL_WALL_COLLISION);
 	}
 }
+
 // ***************************************************************
+// Deletes the memory
+// ***************************************************************
+void cGame::Cleanup()
+{
+	m_pPongView->OnDestroyDevice();
+	SAFE_DELETE(m_pPongView);
+
+	for(int i=0;i<PGE_TOTAL;i++)
+	{
+		if (m_pGameElements[i])
+		{
+			m_pGameElements[i]->Cleanup();
+			SAFE_DELETE(m_pGameElements[i]);
+		}
+	}
+
+	SAFE_DELETE_ARRAY(m_pScore);
+	SAFE_DELETE(m_pStateMachine);
+
+	SAFE_DELETE(m_pSound);
+
+	SAFE_DELETE(m_pGameTimer);
+
+	if(ICollisionChecker::TheCollisionChecker())
+		ICollisionChecker::TheCollisionChecker()->Destroy();
+
+	if (IMainWindow::GetInstance())
+		IMainWindow::GetInstance()->VOnDestroy();
+
+	if(IResourceManager::TheResourceManager())
+		IResourceManager::TheResourceManager()->Destroy();
+}
+
+// ***************************************************************
+cString cGame::GetGameTitle() const
+{
+	return "MPong";
+}
+
+// ***************************************************************
+float cGame::GetRunningTime()
+{
+	if(m_pGameTimer)
+		return m_pGameTimer->GetRunningTime();
+
+	return 0.f;
+}
+
+// ***************************************************************
+TICK cGame::GetRunningTicks()
+{
+	if(m_pGameTimer)
+		return m_pGameTimer->GetRunningTicks();
+
+	return 0;
+}
+
+// ***************************************************************
+// Display the FPS
+// ***************************************************************
+float cGame::GetFPS()
+{
+	return m_pGameTimer->GetFPS();
+}
 
 // ***************************************************************
 // the AI for the paddle
@@ -371,101 +443,8 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	}
 }
 
-cString cGame::GetGameTitle() const
-{
-	return "MPong";
-}
-
-float cGame::GetRunningTime()
-{
-	if(m_pGameTimer)
-		return m_pGameTimer->GetRunningTime();
-
-	return 0.f;
-}
 // ***************************************************************
-
-TICK cGame::GetRunningTicks()
-{
-	if(m_pGameTimer)
-		return m_pGameTimer->GetRunningTicks();
-
-	return 0;
-}
-// ***************************************************************
-
-// ***************************************************************
-// the message loop
-// ***************************************************************
-void cGame::Run()
-{
-	MSG Msg ;
-
-	m_pGameTimer = ITimer::CreateTimer();
-	m_pGameTimer->Start();
-
-	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
-	// run till completed
-	while (Msg.message!=WM_QUIT)
-	{
-		// is there a message to process?
-		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
-		{
-			// dispatch the message
-			TranslateMessage(&Msg) ;
-			DispatchMessage(&Msg) ;
-		}
-		else
-		{
-			//No message to process?
-			// Then do your game stuff here
-			OnUpdate();
-			Render(m_pGameTimer->GetRunningTicks(), m_pGameTimer->GetElapsedTime());
-		}
-	}
-}
-// ***************************************************************
-
-
-// ***************************************************************
-// Display the FPS
-// ***************************************************************
-float cGame::GetFPS()
-{
-	return m_pGameTimer->GetFPS();
-}
-// ***************************************************************
-
-void cGame::OnMsgProc( const Graphics::AppMsg & msg )
-{
-	switch(msg.m_uMsg)
-	{
-	case WM_CHAR:
-		switch (msg.m_wParam)
-		{ 
-		case VK_SPACE:
-			IMainWindow::GetInstance()->ToggleFullScreen();
-			Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
-			break;
-		}
-	}
-}
-// ***************************************************************
-
-HRESULT cGame::OnResetDevice()
-{
-	return(m_pPongView->OnResetDevice());
-}
-// ***************************************************************
-
-void cGame::OnLostDevice()
-{
-	m_pPongView->OnLostDevice();
-}
-// ***************************************************************
-
 IBaseApp * IGame::CreateGame()
 {
 	return DEBUG_NEW cGame();
 }
-// ***************************************************************

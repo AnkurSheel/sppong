@@ -82,7 +82,7 @@ void cMyFont::OnLostDevice()
 
 void cMyFont::OnResetDevice()
 {
-	D3DXCreateFontIndirect(IDXBase::GetInstance()->GetDevice(), &m_fonttype, &m_pFont);
+	D3DXCreateFontIndirect(IDXBase::GetInstance()->VGetDevice(), &m_fonttype, &m_pFont);
 }
 // ***************************************************************
 
@@ -98,7 +98,10 @@ void Graphics::cMyFont::CalculateAndSetRect()
 	{
 		Log_Write_L2(ILogger::LT_ERROR, "m_strString is empty");
 	}
-	m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, DT_CALCRECT, m_Color);
+	if (m_pFont)
+	{
+		m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, DT_CALCRECT, m_Color);
+	}
 }
 // ***************************************************************
 

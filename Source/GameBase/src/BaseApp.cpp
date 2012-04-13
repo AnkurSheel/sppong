@@ -9,15 +9,14 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "BaseApp.h"
-#include "Logger.hxx"
 #include "MainWindow.hxx"
 
 using namespace GameBase;
 using namespace Base;
 
-GAMEBASE_API void GameBase::cBaseApp::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd )
+GAMEBASE_API void GameBase::cBaseApp::OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd)
 {
-	outHwnd = IMainWindow::GetInstance()->Init(hInstance, nCmdShow, this, bFullScreen, iFullScreenWidth, iFullScreenHeight);
+	outHwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, bFullScreen, iFullScreenWidth, iFullScreenHeight);
 
 	if(outHwnd == NULL)
 	{

@@ -42,17 +42,17 @@ void Graphics::cTextBoxControl::Init( const Base::cString & strDefaultImage, con
 	m_pFont = IFont::CreateMyFont();
 	if (m_pFont != NULL)
 	{
-		m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
+		m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
 		m_pFont->SetFormat(dwFormat);
 		m_pFont->SetTextColor(color);
 	}
 
 	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->Init(IDXBase::GetInstance()->GetDevice(), strDefaultImage);
+	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strDefaultImage);
 
 	m_avCaretVector[0] = D3DXVECTOR2(0.f, 0.f);
 	m_avCaretVector[1] = D3DXVECTOR2(0.f, 0.f);
-	D3DXCreateLine(IDXBase::GetInstance()->GetDevice(), &m_pCaretLine);
+	D3DXCreateLine(IDXBase::GetInstance()->VGetDevice(), &m_pCaretLine);
 }
 // ***************************************************************
 
@@ -75,11 +75,11 @@ void Graphics::cTextBoxControl::OnRender( const AppMsg & msg )
 
 	if(m_pCanvasSprite)
 	{
-		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->GetDevice());
+		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 	}
 	if (m_pFont)
 	{
-		m_pFont->OnRender(IDXBase::GetInstance()->GetDevice());
+		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
 	}
 	
 	if(m_bFocus)

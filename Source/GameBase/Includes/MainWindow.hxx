@@ -25,7 +25,7 @@ namespace GameBase
  * Singleton class.\n
  * Usage :
  * \li Call \c GetInstance() to use this class.
- * \li Call \c Destroy() when the application quits
+ * \li Call \c VOnDestroy() when the application quits
  ***********************************************/
 	class IMainWindow
 		: public Base::cNonCopyable

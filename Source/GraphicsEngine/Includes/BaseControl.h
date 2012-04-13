@@ -43,13 +43,14 @@ namespace Graphics
 		void GetAbsolutePosition(D3DXVECTOR3 & vPosition) const;
 		void SetFocusControl(const cBaseControl * const pControl);
 		cBaseControl * GetFirstChild() const;
+		void RemoveAllChildren();
 
 	private:
 		bool IsPositionChanged(const D3DXVECTOR3 & vControlPosition);
 		void ConstrainChildControl( float &x, float &y );
 		IBaseControl * AddChildControl( IBaseControl * const pChildControl);
 		const cBaseControl * RemoveChildControl(const cBaseControl * pChildControl);
-		void RemoveAllChildren();
+		
 		int GetNoOfChildren() const;
 		cBaseControl * GetParentControl();
 		void SetParentControl( cBaseControl * pParentControl );

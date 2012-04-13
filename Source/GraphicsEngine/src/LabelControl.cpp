@@ -47,7 +47,7 @@ void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 			m_pFont->SetRect(m_rectBoundary);
 		}
 
-		m_pFont->OnRender(IDXBase::GetInstance()->GetDevice());
+		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
 	}
 }
 // ***************************************************************
@@ -57,7 +57,7 @@ void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const U
 	m_pFont = IFont::CreateMyFont();
 	if (m_pFont != NULL)
 	{
-		m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
+		m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
 		m_pFont->SetFormat(dwFormat);
 		m_pFont->SetTextColor(color);
 		m_pFont->SetText(strCaption);

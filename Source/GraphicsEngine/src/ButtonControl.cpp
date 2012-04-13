@@ -53,16 +53,16 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, cons
 	{
 		m_pDefaultTexture = ITexture::CreateTexture();
 	}
-	m_pDefaultTexture->Init(IDXBase::GetInstance()->GetDevice(), strDefaultImage);
+	m_pDefaultTexture->Init(IDXBase::GetInstance()->VGetDevice(), strDefaultImage);
 
 	if(m_pPressedTexture == NULL)
 	{
 		m_pPressedTexture = ITexture::CreateTexture();
 	}
-	m_pPressedTexture->Init(IDXBase::GetInstance()->GetDevice(), strPressedImage);
+	m_pPressedTexture->Init(IDXBase::GetInstance()->VGetDevice(), strPressedImage);
 
 	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->Init(IDXBase::GetInstance()->GetDevice(), m_pDefaultTexture);
+	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), m_pDefaultTexture);
 }
 // ***************************************************************
 
@@ -106,7 +106,7 @@ void Graphics::cButtonControl::OnRender( const AppMsg & msg )
 			m_pLabelCaption->SetPosition(vControlAbsolutePosition);
 		}
 	}
-	m_pCanvasSprite->OnRender(IDXBase::GetInstance()->GetDevice());
+	m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 	if (m_pLabelCaption)
 	{	
 		m_pLabelCaption->OnRender(msg);

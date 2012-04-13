@@ -22,15 +22,15 @@ namespace Utilities
 {
 	class ITimer;
 }
-class cScore;
-class cPongGameElement;
-class cGameFlowStateMachine;
-class cMPongView;
-
 namespace MySound
 {
 	class ISound;
 }
+
+class cScore;
+class cPongGameElement;
+class cGameFlowStateMachine;
+class cMPongView;
 
 class cGame 
 	: public IGame
@@ -62,22 +62,22 @@ private:
 public:
 	cGame();
 	~cGame();
+	void OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
+	void OnLostDevice();
+	HRESULT OnResetDevice();
+	void OnUpdate();
+	bool OnMsgProc(const Graphics::AppMsg & msg);
 	void Render(TICK tickCurrent, float fElapsedTime);
-	HWND OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight);
 	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
-	void Cleanup();
+	void Run();
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
-	void Run();
+	void Cleanup();
 	Base::cString GetGameTitle() const;
 	TICK GetRunningTicks();
 	float GetRunningTime();
-	void OnUpdate();
 	float GetFPS();
-	void OnMsgProc(const Graphics::AppMsg & msg);
-	HRESULT OnResetDevice();
-	void OnLostDevice();
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;

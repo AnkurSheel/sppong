@@ -1,0 +1,28 @@
+var class_graphics_1_1c_d_x_base =
+[
+    [ "cDXBase", "class_graphics_1_1c_d_x_base.html#a525f050af31cf33e4f5bea8297e26d08", null ],
+    [ "~cDXBase", "class_graphics_1_1c_d_x_base.html#afe80fcbe99e11694059d9ebd11683fd9", null ],
+    [ "Cleanup", "class_graphics_1_1c_d_x_base.html#a60ad196fda78a302b855f181adff68d9", null ],
+    [ "Create", "class_graphics_1_1c_d_x_base.html#a1646f4fcef6eace57ee70afda8574828", null ],
+    [ "CreateDirectxDevice", "class_graphics_1_1c_d_x_base.html#aff576a33547b8f91f43e2a911af2a7e6", null ],
+    [ "DirectxInit", "class_graphics_1_1c_d_x_base.html#a2e2c2517ad3295da0ca4f90db98e8175", null ],
+    [ "SetParameters", "class_graphics_1_1c_d_x_base.html#a2b3308b583640117d88ea1a60de24c94", null ],
+    [ "VBeginRender", "class_graphics_1_1c_d_x_base.html#a92439bf851448b0bfdfc06be14aec3be", null ],
+    [ "VEndRender", "class_graphics_1_1c_d_x_base.html#ae0b249eb178b17e6d0fc7eedebf52672", null ],
+    [ "VGetDevice", "class_graphics_1_1c_d_x_base.html#aea913cd77db14df6bbbb4a5953f07ee4", null ],
+    [ "VIsAvailable", "class_graphics_1_1c_d_x_base.html#ae14ed7a1fdc7fe52a4086cd3519382f6", null ],
+    [ "VOnDestroy", "class_graphics_1_1c_d_x_base.html#a958f88e0050f0cc138f736139cf3feae", null ],
+    [ "VOnInitialization", "class_graphics_1_1c_d_x_base.html#a454940a5d6043064c902830271f3ec9b", null ],
+    [ "VOnResetDevice", "class_graphics_1_1c_d_x_base.html#a05fab02d36a5338d19c20d615a176899", null ],
+    [ "VToggleFullScreen", "class_graphics_1_1c_d_x_base.html#a3eed4b398a947a0d3d13998e3cc65da5", null ],
+    [ "m_bFullScreen", "class_graphics_1_1c_d_x_base.html#a533e574f90c165ea21e972d36cff6059", null ],
+    [ "m_BkColor", "class_graphics_1_1c_d_x_base.html#ab569b18d6fa69cfb702d208c2c6b92c5", null ],
+    [ "m_Caps", "class_graphics_1_1c_d_x_base.html#a2951d5a95bd12dac169bed879e285b7a", null ],
+    [ "m_d3dpp", "class_graphics_1_1c_d_x_base.html#a861fc1d28924b21c6dcfb0a8f3dbe542", null ],
+    [ "m_displayMode", "class_graphics_1_1c_d_x_base.html#a017eff385821a8b1ae8b2737dff06677", null ],
+    [ "m_Hwnd", "class_graphics_1_1c_d_x_base.html#abf60d75244952a142cd8b3bb05db6266", null ],
+    [ "m_iHeight", "class_graphics_1_1c_d_x_base.html#ab55c0129f8ace3914b6199053c6fd118", null ],
+    [ "m_iWidth", "class_graphics_1_1c_d_x_base.html#aea1425b0eae506c830b9a6cfa33c8a86", null ],
+    [ "m_pD3D", "class_graphics_1_1c_d_x_base.html#a915212f4c00120e05c4eadf520ea8eb2", null ],
+    [ "m_pd3dDevice", "class_graphics_1_1c_d_x_base.html#aa5d2e2cca6d9675c2782f0db76ada675", null ]
+];

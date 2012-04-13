@@ -38,9 +38,63 @@ cHumanView::~cHumanView()
 	OnDestroyDevice();
 }
 
+void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight)
+{
+	m_pInput = IInput::CreateInputDevice();
+	m_pInput->Init(hInst, hWnd, iClientWidth, iClientHeight);
+
+	m_pMouseZones = IMouseZone::CreateMouseZone();
+
+	m_pCursorSprite = ISprite::CreateSprite();
+	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), "resources\\Sprites\\cursor.png");
+	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
+	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
+
+	m_pFont = IFont::CreateMyFont();
+	m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), 14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
+
+	RECT boundingRect;
+	boundingRect.left = iClientWidth/2- 75;
+	boundingRect.right = boundingRect.left + 150;
+	boundingRect.top  = 10;
+	boundingRect.bottom = boundingRect.top + 30;
+	m_pFont->SetRect(boundingRect);
+
+	m_pFont->SetFormat(DT_LEFT | DT_TOP);
+	m_pFont->SetTextColor(WHITE);
+}
+
+void cHumanView::OnDestroyDevice()
+{
+	RemoveElements();
+	FreeZones();
+
+	// delete the input handler
+	SAFE_DELETE(m_pInput);
+
+	//SAFE_DELETE(m_pCursorSprite);
+	SAFE_DELETE(m_pMouseZones);
+
+	//SAFE_DELETE(m_pFont);
+
+}
+void cHumanView::OnLostDevice()
+{
+	for(ScreenElementList::iterator i = m_pElementList.begin(); i != m_pElementList.end(); ++i)
+	{
+		(*i)->OnLostDevice();
+	}
+	m_pCursorSprite->OnLostDevice();
+	
+	if (m_pFont)
+	{
+		m_pFont->OnLostDevice();
+	}
+}
+
 HRESULT cHumanView::OnResetDevice()
 {
-	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->VGetDevice();
 	HRESULT hr = S_FALSE;
 	if (pDevice)
 	{
@@ -63,7 +117,7 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 	m_tickCurrent = tickCurrent; 
 
 	// check if the device is available
-	HRESULT hr = IDXBase::GetInstance()->IsAvailable() ;
+	HRESULT hr = IDXBase::GetInstance()->VIsAvailable() ;
 
 	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
 	{
@@ -76,7 +130,7 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 		// It is time to draw ? 
 		if( m_bRunFullSpeed || ( (m_tickCurrent - m_tickLastDraw) > SCREEN_REFRESH_RATE) ) 
 		{ 
-			hr = IDXBase::GetInstance()->BeginRender();
+			hr = IDXBase::GetInstance()->VBeginRender();
 			if (SUCCEEDED(hr))
 			{
 				return hr;
@@ -84,13 +138,6 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 		}
 	}
 	return S_FALSE;
-}
-
-void cHumanView::OnEndRender(const HRESULT hr)
-{
-	m_tickLastDraw = m_tickCurrent; 
-
-	IDXBase::GetInstance()->EndRender(hr);
 }
 
 HRESULT cHumanView::RenderPrivate( HRESULT & hr )
@@ -105,16 +152,23 @@ HRESULT cHumanView::RenderPrivate( HRESULT & hr )
 		{
 			if ((*i)->IsVisible())
 			{
-				(*i)->OnRender(IDXBase::GetInstance()->GetDevice());
+				(*i)->OnRender(IDXBase::GetInstance()->VGetDevice());
 			}
 		}
 		if (m_pCursorSprite->IsVisible())
 		{
 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
-			m_pCursorSprite->OnRender(IDXBase::GetInstance()->GetDevice());
+			m_pCursorSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 		}
 	}
 	return hr;
+}
+
+void cHumanView::OnEndRender(const HRESULT hr)
+{
+	m_tickLastDraw = m_tickCurrent; 
+
+	IDXBase::GetInstance()->VEndRender(hr);
 }
 
 void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
@@ -128,60 +182,6 @@ void cHumanView::OnRender(TICK tickCurrent, float fElapsedTime)
 	}
 }
 
-void cHumanView::OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight)
-{
-	m_pInput = IInput::CreateInputDevice();
-	m_pInput->Init(hInst, hWnd, iClientWidth, iClientHeight);
-
-	m_pMouseZones = IMouseZone::CreateMouseZone();
-
-	m_pCursorSprite = ISprite::CreateSprite();
-	m_pCursorSprite->Init(IDXBase::GetInstance()->GetDevice(), "resources\\Sprites\\cursor.png");
-	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
-	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
-
-	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), 14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
-
-	RECT boundingRect;
-	boundingRect.left = iClientWidth/2- 75;
-	boundingRect.right = boundingRect.left + 150;
-	boundingRect.top  = 10;
-	boundingRect.bottom = boundingRect.top + 30;
-	m_pFont->SetRect(boundingRect);
-
-	m_pFont->SetFormat(DT_LEFT | DT_TOP);
-	m_pFont->SetTextColor(WHITE);
-}
-
-void cHumanView::OnLostDevice()
-{
-	for(ScreenElementList::iterator i = m_pElementList.begin(); i != m_pElementList.end(); ++i)
-	{
-		(*i)->OnLostDevice();
-	}
-	m_pCursorSprite->OnLostDevice();
-	
-	if (m_pFont)
-	{
-		m_pFont->OnLostDevice();
-	}
-}
-
-void cHumanView::OnDestroyDevice()
-{
-	RemoveElements();
-	FreeZones();
-
-	// delete the input handler
-	SAFE_DELETE(m_pInput);
-
-	//SAFE_DELETE(m_pCursorSprite);
-	SAFE_DELETE(m_pMouseZones);
-
-	//SAFE_DELETE(m_pFont);
-
-}
 // ***************************************************************
 
 IGameView::GAMEVIEWTYPE cHumanView::GetType()
@@ -275,7 +275,7 @@ void cHumanView::HandleLostDevice(HRESULT hr)
 		if(hr == D3DERR_DEVICENOTRESET) 
 		{
 			OnLostDevice();
-			hr = IDXBase::GetInstance()->ResetDevice() ;
+			hr = IDXBase::GetInstance()->VOnResetDevice() ;
 
 			OnResetDevice();
 		}

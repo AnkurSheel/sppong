@@ -10,18 +10,23 @@ using namespace GameBase;
 using namespace Graphics;
 using namespace Utilities;
 
+// ***************************************************************
 cGame::cGame()
 : m_pParentControl(NULL)
 {
 
 }
 
+// ***************************************************************
 cGame::~cGame()
 {
 	SAFE_DELETE(m_pParentControl);
 }
 
-HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen, const int iFullScreenWidth, const int iFullScreenHeight )
+// ***************************************************************
+HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,
+				   const bool bFullscreen, const int iFullScreenWidth, 
+				   const int iFullScreenHeight )
 {
 	HWND hWnd;
 	cBaseApp::OnInit(hInstance, nCmdShow, bFullscreen, iFullScreenWidth, iFullScreenHeight, hWnd);
@@ -63,12 +68,14 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,const bool bFu
 	return hWnd;
 }
 
+// ***************************************************************
 Base::cString cGame::GetGameTitle() const
 {
 	return "Graphic Engine Test";
 }
 
-void cGame::OnMsgProc( const Graphics::AppMsg & msg )
+// ***************************************************************
+bool cGame::OnMsgProc( const Graphics::AppMsg & msg )
 {
 	bool bHandled = false;
 	switch(msg.m_uMsg)
@@ -83,9 +90,8 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 			switch (msg.m_wParam)
 			{ 
 			case VK_SPACE:
-				IMainWindow::GetInstance()->ToggleFullScreen();
+				IMainWindow::GetInstance()->VToggleFullScreen();
 				Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
-				return;
 			}
 		}
 		break;
@@ -98,10 +104,12 @@ void cGame::OnMsgProc( const Graphics::AppMsg & msg )
 		{
 			bHandled = m_pParentControl->PostMsg(msg);
 		}
-		return;
+		break;
 	}
+	return bHandled;
 }
 
+// ***************************************************************
 void cGame::Run()
 {
 	AppMsg appMsg;
@@ -113,10 +121,9 @@ void cGame::Run()
 	{
 		m_pParentControl->PostMsg(appMsg);
 	}
-	
 }
-// ***************************************************************
 
+// ***************************************************************
 HRESULT cGame::OnResetDevice()
 {
 	AppMsg appMsg;
@@ -131,8 +138,8 @@ HRESULT cGame::OnResetDevice()
 
 	return S_OK;
 }
-// ***************************************************************
 
+// ***************************************************************
 void cGame::OnLostDevice()
 {
 	AppMsg appMsg;

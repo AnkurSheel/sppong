@@ -36,7 +36,6 @@ cMainWindow::cMainWindow()
 {
 	ZeroMemory( &m_wp, sizeof( WINDOWPLACEMENT ) );
 }
-// ***************************************************************
 
 // ***************************************************************
 // Destructor
@@ -44,7 +43,6 @@ cMainWindow::cMainWindow()
 cMainWindow::~cMainWindow()
 {
 }
-// ***************************************************************
 
 // ***************************************************************
 // Initializes, Registers and creates the window.
@@ -63,14 +61,14 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 	m_iFullScreenHeight = iFullScreenHeight;
 	if (m_iFullScreenWidth <= 0)
 	{
-		m_iFullScreenWidth = 1;
-		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0");
+		m_iFullScreenWidth = 640;
+		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0. Default width of 640 applied");
 	}
 
 	if (m_iFullScreenHeight <= 0)
 	{
-		m_iFullScreenHeight = 1;
-		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0");
+		m_iFullScreenHeight = 480;
+		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0. Default height of 480 applied");
 	}
 
 	RegisterWin();
@@ -93,10 +91,8 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 	m_wp.length = sizeof(WINDOWPLACEMENT);
 
 	GetWindowPlacement(m_Hwnd, &m_wp);
-
 	return m_Hwnd;
 }
-// ***************************************************************
 
 // ***************************************************************
 // Destroys the window and the singleton object
@@ -108,6 +104,7 @@ void cMainWindow::VOnDestroy()
 	delete this;
 	s_pWindow = NULL;
 }
+
 // ***************************************************************
 // Toggles between full screen and windowed mode
 // ***************************************************************
@@ -141,10 +138,10 @@ void cMainWindow::VToggleFullScreen()
 		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Flags %d", m_wp.flags));
 	}
 
-	IDXBase::GetInstance()->ToggleFullScreen();
+	IDXBase::GetInstance()->VToggleFullScreen();
 
 	m_pGame->OnLostDevice();
-	IDXBase::GetInstance()->ResetDevice();
+	IDXBase::GetInstance()->VOnResetDevice();
 	m_pGame->OnResetDevice();
 
 	if (!IsWindowVisible(m_Hwnd))
@@ -152,6 +149,7 @@ void cMainWindow::VToggleFullScreen()
 		ShowWindow(m_Hwnd, SW_SHOW);
 	}
 }
+
 // ***************************************************************
 // Create and Returns an object of this class
 // ***************************************************************
@@ -159,6 +157,7 @@ cMainWindow * cMainWindow::Create()
 {
 	return(DEBUG_NEW cMainWindow());
 }
+
 // ***************************************************************
 // Registers the window
 // ***************************************************************
@@ -184,7 +183,6 @@ void cMainWindow::RegisterWin()
 		exit(0) ;
 	}
 }
-// ***************************************************************
 
 // ***************************************************************
 // Creates the window
@@ -231,6 +229,7 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 
 	ShowWindow(m_Hwnd, nCmdShow) ;
 }
+
 // ***************************************************************
 // Event handler. Routes messages to appropriate instance
 // ***************************************************************
@@ -254,7 +253,6 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 
 	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
-// ***************************************************************
 
 // ***************************************************************
 // Window procedure to handle the window messages
@@ -320,9 +318,6 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		return DefWindowProc(hwnd, uMsg, wParam, lParam) ;
 	}
 }
-// ***************************************************************
-
-// ***************************************************************
 
 // ***************************************************************
 // Function called when the device is created
@@ -335,11 +330,12 @@ void cMainWindow::OnWindowCreated()
 	SetFocus(m_Hwnd);
 
 	// initialize DirectX
-	IDXBase::GetInstance()->Init(m_Hwnd, TAN, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
+	IDXBase::GetInstance()->VOnInitialization(m_Hwnd, TAN, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
 
 	// initialize resource manager
 	IResourceManager::TheResourceManager()->Init();
 }
+
 // ***************************************************************
 // Function called when the application quits
 // ***************************************************************
@@ -349,20 +345,13 @@ void cMainWindow::OnWindowDestroyed()
 	ChangeDisplaySettings(NULL, 0);
 
 	// release the graphic object
-	IDXBase::GetInstance()->Destroy();
+	IDXBase::GetInstance()->VOnDestroy();
 
 	IResourceManager::TheResourceManager()->OnDestroyDevice();
 
 	ReleaseCapture() ;
 	PostQuitMessage(0) ;
 }
-// ***************************************************************
-
-// ***************************************************************
-
-// ***************************************************************
-
-// ***************************************************************
 
 // ***************************************************************
 // Sets the settings of the default display device to the specified graphics mode
@@ -401,9 +390,6 @@ void cMainWindow::SetDisplayResolution()
 	ChangeDisplaySettings(NULL, 0);
 	return;
 }
-// ***************************************************************
-
-// ***************************************************************
 
 // ***************************************************************
 // returns an instance of the class
@@ -414,3 +400,4 @@ IMainWindow * IMainWindow::GetInstance()
 		s_pWindow = cMainWindow::Create();
 	return s_pWindow;
 }
+ 

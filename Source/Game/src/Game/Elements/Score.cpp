@@ -41,7 +41,7 @@ cScore::~cScore()
 void cScore::Init( const D3DXVECTOR3& vInitialPos )
 {
 	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(IDXBase::GetInstance()->GetDevice(), 40, 30, 500, false, DEFAULT_CHARSET, "Forte");
+	m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), 40, 30, 500, false, DEFAULT_CHARSET, "Forte");
 
 	RECT boundingRect;
 	if (vInitialPos.x > 0 )

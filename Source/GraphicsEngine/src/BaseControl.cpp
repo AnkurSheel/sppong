@@ -77,12 +77,21 @@ const cBaseControl * cBaseControl::RemoveChildControl( const cBaseControl * pChi
 	cBaseControl * pNextControl = pChildControl->GetNextSibling();
 	cBaseControl * pPreviousControl = pChildControl->GetPreviousSibling();
 	SAFE_DELETE(pChildControl);
-	pNextControl->SetPreviousSibling(pPreviousControl);
-	pPreviousControl->SetNextSibling(pNextControl);
+	if (pNextControl)
+	{
+		pNextControl->SetPreviousSibling(pPreviousControl);
+	}
+	if(pPreviousControl)
+	{
+		pPreviousControl->SetNextSibling(pNextControl);
+	}
 	pChildControl = pNextControl;
 
 	m_iNoOfChildren--;
-
+	if (m_iNoOfChildren == 0)
+	{
+		m_pChildControls = NULL;
+	}
 	return pChildControl;
 }
 // ***************************************************************
@@ -98,6 +107,7 @@ void cBaseControl::RemoveAllChildren()
 		temp = pNextControl;
 	}
 	m_iNoOfChildren = 0;
+	m_pChildControls = NULL;
 }
 // ***************************************************************
 

@@ -38,13 +38,11 @@ void Graphics::cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & 
 	if(texture.get() == NULL)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not add to cache: %s", strFilename.GetData() ));
-		PostQuitMessage(0);
 	}
 	// Create the texture associated with this sprite
 	if(FAILED(D3DXCreateTextureFromFileInMemory(pDevice, texture->GetBuffer(), texture->GetSize(), &m_pTexture)))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Texture Creation failed : %s", strFilename.GetData() ));
-		PostQuitMessage(0);
 	}
 
 	D3DXIMAGE_INFO imageInfo;	// contents of the image file	

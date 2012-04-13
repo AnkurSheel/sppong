@@ -26,7 +26,6 @@ cDXBase::cDXBase()
 , m_iHeight(0)
 {
 }
-// ***************************************************************
 
 // ***************************************************************
 // Destructor
@@ -35,7 +34,75 @@ cDXBase::~cDXBase()
 {
 	Cleanup();
 }
+
 // ***************************************************************
+// Create and Returns an object of this class
+// ***************************************************************
+cDXBase* cDXBase::Create()
+{
+	return(DEBUG_NEW cDXBase());
+}
+
+// ***************************************************************
+// Initializes the directX object
+// ***************************************************************
+void cDXBase::VOnInitialization( const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen, const int iWidth, const int iHeight)
+{
+	m_Hwnd = hWnd;
+	m_BkColor = bkColor;
+	m_bFullScreen = bFullScreen;
+	m_iHeight = iHeight;
+	m_iWidth = iWidth;
+
+	DirectxInit() ;
+	SetParameters() ;
+	CreateDirectxDevice() ;
+}
+
+// ***************************************************************
+// Resets the device
+// ***************************************************************
+HRESULT cDXBase::VOnResetDevice()
+{
+	if (m_pd3dDevice)
+	{
+		HRESULT		hr ;
+
+		hr = m_pd3dDevice->Reset(&m_d3dpp) ;
+		return hr ;
+	}
+	return 0;
+}
+
+// ***************************************************************
+// Function to begin the rendering
+// ***************************************************************
+HRESULT cDXBase::VBeginRender()
+{
+	HRESULT hr;
+
+	// clear the frame
+	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, m_BkColor, 1.0f, 0) ;
+
+	hr = m_pd3dDevice->BeginScene() ;
+
+	return hr;
+}
+
+// ***************************************************************
+void cDXBase::VOnDestroy()
+{
+	Cleanup();
+	delete this;
+	s_pDXBase = NULL;
+}
+
+// ***************************************************************
+void cDXBase::VToggleFullScreen()
+{
+	m_bFullScreen = !m_bFullScreen;
+	SetParameters();
+}
 
 // ***************************************************************
 // Initialize the directX Object
@@ -57,7 +124,6 @@ void cDXBase::DirectxInit()
 	// get the device caps
 	m_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &m_Caps) ;
 }
-// ***************************************************************
 
 // ***************************************************************
 // Create the directX device
@@ -90,20 +156,6 @@ void cDXBase::CreateDirectxDevice()
 		DestroyWindow(m_Hwnd) ;
 	}
 }
-// ***************************************************************
-
-// ***************************************************************
-// Release the Direct3D device
-// ***************************************************************
-void cDXBase::Cleanup()
-{
-	// release the Direct3d device
-	SAFE_RELEASE(m_pd3dDevice) ;
-
-	// release the Direct3d object
-	SAFE_RELEASE(m_pD3D) ;
-}
-// ***************************************************************
 
 // ***************************************************************
 // Sets the Presentation Parameters
@@ -132,71 +184,18 @@ void cDXBase::SetParameters()
 		m_d3dpp.FullScreen_RefreshRateInHz = m_displayMode.RefreshRate;
 	}
 }
-// ***************************************************************
 
 // ***************************************************************
-// Resets the device
+// Release the Direct3D device
 // ***************************************************************
-HRESULT cDXBase::ResetDevice()
+void cDXBase::Cleanup()
 {
-	if (m_pd3dDevice)
-	{
-		HRESULT		hr ;
+	// release the Direct3d device
+	SAFE_RELEASE(m_pd3dDevice) ;
 
-		hr = m_pd3dDevice->Reset(&m_d3dpp) ;
-		return hr ;
-	}
-	return 0;
+	// release the Direct3d object
+	SAFE_RELEASE(m_pD3D) ;
 }
-// ***************************************************************
-
-// ***************************************************************
-// Initializes the directX object
-// ***************************************************************
-void cDXBase::Init( const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen, const int iWidth, const int iHeight)
-{
-	m_Hwnd = hWnd;
-	m_BkColor = bkColor;
-	m_bFullScreen = bFullScreen;
-	m_iHeight = iHeight;
-	m_iWidth = iWidth;
-
-	DirectxInit() ;
-	SetParameters() ;
-	CreateDirectxDevice() ;
-}
-// ***************************************************************
-
-// ***************************************************************
-// Function to begin the rendering
-// ***************************************************************
-HRESULT cDXBase::BeginRender()
-{
-	HRESULT hr;
-
-	// clear the frame
-	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, m_BkColor, 1.0f, 0) ;
-
-	hr = m_pd3dDevice->BeginScene() ;
-
-	return hr;
-}
-// ***************************************************************
-
-void cDXBase::Destroy()
-{
-	Cleanup();
-	delete this;
-	s_pDXBase = NULL;
-}
-// ***************************************************************
-
-void Graphics::cDXBase::ToggleFullScreen()
-{
-	m_bFullScreen = !m_bFullScreen;
-	SetParameters();
-}
-// ***************************************************************
 
 // ***************************************************************
 // returns an instance of the class
@@ -204,7 +203,6 @@ void Graphics::cDXBase::ToggleFullScreen()
 IDXBase* IDXBase::GetInstance()
 {
 	if(!s_pDXBase)
-		s_pDXBase = DEBUG_NEW cDXBase();
+		s_pDXBase = cDXBase::Create();
 	return s_pDXBase;
 }
-// ***************************************************************

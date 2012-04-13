@@ -14,43 +14,65 @@
 
 namespace Graphics
 {
+    /********************************************//**
+     * @brief Class Declaration for \c IDXBase
+     * interface
+     ***********************************************/
+
 	class cDXBase
 		: public IDXBase
 	{
 	public:
+		/********************************************//**
+         *
+         * Create and Returns an object of this class
+         ***********************************************/
+		static cDXBase * Create();
+	private:
 		cDXBase() ;
 		~cDXBase() ;
-
-		void Init(const HWND hWnd,
-					const D3DCOLOR& bkColor, 
-					const bool bFullScreen, 
-					const int iWidth, 
-					const int iHeight);
-		HRESULT ResetDevice() ;
-		HRESULT BeginRender();
-		void EndRender(const HRESULT hr);
-		LPDIRECT3DDEVICE9 GetDevice() const;
-		HRESULT IsAvailable() const;
-		void Destroy();
-		void ToggleFullScreen();
-
-	private:
+		void VOnInitialization(const HWND hWnd, const D3DCOLOR& bkColor, 
+			const bool bFullScreen, const int iWidth, const int iHeight);
+		HRESULT VOnResetDevice() ;
+		HRESULT VBeginRender();
+		void VEndRender(const HRESULT hr);
+		LPDIRECT3DDEVICE9 VGetDevice() const;
+		HRESULT VIsAvailable() const;
+		void VOnDestroy();
+		void VToggleFullScreen();
+		/********************************************//**
+		 *
+		 * Creates the Direct3D object
+		 ***********************************************/
 		void DirectxInit() ;
+		/********************************************//**
+		 *
+		 * Creates the DirectX device
+		 ***********************************************/
 		void CreateDirectxDevice() ;
+		/********************************************//**
+		 *
+		 * Sets the presentation parameters depending on whether
+		 * the application is fullscreen or windowed
+		 ***********************************************/
 		void SetParameters();
+		/********************************************//**
+		 *
+		 * Releases the Direct3D device and object
+		 ***********************************************/
 		void Cleanup() ;
 
 	private:
-		LPDIRECT3D9				m_pD3D ;				// pointer to a direct3d object
-		LPDIRECT3DDEVICE9		m_pd3dDevice ;			// pointer to a direct3d device
-		D3DCAPS9				m_Caps ;				// the capabilities of the direct 3d object
-		D3DCOLOR				m_BkColor ;				// the background color
-		HWND					m_Hwnd ;				// the window handle
-		D3DPRESENT_PARAMETERS	m_d3dpp ;				// the presentation parameters
-		int						m_iWidth;				// the width of the window
-		int						m_iHeight ;				// the height of the window
-		D3DDISPLAYMODE			m_displayMode;			// the display mode
-		bool					m_bFullScreen;
+		LPDIRECT3D9				m_pD3D ;				/*!< Pointer to a direct3d object */
+		LPDIRECT3DDEVICE9		m_pd3dDevice ;			/*!< Pointer to a direct3d device */
+		D3DCAPS9				m_Caps ;				/*!< The capabilities of the direct 3d object */
+		D3DCOLOR				m_BkColor ;				/*!< The background color */
+		HWND					m_Hwnd ;				/*!< The window handle */
+		D3DPRESENT_PARAMETERS	m_d3dpp ;				/*!< The presentation parameters */
+		int						m_iWidth;				/*!< The width of the window */
+		int						m_iHeight ;				/*!< The height of the window */
+		D3DDISPLAYMODE			m_displayMode;			/*!< The display mode */
+		bool					m_bFullScreen;			/*!< True if in fullscreen mode */
 
 	};
 #include "DxBase.inl"

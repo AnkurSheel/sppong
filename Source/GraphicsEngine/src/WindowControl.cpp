@@ -39,7 +39,7 @@ void Graphics::cWindowControl::LoadCanvasFromFile( const Base::cString & strFile
 	if(m_eWindowType != WT_DESKTOP)
 	{
 		m_pCanvasSprite = ISprite::CreateSprite();
-		m_pCanvasSprite->Init(IDXBase::GetInstance()->GetDevice(), strFileName);
+		m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strFileName);
 
 		m_dwHeight = m_pCanvasSprite->GetScaledHeight();
 		m_dwWidth = m_pCanvasSprite->GetScaledWidth();
@@ -55,7 +55,7 @@ void Graphics::cWindowControl::OnRender( const AppMsg & msg )
 		GetAbsolutePosition(vControlAbsolutePosition);
 
 		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->GetDevice());
+		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 	}
 }
 // ***************************************************************

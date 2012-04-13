@@ -52,7 +52,7 @@ PROJECT_LOGO           =
 # If a relative path is entered, it will be relative to the location 
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = Public
+OUTPUT_DIRECTORY       = GameBase_PublicDoc
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create 
 # 4096 sub-directories (in 2 levels) under the output directory of each output 
@@ -266,7 +266,7 @@ MARKDOWN_SUPPORT       = YES
 # func(std::string) {}). This also makes the inheritance and collaboration 
 # diagrams that involve STL classes more complete and accurate.
 
-BUILTIN_STL_SUPPORT    = YES
+BUILTIN_STL_SUPPORT    = NO
 
 # If you use Microsoft's C++/CLI language, you should set this option to YES to 
 # enable parsing support.
@@ -1583,7 +1583,7 @@ SKIP_FUNCTION_MACROS   = YES
 # NOT include the path). If a tag file is not located in the directory in which 
 # doxygen is run, you must also specify the path to the tagfile here.
 
-TAGFILES               = 
+TAGFILES               = "TagFiles/GraphicsEngine_Public.tag = ../../GraphicsEngine_PublicDoc/html"
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create 
 # a tag file that is based on the input files it reads.
@@ -1594,7 +1594,7 @@ GENERATE_TAGFILE       = TagFiles/GameBase_Public.tag
 # in the class index. If set to NO only the inherited external classes 
 # will be listed.
 
-ALLEXTERNALS           = NO
+ALLEXTERNALS           = YES
 
 # If the EXTERNAL_GROUPS tag is set to YES all external groups will be listed 
 # in the modules index. If set to NO, only the current project's groups will 

@@ -110,8 +110,10 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 	// create the scale matrix
 	D3DXMatrixScaling(&m_mScaleMatrix, m_vScale.x, m_vScale.y, m_vScale.z);
 
-	m_pSprite->SetTransform(&m_mScaleMatrix);
-
+	if(m_pSprite)
+	{
+		m_pSprite->SetTransform(&m_mScaleMatrix);
+	}
 }
 // ***************************************************************
 
@@ -147,11 +149,11 @@ void cSprite::OnResetDevice()
 {
 	if (m_strFilename.IsEmpty())
 	{
-		Init(IDXBase::GetInstance()->GetDevice(), m_pTexture);
+		Init(IDXBase::GetInstance()->VGetDevice(), m_pTexture);
 	}
 	else
 	{
-		Init(IDXBase::GetInstance()->GetDevice(), m_strFilename);
+		Init(IDXBase::GetInstance()->VGetDevice(), m_strFilename);
 	}
 	MakeTransformMatrix();
 }
