@@ -16,6 +16,7 @@ inline void cDXBase::VEndRender( const HRESULT hr )
 	{
 		m_pd3dDevice->EndScene() ;
 	}
+	// Present/Display the contents
 	m_pd3dDevice->Present(NULL, NULL, NULL, NULL) ;
 }
 // ***************************************************************

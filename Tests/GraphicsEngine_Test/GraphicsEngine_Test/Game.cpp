@@ -54,7 +54,6 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,
 	pTextBoxControl->SetSize(200, 30);
 	pTextBoxControl->SetPosition(D3DXVECTOR3(0.f, 200.f, 0.f));
 
-
 	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png", "Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
 	pCheckBoxControl->SetPosition(D3DXVECTOR3(0.f, 250.f, 0.f));
 

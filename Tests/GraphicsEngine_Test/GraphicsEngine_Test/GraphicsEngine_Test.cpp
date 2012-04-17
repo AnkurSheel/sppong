@@ -48,12 +48,9 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window initialized"));
 	
-
 	//Graphics::IInput * pInput;
 	//pInput= IInput::CreateInputDevice();
 	//pInput->Init(hInstance, hWnd, iWidth, iHeight);
-
-	HRESULT hr;
 
 	MSG Msg;
 	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
@@ -71,7 +68,29 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		{
 			//No message to process?
 			// Then do your game stuff here
-			hr = IDXBase::GetInstance()->VBeginRender();
+			HRESULT hr = IDXBase::GetInstance()->VIsAvailable() ;
+
+			if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
+			{
+				if(hr == D3DERR_DEVICELOST)
+				{
+					Sleep(50);
+				}
+				else 
+				{
+					if(hr == D3DERR_DEVICENOTRESET) 
+					{
+						pGame->OnLostDevice();
+						hr = IDXBase::GetInstance()->VOnResetDevice() ;
+						pGame->OnResetDevice();
+					}
+				}
+			}
+
+			if(SUCCEEDED(hr))
+			{
+				hr = IDXBase::GetInstance()->VBeginRender();
+			}
 			if (SUCCEEDED(hr))
 			{
 				pGame->Run();

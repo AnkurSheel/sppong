@@ -54,8 +54,12 @@ void cDXBase::VOnInitialization( const HWND hWnd, const D3DCOLOR& bkColor, const
 	m_iHeight = iHeight;
 	m_iWidth = iWidth;
 
+	// Initialize DirectX
 	DirectxInit() ;
+
+	// Fill out presentation parameters
 	SetParameters() ;
+
 	CreateDirectxDevice() ;
 }
 
@@ -81,7 +85,7 @@ HRESULT cDXBase::VBeginRender()
 {
 	HRESULT hr;
 
-	// clear the frame
+	// clear the frame with the specified color
 	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, m_BkColor, 1.0f, 0) ;
 
 	hr = m_pd3dDevice->BeginScene() ;
@@ -130,12 +134,18 @@ void cDXBase::DirectxInit()
 // ***************************************************************
 void cDXBase::CreateDirectxDevice() 
 {
-	int		vp = 0 ; // the typeof vertex processing
+	int	vp = 0 ; // the typeof vertex processing
 
 	if(m_Caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT )
 	{
 		// hardware vertex processing is supported.
 		vp = D3DCREATE_HARDWARE_VERTEXPROCESSING ;
+		
+		// Check for pure device 
+		if ( m_Caps.DevCaps & D3DDEVCAPS_PUREDEVICE )
+		{
+			vp |= D3DCREATE_PUREDEVICE;
+		}
 	}
 	else
 	{
@@ -153,7 +163,6 @@ void cDXBase::CreateDirectxDevice()
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Direct3d object creation failed");
 		PostQuitMessage(0) ;
-		DestroyWindow(m_Hwnd) ;
 	}
 }
 
@@ -170,18 +179,46 @@ void cDXBase::SetParameters()
 	m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD ;
 	m_d3dpp.hDeviceWindow = m_Hwnd ;
 	m_d3dpp.Flags = 0 ;
-	m_d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT ;
 	m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE ;
-	m_d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8 ; //pixel format
-	m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8 ; // depth format
 	m_d3dpp.EnableAutoDepthStencil = true ;
-	m_d3dpp.BackBufferWidth = m_iWidth;
-	m_d3dpp.BackBufferHeight = m_iHeight;
 	m_d3dpp.Windowed = !m_bFullScreen;
 
 	if(m_bFullScreen)
 	{
+		m_d3dpp.BackBufferWidth = m_iWidth;
+		m_d3dpp.BackBufferHeight = m_iHeight;
 		m_d3dpp.FullScreen_RefreshRateInHz = m_displayMode.RefreshRate;
+		m_d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8; //pixel format
+	}
+	else
+	{
+		m_d3dpp.BackBufferWidth = 0;
+		m_d3dpp.BackBufferHeight = 0;
+		m_d3dpp.FullScreen_RefreshRateInHz = 0 ;
+		m_d3dpp.BackBufferFormat = m_displayMode.Format;
+	}
+
+	if (SUCCEEDED(m_pD3D->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, 
+		m_d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3DFMT_D24S8))) 
+	{
+		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
+		Log_Write_L2(ILogger::LT_COMMENT, "Depth, stencil format set to D3DFMT_D24S8");
+	} 
+	else if (SUCCEEDED(m_pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
+		m_d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3DFMT_D24X8))) 
+	{
+		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24X8;
+		Log_Write_L2(ILogger::LT_COMMENT, "Depth, stencil format set to D3DFMT_D24X8");
+	} 
+	else if (SUCCEEDED(m_pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, 
+		m_d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3DFMT_D16))) 
+	{
+		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+		Log_Write_L2(ILogger::LT_COMMENT, "Depth, stencil format set to D3DFMT_D16");
+	} 
+	else 
+	{
+		Log_Write_L2(ILogger::LT_ERROR, "Could not find a supported surface format for this device");
 	}
 }
 

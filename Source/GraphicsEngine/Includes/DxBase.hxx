@@ -68,7 +68,7 @@ namespace Graphics
 		virtual HRESULT VIsAvailable() const = 0;
 		/********************************************//**
 		 *
-		 * Releases the DirectX object and deletes the singleton objec
+		 * Releases the DirectX object and deletes the singleton object
 		 ***********************************************/
 		virtual void VOnDestroy() = 0;
 		/********************************************//**

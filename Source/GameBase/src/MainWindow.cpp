@@ -59,6 +59,7 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 	m_bFullScreen = bFullScreen;
 	m_iFullScreenWidth = iFullScreenWidth;
 	m_iFullScreenHeight = iFullScreenHeight;
+
 	if (m_iFullScreenWidth <= 0)
 	{
 		m_iFullScreenWidth = 640;
@@ -132,10 +133,9 @@ void cMainWindow::VToggleFullScreen()
 
 		// reset the window location and size
 		SetWindowPlacement(m_Hwnd, &m_wp);
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "top %d, bottom %d, left %d, right %d", m_wp.rcNormalPosition.top, m_wp.rcNormalPosition.bottom, m_wp.rcNormalPosition.left, m_wp.rcNormalPosition.right));
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Max X %d, Max Y %d", m_wp.ptMaxPosition.x, m_wp.ptMaxPosition.y));
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Min X %d, Min Y %d", m_wp.ptMinPosition.x, m_wp.ptMinPosition.y));
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Flags %d", m_wp.flags));
+
+		// allow other windows to come in front when we lose focus in windowed mode
+		SetWindowPos(m_Hwnd, HWND_NOTOPMOST, 0, 0,0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	}
 
 	IDXBase::GetInstance()->VToggleFullScreen();
