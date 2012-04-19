@@ -35,6 +35,8 @@ namespace Graphics
 		void OnRender(const AppMsg & msg);
 		void OnLostDevice();
 		HRESULT OnResetDevice();
+		void RegisterCallBack(function <void ()> callback);
+		void UnregisterCallBack();
 
 	private:
 		cButtonControl(const cButtonControl&){}
@@ -47,6 +49,7 @@ namespace Graphics
 		shared_ptr<ITexture>		m_pDefaultTexture;
 		shared_ptr<ITexture>		m_pPressedTexture;
 		bool						m_bPressed;
+		function<void ()>			m_pfnCallBack;
 	};
 }
 #endif // ButtonControl_h__

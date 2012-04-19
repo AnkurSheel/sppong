@@ -44,6 +44,8 @@ namespace Graphics
 		void SetFocusControl(const cBaseControl * const pControl);
 		cBaseControl * GetFirstChild() const;
 		void RemoveAllChildren();
+		virtual void RegisterCallBack(function <void ()> callback){};
+		virtual void UnregisterCallBack(){};
 
 	private:
 		bool IsPositionChanged(const D3DXVECTOR3 & vControlPosition);

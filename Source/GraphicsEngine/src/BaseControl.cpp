@@ -38,6 +38,7 @@ cBaseControl::cBaseControl()
 cBaseControl::~cBaseControl()
 {
 	RemoveAllChildren();
+	UnregisterCallBack();
 
 }
 // ***************************************************************
@@ -344,6 +345,7 @@ bool Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
 		ConstrainChildControl(x, y);
 		m_vPosition.x = x;
 		m_vPosition.y = y;
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "%s::OnMouseMove - X : %f , Y : %f", this, m_vPosition.x, m_vPosition.y ));
 		return true;
 	}
 	return false;
@@ -381,7 +383,6 @@ void Graphics::cBaseControl::SetSize( const float fNewWidth, const float fNewHei
 
 void Graphics::cBaseControl::RenderPrivate( D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged )
 {
-
 	vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
 	GetAbsolutePosition(vControlAbsolutePosition);
 
@@ -451,6 +452,5 @@ HRESULT Graphics::cBaseControl::OnResetDevice()
 		m_pCanvasSprite->OnResetDevice();
 		return S_OK;
 	}
-
 }
 // ***************************************************************

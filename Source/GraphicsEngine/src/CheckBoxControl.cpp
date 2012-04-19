@@ -16,6 +16,7 @@ Graphics::cCheckBoxControl::cCheckBoxControl()
 : m_pTickBox(NULL)
 , m_pLabel(NULL)
 , m_iLabelPosition(D3DXVECTOR3(0.f, 0.f, 0.f))
+, m_pfnCallBack(NULL)
 {
 
 }
@@ -64,6 +65,7 @@ void Graphics::cCheckBoxControl::Cleanup()
 {
 	SAFE_DELETE(m_pTickBox);
 	SAFE_DELETE(m_pLabel);
+	UnregisterCallBack();
 }
 // ***************************************************************
 
@@ -78,6 +80,10 @@ bool Graphics::cCheckBoxControl::OnMouseDown( const int iButton, const int X, co
 	{
 		m_pTickBox->OnMouseDown(iButton, X, Y);
 		m_bChecked = true;
+	}
+	if (m_pfnCallBack)
+	{
+		m_pfnCallBack();
 	}
 	return cBaseControl::OnMouseDown(iButton, X, Y);
 }
@@ -109,6 +115,19 @@ HRESULT Graphics::cCheckBoxControl::OnResetDevice()
 	}
 	return cBaseControl::OnResetDevice();
 	
+}
+// ***************************************************************
+
+
+void Graphics::cCheckBoxControl::RegisterCallBack(function <void ()> callback)
+{
+	m_pfnCallBack = callback;
+}
+// ***************************************************************
+
+void Graphics::cCheckBoxControl::UnregisterCallBack()
+{
+	m_pfnCallBack = NULL;
 }
 // ***************************************************************
 

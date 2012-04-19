@@ -36,33 +36,41 @@ HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,
 	m_pParentControl->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
+	m_pParentControl->AddChildControl(pWindowControl);
 	pWindowControl->SetPosition(D3DXVECTOR3(300.f, 300.f, 0.f));
 	pWindowControl->SetSize(400, 400);
 
 	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, BLUE, "Label");
+	pWindowControl->AddChildControl(pLabelControl);
 	pLabelControl->SetPosition(D3DXVECTOR3(0.f, 40.f, 0.f));
 
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Vladimir Script", DT_VCENTER|DT_CENTER, WHITE);
+	pWindowControl->AddChildControl(pButtonControl);
 	pButtonControl->SetSize(100, 100);
 	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
+	function<void ()> btnCallback;
+	btnCallback = bind(&cGame::ButtonPressed, this);
+	pButtonControl->RegisterCallBack(btnCallback);
 
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png");
+	pWindowControl->AddChildControl(pButtonControl1);
 	pButtonControl1->SetSize(30, 30);
 	pButtonControl1->SetPosition(D3DXVECTOR3(150.f, 90.f, 0.f));
+	function<void ()> btn1Callback;
+	btn1Callback = bind(&cGame::Button1Pressed, this);
+	pButtonControl1->RegisterCallBack(btn1Callback);
 
 	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png", 10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, BLACK);
+	pWindowControl->AddChildControl(pTextBoxControl);
 	pTextBoxControl->SetSize(200, 30);
 	pTextBoxControl->SetPosition(D3DXVECTOR3(0.f, 200.f, 0.f));
 
 	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png", "Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
-	pCheckBoxControl->SetPosition(D3DXVECTOR3(0.f, 250.f, 0.f));
-
-	m_pParentControl->AddChildControl(pWindowControl);
-	pWindowControl->AddChildControl(pLabelControl);
-	pWindowControl->AddChildControl(pButtonControl);
-	pWindowControl->AddChildControl(pButtonControl1);
-	pWindowControl->AddChildControl(pTextBoxControl);
 	pWindowControl->AddChildControl(pCheckBoxControl);
+	pCheckBoxControl->SetPosition(D3DXVECTOR3(0.f, 250.f, 0.f));
+	function<void ()> checkBoxCallback;
+	checkBoxCallback = bind(&cGame::CheckBoxPressed, this);
+	pCheckBoxControl->RegisterCallBack(checkBoxCallback);
 
 	return hWnd;
 }
@@ -150,4 +158,19 @@ void cGame::OnLostDevice()
 	{
 		m_pParentControl->PostMsg(appMsg);
 	}
+}
+
+void cGame::ButtonPressed() 
+{
+	Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button Pressed");
+}
+
+void cGame::Button1Pressed() 
+{
+	Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button1 Pressed");
+}
+
+void cGame::CheckBoxPressed() 
+{
+	Log_Write_L2(ILogger::LT_EVENT,  "Check Box Pressed");
 }

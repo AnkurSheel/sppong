@@ -21,6 +21,9 @@ public:
 	void Run();
 	Base::cString GetGameTitle() const; 
 	bool OnMsgProc(const Graphics::AppMsg & msg);
+	void ButtonPressed();
+	void Button1Pressed();
+	void CheckBoxPressed();
 private:
 	Graphics::IBaseControl *	m_pParentControl;
 };

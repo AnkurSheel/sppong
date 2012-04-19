@@ -29,6 +29,8 @@ namespace Graphics
 		bool OnMouseDown(const int iButton, const int X, const int Y);
 		void OnLostDevice();
 		HRESULT OnResetDevice();
+		void RegisterCallBack(function <void ()> callback);
+		void UnregisterCallBack();
 
 	private:
 		cCheckBoxControl(cCheckBoxControl&){}
@@ -40,6 +42,7 @@ namespace Graphics
 		IBaseControl *		m_pTickBox;
 		IBaseControl *		m_pLabel;
 		D3DXVECTOR3			m_iLabelPosition;
+		function<void ()>	m_pfnCallBack;
 	};
 
 #include "CheckBoxControl.inl"

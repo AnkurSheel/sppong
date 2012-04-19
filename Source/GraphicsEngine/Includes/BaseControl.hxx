@@ -46,6 +46,8 @@ namespace Graphics
 		virtual void OnLostDevice() = 0;
 		virtual HRESULT OnResetDevice() = 0;
 		virtual void RemoveAllChildren() = 0;
+		virtual void RegisterCallBack(function <void ()> callback) = 0;
+		virtual void UnregisterCallBack() = 0;
 
 	protected:
 		virtual D3DXVECTOR3 GetPosition() const = 0;

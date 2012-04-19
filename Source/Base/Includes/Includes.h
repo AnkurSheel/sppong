@@ -12,6 +12,7 @@
 
 #include <windows.h>
 #include <memory>
+#include <functional>
 #include <crtdbg.h>
 #include "Macros.h"
 #include "myString.h"

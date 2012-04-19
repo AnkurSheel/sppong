@@ -97,5 +97,6 @@ inline D3DXVECTOR3 Graphics::cBaseControl::GetPosition() const
 inline void Graphics::cBaseControl::SetPosition( const D3DXVECTOR3 & vPosition )
 {
 	m_vPosition = vPosition;
+	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
 }
 // ***************************************************************

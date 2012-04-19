@@ -20,6 +20,7 @@ using namespace Utilities;
 Graphics::cButtonControl::cButtonControl()
 : m_pLabelCaption(NULL)
 , m_bPressed(false)
+, m_pfnCallBack(NULL)
 {
 
 }
@@ -69,15 +70,20 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, cons
 void Graphics::cButtonControl::Cleanup()
 {
 	SAFE_DELETE(m_pLabelCaption);
+	UnregisterCallBack();
 }
 // ***************************************************************
 
 
 bool Graphics::cButtonControl::OnMouseUp( const int iButton, const int X, const int Y )
 {
-	Log_Write_L3(ILogger::LT_COMMENT, "Button Released");
+	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl :Button Released");
 	m_bPressed = false;
 	m_pCanvasSprite->SetTexture(m_pDefaultTexture);
+	if (m_pfnCallBack)
+	{
+		m_pfnCallBack();
+	}
 	return cBaseControl::OnMouseUp(iButton, X, Y);
 	
 }
@@ -85,7 +91,7 @@ bool Graphics::cButtonControl::OnMouseUp( const int iButton, const int X, const 
 
 bool Graphics::cButtonControl::OnMouseDown( const int iButton, const int X, const int Y )
 {
-	Log_Write_L3(ILogger::LT_COMMENT, "Button Pressed");
+	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl: Button Pressed");
 	m_bPressed = true;
 	m_pCanvasSprite->SetTexture(m_pPressedTexture);
 	return cBaseControl::OnMouseDown(iButton, X, Y);
@@ -140,6 +146,18 @@ HRESULT Graphics::cButtonControl::OnResetDevice()
 		m_pLabelCaption->OnResetDevice();
 	}
 	return cBaseControl::OnResetDevice();
+}
+// ***************************************************************
+
+void Graphics::cButtonControl::RegisterCallBack(function <void ()> callback)
+{
+	m_pfnCallBack = callback;
+}
+// ***************************************************************
+
+void Graphics::cButtonControl::UnregisterCallBack()
+{
+	m_pfnCallBack = NULL;
 }
 // ***************************************************************
 
