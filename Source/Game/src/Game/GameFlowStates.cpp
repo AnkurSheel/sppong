@@ -111,8 +111,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pLabelControl);
 
-		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl("resources\\Sprites\\buttonDefault.png"
-			, "resources\\Sprites\\buttonPressed.png", "Single Player", 100, 50, 400, true, DEFAULT_CHARSET
+		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
+			, "Sprites\\buttonPressed.png", "Single Player", 100, 50, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
 		pSinglePlayerButton->VSetPosition(D3DXVECTOR3(126.f, 270.f, 0.f));
@@ -120,8 +120,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame);
 		pSinglePlayerButton->VRegisterCallBack(callbackSinglePlayerBtn);
 
-		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl("resources\\Sprites\\buttonDefault.png"
-			, "resources\\Sprites\\buttonPressed.png", "MultiPlayer", 100, 50, 400, true, DEFAULT_CHARSET
+		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
+			, "Sprites\\buttonPressed.png", "MultiPlayer", 100, 50, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
 		pMultiPlayerButton->VSetPosition(D3DXVECTOR3(126.f, 380.f, 0.f));
@@ -130,8 +130,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
-		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl("resources\\Sprites\\buttonDefault.png"
-			, "resources\\Sprites\\buttonPressed.png", "Quit", 100, 50, 400, true, DEFAULT_CHARSET
+		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
+			, "Sprites\\buttonPressed.png", "Quit", 100, 50, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pQuitButton);
 		pQuitButton->VSetPosition(D3DXVECTOR3(126.f, 490.f, 0.f));
@@ -203,7 +203,7 @@ void cStatePlayGame::Enter(cGame *pGame)
 
 	shared_ptr<ISprite> pTableSprite = ISprite::CreateSprite();
 
-	pTableSprite->Init(pGame->m_pD3dDevice, "resources\\Sprites\\Table.jpg");
+	pTableSprite->Init(pGame->m_pD3dDevice, "Sprites\\Table.jpg");
 	pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
 	pTableSprite->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	pTableSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
@@ -215,31 +215,31 @@ void cStatePlayGame::Enter(cGame *pGame)
 	shared_ptr<ISprite> pSprite;
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
-	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
+	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
-	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\paddle.jpg");
+	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
-	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "resources\\Sprites\\wall.png");
+	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "Sprites\\wall.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
-	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "resources\\Sprites\\wall.png");
+	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "Sprites\\wall.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
-	pGame->m_pGameElements[pGame->PGE_BALL]->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "resources\\Sprites\\ball.png");
+	pGame->m_pGameElements[pGame->PGE_BALL]->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);

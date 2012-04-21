@@ -34,7 +34,7 @@ void Graphics::cResourceManager::OnDestroyDevice()
 
 void Graphics::cResourceManager::Init()
 {
-	m_pResourceCache = IResCache::CreateResourceCache(30, "resources.zip");
+	m_pResourceCache = IResCache::CreateResourceCache(30, "resources\\resources.zip");
 	if(!m_pResourceCache->Init())
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));

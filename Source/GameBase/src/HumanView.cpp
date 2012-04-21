@@ -49,7 +49,7 @@ void cHumanView::VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd,
 
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
-// 		"resources\\Sprites\\cursor.png");
+// 		"Sprites\\cursor.png");
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
