@@ -30,6 +30,7 @@ using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
 using namespace Utilities;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -38,6 +39,7 @@ cGame::cGame()
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
 , m_bSinglePlayer(false)
+, m_bMultiPlayer(false)
 , m_pSound(NULL)
 , m_pPongView(NULL)
 , m_pGameTimer(NULL)
@@ -59,11 +61,11 @@ cGame::~cGame()
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,
+void cGame::VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 				   const bool bFullScreen, const int iFullScreenWidth,
 				   const int iFullScreenHeight, HWND & outHwnd )
 {
-	cBaseApp::OnInit(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, outHwnd);
+	cBaseApp::VOnInitialization(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, outHwnd);
 
 	m_pD3dDevice = IDXBase::GetInstance()->VGetDevice();
 	m_iDisplayHeight = iFullScreenHeight;
@@ -74,180 +76,15 @@ void cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 	m_pPongView = DEBUG_NEW cMPongView();
 
-	m_pPongView->OnCreateDevice(hInstance, outHwnd, m_iDisplayWidth, m_iDisplayHeight);
+	m_pPongView->VOnCreateDevice(hInstance, outHwnd, m_iDisplayWidth, m_iDisplayHeight);
 
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
 
 // ***************************************************************
-void cGame::OnLostDevice()
-{
-	m_pPongView->OnLostDevice();
-}
-
-// ***************************************************************
-HRESULT cGame::OnResetDevice()
-{
-	return(m_pPongView->OnResetDevice());
-}
-
-// ***************************************************************
-void cGame::OnUpdate()
-{
-	m_pGameTimer->Update();
-	m_pStateMachine->Update();
-	m_pSound->Update();
-	m_pPongView->OnUpdate(this, m_pGameTimer->GetElapsedTime());
-
-}
-
-// ***************************************************************
-bool cGame::OnMsgProc( const Graphics::AppMsg & msg )
-{
-	return false;
-}
-
-// ***************************************************************
-// Display the Graphics
-// ***************************************************************
-void cGame::Render(TICK tickCurrent, float fElapsedTime)
-{
-	m_pPongView->OnRender(this, tickCurrent, fElapsedTime);
-}
-
-// ***************************************************************
-// Process user input
-// ***************************************************************
-void cGame::ProcessInput( const long xDelta,
-						 const long yDelta, 
-						 const long zDelta, 
-						 const bool* const pbPressedKeys, 
-						 const bool* const pbMouseButtons, 
-						 const float fElapsedTime )
-{
-
-	if (pbPressedKeys[DIK_S])
-	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
-			&(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
-		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveDown(fElapsedTime);
-			}
-		}
-	}
-
-	if (pbPressedKeys[DIK_W])
-	{
-		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
-			&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
-		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveUp(fElapsedTime);
-			}
-		}
-	}
-
-	if (pbPressedKeys[DIK_A])
-	{
-		if(m_pGameElements[PGE_PADDLE_LEFT]->GetPosition().x >= 0)
-		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveLeft(fElapsedTime);
-			}
-		}
-	}
-
-	if (pbPressedKeys[DIK_D])
-	{
-		if(m_pGameElements[PGE_PADDLE_LEFT]->GetPosition().x <= m_iDisplayWidth/2 - m_pGameElements[PGE_PADDLE_LEFT]->GetSprite()->GetScaledWidth())
-		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveRight(fElapsedTime);
-			}
-		}
-	}
-
-	if (pbPressedKeys[DIK_P])
-	{
-		//IMainWindow::GetInstance()->LockKey(DIK_P) ;
-		m_pSound->ChangeMusicVolume(true, GS_MAIN_MENU_MUSIC);
-	}
-	if (pbPressedKeys[DIK_L])
-	{
-		//IMainWindow::GetInstance()->LockKey(DIK_L) ;
-		m_pSound->ChangeMusicVolume(false, GS_MAIN_MENU_MUSIC);
-	}
-
-	// if Two Player mode handle the keys
-	if (!m_bSinglePlayer)
-	{
-		if (pbPressedKeys[DIK_DOWN])
-		{
-			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
-			{
-				cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-				if(pPaddle)
-				{
-					pPaddle->MoveDown(fElapsedTime);
-				}
-			}
-		}
-
-		if (pbPressedKeys[DIK_UP])
-		{
-			if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
-			{
-				cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-				if(pPaddle)
-				{
-					pPaddle->MoveUp(fElapsedTime);
-				}
-			}
-		}
-
-		if (pbPressedKeys[DIK_LEFT])
-		{
-			if(m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().x >= m_iDisplayWidth/2)
-			{
-				cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-				if(pPaddle)
-				{
-					pPaddle->MoveLeft(fElapsedTime);
-				}
-			}
-		}
-
-		if (pbPressedKeys[DIK_RIGHT])
-		{
-			if (m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().x <= (m_iDisplayWidth - m_pGameElements[PGE_PADDLE_RIGHT]->GetSprite()->GetScaledWidth()))
-			{
-				cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-				if(pPaddle)
-				{
-					pPaddle->MoveRight(fElapsedTime);
-				}
-			}
-		}
-	}
-	else // single player mode
-	{
-		HandlePaddleAI(fElapsedTime);
-	}
-}
-
-// ***************************************************************
 // the message loop
 // ***************************************************************
-void cGame::Run()
+void cGame::VRun()
 {
 	MSG Msg ;
 
@@ -273,6 +110,48 @@ void cGame::Run()
 			Render(m_pGameTimer->GetRunningTicks(), m_pGameTimer->GetElapsedTime());
 		}
 	}
+}
+
+// ***************************************************************
+void cGame::VOnLostDevice()
+{
+	m_pPongView->VOnLostDevice();
+}
+
+// ***************************************************************
+HRESULT cGame::VOnResetDevice()
+{
+	return(m_pPongView->VOnResetDevice());
+}
+
+// ***************************************************************
+bool cGame::VOnMsgProc( const Graphics::AppMsg & msg )
+{
+	return m_pPongView->VOnMsgProc(msg);
+}
+
+// ***************************************************************
+cString cGame::VGetGameTitle() const
+{
+	return "MPong";
+}
+
+// ***************************************************************
+void cGame::OnUpdate()
+{
+	m_pGameTimer->Update();
+	m_pStateMachine->Update();
+	m_pSound->Update();
+	m_pPongView->VOnUpdate(this, m_pGameTimer->GetElapsedTime());
+
+}
+
+// ***************************************************************
+// Display the Graphics
+// ***************************************************************
+void cGame::Render(TICK tickCurrent, float fElapsedTime)
+{
+	m_pPongView->VOnRender(this, tickCurrent, fElapsedTime);
 }
 
 // ***************************************************************
@@ -342,7 +221,7 @@ void cGame::CheckForCollisions()
 // ***************************************************************
 void cGame::Cleanup()
 {
-	m_pPongView->OnDestroyDevice();
+	m_pPongView->VOnDestroyDevice();
 	SAFE_DELETE(m_pPongView);
 
 	for(int i=0;i<PGE_TOTAL;i++)
@@ -369,12 +248,6 @@ void cGame::Cleanup()
 
 	if(IResourceManager::TheResourceManager())
 		IResourceManager::TheResourceManager()->Destroy();
-}
-
-// ***************************************************************
-cString cGame::GetGameTitle() const
-{
-	return "MPong";
 }
 
 // ***************************************************************
@@ -441,6 +314,85 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 			return;
 		}
 	}
+}
+
+void cGame::SinglePlayerButtonPressed()
+{
+	m_bSinglePlayer = true;
+	m_pPongView->OnSinglePlayerSelected(this);
+}
+
+void cGame::MultiPlayerButtonPressed()
+{
+	m_bMultiPlayer = true;
+	m_pPongView->OnMultiPlayerSelected(this);
+}
+
+void cGame::QuitButtonPressed()
+{
+	PostQuitMessage(0);
+}
+
+void cGame::MoveLeftPaddle(bool bMoveDown)
+{
+	if (bMoveDown)
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
+			&(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
+		{
+			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
+			if(pPaddle)
+			{
+				pPaddle->MoveDown(m_pGameTimer->GetElapsedTime());
+			}
+		}
+	}
+	else
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
+			&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
+		{
+			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
+			if(pPaddle)
+			{
+				pPaddle->MoveUp(m_pGameTimer->GetElapsedTime());
+			}
+		}
+
+	}
+}
+
+// ***************************************************************
+void cGame::MoveRightPaddle( bool bMoveDown )
+{
+	if (bMoveDown)
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
+		{
+			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
+			if(pPaddle)
+			{
+				pPaddle->MoveDown(m_pGameTimer->GetElapsedTime());
+			}
+		}
+	}
+	else
+	{
+		if (!(ICollisionChecker::TheCollisionChecker()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
+		{
+			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
+			if(pPaddle)
+			{
+				pPaddle->MoveUp(m_pGameTimer->GetElapsedTime());
+			}
+		}
+	}
+}
+
+// ***************************************************************
+bool cGame::IsSinglePlayer()
+{
+	return m_bSinglePlayer;
 }
 
 // ***************************************************************

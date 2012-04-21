@@ -27,15 +27,15 @@ namespace GameBase
 		};
 	public:
 		virtual ~IGameView() {}
-		virtual HRESULT OnResetDevice() = 0;
-		virtual void OnRender(TICK tickCurrent, float fElapsedTime) = 0;
-		virtual void OnLostDevice() = 0;
-		virtual GAMEVIEWTYPE GetType() = 0;
-		virtual GameViewId GetId() const = 0;
-		virtual void OnAttach(GameViewId vid) = 0;
-		virtual void OnUpdate(const int iDeltaMilliSeconds) = 0;
-		virtual void OnDestroyDevice() = 0;
-		virtual void OnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight ) = 0;
+		virtual void VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight ) = 0;
+		virtual void VOnUpdate(const int iDeltaMilliSeconds) = 0;
+		virtual void VOnRender(TICK tickCurrent, float fElapsedTime) = 0;
+		virtual void VOnLostDevice() = 0;
+		virtual HRESULT VOnResetDevice() = 0;
+		virtual void VOnDestroyDevice() = 0;
+		virtual void VOnAttach(GameViewId vid) = 0;
+		virtual GAMEVIEWTYPE VGetType() = 0;
+		virtual GameViewId VGetId() const = 0;
 	};
 }
 #endif // GameView_h__

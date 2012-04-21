@@ -25,10 +25,10 @@ namespace Graphics
 		cLabelControl();
 		~cLabelControl();
 		
-		void OnRender(const AppMsg & msg);
+		void VOnRender(const AppMsg & msg);
 		void Init(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption );
-		void OnLostDevice();
-		HRESULT OnResetDevice();
+		void VOnLostDevice();
+		HRESULT VOnResetDevice();
 
 	private:
 		cLabelControl(const cLabelControl&){}

@@ -16,6 +16,7 @@ using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 
+// ***************************************************************
 cBaseControl::cBaseControl()
 : m_dwWidth(0)
 , m_dwHeight(0)
@@ -29,21 +30,191 @@ cBaseControl::cBaseControl()
 , m_bFocus(false)
 , m_pFocusControl(NULL)
 , m_bIsMouseDown(false)
+, m_bAllowMovingControls(false)
 , m_vPrevControlPosition(D3DXVECTOR3(0.f, 0.f, 0.f))
 {
 
 }
-// ***************************************************************
 
+// ***************************************************************
 cBaseControl::~cBaseControl()
 {
-	RemoveAllChildren();
-	UnregisterCallBack();
-
+	VRemoveAllChildren();
 }
-// ***************************************************************
 
-IBaseControl * cBaseControl::AddChildControl(IBaseControl * const pChildControl )
+// ***************************************************************
+bool cBaseControl::VOnKeyDown( const AppMsg & msg )
+{
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnKeyUp( const AppMsg & msg )
+{
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
+{
+	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
+	GetAbsolutePosition(vControlAbsolutePosition);
+
+	m_iMouseDownXPos = X - vControlAbsolutePosition.x;
+	m_iMouseDownYPos = Y - vControlAbsolutePosition.y;
+	m_bIsMouseDown = true;
+	return true;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
+{
+	if(AllowMovingControl() && m_bIsMouseDown)
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
+
+	m_bIsMouseDown = false;
+	return true;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnMouseMove( const int X, const int Y )
+{
+	if (AllowMovingControl() && m_bIsMouseDown)
+	{
+		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
+		GetAbsolutePosition(vControlAbsolutePosition);
+
+		float x = m_vPosition.x + (X - vControlAbsolutePosition.x) - m_iMouseDownXPos;
+		float y = m_vPosition.y + (Y - vControlAbsolutePosition.y) - m_iMouseDownYPos;
+
+		ConstrainChildControl(x, y);
+		m_vPosition.x = x;
+		m_vPosition.y = y;
+		return true;
+	}
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VPostMsg( const AppMsg & msg )
+{
+	cBaseControl * pTempControl = NULL;
+	switch(msg.m_uMsg)
+	{
+	case WM_LBUTTONDOWN:
+		if(IsCursorIntersect(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)))
+		{
+			pTempControl = PostToAll(msg);
+			if(!pTempControl)
+			{
+				VOnLeftMouseButtonDown(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+				if (m_pParentControl)
+				{
+					m_pParentControl->MoveToFront(this);
+				}
+				SetFocusControl(this);
+			}
+			return true;
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
+		{
+			if (m_pFocusControl)
+			{
+				m_pFocusControl->VOnLeftMouseButtonUp(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+			}
+		}
+		break;
+
+	case WM_MOUSEMOVE:
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
+		{
+			if (m_pFocusControl)
+			{
+				return m_pFocusControl->VOnMouseMove(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+			}
+		}
+		break;
+
+	case WM_KEYUP:
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
+		{
+			if(m_pFocusControl)
+			{
+				return m_pFocusControl->VOnKeyUp(msg);
+			}
+		}
+		break;
+
+	case WM_KEYDOWN:
+	case WM_CHAR:
+		pTempControl = PostToAll(msg);
+		if(!pTempControl)
+		{
+			if(m_pFocusControl)
+			{
+				return m_pFocusControl->VOnKeyDown(msg);
+			}
+		}
+		break;
+
+	case WM_RENDER:
+		if (m_bVisible)
+		{
+			VOnRender(msg);
+			if (m_pChildControls)
+			{
+				PostToAllReverse(m_pChildControls, msg);
+			}
+		}
+		break;
+
+	case WM_DEVICELOST:
+		VOnLostDevice();
+		if (m_pChildControls)
+		{
+			PostToAll(msg);
+		}
+		break;
+
+	case WM_DEVICERESET:
+		VOnResetDevice();
+		if (m_pChildControls)
+		{
+			PostToAllReverse(m_pChildControls, msg);
+		}
+		break;
+	}
+	return false;
+}
+
+// ***************************************************************
+void cBaseControl::VOnLostDevice()
+{
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->OnLostDevice();
+	}
+		
+}
+
+// ***************************************************************
+HRESULT cBaseControl::VOnResetDevice()
+{
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->OnResetDevice();
+		return S_OK;
+	}
+}
+
+// ***************************************************************
+IBaseControl * cBaseControl::VAddChildControl(IBaseControl * const pChildControl )
 {
 	cBaseControl * const pControl = dynamic_cast<cBaseControl * const>(pChildControl);
 	if (pControl)
@@ -71,8 +242,38 @@ IBaseControl * cBaseControl::AddChildControl(IBaseControl * const pChildControl 
 	}
 	return NULL;
 }
-// ***************************************************************
 
+// ***************************************************************
+void cBaseControl::VRemoveAllChildren()
+{
+	if (m_bFocus)
+	{
+		m_pFocusControl = this;
+	}
+	cBaseControl * temp = GetFirstChild();
+	while(temp)
+	{
+		cBaseControl * pNextControl = temp->GetNextSibling();
+		SAFE_DELETE(temp);
+		temp = pNextControl;
+	}
+	m_iNoOfChildren = 0;
+	m_pChildControls = NULL;
+}
+
+// ***************************************************************
+void cBaseControl::VSetSize( const float fNewWidth, const float fNewHeight )
+{
+	m_dwHeight = fNewHeight;
+	m_dwWidth = fNewWidth;
+
+	if(m_pCanvasSprite)
+	{
+		m_pCanvasSprite->SetSize(m_dwWidth, m_dwHeight);
+	}
+}
+
+// ***************************************************************
 const cBaseControl * cBaseControl::RemoveChildControl( const cBaseControl * pChildControl )
 {
 	cBaseControl * pNextControl = pChildControl->GetNextSibling();
@@ -95,23 +296,8 @@ const cBaseControl * cBaseControl::RemoveChildControl( const cBaseControl * pChi
 	}
 	return pChildControl;
 }
+
 // ***************************************************************
-
-void cBaseControl::RemoveAllChildren()
-{
-	cBaseControl * temp = GetFirstChild();
-
-	while(temp)
-	{
-		cBaseControl * pNextControl = temp->GetNextSibling();
-		SAFE_DELETE(temp);
-		temp = pNextControl;
-	}
-	m_iNoOfChildren = 0;
-	m_pChildControls = NULL;
-}
-// ***************************************************************
-
 void cBaseControl::GetAbsolutePosition( D3DXVECTOR3 & vPosition ) const
 {
 	vPosition.x += m_vPosition.x;
@@ -122,132 +308,34 @@ void cBaseControl::GetAbsolutePosition( D3DXVECTOR3 & vPosition ) const
 		m_pParentControl->GetAbsolutePosition(vPosition);
 	}
 }
-// ***************************************************************
 
-bool Graphics::cBaseControl::IsCursorIntersect( const float fX, const float fY )
+// ***************************************************************
+bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 {
 	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f,0.f, 0.f);
 
 	GetAbsolutePosition(vControlAbsolutePosition);
 
 
-	if((fX >= vControlAbsolutePosition.x) && (fX <= vControlAbsolutePosition.x + GetWidth()))
+	if((fX >= vControlAbsolutePosition.x) && (fX <= vControlAbsolutePosition.x + VGetWidth()))
 	{
-		if((fY >= vControlAbsolutePosition.y) && (fY <= vControlAbsolutePosition.y + GetHeight()))
+		if((fY >= vControlAbsolutePosition.y) && (fY <= vControlAbsolutePosition.y + VGetHeight()))
 		{
 			return true;
 		}
 	}
 	return false;
 }
+
 // ***************************************************************
-
-bool Graphics::cBaseControl::PostMsg( const AppMsg & msg )
-{
-	cBaseControl * pTempControl = NULL;
-	switch(msg.m_uMsg)
-	{
-	case WM_LBUTTONDOWN:
-		if(IsCursorIntersect(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)))
-		{
-			pTempControl = PostToAll(msg);
-			if(!pTempControl)
-			{
-				OnMouseDown(msg.m_uMsg, LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
-				if (m_pParentControl)
-				{
-					m_pParentControl->MoveToFront(this);
-				}
-				SetFocusControl(this);
-			}
-			return true;
-		}
-		break;
-
-	case WM_LBUTTONUP:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
-		{
-			if (m_pFocusControl)
-			{
-				m_pFocusControl->OnMouseUp(msg.m_uMsg, LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
-			}
-		}
-		break;
-
-	case WM_MOUSEMOVE:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
-		{
-			if (m_pFocusControl)
-			{
-				return m_pFocusControl->OnMouseMove(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
-			}
-		}
-		break;
-
-	case WM_KEYUP:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
-		{
-			if(m_pFocusControl)
-			{
-				return m_pFocusControl->OnKeyUp(msg);
-			}
-		}
-		break;
-
-	case WM_KEYDOWN:
-	case WM_CHAR:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
-		{
-			if(m_pFocusControl)
-			{
-				return m_pFocusControl->OnKeyDown(msg);
-			}
-		}
-		break;
-
-	case WM_RENDER:
-		if (m_bVisible)
-		{
-			OnRender(msg);
-			if (m_pChildControls)
-			{
-				PostToAllReverse(m_pChildControls, msg);
-			}
-		}
-		break;
-
-	case WM_DEVICELOST:
-		OnLostDevice();
-		if (m_pChildControls)
-		{
-			PostToAll(msg);
-		}
-		break;
-
-	case WM_DEVICERESET:
-		OnResetDevice();
-		if (m_pChildControls)
-		{
-			PostToAllReverse(m_pChildControls, msg);
-		}
-		break;
-	}
-	return false;
-}
-// ***************************************************************
-
-cBaseControl * Graphics::cBaseControl::PostToAll( const AppMsg & msg )
+cBaseControl * cBaseControl::PostToAll( const AppMsg & msg )
 {
 	cBaseControl * pTempControl = GetFirstChild();
 
 	while(pTempControl)
 	{
 		cBaseControl * pNextControl = pTempControl->GetNextSibling();
-		if (pTempControl->PostMsg(msg))
+		if (pTempControl->VPostMsg(msg))
 		{
 			return pTempControl;
 		}
@@ -255,9 +343,9 @@ cBaseControl * Graphics::cBaseControl::PostToAll( const AppMsg & msg )
 	}
 	return NULL;
 }
-// ***************************************************************
 
-void Graphics::cBaseControl::SetFocusControl( const cBaseControl * const pControl )
+// ***************************************************************
+void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 {
 	if (!m_bFocus || m_pFocusControl != pControl)
 	{
@@ -281,20 +369,20 @@ void Graphics::cBaseControl::SetFocusControl( const cBaseControl * const pContro
 		}
 	}
 }
-// ***************************************************************
 
-void Graphics::cBaseControl::PostToAllReverse( cBaseControl * const pControl, const AppMsg & msg )
+// ***************************************************************
+void cBaseControl::PostToAllReverse( cBaseControl * const pControl, const AppMsg & msg )
 {
 	cBaseControl *  pNextControl = pControl->GetNextSibling();
 	if(pNextControl)
 	{
 		pNextControl->PostToAllReverse(pNextControl, msg);
 	}
-	pControl->PostMsg(msg);
+	pControl->VPostMsg(msg);
 }
-// ***************************************************************
 
-void Graphics::cBaseControl::MoveToFront( cBaseControl * const pControl )
+// ***************************************************************
+void cBaseControl::MoveToFront( cBaseControl * const pControl )
 {
 	cBaseControl * pNextControl = pControl->GetNextSibling();
 	cBaseControl * pPrevControl = pControl->GetPreviousSibling();
@@ -318,48 +406,9 @@ void Graphics::cBaseControl::MoveToFront( cBaseControl * const pControl )
 	m_pChildControls = pControl;
 
 }
+
 // ***************************************************************
-
-bool Graphics::cBaseControl::OnMouseDown( const int iButton, const int X, const int Y )
-{
-	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-	GetAbsolutePosition(vControlAbsolutePosition);
-
-	m_iMouseDownXPos = X - vControlAbsolutePosition.x;
-	m_iMouseDownYPos = Y - vControlAbsolutePosition.y;
-	m_bIsMouseDown = true;
-	return true;
-}
-// ***************************************************************
-
-bool Graphics::cBaseControl::OnMouseMove( const int X, const int Y )
-{
-	if (m_bIsMouseDown)
-	{
-		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-		GetAbsolutePosition(vControlAbsolutePosition);
-
-		float x = m_vPosition.x + (X - vControlAbsolutePosition.x) - m_iMouseDownXPos;
-		float y = m_vPosition.y + (Y - vControlAbsolutePosition.y) - m_iMouseDownYPos;
-
-		ConstrainChildControl(x, y);
-		m_vPosition.x = x;
-		m_vPosition.y = y;
-		Log_Write_L3(ILogger::LT_ERROR, cString(100, "%s::OnMouseMove - X : %f , Y : %f", this, m_vPosition.x, m_vPosition.y ));
-		return true;
-	}
-	return false;
-}
-// ***************************************************************
-
-bool Graphics::cBaseControl::OnMouseUp( const int iButton, const int X, const int Y )
-{
-	m_bIsMouseDown = false;
-	return true;
-}
-// ***************************************************************
-
-bool Graphics::cBaseControl::IsPositionChanged( const D3DXVECTOR3 & vControlPosition )
+bool cBaseControl::IsPositionChanged( const D3DXVECTOR3 & vControlPosition )
 {
 	if (m_vPrevControlPosition != vControlPosition)
 	{
@@ -367,21 +416,9 @@ bool Graphics::cBaseControl::IsPositionChanged( const D3DXVECTOR3 & vControlPosi
 	}
 	return false;
 }
+
 // ***************************************************************
-
-void Graphics::cBaseControl::SetSize( const float fNewWidth, const float fNewHeight )
-{
-	m_dwHeight = fNewHeight;
-	m_dwWidth = fNewWidth;
-
-	if(m_pCanvasSprite)
-	{
-		m_pCanvasSprite->SetSize(m_dwWidth, m_dwHeight);
-	}
-}
-// ***************************************************************
-
-void Graphics::cBaseControl::RenderPrivate( D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged )
+void cBaseControl::RenderPrivate( D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged )
 {
 	vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
 	GetAbsolutePosition(vControlAbsolutePosition);
@@ -396,9 +433,9 @@ void Graphics::cBaseControl::RenderPrivate( D3DXVECTOR3 & vControlAbsolutePositi
 		m_vPrevControlPosition = vControlAbsolutePosition;
 	}
 }
-// ***************************************************************
 
-void Graphics::cBaseControl::ConstrainChildControl( float &x, float &y )
+// ***************************************************************
+void cBaseControl::ConstrainChildControl( float &x, float &y )
 {
 	// constrain child control in parent control
 	if (m_pParentControl)
@@ -407,50 +444,17 @@ void Graphics::cBaseControl::ConstrainChildControl( float &x, float &y )
 		{
 			x = 0; 
 		}
-		if ((x + m_dwWidth) > m_pParentControl->GetWidth())
+		if ((x + m_dwWidth) > m_pParentControl->VGetWidth())
 		{
-			x = m_pParentControl->GetWidth() - m_dwWidth; 
+			x = m_pParentControl->VGetWidth() - m_dwWidth; 
 		}
 		if (y < 0)
 		{
 			y = 0; 
 		}
-		if ((y + m_dwHeight) > m_pParentControl->GetHeight())
+		if ((y + m_dwHeight) > m_pParentControl->VGetHeight())
 		{
-			y = m_pParentControl->GetHeight() - m_dwHeight; 
+			y = m_pParentControl->VGetHeight() - m_dwHeight; 
 		}
 	}
 }
-// ***************************************************************
-
-bool Graphics::cBaseControl::OnKeyDown( const AppMsg & msg )
-{
-	return false;
-}
-// ***************************************************************
-
-bool Graphics::cBaseControl::OnKeyUp( const AppMsg & msg )
-{
-	return false;
-}
-// ***************************************************************
-
-void Graphics::cBaseControl::OnLostDevice()
-{
-	if (m_pCanvasSprite)
-	{
-		m_pCanvasSprite->OnLostDevice();
-	}
-		
-}
-// ***************************************************************
-
-HRESULT Graphics::cBaseControl::OnResetDevice()
-{
-	if (m_pCanvasSprite)
-	{
-		m_pCanvasSprite->OnResetDevice();
-		return S_OK;
-	}
-}
-// ***************************************************************

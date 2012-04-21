@@ -82,7 +82,7 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 
 	if (pGame)
 	{
-		strGameTitle = pGame->GetGameTitle() ;
+		strGameTitle = pGame->VGetGameTitle() ;
 	}
 
 	CreateMyWindow(nCmdShow, strGameTitle) ;
@@ -140,9 +140,9 @@ void cMainWindow::VToggleFullScreen()
 
 	IDXBase::GetInstance()->VToggleFullScreen();
 
-	m_pGame->OnLostDevice();
+	m_pGame->VOnLostDevice();
 	IDXBase::GetInstance()->VOnResetDevice();
-	m_pGame->OnResetDevice();
+	m_pGame->VOnResetDevice();
 
 	if (!IsWindowVisible(m_Hwnd))
 	{
@@ -310,7 +310,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 
 		if (m_pGame)
 		{
-			m_pGame->OnMsgProc(msg);
+			m_pGame->VOnMsgProc(msg);
 		}
 		return 0;
 

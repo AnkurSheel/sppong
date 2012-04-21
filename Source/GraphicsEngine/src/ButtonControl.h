@@ -30,19 +30,19 @@ namespace Graphics
 		void Init(const Base::cString & strDefaultImage, const Base::cString & strPressedImage, const Base::cString & strCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
 		void Init(const Base::cString & strDefaultImage, const Base::cString & strPressedImage);
 
-		bool OnMouseUp(const int iButton, const int X, const int Y);
-		bool OnMouseDown(const int iButton, const int X, const int Y);
-		void OnRender(const AppMsg & msg);
-		void OnLostDevice();
-		HRESULT OnResetDevice();
-		void RegisterCallBack(function <void ()> callback);
-		void UnregisterCallBack();
+		bool VOnLeftMouseButtonUp(const int X, const int Y);
+		bool VOnLeftMouseButtonDown(const int X, const int Y);
+		void VOnRender(const AppMsg & msg);
+		void VOnLostDevice();
+		HRESULT VOnResetDevice();
+		void VRegisterCallBack(function <void ()> callback);
+		void VUnregisterCallBack();
 
 	private:
 		cButtonControl(const cButtonControl&){}
 		cButtonControl operator =(const cButtonControl&){}
 		void Cleanup();
-		void SetSize(const float fNewWidth, const float fNewHeight);
+		void VSetSize(const float fNewWidth, const float fNewHeight);
 
 	private:
 		IBaseControl *				m_pLabelCaption;

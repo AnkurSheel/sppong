@@ -18,6 +18,7 @@ using namespace Base;
 using namespace GameBase;
 
 static IBaseApp * pGame = NULL;
+
 // ***************************************************************
 // Main function
 // ***************************************************************
@@ -34,7 +35,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	pGame = IGame::CreateGame();
 
 #ifndef MULTIPLEINSTANCES
-	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->GetGameTitle()))
+	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->VGetGameTitle()))
 	{
 		PostQuitMessage(0);
 		return -1;
@@ -56,14 +57,22 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		bFullScreen = true;
 #endif
 	HWND hwnd;
-	pGame->OnInit(hInstance, nCmdShow, bFullScreen, 1024, 768, hwnd);
-	pGame->Run();
+
+	if(bFullScreen)
+	{
+		pGame->VOnInitialization(hInstance, nCmdShow, bFullScreen, 1024, 768, hwnd);
+	}
+	else
+	{
+		pGame->VOnInitialization(hInstance, nCmdShow, bFullScreen, 1024, 720, hwnd);
+	}
+
+	pGame->VRun();
 	
 	Cleanup() ;
 
 	return 0;
 }
-// ***************************************************************
 
 // ***************************************************************
 // Checks for memory leaks
@@ -81,7 +90,6 @@ void CheckForMemoryLeaks()
 	_CrtSetDbgFlag(flag) ; 
 #endif	_DEBUG
 }
-// ***************************************************************
 
 // ***************************************************************
 // Cleanup
@@ -97,4 +105,3 @@ void Cleanup()
 		ILogger::TheLogger()->Destroy();
 
 }
-// ***************************************************************

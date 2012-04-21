@@ -58,26 +58,33 @@ private:
 		GS_TOTAL
 	};
 
-	void HandlePaddleAI(const float fElapsedTime);
 public:
 	cGame();
 	~cGame();
-	void OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
-	void OnLostDevice();
-	HRESULT OnResetDevice();
+	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
 	void OnUpdate();
-	bool OnMsgProc(const Graphics::AppMsg & msg);
+	void VOnLostDevice();
+	HRESULT VOnResetDevice();
+	bool VOnMsgProc(const Graphics::AppMsg & msg);
+	void VRun();
+	Base::cString VGetGameTitle() const;
 	void Render(TICK tickCurrent, float fElapsedTime);
-	void ProcessInput(const long xDelta,const long yDelta, const long zDelta, const bool* const pbPressedKeys, const bool* const pbMouseButtons, const float fElapsedTime );
-	void Run();
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
 	void Cleanup();
-	Base::cString GetGameTitle() const;
 	TICK GetRunningTicks();
 	float GetRunningTime();
 	float GetFPS();
+	void MoveLeftPaddle(bool bMoveDown);
+	void MoveRightPaddle(bool bMoveDown);
+	void HandlePaddleAI(const float fElapsedTime);
+	bool IsSinglePlayer();
+
+private:
+	void SinglePlayerButtonPressed();
+	void MultiPlayerButtonPressed();
+	void QuitButtonPressed();
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
@@ -86,6 +93,7 @@ private:
 	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
 	MySound::ISound *			m_pSound;
 	bool						m_bSinglePlayer;
+	bool						m_bMultiPlayer;
 	cGameFlowStateMachine *		m_pStateMachine;
 	cMPongView *				m_pPongView;
 	Utilities::ITimer *			m_pGameTimer;

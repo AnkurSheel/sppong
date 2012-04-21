@@ -217,6 +217,14 @@
 				RelativePath=".\src\Game\GameFlowStates.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\P2PaddleHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\P2PaddleHandler.h"
+				>
+			</File>
 			<Filter
 				Name="Elements"
 				>
@@ -272,6 +280,14 @@
 		</File>
 		<File
 			RelativePath=".\src\MPongView.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\P1PaddleHandler.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\P1PaddleHandler.h"
 			>
 		</File>
 		<File

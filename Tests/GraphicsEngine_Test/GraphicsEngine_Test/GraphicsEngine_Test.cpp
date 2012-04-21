@@ -44,7 +44,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	cGame * pGame = new cGame();
 
-	HWND hWnd = pGame->OnInit(hInstance, nCmdShow, bFullScreen, 1024, 768);
+	HWND hWnd = pGame-> VOnInitialization(hInstance, nCmdShow, bFullScreen, 1024, 768);
 
 	Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Window initialized"));
 	
@@ -80,9 +80,9 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 				{
 					if(hr == D3DERR_DEVICENOTRESET) 
 					{
-						pGame->OnLostDevice();
+						pGame->VOnLostDevice();
 						hr = IDXBase::GetInstance()->VOnResetDevice() ;
-						pGame->OnResetDevice();
+						pGame->VOnResetDevice();
 					}
 				}
 			}
@@ -93,7 +93,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 			}
 			if (SUCCEEDED(hr))
 			{
-				pGame->Run();
+				pGame->VRun();
 
 				/*pInput->DetectKeys();
 

@@ -17,7 +17,8 @@
 using namespace Graphics;
 using namespace Utilities;
 
-Graphics::cButtonControl::cButtonControl()
+// ***************************************************************
+cButtonControl::cButtonControl()
 : m_pLabelCaption(NULL)
 , m_bPressed(false)
 , m_pfnCallBack(NULL)
@@ -25,13 +26,14 @@ Graphics::cButtonControl::cButtonControl()
 
 }
 
-Graphics::cButtonControl::~cButtonControl()
+// ***************************************************************
+cButtonControl::~cButtonControl()
 {
 	Cleanup();
 }
-// ***************************************************************
 
-void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage,
+// ***************************************************************
+void cButtonControl::Init( const Base::cString & strDefaultImage,
 									const Base::cString & strPressedImage, 
 									const Base::cString & strCaption,
 									const int iHeight, const UINT iWidth, 
@@ -40,15 +42,15 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage,
 									const Base::cString & strFaceName, 
 									DWORD dwFormat, const D3DXCOLOR & color )
 {
-
 	Init(strDefaultImage, strPressedImage);
 
 	SAFE_DELETE(m_pLabelCaption);
 	m_pLabelCaption = IBaseControl::CreateLabelControl(iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, strCaption);
+	VSetSize(m_pLabelCaption->VGetWidth(), m_pLabelCaption->VGetHeight());
 }
-// ***************************************************************
 
-void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, const Base::cString & strPressedImage )
+// ***************************************************************
+void cButtonControl::Init( const Base::cString & strDefaultImage, const Base::cString & strPressedImage )
 {
 	if(m_pDefaultTexture == NULL)
 	{
@@ -65,17 +67,9 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, cons
 	m_pCanvasSprite = ISprite::CreateSprite();
 	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), m_pDefaultTexture);
 }
+
 // ***************************************************************
-
-void Graphics::cButtonControl::Cleanup()
-{
-	SAFE_DELETE(m_pLabelCaption);
-	UnregisterCallBack();
-}
-// ***************************************************************
-
-
-bool Graphics::cButtonControl::OnMouseUp( const int iButton, const int X, const int Y )
+bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl :Button Released");
 	m_bPressed = false;
@@ -84,21 +78,21 @@ bool Graphics::cButtonControl::OnMouseUp( const int iButton, const int X, const 
 	{
 		m_pfnCallBack();
 	}
-	return cBaseControl::OnMouseUp(iButton, X, Y);
+	return cBaseControl::VOnLeftMouseButtonUp(X, Y);
 	
 }
-// ***************************************************************
 
-bool Graphics::cButtonControl::OnMouseDown( const int iButton, const int X, const int Y )
+// ***************************************************************
+bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl: Button Pressed");
 	m_bPressed = true;
 	m_pCanvasSprite->SetTexture(m_pPressedTexture);
-	return cBaseControl::OnMouseDown(iButton, X, Y);
+	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }
-// ***************************************************************
 
-void Graphics::cButtonControl::OnRender( const AppMsg & msg )
+// ***************************************************************
+void cButtonControl::VOnRender( const AppMsg & msg )
 {
 	D3DXVECTOR3 vControlAbsolutePosition;
 	bool bIsPositionChanged;
@@ -109,67 +103,83 @@ void Graphics::cButtonControl::OnRender( const AppMsg & msg )
 		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
 		if (m_pLabelCaption)
 		{
-			m_pLabelCaption->SetPosition(vControlAbsolutePosition);
+			m_pLabelCaption->VSetPosition(vControlAbsolutePosition);
 		}
 	}
 	m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 	if (m_pLabelCaption)
 	{	
-		m_pLabelCaption->OnRender(msg);
+		m_pLabelCaption->VOnRender(msg);
 	}
 }
 
-void Graphics::cButtonControl::SetSize( const float fNewWidth, const float fNewHeight )
-{
-	cBaseControl::SetSize(fNewWidth, fNewHeight);
-	if (m_pLabelCaption)
-	{
-		m_pLabelCaption->SetSize(fNewWidth, fNewHeight);
-	}
-}
 // ***************************************************************
-
-void Graphics::cButtonControl::OnLostDevice()
+void cButtonControl::VOnLostDevice()
 {
-	cBaseControl::OnLostDevice();
+	cBaseControl::VOnLostDevice();
 	if(m_pLabelCaption)
 	{
-		m_pLabelCaption->OnLostDevice();
+		m_pLabelCaption->VOnLostDevice();
 	}
 }
-// ***************************************************************
 
-HRESULT Graphics::cButtonControl::OnResetDevice()
+// ***************************************************************
+HRESULT cButtonControl::VOnResetDevice()
 {
 	if (m_pLabelCaption)
 	{
-		m_pLabelCaption->OnResetDevice();
+		m_pLabelCaption->VOnResetDevice();
 	}
-	return cBaseControl::OnResetDevice();
+	return cBaseControl::VOnResetDevice();
 }
-// ***************************************************************
 
-void Graphics::cButtonControl::RegisterCallBack(function <void ()> callback)
+// ***************************************************************
+void cButtonControl::VRegisterCallBack(function <void ()> callback)
 {
 	m_pfnCallBack = callback;
 }
-// ***************************************************************
 
-void Graphics::cButtonControl::UnregisterCallBack()
+// ***************************************************************
+void cButtonControl::VUnregisterCallBack()
 {
 	m_pfnCallBack = NULL;
 }
-// ***************************************************************
 
-IBaseControl * Graphics::IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, const Base::cString & strPressedImage, const Base::cString & strCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
+// ***************************************************************
+void cButtonControl::VSetSize( const float fNewWidth, const float fNewHeight )
+{
+	cBaseControl::VSetSize(fNewWidth, fNewHeight);
+	if (m_pLabelCaption)
+	{
+		m_pLabelCaption->VSetSize(fNewWidth, fNewHeight);
+	}
+}
+
+// ***************************************************************
+void cButtonControl::Cleanup()
+{
+	SAFE_DELETE(m_pLabelCaption);
+	VUnregisterCallBack();
+}
+
+// ***************************************************************
+IBaseControl * IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, 
+												 const Base::cString & strPressedImage,
+												 const Base::cString & strCaption, 
+												 const int iHeight, const UINT iWidth, 
+												 const UINT iWeight, const BOOL bItalic, 
+												 const BYTE charset, 
+												 const Base::cString & strFaceName, 
+												 DWORD dwFormat, const D3DXCOLOR & color )
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
 	pControl->Init(strDefaultImage, strPressedImage, strCaption, iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color);
 	return pControl;
 }
-// ***************************************************************
 
-IBaseControl * Graphics::IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, const Base::cString & strPressedImage )
+// ***************************************************************
+IBaseControl * IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, 
+												 const Base::cString & strPressedImage )
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
 	pControl->Init(strDefaultImage, strPressedImage);

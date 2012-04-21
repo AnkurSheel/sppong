@@ -18,13 +18,13 @@ namespace Graphics
 		: public cBaseControl
 	{
 	public:
-		cWindowControl(WINDOWTYPE wType);
+		cWindowControl(WINDOWTYPE wType, bool bAllowMovingControls);
 		~cWindowControl();
 
-		bool OnMouseUp(const int iButton, const int X, const int Y);
-		bool OnMouseDown(const int iButton, const int X, const int Y);
-		bool OnMouseMove(const int X, const int Y);
-		void OnRender(const AppMsg & msg);
+		bool VOnLeftMouseButtonUp(const int X, const int Y);
+		bool VOnLeftMouseButtonDown(const int X, const int Y);
+		bool VOnMouseMove(const int X, const int Y);
+		void VOnRender(const AppMsg & msg);
 		void LoadCanvasFromFile(const Base::cString & strFileName);
 	
 	private :

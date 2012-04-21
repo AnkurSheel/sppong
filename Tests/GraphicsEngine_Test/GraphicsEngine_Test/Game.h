@@ -14,13 +14,13 @@ class cGame :
 public:
 	cGame();
 	~cGame();
-	HWND OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen, const int iFullScreenWidth, const int iFullScreenHeight);
-	void OnLostDevice();
+	HWND  VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen, const int iFullScreenWidth, const int iFullScreenHeight);
+	void VOnLostDevice();
+	HRESULT VOnResetDevice();
+	void VRun();
+	Base::cString VGetGameTitle() const; 
+	bool VOnMsgProc(const Graphics::AppMsg & msg);
 
-	HRESULT OnResetDevice();
-	void Run();
-	Base::cString GetGameTitle() const; 
-	bool OnMsgProc(const Graphics::AppMsg & msg);
 	void ButtonPressed();
 	void Button1Pressed();
 	void CheckBoxPressed();

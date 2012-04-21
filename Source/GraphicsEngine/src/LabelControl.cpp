@@ -16,21 +16,42 @@ using namespace Base;
 using namespace Utilities;
 using namespace Graphics;
 
-Graphics::cLabelControl::cLabelControl()
-//: m_pFont(NULL)
+// ***************************************************************
+cLabelControl::cLabelControl()
 {
 
 }
 
 // ***************************************************************
-
-Graphics::cLabelControl::~cLabelControl()
+cLabelControl::~cLabelControl()
 {
-	//SAFE_DELETE(m_pFont);
 }
-// ***************************************************************
 
-void Graphics::cLabelControl::OnRender( const AppMsg & msg )
+// ***************************************************************
+void cLabelControl::Init(const int iHeight, const UINT iWidth, const UINT iWeight, 
+						 const BOOL bItalic, const BYTE charset, 
+						 const cString & strFaceName, DWORD dwFormat, 
+						 const D3DXCOLOR & color, const Base::cString & strCaption )
+{
+	m_pFont = IFont::CreateMyFont();
+	if (m_pFont != NULL)
+	{
+		m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
+		m_pFont->SetFormat(dwFormat);
+		m_pFont->SetTextColor(color);
+		m_pFont->SetText(strCaption);
+		m_pFont->CalculateAndSetRect();
+
+		RECT rect = m_pFont->GetRect();
+		m_dwHeight = rect.bottom - rect.top;
+		m_dwWidth = rect.right - rect.left;
+
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Label Height : %d, Label Width : %d", m_dwHeight, m_dwWidth));
+	}
+}
+
+// ***************************************************************
+void cLabelControl::VOnRender( const AppMsg & msg )
 {
 	if (m_pFont)
 	{
@@ -50,54 +71,38 @@ void Graphics::cLabelControl::OnRender( const AppMsg & msg )
 		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
 	}
 }
+
 // ***************************************************************
-
-void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption )
+void cLabelControl::VOnLostDevice()
 {
-	m_pFont = IFont::CreateMyFont();
-	if (m_pFont != NULL)
-	{
-		m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
-		m_pFont->SetFormat(dwFormat);
-		m_pFont->SetTextColor(color);
-		m_pFont->SetText(strCaption);
-		m_pFont->CalculateAndSetRect();
-
-		RECT rect = m_pFont->GetRect();
-		m_dwHeight = rect.bottom - rect.top;
-		m_dwWidth = rect.right - rect.left;
-
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Label Height : %d, Label Width : %d", m_dwHeight, m_dwWidth));
-	}
-}
-// ***************************************************************
-
-void Graphics::cLabelControl::OnLostDevice()
-{
-	cBaseControl::OnLostDevice();
+	cBaseControl::VOnLostDevice();
 	
 	if (m_pFont)
 	{
 		m_pFont->OnLostDevice();
 	}
 }
-// ***************************************************************
 
-HRESULT Graphics::cLabelControl::OnResetDevice()
+// ***************************************************************
+HRESULT cLabelControl::VOnResetDevice()
 {
-	cBaseControl::OnResetDevice();
+	cBaseControl::VOnResetDevice();
 	if (m_pFont)
 	{
 		m_pFont->OnResetDevice();
 	}
 	return S_OK;
 }
-// ***************************************************************
 
-IBaseControl * Graphics::IBaseControl::CreateLabelControl( const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption )
+// ***************************************************************
+IBaseControl * IBaseControl::CreateLabelControl( const int iHeight, const UINT iWidth,
+												const UINT iWeight, const BOOL bItalic,
+												const BYTE charset, 
+												const Base::cString & strFaceName, 
+												DWORD dwFormat, const D3DXCOLOR & color, 
+												const Base::cString & strCaption )
 {
 	cLabelControl * pControl = DEBUG_NEW cLabelControl();
 	pControl->Init(iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, strCaption);
 	return pControl;
 }
-// ***************************************************************

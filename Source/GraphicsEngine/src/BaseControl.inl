@@ -58,13 +58,13 @@ inline void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
 }
 // ***************************************************************
 
-inline DWORD Graphics::cBaseControl::GetHeight() const
+inline DWORD Graphics::cBaseControl::VGetHeight() const
 {
 	return m_dwHeight;
 }
 // ***************************************************************
 
-inline DWORD Graphics::cBaseControl::GetWidth() const
+inline DWORD Graphics::cBaseControl::VGetWidth() const
 {
 	return m_dwWidth;
 }
@@ -88,15 +88,24 @@ inline void Graphics::cBaseControl::SetVisible( bool bIsVisible )
 }
 // ***************************************************************
 
-inline D3DXVECTOR3 Graphics::cBaseControl::GetPosition() const
+inline D3DXVECTOR3 Graphics::cBaseControl::VGetPosition() const
 {
 	return m_vPosition;
 }
 // ***************************************************************
 
-inline void Graphics::cBaseControl::SetPosition( const D3DXVECTOR3 & vPosition )
+inline void Graphics::cBaseControl::VSetPosition( const D3DXVECTOR3 & vPosition )
 {
 	m_vPosition = vPosition;
 	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
 }
 // ***************************************************************
+
+inline bool cBaseControl::AllowMovingControl()
+{
+	if (m_pParentControl)
+	{
+		return m_pParentControl->AllowMovingControl();
+	}
+	return m_bAllowMovingControls;
+}

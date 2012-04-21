@@ -1,5 +1,5 @@
 // ***************************************************************
-//  Includes   version:  1.0   Ankur Sheel  date: 2011/12/13
+//  MouseHandler   version:  1.0   Ankur Sheel  date: 2012/04/20
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,18 +7,18 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Includes_h__
-#define Includes_h__
+#ifndef MouseHandler_hxx__
+#define MouseHandler_hxx__
 
-#include <windows.h>
-#include <memory>
-#include <functional>
-#include <crtdbg.h>
-#include "Macros.h"
-#include "myString.h"
-#include "NonCopyable.h"
+namespace Graphics
+{
+	class IMouseHandler
+	{
+	public:
+		virtual ~IMouseHandler(){}
+		virtual bool VOnLeftMouseButtonUp(const int X, const int Y) = 0;
+		virtual bool VOnLeftMouseButtonDown(const int X, const int Y) = 0;
+	};
+}
 
-using namespace std::tr1;
-using namespace std::tr1::placeholders;
-
-#endif // Includes_h__
+#endif // MouseHandler_h__

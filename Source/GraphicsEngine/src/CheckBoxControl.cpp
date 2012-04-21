@@ -12,7 +12,8 @@
 
 using namespace Graphics;
 
-Graphics::cCheckBoxControl::cCheckBoxControl()
+// ***************************************************************
+cCheckBoxControl::cCheckBoxControl()
 : m_pTickBox(NULL)
 , m_pLabel(NULL)
 , m_iLabelPosition(D3DXVECTOR3(0.f, 0.f, 0.f))
@@ -20,118 +21,124 @@ Graphics::cCheckBoxControl::cCheckBoxControl()
 {
 
 }
-// ***************************************************************
 
-Graphics::cCheckBoxControl::~cCheckBoxControl()
+// ***************************************************************
+cCheckBoxControl::~cCheckBoxControl()
 {
 	Cleanup();
 }		
-// ***************************************************************
 
-void Graphics::cCheckBoxControl::Init( const Base::cString & strCheckedImage, const Base::cString & strUnCheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
+// ***************************************************************
+void cCheckBoxControl::Init( const Base::cString & strCheckedImage, 
+							const Base::cString & strUnCheckedImage, 
+							const Base::cString & strCaption, 
+							const int iCheckBoxWidth, const int iCheckBoxHeight, 
+							const int iSpaceCaption, const int iHeight, 
+							const UINT iWidth, const UINT iWeight, 
+							const BOOL bItalic, const BYTE charset, 
+							const Base::cString & strFaceName, DWORD dwFormat, 
+							const D3DXCOLOR & color )
 {
 	SAFE_DELETE(m_pTickBox);
 	m_pTickBox = IBaseControl::CreateButtonControl(strUnCheckedImage, strCheckedImage);
-	m_pTickBox ->SetSize(iCheckBoxWidth, iCheckBoxHeight);
-	m_pTickBox ->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
+	m_pTickBox ->VSetSize(iCheckBoxWidth, iCheckBoxHeight);
+	m_pTickBox ->VSetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
 	SAFE_DELETE(m_pLabel);
 	m_pLabel = IBaseControl::CreateLabelControl(iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, strCaption);
 	m_iLabelPosition = D3DXVECTOR3(iCheckBoxWidth + iSpaceCaption, 0.0f, 0.0f);
-	m_pLabel->SetPosition(m_iLabelPosition);
+	m_pLabel->VSetPosition(m_iLabelPosition);
 
-	SetSize(m_pTickBox->GetWidth() + iSpaceCaption + m_pLabel->GetWidth(), max(m_pTickBox->GetHeight(), m_pLabel->GetHeight()));
+	VSetSize(m_pTickBox->VGetWidth() + iSpaceCaption + m_pLabel->VGetWidth(), max(m_pTickBox->VGetHeight(), m_pLabel->VGetHeight()));
 }
+
 // ***************************************************************
-
-void Graphics::cCheckBoxControl::OnRender( const AppMsg & msg )
-{
-
-	D3DXVECTOR3 vControlAbsolutePosition;
-	bool bIsPositionChanged;
-	RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
-
-	if (bIsPositionChanged)
-	{
-		m_pTickBox->SetPosition(vControlAbsolutePosition);
-		m_pLabel->SetPosition(vControlAbsolutePosition + m_iLabelPosition);
-	}
-	m_pTickBox->OnRender(msg);
-	m_pLabel->OnRender(msg);
-}
-// ***************************************************************
-
-void Graphics::cCheckBoxControl::Cleanup()
-{
-	SAFE_DELETE(m_pTickBox);
-	SAFE_DELETE(m_pLabel);
-	UnregisterCallBack();
-}
-// ***************************************************************
-
-bool Graphics::cCheckBoxControl::OnMouseDown( const int iButton, const int X, const int Y )
+bool cCheckBoxControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	if (m_bChecked)
 	{
-		m_pTickBox->OnMouseUp(iButton, X, Y);
+		m_pTickBox->VOnLeftMouseButtonUp(X, Y);
 		m_bChecked = false;
 	}
 	else
 	{
-		m_pTickBox->OnMouseDown(iButton, X, Y);
+		m_pTickBox->VOnLeftMouseButtonDown(X, Y);
 		m_bChecked = true;
 	}
 	if (m_pfnCallBack)
 	{
 		m_pfnCallBack();
 	}
-	return cBaseControl::OnMouseDown(iButton, X, Y);
+	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }
-// ***************************************************************
 
-void Graphics::cCheckBoxControl::OnLostDevice()
+// ***************************************************************
+void cCheckBoxControl::VOnRender( const AppMsg & msg )
+{
+	D3DXVECTOR3 vControlAbsolutePosition;
+	bool bIsPositionChanged;
+	RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
+
+	if (bIsPositionChanged)
+	{
+		m_pTickBox->VSetPosition(vControlAbsolutePosition);
+		m_pLabel->VSetPosition(vControlAbsolutePosition + m_iLabelPosition);
+	}
+	m_pTickBox->VOnRender(msg);
+	m_pLabel->VOnRender(msg);
+}
+
+// ***************************************************************
+void cCheckBoxControl::VOnLostDevice()
 {
 	if (m_pTickBox)
 	{
-		m_pTickBox->OnLostDevice();
+		m_pTickBox->VOnLostDevice();
 	}
 	if (m_pLabel)
 	{
-		m_pLabel->OnLostDevice();
+		m_pLabel->VOnLostDevice();
 	}
-	cBaseControl::OnLostDevice();
+	cBaseControl::VOnLostDevice();
 }
-// ***************************************************************
 
-HRESULT Graphics::cCheckBoxControl::OnResetDevice()
+// ***************************************************************
+HRESULT cCheckBoxControl::VOnResetDevice()
 {
 	if (m_pTickBox)
 	{
-		m_pTickBox->OnResetDevice();
+		m_pTickBox->VOnResetDevice();
 	}
 	if (m_pLabel)
 	{
-		m_pLabel->OnResetDevice();
+		m_pLabel->VOnResetDevice();
 	}
-	return cBaseControl::OnResetDevice();
+	return cBaseControl::VOnResetDevice();
 	
 }
+
 // ***************************************************************
-
-
-void Graphics::cCheckBoxControl::RegisterCallBack(function <void ()> callback)
+void cCheckBoxControl::VRegisterCallBack(function <void ()> callback)
 {
 	m_pfnCallBack = callback;
 }
-// ***************************************************************
 
-void Graphics::cCheckBoxControl::UnregisterCallBack()
+// ***************************************************************
+void cCheckBoxControl::VUnregisterCallBack()
 {
 	m_pfnCallBack = NULL;
 }
-// ***************************************************************
 
-GRAPHIC_API  IBaseControl * Graphics::IBaseControl::CreateCheckBoxControl( const Base::cString & strCheckedImage, const Base::cString & strUncheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
+// ***************************************************************
+void cCheckBoxControl::Cleanup()
+{
+	SAFE_DELETE(m_pTickBox);
+	SAFE_DELETE(m_pLabel);
+	VUnregisterCallBack();
+}
+
+// ***************************************************************
+GRAPHIC_API  IBaseControl * IBaseControl::CreateCheckBoxControl( const Base::cString & strCheckedImage, const Base::cString & strUncheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
 {
 	cCheckBoxControl * pControl = DEBUG_NEW cCheckBoxControl();
 	pControl->Init(strCheckedImage, strUncheckedImage, strCaption, iCheckBoxWidth, iCheckBoxHeight, iSpaceCaption, iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color);

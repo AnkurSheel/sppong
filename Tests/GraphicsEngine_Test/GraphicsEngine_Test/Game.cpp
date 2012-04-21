@@ -24,65 +24,65 @@ cGame::~cGame()
 }
 
 // ***************************************************************
-HWND cGame::OnInit( const HINSTANCE hInstance, const int nCmdShow,
+HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 				   const bool bFullscreen, const int iFullScreenWidth, 
 				   const int iFullScreenHeight )
 {
 	HWND hWnd;
-	cBaseApp::OnInit(hInstance, nCmdShow, bFullscreen, iFullScreenWidth, iFullScreenHeight, hWnd);
+	cBaseApp::VOnInitialization(hInstance, nCmdShow, bFullscreen, iFullScreenWidth, iFullScreenHeight, hWnd);
 
-	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "");
-	m_pParentControl->SetSize(iFullScreenWidth, iFullScreenHeight);
-	m_pParentControl->SetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
+	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
+	m_pParentControl->VSetSize(iFullScreenWidth, iFullScreenHeight);
+	m_pParentControl->VSetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
-	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png");
-	m_pParentControl->AddChildControl(pWindowControl);
-	pWindowControl->SetPosition(D3DXVECTOR3(300.f, 300.f, 0.f));
-	pWindowControl->SetSize(400, 400);
+	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, "Test\\window.png", false);
+	m_pParentControl->VAddChildControl(pWindowControl);
+	pWindowControl->VSetPosition(D3DXVECTOR3(300.f, 300.f, 0.f));
+	pWindowControl->VSetSize(400, 400);
 
 	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, BLUE, "Label");
-	pWindowControl->AddChildControl(pLabelControl);
-	pLabelControl->SetPosition(D3DXVECTOR3(0.f, 40.f, 0.f));
+	pWindowControl->VAddChildControl(pLabelControl);
+	pLabelControl->VSetPosition(D3DXVECTOR3(0.f, 40.f, 0.f));
 
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Vladimir Script", DT_VCENTER|DT_CENTER, WHITE);
-	pWindowControl->AddChildControl(pButtonControl);
-	pButtonControl->SetSize(100, 100);
-	pButtonControl->SetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
+	pWindowControl->VAddChildControl(pButtonControl);
+	pButtonControl->VSetSize(100, 100);
+	pButtonControl->VSetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
 	function<void ()> btnCallback;
 	btnCallback = bind(&cGame::ButtonPressed, this);
-	pButtonControl->RegisterCallBack(btnCallback);
+	pButtonControl->VRegisterCallBack(btnCallback);
 
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png");
-	pWindowControl->AddChildControl(pButtonControl1);
-	pButtonControl1->SetSize(30, 30);
-	pButtonControl1->SetPosition(D3DXVECTOR3(150.f, 90.f, 0.f));
+	pWindowControl->VAddChildControl(pButtonControl1);
+	pButtonControl1->VSetSize(30, 30);
+	pButtonControl1->VSetPosition(D3DXVECTOR3(150.f, 90.f, 0.f));
 	function<void ()> btn1Callback;
 	btn1Callback = bind(&cGame::Button1Pressed, this);
-	pButtonControl1->RegisterCallBack(btn1Callback);
+	pButtonControl1->VRegisterCallBack(btn1Callback);
 
 	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png", 10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, BLACK);
-	pWindowControl->AddChildControl(pTextBoxControl);
-	pTextBoxControl->SetSize(200, 30);
-	pTextBoxControl->SetPosition(D3DXVECTOR3(0.f, 200.f, 0.f));
+	pWindowControl->VAddChildControl(pTextBoxControl);
+	pTextBoxControl->VSetSize(200, 30);
+	pTextBoxControl->VSetPosition(D3DXVECTOR3(0.f, 200.f, 0.f));
 
 	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png", "Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
-	pWindowControl->AddChildControl(pCheckBoxControl);
-	pCheckBoxControl->SetPosition(D3DXVECTOR3(0.f, 250.f, 0.f));
+	pWindowControl->VAddChildControl(pCheckBoxControl);
+	pCheckBoxControl->VSetPosition(D3DXVECTOR3(0.f, 250.f, 0.f));
 	function<void ()> checkBoxCallback;
 	checkBoxCallback = bind(&cGame::CheckBoxPressed, this);
-	pCheckBoxControl->RegisterCallBack(checkBoxCallback);
+	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
 
 	return hWnd;
 }
 
 // ***************************************************************
-Base::cString cGame::GetGameTitle() const
+Base::cString cGame::VGetGameTitle() const
 {
 	return "Graphic Engine Test";
 }
 
 // ***************************************************************
-bool cGame::OnMsgProc( const Graphics::AppMsg & msg )
+bool cGame::VOnMsgProc( const Graphics::AppMsg & msg )
 {
 	bool bHandled = false;
 	switch(msg.m_uMsg)
@@ -90,7 +90,7 @@ bool cGame::OnMsgProc( const Graphics::AppMsg & msg )
 	case WM_CHAR:
 		if (m_pParentControl)
 		{
-			bHandled = m_pParentControl->PostMsg(msg);
+			bHandled = m_pParentControl->VPostMsg(msg);
 		}
 		if(!bHandled)
 		{
@@ -109,7 +109,7 @@ bool cGame::OnMsgProc( const Graphics::AppMsg & msg )
 	case WM_KEYDOWN:
 		if (m_pParentControl)
 		{
-			bHandled = m_pParentControl->PostMsg(msg);
+			bHandled = m_pParentControl->VPostMsg(msg);
 		}
 		break;
 	}
@@ -117,7 +117,7 @@ bool cGame::OnMsgProc( const Graphics::AppMsg & msg )
 }
 
 // ***************************************************************
-void cGame::Run()
+void cGame::VRun()
 {
 	AppMsg appMsg;
 	appMsg.m_uMsg = WM_RENDER;
@@ -126,12 +126,12 @@ void cGame::Run()
 
 	if (m_pParentControl)
 	{
-		m_pParentControl->PostMsg(appMsg);
+		m_pParentControl->VPostMsg(appMsg);
 	}
 }
 
 // ***************************************************************
-HRESULT cGame::OnResetDevice()
+HRESULT cGame::VOnResetDevice()
 {
 	AppMsg appMsg;
 	appMsg.m_uMsg = WM_DEVICERESET;
@@ -140,14 +140,14 @@ HRESULT cGame::OnResetDevice()
 
 	if (m_pParentControl)
 	{
-		m_pParentControl->PostMsg(appMsg);
+		m_pParentControl->VPostMsg(appMsg);
 	}
 
 	return S_OK;
 }
 
 // ***************************************************************
-void cGame::OnLostDevice()
+void cGame::VOnLostDevice()
 {
 	AppMsg appMsg;
 	appMsg.m_uMsg = WM_DEVICELOST;
@@ -156,7 +156,7 @@ void cGame::OnLostDevice()
 
 	if (m_pParentControl)
 	{
-		m_pParentControl->PostMsg(appMsg);
+		m_pParentControl->VPostMsg(appMsg);
 	}
 }
 

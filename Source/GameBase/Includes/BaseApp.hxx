@@ -29,12 +29,12 @@ namespace GameBase
 	{
 	public:
 		virtual ~IBaseApp(){}
-		virtual void OnInit(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd) = 0;
-		virtual Base::cString GetGameTitle() const = 0; 
-		virtual bool OnMsgProc(const Graphics::AppMsg & msg) = 0;
-		virtual void Run() = 0;
-		virtual HRESULT OnResetDevice() = 0;
-		virtual void OnLostDevice() = 0;
+		virtual void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd) = 0;
+		virtual Base::cString VGetGameTitle() const = 0; 
+		virtual bool VOnMsgProc(const Graphics::AppMsg & msg) = 0;
+		virtual void VRun() = 0;
+		virtual HRESULT VOnResetDevice() = 0;
+		virtual void VOnLostDevice() = 0;
 	};
 }
 #endif // BaseApp_hxx__

@@ -322,6 +322,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Includes\KeyboardHandler.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\MouseHandler.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\MouseZone.cpp"
 				>
 			</File>

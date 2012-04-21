@@ -15,47 +15,45 @@
 #include "Input.hxx"
 #include "Font.hxx"
 #include "Game/Elements/Score.h"
+#include "P1PaddleHandler.h"
+#include "P2PaddleHandler.h"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
 
+// ***************************************************************
 cMPongView::cMPongView()
 : m_bDisplayFPS(false)
 {
 }
 
+// ***************************************************************
 cMPongView::~cMPongView()
 {
 }
 
-void cMPongView::OnUpdate(cGame * pGame, float fElapsedTime)
+// ***************************************************************
+void cMPongView::VOnUpdate(cGame * pGame, float fElapsedTime)
 {
-	cHumanView::OnUpdate(fElapsedTime);
-
-	const bool* const pbPressedKeys = m_pInput->GetPressedKeys();
-
-	if (pbPressedKeys[DIK_F2])
+	cHumanView::VOnUpdate(fElapsedTime);
+	if (m_P1PaddleHandler)
 	{
-		// lock the F2 key
-		m_pInput->LockKey(DIK_F2) ;
-
-		m_bDisplayFPS = !m_bDisplayFPS;
+		m_P1PaddleHandler->OnUpdate(fElapsedTime);
 	}
-	if (pbPressedKeys[DIK_ESCAPE])
+	if (pGame->IsSinglePlayer())
 	{
-		// lock the ESC key
-		m_pInput->LockKey(DIK_ESCAPE) ;
-
-		PostQuitMessage(0);
+		pGame->HandlePaddleAI(fElapsedTime);
 	}
-
-	// process the user inputs according to game logic
-	pGame->ProcessInput(m_pInput->GetMouseXDelta(), m_pInput->GetMouseYDelta(), m_pInput->GetMouseZDelta(), pbPressedKeys, m_pInput->GetPressedButtons(), fElapsedTime) ;
+	else if (m_P2PaddleHandler)
+	{
+		m_P2PaddleHandler->OnUpdate(fElapsedTime);
+	}
 }
 
-void cMPongView::OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
+// ***************************************************************
+void cMPongView::VOnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
 {
 	HRESULT hr;
 	hr = OnBeginRender(tickCurrent);
@@ -69,4 +67,70 @@ void cMPongView::OnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
 		}
 		OnEndRender(hr);
 	}
+}
+
+// ***************************************************************
+bool cMPongView::VOnMsgProc( const Graphics::AppMsg & msg )
+{
+	if(!cHumanView::VOnMsgProc(msg))
+	{
+		if(msg.m_uMsg == WM_KEYDOWN)
+		{
+			if (msg.m_wParam == VK_F2)
+			{
+				// lock the F2 key
+				LockKey(DIK_F2) ;
+				m_bDisplayFPS = !m_bDisplayFPS;
+			}
+			if (msg.m_wParam == VK_ESCAPE)
+			{
+				// lock the ESC key
+				LockKey(DIK_ESCAPE) ;
+				PostQuitMessage(0);
+			}
+			if (m_P1PaddleHandler)
+			{
+				m_P1PaddleHandler->VOnKeyDown(msg);
+			}
+			if (m_P2PaddleHandler)
+			{
+				m_P2PaddleHandler->VOnKeyDown(msg);
+			}
+		}
+		else if (msg.m_uMsg == WM_KEYUP)
+		{
+			if (m_P1PaddleHandler)
+			{
+				m_P1PaddleHandler->VOnKeyUp(msg);
+			}
+			if (m_P2PaddleHandler)
+			{
+				m_P2PaddleHandler->VOnKeyUp(msg);
+			}
+		}
+	}
+	return true;
+}
+
+// ***************************************************************
+void cMPongView::OnSinglePlayerSelected( cGame * pGame)
+{
+	m_P1PaddleHandler = shared_ptr<P1PaddleHandler>(DEBUG_NEW P1PaddleHandler());
+	function<void (bool)> callbackP1Paddle;
+	callbackP1Paddle = bind(&cGame::MoveLeftPaddle, pGame, _1);
+	m_P1PaddleHandler->RegisterCallBack(callbackP1Paddle);
+}
+
+// ***************************************************************
+void cMPongView::OnMultiPlayerSelected( cGame * pGame )
+{
+	m_P1PaddleHandler = shared_ptr<P1PaddleHandler>(DEBUG_NEW P1PaddleHandler());
+	function<void (bool)> callbackP1Paddle;
+	callbackP1Paddle = bind(&cGame::MoveLeftPaddle, pGame, _1);
+	m_P1PaddleHandler->RegisterCallBack(callbackP1Paddle);
+
+	m_P2PaddleHandler = shared_ptr<P2PaddleHandler>(DEBUG_NEW P2PaddleHandler());
+	function<void (bool)> callbackP2Paddle;
+	callbackP2Paddle = bind(&cGame::MoveRightPaddle, pGame, _1);
+	m_P2PaddleHandler->RegisterCallBack(callbackP2Paddle);
 }

@@ -21,36 +21,37 @@ namespace Graphics
 {
 	class cBaseControl
 		: public IBaseControl
+		, public Base::cNonCopyable
 	{
 	public:
 		cBaseControl();
 		virtual ~cBaseControl();
 		
-		virtual bool OnMouseUp(const int iButton, const int X, const int Y);
-		virtual bool OnMouseDown(const int iButton, const int X, const int Y);
-		virtual bool OnMouseMove(const int X, const int Y);
-		virtual bool OnKeyDown(const AppMsg & msg );
-		virtual bool OnKeyUp(const AppMsg & msg );
-		virtual void SetSize(const float fNewWidth, const float fNewHeight);
+		virtual bool VOnLeftMouseButtonUp(const int X, const int Y);
+		virtual bool VOnLeftMouseButtonDown(const int X, const int Y);
+		virtual bool VOnMouseMove(const int X, const int Y);
+		virtual void VSetSize(const float fNewWidth, const float fNewHeight);
+		virtual void VOnLostDevice();
+		virtual HRESULT VOnResetDevice();
 		cBaseControl * GetNextSibling() const;
 		void SetVisible(bool bIsVisible);
-		virtual void OnLostDevice();
-		virtual HRESULT OnResetDevice();
 
 	protected:
 		virtual void RenderPrivate(D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged);
-		DWORD GetHeight() const;
+		DWORD VGetHeight() const;
 		void GetAbsolutePosition(D3DXVECTOR3 & vPosition) const;
 		void SetFocusControl(const cBaseControl * const pControl);
 		cBaseControl * GetFirstChild() const;
-		void RemoveAllChildren();
-		virtual void RegisterCallBack(function <void ()> callback){};
-		virtual void UnregisterCallBack(){};
-
+		void VRemoveAllChildren();
+		void VRegisterCallBack(function <void ()> callback){};
+		void VUnregisterCallBack(){};
+		bool AllowMovingControl();
+		virtual bool VOnKeyDown(const AppMsg & msg);
+		virtual bool VOnKeyUp(const AppMsg & msg);
 	private:
 		bool IsPositionChanged(const D3DXVECTOR3 & vControlPosition);
 		void ConstrainChildControl( float &x, float &y );
-		IBaseControl * AddChildControl( IBaseControl * const pChildControl);
+		IBaseControl * VAddChildControl( IBaseControl * const pChildControl);
 		const cBaseControl * RemoveChildControl(const cBaseControl * pChildControl);
 		
 		int GetNoOfChildren() const;
@@ -63,11 +64,11 @@ namespace Graphics
 		void SetPreviousSibling( cBaseControl * temp );
 		cBaseControl * GetFocusControl();
 		bool GetVisible() const;
-		DWORD GetWidth() const;
-		D3DXVECTOR3 GetPosition() const;
-		void SetPosition(const D3DXVECTOR3 & vPosition);
+		DWORD VGetWidth() const;
+		D3DXVECTOR3 VGetPosition() const;
+		void VSetPosition(const D3DXVECTOR3 & vPosition);
 		bool IsCursorIntersect(const float fX, const float fY);
-		bool PostMsg(const AppMsg & msg);
+		bool VPostMsg(const AppMsg & msg);
 		cBaseControl * PostToAll(const AppMsg & msg);
 		void PostToAllReverse(cBaseControl * const pControl, const AppMsg & msg);
 		void MoveToFront(cBaseControl * const pControl);
@@ -89,6 +90,7 @@ namespace Graphics
 		int							m_iMouseDownYPos;
 		bool						m_bIsMouseDown;
 		D3DXVECTOR3					m_vPrevControlPosition;
+		bool						m_bAllowMovingControls;
 	};
 	#include "BaseControl.inl"
 }
