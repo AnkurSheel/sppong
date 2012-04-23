@@ -43,7 +43,7 @@ cHumanView::~cHumanView()
 void cHumanView::VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd, 
 								 int iClientWidth, int iClientHeight)
 {
-	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
+	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", false);
 	m_pParentControl->VSetSize(iClientWidth, iClientHeight);
 	m_pParentControl->VSetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
