@@ -112,8 +112,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pLabelControl);
 
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
-			, "Sprites\\buttonPressed.png", "Single Player", 100, 50, 400, true, DEFAULT_CHARSET
-			, "Vladimir Script", DT_CENTER, BLUE);
+			, "Sprites\\buttonPressed.png", "Single Player ", 100, 50, 400, true, DEFAULT_CHARSET
+			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
 		pSinglePlayerButton->VSetPosition(D3DXVECTOR3(126.f, 270.f, 0.f));
 		function<void ()> callbackSinglePlayerBtn;
@@ -122,7 +122,7 @@ void cStateMenuScreen::Enter(cGame *pGame)
 
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "MultiPlayer", 100, 50, 400, true, DEFAULT_CHARSET
-			, "Vladimir Script", DT_CENTER, BLUE);
+			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
 		pMultiPlayerButton->VSetPosition(D3DXVECTOR3(126.f, 380.f, 0.f));
 		pMultiPlayerButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
@@ -132,7 +132,7 @@ void cStateMenuScreen::Enter(cGame *pGame)
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "Quit", 100, 50, 400, true, DEFAULT_CHARSET
-			, "Vladimir Script", DT_CENTER, BLUE);
+			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pQuitButton);
 		pQuitButton->VSetPosition(D3DXVECTOR3(126.f, 490.f, 0.f));
 		pQuitButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());

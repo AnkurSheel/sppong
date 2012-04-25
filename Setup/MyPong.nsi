@@ -180,8 +180,8 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Main"
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "Checks And Installs the latest Directx runtime.\
-(Do not uncheck unless you are sure you have DirectX installed)\ 
-Please make sure you have internet access."
+Please make sure you have internet access."\
+(Do not uncheck unless you are sure you have DirectX installed)\
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 

@@ -55,13 +55,10 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 
 	D3DXCreateFontIndirect(pd3dDevice, &m_fonttype, &m_pFont) ;
 
-/*	RECT rctA = {0,0,0,0};
-	m_pFont->DrawText(NULL, "A", -1, &rctA, DT_CALCRECT, BLACK);
+	RECT rctA = {0,0,0,0};
+	m_pFont->DrawText(NULL, "_", -1, &rctA, DT_CALCRECT, BLACK);
 
-	RECT rctSpc = {0,0,0,0};
-	m_pFont->DrawText( NULL, "A A", -1, &rctSpc, DT_CALCRECT, BLACK);
-
-	m_iSpaceWidth = rctSpc.right - rctA.right * 2;*/
+	m_iSpaceWidth = rctA.right - rctA.left;
 }
 // ***************************************************************
 
@@ -101,6 +98,7 @@ void Graphics::cMyFont::CalculateAndSetRect()
 	if (m_pFont)
 	{
 		m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, DT_CALCRECT, m_Color);
+		AddTrailingSpaceWidth(m_strString, m_boundingRect);
 	}
 }
 // ***************************************************************
@@ -117,13 +115,14 @@ const RECT Graphics::cMyFont::GetRect( const Base::cString & strText ) const
 	boundingRect.left = 0;
 	boundingRect.right = 0;
 	m_pFont->DrawText(NULL, strText.GetData(), -1, &boundingRect, DT_CALCRECT, m_Color);
+	AddTrailingSpaceWidth(strText, boundingRect);
 	return boundingRect;
 }
 // ***************************************************************
 
 void Graphics::cMyFont::AddTrailingSpaceWidth( const Base::cString & strText , RECT & boundingRect ) const
 {
-	int index = m_strString.GetLength() - 1;
+	int index = strText.GetLength() - 1;
 	while(strText.GetData()[index] == ' ')
 	{
 		boundingRect.right += m_iSpaceWidth;

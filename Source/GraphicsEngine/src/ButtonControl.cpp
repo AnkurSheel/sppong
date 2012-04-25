@@ -40,13 +40,17 @@ void cButtonControl::Init( const Base::cString & strDefaultImage,
 									const UINT iWeight, const BOOL bItalic, 
 									const BYTE charset, 
 									const Base::cString & strFaceName, 
-									DWORD dwFormat, const D3DXCOLOR & color )
+									DWORD dwFormat, const D3DXCOLOR & color,
+									const bool bAutoSize)
 {
 	Init(strDefaultImage, strPressedImage);
 
 	SAFE_DELETE(m_pLabelCaption);
 	m_pLabelCaption = IBaseControl::CreateLabelControl(iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, strCaption);
-	VSetSize(m_pLabelCaption->VGetWidth(), m_pLabelCaption->VGetHeight());
+	if(bAutoSize)
+	{
+		VSetSize(m_pLabelCaption->VGetWidth(), m_pLabelCaption->VGetHeight());
+	}
 }
 
 // ***************************************************************
@@ -170,10 +174,11 @@ IBaseControl * IBaseControl::CreateButtonControl( const Base::cString & strDefau
 												 const UINT iWeight, const BOOL bItalic, 
 												 const BYTE charset, 
 												 const Base::cString & strFaceName, 
-												 DWORD dwFormat, const D3DXCOLOR & color )
+												 DWORD dwFormat, const D3DXCOLOR & color,
+												 const bool bAutoSize)
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
-	pControl->Init(strDefaultImage, strPressedImage, strCaption, iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color);
+	pControl->Init(strDefaultImage, strPressedImage, strCaption, iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color, bAutoSize);
 	return pControl;
 }
 

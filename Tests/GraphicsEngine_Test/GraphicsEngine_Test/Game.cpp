@@ -40,11 +40,11 @@ HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	pWindowControl->VSetPosition(D3DXVECTOR3(300.f, 300.f, 0.f));
 	pWindowControl->VSetSize(400, 400);
 
-	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, BLUE, "Label");
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, BLUE, "Label  ");
 	pWindowControl->VAddChildControl(pLabelControl);
 	pLabelControl->VSetPosition(D3DXVECTOR3(0.f, 40.f, 0.f));
 
-	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Vladimir Script", DT_VCENTER|DT_CENTER, WHITE);
+	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Vladimir Script", DT_VCENTER|DT_CENTER, WHITE, false);
 	pWindowControl->VAddChildControl(pButtonControl);
 	pButtonControl->VSetSize(100, 100);
 	pButtonControl->VSetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
