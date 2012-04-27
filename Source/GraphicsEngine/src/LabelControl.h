@@ -23,16 +23,14 @@ namespace Graphics
 	{
 	public:
 		cLabelControl();
-		~cLabelControl();
-		
-		void VOnRender(const AppMsg & msg);
 		void Init(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption );
+	
+	private:
+		~cLabelControl();
+		void VOnRender(const AppMsg & msg);
 		void VOnLostDevice();
 		HRESULT VOnResetDevice();
-
-	private:
-		cLabelControl(const cLabelControl&){}
-		cLabelControl operator =(const cLabelControl&){}
+		void VSetAbsolutePosition();
 
 	private:
 		shared_ptr<IFont>		m_pFont;

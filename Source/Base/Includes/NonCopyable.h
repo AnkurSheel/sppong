@@ -15,6 +15,7 @@ namespace Base
 	class cNonCopyable
 	{
 	public:
+		virtual ~cNonCopyable(){}
 	protected:
 		cNonCopyable(){}
 	private:

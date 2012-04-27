@@ -19,7 +19,7 @@ using namespace Base;
 using namespace Utilities;
 
 // ***************************************************************
-cTextBoxControl::cTextBoxControl()
+Graphics::cTextBoxControl::cTextBoxControl()
 : m_pCaretLine(NULL)
 , m_bIsCaretVisible(false)
 , m_iTextWidth(0)
@@ -30,13 +30,13 @@ cTextBoxControl::cTextBoxControl()
 }
 
 // ***************************************************************
-cTextBoxControl::~cTextBoxControl()
+Graphics::cTextBoxControl::~cTextBoxControl()
 {
 	SAFE_RELEASE(m_pCaretLine);
 }
 
 // ***************************************************************
-void cTextBoxControl::Init( const Base::cString & strDefaultImage, const int iHeight, 
+void Graphics::cTextBoxControl::Init( const Base::cString & strDefaultImage, const int iHeight, 
 						   const UINT iWidth, const UINT iWeight, const BOOL bItalic, 
 						   const BYTE charset, const Base::cString & strFaceName, 
 						   DWORD dwFormat, const D3DXCOLOR & color )
@@ -58,7 +58,67 @@ void cTextBoxControl::Init( const Base::cString & strDefaultImage, const int iHe
 }
 
 // ***************************************************************
-bool cTextBoxControl::VOnKeyDown( const AppMsg & msg )
+void Graphics::cTextBoxControl::VOnRender( const AppMsg & msg )
+{
+	if(m_pCanvasSprite)
+	{
+		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
+	}
+	if (m_pFont)
+	{
+		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
+	}
+	
+	if(m_bFocus)
+	{
+		if (m_bIsCaretVisible)
+		{
+			if (m_pCaretLine)
+			{
+				m_pCaretLine->Draw(m_vAbsoluteCaratPosition, 2, D3DCOLOR_XRGB(255,255,255));
+			}
+			m_bIsCaretVisible = false;
+		}
+		else
+		{
+			m_bIsCaretVisible = true;
+		}
+	}
+}
+
+// ***************************************************************
+void Graphics::cTextBoxControl::VOnLostDevice()
+{
+	if (m_pFont)
+	{
+		m_pFont->OnLostDevice();
+	}
+
+	if (m_pCaretLine)
+	{
+		m_pCaretLine->OnLostDevice();
+	}
+	cBaseControl::VOnLostDevice();
+}
+
+// ***************************************************************
+HRESULT Graphics::cTextBoxControl::VOnResetDevice()
+{
+	if (m_pFont)
+	{
+		m_pFont->OnResetDevice();
+	}
+
+	if (m_pCaretLine)
+	{
+		m_pCaretLine->OnResetDevice();
+	}
+
+	return cBaseControl::VOnResetDevice();
+}
+
+// ***************************************************************
+bool Graphics::cTextBoxControl::VOnKeyDown( const AppMsg & msg )
 {
 	cBaseControl::VOnKeyDown(msg);
 	
@@ -107,144 +167,28 @@ bool cTextBoxControl::VOnKeyDown( const AppMsg & msg )
 }
 
 // ***************************************************************
-void cTextBoxControl::VOnRender( const AppMsg & msg )
+void Graphics::cTextBoxControl::VSetAbsolutePosition()
 {
-	D3DXVECTOR3 vControlAbsolutePosition;
-	bool bIsPositionChanged;
-	RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
-
-	if (bIsPositionChanged)
-	{
-		m_rectBoundary.left = (LONG)vControlAbsolutePosition.x;
-		m_rectBoundary.top = (LONG)vControlAbsolutePosition.y;
-		m_rectBoundary.right = m_rectBoundary.left + m_dwWidth;
-		m_rectBoundary.bottom = m_rectBoundary.top + m_dwHeight;
-		m_pFont->SetRect(m_rectBoundary);
-		
-		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-	}
-
-	if(m_pCanvasSprite)
-	{
-		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
-	}
-	if (m_pFont)
-	{
-		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
-	}
+	cBaseControl::VSetAbsolutePosition();
 	
-	if(m_bFocus)
-	{
-		if (m_bIsCaretVisible)
-		{
-			if (m_pCaretLine)
-			{
-				D3DXVECTOR2 Absolute[2];
-				ZeroMemory(Absolute, sizeof(D3DXVECTOR2) * 2);
-				Absolute[0].x = vControlAbsolutePosition.x + m_avCaretVector[0].x;
-				Absolute[0].y = vControlAbsolutePosition.y + m_avCaretVector[0].y;
-				Absolute[1].x = vControlAbsolutePosition.x + m_avCaretVector[0].x;
-				Absolute[1].y = vControlAbsolutePosition.y + m_avCaretVector[0].y + VGetHeight();
-				m_pCaretLine->Draw(Absolute, 2, D3DCOLOR_XRGB(255,255,255));
-			}
-			m_bIsCaretVisible = false;
-		}
-		else
-		{
-			m_bIsCaretVisible = true;
-		}
-	}
-}
-
-// ***************************************************************
-void cTextBoxControl::VOnLostDevice()
-{
+	m_rectBoundary.left = (LONG)m_vControlAbsolutePosition.x;
+	m_rectBoundary.top = (LONG)m_vControlAbsolutePosition.y;
+	m_rectBoundary.right = m_rectBoundary.left + m_dwWidth;
+	m_rectBoundary.bottom = m_rectBoundary.top + m_dwHeight;
 	if (m_pFont)
 	{
-		m_pFont->OnLostDevice();
+		m_pFont->SetRect(m_rectBoundary);
+	}
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
 	}
 
-	if (m_pCaretLine)
-	{
-		m_pCaretLine->OnLostDevice();
-	}
-	cBaseControl::VOnLostDevice();
+	SetCaratAbsolutePosition();
 }
 
 // ***************************************************************
-HRESULT cTextBoxControl::VOnResetDevice()
-{
-	if (m_pFont)
-	{
-		m_pFont->OnResetDevice();
-	}
-
-	if (m_pCaretLine)
-	{
-		m_pCaretLine->OnResetDevice();
-	}
-
-	return cBaseControl::VOnResetDevice();
-}
-
-// ***************************************************************
-int cTextBoxControl::GetStringWidth()
-{
-	return GetStringWidth(m_strText);
-}
-
-// ***************************************************************
-int cTextBoxControl::GetStringWidth( const Base::cString & strText )
-{
-	if (m_pFont)
-	{
-		RECT rectStringInfo = m_pFont->GetRect(strText);
-		return rectStringInfo.right;
-	}
-	return 0;
-}
-// ***************************************************************
-
-int cTextBoxControl::GetStringHeight()
-{
-	if (m_pFont)
-	{
-		RECT rectStringInfo = m_pFont->GetRect();
-		return rectStringInfo.bottom;
-	}
-	return 0;
-}
-
-// ***************************************************************
-void cTextBoxControl::SetText( const Base::cString & strText )
-{
-	int iWidth = GetStringWidth(strText);
-	if(iWidth <= m_dwWidth)
-	{
-		m_strText = strText;
-		m_iTextWidth = iWidth;
-		m_pFont->SetText(m_strText);
-	}
-
-}
-
-// ***************************************************************
-bool cTextBoxControl::SetCaratPosition( const long iPos )
-{
-	if (iPos >= 0 && iPos <= m_strText.GetLength())
-	{
-		cString subStr = m_strText.GetSubString(0, iPos);
-		m_avCaretVector[0].x = GetStringWidth(subStr);
-		m_avCaretVector[1].x = m_avCaretVector[0].x ;
-		m_iCaretPos = iPos;
-		return true;
-	}
-	Log_Write_L2(ILogger::LT_ERROR, "Pos is < 0 or pos > strlen");
-	return false;
-}
-
-// ***************************************************************
-bool cTextBoxControl::InsertText( const Base::cString & strText )
+bool Graphics::cTextBoxControl::InsertText( const Base::cString & strText )
 {
 	if(!m_bTextBoxFull 
 		&& (m_iTextWidth + GetStringWidth(strText)) <= m_dwWidth)
@@ -260,7 +204,7 @@ bool cTextBoxControl::InsertText( const Base::cString & strText )
 }
 
 // ***************************************************************
-long cTextBoxControl::RemoveText( const long iQuantity )
+long Graphics::cTextBoxControl::RemoveText( const long iQuantity )
 {
 	if(SetCaratPosition(m_iCaretPos - iQuantity))
 	{
@@ -272,10 +216,77 @@ long cTextBoxControl::RemoveText( const long iQuantity )
 }
 
 // ***************************************************************
+int Graphics::cTextBoxControl::GetStringWidth()
+{
+	return GetStringWidth(m_strText);
+}
+
+// ***************************************************************
+int Graphics::cTextBoxControl::GetStringWidth( const Base::cString & strText )
+{
+	if (m_pFont)
+	{
+		RECT rectStringInfo = m_pFont->GetRect(strText);
+		return rectStringInfo.right;
+	}
+	return 0;
+}
+// ***************************************************************
+
+int Graphics::cTextBoxControl::GetStringHeight()
+{
+	if (m_pFont)
+	{
+		RECT rectStringInfo = m_pFont->GetRect();
+		return rectStringInfo.bottom;
+	}
+	return 0;
+}
+
+// ***************************************************************
+void Graphics::cTextBoxControl::SetText( const Base::cString & strText )
+{
+	int iWidth = GetStringWidth(strText);
+	if(iWidth <= m_dwWidth)
+	{
+		m_strText = strText;
+		m_iTextWidth = iWidth;
+		m_pFont->SetText(m_strText);
+	}
+
+}
+
+// ***************************************************************
+bool Graphics::cTextBoxControl::SetCaratPosition( const long iPos )
+{
+	if (iPos >= 0 && iPos <= m_strText.GetLength())
+	{
+		cString subStr = m_strText.GetSubString(0, iPos);
+		m_avCaretVector[0].x = GetStringWidth(subStr);
+		m_avCaretVector[1].x = m_avCaretVector[0].x ;
+		m_iCaretPos = iPos;
+		SetCaratAbsolutePosition();
+		return true;
+	}
+	Log_Write_L2(ILogger::LT_ERROR, "Pos is < 0 or pos > strlen");
+	return false;
+}
+
+// ***************************************************************
+void Graphics::cTextBoxControl::SetCaratAbsolutePosition()
+{
+	if (m_pCaretLine)
+	{
+		m_vAbsoluteCaratPosition[0].x = m_vControlAbsolutePosition.x + m_avCaretVector[0].x;
+		m_vAbsoluteCaratPosition[0].y = m_vControlAbsolutePosition.y + m_avCaretVector[0].y;
+		m_vAbsoluteCaratPosition[1].x = m_vControlAbsolutePosition.x + m_avCaretVector[0].x;
+		m_vAbsoluteCaratPosition[1].y = m_vControlAbsolutePosition.y + m_avCaretVector[0].y + VGetHeight();
+	}
+}
+// ***************************************************************
 IBaseControl * IBaseControl::CreateTextBoxControl(const Base::cString & strDefaultImage,  const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
 {
 	cTextBoxControl * pControl = DEBUG_NEW cTextBoxControl();
 	pControl->Init(strDefaultImage, iHeight, iWidth, iWeight, bItalic, charset, strFaceName, dwFormat, color);
 	return pControl;
-
 }

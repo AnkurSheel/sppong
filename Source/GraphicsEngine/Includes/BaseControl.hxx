@@ -38,20 +38,17 @@ namespace Graphics
 	public:
 		virtual ~IBaseControl(){}
 		virtual bool VPostMsg(const AppMsg & msg) = 0;
+		virtual void VOnRender(const AppMsg & msg) = 0;
 		virtual void VOnLostDevice() = 0;
 		virtual HRESULT VOnResetDevice() = 0;
-		virtual void VOnRender(const AppMsg & msg) = 0;
 		virtual IBaseControl * VAddChildControl( IBaseControl * const pChildControl) = 0;
 		virtual void VRemoveAllChildren() = 0;
+		virtual void VSetPosition(const D3DXVECTOR3 & vPosition) = 0;
 		virtual void VSetSize(const float fNewWidth, const float fNewHeight) = 0;
 		virtual DWORD VGetWidth() const = 0;
 		virtual DWORD VGetHeight() const = 0;
-		virtual void VSetPosition(const D3DXVECTOR3 & vPosition) = 0;
 		virtual void VRegisterCallBack(function <void ()> callback) = 0;
 		virtual void VUnregisterCallBack() = 0;
-
-	protected:
-		virtual D3DXVECTOR3 VGetPosition() const = 0;
 
 	public:
 		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType, const Base::cString & strFileName, const bool bAllowMovingControls);

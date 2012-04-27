@@ -19,18 +19,16 @@ namespace Graphics
 	{
 	public:
 		cWindowControl(WINDOWTYPE wType, bool bAllowMovingControls);
+		void LoadCanvasFromFile(const Base::cString & strFileName);
+
+	private:
 		~cWindowControl();
 
+		void VOnRender(const AppMsg & msg);
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		bool VOnMouseMove(const int X, const int Y);
-		void VOnRender(const AppMsg & msg);
-		void LoadCanvasFromFile(const Base::cString & strFileName);
-	
-	private :
-		cWindowControl(const cWindowControl&){}
-		cWindowControl operator =(const cWindowControl&){}
-
+		void VSetAbsolutePosition();
 		void Minimize(const int iWidth, const int iHeight, const int iX, const int iY);
 		void Restore();
 

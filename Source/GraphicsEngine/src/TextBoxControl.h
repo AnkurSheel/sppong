@@ -28,26 +28,22 @@ namespace Graphics
 	{
 	public:
 		cTextBoxControl();
-		~cTextBoxControl();
-		
 		void Init(const Base::cString & strDefaultImage, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
-
-		bool VOnKeyDown(const AppMsg & msg );
+	private:
+		~cTextBoxControl();
 		void VOnRender(const AppMsg & msg);
 		void VOnLostDevice();
 		HRESULT VOnResetDevice();
-
-	private:
-		cTextBoxControl(cTextBoxControl&){}
-		cTextBoxControl operator =(const cTextBoxControl&){}
-
+		bool VOnKeyDown(const AppMsg & msg );
+		void VSetAbsolutePosition();
+		bool InsertText(const Base::cString & strText);
+		long RemoveText(const long iQuantity);
 		int	GetStringWidth();
 		int	GetStringWidth(const Base::cString & strText);
 		int	GetStringHeight();
 		void SetText(const Base::cString & strText);
 		bool SetCaratPosition(const long iPos);
-		bool InsertText(const Base::cString & strText);
-		long RemoveText(const long iQuantity);
+		void SetCaratAbsolutePosition();
 
 	private:
 		shared_ptr<IFont>		m_pFont;
@@ -59,6 +55,7 @@ namespace Graphics
 		RECT					m_rectBoundary;
 		long					m_iCaretPos;
 		bool					m_bTextBoxFull;
+		D3DXVECTOR2				m_vAbsoluteCaratPosition[2];
 	};
 }
 #endif // TextBoxControl_h__s

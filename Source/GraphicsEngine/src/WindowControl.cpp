@@ -17,7 +17,7 @@ using namespace Utilities;
 using namespace Base;
 
 // ***************************************************************
-cWindowControl::cWindowControl(WINDOWTYPE wType, bool bAllowMovingControls)
+Graphics::cWindowControl::cWindowControl(WINDOWTYPE wType, bool bAllowMovingControls)
 : m_iLastNormalPosX(0)
 , m_iLastNormalPosY(0)
 , m_iLastNormalWidth(0)
@@ -29,32 +29,41 @@ cWindowControl::cWindowControl(WINDOWTYPE wType, bool bAllowMovingControls)
 }
 
 // ***************************************************************
-cWindowControl::~cWindowControl()
+Graphics::cWindowControl::~cWindowControl()
 {
 }
 
 // ***************************************************************
-bool cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
+void Graphics::cWindowControl::VOnRender( const AppMsg & msg )
+{
+	if (m_eWindowType != WT_DESKTOP && m_pCanvasSprite)
+	{
+		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
+	}
+}
+
+// ***************************************************************
+bool Graphics::cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		Log_Write_L3(ILogger::LT_ERROR, cString(100, "cWindowControl::OnMouseUp"));
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "Graphics::cWindowControl::OnMouseUp"));
 		return	cBaseControl::VOnLeftMouseButtonUp(X, Y);
 	}
 }
 
 // ***************************************************************
-bool cWindowControl::VOnLeftMouseButtonDown( const int X, const int Y )
+bool Graphics::cWindowControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "cWindowControl::OnMouseDown" ));
+		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Graphics::cWindowControl::OnMouseDown" ));
 		return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 	}
 }
 
 // ***************************************************************
-bool cWindowControl::VOnMouseMove( const int X, const int Y )
+bool Graphics::cWindowControl::VOnMouseMove( const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
@@ -63,20 +72,16 @@ bool cWindowControl::VOnMouseMove( const int X, const int Y )
 }
 
 // ***************************************************************
-void cWindowControl::VOnRender( const AppMsg & msg )
+void Graphics::cWindowControl::VSetAbsolutePosition()
 {
-	if (m_eWindowType != WT_DESKTOP)
+	cBaseControl::VSetAbsolutePosition();
+	if (m_pCanvasSprite)
 	{
-		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-		GetAbsolutePosition(vControlAbsolutePosition);
-
-		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
+		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
 	}
 }
-
 // ***************************************************************
-void cWindowControl::LoadCanvasFromFile( const Base::cString & strFileName )
+void Graphics::cWindowControl::LoadCanvasFromFile( const Base::cString & strFileName )
 {
 	if(m_eWindowType != WT_DESKTOP)
 	{
@@ -89,7 +94,7 @@ void cWindowControl::LoadCanvasFromFile( const Base::cString & strFileName )
 }
 
 // ***************************************************************
-void cWindowControl::Minimize( const int iWidth, const int iHeight,
+void Graphics::cWindowControl::Minimize( const int iWidth, const int iHeight,
 							  const int iX, const int iY )
 {
 	if (m_eWindowType != WT_DESKTOP)
@@ -118,7 +123,7 @@ void cWindowControl::Minimize( const int iWidth, const int iHeight,
 }
 
 // ***************************************************************
-void cWindowControl::Restore()
+void Graphics::cWindowControl::Restore()
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{

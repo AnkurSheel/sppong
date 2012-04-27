@@ -13,7 +13,7 @@
 using namespace Graphics;
 
 // ***************************************************************
-cCheckBoxControl::cCheckBoxControl()
+Graphics::cCheckBoxControl::cCheckBoxControl()
 : m_pTickBox(NULL)
 , m_pLabel(NULL)
 , m_iLabelPosition(D3DXVECTOR3(0.f, 0.f, 0.f))
@@ -23,13 +23,13 @@ cCheckBoxControl::cCheckBoxControl()
 }
 
 // ***************************************************************
-cCheckBoxControl::~cCheckBoxControl()
+Graphics::cCheckBoxControl::~cCheckBoxControl()
 {
 	Cleanup();
 }		
 
 // ***************************************************************
-void cCheckBoxControl::Init( const Base::cString & strCheckedImage, 
+void Graphics::cCheckBoxControl::Init( const Base::cString & strCheckedImage, 
 							const Base::cString & strUnCheckedImage, 
 							const Base::cString & strCaption, 
 							const int iCheckBoxWidth, const int iCheckBoxHeight, 
@@ -53,7 +53,48 @@ void cCheckBoxControl::Init( const Base::cString & strCheckedImage,
 }
 
 // ***************************************************************
-bool cCheckBoxControl::VOnLeftMouseButtonDown( const int X, const int Y )
+void Graphics::cCheckBoxControl::VOnRender( const AppMsg & msg )
+{
+	if (m_pTickBox)
+	{
+		m_pTickBox->VOnRender(msg);
+	}
+	if(m_pLabel)
+	{
+		m_pLabel->VOnRender(msg);
+	}
+}
+
+// ***************************************************************
+void Graphics::cCheckBoxControl::VOnLostDevice()
+{
+	if (m_pTickBox)
+	{
+		m_pTickBox->VOnLostDevice();
+	}
+	if (m_pLabel)
+	{
+		m_pLabel->VOnLostDevice();
+	}
+	cBaseControl::VOnLostDevice();
+}
+
+// ***************************************************************
+HRESULT Graphics::cCheckBoxControl::VOnResetDevice()
+{
+	if (m_pTickBox)
+	{
+		m_pTickBox->VOnResetDevice();
+	}
+	if (m_pLabel)
+	{
+		m_pLabel->VOnResetDevice();
+	}
+	return cBaseControl::VOnResetDevice();
+}
+
+// ***************************************************************
+bool Graphics::cCheckBoxControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	if (m_bChecked)
 	{
@@ -73,64 +114,32 @@ bool cCheckBoxControl::VOnLeftMouseButtonDown( const int X, const int Y )
 }
 
 // ***************************************************************
-void cCheckBoxControl::VOnRender( const AppMsg & msg )
-{
-	D3DXVECTOR3 vControlAbsolutePosition;
-	bool bIsPositionChanged;
-	RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
-
-	if (bIsPositionChanged)
-	{
-		m_pTickBox->VSetPosition(vControlAbsolutePosition);
-		m_pLabel->VSetPosition(vControlAbsolutePosition + m_iLabelPosition);
-	}
-	m_pTickBox->VOnRender(msg);
-	m_pLabel->VOnRender(msg);
-}
-
-// ***************************************************************
-void cCheckBoxControl::VOnLostDevice()
-{
-	if (m_pTickBox)
-	{
-		m_pTickBox->VOnLostDevice();
-	}
-	if (m_pLabel)
-	{
-		m_pLabel->VOnLostDevice();
-	}
-	cBaseControl::VOnLostDevice();
-}
-
-// ***************************************************************
-HRESULT cCheckBoxControl::VOnResetDevice()
-{
-	if (m_pTickBox)
-	{
-		m_pTickBox->VOnResetDevice();
-	}
-	if (m_pLabel)
-	{
-		m_pLabel->VOnResetDevice();
-	}
-	return cBaseControl::VOnResetDevice();
-	
-}
-
-// ***************************************************************
-void cCheckBoxControl::VRegisterCallBack(function <void ()> callback)
+void Graphics::cCheckBoxControl::VRegisterCallBack(function <void ()> callback)
 {
 	m_pfnCallBack = callback;
 }
 
 // ***************************************************************
-void cCheckBoxControl::VUnregisterCallBack()
+void Graphics::cCheckBoxControl::VUnregisterCallBack()
 {
 	m_pfnCallBack = NULL;
 }
 
 // ***************************************************************
-void cCheckBoxControl::Cleanup()
+void Graphics::cCheckBoxControl::VSetAbsolutePosition()
+{
+	cBaseControl::VSetAbsolutePosition();
+	if (m_pTickBox)
+	{
+		m_pTickBox->VSetPosition(m_vControlAbsolutePosition);
+	}
+	if (m_pLabel)
+	{
+		m_pLabel->VSetPosition(m_vControlAbsolutePosition + m_iLabelPosition);
+	}
+}
+// ***************************************************************
+void Graphics::cCheckBoxControl::Cleanup()
 {
 	SAFE_DELETE(m_pTickBox);
 	SAFE_DELETE(m_pLabel);

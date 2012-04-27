@@ -103,5 +103,4 @@ void Cleanup()
 
 	if(ILogger::TheLogger())
 		ILogger::TheLogger()->Destroy();
-
 }

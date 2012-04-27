@@ -19,24 +19,22 @@ namespace Graphics
 	{
 	public:
 		cCheckBoxControl();
-		~cCheckBoxControl();
-		
 		void Init(const Base::cString & strCheckedImage, const Base::cString & strUnCheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
-		bool GetCheckedState();
-		void SetCheckedState(const bool bState);
-
-		void VOnRender(const AppMsg & msg);
-		bool VOnLeftMouseButtonDown(const int X, const int Y);
-		void VOnLostDevice();
-		HRESULT VOnResetDevice();
-		void VRegisterCallBack(function <void ()> callback);
-		void VUnregisterCallBack();
 
 	private:
-		cCheckBoxControl(cCheckBoxControl&){}
-		cCheckBoxControl operator =(const cCheckBoxControl&){}
-
+		~cCheckBoxControl();
+		
+		void VOnRender(const AppMsg & msg);
+		void VOnLostDevice();
+		HRESULT VOnResetDevice();
+		bool VOnLeftMouseButtonDown(const int X, const int Y);
+		void VRegisterCallBack(function <void ()> callback);
+		void VUnregisterCallBack();
+		void VSetAbsolutePosition();
+		bool GetCheckedState();
+		void SetCheckedState(const bool bState);
 		void Cleanup();
+
 	private:
 		bool				m_bChecked;
 		IBaseControl *		m_pTickBox;

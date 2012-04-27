@@ -31,7 +31,7 @@ cBaseControl::cBaseControl()
 , m_pFocusControl(NULL)
 , m_bIsMouseDown(false)
 , m_bAllowMovingControls(false)
-, m_vPrevControlPosition(D3DXVECTOR3(0.f, 0.f, 0.f))
+, m_vControlAbsolutePosition(D3DXVECTOR3(0.f, 0.f, 0.f))
 {
 
 }
@@ -57,11 +57,8 @@ bool cBaseControl::VOnKeyUp( const AppMsg & msg )
 // ***************************************************************
 bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
-	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-	GetAbsolutePosition(vControlAbsolutePosition);
-
-	m_iMouseDownXPos = X - vControlAbsolutePosition.x;
-	m_iMouseDownYPos = Y - vControlAbsolutePosition.y;
+	m_iMouseDownXPos = X - m_vControlAbsolutePosition.x;
+	m_iMouseDownYPos = Y - m_vControlAbsolutePosition.y;
 	m_bIsMouseDown = true;
 	return true;
 }
@@ -81,15 +78,11 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 {
 	if (AllowMovingControl() && m_bIsMouseDown)
 	{
-		D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-		GetAbsolutePosition(vControlAbsolutePosition);
-
-		float x = m_vPosition.x + (X - vControlAbsolutePosition.x) - m_iMouseDownXPos;
-		float y = m_vPosition.y + (Y - vControlAbsolutePosition.y) - m_iMouseDownYPos;
+		float x = m_vPosition.x + (X - m_vControlAbsolutePosition.x) - m_iMouseDownXPos;
+		float y = m_vPosition.y + (Y - m_vControlAbsolutePosition.y) - m_iMouseDownYPos;
 
 		ConstrainChildControl(x, y);
-		m_vPosition.x = x;
-		m_vPosition.y = y;
+		VSetPosition(D3DXVECTOR3(x, y, 0));
 		return true;
 	}
 	return false;
@@ -298,28 +291,11 @@ const cBaseControl * cBaseControl::RemoveChildControl( const cBaseControl * pChi
 }
 
 // ***************************************************************
-void cBaseControl::GetAbsolutePosition( D3DXVECTOR3 & vPosition ) const
-{
-	vPosition.x += m_vPosition.x;
-	vPosition.y += m_vPosition.y;
-
-	if (m_pParentControl)
-	{
-		m_pParentControl->GetAbsolutePosition(vPosition);
-	}
-}
-
-// ***************************************************************
 bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 {
-	D3DXVECTOR3 vControlAbsolutePosition = D3DXVECTOR3(0.f,0.f, 0.f);
-
-	GetAbsolutePosition(vControlAbsolutePosition);
-
-
-	if((fX >= vControlAbsolutePosition.x) && (fX <= vControlAbsolutePosition.x + VGetWidth()))
+	if((fX >= m_vControlAbsolutePosition.x) && (fX <= m_vControlAbsolutePosition.x + VGetWidth()))
 	{
-		if((fY >= vControlAbsolutePosition.y) && (fY <= vControlAbsolutePosition.y + VGetHeight()))
+		if((fY >= m_vControlAbsolutePosition.y) && (fY <= m_vControlAbsolutePosition.y + VGetHeight()))
 		{
 			return true;
 		}
@@ -408,33 +384,6 @@ void cBaseControl::MoveToFront( cBaseControl * const pControl )
 }
 
 // ***************************************************************
-bool cBaseControl::IsPositionChanged( const D3DXVECTOR3 & vControlPosition )
-{
-	if (m_vPrevControlPosition != vControlPosition)
-	{
-		return true;
-	}
-	return false;
-}
-
-// ***************************************************************
-void cBaseControl::RenderPrivate( D3DXVECTOR3 & vControlAbsolutePosition, bool & bIsPositionChanged )
-{
-	vControlAbsolutePosition = D3DXVECTOR3(0.f, 0.f, 0.f);
-	GetAbsolutePosition(vControlAbsolutePosition);
-
-	bIsPositionChanged = IsPositionChanged(vControlAbsolutePosition);
-	if (bIsPositionChanged)
-	{
-		if (m_dwWidth == 0 || m_dwHeight == 0)
-		{
-			Log_Write_L1(ILogger::LT_ERROR, cString(100, "Label control height or width is 0"));
-		}
-		m_vPrevControlPosition = vControlAbsolutePosition;
-	}
-}
-
-// ***************************************************************
 void cBaseControl::ConstrainChildControl( float &x, float &y )
 {
 	// constrain child control in parent control
@@ -456,5 +405,31 @@ void cBaseControl::ConstrainChildControl( float &x, float &y )
 		{
 			y = m_pParentControl->VGetHeight() - m_dwHeight; 
 		}
+	}
+}
+
+// ***************************************************************
+void cBaseControl::VSetPosition( const D3DXVECTOR3 & vPosition )
+{
+	m_vPosition = vPosition;
+	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
+	VSetAbsolutePosition();
+}
+
+// ***************************************************************
+void Graphics::cBaseControl::VSetAbsolutePosition()
+{
+	m_vControlAbsolutePosition = m_vPosition;
+	if (m_pParentControl)
+	{
+		m_vControlAbsolutePosition += m_pParentControl->m_vControlAbsolutePosition;
+	}
+
+	cBaseControl * pTempControl = GetFirstChild();
+
+	while(pTempControl)
+	{
+		pTempControl->VSetAbsolutePosition();
+		pTempControl = pTempControl->GetNextSibling();
 	}
 }

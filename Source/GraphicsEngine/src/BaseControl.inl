@@ -10,10 +10,10 @@ inline cBaseControl * cBaseControl::GetNextSibling() const
 }
 // ***************************************************************
 
-inline cBaseControl * Graphics::cBaseControl::GetParentControl()
-{
-	return m_pParentControl;
-}
+//inline cBaseControl * Graphics::cBaseControl::GetParentControl()
+//{
+//	return m_pParentControl;
+//}
 // ***************************************************************
 
 inline void cBaseControl::SetParentControl( cBaseControl * pParentControl )
@@ -22,16 +22,16 @@ inline void cBaseControl::SetParentControl( cBaseControl * pParentControl )
 }
 // ***************************************************************
 
-inline shared_ptr<ISprite> cBaseControl::GetSprite() const
-{
-	return m_pCanvasSprite;
-}
+//inline shared_ptr<ISprite> cBaseControl::GetSprite() const
+//{
+//	return m_pCanvasSprite;
+//}
 // ***************************************************************
 
-inline void cBaseControl::SetSprite(shared_ptr<ISprite> pSprite )
-{
-	m_pCanvasSprite = pSprite;
-}
+//inline void cBaseControl::SetSprite(shared_ptr<ISprite> pSprite )
+//{
+//	m_pCanvasSprite = pSprite;
+//}
 // ***************************************************************
 
 inline void cBaseControl::SetNextSibling( cBaseControl * pControl )
@@ -46,10 +46,10 @@ inline cBaseControl * cBaseControl::GetPreviousSibling() const
 }
 // ***************************************************************
 
-inline int cBaseControl::GetNoOfChildren() const
-{
-	return m_iNoOfChildren;
-}
+//inline int cBaseControl::GetNoOfChildren() const
+//{
+//	return m_iNoOfChildren;
+//}
 // ***************************************************************
 
 inline void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
@@ -70,16 +70,16 @@ inline DWORD Graphics::cBaseControl::VGetWidth() const
 }
 // ***************************************************************
 
-inline cBaseControl * Graphics::cBaseControl::GetFocusControl()
-{
-	return m_pFocusControl;
-}
+//inline cBaseControl * Graphics::cBaseControl::GetFocusControl()
+//{
+//	return m_pFocusControl;
+//}
 // ***************************************************************
 
-inline bool Graphics::cBaseControl::GetVisible() const
-{
-	return m_bVisible;
-}
+//inline bool Graphics::cBaseControl::GetVisible() const
+//{
+//	return m_bVisible;
+//}
 // ***************************************************************
 
 inline void Graphics::cBaseControl::SetVisible( bool bIsVisible )
@@ -88,17 +88,10 @@ inline void Graphics::cBaseControl::SetVisible( bool bIsVisible )
 }
 // ***************************************************************
 
-inline D3DXVECTOR3 Graphics::cBaseControl::VGetPosition() const
-{
-	return m_vPosition;
-}
-// ***************************************************************
-
-inline void Graphics::cBaseControl::VSetPosition( const D3DXVECTOR3 & vPosition )
-{
-	m_vPosition = vPosition;
-	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
-}
+//inline D3DXVECTOR3 Graphics::cBaseControl::VGetPosition() const
+//{
+//	return m_vPosition;
+//}
 // ***************************************************************
 
 inline bool cBaseControl::AllowMovingControl()

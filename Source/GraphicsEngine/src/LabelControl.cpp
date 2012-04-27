@@ -17,18 +17,17 @@ using namespace Utilities;
 using namespace Graphics;
 
 // ***************************************************************
-cLabelControl::cLabelControl()
-{
-
-}
-
-// ***************************************************************
-cLabelControl::~cLabelControl()
+Graphics::cLabelControl::cLabelControl()
 {
 }
 
 // ***************************************************************
-void cLabelControl::Init(const int iHeight, const UINT iWidth, const UINT iWeight, 
+Graphics::cLabelControl::~cLabelControl()
+{
+}
+
+// ***************************************************************
+void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const UINT iWeight, 
 						 const BOOL bItalic, const BYTE charset, 
 						 const cString & strFaceName, DWORD dwFormat, 
 						 const D3DXCOLOR & color, const Base::cString & strCaption )
@@ -51,29 +50,16 @@ void cLabelControl::Init(const int iHeight, const UINT iWidth, const UINT iWeigh
 }
 
 // ***************************************************************
-void cLabelControl::VOnRender( const AppMsg & msg )
+void Graphics::cLabelControl::VOnRender( const AppMsg & msg )
 {
 	if (m_pFont)
 	{
-		D3DXVECTOR3 vControlAbsolutePosition;
-		bool bIsPositionChanged;
-		RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
-
-		if (bIsPositionChanged)
-		{
-			m_rectBoundary.left = (LONG)vControlAbsolutePosition.x;
-			m_rectBoundary.top = (LONG)vControlAbsolutePosition.y;
-			m_rectBoundary.right = m_rectBoundary.left + m_dwWidth;
-			m_rectBoundary.bottom = m_rectBoundary.top + m_dwHeight;
-			m_pFont->SetRect(m_rectBoundary);
-		}
-
 		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
 	}
 }
 
 // ***************************************************************
-void cLabelControl::VOnLostDevice()
+void Graphics::cLabelControl::VOnLostDevice()
 {
 	cBaseControl::VOnLostDevice();
 	
@@ -84,7 +70,7 @@ void cLabelControl::VOnLostDevice()
 }
 
 // ***************************************************************
-HRESULT cLabelControl::VOnResetDevice()
+HRESULT Graphics::cLabelControl::VOnResetDevice()
 {
 	cBaseControl::VOnResetDevice();
 	if (m_pFont)
@@ -92,6 +78,17 @@ HRESULT cLabelControl::VOnResetDevice()
 		m_pFont->OnResetDevice();
 	}
 	return S_OK;
+}
+
+// ***************************************************************
+void Graphics::cLabelControl::VSetAbsolutePosition()
+{
+	cBaseControl::VSetAbsolutePosition();
+	m_rectBoundary.left = (LONG)m_vControlAbsolutePosition.x;
+	m_rectBoundary.top = (LONG)m_vControlAbsolutePosition.y;
+	m_rectBoundary.right = m_rectBoundary.left + m_dwWidth;
+	m_rectBoundary.bottom = m_rectBoundary.top + m_dwHeight;
+	m_pFont->SetRect(m_rectBoundary);
 }
 
 // ***************************************************************

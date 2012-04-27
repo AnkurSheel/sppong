@@ -18,7 +18,7 @@ using namespace Graphics;
 using namespace Utilities;
 
 // ***************************************************************
-cButtonControl::cButtonControl()
+Graphics::cButtonControl::cButtonControl()
 : m_pLabelCaption(NULL)
 , m_bPressed(false)
 , m_pfnCallBack(NULL)
@@ -27,13 +27,13 @@ cButtonControl::cButtonControl()
 }
 
 // ***************************************************************
-cButtonControl::~cButtonControl()
+Graphics::cButtonControl::~cButtonControl()
 {
 	Cleanup();
 }
 
 // ***************************************************************
-void cButtonControl::Init( const Base::cString & strDefaultImage,
+void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage,
 									const Base::cString & strPressedImage, 
 									const Base::cString & strCaption,
 									const int iHeight, const UINT iWidth, 
@@ -54,7 +54,7 @@ void cButtonControl::Init( const Base::cString & strDefaultImage,
 }
 
 // ***************************************************************
-void cButtonControl::Init( const Base::cString & strDefaultImage, const Base::cString & strPressedImage )
+void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, const Base::cString & strPressedImage )
 {
 	if(m_pDefaultTexture == NULL)
 	{
@@ -73,44 +73,12 @@ void cButtonControl::Init( const Base::cString & strDefaultImage, const Base::cS
 }
 
 // ***************************************************************
-bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
+void Graphics::cButtonControl::VOnRender( const AppMsg & msg )
 {
-	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl :Button Released");
-	m_bPressed = false;
-	m_pCanvasSprite->SetTexture(m_pDefaultTexture);
-	if (m_pfnCallBack)
+	if (m_pCanvasSprite)
 	{
-		m_pfnCallBack();
+		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 	}
-	return cBaseControl::VOnLeftMouseButtonUp(X, Y);
-	
-}
-
-// ***************************************************************
-bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
-{
-	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl: Button Pressed");
-	m_bPressed = true;
-	m_pCanvasSprite->SetTexture(m_pPressedTexture);
-	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
-}
-
-// ***************************************************************
-void cButtonControl::VOnRender( const AppMsg & msg )
-{
-	D3DXVECTOR3 vControlAbsolutePosition;
-	bool bIsPositionChanged;
-	RenderPrivate(vControlAbsolutePosition, bIsPositionChanged);
-
-	if (bIsPositionChanged)
-	{
-		m_pCanvasSprite->SetPosition(vControlAbsolutePosition);
-		if (m_pLabelCaption)
-		{
-			m_pLabelCaption->VSetPosition(vControlAbsolutePosition);
-		}
-	}
-	m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 	if (m_pLabelCaption)
 	{	
 		m_pLabelCaption->VOnRender(msg);
@@ -118,7 +86,7 @@ void cButtonControl::VOnRender( const AppMsg & msg )
 }
 
 // ***************************************************************
-void cButtonControl::VOnLostDevice()
+void Graphics::cButtonControl::VOnLostDevice()
 {
 	cBaseControl::VOnLostDevice();
 	if(m_pLabelCaption)
@@ -128,7 +96,7 @@ void cButtonControl::VOnLostDevice()
 }
 
 // ***************************************************************
-HRESULT cButtonControl::VOnResetDevice()
+HRESULT Graphics::cButtonControl::VOnResetDevice()
 {
 	if (m_pLabelCaption)
 	{
@@ -138,19 +106,55 @@ HRESULT cButtonControl::VOnResetDevice()
 }
 
 // ***************************************************************
-void cButtonControl::VRegisterCallBack(function <void ()> callback)
+bool Graphics::cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
+{
+	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl :Button Released");
+	m_bPressed = false;
+	m_pCanvasSprite->SetTexture(m_pDefaultTexture);
+	if (m_pfnCallBack)
+	{
+		m_pfnCallBack();
+	}
+	return cBaseControl::VOnLeftMouseButtonUp(X, Y);
+}
+
+// ***************************************************************
+bool Graphics::cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
+{
+	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl: Button Pressed");
+	m_bPressed = true;
+	m_pCanvasSprite->SetTexture(m_pPressedTexture);
+	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
+}
+
+// ***************************************************************
+void Graphics::cButtonControl::VRegisterCallBack(function <void ()> callback)
 {
 	m_pfnCallBack = callback;
 }
 
 // ***************************************************************
-void cButtonControl::VUnregisterCallBack()
+void Graphics::cButtonControl::VUnregisterCallBack()
 {
 	m_pfnCallBack = NULL;
 }
 
 // ***************************************************************
-void cButtonControl::VSetSize( const float fNewWidth, const float fNewHeight )
+void Graphics::cButtonControl::VSetAbsolutePosition()
+{
+	cBaseControl::VSetAbsolutePosition();
+	
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
+	}
+	if (m_pLabelCaption)
+	{
+		m_pLabelCaption->VSetPosition(m_vControlAbsolutePosition);
+	}
+}
+// ***************************************************************
+void Graphics::cButtonControl::VSetSize( const float fNewWidth, const float fNewHeight )
 {
 	cBaseControl::VSetSize(fNewWidth, fNewHeight);
 	if (m_pLabelCaption)
@@ -160,7 +164,7 @@ void cButtonControl::VSetSize( const float fNewWidth, const float fNewHeight )
 }
 
 // ***************************************************************
-void cButtonControl::Cleanup()
+void Graphics::cButtonControl::Cleanup()
 {
 	SAFE_DELETE(m_pLabelCaption);
 	VUnregisterCallBack();

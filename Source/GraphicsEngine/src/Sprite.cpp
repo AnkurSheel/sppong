@@ -114,6 +114,7 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 	{
 		m_pSprite->SetTransform(&m_mScaleMatrix);
 	}
+	MakeTransformMatrix();
 }
 // ***************************************************************
 
