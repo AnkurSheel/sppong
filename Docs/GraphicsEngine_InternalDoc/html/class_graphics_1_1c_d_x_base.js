@@ -14,7 +14,7 @@ var class_graphics_1_1c_d_x_base =
     [ "VOnDestroy", "class_graphics_1_1c_d_x_base.html#a958f88e0050f0cc138f736139cf3feae", null ],
     [ "VOnInitialization", "class_graphics_1_1c_d_x_base.html#a454940a5d6043064c902830271f3ec9b", null ],
     [ "VOnResetDevice", "class_graphics_1_1c_d_x_base.html#a05fab02d36a5338d19c20d615a176899", null ],
-    [ "VToggleFullScreen", "class_graphics_1_1c_d_x_base.html#a3eed4b398a947a0d3d13998e3cc65da5", null ],
+    [ "VToggleFullScreen", "class_graphics_1_1c_d_x_base.html#a9a76303a1d03a6a203be3ebf10969dcb", null ],
     [ "m_bFullScreen", "class_graphics_1_1c_d_x_base.html#a533e574f90c165ea21e972d36cff6059", null ],
     [ "m_BkColor", "class_graphics_1_1c_d_x_base.html#ab569b18d6fa69cfb702d208c2c6b92c5", null ],
     [ "m_Caps", "class_graphics_1_1c_d_x_base.html#a2951d5a95bd12dac169bed879e285b7a", null ],

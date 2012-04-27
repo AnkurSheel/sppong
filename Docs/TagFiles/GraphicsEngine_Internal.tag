@@ -32,13 +32,6 @@
       <arglist>(const HRESULT hr)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
-      <type>virtual LPDIRECT3DDEVICE9</type>
-      <name>VGetDevice</name>
-      <anchorfile>class_graphics_1_1_i_d_x_base.html</anchorfile>
-      <anchor>a9594b2ae572fa05cac77be940269c85f</anchor>
-      <arglist>() const =0</arglist>
-    </member>
-    <member kind="function" virtualness="pure">
       <type>virtual HRESULT</type>
       <name>VIsAvailable</name>
       <anchorfile>class_graphics_1_1_i_d_x_base.html</anchorfile>
@@ -51,6 +44,13 @@
       <anchorfile>class_graphics_1_1_i_d_x_base.html</anchorfile>
       <anchor>a2fe4370e2db37eede8107c838c32527a</anchor>
       <arglist>()=0</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual LPDIRECT3DDEVICE9</type>
+      <name>VGetDevice</name>
+      <anchorfile>class_graphics_1_1_i_d_x_base.html</anchorfile>
+      <anchor>a9594b2ae572fa05cac77be940269c85f</anchor>
+      <arglist>() const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>
@@ -131,7 +131,7 @@
       <type>void</type>
       <name>VToggleFullScreen</name>
       <anchorfile>class_graphics_1_1c_d_x_base.html</anchorfile>
-      <anchor>a3eed4b398a947a0d3d13998e3cc65da5</anchor>
+      <anchor>a9a76303a1d03a6a203be3ebf10969dcb</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">

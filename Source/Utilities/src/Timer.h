@@ -1,51 +1,50 @@
 // ***************************************************************
 //  Timer   version:  1.0   Ankur Sheel  date: 05/01/2008
 //  -------------------------------------------------------------
-//  
+//
 //  -------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
 // ***************************************************************
-// 
+//
 // ***************************************************************
 #ifndef Timer_h__
 #define Timer_h__
-
 
 #include "Timer.hxx"
 
 namespace Utilities
 {
-	class cTimer
+	/********************************************//**
+     * @brief Class Declaration for creating a timer
+     ***********************************************/
+     class cTimer
 		: public ITimer
+		, public Base::cNonCopyable
 	{
-	private:
-		cTimer(const cTimer&){}
-		cTimer operator =(const cTimer&){}
-
 	public:
 		cTimer();
 		~cTimer();
-		void Start();
-		void Stop();
-		void Update(); 
+		void VStartTimer();
+		void VStopTimer();
+		void VOnUpdate();
 
-		bool IsStopped() const;
-		float GetFPS() const;
-		float GetRunningTime() const;
-		float GetElapsedTime() const;
-		TICK GetRunningTicks() const;
+		bool VIsStopped() const;
+		float VGetFPS() const;
+		float VGetRunningTime() const;
+		float VGetDeltaTime() const;
+		TICK VGetRunningTicks() const;
 
 	private:
-		INT64		m_iTicksPerSecond;
-		INT64		m_iCurrentTime;
-		INT64		m_iLastTime;
-		INT64		m_iLastFPSUpdate;
-		INT64		m_iFPSUpdateInterval;
-		UINT		m_iNumFrames;
-		float		m_fRunningTime;
-		float		m_fTimeElapsed;
-		float		m_fFPS;
-		bool		m_bTimerStopped;
+		INT64		m_iTicksPerSecond;      /*!< The number of times the system counter fires in 1 second*/
+		INT64		m_iCurrentTime;         /*!< The time at this instant */
+		INT64		m_iLastUpdateTime;      /*!< The time at which the timer was last updated */
+		INT64		m_iLastFPSUpdateTime;   /*!< The time at which the FPS was last calculated */
+		INT64		m_iFPSUpdateInterval;   /*!< The time interval between calls to update the FPS */
+		UINT		m_iNumFrames;           /*!< The numbers of frames that have been rendered*/
+		float		m_fRunningTime;         /*!< The total time this timer has been running */
+		float		m_fDeltaTime;           /*!< The time that has elapsed between 2 frames */
+		float		m_fFPS;                 /*!< The FPS */
+		bool		m_bTimerStopped;        /*!< True if the timer is stopped*/
 	};
 
 #include "Timer.inl"

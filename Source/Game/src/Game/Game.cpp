@@ -89,7 +89,7 @@ void cGame::VRun()
 	MSG Msg ;
 
 	m_pGameTimer = ITimer::CreateTimer();
-	m_pGameTimer->Start();
+	m_pGameTimer->VStartTimer();
 
 	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
 	// run till completed
@@ -107,7 +107,7 @@ void cGame::VRun()
 			//No message to process?
 			// Then do your game stuff here
 			OnUpdate();
-			Render(m_pGameTimer->GetRunningTicks(), m_pGameTimer->GetElapsedTime());
+			Render(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
 		}
 	}
 }
@@ -139,10 +139,10 @@ cString cGame::VGetGameTitle() const
 // ***************************************************************
 void cGame::OnUpdate()
 {
-	m_pGameTimer->Update();
+	m_pGameTimer->VOnUpdate();
 	m_pStateMachine->Update();
 	m_pSound->Update();
-	m_pPongView->VOnUpdate(this, m_pGameTimer->GetElapsedTime());
+	m_pPongView->VOnUpdate(this, m_pGameTimer->VGetDeltaTime());
 
 }
 
@@ -254,7 +254,7 @@ void cGame::Cleanup()
 float cGame::GetRunningTime()
 {
 	if(m_pGameTimer)
-		return m_pGameTimer->GetRunningTime();
+		return m_pGameTimer->VGetRunningTime();
 
 	return 0.f;
 }
@@ -263,7 +263,7 @@ float cGame::GetRunningTime()
 TICK cGame::GetRunningTicks()
 {
 	if(m_pGameTimer)
-		return m_pGameTimer->GetRunningTicks();
+		return m_pGameTimer->VGetRunningTicks();
 
 	return 0;
 }
@@ -273,7 +273,7 @@ TICK cGame::GetRunningTicks()
 // ***************************************************************
 float cGame::GetFPS()
 {
-	return m_pGameTimer->GetFPS();
+	return m_pGameTimer->VGetFPS();
 }
 
 // ***************************************************************
@@ -343,7 +343,7 @@ void cGame::MoveLeftPaddle(bool bMoveDown)
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
 			{
-				pPaddle->MoveDown(m_pGameTimer->GetElapsedTime());
+				pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
 			}
 		}
 	}
@@ -355,7 +355,7 @@ void cGame::MoveLeftPaddle(bool bMoveDown)
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
 			if(pPaddle)
 			{
-				pPaddle->MoveUp(m_pGameTimer->GetElapsedTime());
+				pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
 			}
 		}
 
@@ -372,7 +372,7 @@ void cGame::MoveRightPaddle( bool bMoveDown )
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
 			if(pPaddle)
 			{
-				pPaddle->MoveDown(m_pGameTimer->GetElapsedTime());
+				pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
 			}
 		}
 	}
@@ -383,7 +383,7 @@ void cGame::MoveRightPaddle( bool bMoveDown )
 			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
 			if(pPaddle)
 			{
-				pPaddle->MoveUp(m_pGameTimer->GetElapsedTime());
+				pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
 			}
 		}
 	}

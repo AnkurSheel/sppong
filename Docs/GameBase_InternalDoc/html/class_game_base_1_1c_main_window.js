@@ -21,6 +21,5 @@ var class_game_base_1_1c_main_window =
     [ "m_kdwFullScreenStyle", "class_game_base_1_1c_main_window.html#a49288199090e86f10f71a9ffcac9543a", null ],
     [ "m_kdwWindowedStyle", "class_game_base_1_1c_main_window.html#a6fd476492260b48c4e6f105e817b5325", null ],
     [ "m_pGame", "class_game_base_1_1c_main_window.html#aa599ab9886823365c4ce532a58c5150c", null ],
-    [ "m_rectWindow", "class_game_base_1_1c_main_window.html#a878e3c2a55e2a2a6b6535839a4634940", null ],
     [ "m_wp", "class_game_base_1_1c_main_window.html#add15048ac50c58ddbe931b67988bd4b6", null ]
 ];

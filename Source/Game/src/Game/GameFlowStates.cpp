@@ -267,7 +267,7 @@ void cStatePlayGame::Execute(cGame *pGame)
 {
 	for(int i=0; i<pGame->PGE_TOTAL; i++)
 	{
-		pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->GetElapsedTime());
+		pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
 	}
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
