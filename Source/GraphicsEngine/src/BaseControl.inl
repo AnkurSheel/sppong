@@ -58,15 +58,15 @@ inline void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
 }
 // ***************************************************************
 
-inline DWORD Graphics::cBaseControl::VGetHeight() const
+inline float Graphics::cBaseControl::VGetHeight() const
 {
-	return m_dwHeight;
+	return m_fHeight;
 }
 // ***************************************************************
 
-inline DWORD Graphics::cBaseControl::VGetWidth() const
+inline float Graphics::cBaseControl::VGetWidth() const
 {
-	return m_dwWidth;
+	return m_fWidth;
 }
 // ***************************************************************
 

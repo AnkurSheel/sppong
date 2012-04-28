@@ -88,8 +88,8 @@ void Graphics::cWindowControl::LoadCanvasFromFile( const Base::cString & strFile
 		m_pCanvasSprite = ISprite::CreateSprite();
 		m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strFileName);
 
-		m_dwHeight = m_pCanvasSprite->GetScaledHeight();
-		m_dwWidth = m_pCanvasSprite->GetScaledWidth();
+		m_fHeight = m_pCanvasSprite->GetScaledHeight();
+		m_fWidth = m_pCanvasSprite->GetScaledWidth();
 	}
 }
 
@@ -110,15 +110,15 @@ void Graphics::cWindowControl::Minimize( const int iWidth, const int iHeight,
 
 		m_iLastNormalPosX = m_vPosition.x;
 		m_iLastNormalPosY = m_vPosition.y;
-		m_iLastNormalWidth = m_dwWidth;
-		m_iLastNormalHeight = m_dwHeight;
+		m_iLastNormalWidth = m_fWidth;
+		m_iLastNormalHeight = m_fHeight;
 		
 		m_bIsMinimized = true;
 
 		m_vPosition.x = iX;
 		m_vPosition.y = iY;
-		m_dwHeight = iHeight;
-		m_dwWidth = iWidth;
+		m_fHeight = iHeight;
+		m_fWidth = iWidth;
 	}
 }
 
@@ -129,8 +129,8 @@ void Graphics::cWindowControl::Restore()
 	{
 		m_vPosition.x = m_iLastNormalPosX;
 		m_vPosition.y = m_iLastNormalPosY;
-		m_dwHeight = m_iLastNormalHeight;
-		m_dwWidth = m_iLastNormalWidth;
+		m_fHeight = m_iLastNormalHeight;
+		m_fWidth = m_iLastNormalWidth;
 
 		m_bIsMinimized = false;
 	}

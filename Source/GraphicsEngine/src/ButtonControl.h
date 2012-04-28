@@ -35,7 +35,7 @@ namespace Graphics
 		HRESULT VOnResetDevice();
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
-		void VRegisterCallBack(function <void ()> callback);
+		void VRegisterCallBack(function <void (bool)> callback);
 		void VUnregisterCallBack();
 		void VSetAbsolutePosition();
 		void VSetSize(const float fNewWidth, const float fNewHeight);
@@ -46,7 +46,7 @@ namespace Graphics
 		shared_ptr<ITexture>		m_pDefaultTexture;
 		shared_ptr<ITexture>		m_pPressedTexture;
 		bool						m_bPressed;
-		function<void ()>			m_pfnCallBack;
+		function<void (bool)>		m_pfnCallBack;
 	};
 }
 #endif // ButtonControl_h__

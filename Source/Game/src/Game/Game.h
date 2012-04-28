@@ -82,9 +82,9 @@ public:
 	bool IsSinglePlayer();
 
 private:
-	void SinglePlayerButtonPressed();
-	void MultiPlayerButtonPressed();
-	void QuitButtonPressed();
+	void SinglePlayerButtonPressed(bool bPressed);
+	void MultiPlayerButtonPressed(bool bPressed);
+	void QuitButtonPressed(bool bPressed);
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;

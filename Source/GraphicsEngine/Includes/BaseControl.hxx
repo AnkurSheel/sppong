@@ -45,9 +45,9 @@ namespace Graphics
 		virtual void VRemoveAllChildren() = 0;
 		virtual void VSetPosition(const D3DXVECTOR3 & vPosition) = 0;
 		virtual void VSetSize(const float fNewWidth, const float fNewHeight) = 0;
-		virtual DWORD VGetWidth() const = 0;
-		virtual DWORD VGetHeight() const = 0;
-		virtual void VRegisterCallBack(function <void ()> callback) = 0;
+		virtual float VGetWidth() const = 0;
+		virtual float VGetHeight() const = 0;
+		virtual void VRegisterCallBack(function <void (bool)> callback) = 0;
 		virtual void VUnregisterCallBack() = 0;
 
 	public:
@@ -57,6 +57,7 @@ namespace Graphics
 		GRAPHIC_API static IBaseControl * CreateButtonControl(const Base::cString & strDefaultImage, const Base::cString & strPressedImage);
 		GRAPHIC_API static IBaseControl * CreateCheckBoxControl(const Base::cString & strCheckedImage, const Base::cString & strUncheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
 		GRAPHIC_API static IBaseControl * CreateTextBoxControl(const Base::cString & strDefaultImage, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color );
+		GRAPHIC_API static IBaseControl * CreateScrollBarControl(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultTopRightImage, const Base::cString & strPressedTopRightImage, const Base::cString & strDefaultLeftBottomImage,	const Base::cString & strPressedLeftBottomImage, const int iLeftTopPos, const int iRightBottomPos);
 	};
 }
 #endif // BaseControl_hxx__

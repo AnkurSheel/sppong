@@ -31,6 +31,8 @@ namespace Graphics
 		void VOnLostDevice();
 		HRESULT VOnResetDevice();
 		void VSetAbsolutePosition();
+		void VSetSize(const float fNewWidth, const float fNewHeight);
+		void UpdateRect();
 
 	private:
 		shared_ptr<IFont>		m_pFont;

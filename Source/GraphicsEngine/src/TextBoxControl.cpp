@@ -173,8 +173,8 @@ void Graphics::cTextBoxControl::VSetAbsolutePosition()
 	
 	m_rectBoundary.left = (LONG)m_vControlAbsolutePosition.x;
 	m_rectBoundary.top = (LONG)m_vControlAbsolutePosition.y;
-	m_rectBoundary.right = m_rectBoundary.left + m_dwWidth;
-	m_rectBoundary.bottom = m_rectBoundary.top + m_dwHeight;
+	m_rectBoundary.right = m_rectBoundary.left + m_fWidth;
+	m_rectBoundary.bottom = m_rectBoundary.top + m_fHeight;
 	if (m_pFont)
 	{
 		m_pFont->SetRect(m_rectBoundary);
@@ -191,7 +191,7 @@ void Graphics::cTextBoxControl::VSetAbsolutePosition()
 bool Graphics::cTextBoxControl::InsertText( const Base::cString & strText )
 {
 	if(!m_bTextBoxFull 
-		&& (m_iTextWidth + GetStringWidth(strText)) <= m_dwWidth)
+		&& (m_iTextWidth + GetStringWidth(strText)) <= m_fWidth)
 	{
 		m_strText.Insert(m_iCaretPos, strText);
 		m_iTextWidth = GetStringWidth();
@@ -247,7 +247,7 @@ int Graphics::cTextBoxControl::GetStringHeight()
 void Graphics::cTextBoxControl::SetText( const Base::cString & strText )
 {
 	int iWidth = GetStringWidth(strText);
-	if(iWidth <= m_dwWidth)
+	if(iWidth <= m_fWidth)
 	{
 		m_strText = strText;
 		m_iTextWidth = iWidth;

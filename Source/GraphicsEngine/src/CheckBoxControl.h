@@ -28,7 +28,7 @@ namespace Graphics
 		void VOnLostDevice();
 		HRESULT VOnResetDevice();
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
-		void VRegisterCallBack(function <void ()> callback);
+		void VRegisterCallBack(function <void (bool)> callback);
 		void VUnregisterCallBack();
 		void VSetAbsolutePosition();
 		bool GetCheckedState();
@@ -36,11 +36,11 @@ namespace Graphics
 		void Cleanup();
 
 	private:
-		bool				m_bChecked;
-		IBaseControl *		m_pTickBox;
-		IBaseControl *		m_pLabel;
-		D3DXVECTOR3			m_iLabelPosition;
-		function<void ()>	m_pfnCallBack;
+		bool					m_bChecked;
+		IBaseControl *			m_pTickBox;
+		IBaseControl *			m_pLabel;
+		D3DXVECTOR3				m_iLabelPosition;
+		function<void (bool)>	m_pfnCallBack;
 	};
 
 #include "CheckBoxControl.inl"

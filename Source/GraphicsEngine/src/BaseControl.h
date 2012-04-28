@@ -30,6 +30,7 @@ namespace Graphics
 	protected:
 		cBaseControl();
 		virtual ~cBaseControl();
+		bool VPostMsg(const AppMsg & msg);
 		virtual void VOnLostDevice();
 		virtual HRESULT VOnResetDevice();
 		virtual bool VOnLeftMouseButtonUp(const int X, const int Y);
@@ -37,20 +38,20 @@ namespace Graphics
 		virtual bool VOnMouseMove(const int X, const int Y);
 		virtual bool VOnKeyDown(const AppMsg & msg);
 		virtual void VSetSize(const float fNewWidth, const float fNewHeight);
+		virtual void VSetPosition(const D3DXVECTOR3 & vPosition);
 		virtual void VSetAbsolutePosition();
-		DWORD VGetHeight() const;
+		//D3DXVECTOR3 VGetPosition() const;
+		float VGetWidth() const;
+		float VGetHeight() const;
 		void SetFocusControl(const cBaseControl * const pControl);
 		cBaseControl * GetFirstChild() const;
+		bool IsCursorIntersect(const float fX, const float fY);
 
 	private:
-		bool VPostMsg(const AppMsg & msg);
 		virtual bool VOnKeyUp(const AppMsg & msg);
-		void VSetPosition(const D3DXVECTOR3 & vPosition);
-		//D3DXVECTOR3 VGetPosition() const;
-		DWORD VGetWidth() const;
 		IBaseControl * VAddChildControl( IBaseControl * const pChildControl);
 		void VRemoveAllChildren();
-		void VRegisterCallBack(function <void ()> callback){};
+		void VRegisterCallBack(function <void (bool)> callback){};
 		void VUnregisterCallBack(){};
 		bool AllowMovingControl();
 		void ConstrainChildControl( float &x, float &y );
@@ -65,7 +66,6 @@ namespace Graphics
 		//void SetSprite( shared_ptr<ISprite> pSprite );
 		void SetNextSibling( cBaseControl * pControl );
 		void SetPreviousSibling( cBaseControl * temp );
-		bool IsCursorIntersect(const float fX, const float fY);
 		cBaseControl * PostToAll(const AppMsg & msg);
 		void PostToAllReverse(cBaseControl * const pControl, const AppMsg & msg);
 		void MoveToFront(cBaseControl * const pControl);
@@ -73,12 +73,13 @@ namespace Graphics
 	protected:
 		shared_ptr<ISprite>			m_pCanvasSprite; 
 		D3DXVECTOR3					m_vControlAbsolutePosition;
-		DWORD						m_dwHeight; // Height of Canvas
-		DWORD						m_dwWidth; // width of Canvas
+		float						m_fHeight; // Height of Canvas
+		float						m_fWidth; // width of Canvas
 		bool						m_bFocus;
 		bool						m_bAllowMovingControls;
 		D3DXVECTOR3					m_vPosition;		
-
+		bool						m_bIsMouseDown;
+	
 	private:
 		cBaseControl *				m_pFocusControl;
 		bool						m_bVisible;
@@ -89,7 +90,6 @@ namespace Graphics
 		int							m_iNoOfChildren;
 		int							m_iMouseDownXPos;
 		int							m_iMouseDownYPos;
-		bool						m_bIsMouseDown;
 	};
 	#include "BaseControl.inl"
 }

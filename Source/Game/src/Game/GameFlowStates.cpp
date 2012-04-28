@@ -116,8 +116,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
 		pSinglePlayerButton->VSetPosition(D3DXVECTOR3(126.f, 270.f, 0.f));
-		function<void ()> callbackSinglePlayerBtn;
-		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame);
+		function<void (bool)> callbackSinglePlayerBtn;
+		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
 		pSinglePlayerButton->VRegisterCallBack(callbackSinglePlayerBtn);
 
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
@@ -126,8 +126,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
 		pMultiPlayerButton->VSetPosition(D3DXVECTOR3(126.f, 380.f, 0.f));
 		pMultiPlayerButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
-		function<void ()> callbackMultiPlayerBtn;
-		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame);
+		function<void (bool)> callbackMultiPlayerBtn;
+		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
@@ -136,8 +136,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pQuitButton);
 		pQuitButton->VSetPosition(D3DXVECTOR3(126.f, 490.f, 0.f));
 		pQuitButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
-		function<void ()> callbackQuitBtn;
-		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame);
+		function<void (bool)> callbackQuitBtn;
+		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
 		pQuitButton->VRegisterCallBack(callbackQuitBtn);
 
 	}

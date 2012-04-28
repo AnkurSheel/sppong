@@ -21,9 +21,9 @@ public:
 	Base::cString VGetGameTitle() const; 
 	bool VOnMsgProc(const Graphics::AppMsg & msg);
 
-	void ButtonPressed();
-	void Button1Pressed();
-	void CheckBoxPressed();
+	void ButtonPressed(bool bPressed);
+	void Button1Pressed( bool bPressed);
+	void CheckBoxPressed(bool bPressed);
 private:
 	Graphics::IBaseControl *	m_pParentControl;
 };

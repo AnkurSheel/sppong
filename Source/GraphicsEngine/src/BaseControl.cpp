@@ -18,8 +18,8 @@ using namespace Base;
 
 // ***************************************************************
 cBaseControl::cBaseControl()
-: m_dwWidth(0)
-, m_dwHeight(0)
+: m_fWidth(0)
+, m_fHeight(0)
 , m_bVisible(true)
 , m_pChildControls(NULL) 
 , m_pNextSibling(NULL) 
@@ -40,52 +40,6 @@ cBaseControl::cBaseControl()
 cBaseControl::~cBaseControl()
 {
 	VRemoveAllChildren();
-}
-
-// ***************************************************************
-bool cBaseControl::VOnKeyDown( const AppMsg & msg )
-{
-	return false;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnKeyUp( const AppMsg & msg )
-{
-	return false;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
-{
-	m_iMouseDownXPos = X - m_vControlAbsolutePosition.x;
-	m_iMouseDownYPos = Y - m_vControlAbsolutePosition.y;
-	m_bIsMouseDown = true;
-	return true;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
-{
-	if(AllowMovingControl() && m_bIsMouseDown)
-		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
-
-	m_bIsMouseDown = false;
-	return true;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnMouseMove( const int X, const int Y )
-{
-	if (AllowMovingControl() && m_bIsMouseDown)
-	{
-		float x = m_vPosition.x + (X - m_vControlAbsolutePosition.x) - m_iMouseDownXPos;
-		float y = m_vPosition.y + (Y - m_vControlAbsolutePosition.y) - m_iMouseDownYPos;
-
-		ConstrainChildControl(x, y);
-		VSetPosition(D3DXVECTOR3(x, y, 0));
-		return true;
-	}
-	return false;
 }
 
 // ***************************************************************
@@ -117,7 +71,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 		{
 			if (m_pFocusControl)
 			{
-				m_pFocusControl->VOnLeftMouseButtonUp(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
+				return m_pFocusControl->VOnLeftMouseButtonUp(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
 			}
 		}
 		break;
@@ -182,6 +136,52 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 			PostToAllReverse(m_pChildControls, msg);
 		}
 		break;
+	}
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnKeyDown( const AppMsg & msg )
+{
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnKeyUp( const AppMsg & msg )
+{
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
+{
+	m_iMouseDownXPos = X - m_vControlAbsolutePosition.x;
+	m_iMouseDownYPos = Y - m_vControlAbsolutePosition.y;
+	m_bIsMouseDown = true;
+	return true;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
+{
+	if(AllowMovingControl() && m_bIsMouseDown)
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
+
+	m_bIsMouseDown = false;
+	return true;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnMouseMove( const int X, const int Y )
+{
+	if (AllowMovingControl() && m_bIsMouseDown)
+	{
+		float x = m_vPosition.x + (X - m_vControlAbsolutePosition.x) - m_iMouseDownXPos;
+		float y = m_vPosition.y + (Y - m_vControlAbsolutePosition.y) - m_iMouseDownYPos;
+
+		ConstrainChildControl(x, y);
+		VSetPosition(D3DXVECTOR3(x, y, 0));
+		return true;
 	}
 	return false;
 }
@@ -257,12 +257,12 @@ void cBaseControl::VRemoveAllChildren()
 // ***************************************************************
 void cBaseControl::VSetSize( const float fNewWidth, const float fNewHeight )
 {
-	m_dwHeight = fNewHeight;
-	m_dwWidth = fNewWidth;
+	m_fHeight = fNewHeight;
+	m_fWidth = fNewWidth;
 
 	if(m_pCanvasSprite)
 	{
-		m_pCanvasSprite->SetSize(m_dwWidth, m_dwHeight);
+		m_pCanvasSprite->SetSize(m_fWidth, m_fHeight);
 	}
 }
 
@@ -393,17 +393,17 @@ void cBaseControl::ConstrainChildControl( float &x, float &y )
 		{
 			x = 0; 
 		}
-		if ((x + m_dwWidth) > m_pParentControl->VGetWidth())
+		if ((x + m_fWidth) > m_pParentControl->VGetWidth())
 		{
-			x = m_pParentControl->VGetWidth() - m_dwWidth; 
+			x = m_pParentControl->VGetWidth() - m_fWidth; 
 		}
 		if (y < 0)
 		{
 			y = 0; 
 		}
-		if ((y + m_dwHeight) > m_pParentControl->VGetHeight())
+		if ((y + m_fHeight) > m_pParentControl->VGetHeight())
 		{
-			y = m_pParentControl->VGetHeight() - m_dwHeight; 
+			y = m_pParentControl->VGetHeight() - m_fHeight; 
 		}
 	}
 }

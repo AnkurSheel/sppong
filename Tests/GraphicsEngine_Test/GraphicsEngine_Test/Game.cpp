@@ -48,16 +48,16 @@ HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	pWindowControl->VAddChildControl(pButtonControl);
 	pButtonControl->VSetSize(100, 100);
 	pButtonControl->VSetPosition(D3DXVECTOR3(0.f, 90.f, 0.f));
-	function<void ()> btnCallback;
-	btnCallback = bind(&cGame::ButtonPressed, this);
+	function<void (bool)> btnCallback;
+	btnCallback = bind(&cGame::ButtonPressed, this, _1);
 	pButtonControl->VRegisterCallBack(btnCallback);
 
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png");
 	pWindowControl->VAddChildControl(pButtonControl1);
 	pButtonControl1->VSetSize(30, 30);
 	pButtonControl1->VSetPosition(D3DXVECTOR3(150.f, 90.f, 0.f));
-	function<void ()> btn1Callback;
-	btn1Callback = bind(&cGame::Button1Pressed, this);
+	function<void (bool)> btn1Callback;
+	btn1Callback = bind(&cGame::Button1Pressed, this, _1);
 	pButtonControl1->VRegisterCallBack(btn1Callback);
 
 	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png", 10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, BLACK);
@@ -68,10 +68,17 @@ HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png", "Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
 	pWindowControl->VAddChildControl(pCheckBoxControl);
 	pCheckBoxControl->VSetPosition(D3DXVECTOR3(0.f, 250.f, 0.f));
-	function<void ()> checkBoxCallback;
-	checkBoxCallback = bind(&cGame::CheckBoxPressed, this);
+	function<void (bool)> checkBoxCallback;
+	checkBoxCallback = bind(&cGame::CheckBoxPressed, this, _1);
 	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
 
+	IBaseControl * pScrollBarControl = IBaseControl::CreateScrollBarControl("Test\\ScrollBar_BG.png",
+		"Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Up.png", 
+		"Test\\ScrollBar_Up.png", "Test\\ScrollBar_Down.png","Test\\ScrollBar_Down.png",
+		0, 50);
+	pWindowControl->VAddChildControl(pScrollBarControl);
+	pScrollBarControl->VSetPosition(D3DXVECTOR3(300.f, 0.f, 0.f));
+	pScrollBarControl->VSetSize(30, 300);	
 	return hWnd;
 }
 
@@ -160,17 +167,34 @@ void cGame::VOnLostDevice()
 	}
 }
 
-void cGame::ButtonPressed() 
+void cGame::ButtonPressed( bool bPressed )
 {
-	Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button Pressed");
+	if (bPressed)
+	{
+		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button Pressed");
+	}
+	else
+	{
+		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button Released");
+	}
 }
 
-void cGame::Button1Pressed() 
+void cGame::Button1Pressed( bool bPressed )
 {
-	Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button1 Pressed");
+	if (bPressed)
+	{
+		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button1 Pressed");
+	}
+	else
+	{
+		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button1 Released");
+	}
 }
 
-void cGame::CheckBoxPressed() 
+void cGame::CheckBoxPressed( bool bPressed )
 {
-	Log_Write_L2(ILogger::LT_EVENT,  "Check Box Pressed");
+	if(bPressed)
+	{
+		Log_Write_L2(ILogger::LT_EVENT,  "Check Box Pressed");
+	}
 }
