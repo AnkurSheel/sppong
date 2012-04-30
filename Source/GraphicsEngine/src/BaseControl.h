@@ -30,7 +30,6 @@ namespace Graphics
 	protected:
 		cBaseControl();
 		virtual ~cBaseControl();
-		bool VPostMsg(const AppMsg & msg);
 		virtual void VOnLostDevice();
 		virtual HRESULT VOnResetDevice();
 		virtual bool VOnLeftMouseButtonUp(const int X, const int Y);
@@ -45,9 +44,9 @@ namespace Graphics
 		float VGetHeight() const;
 		void SetFocusControl(const cBaseControl * const pControl);
 		cBaseControl * GetFirstChild() const;
-		bool IsCursorIntersect(const float fX, const float fY);
 
 	private:
+		bool VPostMsg(const AppMsg & msg);
 		virtual bool VOnKeyUp(const AppMsg & msg);
 		IBaseControl * VAddChildControl( IBaseControl * const pChildControl);
 		void VRemoveAllChildren();
@@ -69,6 +68,7 @@ namespace Graphics
 		cBaseControl * PostToAll(const AppMsg & msg);
 		void PostToAllReverse(cBaseControl * const pControl, const AppMsg & msg);
 		void MoveToFront(cBaseControl * const pControl);
+		bool IsCursorIntersect(const float fX, const float fY);
 
 	protected:
 		shared_ptr<ISprite>			m_pCanvasSprite; 

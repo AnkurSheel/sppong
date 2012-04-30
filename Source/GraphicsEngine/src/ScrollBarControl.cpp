@@ -41,53 +41,6 @@ Graphics::cScrollBarControl::~cScrollBarControl()
 }
 
 // ***************************************************************
-cScrollBarControl* Graphics::cScrollBarControl::Create()
-{
-	return (DEBUG_NEW cScrollBarControl());
-}
-
-// ***************************************************************
-bool Graphics::cScrollBarControl::VPostMsg( const AppMsg & msg )
-{
-	switch(msg.m_uMsg)
-	{
-	case WM_LBUTTONDOWN:
-		if(IsCursorIntersect(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)))
-		{
-			if(m_pBtnIncrementArrow && m_pBtnIncrementArrow->VPostMsg(msg))
-			{
-				break;
-			}
-			if(m_pBtnDecrementArrow && m_pBtnDecrementArrow->VPostMsg(msg))
-			{
-				break;
-			}
-			if(m_pBtnThumb && m_pBtnThumb->VPostMsg(msg))
-			{
-				break;
-			}
-		}
-		break;
-	
-	case WM_LBUTTONUP:
-		if(m_pBtnIncrementArrow && m_pBtnIncrementArrow->VPostMsg(msg))
-		{
-			break;
-		}
-		else if(m_pBtnDecrementArrow && m_pBtnDecrementArrow->VPostMsg(msg))
-		{
-			break;
-		}
-		else if(m_pBtnThumb && m_pBtnThumb->VPostMsg(msg))
-		{
-			break;
-		}
-		break;
-	}
-	return 	cBaseControl::VPostMsg(msg);
-	
-}
-// ***************************************************************
 void Graphics::cScrollBarControl::VOnRender( const AppMsg & msg )
 {
 	if (m_pBtnThumb)
@@ -142,85 +95,59 @@ HRESULT Graphics::cScrollBarControl::VOnResetDevice()
 }
 
 // ***************************************************************
-bool Graphics::cScrollBarControl::VOnMouseMove( const int X, const int Y )
+bool Graphics::cScrollBarControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
-	if (m_bDragMode)
-	{
-		int iThumbPos = m_iThumbPos;
-		float fVal = m_pBtnDecrementArrow->VGetHeight() + Y 
-			- (m_vControlAbsolutePosition.y + m_pBtnIncrementArrow->VGetHeight());
+	AppMsg msg;
+	msg.m_uMsg = WM_LBUTTONUP;
+	msg.m_lParam = MAKELONG(X, Y);
 
-		if(fVal >= m_pBtnIncrementArrow->VGetHeight())
-		{
-			if(fVal < (m_fHeight - m_pBtnDecrementArrow->VGetHeight()))
-			{
-				float fRange = (m_fHeight - m_pBtnIncrementArrow->VGetHeight()) -
-					m_pBtnDecrementArrow->VGetHeight();
-				float fIncrement = fRange / m_iNoOfIncrements;
-				for(int counter = m_iMinPos; counter < m_iNoOfIncrements; counter++)
-				{
-					float fItem = m_pBtnDecrementArrow->VGetHeight() + (fIncrement * counter);
-					if(((fVal >= fItem)) && (fVal<= (fItem + fIncrement)))
-					{
-						iThumbPos = counter;
-						break;
-					}
-				}
-			}
-		}
-		SetThumbPosition(iThumbPos);
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "ThumbPos % d" , iThumbPos));
+	if(m_pBtnIncrementArrow && m_pBtnIncrementArrow->VPostMsg(msg))
+	{
 		return true;
 	}
-	return  cBaseControl::VOnMouseMove(X, Y);
+	else if(m_pBtnDecrementArrow && m_pBtnDecrementArrow->VPostMsg(msg))
+	{
+		return true;
+	}
+	else if(m_pBtnThumb && m_pBtnThumb->VPostMsg(msg))
+	{
+		return true;
+	}
+	return cBaseControl::VOnLeftMouseButtonUp(X, Y);
 }
 
 // ***************************************************************
-void Graphics::cScrollBarControl::VSetAbsolutePosition()
+bool Graphics::cScrollBarControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
-	cBaseControl::VSetAbsolutePosition();
-	D3DXVECTOR3 pos = m_vControlAbsolutePosition;
-	if (m_pBtnDecrementArrow)
+	AppMsg msg;
+	msg.m_uMsg = WM_LBUTTONDOWN;
+	msg.m_lParam = MAKELONG(X, Y);
+
+	if(m_pBtnIncrementArrow && m_pBtnIncrementArrow->VPostMsg(msg))
 	{
-		pos.y = m_vControlAbsolutePosition.y + m_iMinPos;
-		m_pBtnDecrementArrow->VSetPosition(pos);
+		return true;
 	}
-	if (m_pBtnIncrementArrow)
+	if(m_pBtnDecrementArrow && m_pBtnDecrementArrow->VPostMsg(msg))
 	{
-		pos.y = m_vControlAbsolutePosition.y + m_fHeight - m_pBtnIncrementArrow->VGetHeight();
-		m_pBtnIncrementArrow->VSetPosition(pos);
-	}	
-	SetThumbPosition(m_iThumbPos);
+		return true;
+	}
+	if(m_pBtnThumb && m_pBtnThumb->VPostMsg(msg))
+	{
+		return true;
+	}
+
+	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }
 
 // ***************************************************************
-void Graphics::cScrollBarControl::VSetSize( const float fNewWidth, const float fNewHeight )
-{
-	cBaseControl::VSetSize(fNewWidth, fNewHeight);
-	if (m_pBtnDecrementArrow)
-	{
-		m_pBtnDecrementArrow->VSetSize(fNewWidth, fNewWidth);
-	}
-	if (m_pBtnIncrementArrow)
-	{
-		m_pBtnIncrementArrow->VSetSize(fNewWidth, fNewWidth);
-	}
-	if (m_pBtnThumb)
-	{
-		AutoSize();
-	}
-	VSetAbsolutePosition();
-}
-
-// ***************************************************************
-void Graphics::cScrollBarControl::Init(const cString & strBackgroundImage,
-									   const cString & strDefaultThumbImage,
-									   const cString & strPressedThumbImage,
-									   const cString & strDefaultTopRightImage,
-									   const cString & strPressedTopRightImage,
-									   const cString & strDefaultLeftBottomImage,
-									   const cString & strPressedLeftBottomImage,
-									   const int iLeftTopPos, const int iRightBottomPos)
+void Graphics::cScrollBarControl::Init( const Base::cString & strBackgroundImage,
+									   const Base::cString & strDefaultThumbImage,
+									   const Base::cString & strPressedThumbImage,
+									   const Base::cString & strDefaultTopRightImage,
+									   const Base::cString & strPressedTopRightImage,
+									   const Base::cString & strDefaultLeftBottomImage,
+									   const Base::cString & strPressedLeftBottomImage,
+									   const int iMinPos, const int iMaxPos )
 {
 	m_pCanvasSprite = ISprite::CreateSprite();
 	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strBackgroundImage);
@@ -229,10 +156,10 @@ void Graphics::cScrollBarControl::Init(const cString & strBackgroundImage,
 	m_pBtnDecrementArrow = IBaseControl::CreateButtonControl(strDefaultTopRightImage, strDefaultTopRightImage);
 	m_pBtnIncrementArrow = IBaseControl::CreateButtonControl(strDefaultLeftBottomImage, strPressedLeftBottomImage);
 
-	SetLeftTopPosition(iLeftTopPos);
-	SetRightBottomPosition(iRightBottomPos);
+	m_iMinPos = iMinPos;
+	m_iMaxPos = iMaxPos;
 	m_iNoOfIncrements = m_iMaxPos - m_iMinPos;
-	SetThumbPosition(0);
+	VSetThumbPosition(0);
 
 	m_callbackIncrementArrowPressed = bind(&cScrollBarControl::IncrementArrowPressed, this, _1);
 	m_pBtnIncrementArrow->VRegisterCallBack(m_callbackIncrementArrowPressed);
@@ -245,52 +172,16 @@ void Graphics::cScrollBarControl::Init(const cString & strBackgroundImage,
 }
 
 // ***************************************************************
-void Graphics::cScrollBarControl::SetLeftTopPosition( const int iLeftTopPos )
+void Graphics::cScrollBarControl::VSetThumbPosition( const int iNewPosition )
 {
-	m_iMinPos = iLeftTopPos;
-}
 
-// ***************************************************************
-void Graphics::cScrollBarControl::SetRightBottomPosition( const int iRightBottomPos )
-{
-	m_iMaxPos = iRightBottomPos;
 }
-
-// ***************************************************************
-void Graphics::cScrollBarControl::AutoSize()
-{
-	m_fRange = m_fHeight - m_pBtnIncrementArrow->VGetHeight() - m_pBtnDecrementArrow->VGetHeight();
-	float fNewHeight = m_fRange / m_iNoOfIncrements ;
-	m_pBtnThumb->VSetSize(m_fWidth, fNewHeight);
-}
-
-// ***************************************************************
-void Graphics::cScrollBarControl::SetThumbPosition( const int iNewPosition )
-{
-	m_iThumbPos = iNewPosition;
-	if (m_iThumbPos < m_iMinPos)
-	{
-		m_iThumbPos = m_iMinPos;
-	}
-	else if (m_iThumbPos >= m_iNoOfIncrements)
-	{
-		m_iThumbPos = m_iNoOfIncrements - 1;
-	}
-	
-	D3DXVECTOR3 pos = m_vControlAbsolutePosition;
-	if (m_pBtnThumb)
-	{
-		pos.y = m_vControlAbsolutePosition.y + m_pBtnDecrementArrow->VGetHeight() + (m_pBtnThumb->VGetHeight() * m_iThumbPos);
-		m_pBtnThumb->VSetPosition(pos);
-	}
-}
-
 // ***************************************************************
 void Graphics::cScrollBarControl::IncrementArrowPressed( bool bPressed )
 {
 	if (!bPressed)
 	{
-		SetThumbPosition(m_iThumbPos + 1);
+		VSetThumbPosition(m_iThumbPos + 1);
 	}
 }
 
@@ -299,7 +190,7 @@ void Graphics::cScrollBarControl::DecrementArrowPressed( bool bPressed )
 {
 	if(!bPressed)
 	{
-		SetThumbPosition(m_iThumbPos - 1);
+		VSetThumbPosition(m_iThumbPos - 1);
 	}
 }
 
@@ -315,22 +206,4 @@ void Graphics::cScrollBarControl::Cleanup()
 	SAFE_DELETE(m_pBtnDecrementArrow);
 	SAFE_DELETE(m_pBtnIncrementArrow);
 	SAFE_DELETE(m_pBtnThumb);
-}
-
-// ***************************************************************
-IBaseControl * IBaseControl::CreateScrollBarControl(const cString & strBackgroundImage,
-													const cString & strDefaultThumbImage,
-													const cString & strPressedThumbImage,
-													const cString & strDefaultTopRightImage,
-													const cString & strPressedTopRightImage,
-													const cString & strDefaultLeftBottomImage,
-													const cString & strPressedLeftBottomImage,
-													const int iLeftTopPos, const int iRightBottomPos)
-{
-	cScrollBarControl * pControl = cScrollBarControl::Create();
-	pControl->Init(strBackgroundImage, strDefaultThumbImage, strPressedThumbImage,
-				strDefaultTopRightImage, strPressedTopRightImage, strDefaultLeftBottomImage,
-				strPressedLeftBottomImage, iLeftTopPos, iRightBottomPos);
-	return pControl;
-
 }

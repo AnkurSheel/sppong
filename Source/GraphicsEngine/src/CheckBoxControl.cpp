@@ -144,6 +144,7 @@ void Graphics::cCheckBoxControl::VSetAbsolutePosition()
 		m_pLabel->VSetPosition(m_vControlAbsolutePosition + m_iLabelPosition);
 	}
 }
+
 // ***************************************************************
 GRAPHIC_API  IBaseControl * IBaseControl::CreateCheckBoxControl( const Base::cString & strCheckedImage, const Base::cString & strUncheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color )
 {

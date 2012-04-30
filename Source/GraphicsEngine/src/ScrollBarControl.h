@@ -18,29 +18,25 @@ namespace Graphics
 		: public cBaseControl
 	{
 	public:
-		static cScrollBarControl* Create();
-		void Init(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultTopRightImage, const Base::cString & strPressedTopRightImage,	const Base::cString & strDefaultLeftBottomImage, const Base::cString & strPressedLeftBottomImage, const int iLeftTopPos, const int iRightBottomPos);
+		void Init(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultTopRightImage, const Base::cString & strPressedTopRightImage, const Base::cString & strDefaultLeftBottomImage, const Base::cString & strPressedLeftBottomImage, const int iMinPos, const int iMaxPos);
+
+	protected:
+		cScrollBarControl();
+		virtual ~cScrollBarControl();
 
 	private:
-		cScrollBarControl();
-		~cScrollBarControl();
-		bool VPostMsg(const AppMsg & msg);
+		bool VOnLeftMouseButtonUp(const int X, const int Y);
+		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		void VOnRender(const AppMsg & msg);
 		void VOnLostDevice();
 		HRESULT VOnResetDevice();
-		bool VOnMouseMove(const int X, const int Y);
-		void VSetAbsolutePosition();
-		void VSetSize(const float fNewWidth, const float fNewHeight);
-		void SetLeftTopPosition(const int iLeftTopPos);
-		void SetRightBottomPosition(const int iRightBottomPos);
-		void AutoSize();
-		void SetThumbPosition(const int iNewPosition);
+		virtual void VSetThumbPosition(const int iNewPosition);
 		void IncrementArrowPressed(bool bPressed);
 		void DecrementArrowPressed(bool bPressed);
 		void ThumbPressed(bool bPressed);
 		void Cleanup();
 
-	private:
+	protected:
 		int						m_iMinPos;
 		int						m_iMaxPos;
 		int						m_iThumbPos;

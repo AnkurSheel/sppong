@@ -42,8 +42,8 @@ void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const U
 		m_pFont->CalculateAndSetRect();
 
 		RECT rect = m_pFont->GetRect();
-		m_fHeight = rect.bottom - rect.top;
-		m_fWidth = rect.right - rect.left;
+		m_fHeight = (float)(rect.bottom - rect.top);
+		m_fWidth = (float)(rect.right - rect.left);
 
 		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Label Height : %d, Label Width : %d", m_fHeight, m_fWidth));
 	}
@@ -99,8 +99,8 @@ void Graphics::cLabelControl::UpdateRect()
 {
 	m_rectBoundary.left = (LONG)m_vControlAbsolutePosition.x;
 	m_rectBoundary.top = (LONG)m_vControlAbsolutePosition.y;
-	m_rectBoundary.right = m_rectBoundary.left + m_fWidth;
-	m_rectBoundary.bottom = m_rectBoundary.top + m_fHeight;
+	m_rectBoundary.right = m_rectBoundary.left + (LONG)m_fWidth;
+	m_rectBoundary.bottom = m_rectBoundary.top + (LONG)m_fHeight;
 	m_pFont->SetRect(m_rectBoundary);
 }
 
