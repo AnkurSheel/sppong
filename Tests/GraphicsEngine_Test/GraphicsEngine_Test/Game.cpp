@@ -72,13 +72,22 @@ HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	checkBoxCallback = bind(&cGame::CheckBoxPressed, this, _1);
 	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
 
-	IBaseControl * pScrollBarControl = IBaseControl::CreateScrollBarControl("Test\\ScrollBar_BG.png",
+	IBaseControl * pVScrollBarControl = IBaseControl::CreateVScrollBarControl("Test\\ScrollBar_BG.png",
 		"Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Up.png", 
 		"Test\\ScrollBar_Up.png", "Test\\ScrollBar_Down.png","Test\\ScrollBar_Down.png",
 		0, 50);
-	pWindowControl->VAddChildControl(pScrollBarControl);
-	pScrollBarControl->VSetPosition(D3DXVECTOR3(300.f, 0.f, 0.f));
-	pScrollBarControl->VSetSize(30, 300);	
+	pWindowControl->VAddChildControl(pVScrollBarControl);
+	pVScrollBarControl->VSetPosition(D3DXVECTOR3(300.f, 0.f, 0.f));
+	pVScrollBarControl->VSetSize(30, 300);	
+
+	IBaseControl * pHScrollBarControl = IBaseControl::CreateHScrollBarControl("Test\\ScrollBar_BG.png",
+		"Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Left.png", 
+		"Test\\ScrollBar_Left.png", "Test\\ScrollBar_Right.png","Test\\ScrollBar_Right.png",
+		0, 50);
+	pWindowControl->VAddChildControl(pHScrollBarControl);
+	pHScrollBarControl->VSetPosition(D3DXVECTOR3(0.f, 300.f, 0.f));
+	pHScrollBarControl->VSetSize(300, 30);	
+
 	return hWnd;
 }
 

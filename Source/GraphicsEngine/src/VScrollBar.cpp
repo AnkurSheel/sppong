@@ -106,14 +106,6 @@ void Graphics::cVScrollBar::VSetSize( const float fNewWidth, const float fNewHei
 
 
 // ***************************************************************
-void Graphics::cVScrollBar::AutoSize()
-{
-	m_fRange = m_fHeight - m_pBtnIncrementArrow->VGetHeight() - m_pBtnDecrementArrow->VGetHeight();
-	float fNewHeight = m_fRange / m_iNoOfIncrements ;
-	m_pBtnThumb->VSetSize(m_fWidth, fNewHeight);
-}
-
-// ***************************************************************
 void Graphics::cVScrollBar::VSetThumbPosition( const int iNewPosition )
 {
 	m_iThumbPos = iNewPosition;
@@ -135,19 +127,27 @@ void Graphics::cVScrollBar::VSetThumbPosition( const int iNewPosition )
 }
 
 // ***************************************************************
+void Graphics::cVScrollBar::AutoSize()
+{
+	m_fRange = m_fHeight - m_pBtnIncrementArrow->VGetHeight() - m_pBtnDecrementArrow->VGetHeight();
+	float fNewHeight = m_fRange / m_iNoOfIncrements ;
+	m_pBtnThumb->VSetSize(m_fWidth, fNewHeight);
+}
+
+// ***************************************************************
 IBaseControl * IBaseControl::CreateVScrollBarControl(const cString & strBackgroundImage,
 													const cString & strDefaultThumbImage,
 													const cString & strPressedThumbImage,
-													const cString & strDefaultTopRightImage,
-													const cString & strPressedTopRightImage,
-													const cString & strDefaultLeftBottomImage,
-													const cString & strPressedLeftBottomImage,
-													const int iLeftTopPos, const int iRightBottomPos)
+													const cString & strDefaultMinImage,
+													const cString & strPressedMinImage,
+													const cString & strDefaultMaxImage,
+													const cString & strPressedMaxImage,
+													const int iMinPos, const int iMaxPos)
 {
 	cScrollBarControl * pControl = cVScrollBar::Create();
 	pControl->Init(strBackgroundImage, strDefaultThumbImage, strPressedThumbImage,
-		strDefaultTopRightImage, strPressedTopRightImage, strDefaultLeftBottomImage,
-		strPressedLeftBottomImage, iLeftTopPos, iRightBottomPos);
+		strDefaultMinImage, strPressedMinImage, strDefaultMaxImage,
+		strPressedMaxImage, iMinPos, iMaxPos);
 	return pControl;
 
 }

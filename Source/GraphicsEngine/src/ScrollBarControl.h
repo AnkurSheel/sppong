@@ -18,7 +18,7 @@ namespace Graphics
 		: public cBaseControl
 	{
 	public:
-		void Init(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultTopRightImage, const Base::cString & strPressedTopRightImage, const Base::cString & strDefaultLeftBottomImage, const Base::cString & strPressedLeftBottomImage, const int iMinPos, const int iMaxPos);
+		void Init(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultMinImage, const Base::cString & strPressedMinImage, const Base::cString & strDefaultMaxImage, const Base::cString & strPressedMaxImage, const int iMinPos, const int iMaxPos);
 
 	protected:
 		cScrollBarControl();
@@ -49,7 +49,6 @@ namespace Graphics
 		function<void (bool)>	m_callbackIncrementArrowPressed;
 		function<void (bool)>	m_callbackDecrementArrowPressed;
 		function<void (bool)>	m_callbackThumbPressed;
-
 	};
 }
 

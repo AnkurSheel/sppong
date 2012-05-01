@@ -26,10 +26,8 @@ namespace Graphics
 		bool VOnMouseMove(const int X, const int Y);
 		void VSetAbsolutePosition();
 		void VSetSize(const float fNewWidth, const float fNewHeight);
-		void AutoSize();
 		void VSetThumbPosition(const int iNewPosition);
-
-
+		void AutoSize();
 	};
 }
 #endif // VScrollBar_h__

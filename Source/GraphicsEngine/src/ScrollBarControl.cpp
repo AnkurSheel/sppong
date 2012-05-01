@@ -143,18 +143,18 @@ bool Graphics::cScrollBarControl::VOnLeftMouseButtonDown( const int X, const int
 void Graphics::cScrollBarControl::Init( const Base::cString & strBackgroundImage,
 									   const Base::cString & strDefaultThumbImage,
 									   const Base::cString & strPressedThumbImage,
-									   const Base::cString & strDefaultTopRightImage,
-									   const Base::cString & strPressedTopRightImage,
-									   const Base::cString & strDefaultLeftBottomImage,
-									   const Base::cString & strPressedLeftBottomImage,
+									   const Base::cString & strDefaultMinImage,
+									   const Base::cString & strPressedMinImage,
+									   const Base::cString & strDefaultMaxImage,
+									   const Base::cString & strPressedMaxImage,
 									   const int iMinPos, const int iMaxPos )
 {
 	m_pCanvasSprite = ISprite::CreateSprite();
 	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strBackgroundImage);
 
 	m_pBtnThumb = IBaseControl::CreateButtonControl(strDefaultThumbImage, strPressedThumbImage);
-	m_pBtnDecrementArrow = IBaseControl::CreateButtonControl(strDefaultTopRightImage, strDefaultTopRightImage);
-	m_pBtnIncrementArrow = IBaseControl::CreateButtonControl(strDefaultLeftBottomImage, strPressedLeftBottomImage);
+	m_pBtnDecrementArrow = IBaseControl::CreateButtonControl(strDefaultMinImage, strDefaultMinImage);
+	m_pBtnIncrementArrow = IBaseControl::CreateButtonControl(strDefaultMaxImage, strPressedMaxImage);
 
 	m_iMinPos = iMinPos;
 	m_iMaxPos = iMaxPos;
