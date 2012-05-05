@@ -82,7 +82,7 @@ inline float Graphics::cBaseControl::VGetWidth() const
 //}
 // ***************************************************************
 
-inline void Graphics::cBaseControl::SetVisible( bool bIsVisible )
+inline void Graphics::cBaseControl::VSetVisible( bool bIsVisible )
 {
 	m_bVisible = bIsVisible;
 }
@@ -101,4 +101,10 @@ inline bool cBaseControl::AllowMovingControl()
 		return m_pParentControl->AllowMovingControl();
 	}
 	return m_bAllowMovingControls;
+}
+
+// ***************************************************************
+inline bool cBaseControl::VIsVisible() const
+{
+	return m_bVisible;
 }

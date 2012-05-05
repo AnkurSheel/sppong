@@ -21,15 +21,15 @@ namespace Graphics
 {
 	class cBaseControl
 		: public IBaseControl
-		, public Base::cNonCopyable
 	{
 	public:
 		cBaseControl * GetNextSibling() const;
-		void SetVisible(bool bIsVisible);
+		void VSetVisible(bool bIsVisible);
 
 	protected:
 		cBaseControl();
 		virtual ~cBaseControl();
+		void VOnRender( const AppMsg & msg );
 		virtual void VOnLostDevice();
 		virtual HRESULT VOnResetDevice();
 		virtual bool VOnLeftMouseButtonUp(const int X, const int Y);
@@ -43,6 +43,7 @@ namespace Graphics
 		float VGetWidth() const;
 		float VGetHeight() const;
 		void SetFocusControl(const cBaseControl * const pControl);
+		bool VIsVisible() const;
 		cBaseControl * GetFirstChild() const;
 
 	private:

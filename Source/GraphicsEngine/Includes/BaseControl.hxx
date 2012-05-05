@@ -11,17 +11,12 @@
 #define BaseControl_hxx__
 
 #include "GraphicEngineDefines.h"
-#include "KeyboardHandler.hxx"
+#include "ScreenElement.hxx"
 #include "MouseHandler.hxx"
 
 namespace Base
 {
 	class cString;
-}
-
-namespace Graphics
-{
-	struct AppMsg;
 }
 
 namespace Graphics
@@ -34,13 +29,12 @@ namespace Graphics
 
 	class IBaseControl
 		: public IMouseHandler
+		, public IScreenElement
 	{
 	public:
 		virtual ~IBaseControl(){}
 		virtual bool VPostMsg(const AppMsg & msg) = 0;
 		virtual void VOnRender(const AppMsg & msg) = 0;
-		virtual void VOnLostDevice() = 0;
-		virtual HRESULT VOnResetDevice() = 0;
 		virtual IBaseControl * VAddChildControl( IBaseControl * const pChildControl) = 0;
 		virtual void VRemoveAllChildren() = 0;
 		virtual void VSetPosition(const D3DXVECTOR3 & vPosition) = 0;

@@ -53,6 +53,7 @@ void Graphics::cCheckBoxControl::Init( const Base::cString & strCheckedImage,
 // ***************************************************************
 void Graphics::cCheckBoxControl::VOnRender( const AppMsg & msg )
 {
+	cBaseControl::VOnRender(msg);
 	if (m_pTickBox)
 	{
 		m_pTickBox->VOnRender(msg);

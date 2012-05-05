@@ -44,19 +44,22 @@ Utilities::cTimer::~cTimer()
 }
 
 // ***************************************************************
+cTimer * Utilities::cTimer::Create()
+{
+	return DEBUG_NEW cTimer();
+}
+
+// ***************************************************************
 // Starts the timer
 // ***************************************************************
 void Utilities::cTimer::VStartTimer()
 {
-	if ( !m_bTimerStopped )
+	if (m_bTimerStopped )
 	{
-		// Already started
-		return;
+		// Get the current value of the high-resolution performance counter.
+		QueryPerformanceCounter( (LARGE_INTEGER *)&m_iLastUpdateTime );
+		m_bTimerStopped = false;
 	}
-
-	// Get the current value of the high-resolution performance counter.
-	QueryPerformanceCounter( (LARGE_INTEGER *)&m_iLastUpdateTime );
-	m_bTimerStopped = false;
 }
 
 // ***************************************************************
@@ -64,18 +67,16 @@ void Utilities::cTimer::VStartTimer()
 // ***************************************************************
 void Utilities::cTimer::VStopTimer()
 {
-	if ( m_bTimerStopped )
+	if (!m_bTimerStopped )
 	{
-		// Already stopped
-		return;
+		INT64 iStopTime = 0;
+
+		// Get the current value of the high-resolution performance counter.
+		QueryPerformanceCounter( (LARGE_INTEGER *)&iStopTime );
+
+		m_fRunningTime += (float)(iStopTime - m_iLastUpdateTime) / (float)m_iTicksPerSecond;
+		m_bTimerStopped = true;
 	}
-	INT64 iStopTime = 0;
-
-	// Get the current value of the high-resolution performance counter.
-	QueryPerformanceCounter( (LARGE_INTEGER *)&iStopTime );
-
-	m_fRunningTime += (float)(iStopTime - m_iLastUpdateTime) / (float)m_iTicksPerSecond;
-	m_bTimerStopped = true;
 }
 
 // ***************************************************************
@@ -84,30 +85,28 @@ void Utilities::cTimer::VStopTimer()
 // ***************************************************************
 void Utilities::cTimer::VOnUpdate()
 {
-	if ( m_bTimerStopped )
+	if (!m_bTimerStopped )
 	{
-		return;
+		// Get the current value of the high-resolution performance counter.
+		QueryPerformanceCounter( (LARGE_INTEGER *)&m_iCurrentTime );
+
+		m_fDeltaTime = (float)(m_iCurrentTime - m_iLastUpdateTime) / (float)m_iTicksPerSecond;
+		m_fRunningTime += m_fDeltaTime;
+
+		m_iNumFrames++;
+
+		if ( m_iCurrentTime - m_iLastFPSUpdateTime >= m_iFPSUpdateInterval )
+		{
+			// Calculate FPS
+			float fCurrentTime = (float)m_iCurrentTime / (float)m_iTicksPerSecond;
+			float fLastTime = (float)m_iLastFPSUpdateTime / (float)m_iTicksPerSecond;
+			m_fFPS = (float)m_iNumFrames / (fCurrentTime - fLastTime);
+
+			m_iLastFPSUpdateTime = m_iCurrentTime;
+			m_iNumFrames = 0;
+		}
+		m_iLastUpdateTime = m_iCurrentTime;
 	}
-
-	// Get the current value of the high-resolution performance counter.
-	QueryPerformanceCounter( (LARGE_INTEGER *)&m_iCurrentTime );
-
-	m_fDeltaTime = (float)(m_iCurrentTime - m_iLastUpdateTime) / (float)m_iTicksPerSecond;
-	m_fRunningTime += m_fDeltaTime;
-
-	m_iNumFrames++;
-
-	if ( m_iCurrentTime - m_iLastFPSUpdateTime >= m_iFPSUpdateInterval )
-	{
-	    // Calculate FPS
-		float fCurrentTime = (float)m_iCurrentTime / (float)m_iTicksPerSecond;
-		float fLastTime = (float)m_iLastFPSUpdateTime / (float)m_iTicksPerSecond;
-		m_fFPS = (float)m_iNumFrames / (fCurrentTime - fLastTime);
-
-		m_iLastFPSUpdateTime = m_iCurrentTime;
-		m_iNumFrames = 0;
-	}
-	m_iLastUpdateTime = m_iCurrentTime;
 }
 
 // ***************************************************************
@@ -115,5 +114,5 @@ void Utilities::cTimer::VOnUpdate()
 // ***************************************************************
 ITimer * ITimer::CreateTimer()
 {
-	return DEBUG_NEW cTimer();
+	return cTimer::Create();
 }

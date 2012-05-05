@@ -71,10 +71,6 @@ void cStateTitleScreen::Execute(cGame *pGame)
 
 void cStateTitleScreen::Exit(cGame *pGame)
 {
-	if (pGame->m_pPongView->m_pParentControl != NULL)
-	{
-		pGame->m_pPongView->m_pParentControl->VRemoveAllChildren();
-	}
 }
 // ***************************************************************
 
@@ -105,36 +101,30 @@ void cStateMenuScreen::Enter(cGame *pGame)
 {
 	if (pGame->m_pPongView->m_pParentControl != NULL)
 	{
-		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(300, 60, 400, true, DEFAULT_CHARSET
-			, "JokerMan", DT_CENTER, RED, "MPONG");
-		pLabelControl->VSetPosition(D3DXVECTOR3(232, 0.0f, 0.f));
-
-		pGame->m_pPongView->m_pParentControl->VAddChildControl(pLabelControl);
-
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
-			, "Sprites\\buttonPressed.png", "Single Player ", 100, 50, 400, true, DEFAULT_CHARSET
+			, "Sprites\\buttonPressed.png", "Single Player ", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
-		pSinglePlayerButton->VSetPosition(D3DXVECTOR3(126.f, 270.f, 0.f));
+		pSinglePlayerButton->VSetPosition(D3DXVECTOR3(311.f, 310.f, 0.f));
 		function<void (bool)> callbackSinglePlayerBtn;
 		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
 		pSinglePlayerButton->VRegisterCallBack(callbackSinglePlayerBtn);
 
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
-			, "Sprites\\buttonPressed.png", "MultiPlayer", 100, 50, 400, true, DEFAULT_CHARSET
+			, "Sprites\\buttonPressed.png", "MultiPlayer", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
-		pMultiPlayerButton->VSetPosition(D3DXVECTOR3(126.f, 380.f, 0.f));
+		pMultiPlayerButton->VSetPosition(D3DXVECTOR3(311.f, 366.f, 0.f));
 		pMultiPlayerButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
 		function<void (bool)> callbackMultiPlayerBtn;
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
-			, "Sprites\\buttonPressed.png", "Quit", 100, 50, 400, true, DEFAULT_CHARSET
+			, "Sprites\\buttonPressed.png", "Quit", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pQuitButton);
-		pQuitButton->VSetPosition(D3DXVECTOR3(126.f, 490.f, 0.f));
+		pQuitButton->VSetPosition(D3DXVECTOR3(311.f, 422.f, 0.f));
 		pQuitButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
 		function<void (bool)> callbackQuitBtn;
 		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
@@ -142,8 +132,8 @@ void cStateMenuScreen::Enter(cGame *pGame)
 
 	}
 	
-	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 }
 // ***************************************************************
 
@@ -256,8 +246,8 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");
 
-	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
 	pGame->m_pPongView->SetCursorVisible(false);
 }

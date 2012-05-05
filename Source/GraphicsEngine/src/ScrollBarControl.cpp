@@ -43,6 +43,7 @@ Graphics::cScrollBarControl::~cScrollBarControl()
 // ***************************************************************
 void Graphics::cScrollBarControl::VOnRender( const AppMsg & msg )
 {
+	cBaseControl::VOnRender(msg);
 	if (m_pBtnThumb)
 	{
 		m_pBtnThumb->VOnRender(msg);

@@ -121,7 +121,7 @@ void cSprite::SetSize( const float fNewWidth, const float fNewHeight )
 // ***************************************************************
 // Render the sprite
 // ***************************************************************
-void cSprite::OnRender( LPDIRECT3DDEVICE9 const pDevice)
+void cSprite::VOnRender(const AppMsg & msg)
 {
 	// draw the sprite
 	m_pSprite->Begin(m_dwFlags);
@@ -140,13 +140,13 @@ void cSprite::SetPosition(const D3DXVECTOR3& vPosition)
 }
 // ***************************************************************
 
-void cSprite::OnLostDevice()
+void cSprite::VOnLostDevice()
 {
 	Cleanup();
 }
 // ***************************************************************
 
-void cSprite::OnResetDevice()
+HRESULT cSprite::VOnResetDevice()
 {
 	if (m_strFilename.IsEmpty())
 	{
@@ -157,6 +157,7 @@ void cSprite::OnResetDevice()
 		Init(IDXBase::GetInstance()->VGetDevice(), m_strFilename);
 	}
 	MakeTransformMatrix();
+	return S_OK;
 }
 // ***************************************************************
 
@@ -183,15 +184,9 @@ void cSprite::MakeTransformMatrix()
 }
 // ***************************************************************
 
-bool cSprite::IsVisible()
+bool cSprite::VIsVisible() const
 {
 	return m_bIsVisible;
-}
-// ***************************************************************
-
-void cSprite::SetVisible(const bool bVisible)
-{
-	m_bIsVisible = bVisible;
 }
 // ***************************************************************
 

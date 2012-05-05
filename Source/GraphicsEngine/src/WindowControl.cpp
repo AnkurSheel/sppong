@@ -34,15 +34,6 @@ Graphics::cWindowControl::~cWindowControl()
 }
 
 // ***************************************************************
-void Graphics::cWindowControl::VOnRender( const AppMsg & msg )
-{
-	if (m_eWindowType != WT_DESKTOP && m_pCanvasSprite)
-	{
-		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
-	}
-}
-
-// ***************************************************************
 bool Graphics::cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
@@ -104,7 +95,7 @@ void Graphics::cWindowControl::Minimize( const int iWidth, const int iHeight,
 		while(pTempControl)
 		{
 			cBaseControl * pNextControl = pTempControl->GetNextSibling();
-			pNextControl->SetVisible(false);
+			pNextControl->VSetVisible(false);
 			pTempControl = pNextControl;
 		}
 

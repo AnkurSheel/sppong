@@ -52,9 +52,10 @@ void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const U
 // ***************************************************************
 void Graphics::cLabelControl::VOnRender( const AppMsg & msg )
 {
+	cBaseControl::VOnRender(msg);
 	if (m_pFont)
 	{
-		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
+		m_pFont->VOnRender(msg);
 	}
 }
 
@@ -65,7 +66,7 @@ void Graphics::cLabelControl::VOnLostDevice()
 	
 	if (m_pFont)
 	{
-		m_pFont->OnLostDevice();
+		m_pFont->VOnLostDevice();
 	}
 }
 
@@ -75,7 +76,7 @@ HRESULT Graphics::cLabelControl::VOnResetDevice()
 	cBaseControl::VOnResetDevice();
 	if (m_pFont)
 	{
-		m_pFont->OnResetDevice();
+		m_pFont->VOnResetDevice();
 	}
 	return S_OK;
 }

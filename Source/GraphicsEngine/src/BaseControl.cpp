@@ -191,7 +191,7 @@ void cBaseControl::VOnLostDevice()
 {
 	if (m_pCanvasSprite)
 	{
-		m_pCanvasSprite->OnLostDevice();
+		m_pCanvasSprite->VOnLostDevice();
 	}
 		
 }
@@ -201,7 +201,7 @@ HRESULT cBaseControl::VOnResetDevice()
 {
 	if (m_pCanvasSprite)
 	{
-		m_pCanvasSprite->OnResetDevice();
+		m_pCanvasSprite->VOnResetDevice();
 		return S_OK;
 	}
 }
@@ -424,6 +424,10 @@ void Graphics::cBaseControl::VSetAbsolutePosition()
 	{
 		m_vControlAbsolutePosition += m_pParentControl->m_vControlAbsolutePosition;
 	}
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
+	}
 
 	cBaseControl * pTempControl = GetFirstChild();
 
@@ -431,5 +435,14 @@ void Graphics::cBaseControl::VSetAbsolutePosition()
 	{
 		pTempControl->VSetAbsolutePosition();
 		pTempControl = pTempControl->GetNextSibling();
+	}
+}
+
+// ***************************************************************
+void Graphics::cBaseControl::VOnRender( const AppMsg & msg )
+{
+	if(m_pCanvasSprite)
+	{
+		m_pCanvasSprite->VOnRender(msg);
 	}
 }

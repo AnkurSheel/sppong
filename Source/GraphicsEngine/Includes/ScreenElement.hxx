@@ -15,16 +15,20 @@
 
 namespace Graphics
 {
+	struct AppMsg;
+}
+
+namespace Graphics
+{
 	class IScreenElement : public Base::cNonCopyable
 	{
 	public:
 		virtual ~IScreenElement(){};
-		GRAPHIC_API virtual void OnLostDevice() = 0;
-		GRAPHIC_API virtual void OnResetDevice() = 0;
-		GRAPHIC_API virtual bool IsVisible() = 0;
-		GRAPHIC_API virtual void OnRender(LPDIRECT3DDEVICE9 const pDevice) = 0;
-		GRAPHIC_API virtual void Cleanup() = 0;
-		GRAPHIC_API virtual void SetVisible(const bool bVisible) = 0;
+		GRAPHIC_API virtual void VOnLostDevice() = 0;
+		GRAPHIC_API virtual HRESULT VOnResetDevice() = 0;
+		GRAPHIC_API virtual void VSetVisible(bool bIsVisible) = 0;
+		GRAPHIC_API virtual bool VIsVisible() const = 0;
+		GRAPHIC_API virtual void VOnRender(const AppMsg & msg) = 0;
 	};
 }
 #endif // ScreenElement_hxx__

@@ -43,7 +43,7 @@ cHumanView::~cHumanView()
 void cHumanView::VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd, 
 								 int iClientWidth, int iClientHeight)
 {
-	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", false);
+	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
 	m_pParentControl->VSetSize(iClientWidth, iClientHeight);
 	m_pParentControl->VSetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
 
@@ -104,13 +104,13 @@ void cHumanView::VOnLostDevice()
 
 	for(ScreenElementList::iterator i = m_pElementList.begin(); i != m_pElementList.end(); ++i)
 	{
-		(*i)->OnLostDevice();
+		(*i)->VOnLostDevice();
 	}
 	//m_pCursorSprite->OnLostDevice();
 	
 	if (m_pFont)
 	{
-		m_pFont->OnLostDevice();
+		m_pFont->VOnLostDevice();
 	}
 }
 
@@ -133,13 +133,13 @@ HRESULT cHumanView::VOnResetDevice()
 	{
 		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 		{
-			(*i)->OnResetDevice();
+			(*i)->VOnResetDevice();
 		}
 		//m_pCursorSprite->OnResetDevice();
 
 		if (m_pFont)
 		{
-			m_pFont->OnResetDevice();
+			m_pFont->VOnResetDevice();
 		}
 	}
 	return hr;
@@ -255,11 +255,12 @@ HRESULT cHumanView::RenderPrivate( HRESULT & hr )
 			m_pParentControl->VPostMsg(appMsg);
 		}
 
+		AppMsg msg;
 		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 		{
-			if ((*i)->IsVisible())
+			if ((*i)->VIsVisible())
 			{
-				(*i)->OnRender(IDXBase::GetInstance()->VGetDevice());
+				(*i)->VOnRender(msg);
 			}
 		}
 // 		if (m_pCursorSprite->IsVisible())

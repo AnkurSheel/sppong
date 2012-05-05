@@ -28,13 +28,13 @@ inline void cMyFont::SetTextColor(const D3DCOLOR & color)
 }
 // ***************************************************************
 
-inline bool cMyFont::IsVisible()
+inline bool cMyFont::VIsVisible() const
 {
 	return m_bVisible;
 }
 // ***************************************************************
 
-inline void cMyFont::SetVisible(const bool bVisible)
+inline void cMyFont::VSetVisible(const bool bVisible)
 {
 	m_bVisible = bVisible;
 }

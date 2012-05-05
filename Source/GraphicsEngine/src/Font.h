@@ -31,7 +31,7 @@ namespace Graphics
 		cMyFont() ;
 		~cMyFont() ;
 		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
-		void OnRender(LPDIRECT3DDEVICE9 const pDevice) ;
+		void VOnRender(const Graphics::AppMsg & msg) ;
 		void SetText(const Base::cString & strString);
 		const RECT & GetRect() const;
 		const RECT GetRect(const Base::cString & strText) const;
@@ -40,11 +40,11 @@ namespace Graphics
 		void AddTrailingSpaceWidth(const Base::cString & strText , RECT & boundingRect) const;
 		void SetFormat(const DWORD dwFormat);
 		void SetTextColor(const D3DCOLOR & color);
-		void OnLostDevice();
-		void OnResetDevice();
-		bool IsVisible();
+		void VOnLostDevice();
+		HRESULT VOnResetDevice();
+		void VSetVisible(bool bIsVisible);
+		bool VIsVisible() const;
 		void Cleanup();
-		void SetVisible(const bool bVisible);
 
 	private:
 		ID3DXFont *		m_pFont ;

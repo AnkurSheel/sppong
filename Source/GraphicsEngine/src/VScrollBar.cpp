@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "VScrollBar.h"
 #include "Logger.hxx"
+#include "Sprite.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -70,12 +71,17 @@ bool Graphics::cVScrollBar::VOnMouseMove( const int X, const int Y )
 // ***************************************************************
 void Graphics::cVScrollBar::VSetAbsolutePosition()
 {
-	cBaseControl::VSetAbsolutePosition();
+	cScrollBarControl::VSetAbsolutePosition();
 	D3DXVECTOR3 pos = m_vControlAbsolutePosition;
 	if (m_pBtnDecrementArrow)
 	{
 		pos.y = m_vControlAbsolutePosition.y + m_iMinPos;
 		m_pBtnDecrementArrow->VSetPosition(pos);
+		if (m_pCanvasSprite)
+		{
+			pos.y += m_pBtnDecrementArrow->VGetHeight();
+			m_pCanvasSprite->SetPosition(pos);
+		}
 	}
 	if (m_pBtnIncrementArrow)
 	{
@@ -89,13 +95,20 @@ void Graphics::cVScrollBar::VSetAbsolutePosition()
 void Graphics::cVScrollBar::VSetSize( const float fNewWidth, const float fNewHeight )
 {
 	cBaseControl::VSetSize(fNewWidth, fNewHeight);
+	float fBackGroundHeight = fNewHeight;
 	if (m_pBtnDecrementArrow)
 	{
 		m_pBtnDecrementArrow->VSetSize(fNewWidth, fNewWidth);
+		fBackGroundHeight -= fNewWidth;
 	}
 	if (m_pBtnIncrementArrow)
 	{
 		m_pBtnIncrementArrow->VSetSize(fNewWidth, fNewWidth);
+		fBackGroundHeight -= fNewWidth;
+	}
+	if(m_pCanvasSprite)
+	{
+		m_pCanvasSprite->SetSize(m_fWidth, fBackGroundHeight);
 	}
 	if (m_pBtnThumb)
 	{

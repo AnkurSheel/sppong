@@ -22,6 +22,9 @@ namespace Utilities
 		, public Base::cNonCopyable
 	{
 	public:
+		static cTimer * Create();
+
+	private:
 		cTimer();
 		~cTimer();
 		void VStartTimer();

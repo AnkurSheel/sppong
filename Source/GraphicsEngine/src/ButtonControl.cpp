@@ -76,10 +76,7 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, cons
 // ***************************************************************
 void Graphics::cButtonControl::VOnRender( const AppMsg & msg )
 {
-	if (m_pCanvasSprite)
-	{
-		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
-	}
+	cBaseControl::VOnRender(msg);
 	if (m_pLabelCaption)
 	{	
 		m_pLabelCaption->VOnRender(msg);
@@ -152,11 +149,6 @@ void Graphics::cButtonControl::VUnregisterCallBack()
 void Graphics::cButtonControl::VSetAbsolutePosition()
 {
 	cBaseControl::VSetAbsolutePosition();
-	
-	if (m_pCanvasSprite)
-	{
-		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
-	}
 	if (m_pLabelCaption)
 	{
 		m_pLabelCaption->VSetPosition(m_vControlAbsolutePosition);

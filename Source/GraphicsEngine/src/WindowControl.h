@@ -24,7 +24,6 @@ namespace Graphics
 	private:
 		~cWindowControl();
 
-		void VOnRender(const AppMsg & msg);
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		bool VOnMouseMove(const int X, const int Y);

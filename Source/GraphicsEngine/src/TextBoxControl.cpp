@@ -60,13 +60,10 @@ void Graphics::cTextBoxControl::Init( const Base::cString & strDefaultImage, con
 // ***************************************************************
 void Graphics::cTextBoxControl::VOnRender( const AppMsg & msg )
 {
-	if(m_pCanvasSprite)
-	{
-		m_pCanvasSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
-	}
+	cBaseControl::VOnRender(msg);
 	if (m_pFont)
 	{
-		m_pFont->OnRender(IDXBase::GetInstance()->VGetDevice());
+		m_pFont->VOnRender(msg);
 	}
 	
 	if(m_bFocus)
@@ -91,7 +88,7 @@ void Graphics::cTextBoxControl::VOnLostDevice()
 {
 	if (m_pFont)
 	{
-		m_pFont->OnLostDevice();
+		m_pFont->VOnLostDevice();
 	}
 
 	if (m_pCaretLine)
@@ -106,7 +103,7 @@ HRESULT Graphics::cTextBoxControl::VOnResetDevice()
 {
 	if (m_pFont)
 	{
-		m_pFont->OnResetDevice();
+		m_pFont->VOnResetDevice();
 	}
 
 	if (m_pCaretLine)
@@ -179,11 +176,6 @@ void Graphics::cTextBoxControl::VSetAbsolutePosition()
 	{
 		m_pFont->SetRect(m_rectBoundary);
 	}
-	if (m_pCanvasSprite)
-	{
-		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
-	}
-
 	SetCaratAbsolutePosition();
 }
 

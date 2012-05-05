@@ -65,21 +65,21 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 // ***************************************************************
 // Displays the text
 // ***************************************************************
-void cMyFont::OnRender(LPDIRECT3DDEVICE9 const pDevice)
+void cMyFont::VOnRender(const Graphics::AppMsg & msg)
 {	
 	m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, m_dwFormat, m_Color) ;
 }
 // ***************************************************************
 
-void cMyFont::OnLostDevice()
+void cMyFont::VOnLostDevice()
 {
 	Cleanup();
 }
 // ***************************************************************
 
-void cMyFont::OnResetDevice()
+HRESULT cMyFont::VOnResetDevice()
 {
-	D3DXCreateFontIndirect(IDXBase::GetInstance()->VGetDevice(), &m_fonttype, &m_pFont);
+	return D3DXCreateFontIndirect(IDXBase::GetInstance()->VGetDevice(), &m_fonttype, &m_pFont);
 }
 // ***************************************************************
 

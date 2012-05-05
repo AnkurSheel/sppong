@@ -29,3 +29,10 @@ inline void Graphics::cSprite::SetTexture( shared_ptr<ITexture> const pTexture )
 	m_pTexture = pTexture;
 }
 // ***************************************************************
+
+// ***************************************************************
+inline void Graphics::cSprite::VSetVisible(const bool bVisible)
+{
+	m_bIsVisible = bVisible;
+}
+
