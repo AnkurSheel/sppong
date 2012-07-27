@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Utilities_Test"
-	ProjectGUID="{B8B555DC-9549-4C38-BCB9-0F9DEB079ABB}"
-	RootNamespace="Utilities_Test"
+	Name="AI_Test"
+	ProjectGUID="{AE5F8482-4E48-4E84-B914-255C8FD56039}"
+	RootNamespace="AI_Test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes"
+				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes;..\..\..\Source\AI\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D.lib Utilities_D.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib AI_D.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\Debug;"
 				GenerateDebugInformation="true"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes"
+				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes;..\..\..\Source\AI\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base.lib Utilities.lib"
+				AdditionalDependencies="Base.lib Utilities.lib AI.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\bin"
 				GenerateDebugInformation="true"
@@ -177,6 +177,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\AI_Test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -196,10 +200,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\Utilities_Test.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -217,6 +217,30 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<Filter
+			Name="FSMTest"
+			>
+			<File
+				RelativePath=".\Entity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TestStates.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TestStates.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\ReadMe.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

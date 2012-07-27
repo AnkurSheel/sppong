@@ -133,11 +133,7 @@ inline void cStateMachine<entity_type>::RevertToPreviousState()
 template<typename entity_type>
 inline bool cStateMachine<entity_type>::IsInState(const IState<entity_type>& state)
 {
-	if(m_pCurrentState == state)
-	{
-		return true;
-	}
-	return false;
+	return typeid(*m_pCurrentState) == typeid(state);
 }
 // ***************************************************************
 
