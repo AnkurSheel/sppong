@@ -3,7 +3,8 @@
 
 #include "stdafx.h"
 #include <conio.h>
-#include "Entity.h"
+#include "Entity1.h"
+#include "Entity2.h"
 #include "EntityManager.h"
 #include "MessageDispatchManager.h"
 
@@ -23,25 +24,28 @@ void CheckForMemoryLeaks()
 #endif	_DEBUG
 }
 
-
 void main(int argc, char* argv[])
 {
 	CheckForMemoryLeaks() ;
 	
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
-	cEntity * pEntity = new cEntity(0);
+	cBaseEntity * pEntity1 = new cEntity1(0);
+	cBaseEntity * pEntity2 = new cEntity2(1);
 
-	cEntityManager::Instance()->RegisterEntity(pEntity);
+	cEntityManager::Instance()->RegisterEntity(pEntity1);
+	cEntityManager::Instance()->RegisterEntity(pEntity2);
 
 	int iUpdateCycles = 0;
 	while(iUpdateCycles < 30)
 	{
-		pEntity->Update();
+		pEntity1->VOnUpdate();
+		pEntity2->VOnUpdate();
 		cMessageDispatchManager::GetInstance()->OnUpdate();
-		Sleep(500);
+		Sleep(200);
 		iUpdateCycles++;
 	}
-	SAFE_DELETE(pEntity);
+	SAFE_DELETE(pEntity1);
+	SAFE_DELETE(pEntity2);
 
 	if (ILogger::TheLogger())
 	{

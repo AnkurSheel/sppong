@@ -11,20 +11,20 @@
 #ifndef EntityManager_h__
 #define EntityManager_h__
 
-class cEntity;
+class cBaseEntity;
 
 class cEntityManager
 	: public Base::cNonCopyable
 {
 private:
-	typedef std::map<int, cEntity * const > EntityMap;
+	typedef std::map<int, cBaseEntity * const > EntityMap;
 
 public:
 	~cEntityManager();
 	static cEntityManager * Instance();
-	void RegisterEntity(cEntity * const pNewEntity);
-	void UnRegisterEntity(cEntity * const pNewEntity);
-	cEntity * GetEntityFromID(const int iID);
+	void RegisterEntity(cBaseEntity * const pNewEntity);
+	void UnRegisterEntity(cBaseEntity * const pNewEntity);
+	cBaseEntity * GetEntityFromID(const int iID);
 
 private:
 	cEntityManager();

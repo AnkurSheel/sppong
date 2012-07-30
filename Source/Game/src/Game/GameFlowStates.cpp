@@ -27,6 +27,7 @@
 using namespace MySound;
 using namespace Graphics;
 using namespace Base;
+using namespace AI;
 
 cStateTitleScreen::cStateTitleScreen()
 {
@@ -45,7 +46,7 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 }
 // ***************************************************************
 
-void cStateTitleScreen::Enter(cGame *pGame)
+void cStateTitleScreen::VOnEnter(cGame *pGame)
 {
 	m_tickCurrentTime = pGame->GetRunningTicks();
 
@@ -59,7 +60,7 @@ void cStateTitleScreen::Enter(cGame *pGame)
 }
 // ***************************************************************
 
-void cStateTitleScreen::Execute(cGame *pGame)
+void cStateTitleScreen::VOnUpdate(cGame *pGame)
 {
 	// display the title screen for 2 secs before displaying the menu screen
 	if(pGame->GetRunningTicks() - m_tickCurrentTime > 2)
@@ -69,12 +70,12 @@ void cStateTitleScreen::Execute(cGame *pGame)
 }
 // ***************************************************************
 
-void cStateTitleScreen::Exit(cGame *pGame)
+void cStateTitleScreen::VOnExit(cGame *pGame)
 {
 }
 // ***************************************************************
 
-bool cStateTitleScreen::OnMessage(cGame *pGame, const Telegram &msg)
+bool cStateTitleScreen::VOnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
 }
@@ -97,7 +98,7 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 }
 // ***************************************************************
 
-void cStateMenuScreen::Enter(cGame *pGame)
+void cStateMenuScreen::VOnEnter(cGame *pGame)
 {
 	if (pGame->m_pPongView->m_pParentControl != NULL)
 	{
@@ -132,12 +133,12 @@ void cStateMenuScreen::Enter(cGame *pGame)
 
 	}
 	
-	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 }
 // ***************************************************************
 
-void cStateMenuScreen::Execute(cGame *pGame)
+void cStateMenuScreen::VOnUpdate(cGame *pGame)
 {
 	if (pGame->m_pStateMachine)
 	{
@@ -153,7 +154,7 @@ void cStateMenuScreen::Execute(cGame *pGame)
 }
 // ***************************************************************
 
-void cStateMenuScreen::Exit(cGame *pGame)
+void cStateMenuScreen::VOnExit(cGame *pGame)
 {
 	if (pGame->m_pPongView->m_pParentControl != NULL)
 	{
@@ -164,7 +165,7 @@ void cStateMenuScreen::Exit(cGame *pGame)
 }
 // ***************************************************************
 
-bool cStateMenuScreen::OnMessage(cGame *pGame, const Telegram &msg)
+bool cStateMenuScreen::VOnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
 }
@@ -187,7 +188,7 @@ cStatePlayGame* cStatePlayGame::Instance()
 }
 // ***************************************************************
 
-void cStatePlayGame::Enter(cGame *pGame)
+void cStatePlayGame::VOnEnter(cGame *pGame)
 {
 	ICollisionChecker::CreateCollisionChecker();
 
@@ -246,14 +247,14 @@ void cStatePlayGame::Enter(cGame *pGame)
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");
 
-	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
+	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
+	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
 	pGame->m_pPongView->SetCursorVisible(false);
 }
 // ***************************************************************
 
-void cStatePlayGame::Execute(cGame *pGame)
+void cStatePlayGame::VOnUpdate(cGame *pGame)
 {
 	for(int i=0; i<pGame->PGE_TOTAL; i++)
 	{
@@ -264,7 +265,7 @@ void cStatePlayGame::Execute(cGame *pGame)
 }
 // ***************************************************************
 
-void cStatePlayGame::Exit(cGame *pGame)
+void cStatePlayGame::VOnExit(cGame *pGame)
 {
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
 	pGame->m_pPongView->RemoveElements();
@@ -279,7 +280,7 @@ void cStatePlayGame::Exit(cGame *pGame)
 }
 // ***************************************************************
 
-bool cStatePlayGame::OnMessage(cGame *pGame, const Telegram &msg)
+bool cStatePlayGame::VOnMessage(cGame *pGame, const Telegram &msg)
 {
 	return false;
 }

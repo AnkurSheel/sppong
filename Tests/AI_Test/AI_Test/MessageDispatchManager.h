@@ -10,9 +10,12 @@
 #ifndef DispatchManager_h__
 #define DispatchManager_h__
 
-#include "FSM/Telegram.h"
+namespace AI
+{
+	struct Telegram;
+}
 
-class cEntity;
+class cBaseEntity;
 namespace Utilities
 {
 	class  ITimer;
@@ -28,7 +31,7 @@ public:
 	static cMessageDispatchManager * GetInstance();
 private:
 	cMessageDispatchManager();
-	void Discharge(cEntity* const pReceiver, const AI::Telegram& msg);
+	void Discharge(cBaseEntity * const pReceiver, const AI::Telegram& msg);
 	void DispatchDelayedMessage();
 
 private: 

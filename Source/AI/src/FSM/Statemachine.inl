@@ -28,11 +28,11 @@ inline void cStateMachine<entity_type>::SetCurrentState(IState<entity_type>* sta
 	if (m_pCurrentState)
 	{
 		m_pPreviousState= m_pCurrentState;
-		m_pCurrentState->Exit(m_pOwner);
+		m_pCurrentState->VOnExit(m_pOwner);
 	}
 	
 	m_pCurrentState = state;
-	m_pCurrentState->Enter(m_pOwner);
+	m_pCurrentState->VOnEnter(m_pOwner);
 
 }
 // ***************************************************************
@@ -65,11 +65,11 @@ inline void cStateMachine<entity_type>::Update()
 {
 	if(m_pGlobalState)
 	{
-		m_pGlobalState->Execute(m_pOwner);
+		m_pGlobalState->VOnUpdate(m_pOwner);
 	}
 	if(m_pCurrentState)
 	{
-		m_pCurrentState->Execute(m_pOwner);
+		m_pCurrentState->VOnUpdate(m_pOwner);
 	}
 }
 // ***************************************************************
@@ -81,9 +81,9 @@ template<typename entity_type>
 inline void cStateMachine<entity_type>::ChangeState(IState<entity_type>* pNewState)
 {
 	m_pPreviousState= m_pCurrentState;
-	m_pCurrentState->Exit(m_pOwner);
+	m_pCurrentState->VOnExit(m_pOwner);
 	m_pCurrentState = pNewState;
-	m_pCurrentState->Enter(m_pOwner);
+	m_pCurrentState->VOnEnter(m_pOwner);
 }
 // ***************************************************************
 
@@ -143,11 +143,11 @@ inline bool cStateMachine<entity_type>::IsInState(const IState<entity_type>& sta
 template<typename entity_type>
 inline bool cStateMachine<entity_type>::HandleMessage(const Telegram &msg)
 {
-	if(m_pCurrentState && m_pCurrentState->OnMessage(m_pOwner, msg))
+	if(m_pCurrentState && m_pCurrentState->VOnMessage(m_pOwner, msg))
 	{
 		return true;
 	}
-	if(m_pGlobalState && m_pGlobalState->OnMessage(m_pOwner, msg))
+	if(m_pGlobalState && m_pGlobalState->VOnMessage(m_pOwner, msg))
 	{
 		return true;
 	}

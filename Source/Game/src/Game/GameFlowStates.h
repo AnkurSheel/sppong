@@ -13,7 +13,6 @@
 #include "fsm/State.h"
 
 class cGame;
-struct Telegram;
 
 class IGameFlowStates
 	: public AI::IState<cGame>
@@ -29,10 +28,10 @@ private:
 public:
 	~cStateTitleScreen();
 	static cStateTitleScreen *Instance();
-	void Enter(cGame *pGame);
-	void Execute(cGame *pGame);
-	void Exit(cGame *pGame);
-	bool OnMessage(cGame *pGame, const Telegram &msg);
+	void VOnEnter(cGame *pGame);
+	void VOnUpdate(cGame *pGame);
+	void VOnExit(cGame *pGame);
+	bool VOnMessage(cGame *pGame, const AI::Telegram &msg);
 };
 
 class cStateMenuScreen 
@@ -43,10 +42,10 @@ private:
 public:
 	~cStateMenuScreen();
 	static cStateMenuScreen *Instance();
-	void Enter(cGame *pGame);
-	void Execute(cGame *pGame);
-	void Exit(cGame *pGame);
-	bool OnMessage(cGame *pGame, const Telegram &msg);
+	void VOnEnter(cGame *pGame);
+	void VOnUpdate(cGame *pGame);
+	void VOnExit(cGame *pGame);
+	bool VOnMessage(cGame *pGame, const AI::Telegram &msg);
 };
 
 class cStatePlayGame 
@@ -57,9 +56,9 @@ private:
 public:
 	virtual ~cStatePlayGame();
 	static cStatePlayGame *Instance();
-	virtual void Enter(cGame *pGame);
-	virtual void Execute(cGame *pGame);
-	virtual void Exit(cGame *pGame);
-	virtual bool OnMessage(cGame *pGame, const Telegram &msg);
+	virtual void VOnEnter(cGame *pGame);
+	virtual void VOnUpdate(cGame *pGame);
+	virtual void VOnExit(cGame *pGame);
+	virtual bool VOnMessage(cGame *pGame, const AI::Telegram &msg);
 };
 #endif // GameFlowStates_h__

@@ -12,7 +12,7 @@
 #include "Timer.hxx"
 #include "EntityManager.h"
 #include "FSM/Telegram.h"
-#include "Entity.h"
+#include "BaseEntity.h"
 
 using namespace Utilities;
 using namespace AI;
@@ -34,7 +34,7 @@ cMessageDispatchManager::~cMessageDispatchManager()
 // ***************************************************************
 void cMessageDispatchManager::DispatchMessage( const double dDelay, const int iSender, const int iReciever, const unsigned int iMsg, void * const pExtraInfo )
 {
-	cEntity	* pReciever = cEntityManager::Instance()->GetEntityFromID(iReciever);
+	cBaseEntity	* pReciever = cEntityManager::Instance()->GetEntityFromID(iReciever);
 	Telegram telegram(iSender, iReciever, iMsg, 0.0, pExtraInfo);
 	if (dDelay <= 0.0)
 	{
@@ -59,11 +59,12 @@ void cMessageDispatchManager::OnUpdate()
 void cMessageDispatchManager::DispatchDelayedMessage()
 {
 	double dCurrentTime = m_pTimer->VGetRunningTime();
-	while ((m_PriorityQueue.begin()->DispatchTime < dCurrentTime)
+	while (!m_PriorityQueue.empty() 
+			&& m_PriorityQueue.begin()->DispatchTime < dCurrentTime
 			&& m_PriorityQueue.begin()->DispatchTime > 0)
 	{
 		Telegram telegram = *m_PriorityQueue.begin();
-		cEntity * pReciever = cEntityManager::Instance()->GetEntityFromID(telegram.Receiver);
+		cBaseEntity * pReciever = cEntityManager::Instance()->GetEntityFromID(telegram.Receiver);
 		Discharge(pReciever, telegram);
 		m_PriorityQueue.erase(m_PriorityQueue.begin());
 	}
@@ -78,11 +79,11 @@ cMessageDispatchManager * cMessageDispatchManager::GetInstance()
 }
 
 // ***************************************************************
-void cMessageDispatchManager::Discharge( cEntity* const pReceiver, const Telegram& msg )
+void cMessageDispatchManager::Discharge( cBaseEntity * const pReceiver, const AI::Telegram& msg )
 {
-	if(pReceiver->HandleMessage(msg))
+	if(pReceiver->VOnHandleMessage(msg))
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Message %d Handled by %d", msg.Msg, pReceiver->GetID()));
+		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Message %d Handled by %d", msg.Msg, pReceiver->GetID()));
 	}
 	else
 	{

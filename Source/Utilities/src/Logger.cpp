@@ -23,7 +23,7 @@ int cLogger::m_iCurrentId = 1;
 // ***************************************************************
 cLogger::cLogger()
 : m_fStdOut(NULL)
-, m_hStdOut(INVALID_HANDLE_VALUE) 
+, m_hStdOut(NULL) 
 , m_fXml(NULL)
 {
 }
@@ -42,7 +42,7 @@ void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cStr
 {
 #ifdef _DEBUG
 	m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	if(m_hStdOut == INVALID_HANDLE_VALUE && AllocConsole() != 0)
+	if(m_hStdOut == NULL && AllocConsole() != 0)
 	{
 		SetConsoleTitle("Console Logger");
 		m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);

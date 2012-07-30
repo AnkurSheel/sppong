@@ -23,10 +23,10 @@ namespace AI
 	{
 	public:
 		virtual ~IState(){};
-		virtual void Enter(entity_type *) = 0;
-		virtual void Execute(entity_type *) = 0;
-		virtual void Exit(entity_type *) = 0;
-		virtual bool OnMessage(entity_type*, const Telegram &msg)=0;
+		virtual void VOnEnter(entity_type *) = 0;
+		virtual void VOnUpdate(entity_type *) = 0;
+		virtual void VOnExit(entity_type *) = 0;
+		virtual bool VOnMessage(entity_type *, const AI::Telegram & msg)=0;
 	};
 }
 #endif // State_h__

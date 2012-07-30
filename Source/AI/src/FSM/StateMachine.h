@@ -21,11 +21,8 @@ namespace AI
 {
 	template <class entity_type>
 	class cStateMachine
+		: public Base::cNonCopyable
 	{
-	private:
-		cStateMachine(const cStateMachine&){}
-		cStateMachine operator =(const cStateMachine&){}
-
 	public:
 		cStateMachine(entity_type *owner);
 		virtual ~cStateMachine();

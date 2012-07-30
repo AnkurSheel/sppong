@@ -221,11 +221,43 @@
 			Name="FSMTest"
 			>
 			<File
-				RelativePath=".\Entity.cpp"
+				RelativePath=".\BaseEntity.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Entity.h"
+				RelativePath=".\BaseEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity1.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity1States.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity1States.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity2.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity2States.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Entity2States.h"
 				>
 			</File>
 			<File
@@ -242,14 +274,6 @@
 			</File>
 			<File
 				RelativePath=".\MessageDispatchManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TestStates.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TestStates.h"
 				>
 			</File>
 		</Filter>
