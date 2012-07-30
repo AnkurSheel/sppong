@@ -23,12 +23,14 @@ class cMessageDispatchManager
 {
 public:
 	~cMessageDispatchManager();
-	void DispatchMessage(const double dDelay, const int iSender, const int iReciever, const int iMsg, void * const pExtraInfo );
-	void DispatchDelayedMessage();
+	void DispatchMessage(const double dDelay, const int iSender, const int iReciever, const unsigned iMsg, void * const pExtraInfo );
+	void OnUpdate();
 	static cMessageDispatchManager * GetInstance();
 private:
 	cMessageDispatchManager();
 	void Discharge(cEntity* const pReceiver, const AI::Telegram& msg);
+	void DispatchDelayedMessage();
+
 private: 
 	std::set<AI::Telegram>	m_PriorityQueue;
 	Utilities::ITimer *		m_pTimer;

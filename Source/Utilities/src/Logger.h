@@ -40,8 +40,9 @@ namespace Utilities
 	private:
 		cLogger(const cLogger&){}
 		cLogger operator =(const cLogger&){}
-		void LogTypeToString( LogType eLogEntryType, Base::cString & str );
-		void Log(const Base::cString & str);
+		void LogTypeToString(const LogType eLogEntryType, Base::cString & str );
+		void Log(const LogType eLogEntryType, const Base::cString & str);
+		void SetConsoleTextColor(const LogType eLogEntryType);
 
 	private:
 		FILE *			m_fStdOut;

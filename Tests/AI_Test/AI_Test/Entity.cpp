@@ -19,7 +19,6 @@ int cEntity::m_siNextValidID = 0;
 
 // ***************************************************************
 cEntity::cEntity(const int iID)
-: m_iUpdateCycles(0)
 {
 	m_pTestState1 = new cTestState1;
 	m_pTestState2 = new cTestState2();
@@ -39,17 +38,7 @@ cEntity::~cEntity()
 // ***************************************************************
 void cEntity::Update()
 {	
-	if (m_iUpdateCycles == 5)
-	{
-		m_pStateMachine->ChangeState(m_pTestState2);
-	}
-	else if (m_iUpdateCycles == 10)
-	{
-		m_pStateMachine->ChangeState(m_pTestState1);
-	}
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "m_iUpdateCycles: %d", m_iUpdateCycles));
 	m_pStateMachine->Update();
-	m_iUpdateCycles++;
 }
 
 // ***************************************************************
@@ -70,7 +59,7 @@ int cEntity::GetID()
 }
 
 // ***************************************************************
-void cEntity::HandleMessage( const AI::Telegram & telegram )
+bool cEntity::HandleMessage( const AI::Telegram & telegram )
 {
-	m_pStateMachine->HandleMessage(telegram);
+	return m_pStateMachine->HandleMessage(telegram);
 }

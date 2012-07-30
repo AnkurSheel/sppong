@@ -10,7 +10,10 @@
 #ifndef StateMachine_h__
 #define StateMachine_h__
 
-struct Telegram;
+namespace AI
+{
+	struct Telegram;
+}
 
 #include "State.h"
 

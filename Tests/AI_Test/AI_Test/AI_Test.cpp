@@ -2,7 +2,10 @@
 //
 
 #include "stdafx.h"
+#include <conio.h>
 #include "Entity.h"
+#include "EntityManager.h"
+#include "MessageDispatchManager.h"
 
 using namespace Utilities;
 
@@ -27,10 +30,15 @@ void main(int argc, char* argv[])
 	
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
 	cEntity * pEntity = new cEntity(0);
+
+	cEntityManager::Instance()->RegisterEntity(pEntity);
+
 	int iUpdateCycles = 0;
-	while(iUpdateCycles < 15)
+	while(iUpdateCycles < 30)
 	{
 		pEntity->Update();
+		cMessageDispatchManager::GetInstance()->OnUpdate();
+		Sleep(500);
 		iUpdateCycles++;
 	}
 	SAFE_DELETE(pEntity);
@@ -38,6 +46,11 @@ void main(int argc, char* argv[])
 	if (ILogger::TheLogger())
 	{
 		ILogger::TheLogger()->Destroy();
+	}
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE| FOREGROUND_RED | FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+	printf("Press Any Key to continue");
+	while (!_kbhit())
+	{
 	}
 }
 

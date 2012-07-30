@@ -23,7 +23,7 @@ int cLogger::m_iCurrentId = 1;
 // ***************************************************************
 cLogger::cLogger()
 : m_fStdOut(NULL)
-, m_hStdOut(NULL) 
+, m_hStdOut(INVALID_HANDLE_VALUE) 
 , m_fXml(NULL)
 {
 }
@@ -41,7 +41,8 @@ cLogger::~cLogger()
 void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cString & cfName /*= NULL*/ )
 {
 #ifdef _DEBUG
-	if( AllocConsole() != 0)
+	m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	if(m_hStdOut == INVALID_HANDLE_VALUE && AllocConsole() != 0)
 	{
 		SetConsoleTitle("Console Logger");
 		m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -103,7 +104,7 @@ void cLogger::CreateHeader()
 	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion());
 }
 
-void cLogger::Log(const Base::cString & str)
+void cLogger::Log(const LogType eLogEntryType, const Base::cString & str)
 {
 	char strtime[100];
 	time_t currentTime;
@@ -115,6 +116,7 @@ void cLogger::Log(const Base::cString & str)
 	DWORD dwCharsWritten;
 	if(m_hStdOut)
 	{
+		SetConsoleTextColor(eLogEntryType);
 		WriteConsole(m_hStdOut, strtime, (DWORD)strlen(strtime), &dwCharsWritten, NULL);
 		WriteConsole(m_hStdOut, str.GetData(), (DWORD)strlen(str.GetData()), &dwCharsWritten, NULL);
 		WriteConsole(m_hStdOut, "\n", 1, &dwCharsWritten, NULL);
@@ -140,9 +142,9 @@ void cLogger::Close()
 }
 // ***************************************************************
 
-void cLogger::WriteLogEntry( LogType eLogEntryType, const cString & strSourceFile, const cString & strFunction, int iSourceLine, const cString & strMessage )
+void cLogger::WriteLogEntry(const LogType eLogEntryType, const cString & strSourceFile, const cString & strFunction, int iSourceLine, const cString & strMessage )
 {
-	Log(strMessage);
+	Log(eLogEntryType, strMessage);
 	if(!m_fXml)
 		return;
 
@@ -166,6 +168,38 @@ void cLogger::WriteLogEntry( LogType eLogEntryType, const cString & strSourceFil
 	m_fXml->AddNode(strEvent, "Message", "Message", strMessage);
 	m_iCurrentId++;
 }
+// ***************************************************************
+
+void cLogger::SetConsoleTextColor(const LogType eLogEntryType)
+{
+	switch(eLogEntryType)
+	{
+	case LT_DEBUG: 
+		SetConsoleTextAttribute(m_hStdOut, FOREGROUND_RED|FOREGROUND_BLUE|FOREGROUND_INTENSITY);
+		break;
+	case LT_ERROR:
+		SetConsoleTextAttribute(m_hStdOut, FOREGROUND_RED|FOREGROUND_INTENSITY);
+		break;
+	case LT_WARNING: 
+		SetConsoleTextAttribute(m_hStdOut, FOREGROUND_RED| FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+		break;
+	case LT_COMMENT: 
+		SetConsoleTextAttribute(m_hStdOut, FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+		break;
+	case LT_EVENT: 
+		SetConsoleTextAttribute(m_hStdOut, FOREGROUND_BLUE| FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+		break;
+	case LT_GAME_MESSAGE: 
+		SetConsoleTextAttribute(m_hStdOut, FOREGROUND_BLUE| FOREGROUND_INTENSITY);
+		break;
+	case LT_UNKNOWN:
+	default:
+		//set color to white
+		SetConsoleTextAttribute(m_hStdOut, FOREGROUND_BLUE| FOREGROUND_RED | FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+		break;
+	}
+}
+// ***************************************************************
 
 void cLogger::LogTypeToString( LogType eLogEntryType, cString & str )
 {

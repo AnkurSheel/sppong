@@ -11,6 +11,9 @@
 #include "EntityManager.h"
 #include "Entity.h"
 
+using namespace Utilities;
+using namespace Base;
+
 // ***************************************************************
 cEntityManager::cEntityManager()
 {
@@ -34,6 +37,7 @@ cEntityManager * cEntityManager::Instance()
 // ***************************************************************
 void cEntityManager::RegisterEntity( cEntity * const pNewEntity )
 {
+	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Registering Entity: %d", pNewEntity->GetID()));
 	m_EntityMap.insert(std::make_pair(pNewEntity->GetID(), pNewEntity));
 }
 

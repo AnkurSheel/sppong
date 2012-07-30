@@ -12,9 +12,11 @@
 #include "Timer.hxx"
 #include "EntityManager.h"
 #include "FSM/Telegram.h"
+#include "Entity.h"
 
 using namespace Utilities;
 using namespace AI;
+using namespace Base;
 
 // ***************************************************************
 cMessageDispatchManager::cMessageDispatchManager()
@@ -30,22 +32,29 @@ cMessageDispatchManager::~cMessageDispatchManager()
 }
 
 // ***************************************************************
-void cMessageDispatchManager::DispatchMessage( const double dDelay, const int iSender, const int iReciever, const int iMsg, void * const pExtraInfo )
+void cMessageDispatchManager::DispatchMessage( const double dDelay, const int iSender, const int iReciever, const unsigned int iMsg, void * const pExtraInfo )
 {
 	cEntity	* pReciever = cEntityManager::Instance()->GetEntityFromID(iReciever);
-	Telegram telegram(0, iSender, iReciever, iMsg, pExtraInfo);
+	Telegram telegram(iSender, iReciever, iMsg, 0.0, pExtraInfo);
 	if (dDelay <= 0.0)
 	{
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d immediately to %d", iMsg, iReciever));
 		Discharge(pReciever, telegram);
 	}
 	else
 	{
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d with delay of %0.2f seconds to %d", iMsg, dDelay, iReciever));
 		double dCurrentTime = m_pTimer->VGetRunningTime();
 		telegram.DispatchTime = dCurrentTime + dDelay;
 		m_PriorityQueue.insert(telegram);
 	}
 }
 
+void cMessageDispatchManager::OnUpdate()
+{
+	m_pTimer->VOnUpdate();
+	DispatchDelayedMessage();
+}
 // ***************************************************************
 void cMessageDispatchManager::DispatchDelayedMessage()
 {
@@ -71,5 +80,13 @@ cMessageDispatchManager * cMessageDispatchManager::GetInstance()
 // ***************************************************************
 void cMessageDispatchManager::Discharge( cEntity* const pReceiver, const Telegram& msg )
 {
+	if(pReceiver->HandleMessage(msg))
+	{
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Message %d Handled by %d", msg.Msg, pReceiver->GetID()));
+	}
+	else
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Message %d Not Handled by %d", msg.Msg, pReceiver->GetID()));
+	}
 
 }
