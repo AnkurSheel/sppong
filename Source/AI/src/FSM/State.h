@@ -10,12 +10,16 @@
 #ifndef State_h__
 #define State_h__
 
-struct Telegram;
+namespace AI
+{
+	struct Telegram;
+}
 
 namespace AI
 {
 	template <class entity_type>
-	class IState
+	class IState 
+		: public Base::cNonCopyable
 	{
 	public:
 		virtual ~IState(){};

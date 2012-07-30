@@ -229,6 +229,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EntityManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EntityManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MessageDispatchManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MessageDispatchManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\TestStates.cpp"
 				>
 			</File>

@@ -26,8 +26,7 @@ void main(int argc, char* argv[])
 	CheckForMemoryLeaks() ;
 	
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
-
-	cEntity * pEntity = new cEntity();
+	cEntity * pEntity = new cEntity(0);
 	int iUpdateCycles = 0;
 	while(iUpdateCycles < 15)
 	{

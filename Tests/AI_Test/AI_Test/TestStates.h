@@ -11,6 +11,8 @@
 #define TestStates_h__
 
 #include "fsm/State.h"
+#include "FSM/Telegram.h"
+
 class cEntity;
 
 class cTestState1 
@@ -22,7 +24,7 @@ public:
 	virtual void Enter(cEntity * pEntity);
 	virtual void Execute(cEntity * pEntity);
 	virtual void Exit(cEntity * pEntity);
-	virtual bool OnMessage(cEntity * pEntity, const Telegram &msg);
+	virtual bool OnMessage(cEntity * pEntity, const AI::Telegram &msg);
 };
 
 class cTestState2 
@@ -34,6 +36,6 @@ public:
 	virtual void Enter(cEntity * pEntity);
 	virtual void Execute(cEntity * pEntity);
 	virtual void Exit(cEntity * pEntity);
-	virtual bool OnMessage(cEntity * pEntity, const Telegram &msg);
+	virtual bool OnMessage(cEntity * pEntity, const AI::Telegram &msg);
 };
 #endif // TestStates_h__

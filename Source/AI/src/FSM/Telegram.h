@@ -10,6 +10,8 @@
 #ifndef Telegram_h__
 #define Telegram_h__
 
+#include <math.h>
+
 namespace AI
 {
 	struct Telegram
@@ -20,22 +22,27 @@ namespace AI
 		double DispatchTime;
 		void *ExtraInfo;
 
+		Telegram()
+		: Sender(0)
+		, Receiver(0)
+		, Msg(0) 
+		, DispatchTime(-1)
+		, ExtraInfo(NULL)
+		{
+		}
+		
+		Telegram(unsigned int sender, unsigned int Receiver, 
+						unsigned int msg, double dispatchTime, void * const extraInfo)
+		: Sender(sender)
+		, Receiver(Receiver)
+		, Msg(msg)
+		, DispatchTime(dispatchTime)
+		, ExtraInfo(extraInfo)
+		{
+		}
 	};
 
-	Telegram::Telegram():Sender(0),
-		Receiver(0),
-		Msg(0),
-		DispatchTime(-1),
-		ExtraInfo(NULL)
-	{
-	}
-	Telegram::Telegram(unsigned int sender, unsigned int Receiver, unsigned int msg, double dispatchTime, void *extraInfo):Sender(sender),
-		Receiver(Receiver),
-		Msg(msg),
-		DispatchTime(dispatchTime),
-		ExtraInfo(extraInfo)
-	{
-	}
+	const double SmallestDelay = 0.25;
 
 	template <class T>
 	inline T DereferenceToType(void* p)

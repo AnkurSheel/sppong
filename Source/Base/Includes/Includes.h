@@ -13,7 +13,10 @@
 #include <windows.h>
 #include <memory>
 #include <functional>
+#include <map>
+#include <set>
 #include <crtdbg.h>
+
 #include "Macros.h"
 #include "myString.h"
 #include "NonCopyable.h"
