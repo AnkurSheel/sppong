@@ -28,11 +28,11 @@ namespace GameBase
 
 	public:
 		~cEntityManager();
-		static cEntityManager * Instance();
 		void VRegisterEntity(IBaseEntity * const pNewEntity);
 		void UnRegisterEntity(IBaseEntity * const pNewEntity);
-		IBaseEntity * GetEntityFromID(const int iID);
-
+		IBaseEntity * const VGetEntityFromID(const int iID);
+		static void CreateEntityManager();
+		void VDestroy();
 	private:
 		cEntityManager();
 
@@ -40,5 +40,6 @@ namespace GameBase
 		EntityMap		m_EntityMap;
 
 	};
+	static IEntityManager * s_pEntityManager = NULL;
 }
 #endif // EnityManager_h__

@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "MessageDispatchManager.h"
 #include "Timer.hxx"
-#include "EntityManager.h"
+#include "EntityManager.hxx"
 #include "FSM/Telegram.h"
 #include "BaseEntity.h"
 
@@ -33,9 +33,9 @@ cMessageDispatchManager::~cMessageDispatchManager()
 }
 
 // ***************************************************************
-void cMessageDispatchManager::DispatchMessage( const double dDelay, const int iSender, const int iReciever, const unsigned int iMsg, void * const pExtraInfo )
+void cMessageDispatchManager::VDispatchMessage( const double dDelay, const int iSender, const int iReciever, const unsigned int iMsg, void * const pExtraInfo )
 {
-	cBaseEntity	* pReciever = cEntityManager::Instance()->GetEntityFromID(iReciever);
+	IBaseEntity	* pReciever = IEntityManager::GetInstance()->VGetEntityFromID(iReciever);
 	Telegram telegram(iSender, iReciever, iMsg, 0.0, pExtraInfo);
 	if (dDelay <= 0.0)
 	{
@@ -51,7 +51,7 @@ void cMessageDispatchManager::DispatchMessage( const double dDelay, const int iS
 	}
 }
 
-void cMessageDispatchManager::OnUpdate()
+void cMessageDispatchManager::VOnUpdate()
 {
 	m_pTimer->VOnUpdate();
 	DispatchDelayedMessage();
@@ -65,30 +65,43 @@ void cMessageDispatchManager::DispatchDelayedMessage()
 			&& m_PriorityQueue.begin()->DispatchTime > 0)
 	{
 		Telegram telegram = *m_PriorityQueue.begin();
-		cBaseEntity * pReciever = cEntityManager::Instance()->GetEntityFromID(telegram.Receiver);
+		IBaseEntity * pReciever = IEntityManager::GetInstance()->VGetEntityFromID(telegram.Receiver);
 		Discharge(pReciever, telegram);
 		m_PriorityQueue.erase(m_PriorityQueue.begin());
 	}
 }
 
 // ***************************************************************
-void cMessageDispatchManager::Discharge( cBaseEntity * const pReceiver, const AI::Telegram& msg )
+void cMessageDispatchManager::Discharge( IBaseEntity * const pReceiver, const AI::Telegram& msg )
 {
 	if(pReceiver->VOnHandleMessage(msg))
 	{
-		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Message %d Handled by %d", msg.Msg, pReceiver->GetID()));
+		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Message %d Handled by %d", msg.Msg, pReceiver->VGetID()));
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Message %d Not Handled by %d", msg.Msg, pReceiver->GetID()));
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Message %d Not Handled by %d", msg.Msg, pReceiver->VGetID()));
 	}
 
 }
 
 // ***************************************************************
-cMessageDispatchManager * cMessageDispatchManager::GetInstance()
+void cMessageDispatchManager::CreateMessageDispatchManager()
 {
-	static cMessageDispatchManager instance;
+	s_pMessageDispatchManager = DEBUG_NEW cMessageDispatchManager();
+}
 
-	return &instance;
+// ***************************************************************
+void cMessageDispatchManager::VDestroy()
+{
+	delete this;
+	s_pMessageDispatchManager = NULL;
+}
+
+// ***************************************************************
+IMessageDispatchManager * IMessageDispatchManager::GetInstance()
+{
+	if(!s_pMessageDispatchManager)
+		cMessageDispatchManager::CreateMessageDispatchManager();
+	return s_pMessageDispatchManager;
 }

@@ -10,6 +10,8 @@
 #ifndef EntityManager_hxx__
 #define EntityManager_hxx__
 
+#include "GameBaseDefines.h"
+
 namespace GameBase
 {
 	class IBaseEntity;
@@ -23,6 +25,9 @@ namespace GameBase
 	public:
 		virtual ~IEntityManager(){}
 		virtual void VRegisterEntity(IBaseEntity * const pNewEntity) = 0;
+		virtual IBaseEntity * const VGetEntityFromID(const int iID) = 0;
+		virtual void VDestroy() = 0;
+		GAMEBASE_API static IEntityManager * GetInstance();
 	};
 }
 

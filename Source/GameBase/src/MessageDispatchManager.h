@@ -24,8 +24,9 @@ namespace Utilities
 
 namespace GameBase
 {
-	class cBaseEntity;
+	class IBaseEntity;
 }
+
 namespace GameBase
 {
 	class cMessageDispatchManager
@@ -33,18 +34,19 @@ namespace GameBase
 	{
 	public:
 		~cMessageDispatchManager();
-		void DispatchMessage(const double dDelay, const int iSender, const int iReciever, const unsigned iMsg, void * const pExtraInfo );
-		void OnUpdate();
-		static cMessageDispatchManager * GetInstance();
+		void VDispatchMessage(const double dDelay, const int iSender, const int iReciever, const unsigned iMsg, void * const pExtraInfo );
+		void VOnUpdate();
+		static void CreateMessageDispatchManager();
+		void VDestroy();
 	private:
 		cMessageDispatchManager();
-		void Discharge(cBaseEntity * const pReceiver, const AI::Telegram& msg);
+		void Discharge(GameBase::IBaseEntity * const pReceiver, const AI::Telegram& msg);
 		void DispatchDelayedMessage();
 
 	private: 
 		std::set<AI::Telegram>	m_PriorityQueue;
 		Utilities::ITimer *		m_pTimer;
-
 	};
+	static IMessageDispatchManager * s_pMessageDispatchManager = NULL;
 }
 #endif // DispatchManager_h__

@@ -11,6 +11,7 @@
 #define BaseEntity_h__
 
 #include "BaseEntity.hxx"
+#include "GameBaseDefines.h"
 
 namespace GameBase
 {
@@ -18,9 +19,9 @@ namespace GameBase
 		: public IBaseEntity
 	{
 	public:
-		cBaseEntity(const int iID);
-		virtual ~cBaseEntity();
-		int GetID() const;
+		GAMEBASE_API cBaseEntity(const int iID);
+		GAMEBASE_API virtual ~cBaseEntity();
+		GAMEBASE_API int VGetID() const;
 
 	private:
 		void SetID(const int iID);

@@ -34,15 +34,15 @@ void main(int argc, char* argv[])
 	IBaseEntity * pEntity1 = new cEntity1(0);
 	IBaseEntity * pEntity2 = new cEntity2(1);
 
-	IEntityManager::Instance()->VRegisterEntity(pEntity1);
-	IEntityManager::Instance()->VRegisterEntity(pEntity2);
+	IEntityManager::GetInstance()->VRegisterEntity(pEntity1);
+	IEntityManager::GetInstance()->VRegisterEntity(pEntity2);
 
 	int iUpdateCycles = 0;
 	while(iUpdateCycles < 30)
 	{
 		pEntity1->VOnUpdate();
 		pEntity2->VOnUpdate();
-		IMessageDispatchManager::GetInstance()->OnUpdate();
+		IMessageDispatchManager::GetInstance()->VOnUpdate();
 		Sleep(200);
 		iUpdateCycles++;
 	}
@@ -53,6 +53,8 @@ void main(int argc, char* argv[])
 	{
 		ILogger::TheLogger()->Destroy();
 	}
+	IEntityManager::GetInstance()->VDestroy();
+	IMessageDispatchManager::GetInstance()->VDestroy();
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE| FOREGROUND_RED | FOREGROUND_GREEN|FOREGROUND_INTENSITY);
 	printf("Press Any Key to continue");
 	while (!_kbhit())

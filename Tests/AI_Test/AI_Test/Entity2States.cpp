@@ -40,7 +40,7 @@ void cEntity2State1::VOnEnter( cEntity2 * pEntity )
 void cEntity2State1::VOnUpdate( cEntity2 * pEntity )
 {
 	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity2 State1 VOnUpdate"));
-	IMessageDispatchManager::GetInstance()->DispatchMessage(0.0f, 1, 0, 0, NULL);
+	IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, 1, 0, 0, NULL);
 }
 
 // ***************************************************************
@@ -77,7 +77,7 @@ cEntity2State2::~cEntity2State2()
 void cEntity2State2::VOnEnter( cEntity2 * pEntity )
 {
 	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity2 State2 Enter"));
-	IMessageDispatchManager::GetInstance()->DispatchMessage(1.0f, 1, 0, 1, NULL);
+	IMessageDispatchManager::GetInstance()->VDispatchMessage(1.0f, 1, 0, 1, NULL);
 }
 
 // ***************************************************************

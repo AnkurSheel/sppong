@@ -28,22 +28,14 @@ cEntityManager::~cEntityManager()
 }
 
 // ***************************************************************
-cEntityManager * cEntityManager::Instance()
-{
-	static cEntityManager instance;
-
-	return &instance;
-}
-
-// ***************************************************************
 void cEntityManager::VRegisterEntity( IBaseEntity * const pNewEntity )
 {
-	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Registering Entity: %d", pNewEntity->GetID()));
-	m_EntityMap.insert(std::make_pair(pNewEntity->GetID(), pNewEntity));
+	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Registering Entity: %d", pNewEntity->VGetID()));
+	m_EntityMap.insert(std::make_pair(pNewEntity->VGetID(), pNewEntity));
 }
 
 // ***************************************************************
-IBaseEntity * cEntityManager::GetEntityFromID( const int iID )
+IBaseEntity * const cEntityManager::VGetEntityFromID( const int iID )
 {
 	//find the entity
 	EntityMap::const_iterator ent = m_EntityMap.find(iID);
@@ -57,7 +49,29 @@ IBaseEntity * cEntityManager::GetEntityFromID( const int iID )
 }
 
 // ***************************************************************
-void cEntityManager::UnVRegisterEntity( IBaseEntity * const pNewEntity )
+void cEntityManager::UnRegisterEntity( IBaseEntity * const pNewEntity )
 {
-	m_EntityMap.erase(m_EntityMap.find(pNewEntity->GetID()));
+	m_EntityMap.erase(m_EntityMap.find(pNewEntity->VGetID()));
+}
+
+// ***************************************************************
+void cEntityManager::CreateEntityManager()
+{
+	s_pEntityManager = DEBUG_NEW cEntityManager();
+}
+
+// ***************************************************************
+void cEntityManager::VDestroy()
+{
+	delete this;
+	s_pEntityManager = NULL;
+
+}
+
+// ***************************************************************
+IEntityManager * IEntityManager::GetInstance()
+{
+	if(!s_pEntityManager)
+		cEntityManager::CreateEntityManager();
+	return s_pEntityManager;
 }

@@ -41,7 +41,7 @@ void cBaseEntity::SetID(const int iID)
 }
 
 // ***************************************************************
-int cBaseEntity::GetID() const
+int cBaseEntity::VGetID() const
 {
 	return m_iID;
 }

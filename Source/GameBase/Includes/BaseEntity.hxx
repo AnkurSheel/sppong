@@ -24,6 +24,7 @@ namespace GameBase
 		virtual ~IBaseEntity(){}
 		virtual void VOnUpdate() = 0;
 		virtual bool VOnHandleMessage(const AI::Telegram & telegram) = 0;
+		virtual int VGetID() const = 0;
 	};
 }
 #endif // BaseEntity_hxx__
