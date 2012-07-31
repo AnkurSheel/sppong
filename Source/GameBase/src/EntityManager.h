@@ -11,26 +11,34 @@
 #ifndef EntityManager_h__
 #define EntityManager_h__
 
-class cBaseEntity;
+#include "EntityManager.hxx"
 
-class cEntityManager
-	: public Base::cNonCopyable
+namespace GameBase
 {
-private:
-	typedef std::map<int, cBaseEntity * const > EntityMap;
+	class cBaseEntity;
+}
 
-public:
-	~cEntityManager();
-	static cEntityManager * Instance();
-	void RegisterEntity(cBaseEntity * const pNewEntity);
-	void UnRegisterEntity(cBaseEntity * const pNewEntity);
-	cBaseEntity * GetEntityFromID(const int iID);
+namespace GameBase
+{
+	class cEntityManager
+		: public IEntityManager
+	{
+	private:
+		typedef std::map<int, IBaseEntity * const > EntityMap;
 
-private:
-	cEntityManager();
+	public:
+		~cEntityManager();
+		static cEntityManager * Instance();
+		void VRegisterEntity(IBaseEntity * const pNewEntity);
+		void UnRegisterEntity(IBaseEntity * const pNewEntity);
+		IBaseEntity * GetEntityFromID(const int iID);
 
-private:
-	EntityMap		m_EntityMap;
-	
-};
+	private:
+		cEntityManager();
+
+	private:
+		EntityMap		m_EntityMap;
+
+	};
+}
 #endif // EnityManager_h__

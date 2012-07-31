@@ -5,10 +5,12 @@
 #include <conio.h>
 #include "Entity1.h"
 #include "Entity2.h"
-#include "EntityManager.h"
-#include "MessageDispatchManager.h"
+#include "EntityManager.hxx"
+#include "MessageDispatchManager.hxx"
+#include "BaseEntity.hxx"
 
 using namespace Utilities;
+using namespace GameBase;
 
 void CheckForMemoryLeaks() 
 {
@@ -29,18 +31,18 @@ void main(int argc, char* argv[])
 	CheckForMemoryLeaks() ;
 	
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
-	cBaseEntity * pEntity1 = new cEntity1(0);
-	cBaseEntity * pEntity2 = new cEntity2(1);
+	IBaseEntity * pEntity1 = new cEntity1(0);
+	IBaseEntity * pEntity2 = new cEntity2(1);
 
-	cEntityManager::Instance()->RegisterEntity(pEntity1);
-	cEntityManager::Instance()->RegisterEntity(pEntity2);
+	IEntityManager::Instance()->VRegisterEntity(pEntity1);
+	IEntityManager::Instance()->VRegisterEntity(pEntity2);
 
 	int iUpdateCycles = 0;
 	while(iUpdateCycles < 30)
 	{
 		pEntity1->VOnUpdate();
 		pEntity2->VOnUpdate();
-		cMessageDispatchManager::GetInstance()->OnUpdate();
+		IMessageDispatchManager::GetInstance()->OnUpdate();
 		Sleep(200);
 		iUpdateCycles++;
 	}

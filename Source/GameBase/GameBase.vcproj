@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;..\Common\src;..\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
+				AdditionalIncludeDirectories="Includes;..\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes;..\AI\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -123,7 +123,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="Includes;..\Common\src;..\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
+				AdditionalIncludeDirectories="Includes;..\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes;..\AI\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -196,6 +196,46 @@
 			</File>
 			<File
 				RelativePath=".\src\GameElement.inl"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Entity"
+			>
+			<File
+				RelativePath=".\src\BaseEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\BaseEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\BaseEntity.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\EntityManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\EntityManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\EntityManager.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MessageDispatchManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MessageDispatchManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\MessageDispatchManager.hxx"
 				>
 			</File>
 		</Filter>

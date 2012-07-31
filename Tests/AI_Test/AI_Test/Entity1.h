@@ -15,8 +15,13 @@
 class cEntity1State1;
 class cEntity1State2;
 
+namespace AI
+{
+	template <class entity_type> class cStateMachine;
+}
+
 class cEntity1
-	: public cBaseEntity
+	: public GameBase::cBaseEntity
 {
 public:
 	cEntity1(const int iID);

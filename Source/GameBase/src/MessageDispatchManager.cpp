@@ -17,6 +17,7 @@
 using namespace Utilities;
 using namespace AI;
 using namespace Base;
+using namespace GameBase;
 
 // ***************************************************************
 cMessageDispatchManager::cMessageDispatchManager()
@@ -71,14 +72,6 @@ void cMessageDispatchManager::DispatchDelayedMessage()
 }
 
 // ***************************************************************
-cMessageDispatchManager * cMessageDispatchManager::GetInstance()
-{
-	static cMessageDispatchManager instance;
-
-	return &instance;
-}
-
-// ***************************************************************
 void cMessageDispatchManager::Discharge( cBaseEntity * const pReceiver, const AI::Telegram& msg )
 {
 	if(pReceiver->VOnHandleMessage(msg))
@@ -90,4 +83,12 @@ void cMessageDispatchManager::Discharge( cBaseEntity * const pReceiver, const AI
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Message %d Not Handled by %d", msg.Msg, pReceiver->GetID()));
 	}
 
+}
+
+// ***************************************************************
+cMessageDispatchManager * cMessageDispatchManager::GetInstance()
+{
+	static cMessageDispatchManager instance;
+
+	return &instance;
 }

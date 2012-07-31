@@ -14,6 +14,7 @@
 using namespace AI;
 using namespace Utilities;
 using namespace Base;
+using namespace GameBase;
 
 int cBaseEntity::m_siNextValidID = 0;
 
@@ -40,7 +41,7 @@ void cBaseEntity::SetID(const int iID)
 }
 
 // ***************************************************************
-int cBaseEntity::GetID()
+int cBaseEntity::GetID() const
 {
 	return m_iID;
 }

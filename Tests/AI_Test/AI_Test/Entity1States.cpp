@@ -9,13 +9,14 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Entity1States.h"
-#include "MessageDispatchManager.h"
+#include "MessageDispatchManager.hxx"
 #include "Entity1.h"
 #include "FSM/StateMachine.h"
 
 using namespace Utilities;
 using namespace Base;
 using namespace AI;
+using namespace GameBase;
 
 // ***************************************************************
 cEntity1State1::cEntity1State1()
@@ -39,7 +40,7 @@ void cEntity1State1::VOnEnter( cEntity1 * pEntity )
 void cEntity1State1::VOnUpdate( cEntity1 * pEntity )
 {
 	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1VOnUpdate"));
-	cMessageDispatchManager::GetInstance()->DispatchMessage(0.0f, 0, 1, 0, NULL);
+	IMessageDispatchManager::GetInstance()->DispatchMessage(0.0f, 0, 1, 0, NULL);
 }
 
 // ***************************************************************
@@ -76,7 +77,7 @@ cEntity1State2::~cEntity1State2()
 void cEntity1State2::VOnEnter( cEntity1 * pEntity )
 {
 	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 Enter"));
-	cMessageDispatchManager::GetInstance()->DispatchMessage(1.0f, 0, 1, 1, NULL);
+	IMessageDispatchManager::GetInstance()->DispatchMessage(1.0f, 0, 1, 1, NULL);
 }
 
 // ***************************************************************

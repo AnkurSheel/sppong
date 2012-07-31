@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "..\..\Source\U
 		{74220F22-9039-453B-81F0-44BEA935E6D9} = {74220F22-9039-453B-81F0-44BEA935E6D9}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBase", "..\..\Source\GameBase\GameBase.vcproj", "{D6C5B6D7-4503-42DD-9174-37B3B81C5926}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -43,6 +45,10 @@ Global
 		{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}.Debug|Win32.Build.0 = Debug|Win32
 		{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}.Release|Win32.ActiveCfg = Release|Win32
 		{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}.Release|Win32.Build.0 = Release|Win32
+		{D6C5B6D7-4503-42DD-9174-37B3B81C5926}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D6C5B6D7-4503-42DD-9174-37B3B81C5926}.Debug|Win32.Build.0 = Debug|Win32
+		{D6C5B6D7-4503-42DD-9174-37B3B81C5926}.Release|Win32.ActiveCfg = Release|Win32
+		{D6C5B6D7-4503-42DD-9174-37B3B81C5926}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

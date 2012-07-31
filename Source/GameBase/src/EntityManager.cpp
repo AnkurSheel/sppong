@@ -13,6 +13,7 @@
 
 using namespace Utilities;
 using namespace Base;
+using namespace GameBase;
 
 // ***************************************************************
 cEntityManager::cEntityManager()
@@ -35,14 +36,14 @@ cEntityManager * cEntityManager::Instance()
 }
 
 // ***************************************************************
-void cEntityManager::RegisterEntity( cBaseEntity * const pNewEntity )
+void cEntityManager::VRegisterEntity( IBaseEntity * const pNewEntity )
 {
 	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Registering Entity: %d", pNewEntity->GetID()));
 	m_EntityMap.insert(std::make_pair(pNewEntity->GetID(), pNewEntity));
 }
 
 // ***************************************************************
-cBaseEntity * cEntityManager::GetEntityFromID( const int iID )
+IBaseEntity * cEntityManager::GetEntityFromID( const int iID )
 {
 	//find the entity
 	EntityMap::const_iterator ent = m_EntityMap.find(iID);
@@ -56,7 +57,7 @@ cBaseEntity * cEntityManager::GetEntityFromID( const int iID )
 }
 
 // ***************************************************************
-void cEntityManager::UnRegisterEntity( cBaseEntity * const pNewEntity )
+void cEntityManager::UnVRegisterEntity( IBaseEntity * const pNewEntity )
 {
 	m_EntityMap.erase(m_EntityMap.find(pNewEntity->GetID()));
 }

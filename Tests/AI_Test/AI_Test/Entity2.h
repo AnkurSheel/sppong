@@ -12,11 +12,16 @@
 
 #include "BaseEntity.h"
 
+namespace AI
+{
+	template <class entity_type> class cStateMachine;
+}
+
 class cEntity2State1;
 class cEntity2State2;
 
 class cEntity2
-	: public cBaseEntity
+	: public GameBase::cBaseEntity
 {
 public:
 	cEntity2(const int iID);

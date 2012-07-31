@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes;..\..\..\Source\AI\src"
+				AdditionalIncludeDirectories="..\..\..\Source\GameBase\Includes;..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes;..\..\..\Source\AI\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes;..\..\..\Source\AI\src"
+				AdditionalIncludeDirectories="..\..\..\Source\GameBase\Includes;..\..\..\Source\Base\Includes;..\..\..\Source\Utilities\Includes;..\..\..\Source\AI\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -221,14 +221,6 @@
 			Name="FSMTest"
 			>
 			<File
-				RelativePath=".\BaseEntity.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\BaseEntity.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Entity1.cpp"
 				>
 			</File>
@@ -258,22 +250,6 @@
 			</File>
 			<File
 				RelativePath=".\Entity2States.h"
-				>
-			</File>
-			<File
-				RelativePath=".\EntityManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\EntityManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MessageDispatchManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MessageDispatchManager.h"
 				>
 			</File>
 		</Filter>
