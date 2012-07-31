@@ -37,12 +37,18 @@ namespace AI
 		IState<entity_type>* GetGlobalState();
 		bool IsInState(const IState<entity_type>& state);
 		bool HandleMessage(const Telegram& msg);
+		void DoStateReplacement();
 
 	protected:
-		entity_type * m_pOwner;
-		IState<entity_type> * m_pCurrentState;
-		IState<entity_type> * m_pPreviousState;
-		IState<entity_type> * m_pGlobalState;
+		entity_type *			m_pOwner;
+		IState<entity_type> *	m_pCurrentState;
+		IState<entity_type> *	m_pNextState;
+		IState<entity_type> *	m_pPreviousState;
+		IState<entity_type> *	m_pGlobalState;
+	
+	private:
+		bool					m_bRequestedStateChange;
+
 	};
 
 #include "Statemachine.inl"

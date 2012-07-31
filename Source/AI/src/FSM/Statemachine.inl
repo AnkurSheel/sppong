@@ -5,9 +5,10 @@ template <class entity_type>
 inline cStateMachine<entity_type>::cStateMachine(entity_type *owner)
 : m_pOwner(owner)
 , m_pCurrentState(NULL)
+, m_pNextState(NULL)
 , m_pPreviousState(NULL)
 , m_pGlobalState(NULL)
-
+, m_bRequestedStateChange(false)
 {
 }
 // ***************************************************************
@@ -67,7 +68,11 @@ inline void cStateMachine<entity_type>::Update()
 	{
 		m_pGlobalState->VOnUpdate(m_pOwner);
 	}
-	if(m_pCurrentState)
+	if(m_bRequestedStateChange)
+	{
+		DoStateReplacement();
+	}
+	else if(m_pCurrentState)
 	{
 		m_pCurrentState->VOnUpdate(m_pOwner);
 	}
@@ -80,9 +85,23 @@ inline void cStateMachine<entity_type>::Update()
 template<typename entity_type>
 inline void cStateMachine<entity_type>::ChangeState(IState<entity_type>* pNewState)
 {
+	m_pNextState = pNewState;
+	m_bRequestedStateChange = true;
+}
+// ***************************************************************
+
+// ***************************************************************
+template<typename entity_type>
+inline void cStateMachine<entity_type>::DoStateReplacement()
+{
+	if(m_pNextState == NULL)
+		return;
+
+	m_bRequestedStateChange = false;
+
 	m_pPreviousState= m_pCurrentState;
 	m_pCurrentState->VOnExit(m_pOwner);
-	m_pCurrentState = pNewState;
+	m_pCurrentState = m_pNextState;
 	m_pCurrentState->VOnEnter(m_pOwner);
 }
 // ***************************************************************
