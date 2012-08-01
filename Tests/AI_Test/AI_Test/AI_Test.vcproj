@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D.lib Utilities_D.lib AI_D.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib AI_D.lib GameBase_D.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\Debug;"
 				GenerateDebugInformation="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base.lib Utilities.lib AI.lib"
+				AdditionalDependencies="Base.lib Utilities.lib AI.lib GameBase.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\bin"
 				GenerateDebugInformation="true"

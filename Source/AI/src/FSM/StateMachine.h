@@ -26,25 +26,25 @@ namespace AI
 	public:
 		cStateMachine(entity_type *owner);
 		virtual ~cStateMachine();
-		void SetCurrentState(IState<entity_type>* state);
-		void SetPreviousState(IState<entity_type>* state);
-		void SetGlobalState(IState<entity_type>* state);
+		void SetCurrentState(cState<entity_type>* state);
+		void SetPreviousState(cState<entity_type>* state);
+		void SetGlobalState(cState<entity_type>* state);
 		void Update();
-		void ChangeState(IState<entity_type>* pNewState);
+		void ChangeState(cState<entity_type>* pNewState);
 		void RevertToPreviousState();
-		IState<entity_type>* GetCurrentState();
-		IState<entity_type>* GetPreviousState();
-		IState<entity_type>* GetGlobalState();
-		bool IsInState(const IState<entity_type>& state);
+		cState<entity_type>* GetCurrentState();
+		cState<entity_type>* GetPreviousState();
+		cState<entity_type>* GetGlobalState();
+		bool IsInState(const cState<entity_type>& state);
 		bool HandleMessage(const Telegram& msg);
 		void DoStateReplacement();
 
 	protected:
 		entity_type *			m_pOwner;
-		IState<entity_type> *	m_pCurrentState;
-		IState<entity_type> *	m_pNextState;
-		IState<entity_type> *	m_pPreviousState;
-		IState<entity_type> *	m_pGlobalState;
+		cState<entity_type> *	m_pCurrentState;
+		cState<entity_type> *	m_pNextState;
+		cState<entity_type> *	m_pPreviousState;
+		cState<entity_type> *	m_pGlobalState;
 	
 	private:
 		bool					m_bRequestedStateChange;

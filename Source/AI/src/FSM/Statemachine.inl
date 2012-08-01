@@ -23,7 +23,7 @@ inline cStateMachine<entity_type>::~cStateMachine()
 // Sets Current State
 // ***************************************************************
 template<class entity_type>
-inline void cStateMachine<entity_type>::SetCurrentState(IState<entity_type>* state)
+inline void cStateMachine<entity_type>::SetCurrentState(cState<entity_type>* state)
 {
 	// if there is an existing state, then call the current state exists and set it to the previous state 
 	if (m_pCurrentState)
@@ -42,7 +42,7 @@ inline void cStateMachine<entity_type>::SetCurrentState(IState<entity_type>* sta
 // Sets Previous State
 // ***************************************************************
 template<class entity_type>
-inline void cStateMachine<entity_type>::SetPreviousState(IState<entity_type>* state)
+inline void cStateMachine<entity_type>::SetPreviousState(cState<entity_type>* state)
 {
 	m_pPreviousState= state;
 }
@@ -52,7 +52,7 @@ inline void cStateMachine<entity_type>::SetPreviousState(IState<entity_type>* st
 // Sets global State
 // ***************************************************************
 template<class entity_type>
-inline void cStateMachine<entity_type>::SetGlobalState(IState<entity_type>* state)
+inline void cStateMachine<entity_type>::SetGlobalState(cState<entity_type>* state)
 {
 	m_pGlobalState = state;
 }
@@ -83,7 +83,7 @@ inline void cStateMachine<entity_type>::Update()
 // Changes the state of the owner
 // ***************************************************************
 template<typename entity_type>
-inline void cStateMachine<entity_type>::ChangeState(IState<entity_type>* pNewState)
+inline void cStateMachine<entity_type>::ChangeState(cState<entity_type>* pNewState)
 {
 	m_pNextState = pNewState;
 	m_bRequestedStateChange = true;
@@ -110,7 +110,7 @@ inline void cStateMachine<entity_type>::DoStateReplacement()
 // Returns the current state
 // ***************************************************************
 template<typename entity_type>
-inline IState<entity_type>* cStateMachine<entity_type>::GetCurrentState()
+inline cState<entity_type>* cStateMachine<entity_type>::GetCurrentState()
 {
 	return m_pCurrentState;
 }
@@ -120,7 +120,7 @@ inline IState<entity_type>* cStateMachine<entity_type>::GetCurrentState()
 // Gets the previous state
 // ***************************************************************
 template<typename entity_type>
-inline IState<entity_type>* cStateMachine<entity_type>::GetPreviousState()
+inline cState<entity_type>* cStateMachine<entity_type>::GetPreviousState()
 {
 	return m_pPreviousState;
 }
@@ -130,7 +130,7 @@ inline IState<entity_type>* cStateMachine<entity_type>::GetPreviousState()
 // gets the global state
 // ***************************************************************
 template<typename entity_type>
-inline IState<entity_type>* cStateMachine<entity_type>::GetGlobalState()
+inline cState<entity_type>* cStateMachine<entity_type>::GetGlobalState()
 {
 	return m_pGlobalState;
 }
@@ -150,7 +150,7 @@ inline void cStateMachine<entity_type>::RevertToPreviousState()
 // returns true if it is in the state
 // ***************************************************************
 template<typename entity_type>
-inline bool cStateMachine<entity_type>::IsInState(const IState<entity_type>& state)
+inline bool cStateMachine<entity_type>::IsInState(const cState<entity_type>& state)
 {
 	return typeid(*m_pCurrentState) == typeid(state);
 }

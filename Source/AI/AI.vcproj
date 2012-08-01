@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\FSM\State.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\src\FSM\StateMachine.h"
 				>
 			</File>

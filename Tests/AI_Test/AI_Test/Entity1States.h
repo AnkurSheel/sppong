@@ -16,7 +16,7 @@
 class cEntity1;
 
 class cEntity1State1 
-	: public AI::IState<cEntity1>
+	: public AI::cState<cEntity1>
 {
 public:
 	cEntity1State1();;
@@ -28,7 +28,7 @@ public:
 };
 
 class cEntity1State2 
-	: public AI::IState<cEntity1>
+	: public AI::cState<cEntity1>
 {
 public:
 	cEntity1State2();
