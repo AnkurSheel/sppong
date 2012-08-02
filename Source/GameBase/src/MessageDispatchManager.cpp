@@ -39,12 +39,12 @@ void cMessageDispatchManager::VDispatchMessage( const double dDelay, const int i
 	Telegram telegram(iSender, iReciever, iMsg, 0.0, pExtraInfo);
 	if (dDelay <= 0.0)
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d immediately to %d", iMsg, iReciever));
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d immediately from %d to %d", iMsg, iSender, iReciever));
 		Discharge(pReciever, telegram);
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d with delay of %0.2f seconds to %d", iMsg, dDelay, iReciever));
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d with delay of %0.2f seconds from %d to %d", iMsg, dDelay, iSender, iReciever));
 		double dCurrentTime = m_pTimer->VGetRunningTime();
 		telegram.DispatchTime = dCurrentTime + dDelay;
 		m_PriorityQueue.insert(telegram);

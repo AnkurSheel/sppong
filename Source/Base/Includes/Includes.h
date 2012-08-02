@@ -15,6 +15,7 @@
 #include <functional>
 #include <map>
 #include <set>
+#include <deque>
 #include <crtdbg.h>
 
 #include "Macros.h"

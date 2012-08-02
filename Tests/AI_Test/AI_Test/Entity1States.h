@@ -24,7 +24,12 @@ public:
 	virtual void VOnEnter(cEntity1 * pEntity);
 	virtual void VOnUpdate(cEntity1 * pEntity);
 	virtual void VOnExit(cEntity1 * pEntity);
+	virtual void VOnPause(cEntity1 * pEntity);
+	virtual void VOnResume(cEntity1 * pEntity);
 	virtual bool VOnMessage(cEntity1 * pEntity, const AI::Telegram &msg);
+	
+private:
+	int		m_iUpdateCycles;
 };
 
 class cEntity1State2 
@@ -36,6 +41,11 @@ public:
 	virtual void VOnEnter(cEntity1 * pEntity);
 	virtual void VOnUpdate(cEntity1 * pEntity);
 	virtual void VOnExit(cEntity1 * pEntity);
+	virtual void VOnPause(cEntity1 * pEntity);
+	virtual void VOnResume(cEntity1 * pEntity);
 	virtual bool VOnMessage(cEntity1 * pEntity, const AI::Telegram &msg);
+
+private:
+	int		m_iUpdateCycles;
 };
 #endif // Entity1States_h__

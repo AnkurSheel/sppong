@@ -27,28 +27,29 @@ namespace AI
 		cStateMachine(entity_type *owner);
 		virtual ~cStateMachine();
 		void SetCurrentState(cState<entity_type>* state);
-		void SetPreviousState(cState<entity_type>* state);
-		void SetGlobalState(cState<entity_type>* state);
 		void Update();
-		void ChangeState(cState<entity_type>* pNewState);
-		void RevertToPreviousState();
 		cState<entity_type>* GetCurrentState();
-		cState<entity_type>* GetPreviousState();
-		cState<entity_type>* GetGlobalState();
 		bool IsInState(const cState<entity_type>& state);
 		bool HandleMessage(const Telegram& msg);
-		void DoStateReplacement();
+		void RequestChangeState(cState<entity_type>* pNewState);
+		void RequestPushState(cState<entity_type>* pNewState);
+		void RequestPopState(cState<entity_type>* pNewState);
+
+	private:
+		void ChangeState();
+		void PushState();
+		void PopState();
 
 	protected:
-		entity_type *			m_pOwner;
-		cState<entity_type> *	m_pCurrentState;
-		cState<entity_type> *	m_pNextState;
-		cState<entity_type> *	m_pPreviousState;
-		cState<entity_type> *	m_pGlobalState;
+		entity_type *						m_pOwner;
+		cState<entity_type> *				m_pCurrentState;
+		cState<entity_type> *				m_pNextState;
+		std::deque<cState<entity_type> *>	m_vPushedStates;
 	
 	private:
-		bool					m_bRequestedStateChange;
-
+		bool								m_bRequestedStateChange;
+		bool								m_bRequestedPushState;
+		bool								m_bRequestedPopState;
 	};
 
 #include "Statemachine.inl"

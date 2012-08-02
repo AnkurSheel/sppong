@@ -20,6 +20,7 @@ using namespace GameBase;
 
 // ***************************************************************
 cEntity1State1::cEntity1State1()
+: m_iUpdateCycles(0)
 {
 
 }
@@ -39,30 +40,51 @@ void cEntity1State1::VOnEnter( cEntity1 * pEntity )
 // ***************************************************************
 void cEntity1State1::VOnUpdate( cEntity1 * pEntity )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1VOnUpdate"));
-	IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, 0, 1, 0, NULL);
+	m_iUpdateCycles++;
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1 VOnUpdate %d", m_iUpdateCycles));
+	if(m_iUpdateCycles == 5)
+	{
+		IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, 0, 1, 0, NULL);
+	}
+	else if(m_iUpdateCycles == 10)
+	{
+		IMessageDispatchManager::GetInstance()->VDispatchMessage(1.0f, 0, 1, 1, NULL);
+	}
 }
 
 // ***************************************************************
 void cEntity1State1::VOnExit( cEntity1 * pEntity )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1VOnExit"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1 VOnExit"));
 }
 
 // ***************************************************************
 bool cEntity1State1::VOnMessage( cEntity1 * pEntity, const Telegram &msg )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1VOnMessage"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1 VOnMessage"));
 	if(msg.Msg == 0)
 	{
-		pEntity->GetStateMachine()->ChangeState(pEntity->m_pState2);
+		pEntity->GetStateMachine()->RequestChangeState(pEntity->m_pState2);
 		return true;
 	}
 	return false;
 }
 
 // ***************************************************************
+void cEntity1State1::VOnPause( cEntity1 * pEntity )
+{
+	m_bIsPaused = true;
+}
+
+// ***************************************************************
+void cEntity1State1::VOnResume( cEntity1 * pEntity )
+{
+	m_bIsPaused = false;
+}
+
+// ***************************************************************
 cEntity1State2::cEntity1State2()
+: m_iUpdateCycles(0)
 {
 
 }
@@ -77,13 +99,22 @@ cEntity1State2::~cEntity1State2()
 void cEntity1State2::VOnEnter( cEntity1 * pEntity )
 {
 	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 Enter"));
-	IMessageDispatchManager::GetInstance()->VDispatchMessage(1.0f, 0, 1, 1, NULL);
 }
 
 // ***************************************************************
 void cEntity1State2::VOnUpdate( cEntity1 * pEntity )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 VOnUpdate"));
+	m_iUpdateCycles++;
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 VOnUpdate %d", m_iUpdateCycles));
+	if(m_iUpdateCycles == 5)
+	{
+		IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, 0, 1, 0, NULL);
+	}
+	else if(m_iUpdateCycles == 10)
+	{
+		IMessageDispatchManager::GetInstance()->VDispatchMessage(1.0f, 0, 1, 1, NULL);
+	}
+
 }
 
 // ***************************************************************
@@ -96,10 +127,22 @@ void cEntity1State2::VOnExit( cEntity1 * pEntity )
 bool cEntity1State2::VOnMessage( cEntity1 * pEntity, const Telegram &msg )
 {
 	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 VOnMessage"));
-	if(msg.Msg == 1)
+	if(msg.Msg == 0)
 	{
-		pEntity->GetStateMachine()->ChangeState(pEntity->m_pState1);
+		pEntity->GetStateMachine()->RequestChangeState(pEntity->m_pState1);
 		return true;
 	}
 	return false;
+}
+
+// ***************************************************************
+void cEntity1State2::VOnPause( cEntity1 * pEntity)
+{
+	m_bIsPaused = true;
+}
+
+// ***************************************************************
+void cEntity1State2::VOnResume( cEntity1 * pEntity)
+{
+	m_bIsPaused = false;
 }

@@ -38,7 +38,7 @@ void main(int argc, char* argv[])
 	IEntityManager::GetInstance()->VRegisterEntity(pEntity2);
 
 	int iUpdateCycles = 0;
-	while(iUpdateCycles < 30)
+	while(iUpdateCycles < 50)
 	{
 		pEntity1->VOnUpdate();
 		pEntity2->VOnUpdate();

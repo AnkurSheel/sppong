@@ -6,3 +6,10 @@ AI::cState<entity_type>::cState()
 {
 
 }
+
+// ***************************************************************
+template <class entity_type>
+bool AI::cState<entity_type>::IsPaused() const
+{
+	return m_bIsPaused;
+}
