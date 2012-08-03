@@ -12,6 +12,7 @@
 
 #include "BaseDefines.h"
 #include <string>
+#include <iostream>
 
 namespace Base
 {
@@ -45,8 +46,15 @@ namespace Base
 		BASE_API int Compare (const cString & strRight) const;
 
 		BASE_API static cString TimeToString(time_t time);
+
 	private:
 		std::string m_str;
 	};
+
+	BASE_API cString operator + (const cString & lhs, const cString & rhs);
+	BASE_API cString operator + (const char * lhs, const cString & rhs);
+	BASE_API cString operator + (const cString & lhs, const char* rhs);
+	//BASE_API std::ostream& operator<< (std::ostream& os, const cString & str);
+
 }
 #endif // myString_h__

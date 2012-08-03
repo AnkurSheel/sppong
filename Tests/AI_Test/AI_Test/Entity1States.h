@@ -24,8 +24,6 @@ public:
 	virtual void VOnEnter(cEntity1 * pEntity);
 	virtual void VOnUpdate(cEntity1 * pEntity);
 	virtual void VOnExit(cEntity1 * pEntity);
-	virtual void VOnPause(cEntity1 * pEntity);
-	virtual void VOnResume(cEntity1 * pEntity);
 	virtual bool VOnMessage(cEntity1 * pEntity, const AI::Telegram &msg);
 	
 private:
@@ -41,8 +39,6 @@ public:
 	virtual void VOnEnter(cEntity1 * pEntity);
 	virtual void VOnUpdate(cEntity1 * pEntity);
 	virtual void VOnExit(cEntity1 * pEntity);
-	virtual void VOnPause(cEntity1 * pEntity);
-	virtual void VOnResume(cEntity1 * pEntity);
 	virtual bool VOnMessage(cEntity1 * pEntity, const AI::Telegram &msg);
 
 private:

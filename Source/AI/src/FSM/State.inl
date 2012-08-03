@@ -13,3 +13,17 @@ bool AI::cState<entity_type>::IsPaused() const
 {
 	return m_bIsPaused;
 }
+
+// ***************************************************************
+template <class entity_type>
+void AI::cState<entity_type>::VOnPause( entity_type * pEntity )
+{
+	m_bIsPaused = true;
+}
+
+// ***************************************************************
+template <class entity_type>
+void AI::cState<entity_type>::VOnResume( entity_type * pEntity )
+{
+	m_bIsPaused = false;
+}

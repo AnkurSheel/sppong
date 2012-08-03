@@ -150,8 +150,9 @@ void AI::cStateMachine<entity_type>::PushState()
 	m_pCurrentState->VOnPause(m_pOwner);
 	m_vPushedStates.push_back(m_pCurrentState);
 	m_pCurrentState = m_pNextState;
-	Log_Write_L1(ILogger::LT_DEBUG, "Pushed and Changed State");
 	m_pNextState = NULL;
+	Log_Write_L1(ILogger::LT_DEBUG, "Pushed and Changed State");
+	m_pCurrentState->VOnEnter(m_pOwner);
 }
 
 

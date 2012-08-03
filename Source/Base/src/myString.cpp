@@ -148,3 +148,24 @@ void Base::cString::Remove( const int iIndex, const int iQuantity )
 {
 	m_str.erase(iIndex, iQuantity);
 }
+
+cString Base::operator + (const cString & lhs, const cString & rhs)
+{
+	cString str = lhs;
+	str += rhs;
+	return str;
+}
+
+cString Base::operator + (const char * lhs, const cString & rhs)
+{
+	cString str = lhs;
+	str += rhs;
+	return str;
+}
+
+cString Base::operator + (const cString & lhs, const char* rhs)
+{
+	cString str = lhs;
+	str += rhs;
+	return str;
+}

@@ -71,18 +71,6 @@ bool cEntity2State1::VOnMessage( cEntity2 * pEntity, const Telegram &msg )
 }
 
 // ***************************************************************
-void cEntity2State1::VOnPause( cEntity2 * pEntity )
-{
-	m_bIsPaused = true;
-}
-
-// ***************************************************************
-void cEntity2State1::VOnResume( cEntity2 * pEntity )
-{
-	m_bIsPaused = false;
-}
-
-// ***************************************************************
 cEntity2State2::cEntity2State2()
 : m_iUpdateCycles(0)
 {
@@ -132,16 +120,4 @@ bool cEntity2State2::VOnMessage( cEntity2 * pEntity, const Telegram &msg )
 		return true;
 	}
 	return false;
-}
-
-// ***************************************************************
-void cEntity2State2::VOnPause( cEntity2 * pEntity)
-{
-	m_bIsPaused = true;
-}
-
-// ***************************************************************
-void cEntity2State2::VOnResume( cEntity2 * pEntity)
-{
-	m_bIsPaused = false;
 }
