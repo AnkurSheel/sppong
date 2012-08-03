@@ -24,7 +24,7 @@ class cEntity1
 	: public GameBase::cBaseEntity
 {
 public:
-	cEntity1(const int iID);
+	cEntity1(const int iID, const Base::cString strName);
 	virtual ~cEntity1();
 	void VOnUpdate();
 	bool VOnHandleMessage(const AI::Telegram & telegram);

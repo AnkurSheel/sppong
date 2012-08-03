@@ -34,14 +34,14 @@ cEntity1State1::~cEntity1State1()
 // ***************************************************************
 void cEntity1State1::VOnEnter( cEntity1 * pEntity )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1Enter"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State1Enter", pEntity->VGetName().GetData()));
 }
 
 // ***************************************************************
 void cEntity1State1::VOnUpdate( cEntity1 * pEntity )
 {
 	m_iUpdateCycles++;
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1 VOnUpdate %d", m_iUpdateCycles));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State1 VOnUpdate %d", pEntity->VGetName().GetData(), m_iUpdateCycles));
 	if(m_iUpdateCycles == 5)
 	{
 		IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, 0, 1, 0, NULL);
@@ -50,18 +50,22 @@ void cEntity1State1::VOnUpdate( cEntity1 * pEntity )
 	{
 		IMessageDispatchManager::GetInstance()->VDispatchMessage(1.0f, 0, 1, 1, NULL);
 	}
+	else if(m_iUpdateCycles == 15)
+	{
+		pEntity->GetStateMachine()->RequestPushState(pEntity->m_pState2);
+	}
 }
 
 // ***************************************************************
 void cEntity1State1::VOnExit( cEntity1 * pEntity )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1 VOnExit"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State1 VOnExit", pEntity->VGetName().GetData()));
 }
 
 // ***************************************************************
 bool cEntity1State1::VOnMessage( cEntity1 * pEntity, const Telegram &msg )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State1 VOnMessage"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State1 VOnMessage", pEntity->VGetName().GetData()));
 	if(msg.Msg == 0)
 	{
 		pEntity->GetStateMachine()->RequestChangeState(pEntity->m_pState2);
@@ -98,14 +102,14 @@ cEntity1State2::~cEntity1State2()
 // ***************************************************************
 void cEntity1State2::VOnEnter( cEntity1 * pEntity )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 Enter"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State2 Enter", pEntity->VGetName().GetData()));
 }
 
 // ***************************************************************
 void cEntity1State2::VOnUpdate( cEntity1 * pEntity )
 {
 	m_iUpdateCycles++;
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 VOnUpdate %d", m_iUpdateCycles));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State2 VOnUpdate %d", pEntity->VGetName().GetData(), m_iUpdateCycles));
 	if(m_iUpdateCycles == 5)
 	{
 		IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, 0, 1, 0, NULL);
@@ -114,19 +118,23 @@ void cEntity1State2::VOnUpdate( cEntity1 * pEntity )
 	{
 		IMessageDispatchManager::GetInstance()->VDispatchMessage(1.0f, 0, 1, 1, NULL);
 	}
+	else if(m_iUpdateCycles == 25)
+	{
+		pEntity->GetStateMachine()->RequestPopState();
+	}
 
 }
 
 // ***************************************************************
 void cEntity1State2::VOnExit( cEntity1 * pEntity )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 VOnExit"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State2 VOnExit", pEntity->VGetName().GetData()));
 }
 
 // ***************************************************************
 bool cEntity1State2::VOnMessage( cEntity1 * pEntity, const Telegram &msg )
 {
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Entity1 State2 VOnMessage"));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "%s State2 VOnMessage", pEntity->VGetName().GetData()));
 	if(msg.Msg == 0)
 	{
 		pEntity->GetStateMachine()->RequestChangeState(pEntity->m_pState1);

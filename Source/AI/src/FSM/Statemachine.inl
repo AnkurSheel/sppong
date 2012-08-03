@@ -150,13 +150,14 @@ void AI::cStateMachine<entity_type>::PushState()
 	m_pCurrentState->VOnPause(m_pOwner);
 	m_vPushedStates.push_back(m_pCurrentState);
 	m_pCurrentState = m_pNextState;
+	Log_Write_L1(ILogger::LT_DEBUG, "Pushed and Changed State");
 	m_pNextState = NULL;
 }
 
 
 // ***************************************************************
 template <class entity_type>
-void AI::cStateMachine<entity_type>::RequestPopState( cState<entity_type>* pNewState )
+void AI::cStateMachine<entity_type>::RequestPopState()
 {
 	m_bRequestedPopState = true;
 }
@@ -182,5 +183,6 @@ void AI::cStateMachine<entity_type>::PopState()
 		Log_Write_L1(ILogger::LT_ERROR, "Popped state is Null");
 		return;
 	}
+	Log_Write_L1(ILogger::LT_DEBUG, "Popped State");
 	m_pCurrentState->VOnResume(m_pOwner);
 }

@@ -65,7 +65,7 @@ void cStateTitleScreen::VOnUpdate(cGame *pGame)
 	// display the title screen for 2 secs before displaying the menu screen
 	if(pGame->GetRunningTicks() - m_tickCurrentTime > 2)
  	{
- 		pGame->m_pStateMachine->ChangeState(cStateMenuScreen::Instance());
+ 		pGame->m_pStateMachine->RequestChangeState(cStateMenuScreen::Instance());
  	}
 }
 // ***************************************************************
@@ -144,11 +144,11 @@ void cStateMenuScreen::VOnUpdate(cGame *pGame)
 	{
 		if (pGame->m_bSinglePlayer)
 		{
-			pGame->m_pStateMachine->ChangeState(cStatePlayGame::Instance());
+			pGame->m_pStateMachine->RequestChangeState(cStatePlayGame::Instance());
 		}
 		if (pGame->m_bMultiPlayer)
 		{
-			pGame->m_pStateMachine->ChangeState(cStatePlayGame::Instance());
+			pGame->m_pStateMachine->RequestChangeState(cStatePlayGame::Instance());
 		}
 	}
 }

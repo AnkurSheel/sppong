@@ -15,7 +15,7 @@
 class cGame;
 
 class IGameFlowStates
-	: public AI::IState<cGame>
+	: public AI::cState<cGame>
 {
 };
 

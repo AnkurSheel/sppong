@@ -19,7 +19,8 @@ using namespace GameBase;
 int cBaseEntity::m_siNextValidID = 0;
 
 // ***************************************************************
-cBaseEntity::cBaseEntity(const int iID)
+cBaseEntity::cBaseEntity(const int iID, const Base::cString strName)
+: m_strName(strName)
 {
 	SetID(iID);
 }
@@ -44,4 +45,10 @@ void cBaseEntity::SetID(const int iID)
 int cBaseEntity::VGetID() const
 {
 	return m_iID;
+}
+
+// ***************************************************************
+Base::cString GameBase::cBaseEntity::VGetName() const
+{
+	return m_strName;
 }

@@ -39,12 +39,12 @@ void cMessageDispatchManager::VDispatchMessage( const double dDelay, const int i
 	Telegram telegram(iSender, iReciever, iMsg, 0.0, pExtraInfo);
 	if (dDelay <= 0.0)
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d immediately from %d to %d", iMsg, iSender, iReciever));
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d immediately from %s to %s", iMsg, IEntityManager::GetInstance()->VGetEntityFromID(iSender)->VGetName().GetData(), IEntityManager::GetInstance()->VGetEntityFromID(iReciever)->VGetName().GetData()));
 		Discharge(pReciever, telegram);
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d with delay of %0.2f seconds from %d to %d", iMsg, dDelay, iSender, iReciever));
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Sending msg %d with delay of %0.2f seconds from %s to %s", iMsg, dDelay, IEntityManager::GetInstance()->VGetEntityFromID(iSender)->VGetName().GetData(), IEntityManager::GetInstance()->VGetEntityFromID(iReciever)->VGetName().GetData()));
 		double dCurrentTime = m_pTimer->VGetRunningTime();
 		telegram.DispatchTime = dCurrentTime + dDelay;
 		m_PriorityQueue.insert(telegram);
@@ -76,13 +76,12 @@ void cMessageDispatchManager::Discharge( IBaseEntity * const pReceiver, const AI
 {
 	if(pReceiver->VOnHandleMessage(msg))
 	{
-		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Message %d Handled by %d", msg.Msg, pReceiver->VGetID()));
+		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Message %d Handled by %s", msg.Msg, IEntityManager::GetInstance()->VGetEntityFromID(pReceiver->VGetID())->VGetName().GetData()));
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Message %d Not Handled by %d", msg.Msg, pReceiver->VGetID()));
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Message %d Not Handled by %s", msg.Msg, IEntityManager::GetInstance()->VGetEntityFromID(pReceiver->VGetID())->VGetName().GetData()));
 	}
-
 }
 
 // ***************************************************************

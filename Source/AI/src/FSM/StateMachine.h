@@ -33,7 +33,7 @@ namespace AI
 		bool HandleMessage(const Telegram& msg);
 		void RequestChangeState(cState<entity_type>* pNewState);
 		void RequestPushState(cState<entity_type>* pNewState);
-		void RequestPopState(cState<entity_type>* pNewState);
+		void RequestPopState();
 
 	private:
 		void ChangeState();

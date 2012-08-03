@@ -19,16 +19,17 @@ namespace GameBase
 		: public IBaseEntity
 	{
 	public:
-		GAMEBASE_API cBaseEntity(const int iID);
+		GAMEBASE_API cBaseEntity(const int iID, const Base::cString strName);
 		GAMEBASE_API virtual ~cBaseEntity();
 		GAMEBASE_API int VGetID() const;
-
+		GAMEBASE_API Base::cString VGetName() const;
 	private:
 		void SetID(const int iID);
 
 	private:
-		int			m_iID;
-		static int	m_siNextValidID;
+		int				m_iID;
+		static int		m_siNextValidID;
+		Base::cString	m_strName;
 	};
 }
 #endif // BaseEntity_h__

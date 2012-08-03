@@ -17,8 +17,8 @@ using namespace Utilities;
 using namespace Base;
 
 // ***************************************************************
-cEntity2::cEntity2(const int iID)
-: cBaseEntity(iID)
+cEntity2::cEntity2(const int iID, const Base::cString strName)
+: cBaseEntity(iID, strName)
 {
 	m_pState1 = new cEntity2State1();
 	m_pState2 = new cEntity2State2();
