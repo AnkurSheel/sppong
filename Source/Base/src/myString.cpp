@@ -169,3 +169,9 @@ cString Base::operator + (const cString & lhs, const char* rhs)
 	str += rhs;
 	return str;
 }
+
+std::ostream& Base::operator << (std::ostream& os, const cString & str)
+{
+	os << str.GetData();
+	return os;
+}

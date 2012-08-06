@@ -54,7 +54,7 @@ namespace Base
 	BASE_API cString operator + (const cString & lhs, const cString & rhs);
 	BASE_API cString operator + (const char * lhs, const cString & rhs);
 	BASE_API cString operator + (const cString & lhs, const char* rhs);
-	//BASE_API std::ostream& operator<< (std::ostream& os, const cString & str);
+	BASE_API std::ostream& operator << (std::ostream& os, const cString & str);
 
 }
 #endif // myString_h__

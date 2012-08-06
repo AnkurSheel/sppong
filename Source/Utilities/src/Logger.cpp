@@ -16,6 +16,7 @@
 
 using namespace Utilities;
 using namespace Base;
+using namespace std;
 
 int cLogger::m_iCurrentId = 1;
 // ***************************************************************
@@ -113,14 +114,8 @@ void cLogger::Log(const LogType eLogEntryType, const Base::cString & str)
 	strtime[24] = ' ';
 
 #ifdef _DEBUG
-	DWORD dwCharsWritten;
-	if(m_hStdOut)
-	{
-		SetConsoleTextColor(eLogEntryType);
-		WriteConsole(m_hStdOut, strtime, (DWORD)strlen(strtime), &dwCharsWritten, NULL);
-		WriteConsole(m_hStdOut, str.GetData(), (DWORD)strlen(str.GetData()), &dwCharsWritten, NULL);
-		WriteConsole(m_hStdOut, "\n", 1, &dwCharsWritten, NULL);
-	}
+	SetConsoleTextColor(eLogEntryType);
+	cout << strtime << str << "\n";
 #endif
 	if (m_fStdOut)
 	{

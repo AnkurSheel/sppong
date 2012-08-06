@@ -30,7 +30,7 @@ cEntityManager::~cEntityManager()
 // ***************************************************************
 void cEntityManager::VRegisterEntity( IBaseEntity * const pNewEntity )
 {
-	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Registering Entity: %d", pNewEntity->VGetID()));
+	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Registering Entity: %d ", pNewEntity->VGetID()) + pNewEntity->VGetName());
 	m_EntityMap.insert(std::make_pair(pNewEntity->VGetID(), pNewEntity));
 }
 
@@ -46,6 +46,17 @@ IBaseEntity * const cEntityManager::VGetEntityFromID( const int iID )
 		return ent->second;
 	}
 	return NULL;
+}
+
+// ***************************************************************
+cString const cEntityManager::VGetEntityNameFromID( const int iID )
+{
+	IBaseEntity * pEntity = VGetEntityFromID(iID);
+	if (pEntity != NULL)
+	{
+		return pEntity->VGetName();
+	}
+	return "";
 }
 
 // ***************************************************************

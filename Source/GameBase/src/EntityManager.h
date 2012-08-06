@@ -31,6 +31,7 @@ namespace GameBase
 		void VRegisterEntity(IBaseEntity * const pNewEntity);
 		void UnRegisterEntity(IBaseEntity * const pNewEntity);
 		IBaseEntity * const VGetEntityFromID(const int iID);
+		Base::cString const VGetEntityNameFromID(const int iID);
 		static void CreateEntityManager();
 		void VDestroy();
 	private:

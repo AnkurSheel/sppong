@@ -149,9 +149,9 @@ void AI::cStateMachine<entity_type>::PushState()
 
 	m_pCurrentState->VOnPause(m_pOwner);
 	m_vPushedStates.push_back(m_pCurrentState);
+	Log_Write_L1(ILogger::LT_DEBUG, "Pushed State : " + m_pCurrentState->GetName() + " New State : " + m_pNextState->GetName()); 
 	m_pCurrentState = m_pNextState;
 	m_pNextState = NULL;
-	Log_Write_L1(ILogger::LT_DEBUG, "Pushed and Changed State");
 	m_pCurrentState->VOnEnter(m_pOwner);
 }
 
@@ -173,17 +173,19 @@ void AI::cStateMachine<entity_type>::PopState()
 		Log_Write_L1(ILogger::LT_ERROR, "Popping Null State");
 		return;
 	}
-	if (m_pCurrentState != NULL)
-	{
-		m_pCurrentState->VOnExit(m_pOwner);
-	}
-	m_pCurrentState = m_vPushedStates.back();
+	cState<entity_type> * pNewState = m_vPushedStates.back();
 	m_vPushedStates.pop_back();
-	if (m_pCurrentState == NULL)
+	if (pNewState == NULL)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Popped state is Null");
 		return;
 	}
-	Log_Write_L1(ILogger::LT_DEBUG, "Popped State");
+	
+	Log_Write_L1(ILogger::LT_DEBUG, "Old State : " + m_pCurrentState->GetName() + " State : " + pNewState->GetName());
+	if (m_pCurrentState != NULL)
+	{
+		m_pCurrentState->VOnExit(m_pOwner);
+	}
+	m_pCurrentState = pNewState;
 	m_pCurrentState->VOnResume(m_pOwner);
 }

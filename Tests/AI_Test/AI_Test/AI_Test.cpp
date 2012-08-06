@@ -29,7 +29,7 @@ void CheckForMemoryLeaks()
 void main(int argc, char* argv[])
 {
 	CheckForMemoryLeaks() ;
-	
+
 	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
 	IBaseEntity * pEntity1 = new cEntity1(0, "Entity1");
 	IBaseEntity * pEntity2 = new cEntity2(1, "Entity2");

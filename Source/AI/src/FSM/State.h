@@ -30,9 +30,10 @@ namespace AI
 		virtual void VOnEnter(entity_type *) = 0;
 		virtual void VOnUpdate(entity_type *) = 0;
 		virtual void VOnExit(entity_type *) = 0;
+		virtual bool VOnMessage(entity_type *, const AI::Telegram & msg) = 0;
 		virtual void VOnPause(entity_type *);
 		virtual void VOnResume(entity_type *);
-		virtual bool VOnMessage(entity_type *, const AI::Telegram & msg) = 0;
+		Base::cString GetName() const;
 		bool IsPaused() const;
 	protected:
 		bool	m_bIsPaused;

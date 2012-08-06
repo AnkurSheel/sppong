@@ -17,7 +17,7 @@
 #include <set>
 #include <deque>
 #include <crtdbg.h>
-
+#include <typeinfo>
 #include "Macros.h"
 #include "myString.h"
 #include "NonCopyable.h"
