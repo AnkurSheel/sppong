@@ -26,12 +26,8 @@ namespace Graphics
 namespace GameBase
 {
 	class cGameElement
+		: public Base::cNonCopyable
 	{
-	private :
-		cGameElement(const cGameElement&){}
-		cGameElement operator =(const cGameElement&){}
-	protected:
-		GAMEBASE_API cGameElement();
 	public:
 		GAMEBASE_API virtual  ~cGameElement();
 		GAMEBASE_API virtual void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename) = 0;
@@ -43,8 +39,9 @@ namespace GameBase
 		GAMEBASE_API virtual const shared_ptr<Graphics::ISprite> GetSprite() const;
 		GAMEBASE_API virtual void Cleanup();
 		GAMEBASE_API virtual void OnUpdate(float fElapsedTime) = 0;
-	
+
 	protected:
+		GAMEBASE_API cGameElement();
 		GAMEBASE_API void OnBeginInit(const Base::cString & strFilename, const D3DXVECTOR2 & vSize);
 		GAMEBASE_API void OnEndInit(const D3DXVECTOR3& vInitialPos);
 		GAMEBASE_API void UpdatePosition();

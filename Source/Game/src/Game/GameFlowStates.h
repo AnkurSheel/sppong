@@ -22,9 +22,6 @@ class IGameFlowStates
 class cStateTitleScreen 
 	: public IGameFlowStates
 {
-private:
-	cStateTitleScreen();
-	TICK m_tickCurrentTime;
 public:
 	~cStateTitleScreen();
 	static cStateTitleScreen *Instance();
@@ -32,13 +29,13 @@ public:
 	void VOnUpdate(cGame *pGame);
 	void VOnExit(cGame *pGame);
 	bool VOnMessage(cGame *pGame, const AI::Telegram &msg);
+private:
+	cStateTitleScreen();
 };
 
 class cStateMenuScreen 
 	: public IGameFlowStates
 {
-private:
-	cStateMenuScreen();
 public:
 	~cStateMenuScreen();
 	static cStateMenuScreen *Instance();
@@ -46,13 +43,13 @@ public:
 	void VOnUpdate(cGame *pGame);
 	void VOnExit(cGame *pGame);
 	bool VOnMessage(cGame *pGame, const AI::Telegram &msg);
+private:
+	cStateMenuScreen();
 };
 
 class cStatePlayGame 
 	: public IGameFlowStates
 {
-private:
-	cStatePlayGame();
 public:
 	virtual ~cStatePlayGame();
 	static cStatePlayGame *Instance();
@@ -60,5 +57,7 @@ public:
 	virtual void VOnUpdate(cGame *pGame);
 	virtual void VOnExit(cGame *pGame);
 	virtual bool VOnMessage(cGame *pGame, const AI::Telegram &msg);
+private:
+	cStatePlayGame();
 };
 #endif // GameFlowStates_h__

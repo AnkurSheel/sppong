@@ -11,12 +11,16 @@
 #define BaseApp_h__
 
 #include "BaseApp.hxx"
+#include "BaseEntity.h"
 
 namespace GameBase
 {
-	class cBaseApp : public IBaseApp
+	class cBaseApp 
+		: public IBaseApp
+		, public cBaseEntity
 	{
 	public:
+		GAMEBASE_API cBaseApp(const Base::cString strName);
 		virtual ~cBaseApp(){}
 	protected:
 		GAMEBASE_API virtual void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);

@@ -14,8 +14,13 @@
 using namespace GameBase;
 using namespace Base;
 
+cBaseApp::cBaseApp(const cString strName)
+:  cBaseEntity(strName)
+{
+}
+
 // ***************************************************************
-GAMEBASE_API void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, 
+void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, 
 														const int nCmdShow,
 														const bool bFullScreen,
 														const int iFullScreenWidth,

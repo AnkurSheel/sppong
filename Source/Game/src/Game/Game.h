@@ -59,10 +59,9 @@ private:
 	};
 
 public:
-	cGame();
+	cGame(const Base::cString strName);
 	~cGame();
 	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
-	void OnUpdate();
 	void VOnLostDevice();
 	HRESULT VOnResetDevice();
 	bool VOnMsgProc(const Graphics::AppMsg & msg);
@@ -80,8 +79,9 @@ public:
 	void MoveRightPaddle(bool bMoveDown);
 	void HandlePaddleAI(const float fElapsedTime);
 	bool IsSinglePlayer();
-
+	bool VOnHandleMessage(const AI::Telegram & telegram);
 private:
+	void VOnUpdate();
 	void SinglePlayerButtonPressed(bool bPressed);
 	void MultiPlayerButtonPressed(bool bPressed);
 	void QuitButtonPressed(bool bPressed);

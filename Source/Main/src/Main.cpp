@@ -14,7 +14,6 @@
 #include "Game/Game.hxx"
 
 using namespace Utilities;
-using namespace Base;
 using namespace GameBase;
 
 static IBaseApp * pGame = NULL;
@@ -32,16 +31,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	ILogger::TheLogger()->StartConsoleWin(80,60, "");
 
-	pGame = IGame::CreateGame();
-
-#ifndef MULTIPLEINSTANCES
-	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->VGetGameTitle()))
-	{
-		PostQuitMessage(0);
-		return -1;
-	}
-#endif
-
 	if(!IResourceChecker::TheResourceChecker()->CheckMemory(32, 64) 
 		|| !IResourceChecker::TheResourceChecker()->CheckHardDisk(6) 
 		|| !IResourceChecker::TheResourceChecker()->CheckCPUSpeedinMhz(266))
@@ -57,6 +46,16 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 		bFullScreen = true;
 #endif
 	HWND hwnd;
+
+	pGame = IGame::CreateGame("MPong");
+
+#ifndef MULTIPLEINSTANCES
+	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->VGetGameTitle()))
+	{
+		PostQuitMessage(0);
+		return -1;
+	}
+#endif
 
 	if(bFullScreen)
 	{

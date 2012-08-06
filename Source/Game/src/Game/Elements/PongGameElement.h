@@ -18,9 +18,6 @@ class cBall;
 class cPongGameElement
 	: public GameBase::cGameElement
 {
-private :
-	cPongGameElement(const cPongGameElement&){}
-	cPongGameElement operator =(const cPongGameElement&){}
 public:
 	cPongGameElement();
 	virtual ~cPongGameElement();

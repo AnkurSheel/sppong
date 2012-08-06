@@ -23,11 +23,14 @@
 #include "Timer.hxx"
 #include "Font.hxx"
 #include "BaseControl.hxx"
+#include "MessageDispatchManager.hxx"
+#include "FSM\Telegram.h"
 
 using namespace MySound;
 using namespace Graphics;
 using namespace Base;
 using namespace AI;
+using namespace GameBase;
 
 cStateTitleScreen::cStateTitleScreen()
 {
@@ -48,8 +51,6 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 
 void cStateTitleScreen::VOnEnter(cGame *pGame)
 {
-	m_tickCurrentTime = pGame->GetRunningTicks();
-
 	if (pGame->m_pPongView->m_pParentControl != NULL)
 	{
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(300, 60, 400, true, DEFAULT_CHARSET
@@ -57,16 +58,12 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pLabelControl);
 		pLabelControl->VSetPosition(D3DXVECTOR3(pGame->m_iDisplayWidth/4, 0, 0.f));
 	}
+	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), 0, NULL);
 }
 // ***************************************************************
 
 void cStateTitleScreen::VOnUpdate(cGame *pGame)
 {
-	// display the title screen for 2 secs before displaying the menu screen
-	if(pGame->GetRunningTicks() - m_tickCurrentTime > 2)
- 	{
- 		pGame->m_pStateMachine->RequestChangeState(cStateMenuScreen::Instance());
- 	}
 }
 // ***************************************************************
 
@@ -77,6 +74,11 @@ void cStateTitleScreen::VOnExit(cGame *pGame)
 
 bool cStateTitleScreen::VOnMessage(cGame *pGame, const Telegram &msg)
 {
+	if(msg.Msg == 0)
+	{
+		pGame->m_pStateMachine->RequestChangeState(cStateMenuScreen::Instance());
+		return true;
+	}
 	return false;
 }
 // ***************************************************************

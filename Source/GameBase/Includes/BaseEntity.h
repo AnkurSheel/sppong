@@ -20,6 +20,7 @@ namespace GameBase
 	{
 	public:
 		GAMEBASE_API cBaseEntity(const int iID, const Base::cString strName);
+		GAMEBASE_API cBaseEntity(const Base::cString strName);
 		GAMEBASE_API virtual ~cBaseEntity();
 		GAMEBASE_API int VGetID() const;
 		GAMEBASE_API Base::cString VGetName() const;

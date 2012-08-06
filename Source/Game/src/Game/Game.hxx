@@ -21,6 +21,6 @@ class IGame
 {
 public:
 	GAME_API virtual ~IGame(){}
-	GAME_API static GameBase::IBaseApp * CreateGame();
+	GAME_API static GameBase::IBaseApp * CreateGame(const Base::cString strName);
 };
 #endif // Game_h__

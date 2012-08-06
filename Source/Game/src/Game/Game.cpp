@@ -24,6 +24,8 @@
 #include "ProcessManager.hxx"
 #include "MainWindow.hxx"
 #include "ResourceManager.hxx"
+#include "EntityManager.hxx"
+#include "MessageDispatchManager.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -34,8 +36,9 @@ using namespace Utilities;
 // ***************************************************************
 // Constructor
 // ***************************************************************
-cGame::cGame()
-: m_pScore(NULL)
+cGame::cGame(const cString strName)
+: cBaseApp(strName)
+, m_pScore(NULL)
 , m_pStateMachine(NULL)
 , m_pD3dDevice(NULL)
 , m_bSinglePlayer(false)
@@ -77,7 +80,7 @@ void cGame::VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	m_pPongView = DEBUG_NEW cMPongView();
 
 	m_pPongView->VOnCreateDevice(hInstance, outHwnd, m_iDisplayWidth, m_iDisplayHeight);
-
+	IEntityManager::GetInstance()->VRegisterEntity(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
 
@@ -106,7 +109,7 @@ void cGame::VRun()
 		{
 			//No message to process?
 			// Then do your game stuff here
-			OnUpdate();
+			VOnUpdate();
 			Render(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
 		}
 	}
@@ -133,15 +136,16 @@ bool cGame::VOnMsgProc( const Graphics::AppMsg & msg )
 // ***************************************************************
 cString cGame::VGetGameTitle() const
 {
-	return "MPong";
+	return VGetName();
 }
 
 // ***************************************************************
-void cGame::OnUpdate()
+void cGame::VOnUpdate()
 {
 	m_pGameTimer->VOnUpdate();
 	m_pStateMachine->Update();
 	m_pSound->Update();
+	IMessageDispatchManager::GetInstance()->VOnUpdate();
 	m_pPongView->VOnUpdate(this, m_pGameTimer->VGetDeltaTime());
 
 }
@@ -405,7 +409,13 @@ bool cGame::IsSinglePlayer()
 }
 
 // ***************************************************************
-IBaseApp * IGame::CreateGame()
+bool cGame::VOnHandleMessage(const AI::Telegram & telegram)
 {
-	return DEBUG_NEW cGame();
+	return m_pStateMachine->HandleMessage(telegram);
+}
+
+// ***************************************************************
+IBaseApp * IGame::CreateGame(const cString strName)
+{
+	return DEBUG_NEW cGame(strName);
 }

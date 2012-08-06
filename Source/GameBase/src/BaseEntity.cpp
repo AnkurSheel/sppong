@@ -26,6 +26,13 @@ cBaseEntity::cBaseEntity(const int iID, const Base::cString strName)
 }
 
 // ***************************************************************
+cBaseEntity::cBaseEntity(const Base::cString strName)
+: m_strName(strName)
+{
+	SetID(m_siNextValidID);
+}
+
+// ***************************************************************
 cBaseEntity::~cBaseEntity()
 {
 }
@@ -33,12 +40,16 @@ cBaseEntity::~cBaseEntity()
 // ***************************************************************
 void cBaseEntity::SetID(const int iID)
 {
-	//make sure the val is equal to or greater than the next available ID
 	if(iID >= m_siNextValidID)
 	{
 		m_iID = iID;
-		m_siNextValidID = m_iID + 1;
 	}
+	else
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(30, "%d is less than valid id. Setting ID to %d", m_iID, m_siNextValidID));
+		m_iID = m_siNextValidID;
+	}
+	m_siNextValidID = m_iID + 1;
 }
 
 // ***************************************************************
