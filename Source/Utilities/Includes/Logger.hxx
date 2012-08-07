@@ -36,8 +36,8 @@ namespace Utilities
 		virtual ~ILogger(){}
 		UTILITIES_API virtual void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName) = 0;
 		UTILITIES_API virtual void CreateHeader() = 0;
-		UTILITIES_API static ILogger * TheLogger();
-		UTILITIES_API void Destroy();
+		UTILITIES_API static ILogger * GetInstance();
+		UTILITIES_API static void Destroy();
 		UTILITIES_API virtual void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage) = 0;
 	};
 }

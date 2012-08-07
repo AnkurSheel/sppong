@@ -19,6 +19,9 @@ using namespace AI;
 using namespace Base;
 using namespace GameBase;
 
+
+IMessageDispatchManager * GameBase::cMessageDispatchManager::s_pMessageDispatchManager = NULL;
+
 // ***************************************************************
 cMessageDispatchManager::cMessageDispatchManager()
 {
@@ -91,16 +94,22 @@ void cMessageDispatchManager::CreateMessageDispatchManager()
 }
 
 // ***************************************************************
-void cMessageDispatchManager::VDestroy()
+void cMessageDispatchManager::Destroy()
 {
-	delete this;
-	s_pMessageDispatchManager = NULL;
+	SAFE_DELETE(s_pMessageDispatchManager);
 }
 
 // ***************************************************************
 IMessageDispatchManager * IMessageDispatchManager::GetInstance()
 {
-	if(!s_pMessageDispatchManager)
+	if(cMessageDispatchManager::s_pMessageDispatchManager == NULL)
 		cMessageDispatchManager::CreateMessageDispatchManager();
-	return s_pMessageDispatchManager;
+	return cMessageDispatchManager::s_pMessageDispatchManager;
+
+}
+
+// ***************************************************************
+void IMessageDispatchManager::Destroy()
+{
+	cMessageDispatchManager::Destroy();
 }

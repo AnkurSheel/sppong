@@ -15,8 +15,16 @@
 #include <mmsystem.h>
 #include <intrin.h>
 
+#define SLEEPTIME 0 
+
 using namespace Base;
 using namespace Utilities;
+
+cResourceChecker * Utilities::cResourceChecker::s_pResourceChecker = NULL;
+static int s_milliseconds; 
+static __int64 s_ticks; 
+static int s_milliseconds0; 
+static __int64 s_ticks0; 
 
 cResourceChecker::cResourceChecker()
 : m_TotalPhysicalMemory(0)
@@ -193,13 +201,6 @@ bool cResourceChecker::CheckMemory( const UINT physicalRAMNeeded, const UINT vir
 	} 
 	return true;
 }
-
-#define SLEEPTIME 0 
-
-static int s_milliseconds; 
-static __int64 s_ticks; 
-static int s_milliseconds0; 
-static __int64 s_ticks0; 
 
 // Call this function to start timing the CPU. It takes the CPU tick 
 // count and the current time and stores it. Then, while you do other 
@@ -388,20 +389,25 @@ bool cResourceChecker::CheckCPUSpeedinMhz(const unsigned int uMinSpeedReq)
 	return true; 
 }
 
-void  cResourceChecker::Destroy()
-{
-	delete this;
-	s_pResourceChecker = NULL;
-}
-
 void  cResourceChecker::CreateResourceChecker()
 {
 	s_pResourceChecker = DEBUG_NEW cResourceChecker();
 }
 
-IResourceChecker * IResourceChecker::TheResourceChecker()
+void  cResourceChecker::Destroy()
 {
-	if(!s_pResourceChecker)
+	SAFE_DELETE(s_pResourceChecker);
+}
+
+IResourceChecker * IResourceChecker::GetInstance()
+{
+	if(cResourceChecker::s_pResourceChecker == NULL)
 		cResourceChecker::CreateResourceChecker();
-	return s_pResourceChecker;
+	return cResourceChecker::s_pResourceChecker;
+}
+
+// ***************************************************************
+void Utilities::IResourceChecker::Destroy()
+{
+	cResourceChecker::Destroy();
 }

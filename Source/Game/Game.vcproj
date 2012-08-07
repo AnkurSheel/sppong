@@ -218,6 +218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Messages.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\P2PaddleHandler.cpp"
 				>
 			</File>

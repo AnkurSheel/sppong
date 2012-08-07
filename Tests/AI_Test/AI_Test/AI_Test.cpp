@@ -30,7 +30,7 @@ void main(int argc, char* argv[])
 {
 	CheckForMemoryLeaks() ;
 
-	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
+	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
 	IBaseEntity * pEntity1 = new cEntity1(0, "Entity1");
 	IBaseEntity * pEntity2 = new cEntity2(1, "Entity2");
 
@@ -49,12 +49,10 @@ void main(int argc, char* argv[])
 	SAFE_DELETE(pEntity1);
 	SAFE_DELETE(pEntity2);
 
-	if (ILogger::TheLogger())
-	{
-		ILogger::TheLogger()->Destroy();
-	}
-	IEntityManager::GetInstance()->VDestroy();
-	IMessageDispatchManager::GetInstance()->VDestroy();
+	IEntityManager::Destroy();
+	IMessageDispatchManager::Destroy();
+	ILogger::Destroy();
+
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE| FOREGROUND_RED | FOREGROUND_GREEN|FOREGROUND_INTENSITY);
 	printf("Press Any Key to continue");
 	while (!_kbhit())

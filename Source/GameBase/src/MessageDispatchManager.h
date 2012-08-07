@@ -33,20 +33,22 @@ namespace GameBase
 		: public IMessageDispatchManager
 	{
 	public:
-		~cMessageDispatchManager();
 		void VDispatchMessage(const double dDelay, const int iSender, const int iReciever, const unsigned iMsg, void * const pExtraInfo );
 		void VOnUpdate();
 		static void CreateMessageDispatchManager();
-		void VDestroy();
+		static void Destroy();
+
 	private:
 		cMessageDispatchManager();
+		~cMessageDispatchManager();
 		void Discharge(GameBase::IBaseEntity * const pReceiver, const AI::Telegram& msg);
 		void DispatchDelayedMessage();
 
 	private: 
 		std::set<AI::Telegram>	m_PriorityQueue;
 		Utilities::ITimer *		m_pTimer;
+	public:
+		static IMessageDispatchManager * s_pMessageDispatchManager;
 	};
-	static IMessageDispatchManager * s_pMessageDispatchManager = NULL;
 }
 #endif // DispatchManager_h__

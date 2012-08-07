@@ -9,10 +9,11 @@
 using namespace GameBase;
 using namespace Graphics;
 using namespace Utilities;
-
+using namespace Base;
 // ***************************************************************
-cGame::cGame()
-: m_pParentControl(NULL)
+cGame::cGame(const cString strName)
+: cBaseApp(strName)
+, m_pParentControl(NULL)
 {
 
 }
@@ -94,7 +95,7 @@ HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 // ***************************************************************
 Base::cString cGame::VGetGameTitle() const
 {
-	return "Graphic Engine Test";
+	return VGetName();
 }
 
 // ***************************************************************

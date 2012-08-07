@@ -27,8 +27,8 @@ namespace GameBase
 		virtual void VRegisterEntity(IBaseEntity * const pNewEntity) = 0;
 		virtual IBaseEntity * const VGetEntityFromID(const int iID) = 0;
 		virtual Base::cString const VGetEntityNameFromID(const int iID) = 0;
-		virtual void VDestroy() = 0;
 		GAMEBASE_API static IEntityManager * GetInstance();
+		GAMEBASE_API static void Destroy();
 	};
 }
 

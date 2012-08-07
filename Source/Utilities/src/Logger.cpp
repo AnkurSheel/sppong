@@ -19,6 +19,8 @@ using namespace Base;
 using namespace std;
 
 int cLogger::m_iCurrentId = 1;
+cLogger * Utilities::cLogger::s_pLogger = NULL;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -51,6 +53,9 @@ void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cStr
 		COORD co = {ciWidth, ciHeight};
 
 		SetConsoleScreenBufferSize(m_hStdOut, co);
+		FILE *fp;
+		freopen_s(&fp, "CONOUT$", "w", stdout);
+
 	}
 #endif
 	if (!cfName.IsEmpty())
@@ -79,22 +84,22 @@ void cLogger::CreateHeader()
 	m_fXml->AddNode("LogHeader", "Session", "Session", "");
 	m_fXml->AddNode("Session", "Configuration", "Configuration", "");
 	m_fXml->AddNode("Configuration", "Memory", "Memory", "");
-	m_fXml->AddNode("Memory", "AvailablePhysical", "AvailablePhysical", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailablePhysicalMemory()));
+	m_fXml->AddNode("Memory", "AvailablePhysical", "AvailablePhysical", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailablePhysicalMemory()));
 
-	m_fXml->AddNode("Memory", "TotalPhysical", "TotalPhysical", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalPhysicalMemory()));
+	m_fXml->AddNode("Memory", "TotalPhysical", "TotalPhysical", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalPhysicalMemory()));
 
-	m_fXml->AddNode("Memory", "AvailableVirtual", "AvailableVirtual", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailableVirtualMemory()));
+	m_fXml->AddNode("Memory", "AvailableVirtual", "AvailableVirtual", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableVirtualMemory()));
 
-	m_fXml->AddNode("Memory", "TotalVirtual", "TotalVirtual", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalVirtualMemory()));
+	m_fXml->AddNode("Memory", "TotalVirtual", "TotalVirtual", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalVirtualMemory()));
 
-	m_fXml->AddNode("Memory", "AvailableHardDiskSpace", "AvailableHardDiskSpace", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetAvailableHardDiskSpace()));
+	m_fXml->AddNode("Memory", "AvailableHardDiskSpace", "AvailableHardDiskSpace", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableHardDiskSpace()));
 
-	m_fXml->AddNode("Memory", "TotalHardDiskSpace", "TotalHardDiskSpace", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetTotalHardDiskSpace()));
+	m_fXml->AddNode("Memory", "TotalHardDiskSpace", "TotalHardDiskSpace", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalHardDiskSpace()));
 
 	m_fXml->AddNode("Configuration", "Processor", "Processor", "");
-	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", cString(30, "%d", IResourceChecker::TheResourceChecker()->GetCPUSpeed()));
+	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", cString(30, "%d", IResourceChecker::GetInstance()->GetCPUSpeed()));
 
-	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::TheResourceChecker()->GetCPUBrand());
+	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::GetInstance()->GetCPUBrand());
 
 	m_fXml->AddNode("Session", "Started", "Started", "");
 
@@ -102,7 +107,7 @@ void cLogger::CreateHeader()
 	time(&currentTime );
 	m_fXml->AddNode("Started", "Time", "Time", cString::TimeToString(currentTime));
 
-	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::TheResourceChecker()->GetOSVersion());
+	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::GetInstance()->GetOSVersion());
 }
 
 void cLogger::Log(const LogType eLogEntryType, const Base::cString & str)
@@ -234,19 +239,22 @@ void cLogger::CreateLogger()
 	s_pLogger = DEBUG_NEW cLogger();
 }
 
-ILogger * ILogger::TheLogger()
+// ***************************************************************
+void cLogger::Destroy()
 {
-	if(!s_pLogger)
+	SAFE_DELETE(s_pLogger);
+}
+
+ILogger * ILogger::GetInstance()
+{
+	if(cLogger::s_pLogger == NULL)
 		cLogger::CreateLogger();
-	return s_pLogger;
+	return cLogger::s_pLogger;
+
 }
 // ***************************************************************
 
 void ILogger::Destroy()
 {
-	s_pLogger->Close();
-	delete this;
-	s_pLogger = NULL;
-
+	cLogger::Destroy();
 }
-// ***************************************************************

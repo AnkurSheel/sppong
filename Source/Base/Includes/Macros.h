@@ -60,9 +60,9 @@
 #endif
 
 #define Log_Write( linetype, linetext )  \
-	if(ILogger::TheLogger()) \
+	if(ILogger::GetInstance()) \
 	{ \
-		ILogger::TheLogger()->WriteLogEntry( \
+		ILogger::GetInstance()->WriteLogEntry( \
       (linetype), \
       __FILE__, \
       __FUNCSIG__, \

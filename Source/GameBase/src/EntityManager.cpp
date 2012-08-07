@@ -15,6 +15,9 @@ using namespace Utilities;
 using namespace Base;
 using namespace GameBase;
 
+
+IEntityManager * GameBase::cEntityManager::s_pEntityManager = NULL;
+
 // ***************************************************************
 cEntityManager::cEntityManager()
 {
@@ -72,17 +75,22 @@ void cEntityManager::CreateEntityManager()
 }
 
 // ***************************************************************
-void cEntityManager::VDestroy()
+void cEntityManager::Destroy()
 {
-	delete this;
-	s_pEntityManager = NULL;
-
+	SAFE_DELETE(s_pEntityManager);
 }
 
 // ***************************************************************
 IEntityManager * IEntityManager::GetInstance()
 {
-	if(!s_pEntityManager)
+	if(cEntityManager::s_pEntityManager == NULL)
 		cEntityManager::CreateEntityManager();
-	return s_pEntityManager;
+	return cEntityManager::s_pEntityManager;
+
+}
+
+// ***************************************************************
+void IEntityManager::Destroy()
+{
+	cEntityManager::Destroy();
 }

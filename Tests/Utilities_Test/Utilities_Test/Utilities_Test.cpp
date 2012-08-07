@@ -36,7 +36,7 @@ void TestRandomGenerator();
 void main(int argc, char * argv[])
 {
 	CheckForMemoryLeaks() ;
-	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
+	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
 
 	printf("Testing Zip File\n");
 	TestZipFile();
@@ -48,7 +48,7 @@ void main(int argc, char * argv[])
 	TestRandomGenerator();
 
 
-	ILogger::TheLogger()->Destroy();
+	ILogger::Destroy();
 
 	system("pause");
 }

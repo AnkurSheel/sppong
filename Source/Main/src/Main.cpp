@@ -12,6 +12,8 @@
 #include "Checks.hxx"
 #include "BaseApp.hxx"
 #include "Game/Game.hxx"
+#include "EntityManager.hxx"
+#include "MessageDispatchManager.hxx"
 
 using namespace Utilities;
 using namespace GameBase;
@@ -29,17 +31,17 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	CheckForMemoryLeaks() ;
 
-	ILogger::TheLogger()->StartConsoleWin(80,60, "");
+	ILogger::GetInstance()->StartConsoleWin(80,60, "");
 
-	if(!IResourceChecker::TheResourceChecker()->CheckMemory(32, 64) 
-		|| !IResourceChecker::TheResourceChecker()->CheckHardDisk(6) 
-		|| !IResourceChecker::TheResourceChecker()->CheckCPUSpeedinMhz(266))
+	if(!IResourceChecker::GetInstance()->CheckMemory(32, 64) 
+		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
+		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
 	{
 		PostQuitMessage(0);
 		return -1;
 	}
 
-	ILogger::TheLogger()->CreateHeader();
+	ILogger::GetInstance()->CreateHeader();
 
 	bool bFullScreen = false;
 #ifndef _DEBUG
@@ -50,7 +52,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	pGame = IGame::CreateGame("MPong");
 
 #ifndef MULTIPLEINSTANCES
-	if (!IResourceChecker::TheResourceChecker()->IsOnlyInstance(pGame->VGetGameTitle()))
+	if (!IResourceChecker::GetInstance()->IsOnlyInstance(pGame->VGetGameTitle()))
 	{
 		PostQuitMessage(0);
 		return -1;
@@ -97,9 +99,8 @@ void Cleanup()
 {
 	SAFE_DELETE(pGame);
 
-	if (IResourceChecker::TheResourceChecker())
-		IResourceChecker::TheResourceChecker()->Destroy();
-
-	if(ILogger::TheLogger())
-		ILogger::TheLogger()->Destroy();
+	IResourceChecker::Destroy();
+	IEntityManager::Destroy();
+	IMessageDispatchManager::Destroy();
+	ILogger::Destroy();
 }

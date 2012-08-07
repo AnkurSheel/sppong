@@ -21,8 +21,8 @@ namespace GameBase
 		virtual ~IMessageDispatchManager(){}
 		virtual void VDispatchMessage(const double dDelay, const int iSender, const int iReciever, const unsigned iMsg, void * const pExtraInfo ) = 0;
 		virtual void VOnUpdate() = 0;
-		virtual void VDestroy() = 0;
 		GAMEBASE_API static IMessageDispatchManager * GetInstance();
+		GAMEBASE_API static void Destroy();
 	};
 }
 #endif // MessageDispatchManager_hxx__

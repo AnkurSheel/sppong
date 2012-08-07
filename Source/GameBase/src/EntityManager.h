@@ -27,20 +27,23 @@ namespace GameBase
 		typedef std::map<int, IBaseEntity * const > EntityMap;
 
 	public:
-		~cEntityManager();
 		void VRegisterEntity(IBaseEntity * const pNewEntity);
 		void UnRegisterEntity(IBaseEntity * const pNewEntity);
 		IBaseEntity * const VGetEntityFromID(const int iID);
 		Base::cString const VGetEntityNameFromID(const int iID);
+		static IEntityManager * GetInstance();
 		static void CreateEntityManager();
-		void VDestroy();
+		static void Destroy();
 	private:
 		cEntityManager();
+		~cEntityManager();
 
 	private:
 		EntityMap		m_EntityMap;
-
+	
+	public:
+		static IEntityManager * s_pEntityManager;
 	};
-	static IEntityManager * s_pEntityManager = NULL;
+
 }
 #endif // EnityManager_h__

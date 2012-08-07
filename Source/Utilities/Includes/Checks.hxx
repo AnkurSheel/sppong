@@ -20,6 +20,7 @@ namespace Base
 namespace Utilities
 {
 	class IResourceChecker
+		: public Base::cNonCopyable
 	{
 	public:
 		UTILITIES_API virtual ~IResourceChecker(){}
@@ -36,8 +37,8 @@ namespace Utilities
 		UTILITIES_API virtual unsigned int GetCPUSpeed() const = 0;
 		UTILITIES_API virtual Base::cString GetCPUBrand() = 0;
 		UTILITIES_API virtual Base::cString GetOSVersion() = 0;
-		UTILITIES_API virtual void Destroy() = 0;
-		UTILITIES_API static IResourceChecker * TheResourceChecker();
+		UTILITIES_API static void Destroy();
+		UTILITIES_API static IResourceChecker * GetInstance();
 	};
 }
 #endif // Checks_h__

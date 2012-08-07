@@ -35,14 +35,14 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 				   int nCmdShow)
 {
 	CheckForMemoryLeaks() ;
-	ILogger::TheLogger()->StartConsoleWin(80,60, "Log.txt");
+	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
 
 	bool bFullScreen = false;
 #ifndef _DEBUG
 	bFullScreen = true;
 #endif
 
-	cGame * pGame = new cGame();
+	cGame * pGame = new cGame("Graphic Engine Test");
 
 	HWND hWnd = pGame-> VOnInitialization(hInstance, nCmdShow, bFullScreen, 1024, 768);
 
@@ -123,10 +123,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	SAFE_DELETE(pGame);
 
-	if (ILogger::TheLogger())
-	{
-		ILogger::TheLogger()->Destroy();
-	}
+	ILogger::Destroy();
 
 #ifdef _DEBUG
 	system("pause");

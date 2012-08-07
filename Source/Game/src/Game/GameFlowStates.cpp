@@ -58,7 +58,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pLabelControl);
 		pLabelControl->VSetPosition(D3DXVECTOR3(pGame->m_iDisplayWidth/4, 0, 0.f));
 	}
-	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), 0, NULL);
+	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }
 // ***************************************************************
 
@@ -74,7 +74,7 @@ void cStateTitleScreen::VOnExit(cGame *pGame)
 
 bool cStateTitleScreen::VOnMessage(cGame *pGame, const Telegram &msg)
 {
-	if(msg.Msg == 0)
+	if(msg.Msg == MSG_SHOWMENU)
 	{
 		pGame->m_pStateMachine->RequestChangeState(cStateMenuScreen::Instance());
 		return true;
