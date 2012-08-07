@@ -33,7 +33,7 @@ void Graphics::cTexture::Init( LPDIRECT3DDEVICE9 pDevice, const Base::cString & 
 {
 	SAFE_RELEASE(m_pTexture);	
 	IResource * pResource = IResource::CreateResource(strFilename);
-	shared_ptr<IResHandle> texture = IResourceManager::TheResourceManager()->GetResourceCache()->GetHandle(*pResource);
+	shared_ptr<IResHandle> texture = IResourceManager::GetInstance()->GetResourceCache()->GetHandle(*pResource);
 
 	if(texture.get() == NULL)
 	{

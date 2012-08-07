@@ -17,6 +17,7 @@ namespace GameBase
 {
 	class cBaseEntity
 		: public IBaseEntity
+		, public Base::cNonCopyable
 	{
 	public:
 		GAMEBASE_API cBaseEntity(const int iID, const Base::cString strName);

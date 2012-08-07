@@ -26,6 +26,7 @@ namespace Graphics
 {
 	class cMyFont
 		: public IFont
+		, public Base::cNonCopyable
 	{
 	public:
 		cMyFont() ;

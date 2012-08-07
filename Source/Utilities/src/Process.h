@@ -15,6 +15,7 @@ namespace Utilities
 	static const int PROCESS_FLAG_ATTACHED		= 0x00000001;
 
 	class cProcess
+		: public Base::cNonCopyable
 	{
 	public:
 		cProcess(int iType, unsigned int uOrder = 0);
@@ -37,11 +38,6 @@ namespace Utilities
 		virtual void OnUpdate(const int iDeltaMilliSeconds);
 		virtual void onKill();
 		
-
-	private:
-		cProcess(const cProcess &){}
-		const cProcess& operator= (const cProcess &){}
-	
 	protected:
 		int						m_iType;
 		bool					m_bKill;

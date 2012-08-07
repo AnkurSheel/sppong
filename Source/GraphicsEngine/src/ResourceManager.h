@@ -21,21 +21,24 @@ namespace Graphics
 {
 	class cResourceManager
 		: public IResourceManager
+		, public Base::cNonCopyable
 	{
 	public:
+		static void Create();
+		static void Destroy();
+	
+	private:
 		cResourceManager();
 		~cResourceManager();
-		void Init();
+		void Init(const Base::cString strPath);
 		Utilities::IResCache * GetResourceCache() const;
-		void OnDestroyDevice();
-		void Destroy();
-	private:
-		cResourceManager(const cResourceManager &){}
-		cResourceManager operator =(const cResourceManager&){}
+
 	private:
 		Utilities::IResCache *	m_pResourceCache;
 
+	public:
+		static IResourceManager* s_pResourceManager;
 	};
-	static IResourceManager* s_pResourceManager = NULL;
+
 }
 #endif // ResourceManager_h__

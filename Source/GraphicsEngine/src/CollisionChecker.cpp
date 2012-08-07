@@ -12,6 +12,8 @@
 #include "Polygon.h"
 
 using namespace Graphics;
+
+ICollisionChecker * cCollisionChecker::s_pCollisionChecker = NULL;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -166,25 +168,29 @@ bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon & poly
 	return false;
 }
 
+void cCollisionChecker::CreateCollisionChecker()
+{
+	s_pCollisionChecker = DEBUG_NEW cCollisionChecker();
+}
 
 void cCollisionChecker::Destroy()
 {
-	delete this;
-	s_pCollisionChecker = NULL;
+	SAFE_DELETE(s_pCollisionChecker);
 }
 // ***************************************************************
 
 // ***************************************************************
 // returns the instance
 // ***************************************************************
-ICollisionChecker * ICollisionChecker::TheCollisionChecker()
+ICollisionChecker * ICollisionChecker::GetInstance()
 {
-	return s_pCollisionChecker;
+	if(cCollisionChecker::s_pCollisionChecker == NULL)
+		cCollisionChecker::CreateCollisionChecker();
+	return cCollisionChecker::s_pCollisionChecker;
 }
 // ***************************************************************
 
-void ICollisionChecker::CreateCollisionChecker()
+void ICollisionChecker::Destroy()
 {
-	s_pCollisionChecker = DEBUG_NEW cCollisionChecker();
+	cCollisionChecker::Destroy();
 }
-

@@ -18,7 +18,6 @@ namespace AI
 namespace GameBase
 {
 	class IBaseEntity
-		: public Base::cNonCopyable
 	{
 	public:
 		virtual ~IBaseEntity(){}

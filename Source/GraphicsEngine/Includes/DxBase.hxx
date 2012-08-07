@@ -23,7 +23,6 @@ namespace Graphics
  * \li Call \c VOnDestroy() when the application quits
  ***********************************************/
 	class IDXBase
-		: public Base::cNonCopyable
 	{
 	public:
 		virtual ~IDXBase(){}
@@ -67,11 +66,6 @@ namespace Graphics
 		 ***********************************************/
 		virtual HRESULT VIsAvailable() const = 0;
 		/********************************************//**
-		 *
-		 * Releases the DirectX object and deletes the singleton object
-		 ***********************************************/
-		virtual void VOnDestroy() = 0;
-		/********************************************//**
 		 * @return The pointer to IDirect3DDevice9 device
 		 *
 		 * Begins the rendering and clears the surface
@@ -82,13 +76,22 @@ namespace Graphics
 		 * Toggles between full screen and windowed mode
 		 ***********************************************/
 		virtual void VToggleFullScreen() = 0;
-		
+		/********************************************//**
+		 *
+		 * Releases the Direct3D device and object
+		 ***********************************************/
+		virtual void VCleanup() = 0;
 		/********************************************//**
 		 * @return Returns a pointer to the singleton object
 		 *
 		 * Creates and returns a pointer to a singleton object of this class
 		 ***********************************************/
 		GRAPHIC_API static IDXBase * GetInstance();
+		/********************************************//**
+		 *
+		 * Releases the DirectX object and deletes the singleton object
+		 ***********************************************/
+		GRAPHIC_API static void Destroy();
 	};
 }
 #endif // DxBase_h__

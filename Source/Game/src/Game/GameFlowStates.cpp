@@ -192,8 +192,6 @@ cStatePlayGame* cStatePlayGame::Instance()
 
 void cStatePlayGame::VOnEnter(cGame *pGame)
 {
-	ICollisionChecker::CreateCollisionChecker();
-
 	shared_ptr<ISprite> pTableSprite = ISprite::CreateSprite();
 
 	pTableSprite->Init(pGame->m_pD3dDevice, "Sprites\\Table.jpg");
@@ -275,8 +273,7 @@ void cStatePlayGame::VOnExit(cGame *pGame)
 	{
 		SAFE_DELETE(pGame->m_pGameElements[i]);
 	}
-	if(ICollisionChecker::TheCollisionChecker())
-		ICollisionChecker::TheCollisionChecker()->Destroy();
+	ICollisionChecker::Destroy();
 
 	pGame->Cleanup();
 }

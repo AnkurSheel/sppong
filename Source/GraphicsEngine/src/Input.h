@@ -18,6 +18,7 @@ namespace Graphics
 
 	class cInput
 		: public IInput
+		, public Base::cNonCopyable
 	{
 	public:
 		cInput();
@@ -37,8 +38,6 @@ namespace Graphics
 		void Cleanup();
 	
 	private:
-		cInput(const cInput&){}
-		cInput operator = (const cInput&){}
 		void CreateKeyboard();
 		void CreateMouse();
 		void ConstrainMouseCursor();

@@ -27,12 +27,10 @@ namespace Graphics
 	{
 	public:
 		virtual ~IResourceManager(){}
-		GRAPHIC_API static IResourceManager* TheResourceManager();
-		GRAPHIC_API virtual void Init() = 0;
+		GRAPHIC_API virtual void Init(const Base::cString strPath) = 0;
 		GRAPHIC_API virtual Utilities::IResCache * GetResourceCache() const = 0;
-		GRAPHIC_API virtual void OnDestroyDevice() = 0;
-		GRAPHIC_API virtual void Destroy() = 0;
-
+		GRAPHIC_API static IResourceManager* GetInstance();
+		GRAPHIC_API static void Destroy();
 	};
 }
 #endif // ResourceManager_hxx__

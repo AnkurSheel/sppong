@@ -22,6 +22,7 @@ namespace Graphics
 {
 	class cTexture
 		: public ITexture
+		, public Base::cNonCopyable
 	{
 	public:
 		cTexture();

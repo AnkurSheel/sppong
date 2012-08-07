@@ -22,6 +22,7 @@ namespace GameBase
 {
 	class cEntityManager
 		: public IEntityManager
+		, public Base::cNonCopyable
 	{
 	private:
 		typedef std::map<int, IBaseEntity * const > EntityMap;

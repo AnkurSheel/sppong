@@ -16,6 +16,7 @@ namespace Utilities
 {
 	class cResourceChecker
 		: public IResourceChecker
+		, public Base::cNonCopyable
 	{
 	public:
 		bool IsOnlyInstance(const Base::cString &  gameTitle);

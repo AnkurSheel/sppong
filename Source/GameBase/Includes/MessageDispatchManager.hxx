@@ -15,7 +15,6 @@
 namespace GameBase
 {
 	class IMessageDispatchManager
-		: public Base::cNonCopyable
 	{
 	public:
 		virtual ~IMessageDispatchManager(){}

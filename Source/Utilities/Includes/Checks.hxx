@@ -20,7 +20,6 @@ namespace Base
 namespace Utilities
 {
 	class IResourceChecker
-		: public Base::cNonCopyable
 	{
 	public:
 		UTILITIES_API virtual ~IResourceChecker(){}

@@ -15,6 +15,8 @@
 using namespace Utilities;
 using namespace Base;
 
+Graphics::IResourceManager * Graphics::cResourceManager::s_pResourceManager = NULL;
+
 Graphics::cResourceManager::cResourceManager()
 : m_pResourceCache(NULL)
 {
@@ -26,15 +28,9 @@ Graphics::cResourceManager::~cResourceManager()
 
 }
 
-void Graphics::cResourceManager::OnDestroyDevice()
+void Graphics::cResourceManager::Init(const cString strPath)
 {
-	SAFE_DELETE(m_pResourceCache);
-	Destroy();
-}
-
-void Graphics::cResourceManager::Init()
-{
-	m_pResourceCache = IResCache::CreateResourceCache(30, "resources\\resources.zip");
+	m_pResourceCache = IResCache::CreateResourceCache(30, strPath);
 	if(!m_pResourceCache->Init())
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not create Resource Cache.\n"));
@@ -48,19 +44,27 @@ IResCache * Graphics::cResourceManager::GetResourceCache() const
 	return m_pResourceCache;
 }
 
-void Graphics::cResourceManager::Destroy()
+void Graphics::cResourceManager::Create()
 {
-	delete this;
-	s_pResourceManager = NULL;
+	s_pResourceManager = DEBUG_NEW cResourceManager();
 }
 
+void Graphics::cResourceManager::Destroy()
+{
+	SAFE_DELETE(s_pResourceManager);
+}
 
 // ***************************************************************
 // returns an instance of the class
 // ***************************************************************
-Graphics::IResourceManager* Graphics::IResourceManager::TheResourceManager()
+Graphics::IResourceManager* Graphics::IResourceManager::GetInstance()
 {
-	if(!s_pResourceManager)
-		s_pResourceManager = DEBUG_NEW cResourceManager();
-	return s_pResourceManager;
+	if(cResourceManager::s_pResourceManager == NULL)
+		cResourceManager::Create();
+	return cResourceManager::s_pResourceManager;
+}
+
+void Graphics::IResourceManager::Destroy()
+{
+	cResourceManager::Destroy();
 }

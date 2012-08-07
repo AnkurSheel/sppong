@@ -28,7 +28,6 @@ namespace GameBase
  * \li Call \c VOnDestroy() when the application quits
  ***********************************************/
 	class IMainWindow
-		: public Base::cNonCopyable
 	{
 	public:
 		virtual ~IMainWindow() {}
@@ -53,22 +52,26 @@ namespace GameBase
 
 		/********************************************//**
 		 *
-		 * Destroys the window and the singleton object
-		 ***********************************************/
-		GAMEBASE_API virtual void VOnDestroy() = 0;
-
-		/********************************************//**
-		 *
 		 * Toggles between full screen and windowed mode
 		 ***********************************************/
 		GAMEBASE_API virtual void VToggleFullScreen() = 0;
-
+		/********************************************//**
+		 *
+		 * Destroys the Window
+		 ***********************************************/
+		virtual void VCleanup() = 0;
 		/********************************************//**
 		 * @return Returns a pointer to the singleton object
 		 *
 		 * Creates and returns a pointer to a singleton object of this class
 		 ***********************************************/
 		GAMEBASE_API static IMainWindow * GetInstance();
+
+		/********************************************//**
+		 *
+		 * Destroys the window and the singleton object
+		 ***********************************************/
+		GAMEBASE_API static void Destroy();
 	};
 }
 #endif // MainWindow_hxx__

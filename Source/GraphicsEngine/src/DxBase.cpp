@@ -13,6 +13,7 @@
 using namespace Utilities;
 using namespace Graphics;
 
+IDXBase * cDXBase::s_pDXBase= NULL;
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -32,15 +33,14 @@ cDXBase::cDXBase()
 // ***************************************************************
 cDXBase::~cDXBase()
 {
-	Cleanup();
 }
 
 // ***************************************************************
 // Create and Returns an object of this class
 // ***************************************************************
-cDXBase* cDXBase::Create()
+void cDXBase::Create()
 {
-	return(DEBUG_NEW cDXBase());
+	s_pDXBase = DEBUG_NEW cDXBase();
 }
 
 // ***************************************************************
@@ -94,11 +94,12 @@ HRESULT cDXBase::VBeginRender()
 }
 
 // ***************************************************************
-void cDXBase::VOnDestroy()
+void cDXBase::Destroy()
 {
-	Cleanup();
-	delete this;
-	s_pDXBase = NULL;
+	if(s_pDXBase != NULL)
+		s_pDXBase->VCleanup();
+	
+	SAFE_DELETE(s_pDXBase);
 }
 
 // ***************************************************************
@@ -225,7 +226,7 @@ void cDXBase::SetParameters()
 // ***************************************************************
 // Release the Direct3D device
 // ***************************************************************
-void cDXBase::Cleanup()
+void cDXBase::VCleanup()
 {
 	// release the Direct3d device
 	SAFE_RELEASE(m_pd3dDevice) ;
@@ -239,7 +240,12 @@ void cDXBase::Cleanup()
 // ***************************************************************
 IDXBase* IDXBase::GetInstance()
 {
-	if(!s_pDXBase)
-		s_pDXBase = cDXBase::Create();
-	return s_pDXBase;
+	if(cDXBase::s_pDXBase == NULL)
+		cDXBase::Create();
+	return cDXBase::s_pDXBase;
+}
+
+void IDXBase::Destroy()
+{
+	cDXBase::Destroy();
 }

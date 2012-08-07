@@ -20,7 +20,6 @@ namespace GameBase
 namespace GameBase
 {
 	class IEntityManager
-		: public Base::cNonCopyable
 	{
 	public:
 		virtual ~IEntityManager(){}

@@ -21,13 +21,16 @@ namespace Graphics
 
 	class cDXBase
 		: public IDXBase
+		, public Base::cNonCopyable
 	{
 	public:
 		/********************************************//**
          *
-         * Create and Returns an object of this class
+         * Creates an object of this class
          ***********************************************/
-		static cDXBase * Create();
+		static void Create();
+		static void Destroy();
+	
 	private:
 		cDXBase() ;
 		~cDXBase() ;
@@ -38,8 +41,8 @@ namespace Graphics
 		void VEndRender(const HRESULT hr);
 		LPDIRECT3DDEVICE9 VGetDevice() const;
 		HRESULT VIsAvailable() const;
-		void VOnDestroy();
 		void VToggleFullScreen();
+		void VCleanup() ;
 		/********************************************//**
 		 *
 		 * Creates the Direct3D object
@@ -56,11 +59,6 @@ namespace Graphics
 		 * the application is fullscreen or windowed
 		 ***********************************************/
 		void SetParameters();
-		/********************************************//**
-		 *
-		 * Releases the Direct3D device and object
-		 ***********************************************/
-		void Cleanup() ;
 
 	private:
 		LPDIRECT3D9				m_pD3D ;				/*!< Pointer to a direct3d object */
@@ -73,10 +71,12 @@ namespace Graphics
 		int						m_iHeight ;				/*!< The height of the window */
 		D3DDISPLAYMODE			m_displayMode;			/*!< The display mode */
 		bool					m_bFullScreen;			/*!< True if in fullscreen mode */
-
+	
+	public:
+		static IDXBase * s_pDXBase;
 	};
 #include "DxBase.inl"
 
-	static cDXBase * s_pDXBase= NULL;
+	
 }
 #endif // DxBase_h__

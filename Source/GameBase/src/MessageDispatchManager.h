@@ -31,6 +31,7 @@ namespace GameBase
 {
 	class cMessageDispatchManager
 		: public IMessageDispatchManager
+		, public Base::cNonCopyable
 	{
 	public:
 		void VDispatchMessage(const double dDelay, const int iSender, const int iReciever, const unsigned iMsg, void * const pExtraInfo );

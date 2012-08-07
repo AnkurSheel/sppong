@@ -21,6 +21,7 @@ namespace Graphics
 {
 	class cBaseControl
 		: public IBaseControl
+		, public Base::cNonCopyable
 	{
 	public:
 		cBaseControl * GetNextSibling() const;

@@ -22,11 +22,10 @@ namespace Graphics
 	class ICollisionChecker
 	{
 	public:
-		GRAPHIC_API ~ICollisionChecker(){}
+		virtual ~ICollisionChecker(){}
 		GRAPHIC_API virtual bool CheckFor2DCollisions(const Graphics::IPolygon * polygonA, const Graphics::IPolygon * polygonB) = 0;
-		GRAPHIC_API static ICollisionChecker * TheCollisionChecker();
-		GRAPHIC_API virtual void Destroy() = 0;
-		GRAPHIC_API static void CreateCollisionChecker();
+		GRAPHIC_API static ICollisionChecker * GetInstance();
+		GRAPHIC_API static void Destroy();
 	};
 }
 #endif // CollisionChecker_h__

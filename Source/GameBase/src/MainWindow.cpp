@@ -21,6 +21,8 @@ using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
 
+IMainWindow * cMainWindow::s_pWindow = NULL;
+
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -96,17 +98,6 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 }
 
 // ***************************************************************
-// Destroys the window and the singleton object
-// ***************************************************************
-void cMainWindow::VOnDestroy()
-{
-	DestroyWindow(m_Hwnd);
-
-	delete this;
-	s_pWindow = NULL;
-}
-
-// ***************************************************************
 // Toggles between full screen and windowed mode
 // ***************************************************************
 void cMainWindow::VToggleFullScreen()
@@ -148,14 +139,6 @@ void cMainWindow::VToggleFullScreen()
 	{
 		ShowWindow(m_Hwnd, SW_SHOW);
 	}
-}
-
-// ***************************************************************
-// Create and Returns an object of this class
-// ***************************************************************
-cMainWindow * cMainWindow::Create()
-{
-	return(DEBUG_NEW cMainWindow());
 }
 
 // ***************************************************************
@@ -333,7 +316,7 @@ void cMainWindow::OnWindowCreated()
 	IDXBase::GetInstance()->VOnInitialization(m_Hwnd, TAN, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
 
 	// initialize resource manager
-	IResourceManager::TheResourceManager()->Init();
+	IResourceManager::GetInstance()->Init("resources\\resources.zip");
 }
 
 // ***************************************************************
@@ -345,9 +328,9 @@ void cMainWindow::OnWindowDestroyed()
 	ChangeDisplaySettings(NULL, 0);
 
 	// release the graphic object
-	IDXBase::GetInstance()->VOnDestroy();
+	IDXBase::Destroy();
 
-	IResourceManager::TheResourceManager()->OnDestroyDevice();
+	IResourceManager::Destroy();
 
 	ReleaseCapture() ;
 	PostQuitMessage(0) ;
@@ -392,12 +375,43 @@ void cMainWindow::SetDisplayResolution()
 }
 
 // ***************************************************************
+// Destroys the Window
+// ***************************************************************
+void cMainWindow::VCleanup()
+{
+	DestroyWindow(m_Hwnd);
+}
+
+// ***************************************************************
+// Create and Returns an object of this class
+// ***************************************************************
+void cMainWindow::Create()
+{
+	s_pWindow = DEBUG_NEW cMainWindow();
+}
+
+// ***************************************************************
+// Destroys the window and the singleton object
+// ***************************************************************
+void cMainWindow::Destroy()
+{
+	if(s_pWindow != NULL)
+		s_pWindow->VCleanup();
+	SAFE_DELETE(s_pWindow);
+}
+
+// ***************************************************************
 // returns an instance of the class
 // ***************************************************************
 IMainWindow * IMainWindow::GetInstance()
 {
-	if(!s_pWindow)
-		s_pWindow = cMainWindow::Create();
-	return s_pWindow;
+	if(cMainWindow::s_pWindow == NULL)
+		cMainWindow::Create();
+	return cMainWindow::s_pWindow;
+}
+
+void IMainWindow::Destroy()
+{
+	cMainWindow::Destroy();
 }
  

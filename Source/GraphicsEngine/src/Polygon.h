@@ -13,7 +13,8 @@
 #include "Polygon.hxx"
 namespace Graphics
 {
-	class cPolygon : public IPolygon
+	class cPolygon 
+		: public IPolygon
 	{
 	public:
 		cPolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices);

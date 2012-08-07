@@ -26,6 +26,7 @@ namespace Graphics
 {
 	class cSprite
 		: public ISprite
+		, public Base::cNonCopyable
 	{
 	public:
 		cSprite();

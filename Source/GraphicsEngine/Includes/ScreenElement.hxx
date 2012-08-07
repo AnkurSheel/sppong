@@ -20,7 +20,7 @@ namespace Graphics
 
 namespace Graphics
 {
-	class IScreenElement : public Base::cNonCopyable
+	class IScreenElement
 	{
 	public:
 		virtual ~IScreenElement(){};
