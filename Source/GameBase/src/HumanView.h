@@ -37,7 +37,8 @@ namespace GameBase
 {
 	typedef std::list<shared_ptr<Graphics::IScreenElement> > ScreenElementList;
 
-	class cHumanView : public IGameView
+	class cHumanView 
+		: public IGameView
 	{
 	public:
 		GAMEBASE_API cHumanView();
@@ -58,15 +59,20 @@ namespace GameBase
 		GAMEBASE_API void RemoveElements();
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
 		GAMEBASE_API void SetCursorVisible(bool bVisible);
+		GAMEBASE_API bool IsKeyLocked( const DWORD dwKey ) const;
 
 	protected:
 		void HandleLostDevice(HRESULT hr);
 		GAMEBASE_API void LockKey( const DWORD dwKey );
+		GAMEBASE_API void UnlockKey( const DWORD dwKey );
 		GAMEBASE_API HRESULT OnBeginRender(TICK tickCurrent);
 		GAMEBASE_API HRESULT RenderPrivate( HRESULT & hr );
 		GAMEBASE_API void OnEndRender(const HRESULT hr);
 
 	protected:
+		shared_ptr<Graphics::IFont>		m_pFont;
+
+	private:
 		GameViewId						m_idView;
 		Utilities::IProcessManager *	m_pProcessManager;
 		TICK							m_tickCurrent;
@@ -74,7 +80,6 @@ namespace GameBase
 		bool							m_bRunFullSpeed;
 		ScreenElementList				m_pElementList;
 		//shared_ptr<Graphics::ISprite>	m_pCursorSprite;		// the sprite for the cursor
-		shared_ptr<Graphics::IFont>		m_pFont;
 		bool							m_bLockedKeys[KEYBOARD_KEYS];
 
 	public:

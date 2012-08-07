@@ -323,12 +323,22 @@ void cHumanView::HandleLostDevice(HRESULT hr)
 	}
 }
 
+bool cHumanView::IsKeyLocked( const DWORD dwKey )  const
+{
+	return m_bLockedKeys[dwKey];
+}
+
 // ***************************************************************
 // Locks the key on the keyboard
 // ***************************************************************
 void cHumanView::LockKey( const DWORD dwKey ) 
 {
-		m_bLockedKeys[dwKey] = true;
+	m_bLockedKeys[dwKey] = true;
+}
+
+void cHumanView::UnlockKey( const DWORD dwKey ) 
+{
+	m_bLockedKeys[dwKey] = false;
 }
 
 // ***************************************************************

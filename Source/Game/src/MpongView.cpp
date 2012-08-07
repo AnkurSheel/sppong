@@ -77,16 +77,16 @@ bool cMPongView::VOnMsgProc( const Graphics::AppMsg & msg )
 	{
 		if(msg.m_uMsg == WM_KEYDOWN)
 		{
-			if (msg.m_wParam == VK_F2)
+			if (msg.m_wParam == VK_F2 && !IsKeyLocked(VK_F2) )
 			{
 				// lock the F2 key
-				LockKey(DIK_F2) ;
+				LockKey(VK_F2);
 				m_bDisplayFPS = !m_bDisplayFPS;
 			}
-			if (msg.m_wParam == VK_ESCAPE)
+			if (msg.m_wParam == VK_ESCAPE  && !IsKeyLocked(VK_ESCAPE))
 			{
 				// lock the ESC key
-				LockKey(DIK_ESCAPE) ;
+				LockKey(VK_ESCAPE);
 				PostQuitMessage(0);
 			}
 			if (m_P1PaddleHandler)
@@ -100,6 +100,14 @@ bool cMPongView::VOnMsgProc( const Graphics::AppMsg & msg )
 		}
 		else if (msg.m_uMsg == WM_KEYUP)
 		{
+			if (msg.m_wParam == VK_F2)
+			{
+				UnlockKey(VK_F2);
+			}
+			if (msg.m_wParam == VK_ESCAPE)
+			{
+				UnlockKey(VK_ESCAPE);
+			}
 			if (m_P1PaddleHandler)
 			{
 				m_P1PaddleHandler->VOnKeyUp(msg);

@@ -398,6 +398,7 @@ void cMainWindow::Destroy()
 	if(s_pWindow != NULL)
 		s_pWindow->VCleanup();
 	SAFE_DELETE(s_pWindow);
+	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
 }
 
 // ***************************************************************

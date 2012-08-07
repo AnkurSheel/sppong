@@ -25,7 +25,7 @@ Graphics::cResourceManager::cResourceManager()
 
 Graphics::cResourceManager::~cResourceManager()
 {
-
+	SAFE_DELETE(m_pResourceCache);
 }
 
 void Graphics::cResourceManager::Init(const cString strPath)

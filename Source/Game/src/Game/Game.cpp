@@ -246,9 +246,7 @@ void cGame::Cleanup()
 
 	ICollisionChecker::Destroy();
 	IMainWindow::Destroy();
-
-	if(IResourceManager::GetInstance())
-		IResourceManager::Destroy();
+	IResourceManager::Destroy();
 }
 
 // ***************************************************************
