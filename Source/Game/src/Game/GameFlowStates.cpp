@@ -260,6 +260,8 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 	{
 		pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
 	}
+	pGame->m_pPongView->VOnUpdate(pGame, pGame->m_pGameTimer->VGetDeltaTime());
+
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
 }

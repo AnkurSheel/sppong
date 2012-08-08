@@ -11,6 +11,7 @@
 #define FileInput_h__
 
 #include "FileInput.hxx"
+#include <fstream>
 
 namespace Base
 {
@@ -25,16 +26,17 @@ namespace Utilities
 	public:
 		cFileInput();
 		~cFileInput();
-		bool Open(const Base::cString & strFileName);
+		bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode);
 		Base::cString ReadAll();
 		Base::cString Read(size_t size);
 		bool Close();
 		Base::cString GetBuffer() const;
 
 	protected:
-		FILE *			m_fStdOut;
+		std::ifstream	m_inputFile;
 		Base::cString	m_strFileName;
 		Base::cString	m_strBuffer;
+		std::streamoff	m_iFileSize;
 	};
 }
 #endif // FileInput_h__

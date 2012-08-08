@@ -31,15 +31,15 @@ namespace Utilities
 	{
 	public:
 		void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName);
-		void Close();
 		void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage);
 		void CreateHeader();
-		static void CreateLogger();
+		static void Create();
 		static void Destroy();
 
 	private:
 		cLogger();
 		~cLogger();
+		void Close();
 		void LogTypeToString(const LogType eLogEntryType, Base::cString & str );
 		void Log(const LogType eLogEntryType, const Base::cString & str);
 		void SetConsoleTextColor(const LogType eLogEntryType);
@@ -53,7 +53,5 @@ namespace Utilities
 	public:
 		static cLogger * s_pLogger;
 	};
-
-
 }
 #endif // Logger_h__

@@ -146,8 +146,6 @@ void cGame::VOnUpdate()
 	m_pStateMachine->Update();
 	m_pSound->Update();
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
-	m_pPongView->VOnUpdate(this, m_pGameTimer->VGetDeltaTime());
-
 }
 
 // ***************************************************************

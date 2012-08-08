@@ -23,13 +23,13 @@ namespace Utilities
 	{
 	public:
 		UTILITIES_API virtual ~IFileInput(){}
-		UTILITIES_API virtual bool Open(const Base::cString & strFileName) = 0;
+		UTILITIES_API virtual bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode) = 0;
 		UTILITIES_API virtual bool Close() = 0;
 		UTILITIES_API virtual Base::cString ReadAll() = 0;
 		UTILITIES_API virtual Base::cString Read(size_t size) = 0;
 		UTILITIES_API virtual Base::cString GetBuffer() const = 0;
 		
-		UTILITIES_API static  IFileInput * CreateUserFile();
+		UTILITIES_API static  IFileInput * CreateInputFile();
 	};
 }
 #endif // FileInput_h__

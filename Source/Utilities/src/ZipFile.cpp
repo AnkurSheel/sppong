@@ -115,39 +115,39 @@ bool cZipFile::Init(const Base::cString & resFileName)
 {
 	End();
 
-	if(!Open(resFileName))
+	if(!Open(resFileName, std::ios_base::in | std::ios_base::binary))
 	{
 		return false;
 	}
 
 	// Assuming no extra comment at the end, read the whole end record.
 	TZipDirHeader dh;
-
-	fseek(m_fStdOut, -(int)sizeof(dh), SEEK_END);
-	long dhOffset = ftell(m_fStdOut);
+	m_inputFile.seekg(-(int)sizeof(dh), std::ios_base::end);
+	long dhOffset = m_inputFile.tellg();
 	memset(&dh, 0, sizeof(dh));
-	fread(&dh, sizeof(dh), 1, m_fStdOut);
+	m_inputFile._Read_s((char *)(&dh), sizeof(dh), sizeof(dh));
 
 	// Check
 	if (dh.sig != TZipDirHeader::SIGNATURE)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Dir Header Signature did not match for file: %s", m_strFileName.GetData()));
+		Log_Write_L1(ILogger::LT_ERROR, "Dir Header Signature did not match for file: " + m_strFileName);
 		return false;
 	}
 
 	//Set the file position to the beginning of the array of TZipDirFileHeader structures
-	fseek(m_fStdOut, dhOffset - dh.dirSize, SEEK_SET);
+	m_inputFile.seekg(dhOffset - dh.dirSize, std::ios_base::beg);
 
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Dir Size : %d in file %s", dh.dirSize, m_strFileName.GetData()));
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "No. of Entries : %d in file %s", dh.nDirEntries, m_strFileName.GetData()));
+	Log_Write_L2(ILogger::LT_DEBUG, m_strFileName + cString(100, "Dir Size : %d", dh.dirSize));
+	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "No. of Entries : %d in file ", dh.nDirEntries) + m_strFileName);
 
 	// Allocate the data buffer, and read the whole thing.
 	m_pDirData = DEBUG_NEW char[dh.dirSize + dh.nDirEntries*sizeof(*m_papDir)];
 
 	if (!m_pDirData)
 		return false;
+
 	memset(m_pDirData, 0, dh.dirSize + dh.nDirEntries*sizeof(*m_papDir));
-	fread(m_pDirData, dh.dirSize, 1, m_fStdOut);
+	m_inputFile.read(m_pDirData, dh.dirSize);
 
 	// Now process each entry.
 	char *pfh = m_pDirData;
@@ -163,7 +163,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 		// Check the directory entry integrity.
 		if (fh.sig != TZipDirFileHeader::SIGNATURE)
 		{
-			Log_Write_L1(ILogger::LT_ERROR, cString(100, "Dir File Header Signature did not match for file: %s", m_strFileName.GetData()));
+			Log_Write_L1(ILogger::LT_ERROR, "Dir File Header Signature did not match for file: " + m_strFileName);
 			SAFE_DELETE_ARRAY(m_pDirData);
 			return false;
 		}
@@ -181,12 +181,12 @@ bool cZipFile::Init(const Base::cString & resFileName)
 			}
 
 			char fileName[_MAX_PATH];
-			memcpy(fileName, pfh, fh.fnameLen);
+			memcpy(fileName, fh.GetName(), fh.fnameLen);
 			fileName[fh.fnameLen]=0;
 			_strlwr_s(fileName, _MAX_PATH);
 
-			std::string spath = fileName;
-			m_ZipContentsMap[spath] = i;
+			cString strPath(fileName);
+			m_ZipContentsMap[strPath] = i;
 
 			// Skip name, extra and comment fields.
 			pfh += fh.fnameLen + fh.xtraLen + fh.cmntLen;
@@ -258,11 +258,11 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	}
 
 	// Go to the actual file and read the local header.
-	fseek(m_fStdOut, m_papDir[i]->hdrOffset, SEEK_SET);
+	m_inputFile.seekg(m_papDir[i]->hdrOffset, std::ios_base::beg);
 	TZipLocalHeader h;
 
 	memset(&h, 0, sizeof(h));
-	fread(&h, sizeof(h), 1, m_fStdOut);
+	m_inputFile._Read_s((char *)(&h), sizeof(h), sizeof(h));
 	if (h.sig != TZipLocalHeader::SIGNATURE)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Corrupt ZipFile: %s. Local Header Signature did not match", m_strFileName.GetData()));
@@ -270,13 +270,13 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	}
 
 	// Skip extra fields
-	fseek(m_fStdOut, h.fnameLen + h.xtraLen, SEEK_CUR);
+	m_inputFile.seekg(h.fnameLen + h.xtraLen, std::ios_base::cur);
 
 	if (h.compression == Z_NO_COMPRESSION)
 	{
 		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "No Compression for file %s in ZipFile: %s.", GetFilename(i).GetData(), m_strFileName.GetData()));
 		// Simply read in raw stored data.
-		fread(pBuf, h.cSize, 1, m_fStdOut);
+		m_inputFile._Read_s((char *)(pBuf), h.cSize, h.cSize);
 
 		return true;
 	}
@@ -291,7 +291,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 		return false;
 
 	memset(pcData, 0, h.cSize);
-	fread(pcData, h.cSize, 1, m_fStdOut);
+	m_inputFile._Read_s(pcData, h.cSize, h.cSize);
 
 	bool ret = true;
 
@@ -340,21 +340,21 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 	// Ungood if the ZIP has huge files inside
 
 	// Go to the actual file and read the local header.
-	fseek(m_fStdOut, m_papDir[i]->hdrOffset, SEEK_SET);
+	m_inputFile.seekg(m_papDir[i]->hdrOffset, std::ios_base::beg);
 	TZipLocalHeader h;
 
 	memset(&h, 0, sizeof(h));
-	fread(&h, sizeof(h), 1, m_fStdOut);
+	m_inputFile._Read_s((char *)(&h), sizeof(h), sizeof(h));
 	if (h.sig != TZipLocalHeader::SIGNATURE)
 		return false;
 
 	// Skip extra fields
-	fseek(m_fStdOut, h.fnameLen + h.xtraLen, SEEK_CUR);
+	m_inputFile.seekg(h.fnameLen + h.xtraLen, std::ios_base::cur);
 
 	if (h.compression == Z_NO_COMPRESSION)
 	{
 		// Simply read in raw stored data.
-		fread(pBuf, h.cSize, 1, m_fStdOut);
+		m_inputFile._Read_s((char *)(pBuf), h.cSize, h.cSize);
 		return true;
 	}
 	else if (h.compression != Z_DEFLATED)
@@ -366,7 +366,7 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 		return false;
 
 	memset(pcData, 0, h.cSize);
-	fread(pcData, h.cSize, 1, m_fStdOut);
+	m_inputFile._Read_s(pcData, h.cSize, h.cSize);
 
 	bool ret = true;
 

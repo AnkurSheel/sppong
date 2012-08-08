@@ -281,11 +281,11 @@ void TestFileInput()
 	printf("Enter file path (params.ini): ");
 	gets(szPath);
 
-	IFileInput * pFile = IFileInput::CreateUserFile();
+	IFileInput * pFile = IFileInput::CreateInputFile();
 
 	if(pFile != NULL)
 	{
-		if(pFile->Open(szPath))
+		if(pFile->Open(szPath, std::ios_base::in))
 		{
 			Log_Write_L1(ILogger::LT_COMMENT, "Reading the whole file");
 			cString str = pFile->ReadAll();

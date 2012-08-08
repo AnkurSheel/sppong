@@ -258,6 +258,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ParamLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ParamLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\ParamLoaders.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\XMLFileIO.cpp"
 				>
 			</File>

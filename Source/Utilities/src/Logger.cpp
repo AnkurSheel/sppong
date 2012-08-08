@@ -234,7 +234,7 @@ void cLogger::LogTypeToString( LogType eLogEntryType, cString & str )
 // ***************************************************************
 // Creates a logger
 // ***************************************************************
-void cLogger::CreateLogger()
+void cLogger::Create()
 {
 	s_pLogger = DEBUG_NEW cLogger();
 }
@@ -248,7 +248,7 @@ void cLogger::Destroy()
 ILogger * ILogger::GetInstance()
 {
 	if(cLogger::s_pLogger == NULL)
-		cLogger::CreateLogger();
+		cLogger::Create();
 	return cLogger::s_pLogger;
 
 }

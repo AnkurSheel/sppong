@@ -31,8 +31,8 @@ namespace Utilities
 
 	{
 	private:
-		typedef std::map<std::string, int> ZipContentsMap;		// maps path to a zip content id
-	
+		typedef std::map<Base::cString, int> ZipContentsMap;		// maps path to a zip content id
+
 	public:
 		cZipFile();
 		~cZipFile();
