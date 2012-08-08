@@ -6,9 +6,11 @@
 #include "Logger.hxx"
 #include "ResCache.hxx"
 #include "RandomGenerator.hxx"
+#include "FileInput.hxx"
 #include <direct.h>
 #include <vector>
 #include <memory>
+#include <conio.h>
 
 using namespace Utilities;
 using namespace Base;
@@ -32,25 +34,32 @@ void CheckForMemoryLeaks()
 void TestZipFile();
 void TestResourceCache();
 void TestRandomGenerator();
+void TestFileInput();
 
 void main(int argc, char * argv[])
 {
 	CheckForMemoryLeaks() ;
-	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
 
-	printf("Testing Zip File\n");
+	ILogger::GetInstance()->StartConsoleWin(120,60, "Log.txt");
+
 	TestZipFile();
+	Log_Write_L1(ILogger::LT_UNKNOWN, "");
 
-	printf("\n\n\nTesting Resource Cache\n");
 	TestResourceCache();
+	Log_Write_L1(ILogger::LT_UNKNOWN, "");
 
-	printf("\n\n\nTesting Random Generator\n");
 	TestRandomGenerator();
+	Log_Write_L1(ILogger::LT_UNKNOWN, "");
 
+	TestFileInput();
 
 	ILogger::Destroy();
 
-	system("pause");
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE| FOREGROUND_RED | FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+	printf("Press Any Key to continue");
+	while (!_kbhit())
+	{
+	}
 }
 
 void MakePath(const char *pszPath)
@@ -61,7 +70,7 @@ void MakePath(const char *pszPath)
 	char buf[1000];
 	const char *p = pszPath;
 
-	printf("MakePath(\"%s\")\n", pszPath);
+	Log_Write_L1(ILogger::LT_COMMENT, cString("MakePath ") + pszPath);
 
 	// Skip machine name in network paths like \\MyMachine\blah...
 	if (p[0] == '\\' && p[1] == '\\')
@@ -90,17 +99,21 @@ void MakePath(const char *pszPath)
 
 void TestZipFile()
 {
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Zip File");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+
 	IZipFile * pZip = IZipFile::CreateZipFile();;
 
-	
 	if(pZip)
 	{
 		char szPath[MAX_PATH_WIDTH];
-		printf("Enter Zip file path : ");
+		printf("Enter Zip file path (resources\\resources.zip): ");
 		gets(szPath);
 		if (!pZip->Init(szPath))
 		{
-			printf("Bad Zip file: \"%s\"\n",szPath);
+			Log_Write_L1(ILogger::LT_ERROR, cString("Bad Zip file: ") + szPath);
 		}
 		else
 		{
@@ -110,16 +123,17 @@ void TestZipFile()
 				cString strFileName;
 
 				strFileName = pZip->GetFilename(i);
-
-				printf("File \"%s\" (%d bytes): ", strFileName.GetData(), len);
+				Log_Write_L1(ILogger::LT_DEBUG, "File: " + strFileName + cString(20, " : %d bytes", len));
 
 				char *pData = new char[len];
 				if (!pData)
-					printf("OUT OF MEMORY\n");
+				{
+					Log_Write_L1(ILogger::LT_ERROR, "OUT OF MEMORY", );
+				}
 				else if (true == pZip->ReadFile(i, pData))
 				{
-					printf("OK\n");
-					cString dpath(100, "Data\\Test\\%s", strFileName.GetData());
+					Log_Write_L1(ILogger::LT_COMMENT, "OK", );
+					cString dpath= "Data\\Test\\" + strFileName;
 
 					char *p = strrchr(const_cast<char *>(dpath.GetData()), '\\');
 					if (p)
@@ -136,7 +150,9 @@ void TestZipFile()
 					}
 				}
 				else
-					printf("ERROR\n");
+				{
+					Log_Write_L1(ILogger::LT_ERROR, "ERROR");
+				}
 				delete[] pData;
 			}
 			pZip->End();
@@ -144,32 +160,42 @@ void TestZipFile()
 	}
 	else
 	{
-		printf("Could Not Create Zipfile object\n");
+		Log_Write_L1(ILogger::LT_ERROR, "Could Not Create Zipfile object");
 	}
 	SAFE_DELETE(pZip);
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: Zip File");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 }
 
 
 void TestResourceCache()
 {
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Resource Cache");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+
 	char szPath[MAX_PATH_WIDTH];
-	printf("Enter Zip file path : ");
+	printf("Enter Zip file path (resources\\resources.zip): ");
 	gets(szPath);
 
 	IResCache * pResCache =  IResCache::CreateResourceCache(1, szPath);
 	if(!pResCache->Init())
 	{
-		printf("Bad Zip file for Resource Cache: \"%s\"\n",szPath);
+		Log_Write_L1(ILogger::LT_ERROR, cString("Bad Zip file for Resource Cache") + szPath );
 	}
 	else
 	{
-		IZipFile * pZip = IZipFile::CreateZipFile();;
+		IZipFile * pZip = IZipFile::CreateZipFile();
 
 		vector<cString> strFileNames;
 		if(pZip)
 		{
 			if (!pZip->Init(szPath))
-				printf("Bad Zip file: \"%s\"\n",szPath);
+			{
+				Log_Write_L1(ILogger::LT_ERROR, cString("Bad Zip file: ") + szPath);
+			}
 			else
 			{
 				for (int i = 0; i < pZip->GetNumFiles(); i++)
@@ -191,11 +217,11 @@ void TestResourceCache()
 			shared_ptr<IResHandle> texture = pResCache->GetHandle(*pResource);
 			if(texture.get() == NULL)
 			{
-				printf("Could not create cache for %s\n", (*iter).GetData());
+				Log_Write_L1(ILogger::LT_ERROR, "Could not create cache for " + (*iter));
 			}
 			else
 			{
-				printf("added in cache : %s\n", (*iter).GetData());
+				Log_Write_L1(ILogger::LT_DEBUG, "added in cache : " + (*iter));
 			}
 			SAFE_DELETE(pResource);
 		}	
@@ -203,32 +229,76 @@ void TestResourceCache()
 		strFileNames.clear();
 	}
 	SAFE_DELETE(pResCache);
+	
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: Resource Cache");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 }
 
 void TestRandomGenerator()
 {
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Random Generator");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+
 	IRandomGenerator * pRandomGenerator =	IRandomGenerator::CreateRandomGenerator();
 
-	printf("Generating Random Seed \n");
+	Log_Write_L1(ILogger::LT_COMMENT, "Generating Random Seed");
 	pRandomGenerator->Randomize();
 	int nSeed = pRandomGenerator->GetRandomSeed();
-	printf("Seed : %d\n", nSeed);
-	printf("Generating 100 Random no.s between 1 to 100\n");
+	Log_Write_L1(ILogger::LT_DEBUG, "Seed : " + cString(20, "%d", nSeed));
+	Log_Write_L1(ILogger::LT_COMMENT, "Generating 100 Random no.s between 1 to 100");
 	for (int i = 0; i < 100; i++)
 	{
-		printf("%d ", pRandomGenerator->Random(100));
+		Log_Write_L1(ILogger::LT_DEBUG, "Random Number " + cString(20, "%d: %d", i, pRandomGenerator->Random(100)));
 	}
 
 	SAFE_DELETE(pRandomGenerator);
 
 	pRandomGenerator =	IRandomGenerator::CreateRandomGenerator();
 	pRandomGenerator->SetRandomSeed(nSeed);
-	printf("\n\nRegenerating Random no.s using seed : %d\n", nSeed);
-	printf("Generating 100 Random no.s between 1 to 100\n");
+	Log_Write_L1(ILogger::LT_DEBUG, "Regenerating Random no.s using seed : " + cString(20, "%d", nSeed));
+	Log_Write_L1(ILogger::LT_COMMENT, "Generating 100 Random no.s between 1 to 100");
 	for (int i = 0; i < 100; i++)
 	{
-		printf("%d ", pRandomGenerator->Random(100));
+		Log_Write_L1(ILogger::LT_DEBUG, "Random Number " + cString(20, "%d: %d", i, pRandomGenerator->Random(100)));
 	}
 
 	SAFE_DELETE(pRandomGenerator);
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: Random Generator");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+}
+
+void TestFileInput()
+{
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: FileInput");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+
+	char szPath[MAX_PATH_WIDTH];
+	printf("Enter file path (params.ini): ");
+	gets(szPath);
+
+	IFileInput * pFile = IFileInput::CreateUserFile();
+
+	if(pFile != NULL)
+	{
+		if(pFile->Open(szPath))
+		{
+			Log_Write_L1(ILogger::LT_COMMENT, "Reading the whole file");
+			cString str = pFile->ReadAll();
+			Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+			Log_Write_L1(ILogger::LT_DEBUG, str);
+			Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+			pFile->Close();
+		}
+	}
+
+	SAFE_DELETE(pFile);
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: FileInput");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 }

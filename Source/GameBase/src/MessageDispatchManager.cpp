@@ -79,11 +79,11 @@ void cMessageDispatchManager::Discharge( IBaseEntity * const pReceiver, const AI
 {
 	if(pReceiver->VOnHandleMessage(msg))
 	{
-		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Message %d Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
+		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Message %d Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
 	}
 	else
 	{
-		Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Message %d Not Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
+		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Message %d Not Handled by ", msg.Msg) + IEntityManager::GetInstance()->VGetEntityNameFromID(pReceiver->VGetID()));
 	}
 }
 

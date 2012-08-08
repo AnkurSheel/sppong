@@ -32,11 +32,6 @@ cString::cString(const char * s, int n)
 {
 }
 
-cString::cString(const char * s, int p, int n)
-: m_str(s, p, n)
-{
-}
-
 cString::cString(int iMaxSize, const char * const lpFmt, ... )
 {
 	char * szBuffer = DEBUG_NEW char[iMaxSize+1];
@@ -60,16 +55,6 @@ cString cString::operator=( const cString & str)
 {
 	m_str = str.m_str;
 	return m_str;
-}
-
-const char * const cString::operator () ()
-{ 
-	return m_str.c_str(); 
-}
-
-void cString::operator = (const char * const str)
-{
-	m_str = str;
 }
 
 void cString::operator += (const char * const str)

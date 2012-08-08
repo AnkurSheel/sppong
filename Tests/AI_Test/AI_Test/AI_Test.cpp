@@ -30,7 +30,11 @@ void main(int argc, char* argv[])
 {
 	CheckForMemoryLeaks() ;
 
-	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
+	ILogger::GetInstance()->StartConsoleWin(100,60, "Log.txt");
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Testing FSM");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 	IBaseEntity * pEntity1 = new cEntity1(0, "Entity1");
 	IBaseEntity * pEntity2 = new cEntity2(1, "Entity2");
 
@@ -49,14 +53,19 @@ void main(int argc, char* argv[])
 	SAFE_DELETE(pEntity1);
 	SAFE_DELETE(pEntity2);
 
-	IEntityManager::Destroy();
-	IMessageDispatchManager::Destroy();
-	ILogger::Destroy();
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Testing FSM");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE| FOREGROUND_RED | FOREGROUND_GREEN|FOREGROUND_INTENSITY);
 	printf("Press Any Key to continue");
 	while (!_kbhit())
 	{
 	}
+
+	IEntityManager::Destroy();
+	IMessageDispatchManager::Destroy();
+	ILogger::Destroy();
+
 }
 

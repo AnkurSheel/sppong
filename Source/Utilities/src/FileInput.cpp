@@ -37,10 +37,10 @@ bool cFileInput::Open(const cString & strFileName)
 
 	if(err != 0)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not open file: %s, %s", m_strFileName.GetData(), strerror(err)));
+		Log_Write_L1(ILogger::LT_ERROR, "Could not open file: " + m_strFileName + " : " + strerror(err));
 		return false;
 	}
-	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Opened file: %s", m_strFileName.GetData()));
+	Log_Write_L2(ILogger::LT_COMMENT, "Opened file: " + m_strFileName);
 	return true;
 }
 
@@ -50,14 +50,16 @@ bool cFileInput::Close()
 	{
 		if(fclose(m_fStdOut) != 0)
 		{
-			Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not close file: %s, %s", m_strFileName.GetData(), strerror(errno)));
+			Log_Write_L1(ILogger::LT_ERROR, "Could not close file: " + m_strFileName + " : " + strerror(errno));
 			return false;
 		}
 		m_fStdOut = NULL;
 		return true;
 	}
 	else
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "File Handle not found : %s", m_strFileName.GetData()));
+	{
+			Log_Write_L1(ILogger::LT_ERROR, "File Handle not found : " + m_strFileName);
+	}
 
 	return false;
 }
@@ -66,18 +68,18 @@ cString cFileInput::ReadAll()
 {
 	if(!m_fStdOut)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "File Handle not found : %s", m_strFileName.GetData()));
+		Log_Write_L1(ILogger::LT_ERROR, "File Handle not found : " + m_strFileName);
 		return "";
 	}
 	struct __stat64 fileStat;
 
 	if((_stat64(m_strFileName.GetData(), &fileStat)) < 0)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "File open failed (couldn't get file size): %s, %s", m_strFileName.GetData(), strerror(errno)));
+		Log_Write_L1(ILogger::LT_ERROR, "File open failed (couldn't get file size): " + m_strFileName + " : " + strerror(errno));
 		return false;
 	}
 
-	Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Size of File %s : %d", m_strFileName.GetData(), fileStat.st_size));
+	Log_Write_L2(ILogger::LT_DEBUG, "Size of File " + m_strFileName + cString(20, " : %d bytes", fileStat.st_size));
 	return Read(fileStat.st_size);
 }
 
@@ -85,7 +87,7 @@ cString cFileInput::Read(size_t size)
 {
 	if(!m_fStdOut)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "File Handle not found : %s", m_strFileName.GetData()));
+		Log_Write_L1(ILogger::LT_ERROR, "File Handle not found : " + m_strFileName);
 		return "";
 	}
 	
@@ -96,10 +98,10 @@ cString cFileInput::Read(size_t size)
 
 	if(ferror(m_fStdOut) || nNoOfItemsRead != size)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "File open failed (couldn't get file size): %s, %s", m_strFileName.GetData(), strerror(errno)));
+		Log_Write_L1(ILogger::LT_ERROR, "File open failed (couldn't get file size): " + m_strFileName + " : " + strerror(errno));
 	}
-
-	m_strBuffer =  szbuffer;
+	cString str(szbuffer, nNoOfItemsRead);
+	m_strBuffer = str;
 	SAFE_DELETE_ARRAY(szbuffer);
 	return m_strBuffer;
 }

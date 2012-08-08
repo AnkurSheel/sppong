@@ -49,14 +49,14 @@ void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cStr
 	{
 		SetConsoleTitle("Console Logger");
 		m_hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		COORD co = {ciWidth, ciHeight};
-
-		SetConsoleScreenBufferSize(m_hStdOut, co);
 		FILE *fp;
 		freopen_s(&fp, "CONOUT$", "w", stdout);
-
 	}
+	COORD co = {ciWidth, ciHeight};
+	SetConsoleScreenBufferSize(m_hStdOut, co);
+
+	SMALL_RECT windowSize = {0, 0, ciWidth-1, ciHeight-1};
+	SetConsoleWindowInfo( m_hStdOut, TRUE, &windowSize);
 #endif
 	if (!cfName.IsEmpty())
 	{
