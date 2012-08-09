@@ -51,11 +51,11 @@ namespace Base
 	protected:
 		bool	m_bValid;
 		char	m_Data[iSize];
-
 	};
 
 	template<class T>
-	class tOptional : public tOptionalBase<sizeof(T)>
+	class tOptional 
+		: public tOptionalBase<sizeof(T)>
 	{
 	public:
 		tOptional()
@@ -83,7 +83,7 @@ namespace Base
 				construct(t);
 				m_bValid = true;
 			}
-			return * this
+			return * this;
 		}
 
 		tOptional(const tOptional & t)
@@ -98,12 +98,12 @@ namespace Base
 		tOptional & operator= (const tOptional & t)
 		{
 			//TODO : change to assert later
-			assert(! (this  == &other));
+			assert(! (this  == &t));
 
 				if (m_bValid)
 				{
 					m_bValid = false;
-					destroy();
+					Destroy();
 				}
 
 				if(t.m_bValid)
@@ -111,7 +111,7 @@ namespace Base
 					construct(*t);
 					m_bValid = true;
 				}
-				return * this
+				return * this;
 		}
 
 		const bool operator == (const tOptional & t)
@@ -192,7 +192,7 @@ namespace Base
 
 		const T * const GetT() const 
 		{ 
-			return reinterpret_cast<T const * const>(m_data); 
+			return reinterpret_cast<T const * const>(m_Data); 
 		}
 
 		T * const GetT()			 

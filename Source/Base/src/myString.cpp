@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "myString.h"
 #include <time.h>
+#include "Optional.h"
 
 using namespace Base;
 
@@ -112,16 +113,111 @@ int Base::cString::GetLength() const
 }
 // ***************************************************************
 
-BASE_API cString Base::cString::GetSubString( const size_t iStartIndex, const size_t iEndIndex )
+cString Base::cString::GetSubString( const size_t iStartIndex, const size_t iEndIndex ) const
 {
 	if (iStartIndex < 0 || iEndIndex > m_str.length())
 	{
 		return "";
 	}
 
-	return m_str.substr(iStartIndex, iEndIndex);
+	return m_str.substr(iStartIndex, (iEndIndex-iStartIndex));
 }
+
+tOptional<int> Base::cString::ToInt() const
+{
+	size_t idx;
+	tOptional<int> val = std::stoi(m_str, &idx);
+	if(idx != m_str.length())
+	{
+		val.clear();
+	}
+	return val;
+}
+
+tOptional<float> Base::cString::ToFloat() const
+{
+	size_t idx;
+	tOptional<float> val = std::stof(m_str, &idx);
+	if(idx != m_str.length())
+	{
+		val.clear();
+	}
+	return val;
+}
+
+tOptional<bool> Base::cString::ToBool() const
+{
+	size_t idx;
+	tOptional<bool> val;
+	std::string str;
+	
+	if(stricmp(m_str.data(), "true") == 0)
+	{
+		val = true;
+	}
+	else if(stricmp(m_str.data(), "false") == 0)
+	{
+		val = false;
+	}
+	else
+	{
+		val.clear();
+	}
+	return val;
+}
+
+tOptional<int> Base::cString::FindFirstNotOf(const cString & strDelims, const int iOffset) const
+{
+	tOptional<int> val;
+	
+	std::string::size_type pos = m_str.find_first_not_of(strDelims.GetData(), iOffset);
+	if(pos == std::string::npos)
+	{
+		val.clear();
+	}
+	else
+	{
+		val = pos;
+	}
+
+	return val;
+}
+
+BASE_API tOptional<int> Base::cString::FindFirstOf(const cString & strDelims, const int iOffset) const
+{
+	tOptional<int> val;
+	
+	std::string::size_type pos = m_str.find_first_of(strDelims.GetData(), iOffset);
+	if(pos == std::string::npos)
+	{
+		val.clear();
+	}
+	else
+	{
+		val = pos;
+	}
+
+	return val;
+}
+
 // ***************************************************************
+tOptional<int> Base::cString::FindIndex(const char chChar, const int iOffset) const
+{
+	tOptional<int> val;
+
+	std::string::size_type pos = m_str.find(chChar, iOffset);
+	if(pos == std::string::npos)
+	{
+		val.clear();
+	}
+	else
+	{
+		val = pos;
+	}
+
+	return val;
+
+}
 
 void Base::cString::Insert( const int iIndex, const cString & strText )
 {

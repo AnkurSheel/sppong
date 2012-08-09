@@ -7,10 +7,12 @@
 #include "ResCache.hxx"
 #include "RandomGenerator.hxx"
 #include "FileInput.hxx"
+#include "ParamLoaders.hxx"
 #include <direct.h>
 #include <vector>
 #include <memory>
 #include <conio.h>
+#include "Optional.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -35,6 +37,7 @@ void TestZipFile();
 void TestResourceCache();
 void TestRandomGenerator();
 void TestFileInput();
+void TestParamLoader();
 
 void main(int argc, char * argv[])
 {
@@ -52,6 +55,9 @@ void main(int argc, char * argv[])
 	Log_Write_L1(ILogger::LT_UNKNOWN, "");
 
 	TestFileInput();
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "");
+	TestParamLoader();
 
 	ILogger::Destroy();
 
@@ -132,7 +138,7 @@ void TestZipFile()
 				}
 				else if (true == pZip->ReadFile(i, pData))
 				{
-					Log_Write_L1(ILogger::LT_COMMENT, "OK", );
+					Log_Write_L1(ILogger::LT_COMMENT, "OK");
 					cString dpath= "Data\\Test\\" + strFileName;
 
 					char *p = strrchr(const_cast<char *>(dpath.GetData()), '\\');
@@ -285,20 +291,130 @@ void TestFileInput()
 
 	if(pFile != NULL)
 	{
+		Log_Write_L1(ILogger::LT_COMMENT, "Reading the whole file");
+		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 		if(pFile->Open(szPath, std::ios_base::in))
 		{
-			Log_Write_L1(ILogger::LT_COMMENT, "Reading the whole file");
 			cString str = pFile->ReadAll();
-			Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
-			Log_Write_L1(ILogger::LT_DEBUG, str);
-			Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+			if(str.IsEmpty())
+			{
+					Log_Write_L1(ILogger::LT_ERROR, "Failed");
+			}
+			else
+			{
+				Log_Write_L1(ILogger::LT_COMMENT, "Successfull");
+			}
+				
 			pFile->Close();
 		}
+		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+		Log_Write_L1(ILogger::LT_UNKNOWN, "");
+		Log_Write_L1(ILogger::LT_COMMENT, "Reading the file 1 string at time");
+		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+		if(pFile->Open(szPath, std::ios_base::in))
+		{
+			while(!pFile->IsEOF())
+			{
+				pFile->ReadLine();
+				Log_Write_L1(ILogger::LT_DEBUG, pFile->GetBuffer());
+			}
+			pFile->Close();
+		}
+		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+		Log_Write_L1(ILogger::LT_UNKNOWN, "");
 	}
 
 	SAFE_DELETE(pFile);
 
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: FileInput");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+}
+
+void TestParamLoader()
+{
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: ParamLoader");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+
+	char szPath[MAX_PATH_WIDTH];
+	printf("Enter file path (params.ini): ");
+	gets(szPath);
+
+	IParamLoader * pFile = IParamLoader::CreateParamLoader();
+
+	if(pFile != NULL)
+	{
+		if(pFile->VOpen(szPath))
+		{
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Int");
+			tOptional<int> intVal = pFile->VGetNextParameterAsInt();
+			if(intVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *intVal));
+			}
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Int");
+			intVal = pFile->VGetNextParameterAsInt();
+			if(intVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *intVal));
+			} 
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Int");
+			intVal = pFile->VGetNextParameterAsInt();
+			if(intVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *intVal));
+			} 
+
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
+			tOptional<float> floatVal = pFile->VGetNextParameterAsFloat();
+			if(floatVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
+			}
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
+			floatVal = pFile->VGetNextParameterAsFloat();
+			if(floatVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
+			}
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
+			floatVal = pFile->VGetNextParameterAsFloat();
+			if(floatVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
+			}
+			floatVal = pFile->VGetNextParameterAsFloat();
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
+			if(floatVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
+			}
+
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As bool");
+			tOptional<bool> boolVal = pFile->VGetNextParameterAsBool();
+			if(boolVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *boolVal));
+			}
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As bool");
+			boolVal = pFile->VGetNextParameterAsBool();
+			if(boolVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *boolVal));
+			}
+			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As bool");
+			boolVal = pFile->VGetNextParameterAsBool();
+			if(boolVal.IsValid())
+			{
+				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *boolVal));
+			}
+			pFile->VClose();
+		}
+	}
+	SAFE_DELETE(pFile);
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: ParamLoader");
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 }

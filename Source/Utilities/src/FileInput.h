@@ -13,23 +13,21 @@
 #include "FileInput.hxx"
 #include <fstream>
 
-namespace Base
-{
-	class cString;
-}
-
 namespace Utilities
 {
 	class cFileInput
 		: public IFileInput
+		, public Base::cNonCopyable
 	{
 	public:
 		cFileInput();
 		~cFileInput();
 		bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode);
 		Base::cString ReadAll();
-		Base::cString Read(size_t size);
+		Base::cString Read(std::streamoff);
 		bool Close();
+		void ReadLine();
+		bool IsEOF();
 		Base::cString GetBuffer() const;
 
 	protected:

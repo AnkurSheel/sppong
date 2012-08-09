@@ -67,7 +67,7 @@ cString cFileInput::ReadAll()
 	return Read(m_iFileSize);
 }
 
-cString cFileInput::Read(size_t size)
+cString cFileInput::Read(std::streamoff size)
 {
 	if(!m_inputFile)
 	{
@@ -76,7 +76,11 @@ cString cFileInput::Read(size_t size)
 	}
 
 	char * szbuffer = DEBUG_NEW char[size];
-	m_inputFile._Read_s(szbuffer, size, size);
+	m_inputFile.read(szbuffer, size);
+	if(m_inputFile.bad() || (m_inputFile.fail() && !m_inputFile.eof()))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Error in reading file: " + m_strFileName);
+	}
 
 	cString str(szbuffer, size);
 	m_strBuffer = str;
@@ -84,13 +88,25 @@ cString cFileInput::Read(size_t size)
 	return m_strBuffer;
 }
 
+bool cFileInput::IsEOF()
+{
+	return m_inputFile.eof();
+}
+
 cString cFileInput::GetBuffer() const
 {
 	return m_strBuffer;
 }
 
+void cFileInput::ReadLine()
+{
+	std::string str;
+	std::getline(m_inputFile, str);
+	m_strBuffer = str;
+}
+
 IFileInput * IFileInput::CreateInputFile()
 {
-	IFileInput * pFile = new cFileInput();
+	IFileInput * pFile = DEBUG_NEW cFileInput();
 	return pFile;
 }

@@ -12,11 +12,6 @@
 
 #include "UtilitiesDefines.h"
 
-namespace Base
-{
-	class cString;
-}
-
 namespace Utilities
 {
 	class IFileInput
@@ -26,7 +21,9 @@ namespace Utilities
 		UTILITIES_API virtual bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode) = 0;
 		UTILITIES_API virtual bool Close() = 0;
 		UTILITIES_API virtual Base::cString ReadAll() = 0;
-		UTILITIES_API virtual Base::cString Read(size_t size) = 0;
+		UTILITIES_API virtual Base::cString Read(std::streamoff size) = 0;
+		UTILITIES_API virtual void ReadLine() = 0;
+		UTILITIES_API virtual bool IsEOF() = 0;
 		UTILITIES_API virtual Base::cString GetBuffer() const = 0;
 		
 		UTILITIES_API static  IFileInput * CreateInputFile();

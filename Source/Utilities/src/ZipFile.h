@@ -25,9 +25,9 @@ namespace Base
 
 namespace Utilities
 {
-	class cZipFile :
-		public IZipFile,
-		public cFileInput
+	class cZipFile
+		: public IZipFile
+		, public cFileInput
 
 	{
 	private:

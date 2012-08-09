@@ -125,7 +125,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 	m_inputFile.seekg(-(int)sizeof(dh), std::ios_base::end);
 	long dhOffset = m_inputFile.tellg();
 	memset(&dh, 0, sizeof(dh));
-	m_inputFile._Read_s((char *)(&dh), sizeof(dh), sizeof(dh));
+	m_inputFile.read((char *)(&dh), sizeof(dh));
 
 	// Check
 	if (dh.sig != TZipDirHeader::SIGNATURE)
@@ -198,14 +198,18 @@ bool cZipFile::Init(const Base::cString & resFileName)
 
 tOptional<int> cZipFile::Find(const Base::cString & strPath) const
 {
+	tOptional<int> val;
+
 	char lwrPath[MAX_PATH_WIDTH];
 	strcpy_s(lwrPath, MAX_PATH_WIDTH, strPath.GetData());
 	_strlwr_s(lwrPath, MAX_PATH_WIDTH);
 	ZipContentsMap::const_iterator i = m_ZipContentsMap.find(lwrPath);
 	if (i==m_ZipContentsMap.end())
-		return -1;
+		val.clear();
+	else
+		val = (*i).second;
 
-	return (*i).second;
+	return val;
 }
 
 void cZipFile::End()
@@ -262,7 +266,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	TZipLocalHeader h;
 
 	memset(&h, 0, sizeof(h));
-	m_inputFile._Read_s((char *)(&h), sizeof(h), sizeof(h));
+	m_inputFile.read((char *)(&h), sizeof(h));
 	if (h.sig != TZipLocalHeader::SIGNATURE)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Corrupt ZipFile: %s. Local Header Signature did not match", m_strFileName.GetData()));
@@ -276,7 +280,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	{
 		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "No Compression for file %s in ZipFile: %s.", GetFilename(i).GetData(), m_strFileName.GetData()));
 		// Simply read in raw stored data.
-		m_inputFile._Read_s((char *)(pBuf), h.cSize, h.cSize);
+		m_inputFile.read((char *)(pBuf), h.cSize);
 
 		return true;
 	}
@@ -291,7 +295,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 		return false;
 
 	memset(pcData, 0, h.cSize);
-	m_inputFile._Read_s(pcData, h.cSize, h.cSize);
+	m_inputFile.read(pcData, h.cSize);
 
 	bool ret = true;
 
@@ -344,7 +348,7 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 	TZipLocalHeader h;
 
 	memset(&h, 0, sizeof(h));
-	m_inputFile._Read_s((char *)(&h), sizeof(h), sizeof(h));
+	m_inputFile.read((char *)(&h), sizeof(h));
 	if (h.sig != TZipLocalHeader::SIGNATURE)
 		return false;
 
@@ -354,7 +358,7 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 	if (h.compression == Z_NO_COMPRESSION)
 	{
 		// Simply read in raw stored data.
-		m_inputFile._Read_s((char *)(pBuf), h.cSize, h.cSize);
+		m_inputFile.read((char *)(pBuf), h.cSize);
 		return true;
 	}
 	else if (h.compression != Z_DEFLATED)
@@ -366,7 +370,7 @@ bool cZipFile::ReadLargeFile(int i, void *pBuf, void (*callback)(int, bool &))
 		return false;
 
 	memset(pcData, 0, h.cSize);
-	m_inputFile._Read_s(pcData, h.cSize, h.cSize);
+	m_inputFile.read(pcData, h.cSize);
 
 	bool ret = true;
 
