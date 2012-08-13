@@ -47,12 +47,17 @@ namespace Base
 		BASE_API Base::tOptional<int> FindIndex(const char chChar, const int iOffset) const;
 		BASE_API Base::tOptional<int> FindFirstNotOf(const cString & strDelims, const int iOffset) const;
 		BASE_API Base::tOptional<int> FindFirstOf(const cString & strDelims, const int iOffset) const;
+		BASE_API Base::tOptional<int> FindLastNotOf(const cString & strDelims, const int iOffset) const;
+		BASE_API Base::tOptional<int> FindLastOf(const cString & strDelims, const int iOffset) const;
 		BASE_API void Insert(const int iIndex, const cString & strText);
 		BASE_API void Remove(const int iIndex, const int iQuantity);
-		BASE_API int Compare (const cString & strRight) const;
-
-		BASE_API Base::tOptional<int> ToInt() const;
-		BASE_API Base::tOptional<float> ToFloat() const;
+		BASE_API bool Compare (const cString & strRight) const;
+		BASE_API void TrimLeft();
+		BASE_API void TrimRight();
+		BASE_API void TrimBoth();
+		
+		BASE_API int ToInt() const;
+		BASE_API float ToFloat() const;
 		BASE_API Base::tOptional<bool> ToBool() const;
 
 		BASE_API static cString TimeToString(time_t time);

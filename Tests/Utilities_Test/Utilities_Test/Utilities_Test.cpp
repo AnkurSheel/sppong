@@ -345,7 +345,8 @@ void TestParamLoader()
 
 	if(pFile != NULL)
 	{
-		if(pFile->VOpen(szPath))
+		pFile->VLoadParametersFromFile(szPath);
+		/*if(pFile->VOpen(szPath))
 		{
 			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Int");
 			tOptional<int> intVal = pFile->VGetNextParameterAsInt();
@@ -410,7 +411,7 @@ void TestParamLoader()
 				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *boolVal));
 			}
 			pFile->VClose();
-		}
+		}*/
 	}
 	SAFE_DELETE(pFile);
 

@@ -21,14 +21,61 @@ Utilities::cParamLoader::~cParamLoader()
 {
 }
 
-bool Utilities::cParamLoader::VOpen(const Base::cString & strFileName)
-{
-	return cFileInput::Open(strFileName, std::ios_base::in);
-}
+//bool Utilities::cParamLoader::VOpen(const Base::cString & strFileName)
+//{
+//	return cFileInput::Open(strFileName, std::ios_base::in);
+//}
+//
+//bool Utilities::cParamLoader::VClose()
+//{
+//	return cFileInput::Close();
+//}
 
-bool Utilities::cParamLoader::VClose()
+// ***************************************************************
+void Utilities::cParamLoader::VLoadParametersFromFile(const Base::cString & strFileName)
 {
-	return cFileInput::Close();
+	if(cFileInput::Open(strFileName, std::ios_base::in))
+	{
+		const cString delims(" =\t");
+		tOptional<int> begIndex;
+		tOptional<int> endIndex;
+		
+		cString strParam1;
+		cString strParam2;
+
+		ReadLine();
+
+		while(!IsEOF() || !m_strBuffer.IsEmpty())
+		{
+			if(!m_strBuffer.IsEmpty())
+			{
+				RemoveCommentsFromLine();
+				m_strBuffer.TrimBoth();
+				if(!m_strBuffer.IsEmpty())
+				{
+					endIndex = m_strBuffer.FindFirstOf(delims, 0);
+					if(endIndex.IsInvalid())
+					{
+						m_vCommandLineArguments.push_back(m_strBuffer);
+					}
+					else
+					{
+						strParam1 = m_strBuffer.GetSubString(0, *endIndex);
+						m_vCommandLineArguments.push_back(strParam1);
+
+						begIndex = m_strBuffer.FindFirstNotOf(delims, *endIndex);
+						if(begIndex.IsValid())
+						{
+							strParam2 = m_strBuffer.GetSubString(*begIndex, *endIndex);
+							m_vCommandLineArguments.push_back(strParam2);
+						}
+					}
+				}
+			}
+			ReadLine();
+		}
+		cFileInput::Close();
+	}
 }
 
 tOptional<int> Utilities::cParamLoader::VGetNextParameterAsInt()
@@ -73,15 +120,15 @@ void Utilities::cParamLoader::GetNextParameter()
 	while(m_strBuffer.IsEmpty() && !IsEOF());
 	if(!m_strBuffer.IsEmpty())
 	{
-		RemoveWhiteSpacesFromFront();
+		m_strBuffer.TrimLeft();
 		RemoveCommentsFromLine();
+		m_strBuffer.TrimBoth();
 		if(m_strBuffer.IsEmpty())
 		{
 			GetNextParameter();
 			return;
 		}
 	}
-
 	GetParameterValueAsString();
 }
 
@@ -119,27 +166,6 @@ void Utilities::cParamLoader::RemoveCommentsFromLine()
 	if(index.IsValid())
 	{
 		m_strBuffer = m_strBuffer.GetSubString(0, *index);
-	}
-}
-
-void Utilities::cParamLoader::RemoveWhiteSpacesFromFront()
-{
-	const cString delims(" \t");
-	tOptional<int> begIndex;
-	tOptional<int> endIndex;
-
-	endIndex = m_strBuffer.FindFirstNotOf(delims, 0);
-	if(endIndex.IsInvalid())
-	{
-		m_strBuffer = "";
-	}
-	else if(*endIndex > 0)
-	{
-		begIndex = m_strBuffer.FindFirstOf(delims, 0);
-		if(begIndex.IsValid())
-		{
-			m_strBuffer = m_strBuffer.GetSubString(*endIndex, m_strBuffer.GetLength());
-		}
 	}
 }
 
