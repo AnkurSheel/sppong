@@ -25,9 +25,14 @@ namespace Utilities
 		//UTILITIES_API virtual bool VOpen(const Base::cString & strFileName) = 0;
 		//UTILITIES_API virtual bool VClose() = 0;
 		UTILITIES_API virtual void VLoadParametersFromFile(const Base::cString & strFileName) = 0;
-		UTILITIES_API virtual Base::tOptional<int> VGetNextParameterAsInt() = 0;
-		UTILITIES_API virtual Base::tOptional<float> VGetNextParameterAsFloat() = 0;
-		UTILITIES_API virtual Base::tOptional<bool> VGetNextParameterAsBool() = 0;
+		UTILITIES_API virtual Base::tOptional<int> VGetParameterValueAsInt(const Base::cString & strParameter) = 0;
+		UTILITIES_API virtual Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter) = 0;
+		UTILITIES_API virtual Base::tOptional<bool> VGetParameterValueAsBool(const Base::cString & strParameter) = 0;
+		UTILITIES_API virtual Base::tOptional<Base::cString> VGetParameterValueAsString(const Base::cString & strParameter) = 0;
+		UTILITIES_API virtual bool VIsParameter(const Base::cString & strParameter) = 0;
+		//UTILITIES_API virtual Base::tOptional<int> VGetNextParameterAsInt() = 0;
+		//UTILITIES_API virtual Base::tOptional<float> VGetNextParameterAsFloat() = 0;
+		//UTILITIES_API virtual Base::tOptional<bool> VGetNextParameterAsBool() = 0;
 		UTILITIES_API static IParamLoader * CreateParamLoader();
 	};
 }

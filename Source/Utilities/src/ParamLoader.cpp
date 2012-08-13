@@ -53,6 +53,10 @@ void Utilities::cParamLoader::VLoadParametersFromFile(const Base::cString & strF
 				m_strBuffer.TrimBoth();
 				if(!m_strBuffer.IsEmpty())
 				{
+					if(m_strBuffer[0] != '-')
+					{
+						m_strBuffer.Insert(0, "-");
+					}
 					endIndex = m_strBuffer.FindFirstOf(delims, 0);
 					if(endIndex.IsInvalid())
 					{
@@ -76,6 +80,110 @@ void Utilities::cParamLoader::VLoadParametersFromFile(const Base::cString & strF
 		}
 		cFileInput::Close();
 	}
+}
+
+Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt(const Base::cString & strParameter)
+{
+	tOptional<int> val;
+	std::vector<cString>::const_iterator iter;
+	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	{
+		if(iter->CompareInsensitive(strParameter))
+		{
+			iter++;
+			if(iter == m_vCommandLineArguments.end())
+			{
+				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				val.clear();
+				break;
+			}
+			cString str = *iter;
+			val = str.ToInt();
+			break;
+		}
+	}
+	return val;
+}
+
+Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const Base::cString & strParameter)
+{
+	tOptional<float> val;
+	std::vector<cString>::const_iterator iter;
+	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	{
+		if(iter->CompareInsensitive(strParameter))
+		{
+			iter++;
+			if(iter == m_vCommandLineArguments.end())
+			{
+				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				val.clear();
+				break;
+			}
+			cString str = *iter;
+			val = str.ToFloat();
+			break;
+		}
+	}
+	return val;
+}
+
+Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Base::cString & strParameter)
+{
+	tOptional<bool> val;
+	std::vector<cString>::const_iterator iter;
+	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	{
+		if(iter->CompareInsensitive(strParameter))
+		{
+			iter++;
+			if(iter == m_vCommandLineArguments.end())
+			{
+				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				val.clear();
+				break;
+			}
+			cString str = *iter;
+			val = str.ToBool();
+			break;
+		}
+	}
+	return val;
+}
+
+Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsString(const Base::cString & strParameter)
+{
+	tOptional<cString> val;
+	std::vector<cString>::const_iterator iter;
+	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	{
+		if(iter->CompareInsensitive(strParameter))
+		{
+			iter++;
+			if(iter == m_vCommandLineArguments.end() || (*iter)[0] == '-')
+			{
+				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				val.clear();
+				break;
+			}
+			val = *iter;
+			break;
+		}
+	}
+	return val;
+}
+
+bool Utilities::cParamLoader::VIsParameter(const Base::cString & strParameter)
+{
+	std::vector<cString>::const_iterator iter;
+	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	{
+		if(iter->CompareInsensitive(strParameter))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 tOptional<int> Utilities::cParamLoader::VGetNextParameterAsInt()
@@ -162,7 +270,9 @@ void Utilities::cParamLoader::GetParameterValueAsString()
 
 void Utilities::cParamLoader::RemoveCommentsFromLine()
 {
-	tOptional<int> index = m_strBuffer.FindIndex('/', 0);
+	const cString delims("/;");
+	tOptional<int> index;
+	index = m_strBuffer.FindFirstOf(delims, 0);
 	if(index.IsValid())
 	{
 		m_strBuffer = m_strBuffer.GetSubString(0, *index);

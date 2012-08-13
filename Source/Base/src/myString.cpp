@@ -81,13 +81,32 @@ bool Base::cString::operator == (const cString & strRight) const
 	return m_str.compare(strRight.m_str) == 0;
 }
 
+const char Base::cString::operator[](const int index) const
+{
+	if(index < GetLength())
+	{
+		return m_str[index];
+	}
+	return '\0';
+}
+
+char Base::cString::operator[](const int index)
+{
+	if(index < GetLength())
+	{
+		return m_str[index];
+	}
+	return '\0';
+}
+
 bool Base::cString::Compare (const cString & strRight) const
 {
-	if(m_str.compare(strRight.m_str) == 0)
-	{
-		return true;
-	}
-	return false;
+	return m_str.compare(strRight.m_str) == 0;
+}
+
+bool Base::cString::CompareInsensitive (const cString & strRight) const
+{
+	return _stricmp(GetData(), strRight.GetData()) == 0;
 }
 
 const char * const Base::cString::GetData() const
@@ -125,14 +144,95 @@ Base::cString Base::cString::GetSubString( const size_t iStartIndex, const size_
 	return m_str.substr(iStartIndex, (iEndIndex-iStartIndex));
 }
 
-int Base::cString::ToInt() const
+ Base::tOptional<int> Base::cString::ToInt() const
 {
-	return std::atoi(m_str.data());
+	tOptional<int> value = 0;
+	int len = m_str.length();
+	if(len == 0)
+	{
+		value.clear();
+		return value;
+	}
+	
+	int startIndex = 0;
+	bool bNegative = false;
+
+	if(m_str[0] == '-')
+	{
+		startIndex++;
+		bNegative = true;
+	}
+	value = m_str[startIndex++] - '0';
+	for(int i = startIndex; i < len; i++)
+	{
+		char ch = m_str[i];
+		if(ch < '0' || ch > '9')
+		{
+			value.clear();
+			return value;
+		}
+		value = (*value * 10 )+ ((ch - '0'));
+	}
+
+	if(bNegative)
+	{
+		value = -(*value);
+	}
+	return value;
 }
 
-float Base::cString::ToFloat() const
+Base::tOptional<float> Base::cString::ToFloat() const
 {
-	return (float)std::atof(m_str.data());
+	tOptional<float> value = 0;
+	int len = m_str.length();
+	if(len == 0)
+	{
+		value.clear();
+		return value;
+	}
+	
+	int startIndex = 0;
+	bool bNegative = false;
+
+	if(m_str[0] == '-')
+	{
+		startIndex++;
+		bNegative = true;
+	}
+	value = m_str[startIndex++] - '0';
+	int index = startIndex;
+	for(; index < len; index++)
+	{
+		char ch = m_str[index];
+		if(ch < '0' || ch > '9')
+		{
+			if(ch == '.')
+			{
+				index++;
+				break;
+			}
+			else
+			{
+				value.clear();
+				return value;
+			}
+		}
+		value = (*value * 10 )+ ((ch - '0'));
+	}
+	float decimalDigit = 0.1f;
+	float decimalValue = 0.0f;
+	for(; index < len; index++)
+	{
+		char ch = m_str[index];
+		if(ch < '0' || ch > '9')
+		{
+			value.clear();
+			return value;
+		}
+		decimalValue = decimalValue+ ((ch - '0') * decimalDigit);
+	}
+	value = *value + decimalValue;
+	return value;
 }
 
 Base::tOptional<bool> Base::cString::ToBool() const

@@ -338,7 +338,7 @@ void TestParamLoader()
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 
 	char szPath[MAX_PATH_WIDTH];
-	printf("Enter file path (params.ini): ");
+	printf("Enter file path (ParamLoaderTest.ini): ");
 	gets(szPath);
 
 	IParamLoader * pFile = IParamLoader::CreateParamLoader();
@@ -346,72 +346,103 @@ void TestParamLoader()
 	if(pFile != NULL)
 	{
 		pFile->VLoadParametersFromFile(szPath);
-		/*if(pFile->VOpen(szPath))
+		
+		if(pFile->VIsParameter("-debug"))
 		{
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Int");
-			tOptional<int> intVal = pFile->VGetNextParameterAsInt();
-			if(intVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *intVal));
-			}
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Int");
-			intVal = pFile->VGetNextParameterAsInt();
-			if(intVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *intVal));
-			} 
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Int");
-			intVal = pFile->VGetNextParameterAsInt();
-			if(intVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *intVal));
-			} 
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : debug found");
+		}
+		if(!pFile->VIsParameter("-nooption"))
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : nooption not found");
+		}
 
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
-			tOptional<float> floatVal = pFile->VGetNextParameterAsFloat();
-			if(floatVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
-			}
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
-			floatVal = pFile->VGetNextParameterAsFloat();
-			if(floatVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
-			}
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
-			floatVal = pFile->VGetNextParameterAsFloat();
-			if(floatVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
-			}
-			floatVal = pFile->VGetNextParameterAsFloat();
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As Float");
-			if(floatVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %f", *floatVal));
-			}
+		tOptional<int> iVal = pFile->VGetParameterValueAsInt("-pIntValue");
+		if(iVal.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : pIntValue Value %d", *iVal));
+		}
+		iVal = pFile->VGetParameterValueAsInt("-nIntValue");
+		if(iVal.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : nIntValue Value %d", *iVal));
+		}
+		iVal = pFile->VGetParameterValueAsInt("-iIntValue");
+		if(iVal.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : nIntValue Value %d", *iVal));
+		}
+		else
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : iIntValue invalid");
+		}
+		iVal = pFile->VGetParameterValueAsInt("-pValue");
+		if(iVal.IsInvalid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : pValue not found");
+		}
 
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As bool");
-			tOptional<bool> boolVal = pFile->VGetNextParameterAsBool();
-			if(boolVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *boolVal));
-			}
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As bool");
-			boolVal = pFile->VGetNextParameterAsBool();
-			if(boolVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *boolVal));
-			}
-			Log_Write_L1(ILogger::LT_COMMENT, "Getting Next Parameter As bool");
-			boolVal = pFile->VGetNextParameterAsBool();
-			if(boolVal.IsValid())
-			{
-				Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter Value %d", *boolVal));
-			}
-			pFile->VClose();
-		}*/
+		tOptional<float> fval = pFile->VGetParameterValueAsFloat("-pFloatValue");
+		if(fval.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : pFloatValue Value %0.2f", *fval));
+		}
+		fval = pFile->VGetParameterValueAsFloat("-NIFloatValue");
+		if(fval.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : NIFloatValue Value %0.2f", *fval));
+		}
+		fval = pFile->VGetParameterValueAsFloat("-nFloatValue");
+		if(fval.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : nFloatValue Value %0.2f", *fval));
+		}
+		fval = pFile->VGetParameterValueAsFloat("-iFloatValue");
+		if(fval.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : iFloatValue Value %0.2f", *fval));
+		}
+		else
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : iFloatValue invalid");
+		}
+		fval = pFile->VGetParameterValueAsFloat("-pFValue");
+		if(fval.IsInvalid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : pFValue not found");
+		}
+
+		tOptional<bool> bval = pFile->VGetParameterValueAsBool("-PBoolValue");
+		if(bval.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : PBoolValue Value %d", *bval));
+		}
+		bval = pFile->VGetParameterValueAsBool("-NBoolValue");
+		if(bval.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Parameter : NBoolValue Value %d", *bval));
+		}
+		bval = pFile->VGetParameterValueAsBool("-IBoolValue");
+		if(bval.IsInvalid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : IBoolValue invalid");
+		}
+
+		tOptional<cString> strVal = pFile->VGetParameterValueAsString("-stringValue");
+		if(strVal.IsValid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : stringValue Value " + *strVal);
+		}
+		strVal = pFile->VGetParameterValueAsString("-istringvalue");
+		if(strVal.IsInvalid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : istrinGvalue invalid");
+		}
+		strVal = pFile->VGetParameterValueAsString("-istrinGvalue1");
+		if(strVal.IsInvalid())
+		{
+			Log_Write_L1(ILogger::LT_DEBUG, "Parameter : istrinGvalue1 invalid");
+		}
+		
 	}
 	SAFE_DELETE(pFile);
 

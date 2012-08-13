@@ -28,6 +28,11 @@ namespace Utilities
 		Base::tOptional<bool> VGetNextParameterAsBool();
 		void VLoadParametersFromFile(const Base::cString & strFileName);
 		float VGetParameterAsFloat(const Base::cString & strArgument);
+		Base::tOptional<int> VGetParameterValueAsInt(const Base::cString & strParameter);
+		Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter);
+		Base::tOptional<bool> VGetParameterValueAsBool(const Base::cString & strParameter);
+		Base::tOptional<Base::cString> VGetParameterValueAsString(const Base::cString & strParameter);
+		bool VIsParameter(const Base::cString & strParameter);
 	private:
 		void RemoveCommentsFromLine();
 		void GetNextParameter();

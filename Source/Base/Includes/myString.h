@@ -39,7 +39,8 @@ namespace Base
 		BASE_API bool operator < (const cString & str) const;
 		BASE_API bool operator == (const char * szRight) const;
 		BASE_API bool operator == (const cString & strRight) const;
-
+		BASE_API const char operator[](const int index) const;
+		BASE_API char operator[](const int index);
 		BASE_API const char * const GetData()const;
 		BASE_API bool IsEmpty() const ;
 		BASE_API int GetLength() const;
@@ -52,12 +53,13 @@ namespace Base
 		BASE_API void Insert(const int iIndex, const cString & strText);
 		BASE_API void Remove(const int iIndex, const int iQuantity);
 		BASE_API bool Compare (const cString & strRight) const;
+		BASE_API bool CompareInsensitive (const cString & strRight) const;
 		BASE_API void TrimLeft();
 		BASE_API void TrimRight();
 		BASE_API void TrimBoth();
 		
-		BASE_API int ToInt() const;
-		BASE_API float ToFloat() const;
+		BASE_API Base::tOptional<int> ToInt() const;
+		BASE_API Base::tOptional<float> ToFloat() const;
 		BASE_API Base::tOptional<bool> ToBool() const;
 
 		BASE_API static cString TimeToString(time_t time);
