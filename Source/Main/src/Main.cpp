@@ -14,9 +14,12 @@
 #include "Game/Game.hxx"
 #include "EntityManager.hxx"
 #include "MessageDispatchManager.hxx"
+#include "ParamLoaders.hxx"
+#include "Optional.h"
 
 using namespace Utilities;
 using namespace GameBase;
+using namespace Base;
 
 static IBaseApp * pGame = NULL;
 
@@ -43,33 +46,38 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	ILogger::GetInstance()->CreateHeader();
 
-	bool bFullScreen = false;
-#ifndef _DEBUG
-		bFullScreen = true;
+	cString strOptionsFileName;
+#ifdef _DEBUG
+	strOptionsFileName = "OptionsDebug.ini";
+#else
+	strOptionsFileName = "OptionsRetail.ini";
 #endif
+
+	IParamLoader * pParamLoader = IParamLoader::CreateParamLoader();
+	if(pParamLoader != NULL)
+	{
+		pParamLoader->VLoadParametersFromFile(strOptionsFileName);
+	}
+	tOptional<bool> bMultipleInstances = pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
+	tOptional<cString> strTitle = pParamLoader->VGetParameterValueAsString("-title", "Game");
+	if (*bMultipleInstances)
+	{
+		if (!IResourceChecker::GetInstance()->IsOnlyInstance(*strTitle))
+		{
+			PostQuitMessage(0);
+			return -1;
+		}
+	}
+	pGame = IGame::CreateGame(*strTitle);
+
+	tOptional<bool> bFullScreen = pParamLoader->VGetParameterValueAsBool("-fullscreen", false);
+	tOptional<int> iWindowWidth = pParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
+	tOptional<int> iWindowHeight = pParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
 	HWND hwnd;
-
-	pGame = IGame::CreateGame("MPong");
-
-#ifndef MULTIPLEINSTANCES
-	if (!IResourceChecker::GetInstance()->IsOnlyInstance(pGame->VGetGameTitle()))
-	{
-		PostQuitMessage(0);
-		return -1;
-	}
-#endif
-
-	if(bFullScreen)
-	{
-		pGame->VOnInitialization(hInstance, nCmdShow, bFullScreen, 1024, 768, hwnd);
-	}
-	else
-	{
-		pGame->VOnInitialization(hInstance, nCmdShow, bFullScreen, 1024, 720, hwnd);
-	}
+	pGame->VOnInitialization(hInstance, nCmdShow, *bFullScreen, *iWindowWidth, *iWindowHeight, hwnd);
 
 	pGame->VRun();
-	
+	SAFE_DELETE(pParamLoader);
 	Cleanup() ;
 
 	return 0;

@@ -195,6 +195,14 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\Debug\OptionsDebug.ini"
+			>
+		</File>
+		<File
+			RelativePath="..\..\bin\OptionsRetail.ini"
+			>
+		</File>
+		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>

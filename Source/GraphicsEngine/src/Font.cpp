@@ -50,7 +50,7 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 	m_fonttype.Width		= iWidth ;
 	m_fonttype.Weight		= iWeight ;
 	m_fonttype.Italic		= bItalic ;
-	m_fonttype.CharSet	= charset ;
+	m_fonttype.CharSet		= charset ;
 	strcpy_s(m_fonttype.FaceName, LF_FACESIZE, strFaceName.GetData()) ;
 
 	D3DXCreateFontIndirect(pd3dDevice, &m_fonttype, &m_pFont) ;

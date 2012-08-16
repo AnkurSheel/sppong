@@ -162,7 +162,7 @@ Base::cString Base::cString::GetSubString( const size_t iStartIndex, const size_
 		startIndex++;
 		bNegative = true;
 	}
-	value = m_str[startIndex++] - '0';
+	int intVal = m_str[startIndex++] - '0';
 	for(int i = startIndex; i < len; i++)
 	{
 		char ch = m_str[i];
@@ -171,13 +171,14 @@ Base::cString Base::cString::GetSubString( const size_t iStartIndex, const size_
 			value.clear();
 			return value;
 		}
-		value = (*value * 10 )+ ((ch - '0'));
+		intVal = (intVal * 10 )+ ((ch - '0'));
 	}
 
 	if(bNegative)
 	{
-		value = -(*value);
+		intVal = -intVal;
 	}
+	value = intVal;
 	return value;
 }
 
@@ -199,7 +200,9 @@ Base::tOptional<float> Base::cString::ToFloat() const
 		startIndex++;
 		bNegative = true;
 	}
-	value = m_str[startIndex++] - '0';
+
+	int intVal = m_str[startIndex++] - '0';
+
 	int index = startIndex;
 	for(; index < len; index++)
 	{
@@ -217,10 +220,11 @@ Base::tOptional<float> Base::cString::ToFloat() const
 				return value;
 			}
 		}
-		value = (*value * 10 )+ ((ch - '0'));
+		intVal = (intVal * 10 )+ ((ch - '0'));
 	}
+	float floatVal = 0.0f;
+
 	float decimalDigit = 0.1f;
-	float decimalValue = 0.0f;
 	for(; index < len; index++)
 	{
 		char ch = m_str[index];
@@ -229,9 +233,14 @@ Base::tOptional<float> Base::cString::ToFloat() const
 			value.clear();
 			return value;
 		}
-		decimalValue = decimalValue+ ((ch - '0') * decimalDigit);
+		floatVal = floatVal + ((ch - '0') * decimalDigit);
 	}
-	value = *value + decimalValue;
+	floatVal += intVal; 
+	if(bNegative)
+	{
+		floatVal = -floatVal;
+	}
+	value = floatVal;
 	return value;
 }
 

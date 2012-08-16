@@ -36,7 +36,7 @@ bool cFileInput::Open(const cString & strFileName, const std::ios_base::openmode
 
 	if(!m_inputFile)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not open file: " + m_strFileName);
+		Log_Write_L1(ILogger::LT_ERROR, "Could not open file " + m_strFileName + " : " + strerror(errno));
 		return false;
 	}
 	Log_Write_L2(ILogger::LT_COMMENT, "Opened file: " + m_strFileName);

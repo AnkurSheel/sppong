@@ -93,7 +93,7 @@ Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt(const Base
 			iter++;
 			if(iter == m_vCommandLineArguments.end())
 			{
-				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
 				val.clear();
 				break;
 			}
@@ -101,6 +101,17 @@ Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt(const Base
 			val = str.ToInt();
 			break;
 		}
+	}
+	return val;
+}
+
+// ***************************************************************
+Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt( const Base::cString & strParameter, const int iDefaultValue )
+{
+	tOptional<int> val = VGetParameterValueAsInt(strParameter);
+	if (val.IsInvalid())
+	{
+		val = iDefaultValue;
 	}
 	return val;
 }
@@ -116,7 +127,7 @@ Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const 
 			iter++;
 			if(iter == m_vCommandLineArguments.end())
 			{
-				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
 				val.clear();
 				break;
 			}
@@ -124,6 +135,17 @@ Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const 
 			val = str.ToFloat();
 			break;
 		}
+	}
+	return val;
+}
+
+// ***************************************************************
+Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat( const Base::cString & strParameter, const float fDefaultValue )
+{
+	tOptional<float> val = VGetParameterValueAsFloat(strParameter);
+	if (val.IsInvalid())
+	{
+		val = fDefaultValue;
 	}
 	return val;
 }
@@ -139,7 +161,7 @@ Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Ba
 			iter++;
 			if(iter == m_vCommandLineArguments.end())
 			{
-				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
 				val.clear();
 				break;
 			}
@@ -147,6 +169,17 @@ Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Ba
 			val = str.ToBool();
 			break;
 		}
+	}
+	return val;
+}
+
+// ***************************************************************
+Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool( const Base::cString & strParameter, const bool bDefaultValue )
+{
+	tOptional<bool> val = VGetParameterValueAsBool(strParameter);
+	if (val.IsInvalid())
+	{
+		val = bDefaultValue;
 	}
 	return val;
 }
@@ -162,13 +195,24 @@ Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsStri
 			iter++;
 			if(iter == m_vCommandLineArguments.end() || (*iter)[0] == '-')
 			{
-				Log_Write_L1(ILogger::LT_ERROR, " No value associated with  " + strParameter + " in " + m_strFileName);
+				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
 				val.clear();
 				break;
 			}
 			val = *iter;
 			break;
 		}
+	}
+	return val;
+}
+
+// ***************************************************************
+Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsString( const Base::cString & strParameter, const Base::cString & strDefaultValue )
+{
+	tOptional<cString> val = VGetParameterValueAsString(strParameter);
+	if (val.IsInvalid())
+	{
+		val = strDefaultValue;
 	}
 	return val;
 }
@@ -187,7 +231,7 @@ bool Utilities::cParamLoader::VIsParameter(const Base::cString & strParameter)
 }
 
 tOptional<int> Utilities::cParamLoader::VGetNextParameterAsInt()
-{
+{ 
 	GetNextParameter();
 	tOptional<int> val =  m_strBuffer.ToInt();
 	if(val.IsInvalid())

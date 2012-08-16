@@ -32,6 +32,11 @@ namespace Utilities
 		Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter);
 		Base::tOptional<bool> VGetParameterValueAsBool(const Base::cString & strParameter);
 		Base::tOptional<Base::cString> VGetParameterValueAsString(const Base::cString & strParameter);
+		Base::tOptional<int> VGetParameterValueAsInt(const Base::cString & strParameter, const int iDefaultValue);
+		Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter, const float fDefaultValue);
+		Base::tOptional<bool> VGetParameterValueAsBool(const Base::cString & strParameter, const bool bDefaultValue);
+		Base::tOptional<Base::cString> VGetParameterValueAsString(const Base::cString & strParameter, const Base::cString & strDefaultValue);
+
 		bool VIsParameter(const Base::cString & strParameter);
 	private:
 		void RemoveCommentsFromLine();
