@@ -49,7 +49,13 @@ inline double cVector2::Dot( const cVector2 & inVec ) const
 }
 
 // ***************************************************************
-inline Base::cVector2 cVector2::Perpendicular() const
+inline Base::cVector2 cVector2::PerpendicularAboutXAxis() const
+{
+	return cVector2(m_dY, -m_dX);
+}
+
+// ***************************************************************
+inline Base::cVector2 cVector2::PerpendicularAboutYAxis() const
 {
 	return cVector2(-m_dY, m_dX);
 }

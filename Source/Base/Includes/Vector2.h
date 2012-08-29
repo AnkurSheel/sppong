@@ -54,11 +54,17 @@ class cVector2
 		 ***********************************************/
 		double Dot(const cVector2 & inVec) const;
 		/********************************************//**
-		 * @return vector perpendicular to this one.
+		 * @return vector perpendicular to this one along the X axis.
 		 *
-		 * Returns the vector that is perpendicular to this one.
+		 * Returns the vector that is perpendicular to this one along the X axis.
 		 ***********************************************/
-		cVector2  Perpendicular() const;
+		cVector2  PerpendicularAboutXAxis() const;
+		/********************************************//**
+		 * @return vector perpendicular to this one along the Y axis.
+		 *
+		 * Returns the vector that is perpendicular to this one along the Y axis.
+		 ***********************************************/
+		cVector2  PerpendicularAboutYAxis() const;
 		/********************************************//**
 		 * @param[in] dMax The maximum length of the vector
 		 *
