@@ -17,13 +17,13 @@ namespace Graphics
 		: public IPolygon
 	{
 	public:
-		cPolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices);
+		cPolygon(const Base::cVector2 * const pVertices, int nNoOfVertices);
 		~cPolygon();
-		void Translate(const D3DXVECTOR2 & trans);
+		void Translate(const Base::cVector2 & trans);
 
 	public:
-		D3DXVECTOR2 *	m_pVertices;
-		int				m_nNoOfVertices;
+		Base::cVector2 *	m_pVertices;
+		int					m_nNoOfVertices;
 	};
 }
 #endif // Polygon_h__

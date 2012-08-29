@@ -9,11 +9,13 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Polygon.h"
+#include "Vector2.h"
 
 using namespace Graphics;
-cPolygon::cPolygon( const D3DXVECTOR2 * const pVertices, int nNoOfVertices )
+using namespace Base;
+cPolygon::cPolygon( const cVector2 * const pVertices, int nNoOfVertices )
 {
-	m_pVertices = DEBUG_NEW D3DXVECTOR2[nNoOfVertices];
+	m_pVertices = DEBUG_NEW cVector2[nNoOfVertices];
 	for(int i=0; i < nNoOfVertices; i++)
 	{
 		m_pVertices[i] = pVertices[i];
@@ -26,7 +28,7 @@ cPolygon::~cPolygon()
 	SAFE_DELETE_ARRAY(m_pVertices);
 }
 
-void cPolygon::Translate( const D3DXVECTOR2 & trans )
+void cPolygon::Translate( const cVector2 & trans )
 {
 	for(int i=0; i< m_nNoOfVertices; i++)
 	{
@@ -34,7 +36,7 @@ void cPolygon::Translate( const D3DXVECTOR2 & trans )
 	}
 }
 
-IPolygon * IPolygon::CreatePolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices)
+IPolygon * IPolygon::CreatePolygon(const cVector2 * const pVertices, int nNoOfVertices)
 {
 	IPolygon * pPolygon = DEBUG_NEW cPolygon(pVertices, nNoOfVertices);
 	return pPolygon;

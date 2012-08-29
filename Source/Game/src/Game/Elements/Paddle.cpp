@@ -31,15 +31,15 @@ cPaddle::~cPaddle()
 // ***************************************************************
 // Initializes the paddle
 // ***************************************************************
-void cPaddle::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename )
+void cPaddle::Init( const cVector3& vInitialPos, const cString & strFilename )
 {
-	cGameElement::OnBeginInit(strFilename, D3DXVECTOR2((float)m_siTableWidth/40, (float)m_siTableHeight/5));
+	cGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableWidth/40, (float)m_siTableHeight/5));
 	// align the paddle at the other end
 
-	D3DXVECTOR3 vPos(vInitialPos);
-	if (vPos.x > m_siTableWidth /2)
+	cVector3 vPos(vInitialPos);
+	if (vPos.m_dX > m_siTableWidth /2)
 	{
-		vPos.x = m_siTableWidth - m_pSprite->GetScaledWidth() - 10.0f ;
+		vPos.m_dX = m_siTableWidth - m_pSprite->GetScaledWidth() - 10.0f ;
 	}
 	m_iMoveFactor = m_siTableHeight/3;
 	cGameElement::OnEndInit(vPos);
@@ -51,7 +51,7 @@ void cPaddle::Init( const D3DXVECTOR3& vInitialPos, const cString & strFilename 
 // ***************************************************************
 void cPaddle::MoveDown( const float fElapsedTime )
 {
-	m_vPosition.y += (m_iMoveFactor * fElapsedTime) ;
+	m_vPosition.m_dY += (m_iMoveFactor * fElapsedTime) ;
 	UpdatePosition();
 }
 // ***************************************************************
@@ -61,7 +61,7 @@ void cPaddle::MoveDown( const float fElapsedTime )
 // ***************************************************************
 void cPaddle::MoveUp( const float fElapsedTime )
 {
-	m_vPosition.y -= (m_iMoveFactor * fElapsedTime);
+	m_vPosition.m_dY -= (m_iMoveFactor * fElapsedTime);
 	UpdatePosition();
 }
 // ***************************************************************
@@ -71,7 +71,7 @@ void cPaddle::MoveUp( const float fElapsedTime )
 // ***************************************************************
 void cPaddle::MoveLeft( const float fElapsedTime )
 {
-	m_vPosition.x -= (m_iMoveFactor * fElapsedTime) ;
+	m_vPosition.m_dX -= (m_iMoveFactor * fElapsedTime) ;
 	UpdatePosition();
 }
 // ***************************************************************
@@ -81,7 +81,7 @@ void cPaddle::MoveLeft( const float fElapsedTime )
 // ***************************************************************
 void cPaddle::MoveRight( const float fElapsedTime )
 {
-	m_vPosition.x += (m_iMoveFactor * fElapsedTime) ;
+	m_vPosition.m_dX += (m_iMoveFactor * fElapsedTime) ;
 
 	UpdatePosition();
 }
@@ -90,12 +90,12 @@ void cPaddle::MoveRight( const float fElapsedTime )
 // ***************************************************************
 // called when the game is restarted
 // ***************************************************************
-void cPaddle::OnRestart( const D3DXVECTOR3& vInitialPos )
+void cPaddle::OnRestart( const Base::cVector3& vInitialPos )
 {
 	cGameElement::OnRestart(vInitialPos);
-	if (m_vPosition.x > m_siTableWidth /2)
+	if (m_vPosition.m_dX > m_siTableWidth /2)
 	{
-		m_vPosition.x = m_siTableWidth - m_pSprite->GetScaledWidth()-10.0f ;
+		m_vPosition.m_dX = m_siTableWidth - m_pSprite->GetScaledWidth()-10.0f ;
 		UpdatePosition();
 	}
 }

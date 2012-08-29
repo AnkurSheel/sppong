@@ -196,7 +196,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 
 	pTableSprite->Init(pGame->m_pD3dDevice, "Sprites\\Table.jpg");
 	pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
-	pTableSprite->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	pTableSprite->SetPosition(cVector3(0.0f, 0.0f, 0.0f));
 	pTableSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pTableSprite);
 
@@ -206,31 +206,31 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	shared_ptr<ISprite> pSprite;
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
-	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(D3DXVECTOR3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
+	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(cVector3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
-	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(D3DXVECTOR3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
+	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(cVector3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
-	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f), "Sprites\\wall.png");
+	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(cVector3(0.0f, 0.0f, 0.0f), "Sprites\\wall.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
-	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(D3DXVECTOR3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "Sprites\\wall.png");
+	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(cVector3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "Sprites\\wall.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
-	pGame->m_pGameElements[pGame->PGE_BALL]->Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");
+	pGame->m_pGameElements[pGame->PGE_BALL]->Init(cVector3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 	pGame->m_pPongView->PushElement(pSprite);

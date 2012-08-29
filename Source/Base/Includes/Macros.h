@@ -10,8 +10,6 @@
 #ifndef Macros_h__
 #define Macros_h__
 
-#define DegtoRad(x)(x* D3DX_PI/180)
-
 #define SAFE_DELETE(p) \
 { \
 	if(p) \
@@ -112,5 +110,29 @@ const int KEYBOARD_KEYS = 256;
 typedef DWORD TICK;
 
 const unsigned int SCREEN_REFRESH_RATE(1000/60);
+const int     MaxInt    = (std::numeric_limits<int>::max)();
+const double  MaxDouble = (std::numeric_limits<double>::max)();
+const double  MinDouble = (std::numeric_limits<double>::min)();
+const float   MaxFloat  = (std::numeric_limits<float>::max)();
+const float   MinFloat  = (std::numeric_limits<float>::min)();
 
+const double   Pi        = 3.14159;
+const double   TwoPi     = Pi * 2;
+const double   HalfPi    = Pi / 2;
+const double   QuarterPi = Pi / 4;
+
+inline bool isEqual(const double a, const double b)
+{
+	if (fabs(a-b) < 1E-12)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+inline double DegtoRad(const double x)
+{
+	return (x * Pi /180);
+}
 #endif // Macros_h__

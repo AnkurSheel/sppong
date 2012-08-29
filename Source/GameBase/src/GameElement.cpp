@@ -12,6 +12,7 @@
 #include "Polygon.hxx"
 #include "Sprite.hxx"
 #include "DxBase.hxx"
+#include "Vector2.h"
 
 using namespace Graphics;
 using namespace GameBase;
@@ -21,8 +22,8 @@ using namespace Base;
 // ***************************************************************
 cGameElement::cGameElement()
 //: m_pSprite(NULL)
-: m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
-, m_vPrevPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
+: m_vPosition(-1.0f, -1.0f, -1.0f)
+, m_vPrevPosition(-1.0f, -1.0f, -1.0f)
 {
 }
 // ***************************************************************
@@ -39,16 +40,16 @@ cGameElement::~cGameElement()
 // ***************************************************************
 // Initializes the game element
 // ***************************************************************
-void cGameElement::OnBeginInit(const cString & strFilename, const D3DXVECTOR2 & vSize)
+void cGameElement::OnBeginInit(const cString & strFilename, const cVector2 & vSize)
 {
 	m_pSprite = ISprite::CreateSprite();
 	m_strFileName = strFilename;
 	m_pSprite->Init(IDXBase::GetInstance()->VGetDevice(), m_strFileName);
-	m_pSprite->SetSize(vSize.x, vSize.y);
+	m_pSprite->SetSize(vSize.m_dX, vSize.m_dY);
 }
 // ***************************************************************
 
-void cGameElement::OnEndInit(const D3DXVECTOR3& vInitialPos)
+void cGameElement::OnEndInit(const cVector3 & vInitialPos)
 {
 	m_vPosition = vInitialPos;
 	m_vPrevPosition = m_vPosition;
@@ -61,11 +62,11 @@ void cGameElement::OnEndInit(const D3DXVECTOR3& vInitialPos)
 // ***************************************************************
 void cGameElement::SetBoundingRectangle()
 {
-	D3DXVECTOR2 v1[] = {
-		D3DXVECTOR2(m_vPosition.x, m_vPosition.y),
-		D3DXVECTOR2(m_vPosition.x + m_pSprite->GetScaledWidth(), m_vPosition.y),
-		D3DXVECTOR2(m_vPosition.x + m_pSprite->GetScaledWidth(), m_vPosition.y + m_pSprite->GetScaledHeight()),
-		D3DXVECTOR2(m_vPosition.x, m_vPosition.y + m_pSprite->GetScaledHeight())
+	cVector2 v1[] = {
+		cVector2(m_vPosition.m_dX, m_vPosition.m_dY),
+		cVector2(m_vPosition.m_dX + m_pSprite->GetScaledWidth(), m_vPosition.m_dY),
+		cVector2(m_vPosition.m_dX + m_pSprite->GetScaledWidth(), m_vPosition.m_dY + m_pSprite->GetScaledHeight()),
+		cVector2(m_vPosition.m_dX, m_vPosition.m_dY + m_pSprite->GetScaledHeight())
 	};
 
 	m_pBoundingPolygon = IPolygon::CreatePolygon(v1, 4);
@@ -75,13 +76,13 @@ void cGameElement::SetBoundingRectangle()
 // ***************************************************************
 // Called when the game restarts
 // ***************************************************************
-void cGameElement::OnRestart( const D3DXVECTOR3& vInitialPos )
+void cGameElement::OnRestart( const cVector3 & vInitialPos )
 {
 	m_vPosition = vInitialPos;
 	
 	if(m_vPrevPosition != m_vPosition)
 	{
-		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+		cVector2 trans(m_vPosition.m_dX - m_vPrevPosition.m_dX, m_vPosition.m_dY - m_vPrevPosition.m_dY);
 		m_pBoundingPolygon->Translate(trans);
 		m_vPrevPosition = m_vPosition;
 	}
@@ -100,7 +101,7 @@ void cGameElement::UpdatePosition()
 	if(m_vPrevPosition != m_vPosition)
 	{
 		m_pSprite->SetPosition(m_vPosition);
-		D3DXVECTOR2 trans(m_vPosition.x - m_vPrevPosition.x, m_vPosition.y - m_vPrevPosition.y);
+		cVector2 trans(m_vPosition.m_dX - m_vPrevPosition.m_dX, m_vPosition.m_dY - m_vPrevPosition.m_dY);
 		m_pBoundingPolygon->Translate(trans);
 		m_vPrevPosition = m_vPosition;
 	}

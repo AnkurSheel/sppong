@@ -17,8 +17,8 @@ namespace Graphics
 	{
 	public:
 		virtual ~IPolygon() {}
-		virtual void Translate(const D3DXVECTOR2 & trans) = 0;
-		GRAPHIC_API static IPolygon * CreatePolygon(const D3DXVECTOR2 * const pVertices, int nNoOfVertices);
+		virtual void Translate(const Base::cVector2 & trans) = 0;
+		GRAPHIC_API static IPolygon * CreatePolygon(const Base::cVector2 * const pVertices, int nNoOfVertices);
 	};
 }
 #endif // Polygon_hxx_

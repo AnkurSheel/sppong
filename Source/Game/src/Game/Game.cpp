@@ -162,9 +162,9 @@ void cGame::Render(TICK tickCurrent, float fElapsedTime)
 void cGame::Restart()
 {
 	Sleep(100);
-	m_pGameElements[PGE_PADDLE_LEFT]->OnRestart(D3DXVECTOR3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
-	m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(D3DXVECTOR3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
-	m_pGameElements[PGE_BALL]->OnRestart(D3DXVECTOR3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
+	m_pGameElements[PGE_PADDLE_LEFT]->OnRestart(cVector3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
+	m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(cVector3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
+	m_pGameElements[PGE_BALL]->OnRestart(cVector3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
 }
 
 // ***************************************************************
@@ -172,15 +172,15 @@ void cGame::Restart()
 // ***************************************************************
 void cGame::CheckForWin()
 {
-	D3DXVECTOR3 vBallPosition = m_pGameElements[PGE_BALL]->GetPosition();
+	cVector3 vBallPosition = m_pGameElements[PGE_BALL]->GetPosition();
 
-	if(vBallPosition.x <= 0)
+	if(vBallPosition.m_dX <= 0)
 	{
 		m_pSound->PlaySound(GS_WIN);
 		m_pScore[1].IncrementScore();
 		Restart();
 	}
-	if (vBallPosition.x >= (m_iDisplayWidth - m_pGameElements[PGE_BALL]->GetSprite()->GetScaledWidth()))
+	if (vBallPosition.m_dX >= (m_iDisplayWidth - m_pGameElements[PGE_BALL]->GetSprite()->GetScaledWidth()))
 	{
 		m_pSound->PlaySound(GS_WIN);
 		m_pScore[0].IncrementScore();
@@ -279,12 +279,12 @@ float cGame::GetFPS()
 void cGame::HandlePaddleAI( const float fElapsedTime )
 {
 	// if the ball is in the players half, there is no need to do anything
-	if (m_pGameElements[PGE_BALL]->GetPosition().x < m_iDisplayWidth/2)
+	if (m_pGameElements[PGE_BALL]->GetPosition().m_dX < m_iDisplayWidth/2)
 	{
 		return;
 	}
-	float	fCentreOfPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().y + m_pGameElements[PGE_PADDLE_RIGHT]->GetSprite()->GetScaledHeight()/2;
-	float	fCentreOfBall = m_pGameElements[PGE_BALL]->GetPosition().y + m_pGameElements[PGE_BALL]->GetSprite()->GetScaledHeight()/2;
+	float	fCentreOfPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().m_dY + m_pGameElements[PGE_PADDLE_RIGHT]->GetSprite()->GetScaledHeight()/2;
+	float	fCentreOfBall = m_pGameElements[PGE_BALL]->GetPosition().m_dY + m_pGameElements[PGE_BALL]->GetSprite()->GetScaledHeight()/2;
 
 	if (fCentreOfPaddle - fCentreOfBall > 10)
 	{

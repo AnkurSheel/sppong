@@ -209,11 +209,31 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Includes\Singleton.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\src\stdafx.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\Vector2.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\Vector2.inl"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\Vector3.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\Vector3.inl"
 			>
 		</File>
 	</Files>

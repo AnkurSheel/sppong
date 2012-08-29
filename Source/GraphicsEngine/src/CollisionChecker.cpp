@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "CollisionChecker.h"
 #include "Polygon.h"
+#include "Vector2.h"
 
 using namespace Graphics;
 
@@ -51,12 +52,12 @@ bool cCollisionChecker::CheckFor2DCollisions(const IPolygon * pPolygon1, const I
 		//Join the last vertex with the first
 		if (i == pPolygonA->m_nNoOfVertices - 1)
 		{
-			edge = pPolygonA->m_pVertices[pPolygonA->m_nNoOfVertices - 1] - pPolygonA->m_pVertices[0];
+			edge = cVector2ToD3DXVECTOR2(pPolygonA->m_pVertices[pPolygonA->m_nNoOfVertices - 1] - pPolygonA->m_pVertices[0]);
 		}
 		//Join the m_pVertices
 		else
 		{
-			edge = pPolygonA->m_pVertices[i + 1] - pPolygonA->m_pVertices[i];
+			edge = cVector2ToD3DXVECTOR2(pPolygonA->m_pVertices[i + 1] - pPolygonA->m_pVertices[i]);
 		}
 
 		//Get the normal and normalise 
@@ -76,12 +77,12 @@ bool cCollisionChecker::CheckFor2DCollisions(const IPolygon * pPolygon1, const I
 		//Join the last vertex with the first 
 		if (i == pPolygonB->m_nNoOfVertices - 1)
 		{
-			edge = pPolygonB->m_pVertices[pPolygonB->m_nNoOfVertices - 1] - pPolygonB->m_pVertices[0];
+			edge = cVector2ToD3DXVECTOR2(pPolygonB->m_pVertices[pPolygonB->m_nNoOfVertices - 1] - pPolygonB->m_pVertices[0]);
 		}
 		//Join the m_pVertices to make the edge
 		else
 		{
-			edge = pPolygonB->m_pVertices[i + 1] - pPolygonB->m_pVertices[i];
+			edge = cVector2ToD3DXVECTOR2(pPolygonB->m_pVertices[i + 1] - pPolygonB->m_pVertices[i]);
 		}
 
 		//Get the normal and normalise 
@@ -104,13 +105,13 @@ bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon & poly
 
 	//Project the other m_pVertices onto the axis by using dot product
 	//Initialise the min/max values with the first value
-	poly1Min  = D3DXVec2Dot(&polygon1.m_pVertices[0], &axis);
-	poly1Max = D3DXVec2Dot(&polygon1.m_pVertices[0], &axis);
+	poly1Min  = D3DXVec2Dot(&cVector2ToD3DXVECTOR2(polygon1.m_pVertices[0]), &axis);
+	poly1Max = D3DXVec2Dot(&cVector2ToD3DXVECTOR2(polygon1.m_pVertices[0]), &axis);
 
 	//Get the highest and lowest dot products
 	for (int i = 1; i < polygon1.m_nNoOfVertices; i++)
 	{
-		float projection = D3DXVec2Dot(&polygon1.m_pVertices[i], &axis);
+		float projection = D3DXVec2Dot(&cVector2ToD3DXVECTOR2(polygon1.m_pVertices[i]), &axis);
 
 		if (projection < poly1Min)
 		{
@@ -125,14 +126,14 @@ bool cCollisionChecker::NoOverlap(const D3DXVECTOR2 &axis, const cPolygon & poly
 
 	//Now project the other polygon's m_pVertices onto the axis
 	float poly2Min, poly2Max;
-	poly2Min  = D3DXVec2Dot(&polygon2.m_pVertices[0], &axis);
-	poly2Max = D3DXVec2Dot(&polygon2.m_pVertices[0], &axis);
+	poly2Min  = D3DXVec2Dot(&cVector2ToD3DXVECTOR2(polygon2.m_pVertices[0]), &axis);
+	poly2Max = D3DXVec2Dot(&cVector2ToD3DXVECTOR2(polygon2.m_pVertices[0]), &axis);
 
 	//Project onto the axis and get the min/max values
 	for (int i = 1; i < polygon2.m_nNoOfVertices; i++)
 	{
 		//Project onto the axis
-		float projection = D3DXVec2Dot(&polygon2.m_pVertices[i], &axis);
+		float projection = D3DXVec2Dot(&cVector2ToD3DXVECTOR2(polygon2.m_pVertices[i]), &axis);
 
 		if (projection < poly2Min)
 		{

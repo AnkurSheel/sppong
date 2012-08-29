@@ -10,7 +10,7 @@ inline Graphics::IPolygon& cGameElement::GetBoundingRectangle()
 // ***************************************************************
 // returns the position of the element
 // ***************************************************************
-inline const D3DXVECTOR3& cGameElement::GetPosition()
+inline const Base::cVector3& cGameElement::GetPosition()
 {
 	return m_vPosition;
 }

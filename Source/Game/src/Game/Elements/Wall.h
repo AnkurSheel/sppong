@@ -26,6 +26,6 @@ private:
 public:
 	cWall();
 	~cWall();
-	void Init(const D3DXVECTOR3& vPosition, const Base::cString & strFilename);
+	void Init(const Base::cVector3& vPosition, const Base::cString & strFilename);
 };
 #endif // Wall_h__

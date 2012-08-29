@@ -11,6 +11,7 @@
 #include "WindowControl.h"
 #include "Sprite.hxx"
 #include "DxBase.hxx"
+#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -68,7 +69,7 @@ void Graphics::cWindowControl::VSetAbsolutePosition()
 	cBaseControl::VSetAbsolutePosition();
 	if (m_pCanvasSprite)
 	{
-		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
+		m_pCanvasSprite->SetPosition(D3DXVECTOR3TocVector3(m_vControlAbsolutePosition));
 	}
 }
 // ***************************************************************

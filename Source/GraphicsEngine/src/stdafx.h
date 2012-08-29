@@ -44,6 +44,5 @@
 #include <dinput.h>
 #include "constants.h"
 #include "Logger.hxx"
-#include "myString.h"
-
 #include "Includes.h"
+#include "GraphicUtils.h"

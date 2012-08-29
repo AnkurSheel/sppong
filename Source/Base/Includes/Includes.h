@@ -18,6 +18,7 @@
 #include <deque>
 #include <crtdbg.h>
 #include <typeinfo>
+#include <limits>
 #include "Macros.h"
 #include "myString.h"
 #include "NonCopyable.h"

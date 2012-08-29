@@ -31,13 +31,13 @@ cWall::~cWall()
 // ***************************************************************
 // Initialize the wall
 // *************************************************************** 	
-void cWall::Init( const D3DXVECTOR3& vPosition, const cString & strFilename )
+void cWall::Init( const cVector3& vPosition, const cString & strFilename )
 {
-	cPongGameElement::OnBeginInit(strFilename, D3DXVECTOR2((float)m_siTableWidth, (float)m_siTableHeight/25));
-	D3DXVECTOR3 vPos(vPosition);
-	if (vPos.y > m_siTableHeight /2)
+	cPongGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableWidth, (float)m_siTableHeight/25));
+	cVector3 vPos(vPosition);
+	if (vPos.m_dY > m_siTableHeight /2)
 	{
-		vPos.y = (float)(m_siTableHeight - m_pSprite->GetScaledHeight());
+		vPos.m_dY = (float)(m_siTableHeight - m_pSprite->GetScaledHeight());
 	}
 	cPongGameElement::OnEndInit(vPos);
 }

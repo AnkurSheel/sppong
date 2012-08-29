@@ -11,6 +11,7 @@
 #include "HScrollBar.h"
 #include "Sprite.hxx"
 #include "Logger.hxx"
+#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -80,7 +81,7 @@ void Graphics::cHScrollBar::VSetAbsolutePosition()
 		if (m_pCanvasSprite)
 		{
 			pos.x += m_pBtnDecrementArrow->VGetWidth();
-			m_pCanvasSprite->SetPosition(pos);
+			m_pCanvasSprite->SetPosition(D3DXVECTOR3TocVector3(pos));
 		}
 	}
 	if (m_pBtnIncrementArrow)

@@ -17,6 +17,7 @@
 namespace Base
 {
 	class cString;
+	class cVector3;
 }
 
 namespace Graphics
@@ -37,7 +38,7 @@ namespace Graphics
 		virtual UINT GetScaledHeight() const = 0;
 		virtual UINT GetScaledWidth() const = 0;
 		virtual D3DXVECTOR3 GetPosition() const = 0;
-		virtual void SetPosition(const D3DXVECTOR3& vPosition) = 0;
+		virtual void SetPosition(const Base::cVector3& vPosition) = 0;
 		virtual void SetFlags(const DWORD dwFlags) = 0;
 		virtual void SetTintColor(const D3DCOLOR & tintColor) = 0;
 		virtual void SetSourceRect(const RECT &	pSrcRect) = 0;

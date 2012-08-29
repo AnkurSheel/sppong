@@ -40,7 +40,7 @@ namespace Graphics
 		UINT GetScaledHeight() const;
 		UINT GetScaledWidth() const;
 		D3DXVECTOR3 GetPosition() const;
-		void SetPosition(const D3DXVECTOR3& vPosition);
+		void SetPosition(const Base::cVector3& vPosition);
 		bool VIsVisible() const;
 		void VSetVisible(bool bIsVisible);
 		void SetFlags(const DWORD dwFlags);

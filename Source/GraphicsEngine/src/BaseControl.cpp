@@ -11,6 +11,7 @@
 #include "BaseControl.h"
 #include "Sprite.hxx"
 #include "Structures.h"
+#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -426,7 +427,7 @@ void Graphics::cBaseControl::VSetAbsolutePosition()
 	}
 	if (m_pCanvasSprite)
 	{
-		m_pCanvasSprite->SetPosition(m_vControlAbsolutePosition);
+		m_pCanvasSprite->SetPosition(D3DXVECTOR3TocVector3(m_vControlAbsolutePosition));
 	}
 
 	cBaseControl * pTempControl = GetFirstChild();

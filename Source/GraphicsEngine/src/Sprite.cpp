@@ -130,11 +130,12 @@ void cSprite::VOnRender(const AppMsg & msg)
 }
 // ***************************************************************
 
-void cSprite::SetPosition(const D3DXVECTOR3& vPosition)
+void cSprite::SetPosition(const cVector3& vPosition)
 {
-	if(m_vPosition != vPosition)
+	D3DXVECTOR3 vec = cVector3ToD3DXVECTOR3(vPosition);
+	if(m_vPosition != vec)
 	{
-		m_vPosition = vPosition ;
+		m_vPosition = vec ;
 		MakeTransformMatrix();
 	}
 }

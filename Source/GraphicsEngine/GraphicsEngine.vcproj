@@ -475,6 +475,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\GraphicUtils.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\GraphicUtils.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>

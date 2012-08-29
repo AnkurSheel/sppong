@@ -18,6 +18,7 @@
 #include "ScreenElement.hxx"
 #include "BaseControl.hxx"
 #include "MainWindow.hxx"
+#include "Vector3.h"
 
 using namespace GameBase;
 using namespace Utilities;

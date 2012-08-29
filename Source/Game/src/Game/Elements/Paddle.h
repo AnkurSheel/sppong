@@ -26,10 +26,10 @@ private:
 public:
 	cPaddle();
 	~cPaddle();
-	void Init(const D3DXVECTOR3& vInitialPos, const Base::cString & strFilename);
+	void Init(const Base::cVector3& vInitialPos, const Base::cString & strFilename);
 	void MoveDown(const float fElapsedTime);
 	void MoveUp(const float fElapsedTime);
-	void OnRestart(const D3DXVECTOR3& vInitialPos);
+	void OnRestart(const Base::cVector3& vInitialPos);
 	void MoveLeft( const float fElapsedTime );
 	void MoveRight( const float fElapsedTime );
 	cPaddle * CastToPaddle();
