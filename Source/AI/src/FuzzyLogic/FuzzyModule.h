@@ -18,11 +18,6 @@ class cFuzzyRule;
 #include <vector>
 #include "AIDefines.h"
 
-namespace Base
-{
-	class cString;
-}
-
 class cFuzzyModule
 {
 protected:

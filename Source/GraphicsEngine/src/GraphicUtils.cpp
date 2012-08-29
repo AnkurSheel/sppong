@@ -14,7 +14,7 @@
 
 using namespace Base;
 // ***************************************************************
-D3DXVECTOR3 Graphics::cVector3ToD3DXVECTOR3( const cVector3& inVec )
+D3DXVECTOR3 Graphics::Vector3ToD3DXVEC3( const cVector3& inVec )
 {
 	D3DXVECTOR3 vec;
 	vec.x = inVec.m_dX;
@@ -24,7 +24,7 @@ D3DXVECTOR3 Graphics::cVector3ToD3DXVECTOR3( const cVector3& inVec )
 }
 
 // ***************************************************************
-Base::cVector3 Graphics::D3DXVECTOR3TocVector3( const D3DXVECTOR3& inVec )
+Base::cVector3 Graphics::D3DXVEC3ToVector3( const D3DXVECTOR3& inVec )
 {
 	cVector3 vec;
 	vec.m_dX = inVec.x;
@@ -34,7 +34,7 @@ Base::cVector3 Graphics::D3DXVECTOR3TocVector3( const D3DXVECTOR3& inVec )
 }
 
 // ***************************************************************
-D3DXVECTOR2 Graphics::cVector2ToD3DXVECTOR2( const Base::cVector2& inVec )
+D3DXVECTOR2 Graphics::Vector2ToD3DXVEC2( const Base::cVector2& inVec )
 {
 	D3DXVECTOR2 vec;
 	vec.x = inVec.m_dX;
@@ -43,7 +43,7 @@ D3DXVECTOR2 Graphics::cVector2ToD3DXVECTOR2( const Base::cVector2& inVec )
 }
 
 // ***************************************************************
-Base::cVector2 Graphics::D3DXVECTOR2TocVector2( const D3DXVECTOR2& inVec )
+Base::cVector2 Graphics::D3DXVEC2ToVector2( const D3DXVECTOR2& inVec )
 {
 	cVector2 vec;
 	vec.m_dX = inVec.x;

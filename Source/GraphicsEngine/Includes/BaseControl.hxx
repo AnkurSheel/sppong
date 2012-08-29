@@ -17,6 +17,7 @@
 namespace Base
 {
 	class cString;
+	class cVector3;
 }
 
 namespace Graphics
@@ -37,7 +38,7 @@ namespace Graphics
 		virtual void VOnRender(const AppMsg & msg) = 0;
 		virtual IBaseControl * VAddChildControl( IBaseControl * const pChildControl) = 0;
 		virtual void VRemoveAllChildren() = 0;
-		virtual void VSetPosition(const D3DXVECTOR3 & vPosition) = 0;
+		virtual void VSetPosition(const Base::cVector3 & vPosition) = 0;
 		virtual void VSetSize(const float fNewWidth, const float fNewHeight) = 0;
 		virtual float VGetWidth() const = 0;
 		virtual float VGetHeight() const = 0;

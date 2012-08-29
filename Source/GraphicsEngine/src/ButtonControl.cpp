@@ -13,9 +13,11 @@
 #include "DxBase.hxx"
 #include "Font.hxx"
 #include "Sprite.hxx"
+#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;
+using namespace Base;
 
 // ***************************************************************
 Graphics::cButtonControl::cButtonControl()
@@ -151,7 +153,7 @@ void Graphics::cButtonControl::VSetAbsolutePosition()
 	cBaseControl::VSetAbsolutePosition();
 	if (m_pLabelCaption)
 	{
-		m_pLabelCaption->VSetPosition(m_vControlAbsolutePosition);
+		m_pLabelCaption->VSetPosition(D3DXVEC3ToVector3(m_vControlAbsolutePosition));
 	}
 }
 // ***************************************************************

@@ -73,20 +73,20 @@ bool Graphics::cHScrollBar::VOnMouseMove( const int X, const int Y )
 void Graphics::cHScrollBar::VSetAbsolutePosition()
 {
 	cScrollBarControl::VSetAbsolutePosition();
-	D3DXVECTOR3 pos = m_vControlAbsolutePosition;
+	cVector3 pos = D3DXVEC3ToVector3(m_vControlAbsolutePosition);
 	if (m_pBtnDecrementArrow)
 	{
-		pos.x = m_vControlAbsolutePosition.x + m_iMinPos;
+		pos.m_dX = m_vControlAbsolutePosition.x + m_iMinPos;
 		m_pBtnDecrementArrow->VSetPosition(pos);
 		if (m_pCanvasSprite)
 		{
-			pos.x += m_pBtnDecrementArrow->VGetWidth();
-			m_pCanvasSprite->SetPosition(D3DXVECTOR3TocVector3(pos));
+			pos.m_dX += m_pBtnDecrementArrow->VGetWidth();
+			m_pCanvasSprite->SetPosition(pos);
 		}
 	}
 	if (m_pBtnIncrementArrow)
 	{
-		pos.x = m_vControlAbsolutePosition.x + m_fWidth - m_pBtnIncrementArrow->VGetWidth();
+		pos.m_dX = m_vControlAbsolutePosition.x + m_fWidth - m_pBtnIncrementArrow->VGetWidth();
 		m_pBtnIncrementArrow->VSetPosition(pos);
 	}	
 	VSetThumbPosition(m_iThumbPos);
@@ -133,10 +133,10 @@ void Graphics::cHScrollBar::VSetThumbPosition( const int iNewPosition )
 		m_iThumbPos = m_iNoOfIncrements - 1;
 	}
 
-	D3DXVECTOR3 pos = m_vControlAbsolutePosition;
+	cVector3 pos = D3DXVEC3ToVector3(m_vControlAbsolutePosition);
 	if (m_pBtnThumb)
 	{
-		pos.x = m_vControlAbsolutePosition.x + m_pBtnDecrementArrow->VGetWidth() + (m_pBtnThumb->VGetWidth() * m_iThumbPos);
+		pos.m_dX = m_vControlAbsolutePosition.x + m_pBtnDecrementArrow->VGetWidth() + (m_pBtnThumb->VGetWidth() * m_iThumbPos);
 		m_pBtnThumb->VSetPosition(pos);
 	}
 }

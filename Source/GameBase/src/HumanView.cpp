@@ -46,7 +46,7 @@ void cHumanView::VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd,
 {
 	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
 	m_pParentControl->VSetSize(iClientWidth, iClientHeight);
-	m_pParentControl->VSetPosition(D3DXVECTOR3(0.f, 0.f, 0.f));
+	m_pParentControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 

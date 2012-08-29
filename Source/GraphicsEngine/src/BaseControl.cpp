@@ -181,7 +181,7 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 		float y = m_vPosition.y + (Y - m_vControlAbsolutePosition.y) - m_iMouseDownYPos;
 
 		ConstrainChildControl(x, y);
-		VSetPosition(D3DXVECTOR3(x, y, 0));
+		VSetPosition(cVector3(x, y, 0));
 		return true;
 	}
 	return false;
@@ -410,9 +410,9 @@ void cBaseControl::ConstrainChildControl( float &x, float &y )
 }
 
 // ***************************************************************
-void cBaseControl::VSetPosition( const D3DXVECTOR3 & vPosition )
+void cBaseControl::VSetPosition( const cVector3 & vPosition )
 {
-	m_vPosition = vPosition;
+	m_vPosition =  Vector3ToD3DXVEC3(vPosition);
 	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
 	VSetAbsolutePosition();
 }
@@ -427,7 +427,7 @@ void Graphics::cBaseControl::VSetAbsolutePosition()
 	}
 	if (m_pCanvasSprite)
 	{
-		m_pCanvasSprite->SetPosition(D3DXVECTOR3TocVector3(m_vControlAbsolutePosition));
+		m_pCanvasSprite->SetPosition(D3DXVEC3ToVector3(m_vControlAbsolutePosition));
 	}
 
 	cBaseControl * pTempControl = GetFirstChild();

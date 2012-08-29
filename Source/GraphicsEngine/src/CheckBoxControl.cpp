@@ -9,9 +9,10 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "CheckBoxControl.h"
+#include "Vector3.h"
 
 using namespace Graphics;
-
+using namespace Base;
 // ***************************************************************
 Graphics::cCheckBoxControl::cCheckBoxControl()
 : m_pTickBox(NULL)
@@ -136,13 +137,14 @@ void Graphics::cCheckBoxControl::Cleanup()
 void Graphics::cCheckBoxControl::VSetAbsolutePosition()
 {
 	cBaseControl::VSetAbsolutePosition();
+	cVector3 vec = D3DXVEC3ToVector3(m_vControlAbsolutePosition);
 	if (m_pTickBox)
 	{
-		m_pTickBox->VSetPosition(m_vControlAbsolutePosition);
+		m_pTickBox->VSetPosition(vec);
 	}
 	if (m_pLabel)
 	{
-		m_pLabel->VSetPosition(m_vControlAbsolutePosition + m_iLabelPosition);
+		m_pLabel->VSetPosition(vec + D3DXVEC3ToVector3(m_iLabelPosition));
 	}
 }
 

@@ -56,7 +56,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(300, 60, 400, true, DEFAULT_CHARSET
 			, "JokerMan", DT_CENTER, RED, "MPONG");
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pLabelControl);
-		pLabelControl->VSetPosition(D3DXVECTOR3(pGame->m_iDisplayWidth/4, 0, 0.f));
+		pLabelControl->VSetPosition(cVector3(pGame->m_iDisplayWidth/4, 0, 0.f));
 	}
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }
@@ -108,7 +108,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 			, "Sprites\\buttonPressed.png", "Single Player ", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
-		pSinglePlayerButton->VSetPosition(D3DXVECTOR3(311.f, 310.f, 0.f));
+		pSinglePlayerButton->VSetPosition(cVector3(311.f, 310.f, 0.f));
 		function<void (bool)> callbackSinglePlayerBtn;
 		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
 		pSinglePlayerButton->VRegisterCallBack(callbackSinglePlayerBtn);
@@ -117,7 +117,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 			, "Sprites\\buttonPressed.png", "MultiPlayer", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
-		pMultiPlayerButton->VSetPosition(D3DXVECTOR3(311.f, 366.f, 0.f));
+		pMultiPlayerButton->VSetPosition(cVector3(311.f, 366.f, 0.f));
 		pMultiPlayerButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
 		function<void (bool)> callbackMultiPlayerBtn;
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
@@ -127,7 +127,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 			, "Sprites\\buttonPressed.png", "Quit", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
 		pGame->m_pPongView->m_pParentControl->VAddChildControl(pQuitButton);
-		pQuitButton->VSetPosition(D3DXVECTOR3(311.f, 422.f, 0.f));
+		pQuitButton->VSetPosition(cVector3(311.f, 422.f, 0.f));
 		pQuitButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
 		function<void (bool)> callbackQuitBtn;
 		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);

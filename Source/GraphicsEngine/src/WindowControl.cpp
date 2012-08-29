@@ -69,7 +69,7 @@ void Graphics::cWindowControl::VSetAbsolutePosition()
 	cBaseControl::VSetAbsolutePosition();
 	if (m_pCanvasSprite)
 	{
-		m_pCanvasSprite->SetPosition(D3DXVECTOR3TocVector3(m_vControlAbsolutePosition));
+		m_pCanvasSprite->SetPosition(D3DXVEC3ToVector3(m_vControlAbsolutePosition));
 	}
 }
 // ***************************************************************

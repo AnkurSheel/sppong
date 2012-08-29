@@ -132,7 +132,7 @@ void cSprite::VOnRender(const AppMsg & msg)
 
 void cSprite::SetPosition(const cVector3& vPosition)
 {
-	D3DXVECTOR3 vec = cVector3ToD3DXVECTOR3(vPosition);
+	D3DXVECTOR3 vec = Vector3ToD3DXVEC3(vPosition);
 	if(m_vPosition != vec)
 	{
 		m_vPosition = vec ;

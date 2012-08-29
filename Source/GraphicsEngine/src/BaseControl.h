@@ -38,7 +38,7 @@ namespace Graphics
 		virtual bool VOnMouseMove(const int X, const int Y);
 		virtual bool VOnKeyDown(const AppMsg & msg);
 		virtual void VSetSize(const float fNewWidth, const float fNewHeight);
-		virtual void VSetPosition(const D3DXVECTOR3 & vPosition);
+		virtual void VSetPosition(const Base::cVector3 & vPosition);
 		virtual void VSetAbsolutePosition();
 		//D3DXVECTOR3 VGetPosition() const;
 		float VGetWidth() const;
