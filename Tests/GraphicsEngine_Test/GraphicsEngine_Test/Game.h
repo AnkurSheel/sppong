@@ -22,27 +22,18 @@ public:
 	cGame(const Base::cString strName);
 	~cGame();
 	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
-	void VOnLostDevice();
-	HRESULT VOnResetDevice();
-	void VRender(TICK tickCurrent, float fElapsedTime);
 	Base::cString VGetGameTitle() const; 
-	bool VOnMsgProc(const Graphics::AppMsg & msg);
-	void VCleanup();
-
+	void VCreateHumanView();
 	void ButtonPressed(bool bPressed);
 	void Button1Pressed( bool bPressed);
 	void CheckBoxPressed(bool bPressed);
+	void GotoNextTest();
+
 private:
 	void VOnUpdate(){}
 	bool VOnHandleMessage(const AI::Telegram & telegram){return false;}
 
-	void GotoNextTest();
-	void TestUIControls();
-	void TestPoints();
-
 private:
-	Graphics::IBaseControl *	m_pParentControl;
-	Graphics::IBaseControl *	m_pInfoLabelControl;
 	Tests						m_currentTest;
 };
 
