@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "DxBase.hxx"
 #include "BaseControl.hxx"
 #include "MainWindow.hxx"
 #include "Structures.h"
 #include "Constants.h"
 #include "Logger.hxx"
 #include "Vector3.h"
+#include "RandomGenerator.hxx"
+#include "vertexstruct.h"
 
 using namespace GameBase;
 using namespace Graphics;
@@ -24,13 +27,13 @@ cGame::cGame(const cString strName)
 // ***************************************************************
 cGame::~cGame()
 {
-	SAFE_DELETE(m_pParentControl);
+	VCleanup();
 }
 
 // ***************************************************************
-HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
+void cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 				   const bool bFullscreen, const int iFullScreenWidth, 
-				   const int iFullScreenHeight )
+				   const int iFullScreenHeight, HWND & outHwnd)
 {
 	HWND hWnd;
 	cBaseApp::VOnInitialization(hInstance, nCmdShow, bFullscreen, iFullScreenWidth, iFullScreenHeight, hWnd);
@@ -44,8 +47,6 @@ HWND cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Press 'c' to start test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-
-	return hWnd;
 }
 
 // ***************************************************************
@@ -96,16 +97,46 @@ bool cGame::VOnMsgProc( const Graphics::AppMsg & msg )
 }
 
 // ***************************************************************
-void cGame::VRun()
+// Display the Graphics
+// ***************************************************************
+void cGame::VRender(TICK tickCurrent, float fElapsedTime)
 {
-	AppMsg appMsg;
-	appMsg.m_uMsg = WM_RENDER;
-	appMsg.m_lParam = 0;
-	appMsg.m_wParam = 0;
+	//m_pPongView->VOnRender(this, tickCurrent, fElapsedTime);
+	HRESULT hr = IDXBase::GetInstance()->VIsAvailable() ;
 
-	if (m_pParentControl)
+	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
 	{
-		m_pParentControl->VPostMsg(appMsg);
+		if(hr == D3DERR_DEVICELOST)
+		{
+			Sleep(50);
+		}
+		else 
+		{
+			if(hr == D3DERR_DEVICENOTRESET) 
+			{
+				VOnLostDevice();
+				hr = IDXBase::GetInstance()->VOnResetDevice() ;
+				VOnResetDevice();
+			}
+		}
+	}
+
+	if(SUCCEEDED(hr))
+	{
+		hr = IDXBase::GetInstance()->VBeginRender();
+	}
+	if (SUCCEEDED(hr))
+	{
+		AppMsg appMsg;
+		appMsg.m_uMsg = WM_RENDER;
+		appMsg.m_lParam = 0;
+		appMsg.m_wParam = 0;
+
+		if (m_pParentControl)
+		{
+			m_pParentControl->VPostMsg(appMsg);
+		}
+		IDXBase::GetInstance()->VEndRender(hr);
 	}
 }
 
@@ -139,6 +170,18 @@ void cGame::VOnLostDevice()
 	}
 }
 
+// ***************************************************************
+// Deletes the memory
+// ***************************************************************
+void cGame::VCleanup()
+{
+	SAFE_DELETE(m_pParentControl);
+	cBaseApp::VCleanup();
+
+}
+
+// ***************************************************************
+
 void cGame::ButtonPressed( bool bPressed )
 {
 	if (bPressed)
@@ -168,6 +211,41 @@ void cGame::CheckBoxPressed( bool bPressed )
 	if(bPressed)
 	{
 		Log_Write_L2(ILogger::LT_EVENT,  "Check Box Pressed");
+	}
+}
+
+void cGame::GotoNextTest()
+{
+	if(m_currentTest == Tests::ALL)
+	{
+		PostQuitMessage(-1);
+		return;
+	}
+	
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pParentControl->VRemoveChildControl(m_pInfoLabelControl);
+		m_pInfoLabelControl = NULL;
+	}
+
+	if(m_currentTest == Tests::UICONTROLS)
+	{
+		m_pParentControl->VRemoveAllChildren();
+	}
+	
+	m_currentTest = Tests(m_currentTest + 1);
+
+	
+	if(m_currentTest == Tests::ALL)
+	{
+		m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Finished all Tests. Press 'c' to exit");
+		m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+		m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+		return;
+	}
+	else if(m_currentTest == Tests::UICONTROLS)
+	{
+		TestUIControls();
 	}
 }
 
@@ -231,37 +309,21 @@ void cGame::TestUIControls()
 	pHScrollBarControl->VSetSize(300, 30);	
 }
 
-void cGame::GotoNextTest()
+void cGame::TestPoints()
 {
-	if(m_currentTest == Tests::ALL)
-	{
-		PostQuitMessage(-1);
-		return;
-	}
-	
-	if(m_pInfoLabelControl != NULL)
-	{
-		m_pParentControl->VRemoveChildControl(m_pInfoLabelControl);
-		m_pInfoLabelControl = NULL;
-	}
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Points. Press 'c' to go to next test");
+	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-	if(m_currentTest == Tests::UICONTROLS)
-	{
-		m_pParentControl->VRemoveAllChildren();
-	}
+	IRandomGenerator * pRandom = IRandomGenerator::CreateRandomGenerator();
 	
-	m_currentTest = Tests(m_currentTest + 1);
-
-	
-	if(m_currentTest == Tests::ALL)
+	D3DVERTEX random_data[100];
+	for(int count=0;count<100;count++)
 	{
-		m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Finished all Tests. Press 'c' to exit");
-		m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-		m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-		return;
-	}
-	else if(m_currentTest == Tests::UICONTROLS)
-	{
-		TestUIControls();
+		random_data[count].m_vPosition.m_dX = pRandom->Random(100);
+		random_data[count].m_vPosition.m_dY = pRandom->Random(100);
+		random_data[count].m_vPosition.m_dZ = 1.0f;
+		random_data[count].m_fRHW = 1.0f;
+		random_data[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
 	}
 }

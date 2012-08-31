@@ -12,6 +12,11 @@
 
 namespace GameBase
 {
+	class IBaseApp;
+}
+
+namespace GameBase
+{
 	typedef unsigned int GameViewId;
 
 	class IGameView 
@@ -27,8 +32,8 @@ namespace GameBase
 		};
 	public:
 		virtual ~IGameView() {}
-		virtual void VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight ) = 0;
-		virtual void VOnUpdate(const int iDeltaMilliSeconds) = 0;
+		virtual void VOnCreateDevice(IBaseApp * pGame,  const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight ) = 0;
+		virtual void VOnUpdate(TICK tickCurrent, const float fElapsedTime) = 0;
 		virtual void VOnRender(TICK tickCurrent, float fElapsedTime) = 0;
 		virtual void VOnLostDevice() = 0;
 		virtual HRESULT VOnResetDevice() = 0;

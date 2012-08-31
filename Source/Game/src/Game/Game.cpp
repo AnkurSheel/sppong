@@ -44,8 +44,6 @@ cGame::cGame(const cString strName)
 , m_bSinglePlayer(false)
 , m_bMultiPlayer(false)
 , m_pSound(NULL)
-, m_pPongView(NULL)
-, m_pGameTimer(NULL)
 {
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
@@ -58,7 +56,7 @@ cGame::cGame(const cString strName)
 // ***************************************************************
 cGame::~cGame()
 {
-	Cleanup();
+	VCleanup();
 }
 
 // ***************************************************************
@@ -77,60 +75,14 @@ void cGame::VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	m_pSound = ISound::CreateSound();
 	m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
-	m_pPongView = DEBUG_NEW cMPongView();
 
-	m_pPongView->VOnCreateDevice(hInstance, outHwnd, m_iDisplayWidth, m_iDisplayHeight);
 	IEntityManager::GetInstance()->VRegisterEntity(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
 }
 
-// ***************************************************************
-// the message loop
-// ***************************************************************
-void cGame::VRun()
+void cGame::VCreateHumanView()
 {
-	MSG Msg ;
-
-	m_pGameTimer = ITimer::CreateTimer();
-	m_pGameTimer->VStartTimer();
-
-	PeekMessage(&Msg, NULL, 0, 0, PM_NOREMOVE) ;
-	// run till completed
-	while (Msg.message!=WM_QUIT)
-	{
-		// is there a message to process?
-		if (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
-		{
-			// dispatch the message
-			TranslateMessage(&Msg) ;
-			DispatchMessage(&Msg) ;
-		}
-		else
-		{
-			//No message to process?
-			// Then do your game stuff here
-			VOnUpdate();
-			Render(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
-		}
-	}
-}
-
-// ***************************************************************
-void cGame::VOnLostDevice()
-{
-	m_pPongView->VOnLostDevice();
-}
-
-// ***************************************************************
-HRESULT cGame::VOnResetDevice()
-{
-	return(m_pPongView->VOnResetDevice());
-}
-
-// ***************************************************************
-bool cGame::VOnMsgProc( const Graphics::AppMsg & msg )
-{
-	return m_pPongView->VOnMsgProc(msg);
+	m_pHumanView = DEBUG_NEW cMPongView();
 }
 
 // ***************************************************************
@@ -142,18 +94,10 @@ cString cGame::VGetGameTitle() const
 // ***************************************************************
 void cGame::VOnUpdate()
 {
-	m_pGameTimer->VOnUpdate();
+	cBaseApp::VOnUpdate();
 	m_pStateMachine->Update();
 	m_pSound->Update();
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
-}
-
-// ***************************************************************
-// Display the Graphics
-// ***************************************************************
-void cGame::Render(TICK tickCurrent, float fElapsedTime)
-{
-	m_pPongView->VOnRender(this, tickCurrent, fElapsedTime);
 }
 
 // ***************************************************************
@@ -221,11 +165,8 @@ void cGame::CheckForCollisions()
 // ***************************************************************
 // Deletes the memory
 // ***************************************************************
-void cGame::Cleanup()
+void cGame::VCleanup()
 {
-	m_pPongView->VOnDestroyDevice();
-	SAFE_DELETE(m_pPongView);
-
 	for(int i=0;i<PGE_TOTAL;i++)
 	{
 		if (m_pGameElements[i])
@@ -240,37 +181,8 @@ void cGame::Cleanup()
 
 	SAFE_DELETE(m_pSound);
 
-	SAFE_DELETE(m_pGameTimer);
-
 	ICollisionChecker::Destroy();
-	IMainWindow::Destroy();
-	IResourceManager::Destroy();
-}
-
-// ***************************************************************
-float cGame::GetRunningTime()
-{
-	if(m_pGameTimer)
-		return m_pGameTimer->VGetRunningTime();
-
-	return 0.f;
-}
-
-// ***************************************************************
-TICK cGame::GetRunningTicks()
-{
-	if(m_pGameTimer)
-		return m_pGameTimer->VGetRunningTicks();
-
-	return 0;
-}
-
-// ***************************************************************
-// Display the FPS
-// ***************************************************************
-float cGame::GetFPS()
-{
-	return m_pGameTimer->VGetFPS();
+	cBaseApp::VCleanup();
 }
 
 // ***************************************************************
@@ -318,7 +230,9 @@ void cGame::SinglePlayerButtonPressed(bool bPressed)
 	if(!bPressed)
 	{
 		m_bSinglePlayer = true;
-		m_pPongView->OnSinglePlayerSelected(this);
+		cMPongView * pView = dynamic_cast<cMPongView *>(m_pHumanView);
+		if(pView)
+			pView->OnSinglePlayerSelected(this);
 	}
 }
 
@@ -327,7 +241,9 @@ void cGame::MultiPlayerButtonPressed(bool bPressed)
 	if(!bPressed)
 	{
 		m_bMultiPlayer = true;
-		m_pPongView->OnMultiPlayerSelected(this);
+		cMPongView * pView = dynamic_cast<cMPongView *>(m_pHumanView);
+		if(pView)
+			pView->OnMultiPlayerSelected(this);
 	}
 }
 

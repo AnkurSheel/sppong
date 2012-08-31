@@ -26,6 +26,7 @@ using namespace Base;
 // ***************************************************************
 cMPongView::cMPongView()
 : m_bDisplayFPS(false)
+, m_pGame(NULL)
 {
 }
 
@@ -34,36 +35,46 @@ cMPongView::~cMPongView()
 {
 }
 
-// ***************************************************************
-void cMPongView::VOnUpdate(cGame * pGame, float fElapsedTime)
+void cMPongView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
+								 int iClientWidth, int iClientHeight)
 {
-	cHumanView::VOnUpdate(fElapsedTime);
+	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
+	m_pGame = dynamic_cast<cGame *>(pGame);
+}
+
+// ***************************************************************
+void cMPongView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
+{
+	cHumanView::VOnUpdate(tickCurrent, fElapsedTime);
 	if (m_P1PaddleHandler)
 	{
 		m_P1PaddleHandler->OnUpdate(fElapsedTime);
 	}
-	if (pGame->IsSinglePlayer())
+	if (m_pGame)
 	{
-		pGame->HandlePaddleAI(fElapsedTime);
-	}
-	else if (m_P2PaddleHandler)
-	{
-		m_P2PaddleHandler->OnUpdate(fElapsedTime);
+		if(m_pGame->IsSinglePlayer())
+		{
+			m_pGame->HandlePaddleAI(fElapsedTime);
+		}
+		else if (m_P2PaddleHandler)
+		{
+			m_P2PaddleHandler->OnUpdate(fElapsedTime);
+		}
 	}
 }
 
 // ***************************************************************
-void cMPongView::VOnRender(cGame * pGame, TICK tickCurrent, float fElapsedTime)
+void cMPongView::VOnRender(TICK tickCurrent, float fElapsedTime)
 {
 	HRESULT hr;
 	hr = OnBeginRender(tickCurrent);
 	RenderPrivate(hr);
 	if (SUCCEEDED(hr))
 	{
-		if (m_bDisplayFPS)
+		if (m_bDisplayFPS && m_pGame)
 		{
 			AppMsg msg;
-			m_pFont->SetText(cString(20, "%0.2f", pGame->GetFPS()));
+			m_pFont->SetText(cString(20, "%0.2f", m_pGame->GetFPS()));
 			m_pFont->VOnRender(msg);
 		}
 		OnEndRender(hr);

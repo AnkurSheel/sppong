@@ -51,11 +51,11 @@ cStateTitleScreen* cStateTitleScreen::Instance()
 
 void cStateTitleScreen::VOnEnter(cGame *pGame)
 {
-	if (pGame->m_pPongView->m_pParentControl != NULL)
+	if (pGame->m_pHumanView->m_pParentControl != NULL)
 	{
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(300, 60, 400, true, DEFAULT_CHARSET
 			, "JokerMan", DT_CENTER, RED, "MPONG");
-		pGame->m_pPongView->m_pParentControl->VAddChildControl(pLabelControl);
+		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pLabelControl);
 		pLabelControl->VSetPosition(cVector3(pGame->m_iDisplayWidth/4, 0, 0.f));
 	}
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
@@ -102,12 +102,12 @@ cStateMenuScreen* cStateMenuScreen::Instance()
 
 void cStateMenuScreen::VOnEnter(cGame *pGame)
 {
-	if (pGame->m_pPongView->m_pParentControl != NULL)
+	if (pGame->m_pHumanView->m_pParentControl != NULL)
 	{
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "Single Player ", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
-		pGame->m_pPongView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
+		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
 		pSinglePlayerButton->VSetPosition(cVector3(311.f, 310.f, 0.f));
 		function<void (bool)> callbackSinglePlayerBtn;
 		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
@@ -116,7 +116,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "MultiPlayer", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
-		pGame->m_pPongView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
+		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
 		pMultiPlayerButton->VSetPosition(cVector3(311.f, 366.f, 0.f));
 		pMultiPlayerButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
 		function<void (bool)> callbackMultiPlayerBtn;
@@ -126,7 +126,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "Quit", 50, 25, 400, true, DEFAULT_CHARSET
 			, "Vladimir Script", DT_CENTER, BLUE, true);
-		pGame->m_pPongView->m_pParentControl->VAddChildControl(pQuitButton);
+		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pQuitButton);
 		pQuitButton->VSetPosition(cVector3(311.f, 422.f, 0.f));
 		pQuitButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
 		function<void (bool)> callbackQuitBtn;
@@ -158,9 +158,9 @@ void cStateMenuScreen::VOnUpdate(cGame *pGame)
 
 void cStateMenuScreen::VOnExit(cGame *pGame)
 {
-	if (pGame->m_pPongView->m_pParentControl != NULL)
+	if (pGame->m_pHumanView->m_pParentControl != NULL)
 	{
-		pGame->m_pPongView->m_pParentControl->VRemoveAllChildren();
+		pGame->m_pHumanView->m_pParentControl->VRemoveAllChildren();
 	}
 
 	pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);
@@ -198,7 +198,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
 	pTableSprite->SetPosition(cVector3(0.0f, 0.0f, 0.0f));
 	pTableSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
-	pGame->m_pPongView->PushElement(pTableSprite);
+	pGame->m_pHumanView->PushElement(pTableSprite);
 
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
 	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
@@ -209,39 +209,39 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(cVector3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
-	pGame->m_pPongView->PushElement(pSprite);
+	pGame->m_pHumanView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
 	pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(cVector3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
-	pGame->m_pPongView->PushElement(pSprite);
+	pGame->m_pHumanView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(cVector3(0.0f, 0.0f, 0.0f), "Sprites\\wall.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
-	pGame->m_pPongView->PushElement(pSprite);
+	pGame->m_pHumanView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
 	pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(cVector3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "Sprites\\wall.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
-	pGame->m_pPongView->PushElement(pSprite);
+	pGame->m_pHumanView->PushElement(pSprite);
 
 	pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	pGame->m_pGameElements[pGame->PGE_BALL]->Init(cVector3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");
 	pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
 	pSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
-	pGame->m_pPongView->PushElement(pSprite);
+	pGame->m_pHumanView->PushElement(pSprite);
 
 	pGame->m_pScore = DEBUG_NEW cScore[2]();
 	
 	pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	pGame->m_pPongView->PushElement(pGame->m_pScore[0].GetFont());
+	pGame->m_pHumanView->PushElement(pGame->m_pScore[0].GetFont());
 	
 	pGame->m_pScore[1].Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth, 0.0f, 0.0f));
-	pGame->m_pPongView->PushElement(pGame->m_pScore[1].GetFont());
+	pGame->m_pHumanView->PushElement(pGame->m_pScore[1].GetFont());
 	
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_WALL_COLLISION, "resources\\Sounds\\SFX\\collision1.wav");
 	pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
@@ -250,7 +250,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
 	pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 
-	pGame->m_pPongView->SetCursorVisible(false);
+	pGame->m_pHumanView->SetCursorVisible(false);
 }
 // ***************************************************************
 
@@ -260,7 +260,7 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 	{
 		pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
 	}
-	pGame->m_pPongView->VOnUpdate(pGame, pGame->m_pGameTimer->VGetDeltaTime());
+	pGame->m_pHumanView->VOnUpdate(pGame->m_pGameTimer->VGetRunningTicks(), pGame->m_pGameTimer->VGetDeltaTime());
 
 	pGame->CheckForCollisions();
 	pGame->CheckForWin();
@@ -270,14 +270,14 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 void cStatePlayGame::VOnExit(cGame *pGame)
 {
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
-	pGame->m_pPongView->RemoveElements();
+	pGame->m_pHumanView->RemoveElements();
 	for(int i=0;i<pGame->PGE_TOTAL;i++)
 	{
 		SAFE_DELETE(pGame->m_pGameElements[i]);
 	}
 	ICollisionChecker::Destroy();
 
-	pGame->Cleanup();
+	pGame->VCleanup();
 }
 // ***************************************************************
 

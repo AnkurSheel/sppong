@@ -21,12 +21,13 @@ class cGame :
 public:
 	cGame(const Base::cString strName);
 	~cGame();
-	HWND  VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullscreen, const int iFullScreenWidth, const int iFullScreenHeight);
+	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
 	void VOnLostDevice();
 	HRESULT VOnResetDevice();
-	void VRun();
+	void VRender(TICK tickCurrent, float fElapsedTime);
 	Base::cString VGetGameTitle() const; 
 	bool VOnMsgProc(const Graphics::AppMsg & msg);
+	void VCleanup();
 
 	void ButtonPressed(bool bPressed);
 	void Button1Pressed( bool bPressed);
@@ -37,6 +38,7 @@ private:
 
 	void GotoNextTest();
 	void TestUIControls();
+	void TestPoints();
 
 private:
 	Graphics::IBaseControl *	m_pParentControl;

@@ -18,10 +18,11 @@ namespace Base
 	class cString;
 }
 
-namespace Utilities
+namespace GameBase
 {
-	class ITimer;
+	class cHumanView;
 }
+
 namespace MySound
 {
 	class ISound;
@@ -30,7 +31,6 @@ namespace MySound
 class cScore;
 class cPongGameElement;
 class cGameFlowStateMachine;
-class cMPongView;
 
 class cGame 
 	: public IGame
@@ -62,19 +62,11 @@ public:
 	cGame(const Base::cString strName);
 	~cGame();
 	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
-	void VOnLostDevice();
-	HRESULT VOnResetDevice();
-	bool VOnMsgProc(const Graphics::AppMsg & msg);
-	void VRun();
 	Base::cString VGetGameTitle() const;
-	void Render(TICK tickCurrent, float fElapsedTime);
+	void VCleanup();
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
-	void Cleanup();
-	TICK GetRunningTicks();
-	float GetRunningTime();
-	float GetFPS();
 	void MoveLeftPaddle(bool bMoveDown);
 	void MoveRightPaddle(bool bMoveDown);
 	void HandlePaddleAI(const float fElapsedTime);
@@ -85,6 +77,7 @@ private:
 	void SinglePlayerButtonPressed(bool bPressed);
 	void MultiPlayerButtonPressed(bool bPressed);
 	void QuitButtonPressed(bool bPressed);
+	void VCreateHumanView();
 
 private:
 	LPDIRECT3DDEVICE9			m_pD3dDevice;
@@ -95,8 +88,6 @@ private:
 	bool						m_bSinglePlayer;
 	bool						m_bMultiPlayer;
 	cGameFlowStateMachine *		m_pStateMachine;
-	cMPongView *				m_pPongView;
-	Utilities::ITimer *			m_pGameTimer;
 	cScore*						m_pScore;				// ptr to Scoreboard
 
 private:

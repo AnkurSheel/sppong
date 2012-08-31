@@ -41,7 +41,7 @@ cHumanView::~cHumanView()
 }
 
 // ***************************************************************
-void cHumanView::VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd, 
+void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
 								 int iClientWidth, int iClientHeight)
 {
 	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
@@ -70,11 +70,11 @@ void cHumanView::VOnCreateDevice( const HINSTANCE hInst, const HWND hWnd,
 }
 
 // ***************************************************************
-void cHumanView::VOnUpdate(const int iDeltaMilliSeconds)
+void cHumanView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
 {
 	if(m_pProcessManager)
 	{
-		m_pProcessManager->UpdateProcesses(iDeltaMilliSeconds);
+		m_pProcessManager->UpdateProcesses(tickCurrent);
 	}
 }
 
