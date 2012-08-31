@@ -268,27 +268,29 @@ void cBaseControl::VSetSize( const float fNewWidth, const float fNewHeight )
 }
 
 // ***************************************************************
-const cBaseControl * cBaseControl::RemoveChildControl( const cBaseControl * pChildControl )
+void cBaseControl::VRemoveChildControl(const IBaseControl * pChildControl)
 {
-	cBaseControl * pNextControl = pChildControl->GetNextSibling();
-	cBaseControl * pPreviousControl = pChildControl->GetPreviousSibling();
-	SAFE_DELETE(pChildControl);
-	if (pNextControl)
+	const cBaseControl * pControl = dynamic_cast<const cBaseControl * >(pChildControl);
+	if(pControl)
 	{
-		pNextControl->SetPreviousSibling(pPreviousControl);
-	}
-	if(pPreviousControl)
-	{
-		pPreviousControl->SetNextSibling(pNextControl);
-	}
-	pChildControl = pNextControl;
+		cBaseControl * pNextControl = pControl->GetNextSibling();
+		cBaseControl * pPreviousControl = pControl->GetPreviousSibling();
 
-	m_iNoOfChildren--;
-	if (m_iNoOfChildren == 0)
-	{
-		m_pChildControls = NULL;
+		SAFE_DELETE(pChildControl);
+		if (pNextControl)
+		{
+			pNextControl->SetPreviousSibling(pPreviousControl);
+		}
+		if(pPreviousControl)
+		{
+			pPreviousControl->SetNextSibling(pNextControl);
+		}
+		else
+		{
+			m_pChildControls = pNextControl;
+		}
+		m_iNoOfChildren--;
 	}
-	return pChildControl;
 }
 
 // ***************************************************************

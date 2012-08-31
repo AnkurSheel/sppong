@@ -8,6 +8,13 @@ namespace Graphics
 	class IBaseControl;
 }
 
+enum Tests
+{
+	NONE,
+	UICONTROLS,
+	ALL,
+};
+
 class cGame : 
 	public GameBase::cBaseApp
 {
@@ -27,8 +34,14 @@ public:
 private:
 	void VOnUpdate(){}
 	bool VOnHandleMessage(const AI::Telegram & telegram){return false;}
+
+	void GotoNextTest();
+	void TestUIControls();
+
 private:
 	Graphics::IBaseControl *	m_pParentControl;
+	Graphics::IBaseControl *	m_pInfoLabelControl;
+	Tests						m_currentTest;
 };
 
 #endif // Game_h__

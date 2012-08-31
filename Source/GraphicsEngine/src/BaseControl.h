@@ -56,7 +56,7 @@ namespace Graphics
 		void VUnregisterCallBack(){};
 		bool AllowMovingControl();
 		void ConstrainChildControl( float &x, float &y );
-		const cBaseControl * RemoveChildControl(const cBaseControl * pChildControl);
+		void VRemoveChildControl(const IBaseControl * pChildControl);
 		//int GetNoOfChildren() const;
 		//cBaseControl * GetParentControl();
 		//shared_ptr<ISprite> GetSprite() const;
