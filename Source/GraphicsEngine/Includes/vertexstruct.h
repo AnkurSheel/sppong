@@ -11,16 +11,18 @@
 #define vertexstruct_h__
 
 #include "GraphicEngineDefines.h"
-#include "Vector3.h"
 
 namespace Graphics
 {
-	struct stVertex
+	class cVertex
 	{
-		float				x, y, z;
-		float				rhw;
-		DWORD				colour;
+	public:
+		float				m_fX, m_fY, m_fZ;
+		float				m_fRHW;
+		DWORD				m_dwColour;
 		static const DWORD	FVF  = D3DFVF_XYZRHW|D3DFVF_DIFFUSE;
+		GRAPHIC_API cVertex();
+		GRAPHIC_API cVertex(const float fX, const float fY, const float fZ, const float fRHW, const DWORD dwColour);
 	};
 	
 

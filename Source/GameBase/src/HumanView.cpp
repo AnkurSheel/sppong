@@ -21,13 +21,12 @@
 #include "Vector3.h"
 #include "vertexstruct.h"
 
-using namespace GameBase;
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
 
 // ***************************************************************
-cHumanView::cHumanView()
+GameBase::cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
 , m_pProcessManager(NULL)
 , m_pParentControl(NULL) 
@@ -36,13 +35,13 @@ cHumanView::cHumanView()
 }
 
 // ***************************************************************
-cHumanView::~cHumanView()
+GameBase::cHumanView::~cHumanView()
 {
 	VOnDestroyDevice();
 }
 
 // ***************************************************************
-void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
+void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
 								 int iClientWidth, int iClientHeight)
 {
 	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
@@ -71,7 +70,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const 
 }
 
 // ***************************************************************
-void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
+void GameBase::cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
 	if(m_pProcessManager)
 	{
@@ -80,7 +79,7 @@ void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 }
 
 // ***************************************************************
-void cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
+void GameBase::cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
 {
 	HRESULT hr;
 	hr = OnBeginRender(tickCurrent);
@@ -92,7 +91,7 @@ void cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
 }
 
 // ***************************************************************
-void cHumanView::VOnLostDevice()
+void GameBase::cHumanView::VOnLostDevice()
 {
 	AppMsg appMsg;
 	appMsg.m_uMsg = WM_DEVICELOST;
@@ -117,7 +116,7 @@ void cHumanView::VOnLostDevice()
 }
 
 // ***************************************************************
-HRESULT cHumanView::VOnResetDevice()
+HRESULT GameBase::cHumanView::VOnResetDevice()
 {
 	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->VGetDevice();
 	AppMsg appMsg;
@@ -148,7 +147,7 @@ HRESULT cHumanView::VOnResetDevice()
 }
 
 // ***************************************************************
-void cHumanView::VOnDestroyDevice()
+void GameBase::cHumanView::VOnDestroyDevice()
 {
 	SAFE_DELETE(m_pParentControl);
 	RemoveElements();
@@ -157,7 +156,7 @@ void cHumanView::VOnDestroyDevice()
 }
 
 // ***************************************************************
-bool cHumanView::VOnMsgProc( const Graphics::AppMsg & msg )
+bool GameBase::cHumanView::VOnMsgProc( const Graphics::AppMsg & msg )
 {
 	bool bHandled = false;
 	switch(msg.m_uMsg)
@@ -192,25 +191,25 @@ bool cHumanView::VOnMsgProc( const Graphics::AppMsg & msg )
 }
 
 // ***************************************************************
-IGameView::GAMEVIEWTYPE cHumanView::VGetType()
+GameBase::IGameView::GAMEVIEWTYPE GameBase::cHumanView::VGetType()
 {
 	return GV_HUMAN;
 }
 
 // ***************************************************************
-GameViewId cHumanView::VGetId() const
+GameBase::GameViewId GameBase::cHumanView::VGetId() const
 {
 	return -1;
 }
 
 // ***************************************************************
-void cHumanView::VOnAttach(GameViewId id)
+void GameBase::cHumanView::VOnAttach(GameViewId id)
 {
 	m_idView = id;
 }
 
 // ***************************************************************
-HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
+HRESULT GameBase::cHumanView::OnBeginRender(TICK tickCurrent)
 {
 	m_tickCurrent = tickCurrent; 
 
@@ -240,7 +239,7 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 }
 
 // ***************************************************************
-void cHumanView::VRenderPrivate()
+void GameBase::cHumanView::VRenderPrivate()
 {
 	AppMsg appMsg;
 	appMsg.m_uMsg = WM_RENDER;
@@ -267,7 +266,7 @@ void cHumanView::VRenderPrivate()
 }
 
 // ***************************************************************
-void cHumanView::OnEndRender(const HRESULT hr)
+void GameBase::cHumanView::OnEndRender(const HRESULT hr)
 {
 	m_tickLastDraw = m_tickCurrent; 
 
@@ -275,19 +274,19 @@ void cHumanView::OnEndRender(const HRESULT hr)
 }
 
 // ***************************************************************
-void cHumanView::PushElement(shared_ptr<IScreenElement> pScreenElement)
+void GameBase::cHumanView::PushElement(shared_ptr<IScreenElement> pScreenElement)
 {
 	m_pElementList.push_back(pScreenElement);
 }
 
 // ***************************************************************
-void cHumanView::PopElement(shared_ptr<IScreenElement> pScreenElement)
+void GameBase::cHumanView::PopElement(shared_ptr<IScreenElement> pScreenElement)
 {
 	m_pElementList.remove(pScreenElement);
 }
 
 // ***************************************************************
-void cHumanView::RemoveElements()
+void GameBase::cHumanView::RemoveElements()
 {
 	while (!m_pElementList.empty())
 	{
@@ -298,7 +297,7 @@ void cHumanView::RemoveElements()
 // ***************************************************************
 // Tries to restore a lost device
 // ***************************************************************
-void cHumanView::HandleLostDevice(HRESULT hr)
+void GameBase::cHumanView::HandleLostDevice(HRESULT hr)
 {
 	if(hr == D3DERR_DEVICELOST)
 	{
@@ -317,7 +316,7 @@ void cHumanView::HandleLostDevice(HRESULT hr)
 	}
 }
 
-bool cHumanView::IsKeyLocked( const DWORD dwKey )  const
+bool GameBase::cHumanView::IsKeyLocked( const DWORD dwKey )  const
 {
 	return m_bLockedKeys[dwKey];
 }
@@ -325,18 +324,18 @@ bool cHumanView::IsKeyLocked( const DWORD dwKey )  const
 // ***************************************************************
 // Locks the key on the keyboard
 // ***************************************************************
-void cHumanView::LockKey( const DWORD dwKey ) 
+void GameBase::cHumanView::LockKey( const DWORD dwKey ) 
 {
 	m_bLockedKeys[dwKey] = true;
 }
 
-void cHumanView::UnlockKey( const DWORD dwKey ) 
+void GameBase::cHumanView::UnlockKey( const DWORD dwKey ) 
 {
 	m_bLockedKeys[dwKey] = false;
 }
 
 // ***************************************************************
-void cHumanView::SetCursorVisible( bool bVisible )
+void GameBase::cHumanView::SetCursorVisible( bool bVisible )
 {
 // 	if (m_pCursorSprite)
 // 	{
@@ -345,12 +344,25 @@ void cHumanView::SetCursorVisible( bool bVisible )
 }
 
 // ***************************************************************
-void cHumanView::ShowPointList(const stVertex * const pData, const UINT iPrimitiveCount)
+void GameBase::cHumanView::ShowPointList(const cVertex * const pData, const UINT iPrimitiveCount)
 {
-	HRESULT hr = IDXBase::GetInstance()->VGetDevice()->SetFVF(stVertex::FVF);
+	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_POINTLIST, iPrimitiveCount, pData);
+}
 
-	hr = IDXBase::GetInstance()->VGetDevice()->DrawPrimitiveUP(D3DPT_POINTLIST,
-		iPrimitiveCount,
-		pData,
-		sizeof(stVertex));
+// ***************************************************************
+void GameBase::cHumanView::ShowLineList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
+{
+	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINELIST, iPrimitiveCount, pData);
+}
+
+// ***************************************************************
+GAMEBASE_API void GameBase::cHumanView::ShowLineStrip( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
+{
+	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINESTRIP, iPrimitiveCount, pData);
+}
+
+// ***************************************************************
+void GameBase::cHumanView::ShowTriangleList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
+{
+	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_TRIANGLELIST, iPrimitiveCount, pData);
 }

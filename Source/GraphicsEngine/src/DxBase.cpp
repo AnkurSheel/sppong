@@ -9,6 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "DxBase.h" 
+#include "vertexstruct.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -25,6 +26,7 @@ cDXBase::cDXBase()
 , m_bFullScreen(false)
 , m_iWidth(0)
 , m_iHeight(0)
+, m_bWireFrameMode(false)
 {
 }
 
@@ -94,19 +96,50 @@ HRESULT cDXBase::VBeginRender()
 }
 
 // ***************************************************************
+void cDXBase::VToggleFullScreen()
+{
+	m_bFullScreen = !m_bFullScreen;
+	SetParameters();
+}
+
+void cDXBase::VDrawVertexPrimitiveUP(const D3DPRIMITIVETYPE primitiveType, const UINT iPrimitiveCount, const cVertex * const pData)
+{
+	m_pd3dDevice->SetFVF(cVertex::FVF);
+	m_pd3dDevice->DrawPrimitiveUP(primitiveType, iPrimitiveCount, pData, sizeof(cVertex));
+}
+// ***************************************************************
+void cDXBase::VToggleRenderState()
+{
+	m_bWireFrameMode = !m_bWireFrameMode;
+	if (m_bWireFrameMode)
+	{
+		m_pd3dDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	}
+	else
+	{
+		m_pd3dDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+}
+
+// ***************************************************************
+// Release the Direct3D device
+// ***************************************************************
+void cDXBase::VCleanup()
+{
+	// release the Direct3d device
+	SAFE_RELEASE(m_pd3dDevice) ;
+
+	// release the Direct3d object
+	SAFE_RELEASE(m_pD3D) ;
+}
+
+// ***************************************************************
 void cDXBase::Destroy()
 {
 	if(s_pDXBase != NULL)
 		s_pDXBase->VCleanup();
 	
 	SAFE_DELETE(s_pDXBase);
-}
-
-// ***************************************************************
-void cDXBase::VToggleFullScreen()
-{
-	m_bFullScreen = !m_bFullScreen;
-	SetParameters();
 }
 
 // ***************************************************************
@@ -221,18 +254,6 @@ void cDXBase::SetParameters()
 	{
 		Log_Write_L2(ILogger::LT_ERROR, "Could not find a supported surface format for this device");
 	}
-}
-
-// ***************************************************************
-// Release the Direct3D device
-// ***************************************************************
-void cDXBase::VCleanup()
-{
-	// release the Direct3d device
-	SAFE_RELEASE(m_pd3dDevice) ;
-
-	// release the Direct3d object
-	SAFE_RELEASE(m_pD3D) ;
 }
 
 // ***************************************************************

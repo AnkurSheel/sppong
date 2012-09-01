@@ -31,7 +31,7 @@ namespace Graphics
 	class IFont;
 	class ISprite;
 	class IBaseControl;
-	class stVertex;
+	class cVertex;
 }
 
 namespace GameBase
@@ -67,8 +67,11 @@ namespace GameBase
 		GAMEBASE_API void VOnAttach(GameViewId id);
 		GAMEBASE_API void PopElement(shared_ptr<Graphics::IScreenElement> pScreenElement);
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
-		GAMEBASE_API void ShowPointList(const Graphics::stVertex * const pData, const UINT iPrimitiveCount);
-
+		GAMEBASE_API void ShowPointList(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
+		GAMEBASE_API void ShowLineList(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
+		GAMEBASE_API void ShowLineStrip(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
+		GAMEBASE_API void ShowTriangleList(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
+	
 	private:
 		void HandleLostDevice(HRESULT hr);
 

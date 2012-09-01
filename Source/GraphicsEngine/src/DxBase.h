@@ -43,6 +43,8 @@ namespace Graphics
 		HRESULT VIsAvailable() const;
 		void VToggleFullScreen();
 		void VCleanup() ;
+		void VDrawVertexPrimitiveUP(const D3DPRIMITIVETYPE primitiveType, const UINT iPrimitiveCount, const cVertex * const pData);
+		void VToggleRenderState();
 		/********************************************//**
 		 *
 		 * Creates the Direct3D object
@@ -59,7 +61,6 @@ namespace Graphics
 		 * the application is fullscreen or windowed
 		 ***********************************************/
 		void SetParameters();
-
 	private:
 		LPDIRECT3D9				m_pD3D ;				/*!< Pointer to a direct3d object */
 		LPDIRECT3DDEVICE9		m_pd3dDevice ;			/*!< Pointer to a direct3d device */
@@ -71,6 +72,7 @@ namespace Graphics
 		int						m_iHeight ;				/*!< The height of the window */
 		D3DDISPLAYMODE			m_displayMode;			/*!< The display mode */
 		bool					m_bFullScreen;			/*!< True if in fullscreen mode */
+		bool					m_bWireFrameMode;		/*!< True if rendering in wireframe mode */
 	
 	public:
 		static IDXBase * s_pDXBase;

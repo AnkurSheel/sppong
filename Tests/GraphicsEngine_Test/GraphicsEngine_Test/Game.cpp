@@ -101,7 +101,19 @@ void cGame::GotoNextTest()
 			break;
 
 		case TEST_POINTLIST:
-			pView->TestPoints();
+			pView->TestPointList();
+			break;
+
+		case TEST_LINELIST:
+			pView->TestLineList();
+			break;
+
+		case TEST_LINESTRIP:
+			pView->TestLineStrip();
+			break;
+
+		case TEST_TRIANGLELIST:
+			pView->TestTriangleList();
 			break;
 		}
 	}

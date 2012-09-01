@@ -14,6 +14,7 @@
 #include "Vector3.h"
 #include "RandomGenerator.hxx"
 #include "vertexstruct.h"
+#include "DxBase.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -25,14 +26,15 @@ cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
 , m_pInfoLabelControl(NULL)
 , m_bFinished(false)
-, m_PointListData(NULL)
-, m_iPointListCount(1000)
+, m_vertexData(NULL)
+, m_iVertexListCount(1000)
 {
 }
 
 // ***************************************************************
 cGraphicsTestView::~cGraphicsTestView()
 {
+	Cleanup();
 }
 
 void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
@@ -81,6 +83,10 @@ bool cGraphicsTestView::VOnMsgProc( const Graphics::AppMsg & msg )
 				if(m_pGame)
 					m_pGame->GotoNextTest();
 				break;
+
+			case 'w':
+				IDXBase::GetInstance()->VToggleRenderState();
+				break;
 			}
 		}
 	}
@@ -92,9 +98,26 @@ void cGraphicsTestView::VRenderPrivate()
 {
 	cHumanView::VRenderPrivate();
 
-	if(m_pGame && m_pGame->GetCurrentTest() == TEST_POINTLIST)
+	if(m_pGame)
 	{
-		ShowPointList(m_PointListData, m_iPointListCount);
+		switch(m_pGame->GetCurrentTest())
+		{
+		case TEST_POINTLIST:
+			ShowPointList(m_vertexData, m_iVertexListCount);
+			break;
+
+		case TEST_LINELIST:
+			ShowLineList(m_vertexData, m_iVertexListCount/2);
+			break;
+
+		case TEST_LINESTRIP:
+			ShowLineStrip(m_vertexData, m_iVertexListCount-1);
+			break;
+
+		case TEST_TRIANGLELIST:
+			ShowTriangleList(m_vertexData, 4);
+			break;
+		}
 	}
 }
 
@@ -172,28 +195,100 @@ void cGraphicsTestView::TestUIControls()
 	pHScrollBarControl->VSetSize(300, 30);	
 }
 
-void cGraphicsTestView::TestPoints()
+void cGraphicsTestView::TestPointList()
 {
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Point List. Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-	m_PointListData = DEBUG_NEW stVertex[m_iPointListCount];
+	m_vertexData = DEBUG_NEW cVertex[m_iVertexListCount];
 	IRandomGenerator * pRandom = IRandomGenerator::CreateRandomGenerator();
 	
-	for(int count=0;count<m_iPointListCount;count++)
+	for(int count=0;count<m_iVertexListCount;count++)
 	{
-		m_PointListData[count].x = pRandom->Random(m_pParentControl->VGetWidth());
-		m_PointListData[count].y = pRandom->Random(m_pParentControl->VGetHeight());
-		m_PointListData[count].z = 1.0f;
-		m_PointListData[count].rhw = 1.0f;
-		m_PointListData[count].colour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
+		m_vertexData[count].m_fX = pRandom->Random(m_pParentControl->VGetWidth());
+		m_vertexData[count].m_fY = pRandom->Random(m_pParentControl->VGetHeight());
+		m_vertexData[count].m_fZ = 1.0f;
+		m_vertexData[count].m_fRHW = 1.0f;
+		m_vertexData[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
 	}
 	SAFE_DELETE(pRandom);
 }
 
 // ***************************************************************
+void cGraphicsTestView::TestLineList()
+{
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Line List. Press 'c' to go to next test");
+	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	m_vertexData = DEBUG_NEW cVertex[m_iVertexListCount];
+	IRandomGenerator * pRandom = IRandomGenerator::CreateRandomGenerator();
+
+	for(int count=0;count<m_iVertexListCount;count++)
+	{
+		m_vertexData[count].m_fX = pRandom->Random(m_pParentControl->VGetWidth());
+		m_vertexData[count].m_fY = pRandom->Random(m_pParentControl->VGetHeight());
+		m_vertexData[count].m_fZ = 1.0f;
+		m_vertexData[count].m_fRHW = 1.0f;
+		m_vertexData[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
+	}
+	SAFE_DELETE(pRandom);
+}
+
+// ***************************************************************
+void cGraphicsTestView::TestLineStrip()
+{
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Line Strip. Press 'c' to go to next test");
+	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	m_vertexData = DEBUG_NEW cVertex[m_iVertexListCount];
+
+	float count_f;
+	float y;
+	unsigned char red,green,blue;
+	for(int count=0;count<m_iVertexListCount;count++)
+	{
+		count_f=(float)count;
+		y = sinf(count_f/10.0f);
+		
+		m_vertexData[count].m_fX = count_f;
+		m_vertexData[count].m_fY = y * (m_pParentControl->VGetHeight()/4.0f) + (m_pParentControl->VGetHeight()/2.0f);
+		m_vertexData[count].m_fZ = 1.0f;
+		m_vertexData[count].m_fRHW = 1.0f;
+		blue= (char)ceil((count_f/m_pParentControl->VGetWidth()) * 200.0f) +55;
+		green=(char)ceil(((m_pParentControl->VGetWidth() - count_f)/m_pParentControl->VGetWidth()) * 200.0f) +55;
+		red=(char) ((fabsf(y)* 200.0f) + 55.0f);
+		m_vertexData[count].m_dwColour =D3DCOLOR_XRGB (red, green, blue);
+	}
+}
+
+// ***************************************************************
+void cGraphicsTestView::TestTriangleList()
+{
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Triangle Strip. Press 'c' to go to next test");
+	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	m_vertexData = DEBUG_NEW cVertex[12];
+
+	m_vertexData[0] = cVertex(200, 200, 1, 1, RED);
+	m_vertexData[1] = cVertex(100, 100, 1, 1, BLUE);
+	m_vertexData[2] = cVertex(300, 100, 1, 1, GREEN);
+	m_vertexData[3] = cVertex(200, 200, 1, 1, RED);
+	m_vertexData[4] = cVertex(300, 100, 1, 1, GREEN);
+	m_vertexData[5] = cVertex(300, 300, 1, 1, YELLOW);
+	m_vertexData[6] = cVertex(200, 200, 1, 1, RED);
+	m_vertexData[7] = cVertex(300, 300, 1, 1, YELLOW);
+	m_vertexData[8] = cVertex(100, 300, 1, 1, VIOLET);
+	m_vertexData[9] = cVertex(200, 200, 1, 1, RED);
+	m_vertexData[10] = cVertex(100, 300, 1, 1, VIOLET);
+	m_vertexData[11] = cVertex(100, 100, 1, 1, BLUE);
+}
+
+// ***************************************************************
 void cGraphicsTestView::Cleanup()
 {
-	SAFE_DELETE_ARRAY(m_PointListData);
+	SAFE_DELETE_ARRAY(m_vertexData);
 }

@@ -14,6 +14,11 @@
 
 namespace Graphics
 {
+	class cVertex;
+}
+
+namespace Graphics
+{
 /********************************************//**
  * @brief Interface for DirectX.
  *
@@ -76,6 +81,20 @@ namespace Graphics
 		 * Toggles between full screen and windowed mode
 		 ***********************************************/
 		virtual void VToggleFullScreen() = 0;
+		/********************************************//**
+		 *
+		 * Toggles the renderstate between wireframe and solid mode
+		 ***********************************************/
+		virtual void VToggleRenderState() = 0;
+		/********************************************//**
+		 * @param[in] const DWORD dwFVF The fixed vertex function type
+		 * @param[in] primitiveType The type of primitive to render
+		 * @param[in] iPrimitiveCount The number of primitives to render
+		 * @param[in] pData The vertex data
+		 *
+		 * Sets the FVF and draws the primitive on the screen
+		 ***********************************************/
+		virtual void VDrawVertexPrimitiveUP(const D3DPRIMITIVETYPE primitiveType, const UINT iPrimitiveCount, const cVertex * const pData) = 0;
 		/********************************************//**
 		 *
 		 * Releases the Direct3D device and object

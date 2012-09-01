@@ -21,7 +21,7 @@ namespace GameBase
 
 namespace Graphics
 {
-	class stVertex;
+	class cVertex;
 }
 
 class cGraphicsTestView 
@@ -33,7 +33,10 @@ public:
 	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
 	bool VOnMsgProc( const Graphics::AppMsg & msg );	
 	void TestUIControls();
-	void TestPoints();
+	void TestPointList();
+	void TestLineList();
+	void TestLineStrip();
+	void TestTriangleList();
 	void Finished();
 	void Cleanup();
 
@@ -44,7 +47,7 @@ private:
 	cGame	*					m_pGame;
 	Graphics::IBaseControl *	m_pInfoLabelControl;
 	bool						m_bFinished;
-	Graphics::stVertex *			m_PointListData;
-	const int					m_iPointListCount;
+	Graphics::cVertex *			m_vertexData;
+	const int					m_iVertexListCount;
 };
 #endif // GraphicsTestView_h__

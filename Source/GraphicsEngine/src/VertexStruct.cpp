@@ -13,6 +13,28 @@
 using namespace Graphics;
 
 // ***************************************************************
+Graphics::cVertex::cVertex()
+: m_fX(0.0f)
+, m_fY(0.0f)
+, m_fZ(0.0f)
+, m_fRHW(1.0f)
+, m_dwColour(0)
+{
+
+}
+
+// ***************************************************************
+Graphics::cVertex::cVertex( const float fX, const float fY, const float fZ, const float fRHW, const DWORD dwColour )
+: m_fX(fX)
+, m_fY(fY)
+, m_fZ(fZ)
+, m_fRHW(fRHW)
+, m_dwColour(dwColour)
+{
+
+}
+
+// ***************************************************************
 // Constructor
 // ***************************************************************
 Vertex::Vertex()
