@@ -31,6 +31,7 @@ namespace Graphics
 	class IFont;
 	class ISprite;
 	class IBaseControl;
+	class stVertex;
 }
 
 namespace GameBase
@@ -47,8 +48,8 @@ namespace GameBase
 		GAMEBASE_API virtual void VOnLostDevice();
 		GAMEBASE_API virtual HRESULT VOnResetDevice();
 		GAMEBASE_API virtual bool VOnMsgProc( const Graphics::AppMsg & msg );	
-		GAMEBASE_API virtual void VOnRender(TICK tickCurrent, const float fElapsedTime);
-		GAMEBASE_API virtual void VOnUpdate(TICK tickCurrent, const float fElapsedTime);
+		GAMEBASE_API virtual void VOnRender(const TICK tickCurrent, const float fElapsedTime);
+		GAMEBASE_API virtual void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
 		GAMEBASE_API void RemoveElements();
 		GAMEBASE_API void PushElement(shared_ptr<Graphics::IScreenElement> pScreenElement);
 		GAMEBASE_API virtual void VOnDestroyDevice();
@@ -57,7 +58,7 @@ namespace GameBase
 		GAMEBASE_API GameViewId VGetId() const;
 
 	protected:
-		GAMEBASE_API HRESULT RenderPrivate( HRESULT & hr );
+		GAMEBASE_API virtual void VRenderPrivate();
 		GAMEBASE_API void LockKey( const DWORD dwKey );
 		GAMEBASE_API void UnlockKey( const DWORD dwKey );
 		GAMEBASE_API bool IsKeyLocked( const DWORD dwKey ) const;
@@ -66,7 +67,8 @@ namespace GameBase
 		GAMEBASE_API void VOnAttach(GameViewId id);
 		GAMEBASE_API void PopElement(shared_ptr<Graphics::IScreenElement> pScreenElement);
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
-	
+		GAMEBASE_API void ShowPointList(const Graphics::stVertex * const pData, const UINT iPrimitiveCount);
+
 	private:
 		void HandleLostDevice(HRESULT hr);
 

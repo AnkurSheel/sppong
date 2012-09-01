@@ -11,21 +11,18 @@
 #define vertexstruct_h__
 
 #include "GraphicEngineDefines.h"
+#include "Vector3.h"
 
 namespace Graphics
 {
-	class D3DVERTEX
+	struct stVertex
 	{
-	public:
-		GRAPHIC_API D3DVERTEX();
-		GRAPHIC_API void SetPosition(const D3DXVECTOR3& vPos);
-		GRAPHIC_API void SetColor(const D3DCOLOR& col);
-
-	private:
-		D3DXVECTOR3			m_vPosition ;
-		float				m_fRHW;
-		DWORD				m_dwColour;
+		float				x, y, z;
+		float				rhw;
+		DWORD				colour;
+		static const DWORD	FVF  = D3DFVF_XYZRHW|D3DFVF_DIFFUSE;
 	};
+	
 
 	class Vertex
 	{

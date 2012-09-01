@@ -15,7 +15,6 @@
 #include "RandomGenerator.hxx"
 #include "vertexstruct.h"
 
-
 using namespace Utilities;
 using namespace Graphics;
 using namespace GameBase;
@@ -26,6 +25,8 @@ cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
 , m_pInfoLabelControl(NULL)
 , m_bFinished(false)
+, m_PointListData(NULL)
+, m_iPointListCount(1000)
 {
 }
 
@@ -44,24 +45,6 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst,
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-}
-
-// ***************************************************************
-void cGraphicsTestView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
-{
-	cHumanView::VOnUpdate(tickCurrent, fElapsedTime);
-}
-
-// ***************************************************************
-void cGraphicsTestView::VOnRender(TICK tickCurrent, float fElapsedTime)
-{
-	HRESULT hr;
-	hr = OnBeginRender(tickCurrent);
-	RenderPrivate(hr);
-	if (SUCCEEDED(hr))
-	{
-		OnEndRender(hr);
-	}
 }
 
 // ***************************************************************
@@ -102,6 +85,31 @@ bool cGraphicsTestView::VOnMsgProc( const Graphics::AppMsg & msg )
 		}
 	}
 	return true;
+}
+
+// ***************************************************************
+void cGraphicsTestView::VRenderPrivate()
+{
+	cHumanView::VRenderPrivate();
+
+	if(m_pGame && m_pGame->GetCurrentTest() == TEST_POINTLIST)
+	{
+		ShowPointList(m_PointListData, m_iPointListCount);
+	}
+}
+
+void cGraphicsTestView::Finished()
+{
+	m_bFinished = true;
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pParentControl->VRemoveChildControl(m_pInfoLabelControl);
+		m_pInfoLabelControl = NULL;
+	}
+
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Finished all Tests. Press 'c' to exit");
+	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 }
 
 void cGraphicsTestView::TestUIControls()
@@ -166,34 +174,26 @@ void cGraphicsTestView::TestUIControls()
 
 void cGraphicsTestView::TestPoints()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Points. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Point List. Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
+	m_PointListData = DEBUG_NEW stVertex[m_iPointListCount];
 	IRandomGenerator * pRandom = IRandomGenerator::CreateRandomGenerator();
 	
-	D3DVERTEX random_data[100];
-	for(int count=0;count<100;count++)
+	for(int count=0;count<m_iPointListCount;count++)
 	{
-		random_data[count].m_vPosition.m_dX = pRandom->Random(100);
-		random_data[count].m_vPosition.m_dY = pRandom->Random(100);
-		random_data[count].m_vPosition.m_dZ = 1.0f;
-		random_data[count].m_fRHW = 1.0f;
-		random_data[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
+		m_PointListData[count].x = pRandom->Random(m_pParentControl->VGetWidth());
+		m_PointListData[count].y = pRandom->Random(m_pParentControl->VGetHeight());
+		m_PointListData[count].z = 1.0f;
+		m_PointListData[count].rhw = 1.0f;
+		m_PointListData[count].colour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
 	}
+	SAFE_DELETE(pRandom);
 }
 
-void cGraphicsTestView::Finished()
+// ***************************************************************
+void cGraphicsTestView::Cleanup()
 {
-	m_bFinished = true;
-	if(m_pInfoLabelControl != NULL)
-	{
-		m_pParentControl->VRemoveChildControl(m_pInfoLabelControl);
-		m_pInfoLabelControl = NULL;
-	}
-
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Finished all Tests. Press 'c' to exit");
-	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-
+	SAFE_DELETE_ARRAY(m_PointListData);
 }

@@ -10,9 +10,10 @@ namespace Graphics
 
 enum Tests
 {
-	NONE,
-	UICONTROLS,
-	ALL,
+	TEST_NONE,
+	TEST_UICONTROLS,
+	TEST_POINTLIST,
+	TEST_ALL,
 };
 
 class cGame : 
@@ -28,13 +29,14 @@ public:
 	void Button1Pressed( bool bPressed);
 	void CheckBoxPressed(bool bPressed);
 	void GotoNextTest();
+	Tests GetCurrentTest() const;
 
 private:
 	void VOnUpdate(){}
 	bool VOnHandleMessage(const AI::Telegram & telegram){return false;}
 
 private:
-	Tests						m_currentTest;
+	Tests	m_currentTest;
 };
 
 #endif // Game_h__

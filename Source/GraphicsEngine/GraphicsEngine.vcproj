@@ -258,7 +258,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\vertexstruct.h"
+				RelativePath=".\Includes\vertexstruct.h"
 				>
 			</File>
 		</Filter>

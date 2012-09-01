@@ -19,6 +19,7 @@
 #include "BaseControl.hxx"
 #include "MainWindow.hxx"
 #include "Vector3.h"
+#include "vertexstruct.h"
 
 using namespace GameBase;
 using namespace Utilities;
@@ -70,7 +71,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const 
 }
 
 // ***************************************************************
-void cHumanView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
+void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
 	if(m_pProcessManager)
 	{
@@ -79,13 +80,13 @@ void cHumanView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
 }
 
 // ***************************************************************
-void cHumanView::VOnRender(TICK tickCurrent, float fElapsedTime)
+void cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
 {
 	HRESULT hr;
 	hr = OnBeginRender(tickCurrent);
-	RenderPrivate(hr);
-	if (SUCCEEDED(hr))
+	if(SUCCEEDED(hr))
 	{
+		VRenderPrivate();
 		OnEndRender(hr);
 	}
 }
@@ -228,49 +229,41 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 		if( m_bRunFullSpeed || ( (m_tickCurrent - m_tickLastDraw) > SCREEN_REFRESH_RATE) ) 
 		{ 
 			hr = IDXBase::GetInstance()->VBeginRender();
-			if (SUCCEEDED(hr))
-			{
-				return hr;
-			}
 		}
 	}
-	return S_FALSE;
-}
-
-// ***************************************************************
-HRESULT cHumanView::RenderPrivate( HRESULT & hr )
-{
 	if (FAILED(hr))
 	{
 		VOnResetDevice();
 	}
-	if(SUCCEEDED(hr))
+
+	return hr;
+}
+
+// ***************************************************************
+void cHumanView::VRenderPrivate()
+{
+	AppMsg appMsg;
+	appMsg.m_uMsg = WM_RENDER;
+	appMsg.m_lParam = 0;
+	appMsg.m_wParam = 0;
+
+	if (m_pParentControl)
 	{
-		AppMsg appMsg;
-		appMsg.m_uMsg = WM_RENDER;
-		appMsg.m_lParam = 0;
-		appMsg.m_wParam = 0;
+		m_pParentControl->VPostMsg(appMsg);
+	}
 
-		if (m_pParentControl)
+	for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
+	{
+		if ((*i)->VIsVisible())
 		{
-			m_pParentControl->VPostMsg(appMsg);
+			(*i)->VOnRender(appMsg);
 		}
-
-		AppMsg msg;
-		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
-		{
-			if ((*i)->VIsVisible())
-			{
-				(*i)->VOnRender(msg);
-			}
-		}
+	}
 // 		if (m_pCursorSprite->IsVisible())
 // 		{
 // 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
 // 			m_pCursorSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 // 		}
-	}
-	return hr;
 }
 
 // ***************************************************************
@@ -349,4 +342,15 @@ void cHumanView::SetCursorVisible( bool bVisible )
 // 	{
 // 		m_pCursorSprite->SetVisible(bVisible);
 // 	}
+}
+
+// ***************************************************************
+void cHumanView::ShowPointList(const stVertex * const pData, const UINT iPrimitiveCount)
+{
+	HRESULT hr = IDXBase::GetInstance()->VGetDevice()->SetFVF(stVertex::FVF);
+
+	hr = IDXBase::GetInstance()->VGetDevice()->DrawPrimitiveUP(D3DPT_POINTLIST,
+		iPrimitiveCount,
+		pData,
+		sizeof(stVertex));
 }

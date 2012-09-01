@@ -9,7 +9,7 @@ using namespace Base;
 // ***************************************************************
 cGame::cGame(const cString strName)
 : cBaseApp(strName)
-, m_currentTest(Tests::NONE)
+, m_currentTest(TEST_NONE)
 {
 
 }
@@ -28,7 +28,7 @@ void cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 	HWND hWnd;
 	cBaseApp::VOnInitialization(hInstance, nCmdShow, bFullscreen, iFullScreenWidth, iFullScreenHeight, hWnd);
 
-	m_currentTest = Tests::NONE;
+	m_currentTest = TEST_NONE;
 }
 
 void cGame::VCreateHumanView()
@@ -77,24 +77,38 @@ void cGame::CheckBoxPressed( bool bPressed )
 
 void cGame::GotoNextTest()
 {
-	if(m_currentTest == Tests::ALL)
+	if(m_currentTest == TEST_ALL)
 	{
 		PostQuitMessage(-1);
 		return;
 	}
 	
 	m_currentTest = Tests(m_currentTest + 1);
+	cGraphicsTestView * pView = dynamic_cast<cGraphicsTestView *>(m_pHumanView);
 	
-	if(m_currentTest == Tests::ALL)
+	if(pView)
 	{
-		cGraphicsTestView * pView = dynamic_cast<cGraphicsTestView *>(m_pHumanView);
-		if(pView)
+		pView->Cleanup();
+
+		switch (m_currentTest)
+		{
+		case TEST_ALL:
 			pView->Finished();
-	}
-	else if(m_currentTest == Tests::UICONTROLS)
-	{
-		cGraphicsTestView * pView = dynamic_cast<cGraphicsTestView *>(m_pHumanView);
-		if(pView)
+			break;
+		
+		case TEST_UICONTROLS:
 			pView->TestUIControls();
+			break;
+
+		case TEST_POINTLIST:
+			pView->TestPoints();
+			break;
+		}
 	}
+}
+
+// ***************************************************************
+Tests cGame::GetCurrentTest() const
+{
+	return m_currentTest;
 }
