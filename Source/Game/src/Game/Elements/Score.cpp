@@ -11,7 +11,6 @@
 #include "Score.h"
 #include "font.hxx"
 #include "DxBase.hxx"
-#include "Constants.h"
 
 using namespace Graphics;
 using namespace Base;

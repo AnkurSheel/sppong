@@ -64,20 +64,15 @@ void cMPongView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
 }
 
 // ***************************************************************
-void cMPongView::VOnRender(TICK tickCurrent, float fElapsedTime)
+void cMPongView::VRenderPrivate()
 {
-	HRESULT hr;
-	hr = OnBeginRender(tickCurrent);
-	RenderPrivate(hr);
-	if (SUCCEEDED(hr))
+	cHumanView::VRenderPrivate();
+		
+	if (m_bDisplayFPS && m_pGame)
 	{
-		if (m_bDisplayFPS && m_pGame)
-		{
-			AppMsg msg;
-			m_pFont->SetText(cString(20, "%0.2f", m_pGame->GetFPS()));
-			m_pFont->VOnRender(msg);
-		}
-		OnEndRender(hr);
+		AppMsg msg;
+		m_pFont->SetText(cString(20, "%0.2f", m_pGame->GetFPS()));
+		m_pFont->VOnRender(msg);
 	}
 }
 

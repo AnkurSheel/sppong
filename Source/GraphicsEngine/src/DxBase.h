@@ -34,7 +34,7 @@ namespace Graphics
 	private:
 		cDXBase() ;
 		~cDXBase() ;
-		void VOnInitialization(const HWND hWnd, const D3DCOLOR& bkColor, 
+		void VOnInitialization(const HWND hWnd, const Base::cColor & bkColor, 
 			const bool bFullScreen, const int iWidth, const int iHeight);
 		HRESULT VOnResetDevice() ;
 		HRESULT VBeginRender();

@@ -10,9 +10,11 @@
 #include "stdafx.h"
 #include "DxBase.h" 
 #include "vertexstruct.h"
+#include "Color.h"
 
 using namespace Utilities;
 using namespace Graphics;
+using namespace Base;
 
 IDXBase * cDXBase::s_pDXBase= NULL;
 // ***************************************************************
@@ -48,10 +50,10 @@ void cDXBase::Create()
 // ***************************************************************
 // Initializes the directX object
 // ***************************************************************
-void cDXBase::VOnInitialization( const HWND hWnd, const D3DCOLOR& bkColor, const bool bFullScreen, const int iWidth, const int iHeight)
+void cDXBase::VOnInitialization( const HWND hWnd, const Base::cColor & bkColor, const bool bFullScreen, const int iWidth, const int iHeight)
 {
 	m_Hwnd = hWnd;
-	m_BkColor = bkColor;
+	m_BkColor = bkColor.GetColor();
 	m_bFullScreen = bFullScreen;
 	m_iHeight = iHeight;
 	m_iWidth = iWidth;

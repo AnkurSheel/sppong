@@ -13,7 +13,7 @@
 #include "BaseApp.hxx"
 #include "Logger.hxx"
 #include "ResourceManager.hxx"
-#include "Constants.h"
+#include "Color.h"
 #include "Structures.h"
 
 using namespace Utilities;
@@ -313,7 +313,7 @@ void cMainWindow::OnWindowCreated()
 	SetFocus(m_Hwnd);
 
 	// initialize DirectX
-	IDXBase::GetInstance()->VOnInitialization(m_Hwnd, TAN, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
+	IDXBase::GetInstance()->VOnInitialization(m_Hwnd, cColor::BLACK, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
 
 	// initialize resource manager
 	IResourceManager::GetInstance()->Init("resources\\resources.zip");

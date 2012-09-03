@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine_D.lib Utilities_D.lib GameBase_D.lib Sound_D.lib Base_D.lib"
+				AdditionalDependencies="Utilities_D.lib GameBase_D.lib Sound_D.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine.lib Utilities.lib GameBase.lib Sound.lib Base.lib"
+				AdditionalDependencies=" Utilities.lib GameBase.lib Sound.lib Base.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\"

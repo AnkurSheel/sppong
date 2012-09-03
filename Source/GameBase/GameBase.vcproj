@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine_D.lib Base_D.lib Utilities_D.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\"
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GraphicsEngine.lib Base.lib Utilities.lib"
+				AdditionalDependencies="Base.lib Utilities.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\"

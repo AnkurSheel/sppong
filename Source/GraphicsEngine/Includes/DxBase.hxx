@@ -12,6 +12,11 @@
 
 #include "GraphicEngineDefines.h"
 
+namespace Base
+{
+	class cColor;
+}
+
 namespace Graphics
 {
 	class cVertex;
@@ -42,10 +47,10 @@ namespace Graphics
 		 * Initializes the directX object
 		 ***********************************************/
 		virtual void VOnInitialization(const HWND hWnd,
-							const D3DCOLOR & bkColor, 
-							const bool bFullScreen,
-							const int iWidth, 
-							const int iHeight) = 0;
+										const Base::cColor & bkColor, 
+										const bool bFullScreen,
+										const int iWidth, 
+										const int iHeight) = 0;
 		/********************************************//**
 		 * @return The success code. D3D_OK if the method succeeds.
 		 *
