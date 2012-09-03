@@ -11,7 +11,6 @@
 #include "WindowControl.h"
 #include "Sprite.hxx"
 #include "DxBase.hxx"
-#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;

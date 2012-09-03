@@ -43,12 +43,12 @@ void cMPongView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const 
 }
 
 // ***************************************************************
-void cMPongView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
+void cMPongView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
 	cHumanView::VOnUpdate(tickCurrent, fElapsedTime);
 	if (m_P1PaddleHandler)
 	{
-		m_P1PaddleHandler->OnUpdate(fElapsedTime);
+		m_P1PaddleHandler->OnUpdate();
 	}
 	if (m_pGame)
 	{
@@ -58,7 +58,7 @@ void cMPongView::VOnUpdate(TICK tickCurrent, const float fElapsedTime)
 		}
 		else if (m_P2PaddleHandler)
 		{
-			m_P2PaddleHandler->OnUpdate(fElapsedTime);
+			m_P2PaddleHandler->OnUpdate();
 		}
 	}
 }

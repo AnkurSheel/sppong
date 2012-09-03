@@ -11,7 +11,6 @@
 #include "HScrollBar.h"
 #include "Sprite.hxx"
 #include "Logger.hxx"
-#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;

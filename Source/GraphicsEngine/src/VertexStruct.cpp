@@ -13,6 +13,8 @@
 using namespace Graphics;
 using namespace Base;
 
+const DWORD	Graphics::cVertex::FVF  = D3DFVF_XYZRHW|D3DFVF_DIFFUSE;
+
 // ***************************************************************
 Graphics::cVertex::cVertex()
 : m_fX(0.0f)
@@ -34,7 +36,7 @@ Graphics::cVertex::cVertex( const float fX, const float fY, const float fZ, cons
 {
 
 }
-
+/*
 // ***************************************************************
 // Constructor
 // ***************************************************************
@@ -217,3 +219,4 @@ VertexNormSpec::VertexNormSpec(const D3DXVECTOR3 &vPos, const D3DXCOLOR& colDiff
 	m_colSpec = colSpec ;
 }
 // ***************************************************************
+*/

@@ -16,7 +16,8 @@ namespace Graphics
 	struct AppMsg;
 }
 
-class P1PaddleHandler : public Graphics::IKeyBoardHandler
+class P1PaddleHandler 
+	: public Graphics::IKeyBoardHandler
 {
 public:
 	P1PaddleHandler();
@@ -24,9 +25,9 @@ public:
 	bool VOnKeyDown(const Graphics::AppMsg & msg);
 	bool VOnKeyUp(const Graphics::AppMsg& msg);
 	void VLockKey(const BYTE c, const bool bLock);
-	void OnUpdate(const int iDeltaMilliSeconds);
+	void OnUpdate();
 	void RegisterCallBack(function <void (bool)> callback);;
-	void UnregisterCallBack();;
+	void UnregisterCallBack();
 private:
 	BYTE					m_bKey[KEYBOARD_KEYS];			// Which keys are up and down
 	function<void (bool)>	m_pfnCallBack;

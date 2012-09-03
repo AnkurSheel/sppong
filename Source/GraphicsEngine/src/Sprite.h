@@ -39,12 +39,12 @@ namespace Graphics
 		HRESULT VOnResetDevice();
 		UINT GetScaledHeight() const;
 		UINT GetScaledWidth() const;
-		D3DXVECTOR3 GetPosition() const;
+		Base::cVector3 GetPosition() const;
 		void SetPosition(const Base::cVector3& vPosition);
 		bool VIsVisible() const;
 		void VSetVisible(bool bIsVisible);
 		void SetFlags(const DWORD dwFlags);
-		void SetTintColor(const D3DCOLOR & tintColor);
+		void SetTintColor(const Base::cColor & tintColor);
 		void SetSourceRect(const RECT &	rectSrc);
 		void SetTexture( shared_ptr<ITexture> const pTexture);
 
@@ -58,12 +58,12 @@ namespace Graphics
 		DWORD						m_dwHeight;		// the height of the image
 		DWORD						m_dwWidth;		// the width of the image
 		D3DXVECTOR3					m_vScale;		// the scaling info for the image
-		D3DXVECTOR3					m_vPosition;	// the scaling info for the image
+		Base::cVector3				m_vPosition;	// the scaling info for the image
 		D3DXMATRIX					m_mScaleMatrix;	// the scaling matrix
 		Base::cString				m_strFilename;
 		bool						m_bIsVisible;
 		DWORD						m_dwFlags;
-		DWORD						m_tintColor;
+		Base::cColor				m_tintColor;
 		RECT *						m_pSrcRect;
 	};
 #include "Sprite.inl"

@@ -43,7 +43,7 @@ bool P1PaddleHandler::VOnKeyUp( const AppMsg & msg )
 }
 
 // ***************************************************************
-void P1PaddleHandler::OnUpdate( const int iDeltaMilliSeconds )
+void P1PaddleHandler::OnUpdate()
 {
 	if (m_bKey['S'])
 	{

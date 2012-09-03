@@ -11,7 +11,6 @@
 #include "BaseControl.h"
 #include "Sprite.hxx"
 #include "Structures.h"
-#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;

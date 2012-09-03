@@ -55,8 +55,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hIn
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
 	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), 14, 14, 20, false, 
-		DEFAULT_CHARSET, "Arial") ;
+	m_pFont->InitFont(14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
 
 	RECT boundingRect;
 	boundingRect.left = iClientWidth/2- 75;
@@ -118,7 +117,6 @@ void GameBase::cHumanView::VOnLostDevice()
 // ***************************************************************
 HRESULT GameBase::cHumanView::VOnResetDevice()
 {
-	LPDIRECT3DDEVICE9 pDevice = IDXBase::GetInstance()->VGetDevice();
 	AppMsg appMsg;
 	appMsg.m_uMsg = WM_DEVICERESET;
 	appMsg.m_lParam = 0;
@@ -130,18 +128,15 @@ HRESULT GameBase::cHumanView::VOnResetDevice()
 	}
 
 	HRESULT hr = S_OK;
-	if (pDevice)
+	for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 	{
-		for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
-		{
-			(*i)->VOnResetDevice();
-		}
-		//m_pCursorSprite->OnResetDevice();
+		(*i)->VOnResetDevice();
+	}
+	//m_pCursorSprite->OnResetDevice();
 
-		if (m_pFont)
-		{
-			m_pFont->VOnResetDevice();
-		}
+	if (m_pFont)
+	{
+		m_pFont->VOnResetDevice();
 	}
 	return hr;
 }

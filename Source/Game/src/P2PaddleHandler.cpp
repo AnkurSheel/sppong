@@ -48,7 +48,7 @@ void P2PaddleHandler::VLockKey( const BYTE c, const bool bLock )
 
 }
 // ***************************************************************
-void P2PaddleHandler::OnUpdate( const int iDeltaMilliSeconds )
+void P2PaddleHandler::OnUpdate()
 {
 	if (m_bKey[VK_UP])
 	{

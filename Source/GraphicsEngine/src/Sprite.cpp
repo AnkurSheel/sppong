@@ -24,10 +24,10 @@ cSprite::cSprite()
 , m_dwHeight(0)
 , m_dwWidth(0)
 , m_vScale(D3DXVECTOR3(1.0f, 1.0f, 0.0f))
-, m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
+, m_vPosition(cVector3(-1.0f, -1.0f, -1.0f))
 , m_bIsVisible(true)
 , m_dwFlags(NULL)
-, m_tintColor(cColor::WHITE.GetColor())
+, m_tintColor(cColor::WHITE)
 , m_pSrcRect(NULL)
 {
 	D3DXMatrixIdentity(&m_mScaleMatrix) ; 
@@ -125,17 +125,16 @@ void cSprite::VOnRender(const AppMsg & msg)
 {
 	// draw the sprite
 	m_pSprite->Begin(m_dwFlags);
-	m_pSprite->Draw(m_pTexture->GetTexture(), m_pSrcRect, NULL, NULL, m_tintColor); 
+	m_pSprite->Draw(m_pTexture->GetTexture(), m_pSrcRect, NULL, NULL, m_tintColor.GetColor()); 
 	m_pSprite->End();
 }
 // ***************************************************************
 
 void cSprite::SetPosition(const cVector3& vPosition)
 {
-	D3DXVECTOR3 vec = Vector3ToD3DXVEC3(vPosition);
-	if(m_vPosition != vec)
+	if(m_vPosition != vPosition)
 	{
-		m_vPosition = vec ;
+		m_vPosition = vPosition ;
 		MakeTransformMatrix();
 	}
 }
@@ -179,7 +178,7 @@ void cSprite::Cleanup()
 void cSprite::MakeTransformMatrix()
 {
 	D3DXMATRIX transMatrix;
-	D3DXMatrixTranslation(&transMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixTranslation(&transMatrix, m_vPosition.m_dX, m_vPosition.m_dY, m_vPosition.m_dZ);
 	D3DXMatrixMultiply(&transMatrix, &m_mScaleMatrix, &transMatrix);
 	m_pSprite->SetTransform(&transMatrix);
 }
@@ -197,7 +196,7 @@ void cSprite::SetFlags(const DWORD dwFlags)
 }
 // ***************************************************************
 
-void cSprite::SetTintColor(const D3DCOLOR & tintColor)
+void cSprite::SetTintColor(const Base::cColor & tintColor)
 {
 	m_tintColor = tintColor;
 }	

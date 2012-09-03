@@ -25,7 +25,7 @@ namespace Graphics
 	{
 	public:
 		virtual ~IFont(){}
-		virtual void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) = 0;
+		virtual void InitFont(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) = 0;
 		virtual void SetText(const Base::cString & strString) = 0;
 		virtual void SetRect(const RECT & boundingRect) = 0;
 		virtual void CalculateAndSetRect() = 0;

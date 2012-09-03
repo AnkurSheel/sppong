@@ -31,7 +31,7 @@ namespace Graphics
 	public:
 		cMyFont() ;
 		~cMyFont() ;
-		void InitFont(IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
+		void InitFont(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
 		void VOnRender(const Graphics::AppMsg & msg) ;
 		void SetText(const Base::cString & strString);
 		const RECT & GetRect() const;

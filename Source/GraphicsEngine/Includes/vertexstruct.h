@@ -20,13 +20,13 @@ namespace Graphics
 		float				m_fX, m_fY, m_fZ;
 		float				m_fRHW;
 		DWORD				m_dwColour;
-		static const DWORD	FVF  = D3DFVF_XYZRHW|D3DFVF_DIFFUSE;
+		static const DWORD	FVF;
 		GRAPHIC_API cVertex();
 		GRAPHIC_API cVertex(const float fX, const float fY, const float fZ, const float fRHW, const DWORD dwColour);
 	};
 	
 
-	class Vertex
+/*	class Vertex
 	{
 		D3DXVECTOR3			m_vPosition ;
 		float				m_fRHW ;
@@ -103,6 +103,6 @@ namespace Graphics
 
 		GRAPHIC_API VertexNormSpec() ;
 		GRAPHIC_API VertexNormSpec(const D3DXVECTOR3 &vPos, const D3DXCOLOR& colDiffuse, const D3DCOLOR& colSpec, const D3DXVECTOR3& vNorm, const D3DXVECTOR2& vTex) ;
-	} ;
+	} ;*/
 }
 #endif // vertexstruct_h__

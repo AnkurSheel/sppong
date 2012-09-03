@@ -13,7 +13,6 @@
 #include "DxBase.hxx"
 #include "Font.hxx"
 #include "Sprite.hxx"
-#include "Vector3.h"
 
 using namespace Graphics;
 using namespace Utilities;

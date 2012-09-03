@@ -46,3 +46,4 @@
 #include "Includes.h"
 #include "GraphicUtils.h"
 #include "Color.h"
+#include "Vector3.h"

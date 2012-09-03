@@ -43,7 +43,7 @@ cMyFont::~cMyFont()
 // ***************************************************************
 // Initializes the font
 // ***************************************************************
-void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const cString & strFaceName )
+void cMyFont::InitFont(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const cString & strFaceName )
 {
 	ZeroMemory(&m_fonttype, sizeof(D3DXFONT_DESC)) ;
 	m_fonttype.Height		= iHeight ;
@@ -53,7 +53,7 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 	m_fonttype.CharSet		= charset ;
 	strcpy_s(m_fonttype.FaceName, LF_FACESIZE, strFaceName.GetData()) ;
 
-	D3DXCreateFontIndirect(pd3dDevice, &m_fonttype, &m_pFont) ;
+	D3DXCreateFontIndirect(IDXBase::GetInstance()->VGetDevice(), &m_fonttype, &m_pFont) ;
 
 	RECT rctA = {0,0,0,0};
 	m_pFont->DrawText(NULL, "_", -1, &rctA, DT_CALCRECT, cColor::BLACK.GetColor());

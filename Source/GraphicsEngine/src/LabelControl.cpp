@@ -35,7 +35,7 @@ void Graphics::cLabelControl::Init(const int iHeight, const UINT iWidth, const U
 	m_pFont = IFont::CreateMyFont();
 	if (m_pFont != NULL)
 	{
-		m_pFont->InitFont(IDXBase::GetInstance()->VGetDevice(), iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
+		m_pFont->InitFont(iHeight, iWidth, iWeight, bItalic, charset, strFaceName);
 		m_pFont->SetFormat(dwFormat);
 		m_pFont->SetTextColor(color);
 		m_pFont->SetText(strCaption);

@@ -9,7 +9,6 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "GraphicUtils.h"
-#include "Vector3.h"
 #include "Vector2.h"
 
 using namespace Base;

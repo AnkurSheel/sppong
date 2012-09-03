@@ -18,7 +18,7 @@ inline UINT cSprite::GetScaledWidth() const
 // ***************************************************************
 // get the current position of the sprite
 // ***************************************************************
-inline D3DXVECTOR3 cSprite::GetPosition() const
+inline Base::cVector3 cSprite::GetPosition() const
 {
 	return m_vPosition;
 }

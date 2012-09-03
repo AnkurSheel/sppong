@@ -28,7 +28,7 @@ public:
 	cMPongView();
 	~cMPongView();
 	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
-	void VOnUpdate(TICK tickCurrent, const float fElapsedTime);
+	void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
 	void VRenderPrivate();
 	bool VOnMsgProc( const Graphics::AppMsg & msg );	
 	void OnSinglePlayerSelected(cGame * pGame);
