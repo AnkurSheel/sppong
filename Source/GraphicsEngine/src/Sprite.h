@@ -31,8 +31,8 @@ namespace Graphics
 	public:
 		cSprite();
 		~cSprite();
-		void Init(LPDIRECT3DDEVICE9 const pDevice, shared_ptr<ITexture> const pTexture);
-		void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) ;
+		void Init(shared_ptr<ITexture> const pTexture);
+		void Init(const Base::cString & strFilename) ;
 		void SetSize(const float fNewWidth, const float fNewHeight);
 		void VOnRender(const AppMsg & msg);
 		void VOnLostDevice();
@@ -63,7 +63,7 @@ namespace Graphics
 		Base::cString				m_strFilename;
 		bool						m_bIsVisible;
 		DWORD						m_dwFlags;
-		D3DCOLOR					m_tintColor;
+		DWORD						m_tintColor;
 		RECT *						m_pSrcRect;
 	};
 #include "Sprite.inl"

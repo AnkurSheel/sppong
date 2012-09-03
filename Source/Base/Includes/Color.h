@@ -7,8 +7,8 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef Color_cpp__
-#define Color_cpp__
+#ifndef Color_h__
+#define Color_h__
 
 namespace Base
 {
@@ -23,7 +23,18 @@ namespace Base
 		void CalculateColorFromComponents();
 
 	public:
-			static const cColor BLACK;
+			BASE_API static const cColor BLACK;
+			BASE_API static const cColor WHITE;
+			BASE_API static const cColor RED;
+			BASE_API static const cColor BLUE;
+			BASE_API static const cColor GREEN;
+			BASE_API static const cColor GRAY;
+			BASE_API static const cColor TURQUOISE;
+			BASE_API static const cColor YELLOW;
+			BASE_API static const cColor TAN;
+			BASE_API static const cColor ORANGE;
+			BASE_API static const cColor VIOLET;
+
 	private:
 		float m_fRed;
 		float m_fGreen;

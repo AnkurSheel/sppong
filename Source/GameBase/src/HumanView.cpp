@@ -14,12 +14,12 @@
 #include "BaseApp.hxx"
 #include "Font.hxx"
 #include "Sprite.hxx"
-#include "myString.h"
 #include "ScreenElement.hxx"
 #include "BaseControl.hxx"
 #include "MainWindow.hxx"
 #include "Vector3.h"
 #include "vertexstruct.h"
+#include "Color.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -66,7 +66,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hIn
 	m_pFont->SetRect(boundingRect);
 
 	m_pFont->SetFormat(DT_LEFT | DT_TOP);
-	m_pFont->SetTextColor(WHITE);
+	m_pFont->SetTextColor(cColor::WHITE.GetColor());
 }
 
 // ***************************************************************

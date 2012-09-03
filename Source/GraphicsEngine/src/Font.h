@@ -53,7 +53,7 @@ namespace Graphics
 		Base::cString	m_strString;
 		RECT			m_boundingRect; 
 		DWORD 			m_dwFormat;
-		D3DCOLOR		m_Color;
+		DWORD			m_Color;
 		bool			m_bVisible;
 		int				m_iSpaceWidth;
 	} ;

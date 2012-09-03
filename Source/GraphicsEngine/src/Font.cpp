@@ -20,7 +20,7 @@ using namespace Utilities;
 // ***************************************************************
 cMyFont::cMyFont()
 : m_pFont(NULL)
-, m_Color(BLACK)
+, m_Color(cColor::BLACK.GetColor())
 , m_bVisible(true)
 , m_iSpaceWidth(0)
 {
@@ -56,7 +56,7 @@ void cMyFont::InitFont( IDirect3DDevice9 *pd3dDevice, const int iHeight, const U
 	D3DXCreateFontIndirect(pd3dDevice, &m_fonttype, &m_pFont) ;
 
 	RECT rctA = {0,0,0,0};
-	m_pFont->DrawText(NULL, "_", -1, &rctA, DT_CALCRECT, BLACK);
+	m_pFont->DrawText(NULL, "_", -1, &rctA, DT_CALCRECT, cColor::BLACK.GetColor());
 
 	m_iSpaceWidth = rctA.right - rctA.left;
 }

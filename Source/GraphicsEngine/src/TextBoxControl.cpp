@@ -50,7 +50,7 @@ void Graphics::cTextBoxControl::Init( const Base::cString & strDefaultImage, con
 	}
 
 	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strDefaultImage);
+	m_pCanvasSprite->Init(strDefaultImage);
 
 	m_avCaretVector[0] = D3DXVECTOR2(0.f, 0.f);
 	m_avCaretVector[1] = D3DXVECTOR2(0.f, 0.f);

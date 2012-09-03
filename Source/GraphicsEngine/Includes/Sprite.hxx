@@ -11,7 +11,6 @@
 #define Sprite_hxx__
 
 #include "GraphicEngineDefines.h"
-#include "Constants.h"
 #include "ScreenElement.hxx"
 
 namespace Base
@@ -32,8 +31,8 @@ namespace Graphics
 	{
 	public:
 		virtual ~ISprite(){}
-		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, shared_ptr<ITexture> const pTexture) = 0;
-		virtual void Init(LPDIRECT3DDEVICE9 const pDevice, const Base::cString & strFilename) = 0;
+		virtual void Init(shared_ptr<ITexture> const pTexture) = 0;
+		virtual void Init(const Base::cString & strFilename) = 0;
 		virtual void SetSize(const float fNewWidth, const float fNewHeight) = 0;
 		virtual UINT GetScaledHeight() const = 0;
 		virtual UINT GetScaledWidth() const = 0;

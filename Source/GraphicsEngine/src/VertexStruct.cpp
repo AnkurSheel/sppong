@@ -11,6 +11,7 @@
 #include "VertexStruct.h"
 
 using namespace Graphics;
+using namespace Base;
 
 // ***************************************************************
 Graphics::cVertex::cVertex()
@@ -92,7 +93,7 @@ VertexMultiTex::VertexMultiTex()
 	m_vPosition.x = 0.0f ;
 	m_vPosition.y = 0.0f ;
 	m_vPosition.z = 0.0f ;
-	m_Colour = WHITE ;
+	m_Colour = cColor::WHITE.GetColor();
 	m_fU = 0 ;
 	m_fV = 0 ;
 	m_fU1 = 0 ;
@@ -199,8 +200,8 @@ VertexNormSpec::VertexNormSpec()
 	m_vNormal.y = 0.0f ;
 	m_vNormal.z = 0.0f ;
 
-	m_colDiffuse = WHITE ;
-	m_colSpec = WHITE ;
+	m_colDiffuse = cColor::WHITE.GetColor();
+	m_colSpec = cColor::WHITE.GetColor();
 } 
 // ***************************************************************
 

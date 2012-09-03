@@ -34,6 +34,4 @@
 #include <d3dx9.h>
 #include <dinput.h>
 #include "Logger.hxx"
-#include "myString.h"
-
 #include "Includes.h"

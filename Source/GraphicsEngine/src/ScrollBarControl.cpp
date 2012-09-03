@@ -151,7 +151,7 @@ void Graphics::cScrollBarControl::Init( const Base::cString & strBackgroundImage
 									   const int iMinPos, const int iMaxPos )
 {
 	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strBackgroundImage);
+	m_pCanvasSprite->Init(strBackgroundImage);
 
 	m_pBtnThumb = IBaseControl::CreateButtonControl(strDefaultThumbImage, strPressedThumbImage);
 	m_pBtnDecrementArrow = IBaseControl::CreateButtonControl(strDefaultMinImage, strDefaultMinImage);

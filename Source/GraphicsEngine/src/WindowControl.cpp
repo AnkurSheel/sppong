@@ -78,7 +78,7 @@ void Graphics::cWindowControl::LoadCanvasFromFile( const Base::cString & strFile
 	if(m_eWindowType != WT_DESKTOP)
 	{
 		m_pCanvasSprite = ISprite::CreateSprite();
-		m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), strFileName);
+		m_pCanvasSprite->Init(strFileName);
 
 		m_fHeight = m_pCanvasSprite->GetScaledHeight();
 		m_fWidth = m_pCanvasSprite->GetScaledWidth();

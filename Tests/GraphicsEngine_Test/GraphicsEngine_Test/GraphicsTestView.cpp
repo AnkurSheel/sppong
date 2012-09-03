@@ -15,6 +15,7 @@
 #include "RandomGenerator.hxx"
 #include "vertexstruct.h"
 #include "DxBase.hxx"
+#include "Color.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -43,7 +44,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst,
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Press 'c' to start test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Press 'c' to start test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
@@ -130,14 +131,14 @@ void cGraphicsTestView::Finished()
 		m_pInfoLabelControl = NULL;
 	}
 
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Finished all Tests. Press 'c' to exit");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Finished all Tests. Press 'c' to exit");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 }
 
 void cGraphicsTestView::TestUIControls()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing UI Controls. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing UI Controls. Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
@@ -146,11 +147,11 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VSetPosition(cVector3(300.f, 300.f, 0.f));
 	pWindowControl->VSetSize(400, 400);
 
-	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, BLUE, "Label  ");
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, cColor::BLUE.GetColor(), "Label  ");
 	pWindowControl->VAddChildControl(pLabelControl);
 	pLabelControl->VSetPosition(cVector3(0.f, 40.f, 0.f));
 
-	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Vladimir Script", DT_VCENTER|DT_CENTER, WHITE, false);
+	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png", "Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET, "Vladimir Script", DT_VCENTER|DT_CENTER, cColor::WHITE.GetColor(), false);
 	pWindowControl->VAddChildControl(pButtonControl);
 	pButtonControl->VSetSize(100, 100);
 	pButtonControl->VSetPosition(cVector3(0.f, 90.f, 0.f));
@@ -166,12 +167,12 @@ void cGraphicsTestView::TestUIControls()
 	btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
 	pButtonControl1->VRegisterCallBack(btn1Callback);
 
-	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png", 10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, BLACK);
+	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png", 10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, cColor::BLACK.GetColor());
 	pWindowControl->VAddChildControl(pTextBoxControl);
 	pTextBoxControl->VSetSize(200, 30);
 	pTextBoxControl->VSetPosition(cVector3(0.f, 200.f, 0.f));
 
-	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png", "Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, WHITE);
+	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png", "Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, cColor::WHITE.GetColor());
 	pWindowControl->VAddChildControl(pCheckBoxControl);
 	pCheckBoxControl->VSetPosition(cVector3(0.f, 250.f, 0.f));
 	function<void (bool)> checkBoxCallback;
@@ -197,7 +198,7 @@ void cGraphicsTestView::TestUIControls()
 
 void cGraphicsTestView::TestPointList()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Point List. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Point List. Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
@@ -218,7 +219,7 @@ void cGraphicsTestView::TestPointList()
 // ***************************************************************
 void cGraphicsTestView::TestLineList()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Line List. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Line List. Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
@@ -239,7 +240,7 @@ void cGraphicsTestView::TestLineList()
 // ***************************************************************
 void cGraphicsTestView::TestLineStrip()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Line Strip. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Line Strip. Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
@@ -267,24 +268,24 @@ void cGraphicsTestView::TestLineStrip()
 // ***************************************************************
 void cGraphicsTestView::TestTriangleList()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, BLUE, "Testing Triangle Strip. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::RED.GetColor(), "Testing Triangle Strip. Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
 	m_vertexData = DEBUG_NEW cVertex[12];
 
-	m_vertexData[0] = cVertex(200, 200, 1, 1, RED);
-	m_vertexData[1] = cVertex(100, 100, 1, 1, BLUE);
-	m_vertexData[2] = cVertex(300, 100, 1, 1, GREEN);
-	m_vertexData[3] = cVertex(200, 200, 1, 1, RED);
-	m_vertexData[4] = cVertex(300, 100, 1, 1, GREEN);
-	m_vertexData[5] = cVertex(300, 300, 1, 1, YELLOW);
-	m_vertexData[6] = cVertex(200, 200, 1, 1, RED);
-	m_vertexData[7] = cVertex(300, 300, 1, 1, YELLOW);
-	m_vertexData[8] = cVertex(100, 300, 1, 1, VIOLET);
-	m_vertexData[9] = cVertex(200, 200, 1, 1, RED);
-	m_vertexData[10] = cVertex(100, 300, 1, 1, VIOLET);
-	m_vertexData[11] = cVertex(100, 100, 1, 1, BLUE);
+	m_vertexData[0] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_vertexData[1] = cVertex(100, 100, 1, 1, cColor::BLUE.GetColor());
+	m_vertexData[2] = cVertex(300, 100, 1, 1, cColor::GREEN.GetColor());
+	m_vertexData[3] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_vertexData[4] = cVertex(300, 100, 1, 1, cColor::GREEN.GetColor());
+	m_vertexData[5] = cVertex(300, 300, 1, 1, cColor::YELLOW.GetColor());
+	m_vertexData[6] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_vertexData[7] = cVertex(300, 300, 1, 1, cColor::YELLOW.GetColor());
+	m_vertexData[8] = cVertex(100, 300, 1, 1, cColor::VIOLET.GetColor());
+	m_vertexData[9] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_vertexData[10] = cVertex(100, 300, 1, 1, cColor::VIOLET.GetColor());
+	m_vertexData[11] = cVertex(100, 100, 1, 1, cColor::BLUE.GetColor());
 }
 
 // ***************************************************************

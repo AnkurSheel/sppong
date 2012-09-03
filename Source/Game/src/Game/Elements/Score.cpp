@@ -11,6 +11,7 @@
 #include "Score.h"
 #include "font.hxx"
 #include "DxBase.hxx"
+#include "Color.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -60,7 +61,7 @@ void cScore::Init( const D3DXVECTOR3& vInitialPos )
 
 	m_pFont->SetRect(boundingRect);
 	m_pFont->SetText(cString(20, "%02d", m_iValue));
-	m_pFont->SetTextColor(TURQUOISE);
+	m_pFont->SetTextColor(cColor::TURQUOISE.GetColor());
 
 }
 // ***************************************************************

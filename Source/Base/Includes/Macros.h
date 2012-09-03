@@ -37,6 +37,10 @@
 	} \
 }
 
+#define WM_RENDER WM_USER + 1
+#define WM_DEVICELOST WM_USER + 2
+#define WM_DEVICERESET WM_USER + 3
+
 #define TEST
 
 //configure some basic precompilation defines

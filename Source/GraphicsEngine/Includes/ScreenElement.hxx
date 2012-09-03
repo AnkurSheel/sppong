@@ -11,7 +11,6 @@
 #define ScreenElement_hxx__
 
 #include "GraphicEngineDefines.h"
-#include "Constants.h"
 
 namespace Graphics
 {

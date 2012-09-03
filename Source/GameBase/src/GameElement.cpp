@@ -11,7 +11,7 @@
 #include "GameElement.h"
 #include "Polygon.hxx"
 #include "Sprite.hxx"
-#include "DxBase.hxx"
+//#include "DxBase.hxx"
 #include "Vector2.h"
 
 using namespace Graphics;
@@ -44,7 +44,7 @@ void cGameElement::OnBeginInit(const cString & strFilename, const cVector2 & vSi
 {
 	m_pSprite = ISprite::CreateSprite();
 	m_strFileName = strFilename;
-	m_pSprite->Init(IDXBase::GetInstance()->VGetDevice(), m_strFileName);
+	m_pSprite->Init(m_strFileName);
 	m_pSprite->SetSize(vSize.m_dX, vSize.m_dY);
 }
 // ***************************************************************

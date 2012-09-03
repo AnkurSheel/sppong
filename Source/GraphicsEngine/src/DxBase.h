@@ -65,7 +65,7 @@ namespace Graphics
 		LPDIRECT3D9				m_pD3D ;				/*!< Pointer to a direct3d object */
 		LPDIRECT3DDEVICE9		m_pd3dDevice ;			/*!< Pointer to a direct3d device */
 		D3DCAPS9				m_Caps ;				/*!< The capabilities of the direct 3d object */
-		D3DCOLOR				m_BkColor ;				/*!< The background color */
+		DWORD					m_BkColor ;				/*!< The background color */
 		HWND					m_Hwnd ;				/*!< The window handle */
 		D3DPRESENT_PARAMETERS	m_d3dpp ;				/*!< The presentation parameters */
 		int						m_iWidth;				/*!< The width of the window */

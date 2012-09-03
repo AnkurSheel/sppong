@@ -1,4 +1,3 @@
- const cColor cColor::BLACK = cColor(0,0,0,255);
  // ***************************************************************
 inline cColor::cColor()
 : m_fRed(0)
@@ -27,7 +26,7 @@ inline void cColor::CalculateColorFromComponents()
 
 
 // ***************************************************************
-DWORD cColor::GetColor() const
+inline DWORD cColor::GetColor() const
 {
 	return m_dwColor;
 }

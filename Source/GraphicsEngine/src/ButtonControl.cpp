@@ -71,7 +71,7 @@ void Graphics::cButtonControl::Init( const Base::cString & strDefaultImage, cons
 	m_pPressedTexture->Init(IDXBase::GetInstance()->VGetDevice(), strPressedImage);
 
 	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->Init(IDXBase::GetInstance()->VGetDevice(), m_pDefaultTexture);
+	m_pCanvasSprite->Init(m_pDefaultTexture);
 	m_pCanvasSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 }
 

@@ -25,6 +25,7 @@
 #include "BaseControl.hxx"
 #include "MessageDispatchManager.hxx"
 #include "FSM\Telegram.h"
+#include "Color.h"
 
 using namespace MySound;
 using namespace Graphics;
@@ -54,7 +55,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 	if (pGame->m_pHumanView->m_pParentControl != NULL)
 	{
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(300, 60, 400, true, DEFAULT_CHARSET
-			, "JokerMan", DT_CENTER, RED, "MPONG");
+			, "JokerMan", DT_CENTER, cColor::RED.GetColor(), "MPONG");
 		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pLabelControl);
 		pLabelControl->VSetPosition(cVector3(pGame->m_iDisplayWidth/4, 0, 0.f));
 	}
@@ -106,7 +107,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 	{
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "Single Player ", 50, 25, 400, true, DEFAULT_CHARSET
-			, "Vladimir Script", DT_CENTER, BLUE, true);
+			, "Vladimir Script", DT_CENTER, cColor::BLUE.GetColor(), true);
 		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pSinglePlayerButton);
 		pSinglePlayerButton->VSetPosition(cVector3(311.f, 310.f, 0.f));
 		function<void (bool)> callbackSinglePlayerBtn;
@@ -115,7 +116,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "MultiPlayer", 50, 25, 400, true, DEFAULT_CHARSET
-			, "Vladimir Script", DT_CENTER, BLUE, true);
+			, "Vladimir Script", DT_CENTER, cColor::BLUE.GetColor(), true);
 		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pMultiPlayerButton);
 		pMultiPlayerButton->VSetPosition(cVector3(311.f, 366.f, 0.f));
 		pMultiPlayerButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
@@ -125,7 +126,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl("Sprites\\buttonDefault.png"
 			, "Sprites\\buttonPressed.png", "Quit", 50, 25, 400, true, DEFAULT_CHARSET
-			, "Vladimir Script", DT_CENTER, BLUE, true);
+			, "Vladimir Script", DT_CENTER, cColor::BLUE.GetColor(), true);
 		pGame->m_pHumanView->m_pParentControl->VAddChildControl(pQuitButton);
 		pQuitButton->VSetPosition(cVector3(311.f, 422.f, 0.f));
 		pQuitButton->VSetSize(pSinglePlayerButton->VGetWidth(), pSinglePlayerButton->VGetHeight());
@@ -194,7 +195,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 {
 	shared_ptr<ISprite> pTableSprite = ISprite::CreateSprite();
 
-	pTableSprite->Init(pGame->m_pD3dDevice, "Sprites\\Table.jpg");
+	pTableSprite->Init("Sprites\\Table.jpg");
 	pTableSprite->SetSize((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight);
 	pTableSprite->SetPosition(cVector3(0.0f, 0.0f, 0.0f));
 	pTableSprite->SetFlags(D3DXSPRITE_ALPHABLEND);

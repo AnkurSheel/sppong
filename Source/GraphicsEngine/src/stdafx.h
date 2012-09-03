@@ -42,7 +42,7 @@
 #include <mmsystem.h>
 #include <DxErr.h> //For DXGetErrorString9
 #include <dinput.h>
-#include "constants.h"
 #include "Logger.hxx"
 #include "Includes.h"
 #include "GraphicUtils.h"
+#include "Color.h"

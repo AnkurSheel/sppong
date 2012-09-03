@@ -80,7 +80,6 @@ private:
 	void VCreateHumanView();
 
 private:
-	LPDIRECT3DDEVICE9			m_pD3dDevice;
 	int							m_iDisplayHeight ;		// the display height of the window
 	int							m_iDisplayWidth ;		// the display width of the window
 	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements

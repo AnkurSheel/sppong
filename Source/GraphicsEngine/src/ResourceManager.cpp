@@ -10,7 +10,6 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 #include "ResCache.hxx"
-#include "myString.h"
 
 using namespace Utilities;
 using namespace Base;

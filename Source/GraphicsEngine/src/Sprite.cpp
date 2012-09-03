@@ -27,7 +27,7 @@ cSprite::cSprite()
 , m_vPosition(D3DXVECTOR3(-1.0f, -1.0f, -1.0f))
 , m_bIsVisible(true)
 , m_dwFlags(NULL)
-, m_tintColor(WHITE)
+, m_tintColor(cColor::WHITE.GetColor())
 , m_pSrcRect(NULL)
 {
 	D3DXMatrixIdentity(&m_mScaleMatrix) ; 
@@ -47,14 +47,14 @@ cSprite::~cSprite()
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice, shared_ptr<ITexture> const pTexture)
+void cSprite::Init(shared_ptr<ITexture> const pTexture)
 {
 	if (m_pSprite)
 	{
 		Cleanup();
 	}
 	// Create the Sprite
-	if (FAILED(	D3DXCreateSprite(pDevice, &m_pSprite))) 
+	if (FAILED(	D3DXCreateSprite(IDXBase::GetInstance()->VGetDevice(), &m_pSprite))) 
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Sprite Creation failed : %s", m_strFilename.GetData() ));
 		PostQuitMessage(0);
@@ -73,7 +73,7 @@ void cSprite::Init(LPDIRECT3DDEVICE9 const pDevice, shared_ptr<ITexture> const p
 // ***************************************************************
 // Initialize the sprite
 // ***************************************************************
-void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename)
+void cSprite::Init(const cString & strFilename)
 {
 
 	m_strFilename = strFilename;
@@ -85,9 +85,9 @@ void cSprite::Init( LPDIRECT3DDEVICE9 const pDevice, const cString & strFilename
 		m_pTexture = ITexture::CreateTexture();
 	}
 	
-	m_pTexture->Init(pDevice, strFilename);
+	m_pTexture->Init(IDXBase::GetInstance()->VGetDevice(), strFilename);
 
-	Init(pDevice, m_pTexture);
+	Init(m_pTexture);
 
 }
 // ***************************************************************
@@ -151,11 +151,11 @@ HRESULT cSprite::VOnResetDevice()
 {
 	if (m_strFilename.IsEmpty())
 	{
-		Init(IDXBase::GetInstance()->VGetDevice(), m_pTexture);
+		Init(m_pTexture);
 	}
 	else
 	{
-		Init(IDXBase::GetInstance()->VGetDevice(), m_strFilename);
+		Init(m_strFilename);
 	}
 	MakeTransformMatrix();
 	return S_OK;

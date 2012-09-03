@@ -40,7 +40,6 @@ cGame::cGame(const cString strName)
 : cBaseApp(strName)
 , m_pScore(NULL)
 , m_pStateMachine(NULL)
-, m_pD3dDevice(NULL)
 , m_bSinglePlayer(false)
 , m_bMultiPlayer(false)
 , m_pSound(NULL)
@@ -68,7 +67,6 @@ void cGame::VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
 {
 	cBaseApp::VOnInitialization(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, outHwnd);
 
-	m_pD3dDevice = IDXBase::GetInstance()->VGetDevice();
 	m_iDisplayHeight = iFullScreenHeight;
 	m_iDisplayWidth = iFullScreenWidth;
 
