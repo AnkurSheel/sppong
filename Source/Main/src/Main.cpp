@@ -14,8 +14,6 @@
 #include "Game/Game.hxx"
 #include "EntityManager.hxx"
 #include "MessageDispatchManager.hxx"
-#include "ParamLoaders.hxx"
-#include "Optional.h"
 
 using namespace Utilities;
 using namespace GameBase;
@@ -53,31 +51,9 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	strOptionsFileName = "OptionsRetail.ini";
 #endif
 
-	IParamLoader * pParamLoader = IParamLoader::CreateParamLoader();
-	if(pParamLoader != NULL)
-	{
-		pParamLoader->VLoadParametersFromFile(strOptionsFileName);
-	}
-	tOptional<bool> bMultipleInstances = pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
-	tOptional<cString> strTitle = pParamLoader->VGetParameterValueAsString("-title", "Game");
-	if (*bMultipleInstances)
-	{
-		if (!IResourceChecker::GetInstance()->IsOnlyInstance(*strTitle))
-		{
-			PostQuitMessage(0);
-			return -1;
-		}
-	}
-	pGame = IGame::CreateGame(*strTitle);
-
-	tOptional<bool> bFullScreen = pParamLoader->VGetParameterValueAsBool("-fullscreen", false);
-	tOptional<int> iWindowWidth = pParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
-	tOptional<int> iWindowHeight = pParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
-	HWND hwnd;
-	pGame->VOnInitialization(hInstance, nCmdShow, *bFullScreen, *iWindowWidth, *iWindowHeight, hwnd);
-
+	pGame = IGame::CreateGame("Game");
+	pGame->VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
 	pGame->VRun();
-	SAFE_DELETE(pParamLoader);
 	Cleanup() ;
 
 	return 0;

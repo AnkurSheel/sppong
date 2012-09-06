@@ -61,14 +61,12 @@ cGame::~cGame()
 // ***************************************************************
 // Function called when the window is created
 // ***************************************************************
-void cGame::VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
-				   const bool bFullScreen, const int iFullScreenWidth,
-				   const int iFullScreenHeight, HWND & outHwnd )
+void cGame::VOnInitialization( const HINSTANCE hInstance, const int nCmdShow, const cString & strOptionsFileName )
 {
-	cBaseApp::VOnInitialization(hInstance, nCmdShow, bFullScreen, iFullScreenWidth, iFullScreenHeight, outHwnd);
+	cBaseApp::VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
 
-	m_iDisplayHeight = iFullScreenHeight;
-	m_iDisplayWidth = iFullScreenWidth;
+	m_iDisplayHeight = m_pHumanView->GetWidth();
+	m_iDisplayWidth = m_pHumanView->GetHeight();
 
 	m_pSound = ISound::CreateSound();
 	m_pSound->Init();

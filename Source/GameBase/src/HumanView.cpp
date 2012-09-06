@@ -361,3 +361,13 @@ void GameBase::cHumanView::ShowTriangleList( const Graphics::cVertex * const pDa
 {
 	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_TRIANGLELIST, iPrimitiveCount, pData);
 }
+
+float GameBase::cHumanView::GetWidth()
+{
+	return m_pParentControl->VGetWidth();
+}
+
+float GameBase::cHumanView::GetHeight()
+{
+	return m_pParentControl->VGetHeight();
+}

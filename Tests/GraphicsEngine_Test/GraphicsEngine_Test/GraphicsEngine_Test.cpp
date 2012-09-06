@@ -41,7 +41,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	IBaseApp * pGame = new cGame("Graphic Engine Test");
 
 	HWND hWnd;
-	pGame->VOnInitialization(hInstance, nCmdShow, bFullScreen, 1024, 768, hWnd);
+	pGame->VOnInitialization(hInstance, nCmdShow, "GraphicsTestDebug.ini");
 	pGame->VRun();
 	
 	SAFE_DELETE(pGame);

@@ -21,12 +21,9 @@ cGame::~cGame()
 }
 
 // ***************************************************************
-void cGame:: VOnInitialization( const HINSTANCE hInstance, const int nCmdShow,
-				   const bool bFullscreen, const int iFullScreenWidth, 
-				   const int iFullScreenHeight, HWND & outHwnd)
+void cGame:: VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const cString & strOptionsFileName)
 {
-	HWND hWnd;
-	cBaseApp::VOnInitialization(hInstance, nCmdShow, bFullscreen, iFullScreenWidth, iFullScreenHeight, hWnd);
+	cBaseApp::VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
 
 	m_currentTest = TEST_NONE;
 }

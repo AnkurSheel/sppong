@@ -12,6 +12,10 @@
 #include "MainWindow.hxx"
 #include "Timer.hxx"
 #include "HumanView.h"
+#include "ParamLoaders.hxx"
+#include "Optional.h"
+#include "Checks.hxx"
+#include "GraphicUtils.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -21,26 +25,46 @@ cBaseApp::cBaseApp(const cString strName)
 : cBaseEntity(strName)
 , m_pGameTimer(NULL)
 , m_pHumanView(NULL)
+, m_pParamLoader(NULL)
 {
 }
 
 // ***************************************************************
-void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, 
-														const int nCmdShow,
-														const bool bFullScreen,
-														const int iFullScreenWidth,
-														const int iFullScreenHeight,
-														HWND & outHwnd)
+void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const cString & strOptionsFileName)
 {
-	outHwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, bFullScreen, iFullScreenWidth, iFullScreenHeight);
+	m_pParamLoader = IParamLoader::CreateParamLoader();
+	if(!strOptionsFileName.IsEmpty())
+	{
+		if(m_pParamLoader != NULL)
+		{
+			m_pParamLoader->VLoadParametersFromFile(strOptionsFileName);
+		}
+	}
+	tOptional<bool> bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
+	tOptional<cString> strTitle = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
+	m_strName = *strTitle;
+	if (*bMultipleInstances)
+	{
+		if (!IResourceChecker::GetInstance()->IsOnlyInstance(*strTitle))
+		{
+			PostQuitMessage(0);
+			return;
+		}
+	}
+	
+	tOptional<bool> bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", false);
+	tOptional<int> iWindowWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
+	tOptional<int> iWindowHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
+	tOptional<cString> strBGColor= m_pParamLoader->VGetParameterValueAsString("-BackGroundColor", "BLACK");
+	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, *bFullScreen, *iWindowWidth, *iWindowHeight);
 
-	if(outHwnd == NULL)
+	if(hwnd == NULL)
 	{
 		PostQuitMessage(0) ;
 		return;
 	}
 	VCreateHumanView();
-	m_pHumanView->VOnCreateDevice(this, hInstance, outHwnd, iFullScreenWidth, iFullScreenHeight);
+	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, *iWindowWidth, *iWindowHeight);
 }
 
 void GameBase::cBaseApp::VCreateHumanView()
@@ -90,6 +114,7 @@ void GameBase::cBaseApp::VOnUpdate()
 void GameBase::cBaseApp::VCleanup()
 {
 	SAFE_DELETE(m_pGameTimer);
+	SAFE_DELETE(m_pParamLoader);
 
 	m_pHumanView->VOnDestroyDevice();
 	SAFE_DELETE(m_pHumanView);

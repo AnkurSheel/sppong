@@ -27,11 +27,13 @@ namespace GameBase
 		GAMEBASE_API Base::cString VGetName() const;
 	private:
 		void SetID(const int iID);
+	
+	protected:
+		Base::cString	m_strName;
 
 	private:
 		int				m_iID;
 		static int		m_siNextValidID;
-		Base::cString	m_strName;
 	};
 }
 #endif // BaseEntity_h__

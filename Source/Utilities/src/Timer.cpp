@@ -19,6 +19,7 @@ Utilities::cTimer::cTimer()
 , m_iLastUpdateTime(0)
 , m_iLastFPSUpdateTime(0)
 , m_iNumFrames(0)
+, m_iTotalsFrames(0)
 , m_fFPS(0.0f)
 , m_fRunningTime(0.0f)
 , m_fDeltaTime(0.0f)
@@ -94,6 +95,7 @@ void Utilities::cTimer::VOnUpdate()
 		m_fRunningTime += m_fDeltaTime;
 
 		m_iNumFrames++;
+		m_iTotalsFrames++;
 
 		if ( m_iCurrentTime - m_iLastFPSUpdateTime >= m_iFPSUpdateInterval )
 		{

@@ -61,7 +61,7 @@ private:
 public:
 	cGame(const Base::cString strName);
 	~cGame();
-	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
+	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const Base::cString & strOptionsFileName);
 	Base::cString VGetGameTitle() const;
 	void VCleanup();
 	void Restart();

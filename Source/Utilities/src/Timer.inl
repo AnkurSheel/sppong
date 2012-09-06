@@ -25,7 +25,7 @@ inline float cTimer::VGetRunningTime() const
 // ***************************************************************
 inline TICK cTimer::VGetRunningTicks() const
 {
-	return (TICK)m_fRunningTime;
+	return m_iTotalsFrames;
 }
 
 // ***************************************************************

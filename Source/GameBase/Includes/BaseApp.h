@@ -16,6 +16,7 @@
 namespace Utilities
 {
 	class ITimer;
+	class IParamLoader;
 }
 
 namespace GameBase
@@ -30,12 +31,12 @@ namespace GameBase
 		, public cBaseEntity
 	{
 	public:
-		GAMEBASE_API cBaseApp(const Base::cString strName);
 		virtual ~cBaseApp(){}
 		GAMEBASE_API float GetFPS();
 
 	protected:
-		GAMEBASE_API virtual void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow,const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight, HWND & outHwnd);
+		GAMEBASE_API cBaseApp(const Base::cString strName);
+		GAMEBASE_API virtual void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const Base::cString & strOptionsFileName);
 		GAMEBASE_API virtual void VCreateHumanView();
 		GAMEBASE_API virtual void VRun();
 		GAMEBASE_API virtual void VOnUpdate();
@@ -48,8 +49,9 @@ namespace GameBase
 		GAMEBASE_API float GetRunningTime();
 
 	protected:
-		Utilities::ITimer *	m_pGameTimer;
-		cHumanView *		m_pHumanView;
+		Utilities::ITimer *			m_pGameTimer;
+		cHumanView *				m_pHumanView;
+		Utilities::IParamLoader *	m_pParamLoader;
 	};
 }
 

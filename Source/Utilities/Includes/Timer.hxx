@@ -57,7 +57,7 @@ namespace Utilities
 		 ***********************************************/
 		UTILITIES_API virtual float VGetRunningTime() const = 0;
 		/********************************************//**
-		 * @return The no. of ticks that have elapsed
+		 * @return The no. of frames that have elapsed
 		 *
 		 * Get the ticks that have elapsed
 		 ***********************************************/
