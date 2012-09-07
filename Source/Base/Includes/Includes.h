@@ -15,7 +15,6 @@
 #include <functional>
 #include <map>
 #include <set>
-#include <vector>
 #include <deque>
 #include <crtdbg.h>
 #include <typeinfo>

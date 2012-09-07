@@ -65,8 +65,8 @@ void cGame::VOnInitialization( const HINSTANCE hInstance, const int nCmdShow, co
 {
 	cBaseApp::VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
 
-	m_iDisplayHeight = m_pHumanView->GetWidth();
-	m_iDisplayWidth = m_pHumanView->GetHeight();
+	m_iDisplayHeight = m_pHumanView->GetHeight();
+	m_iDisplayWidth = m_pHumanView->GetWidth();
 
 	m_pSound = ISound::CreateSound();
 	m_pSound->Init();

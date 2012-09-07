@@ -13,7 +13,7 @@
 #include "BaseDefines.h"
 #include <string>
 #include <iostream>
-
+#include <vector>
 namespace Base
 {
 	template<class T>
@@ -57,7 +57,7 @@ namespace Base
 		BASE_API void TrimLeft();
 		BASE_API void TrimRight();
 		BASE_API void TrimBoth();
-		BASE_API void Tokenize(char cToken, std::vector<int> & vValue);
+		BASE_API void Tokenize(char cToken, std::vector<Base::cString> & vValue);
 		BASE_API Base::tOptional<int> ToInt() const;
 		BASE_API Base::tOptional<float> ToFloat() const;
 		BASE_API Base::tOptional<bool> ToBool() const;

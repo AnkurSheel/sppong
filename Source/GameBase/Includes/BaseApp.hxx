@@ -22,6 +22,11 @@ namespace Graphics
 	struct AppMsg;
 }
 
+namespace Utilities
+{
+	class IParamLoader;
+}
+
 namespace GameBase
 {
 	class IBaseApp
@@ -34,6 +39,7 @@ namespace GameBase
 		virtual void VRun() = 0;
 		virtual HRESULT VOnResetDevice() = 0;
 		virtual void VOnLostDevice() = 0;
+		static Utilities::IParamLoader * VGetParamLoader();
 	};
 }
 #endif // BaseApp_hxx__

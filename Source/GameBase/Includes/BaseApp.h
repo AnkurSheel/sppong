@@ -33,6 +33,7 @@ namespace GameBase
 	public:
 		virtual ~cBaseApp(){}
 		GAMEBASE_API float GetFPS();
+		static Utilities::IParamLoader * VGetParamLoader();
 
 	protected:
 		GAMEBASE_API cBaseApp(const Base::cString strName);
@@ -47,11 +48,10 @@ namespace GameBase
 		GAMEBASE_API virtual void VCleanup();
 		GAMEBASE_API TICK GetRunningTicks();
 		GAMEBASE_API float GetRunningTime();
-
 	protected:
-		Utilities::ITimer *			m_pGameTimer;
-		cHumanView *				m_pHumanView;
-		Utilities::IParamLoader *	m_pParamLoader;
+		Utilities::ITimer *					m_pGameTimer;
+		cHumanView *						m_pHumanView;
+		static Utilities::IParamLoader *	m_spParamLoader;
 	};
 }
 

@@ -233,7 +233,13 @@ void Utilities::cParamLoader::VGetParameterValueAsIntList(const Base::cString & 
 				break;
 			}
 			cString str = *iter;
-			str.Tokenize(',', vValue);
+			std::vector<cString> vValueStr;
+			str.Tokenize(',', vValueStr);
+			for(int i=0;i< vValueStr.size();i++)
+			{
+				vValueStr[i].TrimBoth();
+				vValue.push_back(*(vValueStr[i].ToInt()));
+			}
 			return;
 		}
 	}

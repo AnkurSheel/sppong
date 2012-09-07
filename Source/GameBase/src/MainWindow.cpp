@@ -15,11 +15,13 @@
 #include "ResourceManager.hxx"
 #include "Color.h"
 #include "Structures.h"
+#include "ParamLoaders.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
+using namespace std;
 
 IMainWindow * cMainWindow::s_pWindow = NULL;
 
@@ -312,8 +314,19 @@ void cMainWindow::OnWindowCreated()
 	//Set the keyboard focus
 	SetFocus(m_Hwnd);
 
+	vector<int> vBGColor;
+	if(IBaseApp::VGetParamLoader() != null)
+	{
+		IBaseApp::VGetParamLoader()->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
+	}
+	cColor bgColor = cColor::BLACK;
+	if(!vBGColor.empty() && vBGColor.size() == 4)
+	{
+		bgColor = cColor(vBGColor[0], vBGColor[1], vBGColor[2], vBGColor[3]);
+	}
+
 	// initialize DirectX
-	IDXBase::GetInstance()->VOnInitialization(m_Hwnd, cColor::BLACK, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
+	IDXBase::GetInstance()->VOnInitialization(m_Hwnd, bgColor, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
 
 	// initialize resource manager
 	IResourceManager::GetInstance()->Init("resources\\resources.zip");

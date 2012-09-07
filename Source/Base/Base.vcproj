@@ -185,6 +185,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\Color.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Includes\Color.h"
 			>
 		</File>

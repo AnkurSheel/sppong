@@ -15,34 +15,35 @@
 #include "ParamLoaders.hxx"
 #include "Optional.h"
 #include "Checks.hxx"
-#include "Color.h"
 
 using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
-using namespace std;
 
+IParamLoader * cBaseApp::m_spParamLoader = NULL;
 cBaseApp::cBaseApp(const cString strName)
 : cBaseEntity(strName)
 , m_pGameTimer(NULL)
 , m_pHumanView(NULL)
-, m_pParamLoader(NULL)
 {
 }
 
 // ***************************************************************
 void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const cString & strOptionsFileName)
 {
-	m_pParamLoader = IParamLoader::CreateParamLoader();
+	if(m_spParamLoader == NULL)
+	{
+		m_spParamLoader = IParamLoader::CreateParamLoader();
+	}
 	if(!strOptionsFileName.IsEmpty())
 	{
-		if(m_pParamLoader != NULL)
+		if(m_spParamLoader != NULL)
 		{
-			m_pParamLoader->VLoadParametersFromFile(strOptionsFileName);
+			m_spParamLoader->VLoadParametersFromFile(strOptionsFileName);
 		}
 	}
-	bool bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
-	cString strTitle = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
+	bool bMultipleInstances = m_spParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
+	cString strTitle = m_spParamLoader->VGetParameterValueAsString("-title", "Game");
 	m_strName = strTitle;
 	if (bMultipleInstances)
 	{
@@ -53,16 +54,9 @@ void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, const int 
 		}
 	}
 	
-	bool bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", false);
-	int iWindowWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
-	int iWindowHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
-	vector<int> vBGColor;
-	m_pParamLoader->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
-	cColor bgColor = cColor::BLACK;
-	if(!vBGColor.empty() && vBGColor.size() == 4)
-	{
-		bgColor = cColor(vBGColor[0], vBGColor[1], vBGColor[2], vBGColor[3]);
-	}
+	bool bFullScreen = m_spParamLoader->VGetParameterValueAsBool("-fullscreen", false);
+	int iWindowWidth = m_spParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
+	int iWindowHeight = m_spParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
 
 	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, bFullScreen, iWindowWidth, iWindowHeight);
 
@@ -122,7 +116,7 @@ void GameBase::cBaseApp::VOnUpdate()
 void GameBase::cBaseApp::VCleanup()
 {
 	SAFE_DELETE(m_pGameTimer);
-	SAFE_DELETE(m_pParamLoader);
+	SAFE_DELETE(m_spParamLoader);
 
 	m_pHumanView->VOnDestroyDevice();
 	SAFE_DELETE(m_pHumanView);
@@ -183,3 +177,14 @@ void GameBase::cBaseApp::VRender(TICK tickCurrent, float fElapsedTime)
 	m_pHumanView->VOnRender(tickCurrent, fElapsedTime);
 }
 
+// ***************************************************************
+Utilities::IParamLoader * GameBase::cBaseApp::VGetParamLoader()
+{
+	return m_spParamLoader;
+}
+
+// ***************************************************************
+Utilities::IParamLoader * GameBase::IBaseApp::VGetParamLoader()
+{
+	return cBaseApp::VGetParamLoader();
+}

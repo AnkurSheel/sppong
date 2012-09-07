@@ -412,8 +412,25 @@ void Base::cString::TrimBoth()
 }
 
 // ***************************************************************
-void Base::cString::Tokenize(char cToken, std::vector<int> & vValue)
+void Base::cString::Tokenize(char cToken, std::vector<Base::cString> & vValue)
 {
+	int n = GetLength();
+	int iStartIndex = 0;
+
+	for(int i=0; i<n; i++)
+	{
+		if(m_str[i] == cToken)
+		{
+			cString str = GetSubString(iStartIndex, i);
+			vValue.push_back(str);
+			iStartIndex = i+1;
+		}
+	}
+	if (iStartIndex < n)
+	{
+		cString str = GetSubString(iStartIndex, n);
+		vValue.push_back(str);
+	}
 }
 
 Base::cString Base::operator + (const cString & lhs, const cString & rhs)
