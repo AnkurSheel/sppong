@@ -15,11 +15,12 @@
 #include "ParamLoaders.hxx"
 #include "Optional.h"
 #include "Checks.hxx"
-#include "GraphicUtils.h"
+#include "Color.h"
 
 using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
+using namespace std;
 
 cBaseApp::cBaseApp(const cString strName)
 : cBaseEntity(strName)
@@ -40,23 +41,30 @@ void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, const int 
 			m_pParamLoader->VLoadParametersFromFile(strOptionsFileName);
 		}
 	}
-	tOptional<bool> bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
-	tOptional<cString> strTitle = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
-	m_strName = *strTitle;
-	if (*bMultipleInstances)
+	bool bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
+	cString strTitle = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
+	m_strName = strTitle;
+	if (bMultipleInstances)
 	{
-		if (!IResourceChecker::GetInstance()->IsOnlyInstance(*strTitle))
+		if (!IResourceChecker::GetInstance()->IsOnlyInstance(strTitle))
 		{
 			PostQuitMessage(0);
 			return;
 		}
 	}
 	
-	tOptional<bool> bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", false);
-	tOptional<int> iWindowWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
-	tOptional<int> iWindowHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
-	tOptional<cString> strBGColor= m_pParamLoader->VGetParameterValueAsString("-BackGroundColor", "BLACK");
-	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, *bFullScreen, *iWindowWidth, *iWindowHeight);
+	bool bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", false);
+	int iWindowWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
+	int iWindowHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
+	vector<int> vBGColor;
+	m_pParamLoader->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
+	cColor bgColor = cColor::BLACK;
+	if(!vBGColor.empty() && vBGColor.size() == 4)
+	{
+		bgColor = cColor(vBGColor[0], vBGColor[1], vBGColor[2], vBGColor[3]);
+	}
+
+	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, bFullScreen, iWindowWidth, iWindowHeight);
 
 	if(hwnd == NULL)
 	{
@@ -64,7 +72,7 @@ void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, const int 
 		return;
 	}
 	VCreateHumanView();
-	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, *iWindowWidth, *iWindowHeight);
+	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, iWindowWidth, iWindowHeight);
 }
 
 void GameBase::cBaseApp::VCreateHumanView()

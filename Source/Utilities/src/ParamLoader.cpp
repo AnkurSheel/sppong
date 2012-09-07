@@ -106,14 +106,14 @@ Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt(const Base
 }
 
 // ***************************************************************
-Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt( const Base::cString & strParameter, const int iDefaultValue )
+int Utilities::cParamLoader::VGetParameterValueAsInt( const Base::cString & strParameter, const int iDefaultValue )
 {
 	tOptional<int> val = VGetParameterValueAsInt(strParameter);
 	if (val.IsInvalid())
 	{
-		val = iDefaultValue;
+		return iDefaultValue;
 	}
-	return val;
+	return *val;
 }
 
 Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const Base::cString & strParameter)
@@ -140,14 +140,14 @@ Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const 
 }
 
 // ***************************************************************
-Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat( const Base::cString & strParameter, const float fDefaultValue )
+float Utilities::cParamLoader::VGetParameterValueAsFloat( const Base::cString & strParameter, const float fDefaultValue )
 {
 	tOptional<float> val = VGetParameterValueAsFloat(strParameter);
 	if (val.IsInvalid())
 	{
-		val = fDefaultValue;
+		return fDefaultValue;
 	}
-	return val;
+	return *val;
 }
 
 Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Base::cString & strParameter)
@@ -174,14 +174,14 @@ Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Ba
 }
 
 // ***************************************************************
-Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool( const Base::cString & strParameter, const bool bDefaultValue )
+bool Utilities::cParamLoader::VGetParameterValueAsBool( const Base::cString & strParameter, const bool bDefaultValue )
 {
 	tOptional<bool> val = VGetParameterValueAsBool(strParameter);
 	if (val.IsInvalid())
 	{
-		val = bDefaultValue;
+		return bDefaultValue;
 	}
-	return val;
+	return *val;
 }
 
 Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsString(const Base::cString & strParameter)
@@ -207,15 +207,39 @@ Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsStri
 }
 
 // ***************************************************************
-Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsString( const Base::cString & strParameter, const Base::cString & strDefaultValue )
+Base::cString Utilities::cParamLoader::VGetParameterValueAsString( const Base::cString & strParameter, const Base::cString & strDefaultValue )
 {
 	tOptional<cString> val = VGetParameterValueAsString(strParameter);
 	if (val.IsInvalid())
 	{
-		val = strDefaultValue;
+		return strDefaultValue;
 	}
-	return val;
+	return *val;
 }
+
+// ***************************************************************
+void Utilities::cParamLoader::VGetParameterValueAsIntList(const Base::cString & strParameter, std::vector<int> & vValue)
+{
+	std::vector<cString>::const_iterator iter;
+	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	{
+		if(iter->CompareInsensitive(strParameter))
+		{
+			iter++;
+			if(iter == m_vCommandLineArguments.end() || (*iter)[0] == '-')
+			{
+				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
+				vValue.clear();
+				break;
+			}
+			cString str = *iter;
+			str.Tokenize(',', vValue);
+			return;
+		}
+	}
+}
+
+
 
 bool Utilities::cParamLoader::VIsParameter(const Base::cString & strParameter)
 {

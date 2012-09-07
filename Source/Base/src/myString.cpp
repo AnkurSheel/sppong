@@ -411,6 +411,11 @@ void Base::cString::TrimBoth()
 	TrimRight();
 }
 
+// ***************************************************************
+void Base::cString::Tokenize(char cToken, std::vector<int> & vValue)
+{
+}
+
 Base::cString Base::operator + (const cString & lhs, const cString & rhs)
 {
 	cString str = lhs;

@@ -40,7 +40,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	IBaseApp * pGame = new cGame("Graphic Engine Test");
 
-	HWND hWnd;
 	pGame->VOnInitialization(hInstance, nCmdShow, "GraphicsTestDebug.ini");
 	pGame->VRun();
 	

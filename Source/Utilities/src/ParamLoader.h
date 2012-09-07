@@ -32,10 +32,11 @@ namespace Utilities
 		Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter);
 		Base::tOptional<bool> VGetParameterValueAsBool(const Base::cString & strParameter);
 		Base::tOptional<Base::cString> VGetParameterValueAsString(const Base::cString & strParameter);
-		Base::tOptional<int> VGetParameterValueAsInt(const Base::cString & strParameter, const int iDefaultValue);
-		Base::tOptional<float> VGetParameterValueAsFloat(const Base::cString & strParameter, const float fDefaultValue);
-		Base::tOptional<bool> VGetParameterValueAsBool(const Base::cString & strParameter, const bool bDefaultValue);
-		Base::tOptional<Base::cString> VGetParameterValueAsString(const Base::cString & strParameter, const Base::cString & strDefaultValue);
+		int VGetParameterValueAsInt(const Base::cString & strParameter, const int iDefaultValue);
+		float VGetParameterValueAsFloat(const Base::cString & strParameter, const float fDefaultValue);
+		bool VGetParameterValueAsBool(const Base::cString & strParameter, const bool bDefaultValue);
+		void VGetParameterValueAsIntList(const Base::cString & strParameter, std::vector<int> & vValue);
+		Base::cString VGetParameterValueAsString(const Base::cString & strParameter, const Base::cString & strDefaultValue);
 
 		bool VIsParameter(const Base::cString & strParameter);
 	private:
