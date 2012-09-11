@@ -21,16 +21,6 @@ Utilities::cParamLoader::~cParamLoader()
 {
 }
 
-//bool Utilities::cParamLoader::VOpen(const Base::cString & strFileName)
-//{
-//	return cFileInput::Open(strFileName, std::ios_base::in);
-//}
-//
-//bool Utilities::cParamLoader::VClose()
-//{
-//	return cFileInput::Close();
-//}
-
 // ***************************************************************
 void Utilities::cParamLoader::VLoadParametersFromFile(const Base::cString & strFileName)
 {
@@ -85,22 +75,11 @@ void Utilities::cParamLoader::VLoadParametersFromFile(const Base::cString & strF
 Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt(const Base::cString & strParameter)
 {
 	tOptional<int> val;
-	std::vector<cString>::const_iterator iter;
-	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	tOptional<cString> strVal = VGetParameterValueAsString(strParameter);
+	if (strVal.IsValid())
 	{
-		if(iter->CompareInsensitive(strParameter))
-		{
-			iter++;
-			if(iter == m_vCommandLineArguments.end())
-			{
-				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
-				val.clear();
-				break;
-			}
-			cString str = *iter;
-			val = str.ToInt();
-			break;
-		}
+		cString str = *strVal;
+		val = str.ToInt();
 	}
 	return val;
 }
@@ -119,24 +98,12 @@ int Utilities::cParamLoader::VGetParameterValueAsInt( const Base::cString & strP
 Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const Base::cString & strParameter)
 {
 	tOptional<float> val;
-	std::vector<cString>::const_iterator iter;
-	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+	tOptional<cString> strVal = VGetParameterValueAsString(strParameter);
+	if (strVal.IsValid())
 	{
-		if(iter->CompareInsensitive(strParameter))
-		{
-			iter++;
-			if(iter == m_vCommandLineArguments.end())
-			{
-				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
-				val.clear();
-				break;
-			}
-			cString str = *iter;
-			val = str.ToFloat();
-			break;
-		}
-	}
-	return val;
+		cString str = *strVal;
+		val = str.ToFloat();
+	}	return val;
 }
 
 // ***************************************************************
@@ -153,24 +120,15 @@ float Utilities::cParamLoader::VGetParameterValueAsFloat( const Base::cString & 
 Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Base::cString & strParameter)
 {
 	tOptional<bool> val;
-	std::vector<cString>::const_iterator iter;
-	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
+
+	tOptional<cString> strVal = VGetParameterValueAsString(strParameter);
+	if (strVal.IsValid())
 	{
-		if(iter->CompareInsensitive(strParameter))
-		{
-			iter++;
-			if(iter == m_vCommandLineArguments.end())
-			{
-				Log_Write_L1(ILogger::LT_ERROR, "No value associated with  " + strParameter + " in " + m_strFileName);
-				val.clear();
-				break;
-			}
-			cString str = *iter;
-			val = str.ToBool();
-			break;
-		}
+		cString str = *strVal;
+		val = str.ToBool();
 	}
 	return val;
+		
 }
 
 // ***************************************************************
@@ -190,7 +148,11 @@ Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsStri
 	std::vector<cString>::const_iterator iter;
 	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
 	{
-		if(iter->CompareInsensitive(strParameter))
+		if ((*iter)[0] != '-')
+		{
+			continue;
+		}
+		else if(iter->CompareInsensitive(strParameter))
 		{
 			iter++;
 			if(iter == m_vCommandLineArguments.end() || (*iter)[0] == '-')
@@ -201,6 +163,7 @@ Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsStri
 			}
 			val = *iter;
 			break;
+
 		}
 	}
 	return val;
@@ -220,10 +183,52 @@ Base::cString Utilities::cParamLoader::VGetParameterValueAsString( const Base::c
 // ***************************************************************
 void Utilities::cParamLoader::VGetParameterValueAsIntList(const Base::cString & strParameter, std::vector<int> & vValue)
 {
+	std::vector<cString> vValueStr;
+	VGetParameterValueAsStringList(strParameter, vValueStr);
+	for(int i=0; i< vValueStr.size(); i++)
+	{
+		vValueStr[i].TrimBoth();
+		vValue.push_back(*(vValueStr[i].ToInt()));
+	}
+
+}
+
+// ***************************************************************
+void Utilities::cParamLoader::VGetParameterValueAsFloatList(const Base::cString & strParameter, std::vector<float> & vValue)
+{
+	std::vector<cString> vValueStr;
+	VGetParameterValueAsStringList(strParameter, vValueStr);
+	for(int i=0; i< vValueStr.size(); i++)
+	{
+		vValueStr[i].TrimBoth();
+		vValue.push_back(*(vValueStr[i].ToFloat()));
+	}
+
+}
+
+// ***************************************************************
+void Utilities::cParamLoader::VGetParameterValueAsBoolList(const Base::cString & strParameter, std::vector<bool> & vValue)
+{
+	std::vector<cString> vValueStr;
+	VGetParameterValueAsStringList(strParameter, vValueStr);
+	for(int i=0; i< vValueStr.size(); i++)
+	{
+		vValueStr[i].TrimBoth();
+		vValue.push_back(*(vValueStr[i].ToBool()));
+	}
+}
+
+// ***************************************************************
+void Utilities::cParamLoader::VGetParameterValueAsStringList(const Base::cString & strParameter, std::vector<Base::cString> & vValue)
+{
 	std::vector<cString>::const_iterator iter;
 	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
 	{
-		if(iter->CompareInsensitive(strParameter))
+		if ((*iter)[0] != '-')
+		{
+			continue;
+		}
+		else if(iter->CompareInsensitive(strParameter))
 		{
 			iter++;
 			if(iter == m_vCommandLineArguments.end() || (*iter)[0] == '-')
@@ -233,26 +238,23 @@ void Utilities::cParamLoader::VGetParameterValueAsIntList(const Base::cString & 
 				break;
 			}
 			cString str = *iter;
-			std::vector<cString> vValueStr;
-			str.Tokenize(',', vValueStr);
-			for(int i=0;i< vValueStr.size();i++)
-			{
-				vValueStr[i].TrimBoth();
-				vValue.push_back(*(vValueStr[i].ToInt()));
-			}
+			str.Tokenize(',', vValue);
 			return;
 		}
 	}
 }
 
-
-
+// ***************************************************************
 bool Utilities::cParamLoader::VIsParameter(const Base::cString & strParameter)
 {
 	std::vector<cString>::const_iterator iter;
 	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
 	{
-		if(iter->CompareInsensitive(strParameter))
+		if ((*iter)[0] != '-')
+		{
+			continue;
+		}
+		else if(iter->CompareInsensitive(strParameter))
 		{
 			return true;
 		}

@@ -35,10 +35,10 @@ namespace Utilities
 		UTILITIES_API virtual bool VGetParameterValueAsBool(const Base::cString & strParameter, const bool bDefaultValue) = 0;
 		UTILITIES_API virtual Base::cString VGetParameterValueAsString(const Base::cString & strParameter, const Base::cString & strDefaultValue) = 0;
 		UTILITIES_API virtual void VGetParameterValueAsIntList(const Base::cString & strParameter, std::vector<int> & vValue) = 0;
+		UTILITIES_API virtual void VGetParameterValueAsFloatList(const Base::cString & strParameter, std::vector<float> & vValue) = 0;
+		UTILITIES_API virtual void VGetParameterValueAsBoolList(const Base::cString & strParameter, std::vector<bool> & vValue) = 0;
+		UTILITIES_API virtual void VGetParameterValueAsStringList(const Base::cString & strParameter, std::vector<Base::cString> & vValue) = 0;
 		UTILITIES_API virtual bool VIsParameter(const Base::cString & strParameter) = 0;
-		//UTILITIES_API virtual Base::tOptional<int> VGetNextParameterAsInt() = 0;
-		//UTILITIES_API virtual Base::tOptional<float> VGetNextParameterAsFloat() = 0;
-		//UTILITIES_API virtual Base::tOptional<bool> VGetNextParameterAsBool() = 0;
 		UTILITIES_API static IParamLoader * CreateParamLoader();
 	};
 }

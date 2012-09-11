@@ -35,9 +35,11 @@ namespace Utilities
 		int VGetParameterValueAsInt(const Base::cString & strParameter, const int iDefaultValue);
 		float VGetParameterValueAsFloat(const Base::cString & strParameter, const float fDefaultValue);
 		bool VGetParameterValueAsBool(const Base::cString & strParameter, const bool bDefaultValue);
-		void VGetParameterValueAsIntList(const Base::cString & strParameter, std::vector<int> & vValue);
 		Base::cString VGetParameterValueAsString(const Base::cString & strParameter, const Base::cString & strDefaultValue);
-
+		void VGetParameterValueAsIntList(const Base::cString & strParameter, std::vector<int> & vValue);
+		void VGetParameterValueAsFloatList(const Base::cString & strParameter, std::vector<float> & vValue);
+		void VGetParameterValueAsBoolList(const Base::cString & strParameter, std::vector<bool> & vValue);
+		void VGetParameterValueAsStringList(const Base::cString & strParameter, std::vector<Base::cString> & vValue);
 		bool VIsParameter(const Base::cString & strParameter);
 	private:
 		void RemoveCommentsFromLine();

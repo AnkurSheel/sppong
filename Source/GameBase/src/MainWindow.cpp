@@ -315,7 +315,7 @@ void cMainWindow::OnWindowCreated()
 	SetFocus(m_Hwnd);
 
 	vector<int> vBGColor;
-	if(IBaseApp::VGetParamLoader() != null)
+	if(IBaseApp::VGetParamLoader() != NULL)
 	{
 		IBaseApp::VGetParamLoader()->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
 	}
