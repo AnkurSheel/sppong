@@ -96,13 +96,13 @@ namespace GameBase
 	private:
 		const DWORD			m_kdwFullScreenStyle;   /*!< The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE */
 		const DWORD			m_kdwWindowedStyle;     /*!< The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION */
-		WINDOWPLACEMENT		m_wp;					/*!< Stores the window placement if in windowed mode */
 		bool				m_bFullScreen;			/*!< True if in fullscreen mode */
 		HWND				m_Hwnd;					/*!< Window handle */
 		HINSTANCE			m_hInstance;			/*!< Application instance */
 		int					m_iFullScreenWidth;		/*!< Full screen width */
 		int					m_iFullScreenHeight;	/*!< Full screen height */
 		IBaseApp*			m_pGame;				/*!< Pointer to the App */
+		RECT				m_windowRect;			/*!< stores the window dimensions in windowed mode */
 	
 	public:
 		static IMainWindow * s_pWindow;

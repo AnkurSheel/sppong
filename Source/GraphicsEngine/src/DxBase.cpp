@@ -29,6 +29,10 @@ cDXBase::cDXBase()
 , m_iWidth(0)
 , m_iHeight(0)
 , m_bWireFrameMode(false)
+, m_fAspectRatio(4.0f / 3.0f)
+, m_fFieldOfView(D3DX_PI / 4.0f)
+, m_fNearPlane(1.0f)
+, m_fFarPlane(1000.0f)
 {
 }
 
@@ -57,6 +61,7 @@ void cDXBase::VOnInitialization( const HWND hWnd, const Base::cColor & bkColor, 
 	m_bFullScreen = bFullScreen;
 	m_iHeight = iHeight;
 	m_iWidth = iWidth;
+	m_fAspectRatio = float(m_iWidth) / (float)m_iHeight;
 
 	// Initialize DirectX
 	DirectxInit() ;
@@ -65,6 +70,7 @@ void cDXBase::VOnInitialization( const HWND hWnd, const Base::cColor & bkColor, 
 	SetParameters() ;
 
 	CreateDirectxDevice() ;
+	InitScene();
 }
 
 // ***************************************************************
@@ -104,11 +110,13 @@ void cDXBase::VToggleFullScreen()
 	SetParameters();
 }
 
+// ***************************************************************
 void cDXBase::VDrawVertexPrimitiveUP(const D3DPRIMITIVETYPE primitiveType, const UINT iPrimitiveCount, const cVertex * const pData)
 {
 	m_pd3dDevice->SetFVF(cVertex::FVF);
 	m_pd3dDevice->DrawPrimitiveUP(primitiveType, iPrimitiveCount, pData, sizeof(cVertex));
 }
+
 // ***************************************************************
 void cDXBase::VToggleRenderState()
 {
@@ -133,15 +141,6 @@ void cDXBase::VCleanup()
 
 	// release the Direct3d object
 	SAFE_RELEASE(m_pD3D) ;
-}
-
-// ***************************************************************
-void cDXBase::Destroy()
-{
-	if(s_pDXBase != NULL)
-		s_pDXBase->VCleanup();
-	
-	SAFE_DELETE(s_pDXBase);
 }
 
 // ***************************************************************
@@ -256,6 +255,30 @@ void cDXBase::SetParameters()
 	{
 		Log_Write_L2(ILogger::LT_ERROR, "Could not find a supported surface format for this device");
 	}
+}
+
+// ***************************************************************
+void cDXBase::InitScene()
+{
+	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFieldOfView, m_fAspectRatio, m_fNearPlane, m_fFarPlane);
+	m_pd3dDevice->SetTransform(D3DTS_PROJECTION,&m_matProjection);
+
+	for(unsigned i = 0; i < 8; i++)
+	{
+		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_ANISOTROPIC);
+		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MAXANISOTROPY, m_Caps.MaxAnisotropy);
+	}
+}
+
+// ***************************************************************
+void cDXBase::Destroy()
+{
+	if(s_pDXBase != NULL)
+		s_pDXBase->VCleanup();
+	
+	SAFE_DELETE(s_pDXBase);
 }
 
 // ***************************************************************

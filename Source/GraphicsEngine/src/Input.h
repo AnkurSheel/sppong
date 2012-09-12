@@ -11,6 +11,8 @@
 #define Input_h__
 
 #include "Input.hxx"
+#include <mmsystem.h>
+#include <dinput.h>
 
 namespace Graphics
 {

@@ -61,6 +61,12 @@ namespace Graphics
 		 * the application is fullscreen or windowed
 		 ***********************************************/
 		void SetParameters();
+		/********************************************//**
+		 *
+		 * Creates the projection matrix and sets the filters 
+		 * for the texture stages
+		 ***********************************************/
+		void InitScene();
 	private:
 		LPDIRECT3D9				m_pD3D ;				/*!< Pointer to a direct3d object */
 		LPDIRECT3DDEVICE9		m_pd3dDevice ;			/*!< Pointer to a direct3d device */
@@ -73,6 +79,11 @@ namespace Graphics
 		D3DDISPLAYMODE			m_displayMode;			/*!< The display mode */
 		bool					m_bFullScreen;			/*!< True if in fullscreen mode */
 		bool					m_bWireFrameMode;		/*!< True if rendering in wireframe mode */
+		D3DXMATRIX				m_matProjection;		/*!< projection matrix */
+		float					m_fAspectRatio;			/*!< viewport ratio */
+        float					m_fFieldOfView;			/*!< view angle */
+		float					m_fNearPlane;			/*!< near clipping plane */
+		float					m_fFarPlane;			/*!< far clipping plane */
 	
 	public:
 		static IDXBase * s_pDXBase;

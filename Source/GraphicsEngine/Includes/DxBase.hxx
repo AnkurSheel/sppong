@@ -11,7 +11,9 @@
 #define DxBase_hxx__
 
 #include "GraphicEngineDefines.h"
-
+#include <d3d9.h>
+#include <d3dx9.h>
+#include <DxErr.h> //For DXGetErrorString9
 namespace Base
 {
 	class cColor;

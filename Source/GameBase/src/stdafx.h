@@ -32,6 +32,5 @@
 
 //#define DIRECTINPUT_VERSION 0x0800
 
-#include <d3dx9.h>
 #include "Includes.h"
 #include "Logger.hxx"
