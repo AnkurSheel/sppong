@@ -112,6 +112,10 @@ void cGame::GotoNextTest()
 		case TEST_TRIANGLELIST:
 			pView->TestTriangleList();
 			break;
+
+		case TEST_DRAWPRIMITIVE:
+			pView->TestDrawPrimitive();
+			break;
 		}
 	}
 }

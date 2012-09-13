@@ -458,6 +458,22 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="3D"
+			>
+			<File
+				RelativePath=".\src\Model.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Model.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Model.hxx"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\src\CollisionChecker.cpp"
 			>

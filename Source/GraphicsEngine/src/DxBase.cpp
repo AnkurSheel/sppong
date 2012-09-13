@@ -267,7 +267,7 @@ void cDXBase::InitScene()
 	{
 		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_ANISOTROPIC);
+		//m_pd3dDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MAXANISOTROPY, m_Caps.MaxAnisotropy);
 	}
 }

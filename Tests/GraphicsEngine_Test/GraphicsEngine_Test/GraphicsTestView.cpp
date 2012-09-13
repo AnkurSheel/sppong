@@ -16,6 +16,7 @@
 #include "vertexstruct.h"
 #include "DxBase.hxx"
 #include "Color.h"
+#include "Model.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -27,8 +28,9 @@ cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
 , m_pInfoLabelControl(NULL)
 , m_bFinished(false)
-, m_vertexData(NULL)
+, m_pVertexData(NULL)
 , m_iVertexListCount(1000)
+, m_pModel(NULL)
 {
 }
 
@@ -104,19 +106,26 @@ void cGraphicsTestView::VRenderPrivate()
 		switch(m_pGame->GetCurrentTest())
 		{
 		case TEST_POINTLIST:
-			ShowPointList(m_vertexData, m_iVertexListCount);
+			ShowPointList(m_pVertexData, m_iVertexListCount);
 			break;
 
 		case TEST_LINELIST:
-			ShowLineList(m_vertexData, m_iVertexListCount/2);
+			ShowLineList(m_pVertexData, m_iVertexListCount/2);
 			break;
 
 		case TEST_LINESTRIP:
-			ShowLineStrip(m_vertexData, m_iVertexListCount-1);
+			ShowLineStrip(m_pVertexData, m_iVertexListCount-1);
 			break;
 
 		case TEST_TRIANGLELIST:
-			ShowTriangleList(m_vertexData, 4);
+			ShowTriangleList(m_pVertexData, 4);
+			break;
+
+		case TEST_DRAWPRIMITIVE:
+			if(m_pModel)
+			{
+				m_pModel->VRender();
+			}
 			break;
 		}
 	}
@@ -198,20 +207,20 @@ void cGraphicsTestView::TestUIControls()
 
 void cGraphicsTestView::TestPointList()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Point List. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Point List (DrawPrimitiveUP). Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-	m_vertexData = DEBUG_NEW cVertex[m_iVertexListCount];
+	m_pVertexData = DEBUG_NEW cVertex[m_iVertexListCount];
 	IRandomGenerator * pRandom = IRandomGenerator::CreateRandomGenerator();
 	
 	for(int count=0;count<m_iVertexListCount;count++)
 	{
-		m_vertexData[count].m_fX = pRandom->Random(m_pParentControl->VGetWidth());
-		m_vertexData[count].m_fY = pRandom->Random(m_pParentControl->VGetHeight());
-		m_vertexData[count].m_fZ = 1.0f;
-		m_vertexData[count].m_fRHW = 1.0f;
-		m_vertexData[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
+		m_pVertexData[count].m_fX = pRandom->Random(m_pParentControl->VGetWidth());
+		m_pVertexData[count].m_fY = pRandom->Random(m_pParentControl->VGetHeight());
+		m_pVertexData[count].m_fZ = 1.0f;
+		m_pVertexData[count].m_fRHW = 1.0f;
+		m_pVertexData[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
 	}
 	SAFE_DELETE(pRandom);
 }
@@ -219,20 +228,20 @@ void cGraphicsTestView::TestPointList()
 // ***************************************************************
 void cGraphicsTestView::TestLineList()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Line List. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Line List (DrawPrimitiveUP). Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-	m_vertexData = DEBUG_NEW cVertex[m_iVertexListCount];
+	m_pVertexData = DEBUG_NEW cVertex[m_iVertexListCount];
 	IRandomGenerator * pRandom = IRandomGenerator::CreateRandomGenerator();
 
 	for(int count=0;count<m_iVertexListCount;count++)
 	{
-		m_vertexData[count].m_fX = pRandom->Random(m_pParentControl->VGetWidth());
-		m_vertexData[count].m_fY = pRandom->Random(m_pParentControl->VGetHeight());
-		m_vertexData[count].m_fZ = 1.0f;
-		m_vertexData[count].m_fRHW = 1.0f;
-		m_vertexData[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
+		m_pVertexData[count].m_fX = pRandom->Random(m_pParentControl->VGetWidth());
+		m_pVertexData[count].m_fY = pRandom->Random(m_pParentControl->VGetHeight());
+		m_pVertexData[count].m_fZ = 1.0f;
+		m_pVertexData[count].m_fRHW = 1.0f;
+		m_pVertexData[count].m_dwColour =D3DCOLOR_XRGB (pRandom->Random(255), pRandom->Random(255), pRandom->Random(255));
 	}
 	SAFE_DELETE(pRandom);
 }
@@ -240,11 +249,11 @@ void cGraphicsTestView::TestLineList()
 // ***************************************************************
 void cGraphicsTestView::TestLineStrip()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Line Strip. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Line Strip (DrawPrimitiveUP). Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-	m_vertexData = DEBUG_NEW cVertex[m_iVertexListCount];
+	m_pVertexData = DEBUG_NEW cVertex[m_iVertexListCount];
 
 	float count_f;
 	float y;
@@ -254,42 +263,66 @@ void cGraphicsTestView::TestLineStrip()
 		count_f=(float)count;
 		y = sinf(count_f/10.0f);
 		
-		m_vertexData[count].m_fX = count_f;
-		m_vertexData[count].m_fY = y * (m_pParentControl->VGetHeight()/4.0f) + (m_pParentControl->VGetHeight()/2.0f);
-		m_vertexData[count].m_fZ = 1.0f;
-		m_vertexData[count].m_fRHW = 1.0f;
+		m_pVertexData[count].m_fX = count_f;
+		m_pVertexData[count].m_fY = y * (m_pParentControl->VGetHeight()/4.0f) + (m_pParentControl->VGetHeight()/2.0f);
+		m_pVertexData[count].m_fZ = 1.0f;
+		m_pVertexData[count].m_fRHW = 1.0f;
 		blue= (char)ceil((count_f/m_pParentControl->VGetWidth()) * 200.0f) +55;
 		green=(char)ceil(((m_pParentControl->VGetWidth() - count_f)/m_pParentControl->VGetWidth()) * 200.0f) +55;
 		red=(char) ((fabsf(y)* 200.0f) + 55.0f);
-		m_vertexData[count].m_dwColour =D3DCOLOR_XRGB (red, green, blue);
+		m_pVertexData[count].m_dwColour =D3DCOLOR_XRGB (red, green, blue);
 	}
 }
 
 // ***************************************************************
 void cGraphicsTestView::TestTriangleList()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::RED.GetColor(), "Testing Triangle Strip. Press 'c' to go to next test");
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Triangle Strip (DrawPrimitiveUP). Press 'c' to go to next test");
 	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-	m_vertexData = DEBUG_NEW cVertex[12];
+	m_pVertexData = DEBUG_NEW cVertex[12];
 
-	m_vertexData[0] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
-	m_vertexData[1] = cVertex(100, 100, 1, 1, cColor::BLUE.GetColor());
-	m_vertexData[2] = cVertex(300, 100, 1, 1, cColor::GREEN.GetColor());
-	m_vertexData[3] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
-	m_vertexData[4] = cVertex(300, 100, 1, 1, cColor::GREEN.GetColor());
-	m_vertexData[5] = cVertex(300, 300, 1, 1, cColor::YELLOW.GetColor());
-	m_vertexData[6] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
-	m_vertexData[7] = cVertex(300, 300, 1, 1, cColor::YELLOW.GetColor());
-	m_vertexData[8] = cVertex(100, 300, 1, 1, cColor::VIOLET.GetColor());
-	m_vertexData[9] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
-	m_vertexData[10] = cVertex(100, 300, 1, 1, cColor::VIOLET.GetColor());
-	m_vertexData[11] = cVertex(100, 100, 1, 1, cColor::BLUE.GetColor());
+	m_pVertexData[0] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_pVertexData[1] = cVertex(100, 100, 1, 1, cColor::BLUE.GetColor());
+	m_pVertexData[2] = cVertex(300, 100, 1, 1, cColor::GREEN.GetColor());
+	m_pVertexData[3] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_pVertexData[4] = cVertex(300, 100, 1, 1, cColor::GREEN.GetColor());
+	m_pVertexData[5] = cVertex(300, 300, 1, 1, cColor::YELLOW.GetColor());
+	m_pVertexData[6] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_pVertexData[7] = cVertex(300, 300, 1, 1, cColor::YELLOW.GetColor());
+	m_pVertexData[8] = cVertex(100, 300, 1, 1, cColor::VIOLET.GetColor());
+	m_pVertexData[9] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_pVertexData[10] = cVertex(100, 300, 1, 1, cColor::VIOLET.GetColor());
+	m_pVertexData[11] = cVertex(100, 100, 1, 1, cColor::BLUE.GetColor());
+}
+
+// ***************************************************************
+void cGraphicsTestView::TestDrawPrimitive()
+{
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false, DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), "Testing Triangle Strip (DrawPrimitive). Press 'c' to go to next test");
+	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	m_pVertexData = DEBUG_NEW cVertex[6];
+
+	m_pVertexData[0] = cVertex(200, 200, 1, 1, cColor::RED.GetColor());
+	m_pVertexData[1] = cVertex(100, 100, 1, 1, cColor::BLUE.GetColor());
+	m_pVertexData[2] = cVertex(300, 100, 1, 1, cColor::GREEN.GetColor());
+
+	m_pVertexData[3] = cVertex(500, 200, 1, 1, cColor::RED.GetColor());
+	m_pVertexData[4] = cVertex(400, 100, 1, 1, cColor::BLUE.GetColor());
+	m_pVertexData[5] = cVertex(600, 100, 1, 1, cColor::GREEN.GetColor());
+
+
+	m_pModel = IModel::CreateModel();
+	m_pModel->VOnInitialization(m_pVertexData, 6,  2);
+	SAFE_DELETE_ARRAY(m_pVertexData);
 }
 
 // ***************************************************************
 void cGraphicsTestView::Cleanup()
 {
-	SAFE_DELETE_ARRAY(m_vertexData);
+	SAFE_DELETE_ARRAY(m_pVertexData);
+	SAFE_DELETE(m_pModel);
 }

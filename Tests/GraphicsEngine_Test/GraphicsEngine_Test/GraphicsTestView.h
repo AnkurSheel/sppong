@@ -22,6 +22,7 @@ namespace GameBase
 namespace Graphics
 {
 	class cVertex;
+	class IModel;
 }
 
 class cGraphicsTestView 
@@ -37,17 +38,18 @@ public:
 	void TestLineList();
 	void TestLineStrip();
 	void TestTriangleList();
+	void TestDrawPrimitive();
 	void Finished();
 	void Cleanup();
 
 private:
 	void VRenderPrivate();
-
 private:
 	cGame	*					m_pGame;
 	Graphics::IBaseControl *	m_pInfoLabelControl;
 	bool						m_bFinished;
-	Graphics::cVertex *			m_vertexData;
+	Graphics::cVertex *			m_pVertexData;
 	const int					m_iVertexListCount;
+	Graphics::IModel *			m_pModel;
 };
 #endif // GraphicsTestView_h__

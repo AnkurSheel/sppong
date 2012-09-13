@@ -13,7 +13,7 @@
 #include "GraphicEngineDefines.h"
 
 namespace Graphics
-{
+{ 
 	class cVertex
 	{
 	public:
