@@ -24,6 +24,7 @@ namespace Graphics
 	public:
 		GRAPHIC_API virtual ~IModel(){}
 		GRAPHIC_API virtual void VOnInitialization(const cVertex * const pVertexData, const UINT iNumberOfVertices, const UINT iPrimitiveCount) = 0;
+		GRAPHIC_API virtual void VOnInitialization(const cVertex * const pVertexData, const short * const pIndexData, const UINT iNumberOfVertices, const UINT iNumberOfIndices, const UINT iPrimitiveCount) = 0;
 		GRAPHIC_API virtual void VCleanup() = 0;
 		GRAPHIC_API virtual void VRender() = 0;
 		GRAPHIC_API static IModel * CreateModel();

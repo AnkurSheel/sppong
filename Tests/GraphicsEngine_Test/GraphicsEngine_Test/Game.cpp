@@ -113,8 +113,12 @@ void cGame::GotoNextTest()
 			pView->TestTriangleList();
 			break;
 
-		case TEST_DRAWPRIMITIVE:
-			pView->TestDrawPrimitive();
+		case TEST_VERTEXBUFFER:
+			pView->TestVertexBuffer();
+			break;
+		
+		case TEST_INDEXBUFFER:
+			pView->TestIndexBuffer();
 			break;
 		}
 	}

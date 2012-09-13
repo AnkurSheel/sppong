@@ -38,7 +38,8 @@ public:
 	void TestLineList();
 	void TestLineStrip();
 	void TestTriangleList();
-	void TestDrawPrimitive();
+	void TestVertexBuffer();
+	void TestIndexBuffer();
 	void Finished();
 	void Cleanup();
 
