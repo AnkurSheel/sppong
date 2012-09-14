@@ -164,7 +164,7 @@ HRESULT GameBase::cBaseApp::VOnResetDevice()
 }
 
 // ***************************************************************
-bool GameBase::cBaseApp::VOnMsgProc( const Graphics::AppMsg & msg )
+bool GameBase::cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
 {
 	return m_pHumanView->VOnMsgProc(msg);
 }

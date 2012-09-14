@@ -34,11 +34,11 @@ namespace GameBase
 		GAMEBASE_API virtual  ~cGameElement();
 		GAMEBASE_API virtual void Init(const Base::cVector3& vInitialPos, const Base::cString & strFilename) = 0;
 		GAMEBASE_API virtual void SetBoundingRectangle();
-		GAMEBASE_API virtual Graphics::IPolygon& GetBoundingRectangle();
+		//GAMEBASE_API virtual Graphics::IPolygon& GetBoundingRectangle();
 		GAMEBASE_API virtual void OnRestart(const Base::cVector3& vInitialPos);
 		GAMEBASE_API virtual const Base::cVector3& GetPosition();
-		GAMEBASE_API virtual void SetSprite(shared_ptr<Graphics::ISprite> const pSprite );
-		GAMEBASE_API virtual const shared_ptr<Graphics::ISprite> GetSprite() const;
+		//GAMEBASE_API virtual void SetSprite(shared_ptr<Graphics::ISprite> const pSprite );
+		//GAMEBASE_API virtual const shared_ptr<Graphics::ISprite> GetSprite() const;
 		GAMEBASE_API virtual void Cleanup();
 		GAMEBASE_API virtual void OnUpdate(float fElapsedTime) = 0;
 
@@ -49,10 +49,10 @@ namespace GameBase
 		GAMEBASE_API void UpdatePosition();
 
 	protected:
-		shared_ptr<Graphics::ISprite>		m_pSprite;
+		//shared_ptr<Graphics::ISprite>		m_pSprite;
 		Base::cVector3						m_vPosition;
 		Base::cVector3						m_vPrevPosition;
-		Graphics::IPolygon *				m_pBoundingPolygon;
+		//Graphics::IPolygon *				m_pBoundingPolygon;
 	
 	private:
 		Base::cString						m_strFileName;

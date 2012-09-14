@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D.lib Utilities_D.lib d3dx9d.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base.lib Utilities.lib d3dx9.lib DxErr.lib d3d9.lib winmm.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="Base.lib Utilities.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
@@ -187,88 +187,8 @@
 	</References>
 	<Files>
 		<Filter
-			Name="2D"
-			>
-			<File
-				RelativePath=".\src\Font.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Font.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Font.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Font.inl"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Polygon.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Polygon.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Polygon.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\ScreenElement.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Sprite.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Sprite.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Sprite.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Sprite.inl"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Texture.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Texture.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Texture.inl"
-				>
-			</File>
-			<File
-				RelativePath=".\src\VertexStruct.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\vertexstruct.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Essentials"
 			>
-			<File
-				RelativePath=".\Includes\Constants.h"
-				>
-			</File>
 			<File
 				RelativePath=".\src\DxBase.cpp"
 				>
@@ -286,216 +206,20 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ResourceManager.cpp"
+				RelativePath=".\src\GraphicsClass.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ResourceManager.h"
+				RelativePath=".\src\GraphicsClass.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Includes\ResourceManager.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Structures.h"
+				RelativePath=".\Includes\GraphicsClass.hxx"
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Input"
-			>
-			<File
-				RelativePath=".\src\Input.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Input.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Input.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Input.inl"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\KeyboardHandler.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\MouseHandler.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\MouseZone.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\MouseZone.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\MouseZone.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Controls"
-			>
-			<File
-				RelativePath=".\src\BaseControl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\BaseControl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\BaseControl.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\BaseControl.inl"
-				>
-			</File>
-			<Filter
-				Name="Button"
-				>
-				<File
-					RelativePath=".\src\ButtonControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ButtonControl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Label"
-				>
-				<File
-					RelativePath=".\src\LabelControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\LabelControl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="CheckBox"
-				>
-				<File
-					RelativePath=".\src\CheckBoxControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\CheckBoxControl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\CheckBoxControl.inl"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="ScrollBar"
-				>
-				<File
-					RelativePath=".\src\HScrollBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\HScrollBar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ScrollBarControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ScrollBarControl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\VScrollBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\VScrollBar.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="TextBox"
-				>
-				<File
-					RelativePath=".\src\TextBoxControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\TextBoxControl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Window"
-				>
-				<File
-					RelativePath=".\src\WindowControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\WindowControl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\WindowControl.inl"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="3D"
-			>
-			<File
-				RelativePath=".\src\Model.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Model.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Model.hxx"
-				>
-			</File>
-		</Filter>
-		<File
-			RelativePath=".\src\CollisionChecker.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\src\CollisionChecker.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Includes\CollisionChecker.hxx"
-			>
-		</File>
 		<File
 			RelativePath=".\Includes\GraphicEngineDefines.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\GraphicUtils.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\src\GraphicUtils.h"
 			>
 		</File>
 		<File

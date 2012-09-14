@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;..\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes;..\AI\src"
+				AdditionalIncludeDirectories="Includes;..\GraphicsEngine\Includes;..\Base\Includes;..\Utilities\Includes;..\AI\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D.lib Utilities_D.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib GraphicsEngine_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\"
@@ -123,7 +123,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="Includes;..\GraphicsEngine\Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes;..\AI\src"
+				AdditionalIncludeDirectories="Includes;..\GraphicsEngine\Includes;..\Base\Includes;..\Utilities\Includes;..\AI\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base.lib Utilities.lib"
+				AdditionalDependencies="Base.lib Utilities.lib GraphicsEngine.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\"

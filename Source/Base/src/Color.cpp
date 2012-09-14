@@ -21,3 +21,13 @@ const Base::cColor Base::cColor::YELLOW = Base::cColor(255, 255, 0, 255);
 const Base::cColor Base::cColor::TAN = Base::cColor(210, 180, 140, 255);
 const Base::cColor Base::cColor::ORANGE = Base::cColor(255, 165, 0, 255);
 const Base::cColor Base::cColor::VIOLET = Base::cColor(238, 130, 238, 255);
+
+// ***************************************************************
+void Base::cColor::GetColorComponentsInFloat( float & fRed, float & fBlue, 
+											 float & fGreen, float & fAlpha ) const
+{
+	fRed = (float)m_iRed/255.0f;
+	fBlue = (float)m_iGreen/255.0f;;
+	fGreen = (float)m_iBlue/255.0f;;
+	fAlpha = (float)m_iAlpha/255.0f;;
+}

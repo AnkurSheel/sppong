@@ -43,7 +43,7 @@ namespace GameBase
 		GAMEBASE_API virtual void VOnUpdate();
 		GAMEBASE_API virtual void VOnLostDevice();
 		GAMEBASE_API virtual HRESULT VOnResetDevice();
-		GAMEBASE_API virtual bool VOnMsgProc(const Graphics::AppMsg & msg);
+		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void VCleanup();
 		GAMEBASE_API TICK GetRunningTicks();

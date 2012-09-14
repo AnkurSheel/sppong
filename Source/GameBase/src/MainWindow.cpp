@@ -9,10 +9,10 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "MainWindow.h"
-#include "DxBase.hxx"
+#include "GraphicsClass.hxx"
 #include "BaseApp.hxx"
 #include "Logger.hxx"
-#include "ResourceManager.hxx"
+//#include "ResourceManager.hxx"
 #include "Color.h"
 #include "Structures.h"
 #include "ParamLoaders.hxx"
@@ -121,10 +121,10 @@ void cMainWindow::VToggleFullScreen()
 		SetWindowPos(m_Hwnd, HWND_NOTOPMOST, m_windowRect.left, m_windowRect.top, m_windowRect.right - m_windowRect.left, m_windowRect.bottom - m_windowRect.top, 0);
 	}
 
-	IDXBase::GetInstance()->VToggleFullScreen();
+	//IDXBase::GetInstance()->VToggleFullScreen();
 
 	m_pGame->VOnLostDevice();
-	IDXBase::GetInstance()->VOnResetDevice();
+	//IDXBase::GetInstance()->VOnResetDevice();
 	m_pGame->VOnResetDevice();
 
 	if (!IsWindowVisible(m_Hwnd))
@@ -277,7 +277,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 	case WM_KEYDOWN:
 	case WM_KEYUP:
 	case WM_CHAR:
-		Graphics::AppMsg msg;
+		Base::AppMsg msg;
 		msg.m_hWnd = hwnd;
 		msg.m_uMsg = uMsg;
 		msg.m_wParam = wParam;
@@ -314,12 +314,29 @@ void cMainWindow::OnWindowCreated()
 	{
 		bgColor = cColor(vBGColor[0], vBGColor[1], vBGColor[2], vBGColor[3]);
 	}
+	bool bVSyncEnabled = false;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		bVSyncEnabled = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-VSyncEnabled", false);
+	}
 
-	// initialize DirectX
-	IDXBase::GetInstance()->VOnInitialization(m_Hwnd, bgColor, m_bFullScreen, m_iFullScreenWidth, m_iFullScreenHeight);
+	float fScreenFar = 1000.0f;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		fScreenFar = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-ScreenFar", 1000.0f);
+	}
+
+	float fScreenNear = 1.0f;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		fScreenNear = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-ScreenNear", 1.0f);
+	}
+
+	IGraphicsClass::GetInstance()->VInitialize(m_Hwnd, bgColor, m_bFullScreen, 
+		bVSyncEnabled, m_iFullScreenWidth, m_iFullScreenHeight, fScreenFar, fScreenNear );
 
 	// initialize resource manager
-	IResourceManager::GetInstance()->Init("resources\\resources.zip");
+	//IResourceManager::GetInstance()->Init("resources\\resources.zip");
 }
 
 // ***************************************************************
@@ -331,9 +348,9 @@ void cMainWindow::OnWindowDestroyed()
 	ChangeDisplaySettings(NULL, 0);
 
 	// release the graphic object
-	IDXBase::Destroy();
+	IGraphicsClass::Destroy();
 
-	IResourceManager::Destroy();
+	//IResourceManager::Destroy();
 
 	ReleaseCapture() ;
 	UnregisterClass("Window", m_hInstance);

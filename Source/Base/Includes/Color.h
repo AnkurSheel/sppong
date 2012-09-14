@@ -10,6 +10,8 @@
 #ifndef Color_h__
 #define Color_h__
 
+#include "BaseDefines.h"
+
 namespace Base
 {
 	class cColor
@@ -18,6 +20,7 @@ namespace Base
 		cColor();
 		cColor(const int iRed, const int iGreen, const int iBlue, const int iAlpha);
 		DWORD GetColor() const;
+		BASE_API void GetColorComponentsInFloat(float & fRed, float & fBlue, float & fGreen, float & fAlpha) const;
 		
 	private:
 		void CalculateColorFromComponents();

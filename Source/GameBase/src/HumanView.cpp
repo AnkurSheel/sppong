@@ -9,16 +9,16 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "HumanView.h"
-#include "DxBase.hxx"
+#include "GraphicsClass.hxx"
 #include "ProcessManager.hxx"
 #include "BaseApp.hxx"
-#include "Font.hxx"
-#include "Sprite.hxx"
-#include "ScreenElement.hxx"
-#include "BaseControl.hxx"
+//#include "Font.hxx"
+//#include "Sprite.hxx"
+//#include "ScreenElement.hxx"
+//#include "BaseControl.hxx"
 #include "MainWindow.hxx"
 #include "Vector3.h"
-#include "vertexstruct.h"
+//#include "vertexstruct.h"
 #include "Color.h"
 
 using namespace Utilities;
@@ -29,7 +29,7 @@ using namespace Base;
 GameBase::cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
 , m_pProcessManager(NULL)
-, m_pParentControl(NULL) 
+//, m_pParentControl(NULL) 
 {
 	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
 }
@@ -44,28 +44,28 @@ GameBase::cHumanView::~cHumanView()
 void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
 								 int iClientWidth, int iClientHeight)
 {
-	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
+	/*m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
 	m_pParentControl->VSetSize(iClientWidth, iClientHeight);
 	m_pParentControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-
+*/
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
 // 		"Sprites\\cursor.png");
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
-	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
+	//m_pFont = IFont::CreateMyFont();
+	//m_pFont->InitFont(14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
 
 	RECT boundingRect;
 	boundingRect.left = iClientWidth/2- 75;
 	boundingRect.right = boundingRect.left + 150;
 	boundingRect.top  = 10;
 	boundingRect.bottom = boundingRect.top + 30;
-	m_pFont->SetRect(boundingRect);
+	//m_pFont->SetRect(boundingRect);
 
-	m_pFont->SetFormat(DT_LEFT | DT_TOP);
-	m_pFont->SetTextColor(cColor::WHITE.GetColor());
+	//m_pFont->SetFormat(DT_LEFT | DT_TOP);
+	//m_pFont->SetTextColor(cColor::WHITE.GetColor());
 }
 
 // ***************************************************************
@@ -97,21 +97,21 @@ void GameBase::cHumanView::VOnLostDevice()
 	appMsg.m_lParam = 0;
 	appMsg.m_wParam = 0;
 
-	if (m_pParentControl)
+	/*if (m_pParentControl)
 	{
 		m_pParentControl->VPostMsg(appMsg);
 	}
-
-	for(ScreenElementList::iterator i = m_pElementList.begin(); i != m_pElementList.end(); ++i)
+	*/
+	/*for(ScreenElementList::iterator i = m_pElementList.begin(); i != m_pElementList.end(); ++i)
 	{
 		(*i)->VOnLostDevice();
-	}
+	}*/
 	//m_pCursorSprite->OnLostDevice();
 	
-	if (m_pFont)
+	/*if (m_pFont)
 	{
 		m_pFont->VOnLostDevice();
-	}
+	}*/
 }
 
 // ***************************************************************
@@ -122,45 +122,45 @@ HRESULT GameBase::cHumanView::VOnResetDevice()
 	appMsg.m_lParam = 0;
 	appMsg.m_wParam = 0;
 
-	if (m_pParentControl)
+	/*if (m_pParentControl)
 	{
 		m_pParentControl->VPostMsg(appMsg);
-	}
+	}*/
 
 	HRESULT hr = S_OK;
-	for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
+	/*for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 	{
 		(*i)->VOnResetDevice();
-	}
+	}*/
 	//m_pCursorSprite->OnResetDevice();
 
-	if (m_pFont)
+	/*if (m_pFont)
 	{
 		m_pFont->VOnResetDevice();
-	}
+	}*/
 	return hr;
 }
 
 // ***************************************************************
 void GameBase::cHumanView::VOnDestroyDevice()
 {
-	SAFE_DELETE(m_pParentControl);
+	//SAFE_DELETE(m_pParentControl);
 	RemoveElements();
 
 	//SAFE_DELETE(m_pCursorSprite);
 }
 
 // ***************************************************************
-bool GameBase::cHumanView::VOnMsgProc( const Graphics::AppMsg & msg )
+bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 {
 	bool bHandled = false;
 	switch(msg.m_uMsg)
 	{
 	case WM_CHAR:
-		if (m_pParentControl)
+		/*if (m_pParentControl)
 		{
 			bHandled = m_pParentControl->VPostMsg(msg);
-		}
+		}*/
 		if(!bHandled)
 		{
 			switch (msg.m_wParam)
@@ -176,10 +176,10 @@ bool GameBase::cHumanView::VOnMsgProc( const Graphics::AppMsg & msg )
 	case WM_LBUTTONDOWN:
 	case WM_KEYUP:
 	case WM_KEYDOWN:
-		if (m_pParentControl)
+		/*if (m_pParentControl)
 		{
 			bHandled = m_pParentControl->VPostMsg(msg);
-		}
+		}*/
 		break;
 	}
 	return bHandled;
@@ -207,9 +207,10 @@ void GameBase::cHumanView::VOnAttach(GameViewId id)
 HRESULT GameBase::cHumanView::OnBeginRender(TICK tickCurrent)
 {
 	m_tickCurrent = tickCurrent; 
-
+	HRESULT hr = S_OK;
+	IGraphicsClass::GetInstance()->VBeginRender();
 	// check if the device is available
-	HRESULT hr = IDXBase::GetInstance()->VIsAvailable() ;
+	/*HRESULT hr = IDXBase::GetInstance()->VIsAvailable() ;
 
 	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
 	{
@@ -229,7 +230,7 @@ HRESULT GameBase::cHumanView::OnBeginRender(TICK tickCurrent)
 	{
 		VOnResetDevice();
 	}
-
+*/
 	return hr;
 }
 
@@ -241,18 +242,18 @@ void GameBase::cHumanView::VRenderPrivate()
 	appMsg.m_lParam = 0;
 	appMsg.m_wParam = 0;
 
-	if (m_pParentControl)
+	/*if (m_pParentControl)
 	{
 		m_pParentControl->VPostMsg(appMsg);
-	}
+	}*/
 
-	for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
+	/*for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 	{
 		if ((*i)->VIsVisible())
 		{
 			(*i)->VOnRender(appMsg);
 		}
-	}
+	}*/
 // 		if (m_pCursorSprite->IsVisible())
 // 		{
 // 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
@@ -264,29 +265,28 @@ void GameBase::cHumanView::VRenderPrivate()
 void GameBase::cHumanView::OnEndRender(const HRESULT hr)
 {
 	m_tickLastDraw = m_tickCurrent; 
-
-	IDXBase::GetInstance()->VEndRender(hr);
+	IGraphicsClass::GetInstance()->VEndRender();
 }
 
 // ***************************************************************
 void GameBase::cHumanView::PushElement(shared_ptr<IScreenElement> pScreenElement)
 {
-	m_pElementList.push_back(pScreenElement);
+	//m_pElementList.push_back(pScreenElement);
 }
 
 // ***************************************************************
 void GameBase::cHumanView::PopElement(shared_ptr<IScreenElement> pScreenElement)
 {
-	m_pElementList.remove(pScreenElement);
+	//m_pElementList.remove(pScreenElement);
 }
 
 // ***************************************************************
 void GameBase::cHumanView::RemoveElements()
 {
-	while (!m_pElementList.empty())
+	/*while (!m_pElementList.empty())
 	{
 		m_pElementList.pop_front();
-	}
+	}*/
 }
 
 // ***************************************************************
@@ -294,7 +294,7 @@ void GameBase::cHumanView::RemoveElements()
 // ***************************************************************
 void GameBase::cHumanView::HandleLostDevice(HRESULT hr)
 {
-	if(hr == D3DERR_DEVICELOST)
+	/*if(hr == D3DERR_DEVICELOST)
 	{
 		Sleep(50);
 		return;
@@ -308,7 +308,7 @@ void GameBase::cHumanView::HandleLostDevice(HRESULT hr)
 
 			VOnResetDevice();
 		}
-	}
+	}*/
 }
 
 bool GameBase::cHumanView::IsKeyLocked( const DWORD dwKey )  const
@@ -339,35 +339,37 @@ void GameBase::cHumanView::SetCursorVisible( bool bVisible )
 }
 
 // ***************************************************************
-void GameBase::cHumanView::ShowPointList(const cVertex * const pData, const UINT iPrimitiveCount)
-{
-	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_POINTLIST, iPrimitiveCount, pData);
-}
-
-// ***************************************************************
-void GameBase::cHumanView::ShowLineList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
-{
-	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINELIST, iPrimitiveCount, pData);
-}
-
-// ***************************************************************
-GAMEBASE_API void GameBase::cHumanView::ShowLineStrip( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
-{
-	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINESTRIP, iPrimitiveCount, pData);
-}
-
-// ***************************************************************
-void GameBase::cHumanView::ShowTriangleList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
-{
-	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_TRIANGLELIST, iPrimitiveCount, pData);
-}
+//void GameBase::cHumanView::ShowPointList(const cVertex * const pData, const UINT iPrimitiveCount)
+//{
+//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_POINTLIST, iPrimitiveCount, pData);
+//}
+//
+//// ***************************************************************
+//void GameBase::cHumanView::ShowLineList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
+//{
+//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINELIST, iPrimitiveCount, pData);
+//}
+//
+//// ***************************************************************
+//GAMEBASE_API void GameBase::cHumanView::ShowLineStrip( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
+//{
+//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINESTRIP, iPrimitiveCount, pData);
+//}
+//
+//// ***************************************************************
+//void GameBase::cHumanView::ShowTriangleList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
+//{
+//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_TRIANGLELIST, iPrimitiveCount, pData);
+//}
 
 float GameBase::cHumanView::GetWidth()
 {
-	return m_pParentControl->VGetWidth();
+	//return m_pParentControl->VGetWidth();
+	return 0;
 }
 
 float GameBase::cHumanView::GetHeight()
 {
-	return m_pParentControl->VGetHeight();
+	//return m_pParentControl->VGetHeight();
+	return 0;
 }

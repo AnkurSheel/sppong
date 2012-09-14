@@ -15,10 +15,6 @@
 namespace Base
 {
 	class cString;
-}
-
-namespace Graphics
-{
 	struct AppMsg;
 }
 
@@ -35,7 +31,7 @@ namespace GameBase
 		virtual ~IBaseApp(){}
 		virtual void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const Base::cString & strOptionsFileName) = 0;
 		virtual Base::cString VGetGameTitle() const = 0; 
-		virtual bool VOnMsgProc(const Graphics::AppMsg & msg) = 0;
+		virtual bool VOnMsgProc(const Base::AppMsg & msg) = 0;
 		virtual void VRun() = 0;
 		virtual HRESULT VOnResetDevice() = 0;
 		virtual void VOnLostDevice() = 0;

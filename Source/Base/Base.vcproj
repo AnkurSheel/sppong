@@ -233,6 +233,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Includes\Structures.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Includes\Vector2.h"
 			>
 		</File>

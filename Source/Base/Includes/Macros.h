@@ -97,6 +97,8 @@
   #define Log_Write_L3( linetype, linetext )
 #endif
 
+#define TOSTRING(x) #x
+
 const int  KILOBYTE = 1024;
 const int  MEGABYTE = KILOBYTE * KILOBYTE;
 

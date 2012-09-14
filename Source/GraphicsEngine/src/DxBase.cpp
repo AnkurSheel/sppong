@@ -1,3 +1,4 @@
+
 // ***************************************************************
 //  DxBase   version:  1.0   Ankur Sheel  date: 04/29/2008
 //  -------------------------------------------------------------
@@ -9,289 +10,454 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "DxBase.h" 
-#include "vertexstruct.h"
 #include "Color.h"
 
 using namespace Utilities;
-using namespace Graphics;
 using namespace Base;
 
-IDXBase * cDXBase::s_pDXBase= NULL;
 // ***************************************************************
-// Constructor
-// ***************************************************************
-cDXBase::cDXBase()
-: m_pD3D(NULL)
-, m_pd3dDevice(NULL)
-, m_Hwnd(NULL)
-, m_BkColor(cColor::BLACK.GetColor())
-, m_bFullScreen(false)
-, m_iWidth(0)
-, m_iHeight(0)
-, m_bWireFrameMode(false)
-, m_fAspectRatio(4.0f / 3.0f)
-, m_fFieldOfView(D3DX_PI / 4.0f)
-, m_fNearPlane(1.0f)
-, m_fFarPlane(1000.0f)
+Graphics::cDXBase::cDXBase()
+: m_bVsyncEnabled(false)
+, m_pSwapChain(NULL)
+, m_pDevice(NULL)
+, m_pDeviceContext(NULL)
+, m_pRenderTargetView(NULL)
+, m_pDepthStencilBuffer(NULL)
+, m_pDepthStencilState(NULL)
+, m_pDepthStencilView(NULL)
+, m_pRasterState(NULL)
 {
+
 }
 
 // ***************************************************************
-// Destructor
-// ***************************************************************
-cDXBase::~cDXBase()
+Graphics::cDXBase::~cDXBase()
 {
+	Cleanup();
 }
 
 // ***************************************************************
-// Create and Returns an object of this class
-// ***************************************************************
-void cDXBase::Create()
+Graphics::IDXBase * Graphics::cDXBase::Create()
 {
-	s_pDXBase = DEBUG_NEW cDXBase();
+	return DEBUG_NEW cDXBase();
 }
 
 // ***************************************************************
-// Initializes the directX object
-// ***************************************************************
-void cDXBase::VOnInitialization( const HWND hWnd, const Base::cColor & bkColor, const bool bFullScreen, const int iWidth, const int iHeight)
+void Graphics::cDXBase::VInitialize( const HWND hWnd, const Base::cColor & bkColor,
+										  const bool bFullScreen, const bool bVsyncEnabled,
+										  const int iWidth, const int iHeight,
+										  const float fScreenDepth, const float fScreenNear )
 {
-	m_Hwnd = hWnd;
-	m_BkColor = bkColor.GetColor();
-	m_bFullScreen = bFullScreen;
-	m_iHeight = iHeight;
-	m_iWidth = iWidth;
-	m_fAspectRatio = float(m_iWidth) / (float)m_iHeight;
 
-	// Initialize DirectX
-	DirectxInit() ;
+	m_bVsyncEnabled = bVsyncEnabled;
 
-	// Fill out presentation parameters
-	SetParameters() ;
+	bkColor.GetColorComponentsInFloat(m_afBackGroundcolor[0], m_afBackGroundcolor[1],
+		m_afBackGroundcolor[2], m_afBackGroundcolor[3]);
 
-	CreateDirectxDevice() ;
-	InitScene();
+	if(!SetupRenderTargets(iWidth, iHeight, hWnd, bFullScreen))
+		return;
+
+	if(!SetupRasterStates())
+		return;
+
+	SetupViewPort(iWidth, iHeight);
+
+	SetupProjectionMatrix(iWidth, iHeight, fScreenNear, fScreenDepth);
+	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixOrthoLH(&m_matOrtho, (float)iWidth, (float)iHeight, fScreenNear, fScreenDepth);
 }
 
 // ***************************************************************
-// Resets the device
-// ***************************************************************
-HRESULT cDXBase::VOnResetDevice()
+void Graphics::cDXBase::VBeginRender()
 {
-	if (m_pd3dDevice)
+	// Clear the back buffer.
+	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, m_afBackGroundcolor);
+
+	// Clear the depth buffer.
+	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
+
+// ***************************************************************
+void Graphics::cDXBase::VEndRender()
+{
+	// Present the back buffer to the screen since rendering is complete.
+	if(m_bVsyncEnabled)
 	{
-		HRESULT		hr ;
-
-		hr = m_pd3dDevice->Reset(&m_d3dpp) ;
-		return hr ;
-	}
-	return 0;
-}
-
-// ***************************************************************
-// Function to begin the rendering
-// ***************************************************************
-HRESULT cDXBase::VBeginRender()
-{
-	HRESULT hr;
-
-	// clear the frame with the specified color
-	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, m_BkColor, 1.0f, 0) ;
-
-	hr = m_pd3dDevice->BeginScene() ;
-
-	return hr;
-}
-
-// ***************************************************************
-void cDXBase::VToggleFullScreen()
-{
-	m_bFullScreen = !m_bFullScreen;
-	SetParameters();
-}
-
-// ***************************************************************
-void cDXBase::VDrawVertexPrimitiveUP(const D3DPRIMITIVETYPE primitiveType, const UINT iPrimitiveCount, const cVertex * const pData)
-{
-	m_pd3dDevice->SetFVF(cVertex::FVF);
-	m_pd3dDevice->DrawPrimitiveUP(primitiveType, iPrimitiveCount, pData, sizeof(cVertex));
-}
-
-// ***************************************************************
-void cDXBase::VToggleRenderState()
-{
-	m_bWireFrameMode = !m_bWireFrameMode;
-	if (m_bWireFrameMode)
-	{
-		m_pd3dDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		// Lock to screen refresh rate.
+		m_pSwapChain->Present(1, 0);
 	}
 	else
 	{
-		m_pd3dDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	}
-}
-
-// ***************************************************************
-// Release the Direct3D device
-// ***************************************************************
-void cDXBase::VCleanup()
-{
-	// release the Direct3d device
-	SAFE_RELEASE(m_pd3dDevice) ;
-
-	// release the Direct3d object
-	SAFE_RELEASE(m_pD3D) ;
-}
-
-// ***************************************************************
-// Initialize the directX Object
-// ***************************************************************
-void cDXBase::DirectxInit()
-{
-	//create the Direct3d Object
-	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION) ;
-
-	if(m_pD3D == NULL)
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Direct3d object creation failed");
-		PostQuitMessage(-1);
+		// Present as fast as possible.
+		m_pSwapChain->Present(0, 0);
 	}
 
-	// get the display mode
-	m_pD3D->GetAdapterDisplayMode( D3DADAPTER_DEFAULT, &m_displayMode ); 
-
-	// get the device caps
-	m_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &m_Caps) ;
 }
 
 // ***************************************************************
-// Create the directX device
-// ***************************************************************
-void cDXBase::CreateDirectxDevice() 
+bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen )
 {
-	int	vp = 0 ; // the typeof vertex processing
+	if(!SetupSwapChain(iWidth, iHeight, hWnd, bFullScreen))
+		return false;
 
-	if(m_Caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT )
+	if(!CreateDepthStencilBuffer(iWidth, iHeight))
+		return false;
+
+	if(!SetupDepthStencilState())
+		return false;
+
+	if(!CreateDepthStencilView())
+		return false;
+
+	// Bind the render target view and depth stencil buffer to the output render pipeline.
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
+
+	return true;
+}
+
+// ***************************************************************
+bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
+									 const HWND hWnd, const bool bFullScreen )
+{
+	unsigned int iRefreshRateNumerator;
+	unsigned int iRefreshRateDenominator;
+
+	if(!GetMonitorRefreshRate(iWidth, iHeight, iRefreshRateNumerator, iRefreshRateDenominator))
+		return false;
+
+	DXGI_SWAP_CHAIN_DESC swapChainDesc;
+	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
+	swapChainDesc.BufferCount = 1;
+	swapChainDesc.BufferDesc.Width = iWidth;
+	swapChainDesc.BufferDesc.Height = iHeight;
+	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+	if(m_bVsyncEnabled)
 	{
-		// hardware vertex processing is supported.
-		vp = D3DCREATE_HARDWARE_VERTEXPROCESSING ;
-		
-		// Check for pure device 
-		if ( m_Caps.DevCaps & D3DDEVCAPS_PUREDEVICE )
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = iRefreshRateNumerator;
+		swapChainDesc.BufferDesc.RefreshRate.Denominator = iRefreshRateDenominator;
+	}
+	else
+	{
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+	}
+
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+
+	swapChainDesc.OutputWindow = hWnd;
+
+	swapChainDesc.SampleDesc.Count = 1;
+	swapChainDesc.SampleDesc.Quality = 0;
+
+	swapChainDesc.Windowed = !bFullScreen;
+
+	// Set the scan line ordering and scaling to unspecified.
+	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+	// Discard the back buffer contents after presenting.
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+
+	// Don't set the advanced flags.
+	swapChainDesc.Flags = 0;
+
+	unsigned int iCreationFlags = 0;
+#ifdef _DEBUG
+	iCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	D3D_FEATURE_LEVEL featureLevel;;
+	HRESULT result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, iCreationFlags, NULL, NULL, 
+		D3D11_SDK_VERSION, &swapChainDesc, &m_pSwapChain, &m_pDevice, &featureLevel, &m_pDeviceContext);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the  swap chain, Direct3D device, and Direct3D device context : ") 
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	if(!AttachBackBufferToSwapChain())
+		return false;
+	
+	return true;
+}
+
+// ***************************************************************
+bool Graphics::cDXBase::SetupDepthStencilState()
+{
+	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+	// Initialize the description of the stencil state.
+	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
+
+	// Set up the description of the stencil state.
+	depthStencilDesc.DepthEnable = true;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	depthStencilDesc.StencilEnable = true;
+	depthStencilDesc.StencilReadMask = 0xFF;
+	depthStencilDesc.StencilWriteMask = 0xFF;
+
+	// Stencil operations if pixel is front-facing.
+	depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Stencil operations if pixel is back-facing.
+	depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	// .
+	HRESULT result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_pDepthStencilState);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil state")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
+	return true;
+}
+
+// ***************************************************************
+bool Graphics::cDXBase::CreateDepthStencilView()
+{
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.Texture2D.MipSlice = 0;
+
+	HRESULT result = m_pDevice->CreateDepthStencilView(m_pDepthStencilBuffer, &depthStencilViewDesc, &m_pDepthStencilView);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil view")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+	return true;
+}
+
+// ***************************************************************
+bool Graphics::cDXBase::SetupRasterStates()
+{
+	D3D11_RASTERIZER_DESC rasterDesc;
+	rasterDesc.AntialiasedLineEnable = false;
+	rasterDesc.CullMode = D3D11_CULL_BACK;
+	rasterDesc.DepthBias = 0;
+	rasterDesc.DepthBiasClamp = 0.0f;
+	rasterDesc.DepthClipEnable = true;
+	rasterDesc.FillMode = D3D11_FILL_SOLID;
+	rasterDesc.FrontCounterClockwise = false;
+	rasterDesc.MultisampleEnable = false;
+	rasterDesc.ScissorEnable = false;
+	rasterDesc.SlopeScaledDepthBias = 0.0f;
+
+	HRESULT result = m_pDevice->CreateRasterizerState(&rasterDesc, &m_pRasterState);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create raster State")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	m_pDeviceContext->RSSetState(m_pRasterState);
+	return true;
+}
+
+// ***************************************************************
+void Graphics::cDXBase::SetupViewPort( const int iWidth, const int iHeight )
+{
+	D3D11_VIEWPORT viewport;
+	// Setup the viewport for rendering.
+	viewport.Width = (float)iWidth;
+	viewport.Height = (float)iHeight;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	viewport.TopLeftX = 0.0f;
+	viewport.TopLeftY = 0.0f;
+
+	// Create the viewport.
+	m_pDeviceContext->RSSetViewports(1, &viewport);
+}
+
+// ***************************************************************
+bool Graphics::cDXBase::GetMonitorRefreshRate( const int iWidth, const int iHeight,
+											  unsigned int & iRefreshRateNumerator,
+											  unsigned int & iRefreshRateDenominator )
+{
+	HRESULT result;
+
+	IDXGIFactory * pFactory = NULL;
+	result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&pFactory);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create IDXGIFactory factory")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	IDXGIAdapter * pAdapter = NULL;
+	result = pFactory->EnumAdapters(0, &pAdapter);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create  an adapter for the video card")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	IDXGIOutput* pAdapterOutput = NULL;
+	result = pAdapter->EnumOutputs(0, &pAdapterOutput);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not Enumerate the monitor")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	unsigned int iNumModes;
+	result = pAdapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, 
+		DXGI_ENUM_MODES_INTERLACED, &iNumModes, NULL);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get the number of modes for the monitor.")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	// Create a list to hold all the possible display modes for this monitor/video card combination.
+	DXGI_MODE_DESC * pDisplayModeList = DEBUG_NEW DXGI_MODE_DESC[iNumModes];
+	// Now fill the display mode list structures.
+	result = pAdapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM,
+		DXGI_ENUM_MODES_INTERLACED, &iNumModes, pDisplayModeList);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get all the possible display modes for this monitor/video card combination.")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
+	for(unsigned int i = 0; i < iNumModes; i++)
+	{
+		if(pDisplayModeList[i].Width == (unsigned int)iWidth)
 		{
-			vp |= D3DCREATE_PUREDEVICE;
+			if(pDisplayModeList[i].Height == (unsigned int)iHeight)
+			{
+				iRefreshRateNumerator = pDisplayModeList[i].RefreshRate.Numerator;
+				iRefreshRateDenominator = pDisplayModeList[i].RefreshRate.Denominator;
+				break;
+			}
 		}
 	}
-	else
-	{
-		// use software vertex processing.
-		vp = D3DCREATE_SOFTWARE_VERTEXPROCESSING ;
-	}
 
-	// Create the D3DDevice
-	if(FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT,
-		D3DDEVTYPE_HAL, 
-		m_Hwnd,
-		vp,
-		&m_d3dpp,
-		&m_pd3dDevice)))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Direct3d object creation failed");
-		PostQuitMessage(-1) ;
-	}
+	SAFE_DELETE(pDisplayModeList);
+	SAFE_RELEASE(pAdapterOutput);
+	SAFE_RELEASE(pAdapter);
+	SAFE_RELEASE(pFactory);
+
+	return true;
 }
 
 // ***************************************************************
-// Sets the Presentation Parameters
-// ***************************************************************
-void cDXBase::SetParameters()
+bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 {
-	ZeroMemory(&m_d3dpp, sizeof(m_d3dpp)) ;
-
-	m_d3dpp.BackBufferCount = 1 ;
-	m_d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE ;
-	m_d3dpp.MultiSampleQuality = 0 ;
-	m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD ;
-	m_d3dpp.hDeviceWindow = m_Hwnd ;
-	m_d3dpp.Flags = 0 ;
-	m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE ;
-	m_d3dpp.EnableAutoDepthStencil = true ;
-	m_d3dpp.Windowed = !m_bFullScreen;
-
-	if(m_bFullScreen)
+	ID3D11Texture2D * pBackBufferPtr = NULL;
+	HRESULT result = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBufferPtr);
+	if(FAILED(result))
 	{
-		m_d3dpp.BackBufferWidth = m_iWidth;
-		m_d3dpp.BackBufferHeight = m_iHeight;
-		m_d3dpp.FullScreen_RefreshRateInHz = m_displayMode.RefreshRate;
-		m_d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8; //pixel format
-	}
-	else
-	{
-		m_d3dpp.BackBufferWidth = 0;
-		m_d3dpp.BackBufferHeight = 0;
-		m_d3dpp.FullScreen_RefreshRateInHz = 0 ;
-		m_d3dpp.BackBufferFormat = m_displayMode.Format;
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get a pointer to the back buffer.")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
 	}
 
-	if (SUCCEEDED(m_pD3D->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, 
-		m_d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3DFMT_D24S8))) 
+	result = m_pDevice->CreateRenderTargetView(pBackBufferPtr, NULL, &m_pRenderTargetView);
+	if(FAILED(result))
 	{
-		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
-		Log_Write_L2(ILogger::LT_COMMENT, "Depth, stencil format set to D3DFMT_D24S8");
-	} 
-	else if (SUCCEEDED(m_pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
-		m_d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3DFMT_D24X8))) 
-	{
-		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24X8;
-		Log_Write_L2(ILogger::LT_COMMENT, "Depth, stencil format set to D3DFMT_D24X8");
-	} 
-	else if (SUCCEEDED(m_pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, 
-		m_d3dpp.BackBufferFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3DFMT_D16))) 
-	{
-		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-		Log_Write_L2(ILogger::LT_COMMENT, "Depth, stencil format set to D3DFMT_D16");
-	} 
-	else 
-	{
-		Log_Write_L2(ILogger::LT_ERROR, "Could not find a supported surface format for this device");
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create a render target view with the back buffer pointer.")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
 	}
+	SAFE_RELEASE(pBackBufferPtr);
+	return true;
 }
 
 // ***************************************************************
-void cDXBase::InitScene()
+bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iHeight )
 {
-	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFieldOfView, m_fAspectRatio, m_fNearPlane, m_fFarPlane);
-	m_pd3dDevice->SetTransform(D3DTS_PROJECTION,&m_matProjection);
+	D3D11_TEXTURE2D_DESC depthBufferDesc;
+	// Initialize the description of the depth buffer.
+	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
 
-	for(unsigned i = 0; i < 8; i++)
+	// Set up the description of the depth buffer.
+	depthBufferDesc.Width = iWidth;
+	depthBufferDesc.Height = iHeight;
+	depthBufferDesc.MipLevels = 1;
+	depthBufferDesc.ArraySize = 1;
+	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthBufferDesc.SampleDesc.Count = 1;
+	depthBufferDesc.SampleDesc.Quality = 0;
+	depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthBufferDesc.CPUAccessFlags = 0;
+	depthBufferDesc.MiscFlags = 0;
+
+	HRESULT result = m_pDevice->CreateTexture2D(&depthBufferDesc, NULL, &m_pDepthStencilBuffer);
+	if(FAILED(result))
 	{
-		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		//m_pd3dDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-		m_pd3dDevice->SetSamplerState(i, D3DSAMP_MAXANISOTROPY, m_Caps.MaxAnisotropy);
+		Log_Write_L1(ILogger::LT_ERROR, cString("Create the texture for the depth buffer")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
 	}
+	return true;
 }
 
 // ***************************************************************
-void cDXBase::Destroy()
+void Graphics::cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeight, const float fScreenNear, const float fScreenDepth )
 {
-	if(s_pDXBase != NULL)
-		s_pDXBase->VCleanup();
-	
-	SAFE_DELETE(s_pDXBase);
+	float fFieldOfView= (float)D3DX_PI / 4.0f;
+	float fScreenAspect = (float)iWidth / (float)iHeight;
+
+	// Create the projection matrix for 3D rendering.
+	D3DXMatrixPerspectiveFovLH(&m_matProjection, fFieldOfView, fScreenAspect, fScreenNear, fScreenDepth);
 }
 
 // ***************************************************************
-// returns an instance of the class
-// ***************************************************************
-IDXBase* IDXBase::GetInstance()
+void Graphics::cDXBase::Cleanup()
 {
-	if(cDXBase::s_pDXBase == NULL)
-		cDXBase::Create();
-	return cDXBase::s_pDXBase;
+	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
+	if(m_pSwapChain)
+	{
+		m_pSwapChain->SetFullscreenState(false, NULL);
+	}
+
+	SAFE_RELEASE(m_pRasterState);
+	SAFE_RELEASE(m_pDepthStencilView);
+	SAFE_RELEASE(m_pDepthStencilBuffer);
+	SAFE_RELEASE(m_pDepthStencilBuffer);
+	SAFE_RELEASE(m_pRenderTargetView);
+	SAFE_RELEASE(m_pDeviceContext);
+	SAFE_RELEASE(m_pDevice);
+	SAFE_RELEASE(m_pSwapChain);
 }
 
-void IDXBase::Destroy()
+// ***************************************************************
+Graphics::IDXBase * Graphics::IDXBase::Create()
 {
-	cDXBase::Destroy();
+	return cDXBase::Create();
 }

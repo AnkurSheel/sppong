@@ -25,7 +25,6 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
-
 // TODO: reference additional headers your program requires here
 #define STRSAFE_NO_CB_FUNCTIONS
 #define NULLCHAR '\0'
@@ -34,14 +33,20 @@
 #define D3D_DEBUG_INFO
 #endif
 
-#define DIRECTINPUT_VERSION 0x0800
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3dx11.lib")
+#pragma comment(lib, "d3dx10.lib")
+#pragma comment(lib, "dxerr.lib")
 
 #include <stdio.h>
-#include <d3d9.h>
-#include <d3dx9.h>
-#include <DxErr.h> //For DXGetErrorString9
+#include <dxgi.h>
+#include <d3dcommon.h>
+#include <d3d11.h>
+#include <d3dx10math.h>
+#include <DxErr.h>
 #include "Logger.hxx"
 #include "Includes.h"
-#include "GraphicUtils.h"
+//#include "GraphicUtils.h"
 #include "Color.h"
 #include "Vector3.h"

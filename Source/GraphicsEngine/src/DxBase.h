@@ -10,7 +10,7 @@
 #ifndef DxBase_h__
 #define DxBase_h__
 
-#include "DxBase.hxx" 
+#include "DxBase.hxx"
 
 namespace Graphics
 {
@@ -24,69 +24,60 @@ namespace Graphics
 		, public Base::cNonCopyable
 	{
 	public:
-		/********************************************//**
-         *
-         * Creates an object of this class
-         ***********************************************/
-		static void Create();
-		static void Destroy();
+		static IDXBase * Create();
 	
 	private:
 		cDXBase() ;
 		~cDXBase() ;
-		void VOnInitialization(const HWND hWnd, const Base::cColor & bkColor, 
-			const bool bFullScreen, const int iWidth, const int iHeight);
-		HRESULT VOnResetDevice() ;
-		HRESULT VBeginRender();
-		void VEndRender(const HRESULT hr);
-		LPDIRECT3DDEVICE9 VGetDevice() const;
-		HRESULT VIsAvailable() const;
-		void VToggleFullScreen();
-		void VCleanup() ;
-		void VDrawVertexPrimitiveUP(const D3DPRIMITIVETYPE primitiveType, const UINT iPrimitiveCount, const cVertex * const pData);
-		void VToggleRenderState();
+		// ***************************************************************
+		void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
+			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
+			const int iHeight, const float fScreenDepth, const float fScreenNear);
+
+		void VBeginRender();
+		void VEndRender();
+		// ***************************************************************
+		bool SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen );
+		bool SetupSwapChain( const int iWidth, const int iHeight, const HWND hWnd,
+			const bool bFullScreen );
+		bool SetupDepthStencilState();
+		bool SetupRasterStates();
+		void SetupViewPort( const int iWidth, const int iHeight );
 		/********************************************//**
+		 * @param[in] iWidth The width of the window
+		 * @param[in] iHeight The height of the window
 		 *
-		 * Creates the Direct3D object
+		 * Gets the monitor refresh rate
 		 ***********************************************/
-		void DirectxInit() ;
-		/********************************************//**
-		 *
-		 * Creates the DirectX device
-		 ***********************************************/
-		void CreateDirectxDevice() ;
-		/********************************************//**
-		 *
-		 * Sets the presentation parameters depending on whether
-		 * the application is fullscreen or windowed
-		 ***********************************************/
-		void SetParameters();
-		/********************************************//**
-		 *
-		 * Creates the projection matrix and sets the filters 
-		 * for the texture stages
-		 ***********************************************/
-		void InitScene();
+		bool GetMonitorRefreshRate( const int iWidth, const int iHeight, 
+			unsigned int & iRefreshRateNumerator, unsigned int & iRefreshRateDenominator);
+		bool AttachBackBufferToSwapChain();
+		bool CreateDepthStencilBuffer( const int iWidth, const int iHeight );
+		bool CreateDepthStencilView();
+		void SetupProjectionMatrix( const int iWidth, const int iHeight, const float fScreenNear, const float fScreenDepth );
+		void Cleanup() ;
+
+		// ***************************************************************
+		ID3D11Device * GetDevice();
+		ID3D11DeviceContext * GetDeviceContext();
+		void GetProjectionMatrix(D3DXMATRIX & matProjection);
+		void GetWorldMatrix(D3DXMATRIX & matWorld);
+		void GetOrthoMatrix(D3DXMATRIX & matOrtho );
+
 	private:
-		LPDIRECT3D9				m_pD3D ;				/*!< Pointer to a direct3d object */
-		LPDIRECT3DDEVICE9		m_pd3dDevice ;			/*!< Pointer to a direct3d device */
-		D3DCAPS9				m_Caps ;				/*!< The capabilities of the direct 3d object */
-		DWORD					m_BkColor ;				/*!< The background color */
-		HWND					m_Hwnd ;				/*!< The window handle */
-		D3DPRESENT_PARAMETERS	m_d3dpp ;				/*!< The presentation parameters */
-		int						m_iWidth;				/*!< The width of the window */
-		int						m_iHeight ;				/*!< The height of the window */
-		D3DDISPLAYMODE			m_displayMode;			/*!< The display mode */
-		bool					m_bFullScreen;			/*!< True if in fullscreen mode */
-		bool					m_bWireFrameMode;		/*!< True if rendering in wireframe mode */
-		D3DXMATRIX				m_matProjection;		/*!< projection matrix */
-		float					m_fAspectRatio;			/*!< viewport ratio */
-        float					m_fFieldOfView;			/*!< view angle */
-		float					m_fNearPlane;			/*!< near clipping plane */
-		float					m_fFarPlane;			/*!< far clipping plane */
-	
-	public:
-		static IDXBase * s_pDXBase;
+		bool						m_bVsyncEnabled;	/*!< Pointer to a direct3d object */
+		IDXGISwapChain *			m_pSwapChain;
+		ID3D11Device *				m_pDevice;
+		ID3D11DeviceContext *		m_pDeviceContext;
+		ID3D11RenderTargetView *	m_pRenderTargetView;
+		ID3D11Texture2D *			m_pDepthStencilBuffer;
+		ID3D11DepthStencilState *	m_pDepthStencilState;
+		ID3D11DepthStencilView *	m_pDepthStencilView;
+		ID3D11RasterizerState *		m_pRasterState;
+		D3DXMATRIX					m_matProjection;
+		D3DXMATRIX					m_matWorld;
+		D3DXMATRIX					m_matOrtho;
+		float						m_afBackGroundcolor[4];
 	};
 #include "DxBase.inl"
 
