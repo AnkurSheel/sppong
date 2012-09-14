@@ -89,7 +89,7 @@ void cGame::GotoNextTest()
 
 		switch (m_currentTest)
 		{
-		case TEST_ALL:
+/*		case TEST_ALL:
 			pView->Finished();
 			break;
 		
@@ -120,6 +120,7 @@ void cGame::GotoNextTest()
 		case TEST_INDEXBUFFER:
 			pView->TestIndexBuffer();
 			break;
+			*/
 		}
 	}
 }

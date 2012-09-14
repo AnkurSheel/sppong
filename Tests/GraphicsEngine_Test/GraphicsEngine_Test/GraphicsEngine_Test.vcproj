@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Base_D.lib GraphicsEngine_D.lib Utilities_D.lib GameBase_D.lib"
+				AdditionalDependencies="Base_D.lib Utilities_D.lib GameBase_D.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\Debug;"
 				GenerateDebugInformation="true"
