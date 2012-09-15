@@ -77,8 +77,6 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 
 	RegisterWin();
 
-	SetDisplayResolution();
-
 	m_pGame = pGame;
 
 	cString strGameTitle = "GameTitle";
@@ -254,13 +252,20 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 
 	case WM_ACTIVATE:
 	{
-		if (!HIWORD(wParam))
+		if (LOWORD(wParam) == WA_ACTIVE)
 		{
-			//active
+			if(m_bFullScreen)
+			{
+				SetDisplayResolution();
+			}
 		}
-		else
+		else if (LOWORD(wParam) == WA_INACTIVE)
 		{
-			//inactive
+			if(m_bFullScreen)
+			{
+				SetDisplayResolution();
+				ShowWindow(m_Hwnd, SW_MINIMIZE);
+			}
 		}
 		return 0;
 	}
