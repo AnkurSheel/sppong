@@ -15,6 +15,12 @@ inline cVector3::cVector3( const double dX, const double dY, const double dZ )
 }
 
 // ***************************************************************
+inline Base::cVector3 cVector3::Zero()
+{
+	return cVector3(0.0f, 0.0f, 0.0f);
+}
+
+// ***************************************************************
 inline bool cVector3::IsZero() const
 {
 	return (m_dX * m_dX + m_dY * m_dY + m_dZ * m_dZ) < MinDouble;

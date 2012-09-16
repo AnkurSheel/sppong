@@ -14,6 +14,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\BuildRules\PixelShader.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -27,7 +30,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="PixelShader"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="BuildVertexShader"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -111,7 +120,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="PixelShader"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="BuildVertexShader"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -190,6 +205,30 @@
 			Name="Essentials"
 			>
 			<File
+				RelativePath=".\src\Camera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Camera.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ColorShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ColorShader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ColorShader.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\DxBase.cpp"
 				>
 			</File>
@@ -198,7 +237,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Includes\DxBase.hxx"
+				RelativePath=".\src\DxBase.hxx"
 				>
 			</File>
 			<File
@@ -217,9 +256,49 @@
 				RelativePath=".\Includes\GraphicsClass.hxx"
 				>
 			</File>
+			<File
+				RelativePath=".\src\Model.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Model.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Model.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\VertexStruct.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\vertexstruct.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Shaders"
+			>
+			<File
+				RelativePath=".\Shaders\PixelShaders\colors.psh"
+				>
+			</File>
+			<File
+				RelativePath=".\Shaders\VertexShaders\colors.vsh"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\Includes\GraphicEngineDefines.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\GraphicUtils.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\GraphicUtils.h"
 			>
 		</File>
 		<File

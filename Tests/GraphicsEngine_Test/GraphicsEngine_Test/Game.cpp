@@ -85,42 +85,41 @@ void cGame::GotoNextTest()
 	
 	if(pView)
 	{
-		pView->Cleanup();
+		pView->TestFinished();
 
 		switch (m_currentTest)
 		{
-/*		case TEST_ALL:
-			pView->Finished();
-			break;
-		
-		case TEST_UICONTROLS:
-			pView->TestUIControls();
-			break;
+		//case TEST_ALL:
+		//	pView->Finished();
+		//	break;
+		//
+		//case TEST_UICONTROLS:
+		//	pView->TestUIControls();
+		//	break;
 
-		case TEST_POINTLIST:
-			pView->TestPointList();
-			break;
+		//case TEST_POINTLIST:
+		//	pView->TestPointList();
+		//	break;
 
-		case TEST_LINELIST:
-			pView->TestLineList();
-			break;
+		//case TEST_LINELIST:
+		//	pView->TestLineList();
+		//	break;
 
-		case TEST_LINESTRIP:
-			pView->TestLineStrip();
-			break;
+		//case TEST_LINESTRIP:
+		//	pView->TestLineStrip();
+		//	break;
 
-		case TEST_TRIANGLELIST:
-			pView->TestTriangleList();
-			break;
+		//case TEST_TRIANGLELIST:
+		//	pView->TestTriangleList();
+		//	break;
 
-		case TEST_VERTEXBUFFER:
-			pView->TestVertexBuffer();
-			break;
+		//case TEST_VERTEXBUFFER:
+		//	pView->TestVertexBuffer();
+		//	break;
 		
 		case TEST_INDEXBUFFER:
 			pView->TestIndexBuffer();
 			break;
-			*/
 		}
 	}
 }

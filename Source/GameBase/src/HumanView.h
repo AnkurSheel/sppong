@@ -31,7 +31,7 @@ namespace Graphics
 	class IFont;
 	class ISprite;
 	class IBaseControl;
-	class cVertex;
+	struct stVertex;
 }
 
 namespace GameBase

@@ -13,10 +13,10 @@
 //#include "BaseControl.hxx"
 #include "Vector3.h"
 #include "RandomGenerator.hxx"
-//#include "vertexstruct.h"
-//#include "DxBase.hxx"
+#include "vertexstruct.h"
 #include "Color.h"
-//#include "Model.hxx"
+#include "Model.hxx"
+#include "Camera.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -30,7 +30,8 @@ cGraphicsTestView::cGraphicsTestView()
 , m_bFinished(false)
 //, m_pVertexData(NULL)
 , m_iVertexListCount(1000)
-//, m_pModel(NULL)
+, m_pModel(NULL)
+, m_pCamera(NULL)
 {
 }
 
@@ -46,6 +47,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst,
 {
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pGame = dynamic_cast<cGame *>(pGame);
+	m_pCamera = ICamera::CreateCamera();
 
 	/*m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
 		DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
@@ -108,36 +110,35 @@ void cGraphicsTestView::VRenderPrivate()
 	{
 		switch(m_pGame->GetCurrentTest())
 		{
-/*		case TEST_POINTLIST:
-			ShowPointList(m_pVertexData, m_iVertexListCount);
-			break;
+		//case TEST_POINTLIST:
+		//	ShowPointList(m_pVertexData, m_iVertexListCount);
+		//	break;
 
-		case TEST_LINELIST:
-			ShowLineList(m_pVertexData, m_iVertexListCount/2);
-			break;
+		//case TEST_LINELIST:
+		//	ShowLineList(m_pVertexData, m_iVertexListCount/2);
+		//	break;
 
-		case TEST_LINESTRIP:
-			ShowLineStrip(m_pVertexData, m_iVertexListCount-1);
-			break;
+		//case TEST_LINESTRIP:
+		//	ShowLineStrip(m_pVertexData, m_iVertexListCount-1);
+		//	break;
 
-		case TEST_TRIANGLELIST:
-			ShowTriangleList(m_pVertexData, 4);
-			break;
+		//case TEST_TRIANGLELIST:
+		//	ShowTriangleList(m_pVertexData, 4);
+		//	break;
 
-		case TEST_VERTEXBUFFER:
-			if(m_pModel)
-			{
-				m_pModel->VRender();
-			}
-			break;
+		//case TEST_VERTEXBUFFER:
+		//	if(m_pModel)
+		//	{
+		//		m_pModel->VRender();
+		//	}
+		//	break;
 
 		case TEST_INDEXBUFFER:
 			if(m_pModel)
 			{
-				m_pModel->VRender();
+				m_pModel->VRender(m_pCamera);
 			}
 			break;
-			*/
 		}
 	}
 }
@@ -360,40 +361,44 @@ void cGraphicsTestView::VRenderPrivate()
 //	SAFE_DELETE_ARRAY(m_pVertexData);
 //}
 //
-//// ***************************************************************
-//void cGraphicsTestView::TestIndexBuffer()
-//{
-//	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-//		DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
-//		"Testing IndexBuffer. Press 'c' to go to next test");
-//	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-//	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-//
-//	m_pVertexData = DEBUG_NEW cVertex[8];
-//
-//	m_pVertexData[0] = cVertex(100,100,100,1,cColor::RED.GetColor());
-//	m_pVertexData[1] = cVertex(100, 300,100,1,cColor::BLUE.GetColor());
-//	m_pVertexData[2] = cVertex( 300, 300,100,1,cColor::BLUE.GetColor());
-//	m_pVertexData[3] = cVertex( 300,100,100,1,cColor::RED.GetColor());
-//	m_pVertexData[4] = cVertex(100,100, 300,1,cColor::BLUE.GetColor());
-//	m_pVertexData[5] = cVertex( 300,100, 300,1,cColor::RED.GetColor());
-//	m_pVertexData[6] = cVertex( 300, 300, 300,1,cColor::BLUE.GetColor());
-//	m_pVertexData[7] = cVertex(100, 300, 300,1,cColor::RED.GetColor());
-//
-//	short aCubeIndices[] = {0,1,2, 2,3,0, 4,5,6,
-//		6,7,4, 0,3,5, 5,4,0,
-//		3,2,6, 6,5,3, 2,1,7,
-//		7,6,2, 1,0,4, 4,7,1};
-//
-//
-//	m_pModel = IModel::CreateModel();
-//	m_pModel->VOnInitialization(m_pVertexData, aCubeIndices, 8, 36, 12);
-//	SAFE_DELETE_ARRAY(m_pVertexData);
-//}
+// ***************************************************************
+void cGraphicsTestView::TestIndexBuffer()
+{
+	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
+	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
+	//	"Testing IndexBuffer. Press 'c' to go to next test");
+	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	Log_Write_L1(ILogger::LT_ERROR, "Testing IndexBuffer");
+
+	stVertex * pVertexData = DEBUG_NEW stVertex[3];
+
+	/*pVertexData[0] = stVertex(0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[1] = stVertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[2] = stVertex(-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f);*/
+	pVertexData[0] = stVertex(-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[1] = stVertex(0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[2] = stVertex(1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+
+	unsigned long aIndices[] = {0,1,2,};
+
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
+	m_pModel = IModel::CreateModel();
+	m_pModel->VOnInitialization(pVertexData, aIndices, 3, 3, 1);
+	SAFE_DELETE_ARRAY(pVertexData);
+}
 
 // ***************************************************************
 void cGraphicsTestView::Cleanup()
 {
 //	SAFE_DELETE_ARRAY(m_pVertexData);
-//	SAFE_DELETE(m_pModel);
+	SAFE_DELETE(m_pModel);
+	SAFE_DELETE(m_pCamera);
+}
+
+// ***************************************************************
+void cGraphicsTestView::TestFinished()
+{
+	SAFE_DELETE(m_pModel);
 }

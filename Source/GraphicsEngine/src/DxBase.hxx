@@ -17,7 +17,7 @@ namespace Base
 
 namespace Graphics
 {
-	class cVertex;
+	struct stVertex;
 }
 
 namespace Graphics
@@ -34,7 +34,8 @@ namespace Graphics
 	{
 	public:
 		virtual ~IDXBase(){}
-		static IDXBase * Create();
+		static IDXBase * GetInstance();
+		static void Destroy();
 		/********************************************//**
  		 * @param[in] hWnd A handle to the current window
 		 * @param[in] bkColor The default background color of the window
@@ -63,11 +64,21 @@ namespace Graphics
 		 *Ends the rendering and presents the contents
 		 ***********************************************/
 		virtual void VEndRender() = 0;
-		// * @return The pointer to IDirect3DDevice9 device
-		// *
-		// * Begins the rendering and clears the surface
-		// ***********************************************/
-		//virtual LPDIRECT3DDEVICE9 VGetDevice() const = 0;
+		/********************************************//**
+		 * @return The pointer to DX11 device
+		 *
+		 * Begins the rendering and clears the surface
+		 ***********************************************/
+		virtual ID3D11Device *  VGetDevice() const = 0;
+		/********************************************//**
+		 * @return The pointer to DX11 device context
+		 *
+		 * Begins the rendering and clears the surface
+		 ***********************************************/
+		virtual ID3D11DeviceContext * VGetDeviceContext() const = 0;
+		virtual const D3DMATRIX & VGetWorldMatrix() const = 0;
+		virtual const D3DMATRIX & VGetProjectionMatrix() const = 0;
+
 		///********************************************//**
 		// *
 		// * Toggles between full screen and windowed mode

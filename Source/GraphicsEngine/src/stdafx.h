@@ -45,6 +45,7 @@
 #include <d3d11.h>
 #include <d3dx10math.h>
 #include <DxErr.h>
+#include <D3DCompiler.h>
 #include "Logger.hxx"
 #include "Includes.h"
 //#include "GraphicUtils.h"

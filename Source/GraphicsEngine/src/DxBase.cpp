@@ -14,6 +14,9 @@
 
 using namespace Utilities;
 using namespace Base;
+using namespace Graphics;
+
+IDXBase * cDXBase::s_pDXBase = NULL;
 
 // ***************************************************************
 Graphics::cDXBase::cDXBase()
@@ -95,6 +98,18 @@ void Graphics::cDXBase::VEndRender()
 }
 
 // ***************************************************************
+const D3DMATRIX & Graphics::cDXBase::VGetWorldMatrix() const
+{
+	return m_matWorld;
+}
+
+// ***************************************************************
+const D3DMATRIX & Graphics::cDXBase::VGetProjectionMatrix() const
+{
+	return m_matProjection;
+}
+
+// ***************************************************************
 bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen )
 {
 	if(!SetupSwapChain(iWidth, iHeight, hWnd, bFullScreen))
@@ -139,37 +154,39 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 	}
 	else
 	{
-		swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	}
 
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-
 	swapChainDesc.OutputWindow = hWnd;
-
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
 
 	swapChainDesc.Windowed = !bFullScreen;
-
-	// Set the scan line ordering and scaling to unspecified.
-	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-	// Discard the back buffer contents after presenting.
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-
-	// Don't set the advanced flags.
-	swapChainDesc.Flags = 0;
 
 	unsigned int iCreationFlags = 0;
 #ifdef _DEBUG
 	iCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-	D3D_FEATURE_LEVEL featureLevel;;
-	HRESULT result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, iCreationFlags, NULL, NULL, 
-		D3D11_SDK_VERSION, &swapChainDesc, &m_pSwapChain, &m_pDevice, &featureLevel, &m_pDeviceContext);
+	D3D_DRIVER_TYPE driverTypes[] =
+	{
+		D3D_DRIVER_TYPE_HARDWARE, D3D_DRIVER_TYPE_WARP,
+		D3D_DRIVER_TYPE_REFERENCE, D3D_DRIVER_TYPE_SOFTWARE
+	};
+
+	D3D_FEATURE_LEVEL featureLevel;
+	HRESULT result;
+	for( int i = 0; i < 4; ++i )
+	{
+		result = D3D11CreateDeviceAndSwapChain(NULL, driverTypes[i],
+			NULL, iCreationFlags, NULL, NULL, D3D11_SDK_VERSION, &swapChainDesc, 
+			&m_pSwapChain, &m_pDevice, &featureLevel, &m_pDeviceContext);
+
+		if( SUCCEEDED( result ) )
+			break;
+	}
 	if(FAILED(result))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the  swap chain, Direct3D device, and Direct3D device context : ") 
@@ -278,8 +295,8 @@ void Graphics::cDXBase::SetupViewPort( const int iWidth, const int iHeight )
 {
 	D3D11_VIEWPORT viewport;
 	// Setup the viewport for rendering.
-	viewport.Width = (float)iWidth;
-	viewport.Height = (float)iHeight;
+	viewport.Width = static_cast<float>(iWidth);
+	viewport.Height = static_cast<float>(iHeight);
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0.0f;
@@ -374,26 +391,30 @@ bool Graphics::cDXBase::GetMonitorRefreshRate( const int iWidth, const int iHeig
 // ***************************************************************
 bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 {
-	ID3D11Texture2D * pBackBufferPtr = NULL;
-	HRESULT result = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBufferPtr);
+	ID3D11Texture2D * pbackBufferTexture = NULL;
+	bool bSuccess = true;
+	HRESULT result = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), 
+		(LPVOID*)&pbackBufferTexture);
 	if(FAILED(result))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get a pointer to the back buffer.")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
-		return false;
+		bSuccess = false;
 	}
-
-	result = m_pDevice->CreateRenderTargetView(pBackBufferPtr, NULL, &m_pRenderTargetView);
-	if(FAILED(result))
+	else
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create a render target view with the back buffer pointer.")
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-		PostQuitMessage(0);
-		return false;
+		result = m_pDevice->CreateRenderTargetView(pbackBufferTexture, NULL, &m_pRenderTargetView);
+		if(FAILED(result))
+		{
+			Log_Write_L1(ILogger::LT_ERROR, cString("Could not create a render target view with the back buffer pointer.")
+				+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+			PostQuitMessage(0);
+			bSuccess = false;
+		}
 	}
-	SAFE_RELEASE(pBackBufferPtr);
-	return true;
+	SAFE_RELEASE(pbackBufferTexture);
+	return bSuccess;
 }
 
 // ***************************************************************
@@ -448,7 +469,7 @@ void Graphics::cDXBase::Cleanup()
 
 	SAFE_RELEASE(m_pRasterState);
 	SAFE_RELEASE(m_pDepthStencilView);
-	SAFE_RELEASE(m_pDepthStencilBuffer);
+	SAFE_RELEASE(m_pDepthStencilState);
 	SAFE_RELEASE(m_pDepthStencilBuffer);
 	SAFE_RELEASE(m_pRenderTargetView);
 	SAFE_RELEASE(m_pDeviceContext);
@@ -457,7 +478,27 @@ void Graphics::cDXBase::Cleanup()
 }
 
 // ***************************************************************
-Graphics::IDXBase * Graphics::IDXBase::Create()
+ID3D11Device * Graphics::cDXBase::VGetDevice() const
 {
-	return cDXBase::Create();
+	return m_pDevice;
+}
+
+// ***************************************************************
+ID3D11DeviceContext * Graphics::cDXBase::VGetDeviceContext() const
+{
+	return m_pDeviceContext;
+}
+
+// ***************************************************************
+Graphics::IDXBase * Graphics::IDXBase::GetInstance()
+{
+	if (cDXBase::s_pDXBase == NULL)
+		cDXBase::s_pDXBase = cDXBase::Create();
+	return cDXBase::s_pDXBase ;
+}
+
+// ***************************************************************
+void Graphics::IDXBase::Destroy()
+{
+	SAFE_DELETE(cDXBase::s_pDXBase);
 }

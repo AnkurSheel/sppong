@@ -18,7 +18,6 @@ IGraphicsClass * cGraphicsClass::s_pGraphic= NULL;
 
 // ***************************************************************
 Graphics::cGraphicsClass::cGraphicsClass()
-: m_pD3D(NULL)
 {
 
 }
@@ -39,14 +38,13 @@ void Graphics::cGraphicsClass::VInitialize( const HWND hWnd,
 										   const float fScreenDepth,
 										   const float fScreenNear )
 {
-	m_pD3D = IDXBase::Create();
-	if (m_pD3D == NULL)
+	if (IDXBase::GetInstance() == NULL)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, " Could not create DXBase");
 		PostQuitMessage(0);
 		return;
 	}
-	m_pD3D->VInitialize(hWnd, bkColor, bFullScreen, bVsyncEnabled, iWidth,
+	IDXBase::GetInstance()->VInitialize(hWnd, bkColor, bFullScreen, bVsyncEnabled, iWidth,
 		iHeight, fScreenDepth, fScreenNear);
 }
 
@@ -59,7 +57,7 @@ void Graphics::cGraphicsClass::Update()
 // ***************************************************************
 void Graphics::cGraphicsClass::Cleanup()
 {
-	SAFE_DELETE(m_pD3D);
+	IDXBase::Destroy();
 }
 
 // ***************************************************************
@@ -71,13 +69,13 @@ IGraphicsClass * Graphics::cGraphicsClass::Create()
 // ***************************************************************
 void Graphics::cGraphicsClass::VBeginRender()
 {
-	m_pD3D->VBeginRender();
+	IDXBase::GetInstance()->VBeginRender();
 }
 
 // ***************************************************************
 void Graphics::cGraphicsClass::VEndRender()
 {
-	m_pD3D->VEndRender();
+	IDXBase::GetInstance()->VEndRender();
 }
 
 // ***************************************************************

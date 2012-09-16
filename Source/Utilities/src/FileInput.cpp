@@ -18,6 +18,7 @@ using namespace Base;
 
 cFileInput::cFileInput()
 : m_iFileSize(0)
+, m_pBuffer(NULL)
 {
 }
 
@@ -49,6 +50,7 @@ bool cFileInput::Open(const cString & strFileName, const std::ios_base::openmode
 
 bool cFileInput::Close()
 {
+	SAFE_DELETE_ARRAY(m_pBuffer);
 	if(m_inputFile.is_open())
 	{
 		m_inputFile.close();
@@ -57,35 +59,32 @@ bool cFileInput::Close()
 	return false;
 }
 
-cString cFileInput::ReadAll()
+const BYTE * const cFileInput::ReadAll()
 {
 	if(!m_inputFile)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "File not found : " + m_strFileName);
-		return "";
+		return NULL;
 	}
 	return Read(m_iFileSize);
 }
 
-cString cFileInput::Read(std::streamoff size)
+const BYTE * const cFileInput::Read(std::streamoff size)
 {
 	if(!m_inputFile)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "File not found : " + m_strFileName);
-		return "";
+		return NULL;
 	}
 
-	char * szbuffer = DEBUG_NEW char[size];
-	m_inputFile.read(szbuffer, size);
+	m_pBuffer = DEBUG_NEW BYTE[size];
+	m_inputFile.read((char *)m_pBuffer, size);
 	if(m_inputFile.bad() || (m_inputFile.fail() && !m_inputFile.eof()))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Error in reading file: " + m_strFileName);
+		SAFE_DELETE_ARRAY(m_pBuffer);
 	}
-
-	cString str(szbuffer, size);
-	m_strBuffer = str;
-	SAFE_DELETE_ARRAY(szbuffer);
-	return m_strBuffer;
+	return m_pBuffer;
 }
 
 bool cFileInput::IsEOF()
@@ -93,9 +92,9 @@ bool cFileInput::IsEOF()
 	return m_inputFile.eof();
 }
 
-cString cFileInput::GetBuffer() const
+const BYTE * const cFileInput::GetBuffer() const
 {
-	return m_strBuffer;
+	return m_pBuffer;
 }
 
 void cFileInput::ReadLine()
@@ -109,4 +108,10 @@ IFileInput * IFileInput::CreateInputFile()
 {
 	IFileInput * pFile = DEBUG_NEW cFileInput();
 	return pFile;
+}
+
+// ***************************************************************
+std::streamoff Utilities::cFileInput::VGetFileSize() const
+{
+	return m_iFileSize;
 }

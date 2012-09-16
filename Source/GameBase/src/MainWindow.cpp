@@ -328,13 +328,13 @@ void cMainWindow::OnWindowCreated()
 	float fScreenFar = 1000.0f;
 	if(IBaseApp::VGetParamLoader() != NULL)
 	{
-		fScreenFar = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-ScreenFar", 1000.0f);
+		fScreenFar = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
 	}
 
-	float fScreenNear = 1.0f;
+	float fScreenNear = 0.1f;
 	if(IBaseApp::VGetParamLoader() != NULL)
 	{
-		fScreenNear = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-ScreenNear", 1.0f);
+		fScreenNear = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
 	}
 
 	IGraphicsClass::GetInstance()->VInitialize(m_Hwnd, bgColor, m_bFullScreen, 

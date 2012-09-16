@@ -23,17 +23,19 @@ namespace Utilities
 		cFileInput();
 		~cFileInput();
 		bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode);
-		Base::cString ReadAll();
-		Base::cString Read(std::streamoff);
+		const BYTE * const  ReadAll();
+		const BYTE * const  Read(std::streamoff);
 		bool Close();
 		void ReadLine();
 		bool IsEOF();
-		Base::cString GetBuffer() const;
+		const BYTE * const GetBuffer() const;
+		std::streamoff VGetFileSize() const;
 
 	protected:
 		std::ifstream	m_inputFile;
 		Base::cString	m_strFileName;
 		Base::cString	m_strBuffer;
+		BYTE *			m_pBuffer;
 		std::streamoff	m_iFileSize;
 	};
 }

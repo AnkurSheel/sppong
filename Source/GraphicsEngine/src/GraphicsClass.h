@@ -25,7 +25,6 @@ namespace Graphics
 	{
 	public:
 		static IGraphicsClass * Create();
-		static void Destroy();
 		void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear);
@@ -41,10 +40,6 @@ namespace Graphics
 
 	public:
 		static IGraphicsClass * s_pGraphic;
-
-	private:
-		Graphics::IDXBase *		m_pD3D;
-	
 	};
 }
 #endif // GraphicsClass_h__

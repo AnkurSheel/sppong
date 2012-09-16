@@ -87,7 +87,8 @@ class cVector3
 		const cVector3 & operator/=(const double & dVal);
 		bool operator==(const cVector3 & inVec) const;
 		bool operator!=(const cVector3 & inVec) const;
-
+		
+		static cVector3 Zero();
 	public:
 		double	m_dX;	/*!< X component of Vector3 */
 		double	m_dY;	/*!< Y component of Vector3 */

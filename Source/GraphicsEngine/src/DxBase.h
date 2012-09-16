@@ -25,7 +25,7 @@ namespace Graphics
 	{
 	public:
 		static IDXBase * Create();
-	
+
 	private:
 		cDXBase() ;
 		~cDXBase() ;
@@ -33,9 +33,12 @@ namespace Graphics
 		void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear);
-
 		void VBeginRender();
 		void VEndRender();
+		ID3D11Device * VGetDevice() const;
+		ID3D11DeviceContext * VGetDeviceContext() const;
+		const D3DMATRIX & VGetWorldMatrix() const;
+		const D3DMATRIX & VGetProjectionMatrix() const;
 		// ***************************************************************
 		bool SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen );
 		bool SetupSwapChain( const int iWidth, const int iHeight, const HWND hWnd,
@@ -57,12 +60,12 @@ namespace Graphics
 		void SetupProjectionMatrix( const int iWidth, const int iHeight, const float fScreenNear, const float fScreenDepth );
 		void Cleanup() ;
 
-		// ***************************************************************
-		ID3D11Device * GetDevice();
-		ID3D11DeviceContext * GetDeviceContext();
 		void GetProjectionMatrix(D3DXMATRIX & matProjection);
 		void GetWorldMatrix(D3DXMATRIX & matWorld);
 		void GetOrthoMatrix(D3DXMATRIX & matOrtho );
+
+	public:
+		static IDXBase * s_pDXBase;
 
 	private:
 		bool						m_bVsyncEnabled;	/*!< Pointer to a direct3d object */
@@ -80,7 +83,5 @@ namespace Graphics
 		float						m_afBackGroundcolor[4];
 	};
 #include "DxBase.inl"
-
-	
 }
 #endif // DxBase_h__
