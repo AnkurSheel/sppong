@@ -46,7 +46,7 @@ namespace Graphics
 		 * @param[in] fScreenDepth Far Depth setting for the 3D environment
 		 * @param[in] fScreenNear Near Depth setting for the 3D environment
 		 *
-		 * 
+		 * Initializes the DirectX device and sets it up for use. 
 		 ***********************************************/
 		virtual void VInitialize(const HWND hWnd, 
 			const Base::cColor & bkColor, const bool bFullScreen, 
@@ -67,33 +67,27 @@ namespace Graphics
 		/********************************************//**
 		 * @return The pointer to DX11 device
 		 *
-		 * Begins the rendering and clears the surface
+		 * Returns a pointer to the DirectX11 device
 		 ***********************************************/
 		virtual ID3D11Device *  VGetDevice() const = 0;
 		/********************************************//**
 		 * @return The pointer to DX11 device context
 		 *
-		 * Begins the rendering and clears the surface
+		 * Returns a pointer to the DirectX11 device context
 		 ***********************************************/
 		virtual ID3D11DeviceContext * VGetDeviceContext() const = 0;
+		/********************************************//**
+		 * @return The World Matrix
+		 *
+		 * Returns the world matrix
+		 ***********************************************/
 		virtual const D3DMATRIX & VGetWorldMatrix() const = 0;
+		/********************************************//**
+		 * @return The projection matrix
+		 *
+		 * Returns the projection matrix
+		 ***********************************************/
 		virtual const D3DMATRIX & VGetProjectionMatrix() const = 0;
-
-		///********************************************//**
-		// *
-		// * Toggles between full screen and windowed mode
-		// ***********************************************/
-		//virtual void VToggleFullScreen() = 0;
-		///********************************************//**
-		// *
-		// * Toggles the renderstate between wireframe and solid mode
-		// ***********************************************/
-		//virtual void VToggleRenderState() = 0;
-		///********************************************//**
-		// *
-		// * Releases the Direct3D device and object
-		// ***********************************************/
-		//virtual void VCleanup() = 0;
 	};
 }
 #endif // DxBase_h__

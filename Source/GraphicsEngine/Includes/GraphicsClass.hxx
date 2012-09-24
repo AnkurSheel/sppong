@@ -34,15 +34,35 @@ namespace Graphics
 		 ***********************************************/
 		GRAPHIC_API static void Destroy();
 
+		/********************************************//**
+ 		 * @param[in] hWnd A handle to the current window
+		 * @param[in] bkColor The default background color of the window
+		 * @param[in] bFullScreen True if the application is full screen. False if Windowed.
+		 * @param[in] bVsyncEnabled True if we want Direct3D to render according to the users monitor refresh rate. false if we want to go as fast as possible.
+		 * @param[in] iWidth Width of the window
+		 * @param[in] iHeight Height of the window
+		 * @param[in] fScreenDepth Far Depth setting for the 3D environment
+		 * @param[in] fScreenNear Near Depth setting for the 3D environment
+		 *
+		 * Creates the DirectX object and Initializes the DirectX system.
+		 ***********************************************/
 		virtual void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear) = 0;
+		/********************************************//**
+		 * 
+		 *
+		 * Begins the rendering and clears the surface
+		 ***********************************************/
 		virtual void VBeginRender() = 0;
+		/********************************************//**
+		 * 
+		 *	
+		 *Ends the rendering and presents the contents
+		 ***********************************************/
 		virtual void VEndRender() = 0;
 	protected:
 		virtual ~IGraphicsClass(){}
 	};
-	//typedef IGraphicsClass::GetInstance() SingletonGraphicsClass;
-
 }
 #endif // GraphicsClass_hxx__

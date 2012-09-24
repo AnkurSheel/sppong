@@ -208,7 +208,6 @@ bool Graphics::cDXBase::SetupDepthStencilState()
 	// Initialize the description of the stencil state.
 	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
 
-	// Set up the description of the stencil state.
 	depthStencilDesc.DepthEnable = true;
 	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
@@ -228,7 +227,7 @@ bool Graphics::cDXBase::SetupDepthStencilState()
 	depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
 	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-	// .
+
 	HRESULT result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_pDepthStencilState);
 	if(FAILED(result))
 	{
@@ -348,25 +347,24 @@ bool Graphics::cDXBase::GetMonitorRefreshRate( const int iWidth, const int iHeig
 		DXGI_ENUM_MODES_INTERLACED, &iNumModes, NULL);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get the number of modes for the monitor.")
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get the number of modes for the monitor with DXGI_FORMAT_R8G8B8A8_UNORM display format.")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
 	}
 
-	// Create a list to hold all the possible display modes for this monitor/video card combination.
 	DXGI_MODE_DESC * pDisplayModeList = DEBUG_NEW DXGI_MODE_DESC[iNumModes];
-	// Now fill the display mode list structures.
 	result = pAdapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM,
 		DXGI_ENUM_MODES_INTERLACED, &iNumModes, pDisplayModeList);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get all the possible display modes for this monitor/video card combination.")
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not get the display modes for this monitor/video card combination.")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
 	}
 
+	// Get the numerator and denominator for the refresh rate
 	for(unsigned int i = 0; i < iNumModes; i++)
 	{
 		if(pDisplayModeList[i].Width == (unsigned int)iWidth)
@@ -375,6 +373,7 @@ bool Graphics::cDXBase::GetMonitorRefreshRate( const int iWidth, const int iHeig
 			{
 				iRefreshRateNumerator = pDisplayModeList[i].RefreshRate.Numerator;
 				iRefreshRateDenominator = pDisplayModeList[i].RefreshRate.Denominator;
+				Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Refresh Rate Numerator: %d, Denominator: %d", iRefreshRateNumerator, iRefreshRateDenominator))
 				break;
 			}
 		}
@@ -421,7 +420,6 @@ bool Graphics::cDXBase::AttachBackBufferToSwapChain()
 bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iHeight )
 {
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
-	// Initialize the description of the depth buffer.
 	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
 
 	// Set up the description of the depth buffer.
@@ -440,7 +438,7 @@ bool Graphics::cDXBase::CreateDepthStencilBuffer( const int iWidth, const int iH
 	HRESULT result = m_pDevice->CreateTexture2D(&depthBufferDesc, NULL, &m_pDepthStencilBuffer);
 	if(FAILED(result))
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Create the texture for the depth buffer")
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the 2D texture for the depth buffer")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
 		return false;
