@@ -1,5 +1,5 @@
 // ***************************************************************
-//  ColorShader   version:  1.0   Ankur Sheel  date: 2012/09/15
+//  Texture   version:  1.0   Ankur Sheel  date: 2011/11/23
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,31 +7,26 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef Texture_hxx__
+#define Texture_hxx__
 
-#include "BaseShader.h"
+#include "GraphicEngineDefines.h"
 
-namespace Utilities
+namespace Base
 {
-	class IFileInput;
+	class cString;
 }
 
 namespace Graphics
 {
-	class cColorShader
-		: public cBaseShader
+	class ITexture
 	{
-		struct MatrixBufferType
-		{
-			D3DXMATRIX world;
-			D3DXMATRIX view;
-			D3DXMATRIX projection;
-		};
 	public:
-		cColorShader();
-		~cColorShader();
-
-	private:
-		bool VCreateLayout( const int iNumberOfLayouts,
-			const Utilities::IFileInput * const pVertexShaderFile );
+		virtual ~ITexture(){}
+		virtual void VInitialize(const Base::cString & strTexturePath) = 0;
+		virtual ID3D11ShaderResourceView * VGetTexture() const = 0;
+		GRAPHIC_API static shared_ptr<ITexture> CreateTexture();
 	};
 }
+
+#endif // Texture_hxx__

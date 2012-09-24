@@ -30,7 +30,7 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="PixelShader"
+				Name="BuildPixelShader"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -110,7 +110,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin"
+			OutputDirectory="..\..\bin\"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -120,7 +120,7 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="PixelShader"
+				Name="BuildPixelShader"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -217,18 +217,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ColorShader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ColorShader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ColorShader.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\src\DxBase.cpp"
 				>
 			</File>
@@ -257,15 +245,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Model.cpp"
+				RelativePath=".\src\ResourceManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\Model.h"
+				RelativePath=".\src\ResourceManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Includes\Model.hxx"
+				RelativePath=".\Includes\ResourceManager.hxx"
 				>
 			</File>
 			<File
@@ -286,6 +274,74 @@
 			</File>
 			<File
 				RelativePath=".\Shaders\VertexShaders\colors.vsh"
+				>
+			</File>
+			<File
+				RelativePath=".\Shaders\PixelShaders\Texture.psh"
+				>
+			</File>
+			<File
+				RelativePath=".\Shaders\VertexShaders\Texture.vsh"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="2D"
+			>
+			<File
+				RelativePath=".\src\Texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Texture.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="3D"
+			>
+			<File
+				RelativePath=".\src\BaseShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BaseShader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ColorShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ColorShader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Model.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Model.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Model.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Shader.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TextureShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TextureShader.h"
 				>
 			</File>
 		</Filter>

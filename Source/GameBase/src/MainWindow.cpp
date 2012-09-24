@@ -12,7 +12,7 @@
 #include "GraphicsClass.hxx"
 #include "BaseApp.hxx"
 #include "Logger.hxx"
-//#include "ResourceManager.hxx"
+#include "ResourceManager.hxx"
 #include "Color.h"
 #include "Structures.h"
 #include "ParamLoaders.hxx"
@@ -341,7 +341,7 @@ void cMainWindow::OnWindowCreated()
 		bVSyncEnabled, m_iFullScreenWidth, m_iFullScreenHeight, fScreenFar, fScreenNear );
 
 	// initialize resource manager
-	//IResourceManager::GetInstance()->Init("resources\\resources.zip");
+	IResourceManager::GetInstance()->Init("resources\\resources.zip");
 }
 
 // ***************************************************************
@@ -355,7 +355,7 @@ void cMainWindow::OnWindowDestroyed()
 	// release the graphic object
 	IGraphicsClass::Destroy();
 
-	//IResourceManager::Destroy();
+	IResourceManager::Destroy();
 
 	ReleaseCapture() ;
 	UnregisterClass("Window", m_hInstance);

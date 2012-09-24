@@ -117,8 +117,12 @@ void cGame::GotoNextTest()
 		//	pView->TestVertexBuffer();
 		//	break;
 		
-		case TEST_INDEXBUFFER:
-			pView->TestIndexBuffer();
+		case TEST_TRIANGLE:
+			pView->TestTriangle();
+			break;
+
+		case TEST_TEXTURETRIANGLE:
+			pView->TestTextureTriangle();
 			break;
 		}
 	}

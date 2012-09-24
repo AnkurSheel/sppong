@@ -13,7 +13,8 @@
 #include "Model.hxx"
 namespace Graphics
 {
-	class IColorShader;
+	class IShader;
+	class ITexture;
 }
 
 namespace Graphics
@@ -25,20 +26,29 @@ namespace Graphics
 	public:
 		cModel();
 		~cModel();
+
+	private:
 		bool VOnInitialization(const stVertex * const pVertices, 
 			const unsigned long * const pIndices, const UINT iNumberOfVertices, 
 			const UINT iNumberOfIndices, const UINT iPrimitiveCount);
-
-		void VCleanup();
+		bool VOnInitialization(const stTexVertex * const pVertices, 
+			const unsigned long * const pIndices, const UINT iNumberOfVertices, 
+			const UINT iNumberOfIndices, const UINT iPrimitiveCount,
+			const Base::cString & strTextureFilename);
 		void VRender(const ICamera * const pCamera);
-
-	private:
+		void VCleanup();
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model
 		 *
 		 * Creates the vertex buffer using the vertex data
 		 ***********************************************/
 		bool CreateVertexBuffer( const stVertex * const pVertices);
+		/********************************************//**
+ 		 * @param[in] pVertices The vertex data of this model
+		 *
+		 * Creates the vertex buffer using the vertex data
+		 ***********************************************/
+		bool CreateVertexBuffer( const stTexVertex * const pVertices);
 		/********************************************//**
 		 * @param[in] pIndices The indices data of this model
 		 *
@@ -47,13 +57,14 @@ namespace Graphics
 		bool CreateIndexBuffer( const unsigned long * const pIndices );
 
 	private:
-		ID3D11Buffer * 				m_pVertexBuffer;		/*!< The vertex buffer */
-		ID3D11Buffer *				m_pIndexBuffer;			/*!< The index buffer */
-		UINT						m_iVertexCount;			/*!< The number of vertices in this model */
-		UINT						m_iIndexCount;			/*!< The number of indices in this model */
-		UINT						m_iPrimitiveCount;		/*!< The number of primitives that need to be drawn*/
-		UINT						m_iVertexSize;			/*!< The size of the vertex structure */
-		IColorShader *				m_pColorShader;			/*!< */
+		ID3D11Buffer * 						m_pVertexBuffer;		/*!< The vertex buffer */
+		ID3D11Buffer *						m_pIndexBuffer;			/*!< The index buffer */
+		UINT								m_iVertexCount;			/*!< The number of vertices in this model */
+		UINT								m_iIndexCount;			/*!< The number of indices in this model */
+		UINT								m_iPrimitiveCount;		/*!< The number of primitives that need to be drawn*/
+		UINT								m_iVertexSize;			/*!< The size of the vertex structure */
+		IShader *							m_pShader;				/*!< */
+		shared_ptr<Graphics::ITexture>		m_pTexture;
 	};
 }
 #endif // Model_h__

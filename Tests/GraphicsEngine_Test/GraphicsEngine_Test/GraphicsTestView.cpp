@@ -133,7 +133,8 @@ void cGraphicsTestView::VRenderPrivate()
 		//	}
 		//	break;
 
-		case TEST_INDEXBUFFER:
+		case TEST_TRIANGLE:
+		case TEST_TEXTURETRIANGLE:
 			if(m_pModel)
 			{
 				m_pModel->VRender(m_pCamera);
@@ -362,7 +363,7 @@ void cGraphicsTestView::VRenderPrivate()
 //}
 //
 // ***************************************************************
-void cGraphicsTestView::TestIndexBuffer()
+void cGraphicsTestView::TestTriangle()
 {
 	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
 	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
@@ -370,22 +371,56 @@ void cGraphicsTestView::TestIndexBuffer()
 	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
 	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
 
-	Log_Write_L1(ILogger::LT_ERROR, "Testing IndexBuffer");
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Traiangle");
 
-	stVertex * pVertexData = DEBUG_NEW stVertex[3];
+	stVertex * pVertexData = DEBUG_NEW stVertex[7];
 
-	/*pVertexData[0] = stVertex(0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f);
-	pVertexData[1] = stVertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f);
-	pVertexData[2] = stVertex(-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f);*/
 	pVertexData[0] = stVertex(-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
 	pVertexData[1] = stVertex(0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
 	pVertexData[2] = stVertex(1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[3] = stVertex(3.0f, 3.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f);
+	pVertexData[4] = stVertex(3.0f, 5.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[5] = stVertex(5.0f, 3.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f);
+	pVertexData[6] = stVertex(5.0f, 5.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f);
 
-	unsigned long aIndices[] = {0,1,2,};
+	unsigned long aIndices[] = {0,1,2,
+								3,4,5,
+								4,6,5};
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pModel = IModel::CreateModel();
-	m_pModel->VOnInitialization(pVertexData, aIndices, 3, 3, 1);
+	m_pModel->VOnInitialization(pVertexData, aIndices, 7, 9, 1);
+	SAFE_DELETE_ARRAY(pVertexData);
+}
+
+// ***************************************************************
+void cGraphicsTestView::TestTextureTriangle()
+{
+	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
+	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
+	//	"Testing IndexBuffer. Press 'c' to go to next test");
+	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Texture Triangle");
+
+	stTexVertex * pVertexData = DEBUG_NEW stTexVertex[7];
+
+	pVertexData[0] = stTexVertex(-1.0f, -1.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[1] = stTexVertex(0.0f, 1.0f, 0.0f, 0.5f, 0.0f);
+	pVertexData[2] = stTexVertex(1.0f, -1.0f, 0.0f, 1.0f, 1.0f);
+	pVertexData[3] = stTexVertex(3.0f, 3.0f, 0.0f, 0.0f, 1.0f);
+	pVertexData[4] = stTexVertex(3.0f, 5.0f, 0.0f, 0.5f, 0.0f);
+	pVertexData[5] = stTexVertex(5.0f, 3.0f, 0.0f, 1.0f, 1.0f);
+	pVertexData[6] = stTexVertex(5.0f, 5.0f, 0.0f, 1.0f, 0.5f);
+
+	unsigned long aIndices[] = {0,1,2,
+		3,4,5,
+		4,6,5};
+
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
+	m_pModel = IModel::CreateModel();
+	m_pModel->VOnInitialization(pVertexData, aIndices, 7, 9, 1, "Test\\seafloor.dds");
 	SAFE_DELETE_ARRAY(pVertexData);
 }
 

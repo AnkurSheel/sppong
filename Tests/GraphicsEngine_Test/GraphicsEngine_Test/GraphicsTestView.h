@@ -40,7 +40,8 @@ public:
 	//void TestLineStrip();
 	//void TestTriangleList();
 	//void TestVertexBuffer();
-	void TestIndexBuffer();
+	void TestTriangle();
+	void TestTextureTriangle();
 	//void Finished();
 	void TestFinished();
 	void Cleanup();

@@ -37,10 +37,15 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 #ifndef _DEBUG
 	bFullScreen = true;
 #endif
-
+	cString strOptionsFileName;
+#ifdef _DEBUG
+	strOptionsFileName = "GraphicsTestDebug.ini";
+#else
+	strOptionsFileName = "GraphicsTestRelease.ini";
+#endif
 	IBaseApp * pGame = new cGame("Graphic Engine Test");
 
-	pGame->VOnInitialization(hInstance, nCmdShow, "GraphicsTestDebug.ini");
+	pGame->VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
 	pGame->VRun();
 	
 	SAFE_DELETE(pGame);

@@ -237,6 +237,10 @@
 			RelativePath="..\..\..\Debug\GraphicsTestDebug.ini"
 			>
 		</File>
+		<File
+			RelativePath="..\..\..\bin\GraphicsTestRelease.ini"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
