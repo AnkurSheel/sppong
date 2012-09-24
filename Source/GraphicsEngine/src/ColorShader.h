@@ -29,22 +29,46 @@ namespace Graphics
 	public:
 		cColorShader();
 		~cColorShader();
-		bool Initialize(const Base::cString & strVertexShaderPath,
+
+	private:
+		bool VInitialize(const Base::cString & strVertexShaderPath,
 			const Base::cString & strPixelShaderPath, const int iNumberOfLayouts);
 
-		void Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
+		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
 			const D3DXMATRIX & inMatProjection);
+
+		/********************************************//**
+		 *
+		 * Releases and destroys all the resources 
+		 ***********************************************/
 		void Cleanup();
-
-	private:
+		/********************************************//**
+ 		 * @param[in] strVertexShaderPath The path for the vertex shader file
+		 * @return False if there is any error
+		 *
+		 * Creates the vertex shader objectsand the layout of the vertex
+		 * data that will be processed by this shader
+		 ***********************************************/
 		bool CreateVertexShader( const Base::cString & strVertexShaderPath);
+		/********************************************//**
+		 * @param[in] strPixelShaderPath The path for the pixel shader file
+		 *
+		 * Creates the pixel shader object
+		 ***********************************************/
 		bool CreatePixelShader( const Base::cString & strPixelShaderPath);
-		bool CreateLayout( const int iNumberOfLayouts, const Utilities::IFileInput * const pFile );
+		/********************************************//**
+		 * @param[in] iNumberOfLayouts The number of elements in the vertex shader
+		 * @param[in] pVertexShaderFile The compiled vertex shader file
+		 * @return False if there is any error
+		 *
+		 * Creates the layout of the vertex data that will be processed by this shader
+		 ***********************************************/
+		bool CreateLayout( const int iNumberOfLayouts, const Utilities::IFileInput * const pVertexShaderFile );
 
 	private:
-		ID3D11VertexShader *	m_pVertexShader;
-		ID3D11PixelShader *		m_pPixelShader;
-		ID3D11InputLayout *		m_pLayout;
-		ID3D11Buffer *			m_pMatrixBuffer;
+		ID3D11VertexShader *	m_pVertexShader;	/*!< The vertex shader object */
+		ID3D11PixelShader *		m_pPixelShader;		/*!< The pixel shader object */
+		ID3D11InputLayout *		m_pLayout;			/*!< The input layout of the vertex shader */
+		ID3D11Buffer *			m_pMatrixBuffer;	/*!< The vertex shader constant buffer */
 	};
 }

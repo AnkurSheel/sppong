@@ -11,7 +11,7 @@
 #include "Model.h"
 #include "vertexstruct.h"
 #include "DxBase.hxx"
-#include "ColorShader.h"
+#include "ColorShader.hxx"
 #include "Camera.h"
 
 using namespace Utilities;
@@ -53,8 +53,8 @@ bool Graphics::cModel::VOnInitialization(const stVertex * const pVertices,
 	if(!CreateIndexBuffer(pIndices))
 		return false;
 
-	m_pColorShader = DEBUG_NEW cColorShader();
-	if (!m_pColorShader->Initialize("colors.vsho", "colors.psho", 2))
+	m_pColorShader = IColorShader::CreateColorShader();
+	if (!m_pColorShader->VInitialize("colors.vsho", "colors.psho", 2))
 	{
 		return false;
 	}
@@ -79,7 +79,7 @@ void Graphics::cModel::VRender(const ICamera * const pCamera)
 	if (m_pColorShader)
 	{
 		const cCamera * pCam = static_cast<const cCamera *>(pCamera);
-		m_pColorShader->Render(IDXBase::GetInstance()->VGetWorldMatrix(),
+		m_pColorShader->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
 			pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetProjectionMatrix());
 	}
 

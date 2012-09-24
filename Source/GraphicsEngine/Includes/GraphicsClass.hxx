@@ -19,6 +19,14 @@ namespace Base
 
 namespace Graphics
 {
+/********************************************//**
+ * @brief Interface to encapsulate all the graphics functionality
+ *
+ * Singleton class.\n
+ * Usage :
+ * \li Call \c GetInstance() to use this class.
+ * \li Call \c VOnDestroy() when the application quits
+ ***********************************************/
 	class IGraphicsClass
 	{
 	public:

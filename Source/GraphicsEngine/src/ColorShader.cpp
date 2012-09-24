@@ -35,7 +35,7 @@ Graphics::cColorShader::~cColorShader()
 }
 
 // ***************************************************************
-bool Graphics::cColorShader::Initialize(const Base::cString & strVertexShaderPath,
+bool Graphics::cColorShader::VInitialize(const Base::cString & strVertexShaderPath,
 										const Base::cString & strPixelShader,
 										const int iNumberOfLayouts)
 {
@@ -66,7 +66,7 @@ bool Graphics::cColorShader::Initialize(const Base::cString & strVertexShaderPat
 }
 
 // ***************************************************************
-void Graphics::cColorShader::Render(const D3DXMATRIX & inMatWorld,
+void Graphics::cColorShader::VRender(const D3DXMATRIX & inMatWorld,
 									const D3DXMATRIX & inMatView,
 									const D3DXMATRIX & inMatProjection)
 {
@@ -164,7 +164,7 @@ bool Graphics::cColorShader::CreatePixelShader(const Base::cString & strPixelSha
 
 // ***************************************************************
 bool Graphics::cColorShader::CreateLayout( const int iNumberOfLayouts,
-										  const Utilities::IFileInput * const pFile)
+										  const Utilities::IFileInput * const pVertexShaderFile)
 {
 	D3D11_INPUT_ELEMENT_DESC * pPolygonLayout = DEBUG_NEW D3D11_INPUT_ELEMENT_DESC[iNumberOfLayouts];
 
@@ -185,7 +185,7 @@ bool Graphics::cColorShader::CreateLayout( const int iNumberOfLayouts,
 	pPolygonLayout[1].InstanceDataStepRate = 0;
 
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateInputLayout(pPolygonLayout, 
-		iNumberOfLayouts, pFile->GetBuffer(), pFile->VGetFileSize(), &m_pLayout);
+		iNumberOfLayouts, pVertexShaderFile->GetBuffer(), pVertexShaderFile->VGetFileSize(), &m_pLayout);
 
 	if(FAILED(result))
 	{
@@ -205,4 +205,11 @@ void Graphics::cColorShader::Cleanup()
 	SAFE_RELEASE(m_pLayout);
 	SAFE_RELEASE(m_pPixelShader);
 	SAFE_RELEASE(m_pVertexShader);
+}
+
+// ***************************************************************
+Graphics::IColorShader * Graphics::IColorShader::CreateColorShader()
+{
+	IColorShader * pColorShader= DEBUG_NEW cColorShader();
+	return pColorShader;
 }

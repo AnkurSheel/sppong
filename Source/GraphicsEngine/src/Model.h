@@ -13,7 +13,7 @@
 #include "Model.hxx"
 namespace Graphics
 {
-	class cColorShader;
+	class IColorShader;
 }
 
 namespace Graphics
@@ -33,17 +33,27 @@ namespace Graphics
 		void VRender(const ICamera * const pCamera);
 
 	private:
+		/********************************************//**
+ 		 * @param[in] pVertices The vertex data of this model
+		 *
+		 * Creates the vertex buffer using the vertex data
+		 ***********************************************/
 		bool CreateVertexBuffer( const stVertex * const pVertices);
+		/********************************************//**
+		 * @param[in] pIndices The indices data of this model
+		 *
+		 * Creates the index buffer using the indice data
+		 ***********************************************/
 		bool CreateIndexBuffer( const unsigned long * const pIndices );
 
 	private:
-		ID3D11Buffer * 				m_pVertexBuffer;
-		ID3D11Buffer *				m_pIndexBuffer;
-		UINT						m_iVertexCount;
-		UINT						m_iIndexCount;
-		UINT						m_iPrimitiveCount;
-		UINT						m_iVertexSize;
-		cColorShader *				m_pColorShader;
+		ID3D11Buffer * 				m_pVertexBuffer;		/*!< The vertex buffer */
+		ID3D11Buffer *				m_pIndexBuffer;			/*!< The index buffer */
+		UINT						m_iVertexCount;			/*!< The number of vertices in this model */
+		UINT						m_iIndexCount;			/*!< The number of indices in this model */
+		UINT						m_iPrimitiveCount;		/*!< The number of primitives that need to be drawn*/
+		UINT						m_iVertexSize;			/*!< The size of the vertex structure */
+		IColorShader *				m_pColorShader;			/*!< */
 	};
 }
 #endif // Model_h__

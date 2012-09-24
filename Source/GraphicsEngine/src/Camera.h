@@ -25,19 +25,36 @@ namespace Graphics
 	{
 	public:
 		cCamera();
+		/********************************************//**
+ 		 * @return The view matrix
+		 *
+		 * Returns the view matrix based on the current position
+		 * and rotation
+		 ***********************************************/
 		const D3DXMATRIX & GetViewMatrix() const;
 	
 	private:
 		~cCamera();
 		void VSetPosition(const Base::cVector3 & vPosition);
+		/********************************************//**
+ 		 * @param[in] vRotation The rotation of the camera
+		 *
+		 * Sets the rotation of the camera 
+		 ***********************************************/
 		void SetRotation(const Base::cVector3 & vRotation);
 
 	private:
+		/********************************************//**
+		 *
+		 * Calculates the view matrix based on the current position
+		 * and rotation
+		 ***********************************************/
 		void CalculateViewMatrix();
+	
 	private:
-		Base::cVector3		m_vPosition;
-		Base::cVector3		m_vRotation;
-		D3DXMATRIX			m_matView;
+		Base::cVector3		m_vPosition;	/*!< The position of the camera */
+		Base::cVector3		m_vRotation;	/*!< The rotation of the camera */
+		D3DXMATRIX			m_matView;		/*!< The current view matrix */
 	};
 }
 #endif // Camera_h__
