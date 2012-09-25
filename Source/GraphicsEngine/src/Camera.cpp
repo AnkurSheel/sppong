@@ -56,9 +56,9 @@ const D3DXMATRIX & Graphics::cCamera::GetViewMatrix() const
 void Graphics::cCamera::CalculateViewMatrix()
 {
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	float fPitch = DegtoRad(m_vRotation.m_dX);
-	float fYaw   = DegtoRad(m_vRotation.m_dY);
-	float fRoll  = DegtoRad(m_vRotation.m_dZ);
+	float fPitch = static_cast<float>(DegtoRad(m_vRotation.m_dX));
+	float fYaw   = static_cast<float>(DegtoRad(m_vRotation.m_dY));
+	float fRoll  = static_cast<float>(DegtoRad(m_vRotation.m_dZ));
 
 	D3DXMATRIX matRotation;
 

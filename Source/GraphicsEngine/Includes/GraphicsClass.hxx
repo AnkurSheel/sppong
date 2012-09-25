@@ -41,7 +41,6 @@ namespace Graphics
 		 * Releases the DirectX object and deletes the singleton object
 		 ***********************************************/
 		GRAPHIC_API static void Destroy();
-
 		/********************************************//**
  		 * @param[in] hWnd A handle to the current window
 		 * @param[in] bkColor The default background color of the window

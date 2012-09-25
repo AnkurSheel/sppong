@@ -49,12 +49,6 @@ void Graphics::cGraphicsClass::VInitialize( const HWND hWnd,
 }
 
 // ***************************************************************
-void Graphics::cGraphicsClass::Update()
-{
-	//Render();
-}
-
-// ***************************************************************
 void Graphics::cGraphicsClass::Cleanup()
 {
 	IDXBase::Destroy();

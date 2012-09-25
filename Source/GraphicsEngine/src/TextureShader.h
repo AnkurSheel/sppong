@@ -14,6 +14,10 @@
 
 namespace Graphics
 {
+    /********************************************//**
+     * @brief Class use to invoke HLSL shaders for
+	 * drawing 3D models with position and texture vertex data
+     ***********************************************/
 	class cTextureShader
 		: public cBaseShader
 	{
@@ -33,7 +37,7 @@ namespace Graphics
 		void VCleanup();
 
 	private:
-		ID3D11SamplerState *		m_pSampleState;
+		ID3D11SamplerState *		m_pSampleState;		/*!< The sampler state pointer is used to interface with the texture shader */
 	};
 }
 #endif // TextureShader_h__

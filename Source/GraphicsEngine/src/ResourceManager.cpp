@@ -13,21 +13,25 @@
 
 using namespace Utilities;
 using namespace Base;
+using namespace Graphics;
 
-Graphics::IResourceManager * Graphics::cResourceManager::s_pResourceManager = NULL;
+IResourceManager * Graphics::cResourceManager::s_pResourceManager = NULL;
 
+// ***************************************************************
 Graphics::cResourceManager::cResourceManager()
 : m_pResourceCache(NULL)
 {
 
 }
 
+// ***************************************************************
 Graphics::cResourceManager::~cResourceManager()
 {
 	SAFE_DELETE(m_pResourceCache);
 }
 
-void Graphics::cResourceManager::Init(const cString strPath)
+// ***************************************************************
+void Graphics::cResourceManager::VInitialize(const cString strPath)
 {
 	m_pResourceCache = IResCache::CreateResourceCache(30, strPath);
 	if(!m_pResourceCache->Init())
@@ -38,32 +42,28 @@ void Graphics::cResourceManager::Init(const cString strPath)
 	}
 }
 
-IResCache * Graphics::cResourceManager::GetResourceCache() const
+// ***************************************************************
+IResCache * Graphics::cResourceManager::VGetResourceCache() const
 {
 	return m_pResourceCache;
 }
 
-void Graphics::cResourceManager::Create()
+// ***************************************************************
+IResourceManager * Graphics::cResourceManager::Create()
 {
-	s_pResourceManager = DEBUG_NEW cResourceManager();
-}
-
-void Graphics::cResourceManager::Destroy()
-{
-	SAFE_DELETE(s_pResourceManager);
+	return DEBUG_NEW cResourceManager();
 }
 
 // ***************************************************************
-// returns an instance of the class
-// ***************************************************************
-Graphics::IResourceManager* Graphics::IResourceManager::GetInstance()
+Graphics::IResourceManager * Graphics::IResourceManager::GetInstance()
 {
 	if(cResourceManager::s_pResourceManager == NULL)
-		cResourceManager::Create();
+		cResourceManager::s_pResourceManager = cResourceManager::Create();
 	return cResourceManager::s_pResourceManager;
 }
 
+// ***************************************************************
 void Graphics::IResourceManager::Destroy()
 {
-	cResourceManager::Destroy();
+	SAFE_DELETE(cResourceManager::s_pResourceManager);
 }

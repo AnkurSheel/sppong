@@ -23,13 +23,42 @@ namespace Utilities
 }
 namespace Graphics
 {
+	/********************************************//**
+	 * @brief Interface to encapsulate loading and usage
+	 * of art assets
+	 *
+	 * Singleton class.\n
+	 * Usage :
+	 * \li Call \c GetInstance() to use this class.
+	 * \li Call \c VOnDestroy() when the application quits
+	 ***********************************************/
 	class IResourceManager
 	{
 	public:
 		virtual ~IResourceManager(){}
-		GRAPHIC_API virtual void Init(const Base::cString strPath) = 0;
-		GRAPHIC_API virtual Utilities::IResCache * GetResourceCache() const = 0;
+		/********************************************//**
+ 		 * @param[in] strPath The path of the zip file 
+		 * containg the graphic assets
+		 *
+		 * Creates and Initilizes the resource cache
+		 ***********************************************/
+		GRAPHIC_API virtual void VInitialize(const Base::cString strPath) = 0;
+		/********************************************//**
+ 		 * @return A pointer to the resource cache
+		 *
+		 * Returns a pointer to the resource cache
+		 ***********************************************/
+		GRAPHIC_API virtual Utilities::IResCache * VGetResourceCache() const = 0;
+		/********************************************//**
+		 * @return Returns a pointer to the singleton object
+		 *
+		 * Creates and returns a pointer to a singleton object of this interface
+		 ***********************************************/
 		GRAPHIC_API static IResourceManager* GetInstance();
+		/********************************************//**
+		 *
+		 * Releases the DirectX object and deletes the singleton object
+		 ***********************************************/
 		GRAPHIC_API static void Destroy();
 	};
 }

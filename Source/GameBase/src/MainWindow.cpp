@@ -341,7 +341,7 @@ void cMainWindow::OnWindowCreated()
 		bVSyncEnabled, m_iFullScreenWidth, m_iFullScreenHeight, fScreenFar, fScreenNear );
 
 	// initialize resource manager
-	IResourceManager::GetInstance()->Init("resources\\resources.zip");
+	IResourceManager::GetInstance()->VInitialize("resources\\resources.zip");
 }
 
 // ***************************************************************

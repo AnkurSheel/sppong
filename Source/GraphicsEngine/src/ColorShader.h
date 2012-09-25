@@ -17,15 +17,13 @@ namespace Utilities
 
 namespace Graphics
 {
+    /********************************************//**
+     * @brief Class use to invoke HLSL shaders for
+	 * drawing 3D models with position and color vertex data
+     ***********************************************/
 	class cColorShader
 		: public cBaseShader
 	{
-		struct MatrixBufferType
-		{
-			D3DXMATRIX world;
-			D3DXMATRIX view;
-			D3DXMATRIX projection;
-		};
 	public:
 		cColorShader();
 		~cColorShader();

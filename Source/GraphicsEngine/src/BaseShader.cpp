@@ -17,6 +17,7 @@
 using namespace Utilities;
 using namespace Base;
 using namespace std;
+
 // ***************************************************************
 Graphics::cBaseShader::cBaseShader()
 : m_pVertexShader(NULL)
@@ -83,7 +84,6 @@ void Graphics::cBaseShader::VRender(const D3DXMATRIX & inMatWorld,
 	VRenderShader();
 
 }
-
 
 // ***************************************************************
 bool Graphics::cBaseShader::CreateVertexShader( const Base::cString & strVertexShaderPath)
@@ -175,7 +175,6 @@ void Graphics::cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 	IDXBase::GetInstance()->VGetDeviceContext()->VSSetConstantBuffers(iBufferNumber,
 		1, &m_pMatrixBuffer);
 }
-
 
 // ***************************************************************
 void Graphics::cBaseShader::VRenderShader()

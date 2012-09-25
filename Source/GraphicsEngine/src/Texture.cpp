@@ -18,24 +18,25 @@ using namespace Base;
 using namespace Graphics;
 using namespace Utilities;
 
+// ***************************************************************
 cTexture::cTexture()
 : m_pTexture(NULL)
 {
 
 }
 
+// ***************************************************************
 cTexture::~cTexture()
 {
 	Cleanup();
 }
-
 
 // ***************************************************************
 void Graphics::cTexture::VInitialize( const Base::cString & strTexturePath )
 {
 	SAFE_RELEASE(m_pTexture);	
 	IResource * pResource = IResource::CreateResource(strTexturePath);
-	shared_ptr<IResHandle> texture = IResourceManager::GetInstance()->GetResourceCache()->GetHandle(*pResource);
+	shared_ptr<IResHandle> texture = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 
 	if(texture.get() == NULL)
 	{
@@ -58,13 +59,13 @@ ID3D11ShaderResourceView* Graphics::cTexture::VGetTexture() const
 	return m_pTexture;
 }
 
+// ***************************************************************
 void Graphics::cTexture::Cleanup()
 {
 	SAFE_RELEASE(m_pTexture);
 }
 
 // ***************************************************************
-
 shared_ptr<ITexture> Graphics::ITexture::CreateTexture()
 {
 	return shared_ptr<ITexture> (DEBUG_NEW cTexture());

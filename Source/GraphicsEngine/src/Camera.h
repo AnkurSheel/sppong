@@ -19,6 +19,10 @@ namespace Base
 
 namespace Graphics
 {
+	/********************************************//**
+     * @brief Class Declaration for \c ICamera
+     * interface
+     ***********************************************/
 	class cCamera
 		: public ICamera
 		, public Base::cNonCopyable

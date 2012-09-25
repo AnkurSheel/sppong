@@ -19,6 +19,10 @@ namespace Utilities
 
 namespace Graphics
 {
+    /********************************************//**
+     * @brief Class Declaration for \c IShader
+     * interface. Base class for All Shader classes
+     ***********************************************/
 	class cBaseShader
 		: public IShader
 		, public Base::cNonCopyable
@@ -39,6 +43,7 @@ namespace Graphics
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
 		 * @param[in] inMatProjection The projection Matrix
+		 * @param[in] pTexture The texture resource
 		 *
 		 * Sets the shader parameters
 		 ***********************************************/
@@ -57,6 +62,14 @@ namespace Graphics
 		virtual void VCleanup();
 
 	private:
+		/********************************************//**
+ 		 * @param[in] inMatWorld The world matrix
+		 * @param[in] inMatView The View Matrix
+		 * @param[in] inMatProjection The projection Matrix
+		 * @param[in] pTexture The texture resource
+		 *
+		 * Sets the shader parameters and renders the shader
+		 ***********************************************/
 		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
 			const D3DXMATRIX & inMatProjection, const ITexture * const pTexture);
 		/********************************************//**

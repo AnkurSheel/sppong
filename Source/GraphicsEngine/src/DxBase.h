@@ -18,12 +18,16 @@ namespace Graphics
      * @brief Class Declaration for \c IDXBase
      * interface
      ***********************************************/
-
 	class cDXBase
 		: public IDXBase
 		, public Base::cNonCopyable
 	{
 	public:
+		/********************************************//**
+ 		 * @return An Object of this class
+		 *
+		 * Creates an object of this class and returns it
+		 ***********************************************/
 		static IDXBase * Create();
 
 	private:
@@ -129,7 +133,7 @@ namespace Graphics
 		void Cleanup() ;
 
 	public:
-		static IDXBase * s_pDXBase;							/*!<  */
+		static IDXBase * s_pDXBase;							/*!< static object of this class */
 
 	private:
 		bool						m_bVsyncEnabled;		/*!< True if we want Direct3D to render according to the users monitor refresh rate. False if want it to go as fast as possible. */
@@ -146,6 +150,5 @@ namespace Graphics
 		D3DXMATRIX					m_matOrtho;				/*!< The orthographic projection matrix is used for rendering 2D elements on the screen allowing us to skip the 3D rendering */
 		float						m_afBackGroundcolor[4];	/*!< The componnets for the back */
 	};
-#include "DxBase.inl"
 }
 #endif // DxBase_h__

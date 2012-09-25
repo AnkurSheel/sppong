@@ -19,11 +19,20 @@ namespace Graphics
 
 namespace Graphics
 {
+	/********************************************//**
+     * @brief Class Declaration for \c IGraphicsClass
+     * interface
+     ***********************************************/
 	class cGraphicsClass
 		: public IGraphicsClass
 		, public Base::cNonCopyable
 	{
 	public:
+		/********************************************//**
+ 		 * @return An Object of this class
+		 *
+		 * Creates an object of this class and returns it
+		 ***********************************************/
 		static IGraphicsClass * Create();
 		void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
@@ -31,7 +40,10 @@ namespace Graphics
 		void VBeginRender();
 		void VEndRender();
 
-		void Update();
+		/********************************************//**
+		 *
+		 * Releases all the resources
+		 ***********************************************/
 		void Cleanup();
 	
 	private:
@@ -39,7 +51,7 @@ namespace Graphics
 		~cGraphicsClass();
 
 	public:
-		static IGraphicsClass * s_pGraphic;
+		static IGraphicsClass * s_pGraphic;		/*!< static object of this class */
 	};
 }
 #endif // GraphicsClass_h__

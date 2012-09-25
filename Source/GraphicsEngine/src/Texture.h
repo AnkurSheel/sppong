@@ -15,6 +15,10 @@
 
 namespace Graphics 
 {
+    /********************************************//**
+     * @brief Class Declaration for \c ITexture
+     * interface
+     ***********************************************/
 	class cTexture
 		: public ITexture
 		, public Base::cNonCopyable
@@ -25,10 +29,14 @@ namespace Graphics
 	private:
 		void VInitialize(const Base::cString & strTexturePath);
 		ID3D11ShaderResourceView * VGetTexture() const;
+		/********************************************//**
+		 *
+		 * Releases all the pointers
+		 ***********************************************/
 		void Cleanup();
 	
 	private:
-		ID3D11ShaderResourceView *		m_pTexture;
+		ID3D11ShaderResourceView *		m_pTexture;	/*!< The texture resource */
 	};
 }
 #endif // Texture_h__
