@@ -23,6 +23,7 @@ namespace Graphics
 {
 	struct stVertex;
 	class IModel;
+	class ISprite;
 	class ICamera;
 }
 
@@ -42,6 +43,7 @@ public:
 	//void TestVertexBuffer();
 	void TestTriangle();
 	void TestTextureTriangle();
+	void TestSprite();
 	//void Finished();
 	void TestFinished();
 	void Cleanup();
@@ -49,12 +51,12 @@ public:
 private:
 	void VRenderPrivate();
 private:
-	cGame	*					m_pGame;
+	cGame	*						m_pGame;
 	//Graphics::IBaseControl *	m_pInfoLabelControl;
-	bool						m_bFinished;
-	//Graphics::cVertex *			m_pVertexData;
-	const int					m_iVertexListCount;
-	Graphics::IModel *			m_pModel;
-	Graphics::ICamera *			m_pCamera;
+	bool							m_bFinished;
+	const int						m_iVertexListCount;
+	Graphics::IModel *				m_pModel;
+	shared_ptr<Graphics::ISprite>	m_pSprite;
+	Graphics::ICamera *				m_pCamera;
 };
 #endif // GraphicsTestView_h__

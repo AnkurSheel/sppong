@@ -12,11 +12,13 @@
 #include "Game.h"
 //#include "BaseControl.hxx"
 #include "Vector3.h"
+#include "Vector2.h"
 #include "RandomGenerator.hxx"
 #include "vertexstruct.h"
 #include "Color.h"
 #include "Model.hxx"
 #include "Camera.hxx"
+#include "Sprite.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -138,6 +140,13 @@ void cGraphicsTestView::VRenderPrivate()
 			if(m_pModel)
 			{
 				m_pModel->VRender(m_pCamera);
+			}
+			break;
+
+		case TEST_SPRITE:
+			if(m_pSprite)
+			{
+				m_pSprite->VRender(m_pCamera);
 			}
 			break;
 		}
@@ -410,18 +419,36 @@ void cGraphicsTestView::TestTextureTriangle()
 	pVertexData[1] = stTexVertex(0.0f, 1.0f, 0.0f, 0.5f, 0.0f);
 	pVertexData[2] = stTexVertex(1.0f, -1.0f, 0.0f, 1.0f, 1.0f);
 	pVertexData[3] = stTexVertex(3.0f, 3.0f, 0.0f, 0.0f, 1.0f);
-	pVertexData[4] = stTexVertex(3.0f, 5.0f, 0.0f, 0.5f, 0.0f);
+	pVertexData[4] = stTexVertex(3.0f, 5.0f, 0.0f, 0.0f, 0.0f);
 	pVertexData[5] = stTexVertex(5.0f, 3.0f, 0.0f, 1.0f, 1.0f);
-	pVertexData[6] = stTexVertex(5.0f, 5.0f, 0.0f, 1.0f, 0.5f);
+	pVertexData[6] = stTexVertex(5.0f, 5.0f, 0.0f, 1.0f, 0.0f);
 
 	unsigned long aIndices[] = {0,1,2,
 		3,4,5,
 		4,6,5};
 
-	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -15.0f));
 	m_pModel = IModel::CreateModel();
 	m_pModel->VOnInitialization(pVertexData, aIndices, 7, 9, 1, "Test\\seafloor.dds");
 	SAFE_DELETE_ARRAY(pVertexData);
+}
+
+// ***************************************************************
+void cGraphicsTestView::TestSprite()
+{
+	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
+	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
+	//	"Testing IndexBuffer. Press 'c' to go to next test");
+	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Sprite");
+
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
+	m_pSprite = ISprite::CreateSprite();
+	m_pSprite->VOnInitialization("Test\\seafloor.dds");
+	m_pSprite->VSetPosition(cVector2(100.0f, 100.0f));
+	m_pSprite->VSetSize(cVector2(256, 256.0f));
 }
 
 // ***************************************************************

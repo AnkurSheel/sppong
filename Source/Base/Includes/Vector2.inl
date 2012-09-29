@@ -13,6 +13,12 @@ inline cVector2::cVector2( const double dX, const double dY )
 }
 
 // ***************************************************************
+inline Base::cVector2 cVector2::Zero()
+{
+	return cVector2(0.0f, 0.0f);
+}
+
+// ***************************************************************
 inline bool cVector2::IsZero() const
 {
 	return (m_dX * m_dX + m_dY * m_dY) < MinDouble;

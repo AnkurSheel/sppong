@@ -106,6 +106,7 @@ class cVector2
 		bool operator==(const cVector2 & inVec) const;
 		bool operator!=(const cVector2 & inVec) const;
 
+		static cVector2 Zero();
 	public:
 		double	m_dX;	/*!< X component of Vector2 */
 		double	m_dY;	/*!< Y component of Vector2 */

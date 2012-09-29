@@ -106,12 +106,14 @@ void Graphics::cModel::VRender(const ICamera * const pCamera)
 		DXGI_FORMAT_R32_UINT, 0);
 
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	IDXBase::GetInstance()->VTurnZBufferOn();
 
 	if (m_pShader)
 	{
 		const cCamera * pCam = static_cast<const cCamera *>(pCamera);
 		m_pShader->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
-			pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetProjectionMatrix(), m_pTexture.get());
+		pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetProjectionMatrix(),
+		m_pTexture.get());
 	}
 
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);

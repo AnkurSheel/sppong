@@ -124,6 +124,10 @@ void cGame::GotoNextTest()
 		case TEST_TEXTURETRIANGLE:
 			pView->TestTextureTriangle();
 			break;
+
+		case TEST_SPRITE:
+			pView->TestSprite();
+			break;
 		}
 	}
 }

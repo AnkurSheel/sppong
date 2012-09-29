@@ -26,9 +26,12 @@ Graphics::cDXBase::cDXBase()
 , m_pDeviceContext(NULL)
 , m_pRenderTargetView(NULL)
 , m_pDepthStencilBuffer(NULL)
-, m_pDepthStencilState(NULL)
+, m_p3DDepthStencilState(NULL)
+, m_p2DDepthStencilState(NULL)
 , m_pDepthStencilView(NULL)
 , m_pRasterState(NULL)
+, m_iScreenWidth(0)
+, m_iScreenHeight(0)
 {
 
 }
@@ -53,6 +56,8 @@ void Graphics::cDXBase::VInitialize( const HWND hWnd, const Base::cColor & bkCol
 {
 
 	m_bVsyncEnabled = bVsyncEnabled;
+	m_iScreenWidth = iWidth;
+	m_iScreenHeight = iHeight;
 
 	bkColor.GetColorComponentsInFloat(m_afBackGroundcolor[0], m_afBackGroundcolor[1],
 		m_afBackGroundcolor[2], m_afBackGroundcolor[3]);
@@ -98,6 +103,18 @@ void Graphics::cDXBase::VEndRender()
 }
 
 // ***************************************************************
+ID3D11Device * Graphics::cDXBase::VGetDevice() const
+{
+	return m_pDevice;
+}
+
+// ***************************************************************
+ID3D11DeviceContext * Graphics::cDXBase::VGetDeviceContext() const
+{
+	return m_pDeviceContext;
+}
+
+// ***************************************************************
 const D3DMATRIX & Graphics::cDXBase::VGetWorldMatrix() const
 {
 	return m_matWorld;
@@ -110,6 +127,24 @@ const D3DMATRIX & Graphics::cDXBase::VGetProjectionMatrix() const
 }
 
 // ***************************************************************
+const D3DMATRIX & Graphics::cDXBase::VGetOrthoMatrix() const
+{
+	return m_matOrtho;
+}
+
+// ***************************************************************
+int Graphics::cDXBase::VGetScreenWidth() const
+{
+	return m_iScreenWidth;
+}
+
+// ***************************************************************
+int Graphics::cDXBase::VGetScreenHeight() const
+{
+	return m_iScreenHeight;
+}
+
+// ***************************************************************
 bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen )
 {
 	if(!SetupSwapChain(iWidth, iHeight, hWnd, bFullScreen))
@@ -118,8 +153,13 @@ bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight,
 	if(!CreateDepthStencilBuffer(iWidth, iHeight))
 		return false;
 
-	if(!SetupDepthStencilState())
+	if(!SetupDepthStencilStateFor3D())
 		return false;
+
+	if(!SetupDepthStencilStateFor2D())
+		return false;
+
+	m_pDeviceContext->OMSetDepthStencilState(m_p3DDepthStencilState, 1);
 
 	if(!CreateDepthStencilView())
 		return false;
@@ -202,7 +242,7 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 }
 
 // ***************************************************************
-bool Graphics::cDXBase::SetupDepthStencilState()
+bool Graphics::cDXBase::SetupDepthStencilStateFor3D()
 {
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	// Initialize the description of the stencil state.
@@ -228,7 +268,7 @@ bool Graphics::cDXBase::SetupDepthStencilState()
 	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
-	HRESULT result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_pDepthStencilState);
+	HRESULT result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_p3DDepthStencilState);
 	if(FAILED(result))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil state")
@@ -237,7 +277,45 @@ bool Graphics::cDXBase::SetupDepthStencilState()
 		return false;
 	}
 
-	m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
+	return true;
+}
+
+// ***************************************************************
+bool Graphics::cDXBase::SetupDepthStencilStateFor2D()
+{
+	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+	// Initialize the description of the stencil state.
+	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
+
+	depthStencilDesc.DepthEnable = false;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	depthStencilDesc.StencilEnable = true;
+	depthStencilDesc.StencilReadMask = 0xFF;
+	depthStencilDesc.StencilWriteMask = 0xFF;
+
+	// Stencil operations if pixel is front-facing.
+	depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Stencil operations if pixel is back-facing.
+	depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	HRESULT result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_p2DDepthStencilState);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil state for 2D drawing")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		PostQuitMessage(0);
+		return false;
+	}
+
 	return true;
 }
 
@@ -467,7 +545,8 @@ void Graphics::cDXBase::Cleanup()
 
 	SAFE_RELEASE(m_pRasterState);
 	SAFE_RELEASE(m_pDepthStencilView);
-	SAFE_RELEASE(m_pDepthStencilState);
+	SAFE_RELEASE(m_p3DDepthStencilState);
+	SAFE_RELEASE(m_p2DDepthStencilState);
 	SAFE_RELEASE(m_pDepthStencilBuffer);
 	SAFE_RELEASE(m_pRenderTargetView);
 	SAFE_RELEASE(m_pDeviceContext);
@@ -476,15 +555,15 @@ void Graphics::cDXBase::Cleanup()
 }
 
 // ***************************************************************
-ID3D11Device * Graphics::cDXBase::VGetDevice() const
+void Graphics::cDXBase::VTurnZBufferOn()
 {
-	return m_pDevice;
+	m_pDeviceContext->OMSetDepthStencilState(m_p3DDepthStencilState, 1);
 }
 
 // ***************************************************************
-ID3D11DeviceContext * Graphics::cDXBase::VGetDeviceContext() const
+void Graphics::cDXBase::VTurnZBufferOff()
 {
-	return m_pDeviceContext;
+	m_pDeviceContext->OMSetDepthStencilState(m_p2DDepthStencilState, 1);
 }
 
 // ***************************************************************

@@ -65,6 +65,16 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VEndRender() = 0;
 		/********************************************//**
+		 *
+		 * Turns the Z buffer on for 3D rendering
+		 ***********************************************/
+		virtual void VTurnZBufferOn() = 0;
+		/********************************************//**
+		 *
+		 * Turns the Z buffer on for 2D rendering
+		 ***********************************************/
+		virtual void VTurnZBufferOff() = 0;
+		/********************************************//**
 		 * @return The pointer to DX11 device
 		 *
 		 * Returns a pointer to the DirectX11 device
@@ -88,6 +98,24 @@ namespace Graphics
 		 * Returns the projection matrix
 		 ***********************************************/
 		virtual const D3DMATRIX & VGetProjectionMatrix() const = 0;
+		/********************************************//**
+		 * @return The ortho matrix
+		 *
+		 * Returns the ortho matrix
+		 ***********************************************/
+		virtual const D3DMATRIX & VGetOrthoMatrix() const = 0;
+		/********************************************//**
+		 * @return The screen width
+		 *
+		 * Returns the screen width
+		 ***********************************************/
+		virtual int VGetScreenWidth() const = 0;
+		/********************************************//**
+		 * @return The screen height
+		 *
+		 * Returns the screen height
+		 ***********************************************/
+		virtual int VGetScreenHeight() const = 0;
 	};
 }
 #endif // DxBase_h__

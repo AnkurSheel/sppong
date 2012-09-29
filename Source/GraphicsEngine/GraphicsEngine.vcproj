@@ -267,6 +267,7 @@
 		</Filter>
 		<Filter
 			Name="Shaders"
+			Filter="*.psh;*.vsh"
 			>
 			<File
 				RelativePath=".\Shaders\PixelShaders\colors.psh"
@@ -288,6 +289,18 @@
 		<Filter
 			Name="2D"
 			>
+			<File
+				RelativePath=".\src\Sprite.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Sprite.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Sprite.hxx"
+				>
+			</File>
 			<File
 				RelativePath=".\src\Texture.cpp"
 				>
