@@ -144,7 +144,7 @@ namespace Graphics
 		void Cleanup() ;
 
 	public:
-		static IDXBase * s_pDXBase;							/*!< static object of this class */
+		static IDXBase * s_pDXBase;								/*!< static object of this class */
 
 	private:
 		bool						m_bVsyncEnabled;			/*!< True if we want Direct3D to render according to the users monitor refresh rate. False if want it to go as fast as possible. */
@@ -161,8 +161,8 @@ namespace Graphics
 		D3DXMATRIX					m_matWorld;					/*!< The world matrix is used to convert the vertices of our objects into vertices in the 3D scene. */
 		D3DXMATRIX					m_matOrtho;					/*!< The orthographic projection matrix is used for rendering 2D elements on the screen allowing us to skip the 3D rendering */
 		float						m_afBackGroundcolor[4];		/*!< The componnets for the back */
-		int							m_iScreenWidth;				/*!< Full screen width */
-		int							m_iScreenHeight;			/*!< Full screen height */
+		int							m_iScreenWidth;				/*!< Screen width */
+		int							m_iScreenHeight;			/*!< Screen height */
 	};
 }
 #endif // DxBase_h__

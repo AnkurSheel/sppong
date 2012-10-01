@@ -156,7 +156,11 @@ void Graphics::cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pMatrixBuffer,
 		0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the Matrix Buffer to update with the matrices data: ") 
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return ;
+	}
 
 	// Get a pointer to the data in the constant buffer.
 	MatrixBufferType * pMatrixData = (MatrixBufferType*)mappedResource.pData;

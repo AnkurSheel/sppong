@@ -60,15 +60,13 @@ bool Graphics::cSprite::VOnInitialization( shared_ptr<ITexture> const pTexture )
 // ***************************************************************
 bool Graphics::cSprite::VOnInitialization( const Base::cString & strTextureFilename )
 {
-	m_strFilename = strTextureFilename;
-
-	Log_Write_L2(ILogger::LT_EVENT, "Loading Sprite : " + m_strFilename);
+	Log_Write_L2(ILogger::LT_EVENT, "Loading Sprite : " + strTextureFilename);
 
 	if (m_pTexture == NULL)
 	{
 		m_pTexture = ITexture::CreateTexture();
 	}
-	m_pTexture->VInitialize(m_strFilename);
+	m_pTexture->VInitialize(strTextureFilename);
 	
 	
 	return VOnInitialization(m_pTexture);
@@ -77,11 +75,7 @@ bool Graphics::cSprite::VOnInitialization( const Base::cString & strTextureFilen
 // ***************************************************************
 void Graphics::cSprite::VRender(const ICamera * const pCamera)
 {
-	if (m_vPosition != m_vPrevPosition)
-	{
-		m_vPrevPosition = m_vPosition;
-		UpdateBuffers();
-	}
+	UpdateBuffers();
 
 	unsigned int stride = sizeof(stTexVertex);
 	unsigned int offset = 0;
@@ -195,6 +189,14 @@ bool Graphics::cSprite::CreateIndexBuffer()
 // ***************************************************************
 bool Graphics::cSprite::UpdateBuffers()
 {
+	if (m_vPosition == m_vPrevPosition)
+	{
+		return true;
+	}
+
+	m_vPrevPosition = m_vPosition;
+
+	//center of the screen is 0,0
 	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
 	float right = left + m_vSize.m_dX;
 	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
@@ -208,10 +210,12 @@ bool Graphics::cSprite::UpdateBuffers()
 	pVertices[3] = stTexVertex(right, top, 0.0f, 1.0f, 0.0f);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	bool result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if(FAILED(result))
 	{
 		SAFE_DELETE_ARRAY(pVertices);
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}
 

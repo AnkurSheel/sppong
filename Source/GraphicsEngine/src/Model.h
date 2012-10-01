@@ -43,18 +43,20 @@ namespace Graphics
 		void VCleanup();
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model
+		 * return True if the vertex buffer was created successfully
 		 *
 		 * Creates the vertex buffer using the vertex data
 		 ***********************************************/
 		bool CreateVertexBuffer( const stVertex * const pVertices);
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model
-		 *
+		 * return True if the vertex buffer was created successfully
 		 * Creates the vertex buffer using the vertex data
 		 ***********************************************/
 		bool CreateVertexBuffer( const stTexVertex * const pVertices);
 		/********************************************//**
 		 * @param[in] pIndices The indices data of this model
+		 * return True if the index buffer was created successfully
 		 *
 		 * Creates the index buffer using the indice data
 		 ***********************************************/
