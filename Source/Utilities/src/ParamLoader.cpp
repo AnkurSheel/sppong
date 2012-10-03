@@ -185,7 +185,7 @@ void Utilities::cParamLoader::VGetParameterValueAsIntList(const Base::cString & 
 {
 	std::vector<cString> vValueStr;
 	VGetParameterValueAsStringList(strParameter, vValueStr);
-	for(int i=0; i< vValueStr.size(); i++)
+	for(unsigned int i=0; i< vValueStr.size(); i++)
 	{
 		vValueStr[i].TrimBoth();
 		vValue.push_back(*(vValueStr[i].ToInt()));
@@ -198,7 +198,7 @@ void Utilities::cParamLoader::VGetParameterValueAsFloatList(const Base::cString 
 {
 	std::vector<cString> vValueStr;
 	VGetParameterValueAsStringList(strParameter, vValueStr);
-	for(int i=0; i< vValueStr.size(); i++)
+	for(unsigned int i=0; i< vValueStr.size(); i++)
 	{
 		vValueStr[i].TrimBoth();
 		vValue.push_back(*(vValueStr[i].ToFloat()));
@@ -211,7 +211,7 @@ void Utilities::cParamLoader::VGetParameterValueAsBoolList(const Base::cString &
 {
 	std::vector<cString> vValueStr;
 	VGetParameterValueAsStringList(strParameter, vValueStr);
-	for(int i=0; i< vValueStr.size(); i++)
+	for(unsigned int i=0; i< vValueStr.size(); i++)
 	{
 		vValueStr[i].TrimBoth();
 		vValue.push_back(*(vValueStr[i].ToBool()));

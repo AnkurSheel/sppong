@@ -74,6 +74,17 @@ namespace Utilities
 		virtual void VGetNodeAttribute(const Base::cString & strElementID,
 			const Base::cString & strAttributeName, Base::cString & strAttributeValue) = 0;
 		/********************************************//**
+		 * @param[in] strElementID The unique ID of the element
+		 * @param[in] strAttributeName The attribute name
+		 * @param[out] iAttributeValue The integer value of the attribute 
+		 *
+		 * Given an attribute name for an element with unique name strElementID,
+		 * this functions converts the value for the attribute of that name into an,
+		 * an and stores it in iAttributeValue
+		 ***********************************************/
+		virtual void VGetNodeAttribute(const Base::cString & strElementID,
+			const Base::cString & strAttributeName, int iAttributeValue) = 0;
+		/********************************************//**
 		 * @param[in] strParentID The unique id of the parent element
 		 * @param[out] vElements The vector in which all the child elements unique names are stored 
 		 *

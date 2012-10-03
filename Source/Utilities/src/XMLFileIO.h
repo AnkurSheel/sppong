@@ -53,20 +53,28 @@ namespace Utilities
 			std::vector<Base::cString> & vElements );
 		void VGetNodeAttribute(const Base::cString & strElementID,
 			const Base::cString & strAttributeName, Base::cString & strAttributeValue);
+		void VGetNodeAttribute(const Base::cString & strElementID,
+			const Base::cString & strAttributeName, int iAttributeValue);
 		/********************************************//**
 		 * @param[in] pParent The parent element
 		 *
 		 * Adds all the child elements for the parent element
 		 ***********************************************/
 		void AddChildElements(tinyxml2::XMLElement * const pParent);
+		/********************************************//**
+		 * @param[in] pElement The element for which the unique name has to be returned
+		 * @param[out] strName The unique name of this element
+		 *
+		 * Creates a unique name by appending the id attribute value 
+		 * to the element name and stores it in strName
+		 ***********************************************/
 		void GetUniqueNameForMap(const tinyxml2::XMLElement * const pElement, Base::cString & strName);
 	
 	private:
 		typedef std::multimap<Base::cString , const tinyxml2::XMLElement*> ElementMap;
 
-		tinyxml2::XMLDocument*	m_pDoc;  
-		ElementMap				m_ElementMap;
-		tinyxml2::XMLElement *	m_pRoot;
+		tinyxml2::XMLDocument*	m_pDoc;			/*!< Pointer to the tinyxml2 Document */
+		ElementMap				m_ElementMap;	/*!< The map containg all the elments in the XML file. The key is the unique name obtained from /cGetUniqueNameForMap */
 	};
 }
 #endif // XMLFileIO_h__

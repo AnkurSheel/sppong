@@ -18,7 +18,6 @@ using namespace Utilities;
 // ***************************************************************
 cXMLFileIO::cXMLFileIO()
 : m_pDoc(NULL)
-, m_pRoot(NULL)
 {
 }
 // ***************************************************************
@@ -121,7 +120,7 @@ void cXMLFileIO::Save( const cString & strFilePath )
 void cXMLFileIO::VLoad( const cString & strFilePath, cString & strRootName )
 {
 	VLoad(strFilePath);
-	strRootName = m_pRoot->Value();
+	strRootName = m_pDoc->RootElement()->Value();
 }
 
 // ***************************************************************
@@ -136,10 +135,10 @@ void cXMLFileIO::VLoad( const cString & strFilePath)
 		return;
 	}
 
-	m_pRoot = m_pDoc->FirstChildElement();
-	m_ElementMap.insert(std::make_pair(m_pRoot->Name(), m_pRoot));
+	XMLElement * pRoot = m_pDoc->FirstChildElement();
+	m_ElementMap.insert(std::make_pair(pRoot->Name(), pRoot));
 
-	AddChildElements(m_pRoot);
+	AddChildElements(pRoot);
 }
 
 // ***************************************************************
@@ -226,6 +225,21 @@ void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 	{
 		strAttributeValue = curr->second->Attribute(strAttributeName.GetData());
 	}
+}
+
+// ***************************************************************
+void cXMLFileIO::VGetNodeAttribute(const Base::cString & strElementID,
+			const Base::cString & strAttributeName, int iAttributeValue)
+{
+	cString strAttributeValue;
+	VGetNodeAttribute(strElementID, strAttributeName, strAttributeValue);
+	tOptional<int> val = strAttributeValue.ToInt();
+	if(val.IsInvalid())
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
+		return;
+	}
+	iAttributeValue = *val;
 }
 
 // ***************************************************************

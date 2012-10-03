@@ -123,7 +123,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 	// Assuming no extra comment at the end, read the whole end record.
 	TZipDirHeader dh;
 	m_inputFile.seekg(-(int)sizeof(dh), std::ios_base::end);
-	long dhOffset = m_inputFile.tellg();
+	long dhOffset = static_cast<long>(m_inputFile.tellg());
 	memset(&dh, 0, sizeof(dh));
 	m_inputFile.read((char *)(&dh), sizeof(dh));
 

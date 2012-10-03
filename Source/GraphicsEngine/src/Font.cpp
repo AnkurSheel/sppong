@@ -13,6 +13,7 @@
 #include "XMLFileIO.hxx"
 #include "Optional.h"
 #include "vertexstruct.h"
+#include "Texture.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -146,36 +147,15 @@ shared_ptr<IMyFont> IMyFont::CreateMyFont()
 // ***************************************************************
 
 // ***************************************************************
-void Graphics::cMyFont::ParseFontDesc()
+void cMyFont::ParseFontDesc()
 {
 	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
 	pFile->VLoad(m_strFontDescFilename);
 	
 	pFile->VGetNodeAttribute("page0", "file", m_strFontTexFilename);
 
-	cString strAttributeValue;
-	pFile->VGetNodeAttribute("common", "scaleW", strAttributeValue);
-	tOptional<int> val;
-	val = strAttributeValue.ToInt();
-	if(val.IsInvalid())
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in getting scaleW attribute");
-	}
-	else
-	{
-		m_iTextureWidth = *val;
-	}
-
-	pFile->VGetNodeAttribute("common", "scaleH", strAttributeValue);
-	val = strAttributeValue.ToInt();
-	if(val.IsInvalid())
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Error in getting scaleH attribute");
-	}
-	else
-	{
-		m_iTextureHeight = *val;
-	}
+	pFile->VGetNodeAttribute("common", "scaleW", m_iTextureWidth);
+	pFile->VGetNodeAttribute("common", "scaleH", m_iTextureHeight);
 
 	std::vector<cString> vCharIDs;
 	pFile->VGetAllChildrenNames("chars", vCharIDs);
@@ -183,105 +163,29 @@ void Graphics::cMyFont::ParseFontDesc()
 	CharDescriptor ch;
 	for (int i=0; i<iNoOfCharacters; i++)
 	{
-		pFile->VGetNodeAttribute(vCharIDs[i], "id", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting id attribute");
-		}
-		else
-		{
-			ch.id = *val;
-		}
-
-		pFile->VGetNodeAttribute(vCharIDs[i], "x", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting x attribute");
-		}
-		else
-		{
-			ch.x = *val;
-		}
-
-		pFile->VGetNodeAttribute(vCharIDs[i], "y", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting y attribute");
-		}
-		else
-		{
-			ch.y = *val;
-		}
-
-		pFile->VGetNodeAttribute(vCharIDs[i], "width", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting width attribute");
-		}
-		else
-		{
-			ch.Width = *val;
-		}
-
-		pFile->VGetNodeAttribute(vCharIDs[i], "height", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting height attribute");
-		}
-		else
-		{
-			ch.Height = *val;
-		}
-
-		pFile->VGetNodeAttribute(vCharIDs[i], "xoffset", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting xoffset attribute");
-		}
-		else
-		{
-			ch.XOffset = *val;
-		}
-
-		pFile->VGetNodeAttribute(vCharIDs[i], "yoffset", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting yoffset attribute");
-		}
-		else
-		{
-			ch.YOffset = *val;
-		}
-
-		pFile->VGetNodeAttribute(vCharIDs[i], "xadvance", strAttributeValue);
-		val = strAttributeValue.ToInt();
-		if(val.IsInvalid())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Error in getting xadvance attribute");
-		}
-		else
-		{
-			ch.XAdvance = *val;
-		}
-
+		pFile->VGetNodeAttribute(vCharIDs[i], "id", ch.id);
+		pFile->VGetNodeAttribute(vCharIDs[i], "x", ch.x);
+		pFile->VGetNodeAttribute(vCharIDs[i], "y", ch.y);
+		pFile->VGetNodeAttribute(vCharIDs[i], "width", ch.Width);
+		pFile->VGetNodeAttribute(vCharIDs[i], "height", ch.Height);
+		pFile->VGetNodeAttribute(vCharIDs[i], "xoffset", ch.XOffset);
+		pFile->VGetNodeAttribute(vCharIDs[i], "yoffset", ch.YOffset);
+		pFile->VGetNodeAttribute(vCharIDs[i], "xadvance", ch.XAdvance);
+		
 		m_CharDescriptorMap.insert(std::make_pair(ch.id, ch));
 	}
 }
 // ***************************************************************
-void Graphics::cMyFont::VInitialize(const Base::cString & strFontDescFilename)
+void cMyFont::VInitialize(const Base::cString & strFontDescFilename)
 {		
 	m_strFontDescFilename = strFontDescFilename;
 	ParseFontDesc();
+
+	m_pTexture = ITexture::CreateTexture();
+	m_pTexture->VInitialize(m_strFontTexFilename);
 }
 // ***************************************************************
-void Graphics::cMyFont::VSetText(const cString & strText)
+void cMyFont::VSetText(const cString & strText)
 {
 	m_strText = strText;
 	int istrLength = m_strText.GetLength();
@@ -331,4 +235,8 @@ void Graphics::cMyFont::VSetText(const cString & strText)
 
 		curX += ch.XAdvance;
 	}
+
+	SAFE_DELETE_ARRAY(pVertices);
+	SAFE_DELETE_ARRAY(pIndices);
+	
 }

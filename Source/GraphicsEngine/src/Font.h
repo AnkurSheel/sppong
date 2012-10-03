@@ -17,11 +17,10 @@ namespace Base
 	class cString;
 }
 
-namespace Base
+namespace Graphics
 {
-	class cString;
+	class ITexture;
 }
-
 namespace Graphics
 {
 	struct CharDescriptor
@@ -75,12 +74,13 @@ namespace Graphics
 		//int				m_iSpaceWidth;
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;
 
-		Base::cString		m_strFontDescFilename;
-		Base::cString		m_strFontTexFilename;
-		int					m_iTextureWidth;
-		int					m_iTextureHeight;
-		CharDescriptorMap	m_CharDescriptorMap;
-		Base::cString		m_strText;
+		Base::cString						m_strFontDescFilename;
+		Base::cString						m_strFontTexFilename;
+		int									m_iTextureWidth;
+		int									m_iTextureHeight;
+		CharDescriptorMap					m_CharDescriptorMap;
+		Base::cString						m_strText;
+		shared_ptr<Graphics::ITexture>		m_pTexture;
 	};
 }
 #endif // Font_h__
