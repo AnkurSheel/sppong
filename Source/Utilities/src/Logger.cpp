@@ -63,9 +63,9 @@ void cLogger::StartConsoleWin( const int ciWidth, const int ciHeight, const cStr
 		fopen_s(&m_fStdOut, cfName.GetData(), "w");
 	}
 	m_fXml = IXMLFileIO::CreateXMLFile();
-	m_fXml->Init("RunTimeLog", "RunTimeLog", "BasicXSLT.xsl");
-	m_fXml->AddNode("RunTimeLog", "LogHeader", "LogHeader", "");
-	m_fXml->AddNode("RunTimeLog", "LogEvents", "LogEvents", "");
+	m_fXml->VInitializeForSave("RunTimeLog", "BasicXSLT.xsl");
+	m_fXml->VAddElement("RunTimeLog", "LogHeader", "", "");
+	m_fXml->VAddElement("RunTimeLog", "LogEvents", "", "");
 
 }
 void cLogger::CreateHeader()
@@ -73,41 +73,41 @@ void cLogger::CreateHeader()
 	if(!m_fXml)
 		return;
 #if SYSTEM_DEBUG_LEVEL == 3
-	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Extra Comprehensive debugging information (Level 3)");
+	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "Extra Comprehensive debugging information (Level 3)");
 #elif SYSTEM_DEBUG_LEVEL == 2
-	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Comprehensive debugging information (Level 2)");
+	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "Comprehensive debugging information (Level 2)");
 #elif SYSTEM_DEBUG_LEVEL == 1
-	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "Retail debugging information (Level 1)");
+	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "Retail debugging information (Level 1)");
 #else
-	m_fXml->AddNode("LogHeader", "OutputLevel", "OutputLevel", "No debugging information (Level 0)");
+	m_fXml->VAddElement("LogHeader", "OutputLevel", "", "No debugging information (Level 0)");
 #endif
-	m_fXml->AddNode("LogHeader", "Session", "Session", "");
-	m_fXml->AddNode("Session", "Configuration", "Configuration", "");
-	m_fXml->AddNode("Configuration", "Memory", "Memory", "");
-	m_fXml->AddNode("Memory", "AvailablePhysical", "AvailablePhysical", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailablePhysicalMemory()));
+	m_fXml->VAddElement("LogHeader", "Session", "", "");
+	m_fXml->VAddElement("Session", "Configuration", "", "");
+	m_fXml->VAddElement("Configuration", "Memory", "", "");
+	m_fXml->VAddElement("Memory", "AvailablePhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailablePhysicalMemory()));
 
-	m_fXml->AddNode("Memory", "TotalPhysical", "TotalPhysical", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalPhysicalMemory()));
+	m_fXml->VAddElement("Memory", "TotalPhysical", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalPhysicalMemory()));
 
-	m_fXml->AddNode("Memory", "AvailableVirtual", "AvailableVirtual", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableVirtualMemory()));
+	m_fXml->VAddElement("Memory", "AvailableVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableVirtualMemory()));
 
-	m_fXml->AddNode("Memory", "TotalVirtual", "TotalVirtual", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalVirtualMemory()));
+	m_fXml->VAddElement("Memory", "TotalVirtual", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalVirtualMemory()));
 
-	m_fXml->AddNode("Memory", "AvailableHardDiskSpace", "AvailableHardDiskSpace", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableHardDiskSpace()));
+	m_fXml->VAddElement("Memory", "AvailableHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetAvailableHardDiskSpace()));
 
-	m_fXml->AddNode("Memory", "TotalHardDiskSpace", "TotalHardDiskSpace", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalHardDiskSpace()));
+	m_fXml->VAddElement("Memory", "TotalHardDiskSpace", "", cString(30, "%d", IResourceChecker::GetInstance()->GetTotalHardDiskSpace()));
 
-	m_fXml->AddNode("Configuration", "Processor", "Processor", "");
-	m_fXml->AddNode("Processor", "ClockSpeed", "ClockSpeed", cString(30, "%d", IResourceChecker::GetInstance()->GetCPUSpeed()));
+	m_fXml->VAddElement("Configuration", "Processor", "", "");
+	m_fXml->VAddElement("Processor", "ClockSpeed", "", cString(30, "%d", IResourceChecker::GetInstance()->GetCPUSpeed()));
 
-	m_fXml->AddNode("Processor", "Family", "Family", IResourceChecker::GetInstance()->GetCPUBrand());
+	m_fXml->VAddElement("Processor", "Family", "", IResourceChecker::GetInstance()->GetCPUBrand());
 
-	m_fXml->AddNode("Session", "Started", "Started", "");
+	m_fXml->VAddElement("Session", "Started", "", "");
 
 	time_t currentTime;
 	time(&currentTime );
-	m_fXml->AddNode("Started", "Time", "Time", cString::TimeToString(currentTime));
+	m_fXml->VAddElement("Started", "Time", "", cString::TimeToString(currentTime));
 
-	m_fXml->AddNode("Configuration", "Environment", "Environment", IResourceChecker::GetInstance()->GetOSVersion());
+	m_fXml->VAddElement("Configuration", "Environment", "", IResourceChecker::GetInstance()->GetOSVersion());
 }
 
 void cLogger::Log(const LogType eLogEntryType, const Base::cString & str)
@@ -148,24 +148,22 @@ void cLogger::WriteLogEntry(const LogType eLogEntryType, const cString & strSour
 	if(!m_fXml)
 		return;
 
-	cString strEvent(20, "LogEvent%d", m_iCurrentId);
-	m_fXml->AddNode("LogEvents", strEvent, "LogEvent", "");
-	m_fXml->AddAttribute(strEvent,"id", m_iCurrentId);
+	cString strEvent = m_fXml->VAddElement("LogEvents", "LogEvent", cString(20, "%d", m_iCurrentId), "");
 
 	cString str;
 	LogTypeToString(eLogEntryType, str);
-	m_fXml->AddNode(strEvent, "Type", "Type", str);
+	m_fXml->VAddElement(strEvent, "Type", "", str);
 
 	time_t currentTime;
 	time(&currentTime );
 
-	m_fXml->AddNode(strEvent, "TimeIndex", "TimeIndex", cString::TimeToString(currentTime));
+	m_fXml->VAddElement(strEvent, "TimeIndex", "", cString::TimeToString(currentTime));
 
-	m_fXml->AddNode(strEvent, "File", "File", strSourceFile);
-	m_fXml->AddNode(strEvent, "Function", "Function", strFunction);
+	m_fXml->VAddElement(strEvent, "File", "", strSourceFile);
+	m_fXml->VAddElement(strEvent, "Function", "", strFunction);
 
-	m_fXml->AddNode(strEvent, "LineNumber", "LineNumber", cString(20, "%d", iSourceLine));
-	m_fXml->AddNode(strEvent, "Message", "Message", strMessage);
+	m_fXml->VAddElement(strEvent, "LineNumber", "", cString(20, "%d", iSourceLine));
+	m_fXml->VAddElement(strEvent, "Message", "", strMessage);
 	m_iCurrentId++;
 }
 // ***************************************************************

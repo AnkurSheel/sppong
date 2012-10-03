@@ -54,7 +54,17 @@ bool Graphics::cSprite::VOnInitialization( shared_ptr<ITexture> const pTexture )
 	}
 
 	m_vPosition = cVector2(-1.0f, -1.0f);
-	m_vSize = cVector2(100, 100);
+	
+	ID3D11Resource* resource;
+	ID3D11Texture2D * texResource;
+	D3D11_TEXTURE2D_DESC desc;
+	m_pTexture->VGetTexture()->GetResource(&resource);
+	texResource = reinterpret_cast<ID3D11Texture2D*>(resource);
+	texResource->GetDesc(&desc);
+	
+	m_vSize.m_dX = desc.Width;
+	m_vSize.m_dY = desc.Height;
+	return true;
 }
 
 // ***************************************************************

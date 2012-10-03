@@ -44,6 +44,7 @@ public:
 	void TestTriangle();
 	void TestTextureTriangle();
 	void TestSprite();
+	void TestFont();
 	//void Finished();
 	void TestFinished();
 	void Cleanup();
@@ -57,6 +58,7 @@ private:
 	const int						m_iVertexListCount;
 	Graphics::IModel *				m_pModel;
 	shared_ptr<Graphics::ISprite>	m_pSprite;
+	shared_ptr<Graphics::IMyFont>	m_pFont;
 	Graphics::ICamera *				m_pCamera;
 };
 #endif // GraphicsTestView_h__

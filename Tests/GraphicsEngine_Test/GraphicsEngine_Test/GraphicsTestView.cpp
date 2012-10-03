@@ -19,6 +19,7 @@
 #include "Model.hxx"
 #include "Camera.hxx"
 #include "Sprite.hxx"
+#include "Font.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -148,6 +149,9 @@ void cGraphicsTestView::VRenderPrivate()
 			{
 				m_pSprite->VRender(m_pCamera);
 			}
+			break;
+
+		case TEST_FONT:
 			break;
 		}
 	}
@@ -449,6 +453,24 @@ void cGraphicsTestView::TestSprite()
 	m_pSprite->VOnInitialization("Test\\seafloor.dds");
 	m_pSprite->VSetPosition(cVector2(100.0f, 100.0f));
 	m_pSprite->VSetSize(cVector2(256, 256.0f));
+}
+
+// ***************************************************************
+void cGraphicsTestView::TestFont()
+{
+	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
+	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
+	//	"Testing IndexBuffer. Press 'c' to go to next test");
+	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
+	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Font");
+
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
+
+	m_pFont = IMyFont::CreateMyFont();
+	m_pFont->VInitialize("resources\\Font\\licorice.fnt");
+	m_pFont->VSetText("Ankur");
 }
 
 // ***************************************************************

@@ -13,6 +13,7 @@
 #include <memory>
 #include <conio.h>
 #include "Optional.h"
+#include "XMLFileIO.hxx"
 
 using namespace Utilities;
 using namespace Base;
@@ -36,8 +37,9 @@ void CheckForMemoryLeaks()
 void TestZipFile();
 void TestResourceCache();
 void TestRandomGenerator();
-void TestFileInput();
+void TestTxtFileInput();
 void TestParamLoader();
+void TestXMLInput();
 
 void main(int argc, char * argv[])
 {
@@ -54,10 +56,13 @@ void main(int argc, char * argv[])
 	TestRandomGenerator();
 	Log_Write_L1(ILogger::LT_UNKNOWN, "");
 
-	TestFileInput();
+	TestTxtFileInput();
 
 	Log_Write_L1(ILogger::LT_UNKNOWN, "");
 	TestParamLoader();
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "");
+	TestXMLInput();
 
 	ILogger::Destroy();
 
@@ -277,10 +282,10 @@ void TestRandomGenerator()
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 }
 
-void TestFileInput()
+void TestTxtFileInput()
 {
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
-	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: FileInput");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Text FileInput");
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 
 	char szPath[MAX_PATH_WIDTH];
@@ -291,43 +296,21 @@ void TestFileInput()
 
 	if(pFile != NULL)
 	{
-		Log_Write_L1(ILogger::LT_COMMENT, "Reading the whole file");
-		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
-		if(pFile->Open(szPath, std::ios_base::in))
-		{
-			cString str = pFile->ReadAll();
-			if(str.IsEmpty())
-			{
-					Log_Write_L1(ILogger::LT_ERROR, "Failed");
-			}
-			else
-			{
-				Log_Write_L1(ILogger::LT_COMMENT, "Successfull");
-			}
-				
-			pFile->Close();
-		}
-		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
-		Log_Write_L1(ILogger::LT_UNKNOWN, "");
-		Log_Write_L1(ILogger::LT_COMMENT, "Reading the file 1 string at time");
-		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 		if(pFile->Open(szPath, std::ios_base::in))
 		{
 			while(!pFile->IsEOF())
 			{
-				pFile->ReadLine();
-				Log_Write_L1(ILogger::LT_DEBUG, pFile->GetBuffer());
+				cString str = pFile->ReadLine();
+				Log_Write_L1(ILogger::LT_DEBUG, str);
 			}
 			pFile->Close();
 		}
-		Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
-		Log_Write_L1(ILogger::LT_UNKNOWN, "");
 	}
 
 	SAFE_DELETE(pFile);
 
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
-	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: FileInput");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: Text FileInput");
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 }
 
@@ -448,5 +431,40 @@ void TestParamLoader()
 
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: ParamLoader");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+}
+void TestXMLInput()
+{
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Text XML FileInput");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+
+	//char szPath[MAX_PATH_WIDTH];
+	//printf("Enter file path (text.xml): ");
+	//gets(szPath);
+
+	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
+
+	if(pFile != NULL)
+	{
+		cString strRoot;
+		pFile->VLoad("text.xml", strRoot);
+		Log_Write_L1(ILogger::LT_DEBUG, "root " + strRoot);
+		vector<cString> chars;
+		pFile->VGetAllChildrenNames("chars", chars);
+		Log_Write_L1(ILogger::LT_DEBUG, cString(50, "Got %d children elements of chars", chars.size()));
+		vector<cString>::const_iterator iter;
+		cString strValue;
+		for (iter = chars.begin(); iter != chars.end(); iter++)
+		{
+			pFile->VGetNodeAttribute(*iter, "id", strValue);
+			Log_Write_L1(ILogger::LT_DEBUG, "id for " + (*iter) + " is " + strValue);
+		}
+	}
+
+	SAFE_DELETE(pFile);
+
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "End Test: Text XML FileInput");
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 }

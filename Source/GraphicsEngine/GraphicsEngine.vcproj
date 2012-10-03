@@ -270,25 +270,37 @@
 			Filter="*.psh;*.vsh"
 			>
 			<File
-				RelativePath=".\Shaders\PixelShaders\colors.psh"
+				RelativePath=".\Shaders\colors.psh"
 				>
 			</File>
 			<File
-				RelativePath=".\Shaders\VertexShaders\colors.vsh"
+				RelativePath=".\Shaders\colors.vsh"
 				>
 			</File>
 			<File
-				RelativePath=".\Shaders\PixelShaders\Texture.psh"
+				RelativePath=".\Shaders\Texture.psh"
 				>
 			</File>
 			<File
-				RelativePath=".\Shaders\VertexShaders\Texture.vsh"
+				RelativePath=".\Shaders\Texture.vsh"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="2D"
 			>
+			<File
+				RelativePath=".\src\Font.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Font.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Font.hxx"
+				>
+			</File>
 			<File
 				RelativePath=".\src\Sprite.cpp"
 				>

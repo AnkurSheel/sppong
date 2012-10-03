@@ -32,3 +32,10 @@
 #include "Optional.h"
 
 #include "Includes.h"
+
+#ifdef _DEBUG
+#pragma comment(lib, "tinyxml2d.lib")
+#else
+#pragma comment(lib, "tinyxml2.lib")
+#endif
+#pragma comment(lib, "zlibwapi.lib")

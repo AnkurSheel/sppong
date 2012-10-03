@@ -97,11 +97,12 @@ const BYTE * const cFileInput::GetBuffer() const
 	return m_pBuffer;
 }
 
-void cFileInput::ReadLine()
+Base::cString cFileInput::ReadLine()
 {
 	std::string str;
 	std::getline(m_inputFile, str);
 	m_strBuffer = str;
+	return m_strBuffer;
 }
 
 IFileInput * IFileInput::CreateInputFile()

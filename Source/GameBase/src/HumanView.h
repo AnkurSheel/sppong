@@ -28,7 +28,7 @@ namespace Graphics
 {
 	class IScreenElement;
 	class IInput;
-	class IFont;
+	class IMyFont;
 	class ISprite;
 	class IBaseControl;
 	struct stVertex;

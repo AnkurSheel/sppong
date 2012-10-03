@@ -26,7 +26,7 @@ namespace Utilities
 		const BYTE * const  ReadAll();
 		const BYTE * const  Read(std::streamoff);
 		bool Close();
-		void ReadLine();
+		Base::cString ReadLine();
 		bool IsEOF();
 		const BYTE * const GetBuffer() const;
 		std::streamoff VGetFileSize() const;

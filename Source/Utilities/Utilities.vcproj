@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib tinyxmld.lib Base_D.lib zlibwapi.lib"
+				AdditionalDependencies="Winmm.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="tinyxml.lib Winmm.lib Base.lib zlibwapi.lib"
+				AdditionalDependencies="Winmm.lib Base.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml"

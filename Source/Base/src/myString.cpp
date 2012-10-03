@@ -17,8 +17,11 @@ Base::cString::cString()
 }
 
 Base::cString::cString(const char * s)
-: m_str(s) 
 {
+	if (s != NULL)
+	{
+		m_str = s;
+	}
 }
 
 Base::cString::cString(std::string const & s)
@@ -58,7 +61,10 @@ Base::cString Base::cString::operator=( const cString & str)
 
 void Base::cString::operator += (const char * const str)
 {
-	m_str += str;
+	if (str != NULL)
+	{
+		m_str += str;
+	}
 }
 
 void Base::cString::operator += (const cString & str)

@@ -22,7 +22,7 @@ namespace Utilities
 		UTILITIES_API virtual bool Close() = 0;
 		UTILITIES_API virtual const BYTE * const ReadAll() = 0;
 		UTILITIES_API virtual const BYTE * const Read(std::streamoff size) = 0;
-		UTILITIES_API virtual void ReadLine() = 0;
+		UTILITIES_API virtual Base::cString ReadLine() = 0;
 		UTILITIES_API virtual bool IsEOF() = 0;
 		UTILITIES_API virtual const BYTE * const GetBuffer() const = 0;
 		UTILITIES_API virtual std::streamoff VGetFileSize() const = 0;

@@ -128,6 +128,10 @@ void cGame::GotoNextTest()
 		case TEST_SPRITE:
 			pView->TestSprite();
 			break;
+
+		case TEST_FONT:
+			pView->TestFont();
+			break;
 		}
 	}
 }
