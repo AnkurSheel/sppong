@@ -93,9 +93,6 @@ void cGame::GotoNextTest()
 		//	pView->Finished();
 		//	break;
 		//
-		//case TEST_UICONTROLS:
-		//	pView->TestUIControls();
-		//	break;
 
 		//case TEST_POINTLIST:
 		//	pView->TestPointList();
@@ -132,6 +129,11 @@ void cGame::GotoNextTest()
 		case TEST_FONT:
 			pView->TestFont();
 			break;
+
+		case TEST_UICONTROLS:
+			pView->TestUIControls();
+			break;
+
 		}
 	}
 }

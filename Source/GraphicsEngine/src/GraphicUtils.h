@@ -15,6 +15,7 @@ namespace Base
 	class cVector2;
 	class cVector3;
 }
+
 namespace Graphics
 {
 	D3DXVECTOR3 Vector3ToD3DXVEC3( const Base::cVector3& inVec );

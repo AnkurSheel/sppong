@@ -9,6 +9,11 @@
 // ***************************************************************
 
 #include "GraphicEngineDefines.h"
+namespace Base
+{
+	class cVector3;
+}
+
 namespace Graphics
 {
 /********************************************//**

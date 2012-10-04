@@ -152,18 +152,6 @@ float GameBase::cBaseApp::GetFPS()
 }
 
 // ***************************************************************
-void GameBase::cBaseApp::VOnLostDevice()
-{
-	m_pHumanView->VOnLostDevice();
-}
-
-// ***************************************************************
-HRESULT GameBase::cBaseApp::VOnResetDevice()
-{
-	return(m_pHumanView->VOnResetDevice());
-}
-
-// ***************************************************************
 bool GameBase::cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
 {
 	return m_pHumanView->VOnMsgProc(msg);

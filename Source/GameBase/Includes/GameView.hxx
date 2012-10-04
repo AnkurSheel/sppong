@@ -35,8 +35,6 @@ namespace GameBase
 		virtual void VOnCreateDevice(IBaseApp * pGame,  const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight ) = 0;
 		virtual void VOnUpdate(const TICK tickCurrent, const float fElapsedTime) = 0;
 		virtual void VOnRender(const TICK tickCurrent, const float fElapsedTime) = 0;
-		virtual void VOnLostDevice() = 0;
-		virtual HRESULT VOnResetDevice() = 0;
 		virtual void VOnDestroyDevice() = 0;
 		virtual void VOnAttach(GameViewId vid) = 0;
 		virtual GAMEVIEWTYPE VGetType() = 0;

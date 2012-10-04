@@ -73,6 +73,7 @@ namespace Graphics
 		 * Creates and Initializes the font shader for use
 		 ***********************************************/
 		bool InitializeShader();
+		void VSetTextColor(const Base::cColor & colorText);
 
 	private:
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;

@@ -24,7 +24,6 @@ namespace Graphics
 	struct stVertex;
 	class IModel;
 	class ISprite;
-	class ICamera;
 }
 
 class cGraphicsTestView 
@@ -35,7 +34,6 @@ public:
 	~cGraphicsTestView();
 	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
 	bool VOnMsgProc( const Base::AppMsg & msg );	
-	//void TestUIControls();
 	//void TestPointList();
 	//void TestLineList();
 	//void TestLineStrip();
@@ -45,6 +43,7 @@ public:
 	void TestTextureTriangle();
 	void TestSprite();
 	void TestFont();
+	void TestUIControls();
 	//void Finished();
 	void TestFinished();
 	void Cleanup();
@@ -59,6 +58,5 @@ private:
 	Graphics::IModel *				m_pModel;
 	shared_ptr<Graphics::ISprite>	m_pSprite;
 	shared_ptr<Graphics::IMyFont>	m_pFont;
-	Graphics::ICamera *				m_pCamera;
 };
 #endif // GraphicsTestView_h__

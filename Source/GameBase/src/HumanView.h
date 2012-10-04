@@ -32,6 +32,8 @@ namespace Graphics
 	class ISprite;
 	class IBaseControl;
 	struct stVertex;
+	class ICamera;
+
 }
 
 namespace GameBase
@@ -45,8 +47,6 @@ namespace GameBase
 		GAMEBASE_API cHumanView();
 		GAMEBASE_API virtual ~cHumanView();
 		GAMEBASE_API virtual void VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
-		GAMEBASE_API virtual void VOnLostDevice();
-		GAMEBASE_API virtual HRESULT VOnResetDevice();
 		GAMEBASE_API virtual bool VOnMsgProc( const Base::AppMsg & msg );	
 		GAMEBASE_API virtual void VOnRender(const TICK tickCurrent, const float fElapsedTime);
 		GAMEBASE_API virtual void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
@@ -69,15 +69,9 @@ namespace GameBase
 		GAMEBASE_API void VOnAttach(GameViewId id);
 		GAMEBASE_API void PopElement(shared_ptr<Graphics::IScreenElement> pScreenElement);
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
-		//GAMEBASE_API void ShowPointList(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
-		//GAMEBASE_API void ShowLineList(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
-		//GAMEBASE_API void ShowLineStrip(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
-		//GAMEBASE_API void ShowTriangleList(const Graphics::cVertex * const pData, const UINT iPrimitiveCount);
-	
-	private:
-		void HandleLostDevice(HRESULT hr);
 
 	protected:
+		Graphics::ICamera *				m_pCamera;
 		//shared_ptr<Graphics::IFont>		m_pFont;
 
 	private:
@@ -91,7 +85,8 @@ namespace GameBase
 		bool							m_bLockedKeys[KEYBOARD_KEYS];
 
 	public:
-		//Graphics::IBaseControl *		m_pParentControl;
+		Graphics::IBaseControl *		m_pParentControl;
+
 	};
 }
 #endif // HumanView_h__

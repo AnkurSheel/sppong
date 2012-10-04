@@ -267,6 +267,11 @@ bool Graphics::cSprite::CreateIndexBuffer(const unsigned long * pIndices)
 	}
 	return true;
 }
+// ***************************************************************
+void Graphics::cSprite::VGetSize(Base::cVector2 & vSize)
+{
+	vSize = m_vSize;
+}
 
 // ***************************************************************
 // Creates a Sprite

@@ -119,12 +119,6 @@ void cMainWindow::VToggleFullScreen()
 		SetWindowPos(m_Hwnd, HWND_NOTOPMOST, m_windowRect.left, m_windowRect.top, m_windowRect.right - m_windowRect.left, m_windowRect.bottom - m_windowRect.top, 0);
 	}
 
-	//IDXBase::GetInstance()->VToggleFullScreen();
-
-	m_pGame->VOnLostDevice();
-	//IDXBase::GetInstance()->VOnResetDevice();
-	m_pGame->VOnResetDevice();
-
 	if (!IsWindowVisible(m_Hwnd))
 	{
 		ShowWindow(m_Hwnd, SW_SHOW);

@@ -245,6 +245,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Includes\MouseHandler.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ResourceManager.cpp"
 				>
 			</File>
@@ -318,6 +322,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Includes\ScreenElement.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Sprite.cpp"
 				>
 			</File>
@@ -341,6 +349,38 @@
 				RelativePath=".\Includes\Texture.hxx"
 				>
 			</File>
+			<Filter
+				Name="UI"
+				>
+				<File
+					RelativePath=".\src\BaseControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\BaseControl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Includes\BaseControl.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\src\BaseControl.inl"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowControl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowControl.inl"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="3D"

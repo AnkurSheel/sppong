@@ -14,7 +14,7 @@
 #include "Optional.h"
 #include "vertexstruct.h"
 #include "Texture.hxx"
-#include "Shader.hxx"
+#include "FontShader.h"
 #include "ResourceManager.hxx"
 #include "ResCache.hxx"
 
@@ -83,6 +83,14 @@ void cMyFont::VSetText(const cString & strText)
 {
 	m_strText = strText;
 	m_bIsDirty = true;
+}
+
+// ***************************************************************
+void cMyFont::VSetTextColor(const Base::cColor & colorText)
+{
+	cFontShader * pFontShader = static_cast<cFontShader *>(m_pShader);
+	pFontShader->SetTextColor(colorText);
+
 }
 
 // ***************************************************************

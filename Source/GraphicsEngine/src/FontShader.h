@@ -27,6 +27,7 @@ namespace Graphics
 	public:
 		cFontShader();
 		~cFontShader();
+		void SetTextColor(const Base::cColor & colorText);
 
 	private:
 		bool VInitialize(const Base::cString & strVertexShaderPath,
@@ -35,8 +36,9 @@ namespace Graphics
 			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection, 
 			ID3D11ShaderResourceView * pTexture );
 		void VCleanup();
-
+	
 	private:
-		ID3D11Buffer *	 m_pPixelBuffer;	/*!< The vertex shader constant buffer to store the pixel color data*/
+		ID3D11Buffer *	m_pPixelBuffer;	/*!< The vertex shader constant buffer to store the pixel color data*/
+		D3DXVECTOR4		m_pixelColor;
 	};
 }

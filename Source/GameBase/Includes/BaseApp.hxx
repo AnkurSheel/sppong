@@ -33,8 +33,6 @@ namespace GameBase
 		virtual Base::cString VGetGameTitle() const = 0; 
 		virtual bool VOnMsgProc(const Base::AppMsg & msg) = 0;
 		virtual void VRun() = 0;
-		virtual HRESULT VOnResetDevice() = 0;
-		virtual void VOnLostDevice() = 0;
 		static Utilities::IParamLoader * VGetParamLoader();
 	};
 }

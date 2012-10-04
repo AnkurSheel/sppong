@@ -15,11 +15,12 @@
 //#include "Font.hxx"
 //#include "Sprite.hxx"
 //#include "ScreenElement.hxx"
-//#include "BaseControl.hxx"
+#include "BaseControl.hxx"
 #include "MainWindow.hxx"
-#include "Vector3.h"
+#include "Vector2.h"
 //#include "vertexstruct.h"
 #include "Color.h"
+#include "Camera.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -29,7 +30,8 @@ using namespace Base;
 GameBase::cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
 , m_pProcessManager(NULL)
-//, m_pParentControl(NULL) 
+, m_pParentControl(NULL) 
+, m_pCamera(NULL)
 {
 	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
 }
@@ -44,10 +46,9 @@ GameBase::cHumanView::~cHumanView()
 void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
 								 int iClientWidth, int iClientHeight)
 {
-	/*m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
-	m_pParentControl->VSetSize(iClientWidth, iClientHeight);
-	m_pParentControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-*/
+	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
+	m_pParentControl->VSetSize(cVector2(iClientWidth, iClientHeight));
+	m_pCamera = ICamera::CreateCamera();
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
 // 		"Sprites\\cursor.png");
@@ -57,11 +58,11 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hIn
 	//m_pFont = IFont::CreateMyFont();
 	//m_pFont->InitFont(14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
 
-	RECT boundingRect;
-	boundingRect.left = iClientWidth/2- 75;
-	boundingRect.right = boundingRect.left + 150;
-	boundingRect.top  = 10;
-	boundingRect.bottom = boundingRect.top + 30;
+	//RECT boundingRect;
+	//boundingRect.left = iClientWidth/2- 75;
+	//boundingRect.right = boundingRect.left + 150;
+	//boundingRect.top  = 10;
+	//boundingRect.bottom = boundingRect.top + 30;
 	//m_pFont->SetRect(boundingRect);
 
 	//m_pFont->SetFormat(DT_LEFT | DT_TOP);
@@ -90,61 +91,10 @@ void GameBase::cHumanView::VOnRender(const TICK tickCurrent, const float fElapse
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VOnLostDevice()
-{
-	AppMsg appMsg;
-	appMsg.m_uMsg = WM_DEVICELOST;
-	appMsg.m_lParam = 0;
-	appMsg.m_wParam = 0;
-
-	/*if (m_pParentControl)
-	{
-		m_pParentControl->VPostMsg(appMsg);
-	}
-	*/
-	/*for(ScreenElementList::iterator i = m_pElementList.begin(); i != m_pElementList.end(); ++i)
-	{
-		(*i)->VOnLostDevice();
-	}*/
-	//m_pCursorSprite->OnLostDevice();
-	
-	/*if (m_pFont)
-	{
-		m_pFont->VOnLostDevice();
-	}*/
-}
-
-// ***************************************************************
-HRESULT GameBase::cHumanView::VOnResetDevice()
-{
-	AppMsg appMsg;
-	appMsg.m_uMsg = WM_DEVICERESET;
-	appMsg.m_lParam = 0;
-	appMsg.m_wParam = 0;
-
-	/*if (m_pParentControl)
-	{
-		m_pParentControl->VPostMsg(appMsg);
-	}*/
-
-	HRESULT hr = S_OK;
-	/*for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
-	{
-		(*i)->VOnResetDevice();
-	}*/
-	//m_pCursorSprite->OnResetDevice();
-
-	/*if (m_pFont)
-	{
-		m_pFont->VOnResetDevice();
-	}*/
-	return hr;
-}
-
-// ***************************************************************
 void GameBase::cHumanView::VOnDestroyDevice()
 {
-	//SAFE_DELETE(m_pParentControl);
+	SAFE_DELETE(m_pParentControl);
+	SAFE_DELETE(m_pCamera);
 	RemoveElements();
 
 	//SAFE_DELETE(m_pCursorSprite);
@@ -157,10 +107,10 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 	switch(msg.m_uMsg)
 	{
 	case WM_CHAR:
-		/*if (m_pParentControl)
+		if (m_pParentControl)
 		{
 			bHandled = m_pParentControl->VPostMsg(msg);
-		}*/
+		}
 		if(!bHandled)
 		{
 			switch (msg.m_wParam)
@@ -176,10 +126,10 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 	case WM_LBUTTONDOWN:
 	case WM_KEYUP:
 	case WM_KEYDOWN:
-		/*if (m_pParentControl)
+		if (m_pParentControl)
 		{
 			bHandled = m_pParentControl->VPostMsg(msg);
-		}*/
+		}
 		break;
 	}
 	return bHandled;
@@ -209,43 +159,16 @@ HRESULT GameBase::cHumanView::OnBeginRender(TICK tickCurrent)
 	m_tickCurrent = tickCurrent; 
 	HRESULT hr = S_OK;
 	IGraphicsClass::GetInstance()->VBeginRender();
-	// check if the device is available
-	/*HRESULT hr = IDXBase::GetInstance()->VIsAvailable() ;
-
-	if(hr == D3DERR_DEVICELOST || hr == D3DERR_DEVICENOTRESET)
-	{
-		HandleLostDevice(hr) ;
-		return S_FALSE;
-	}
-
-	if(SUCCEEDED(hr))
-	{
-		// It is time to draw ? 
-		if( m_bRunFullSpeed || ( (m_tickCurrent - m_tickLastDraw) > SCREEN_REFRESH_RATE) ) 
-		{ 
-			hr = IDXBase::GetInstance()->VBeginRender();
-		}
-	}
-	if (FAILED(hr))
-	{
-		VOnResetDevice();
-	}
-*/
 	return hr;
 }
 
 // ***************************************************************
 void GameBase::cHumanView::VRenderPrivate()
 {
-	AppMsg appMsg;
-	appMsg.m_uMsg = WM_RENDER;
-	appMsg.m_lParam = 0;
-	appMsg.m_wParam = 0;
-
-	/*if (m_pParentControl)
+	if (m_pParentControl)
 	{
-		m_pParentControl->VPostMsg(appMsg);
-	}*/
+		m_pParentControl->VOnRender(m_pCamera);
+	}
 
 	/*for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
 	{
@@ -286,28 +209,6 @@ void GameBase::cHumanView::RemoveElements()
 	/*while (!m_pElementList.empty())
 	{
 		m_pElementList.pop_front();
-	}*/
-}
-
-// ***************************************************************
-// Tries to restore a lost device
-// ***************************************************************
-void GameBase::cHumanView::HandleLostDevice(HRESULT hr)
-{
-	/*if(hr == D3DERR_DEVICELOST)
-	{
-		Sleep(50);
-		return;
-	}
-	else 
-	{
-		if(hr == D3DERR_DEVICENOTRESET) 
-		{
-			VOnLostDevice();
-			hr = IDXBase::GetInstance()->VOnResetDevice() ;
-
-			VOnResetDevice();
-		}
 	}*/
 }
 
@@ -364,12 +265,10 @@ void GameBase::cHumanView::SetCursorVisible( bool bVisible )
 
 float GameBase::cHumanView::GetWidth()
 {
-	//return m_pParentControl->VGetWidth();
-	return 0;
+	return m_pParentControl->VGetWidth();
 }
 
 float GameBase::cHumanView::GetHeight()
 {
-	//return m_pParentControl->VGetHeight();
-	return 0;
+	return m_pParentControl->VGetHeight();
 }

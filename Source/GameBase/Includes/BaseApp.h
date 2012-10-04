@@ -41,8 +41,6 @@ namespace GameBase
 		GAMEBASE_API virtual void VCreateHumanView();
 		GAMEBASE_API virtual void VRun();
 		GAMEBASE_API virtual void VOnUpdate();
-		GAMEBASE_API virtual void VOnLostDevice();
-		GAMEBASE_API virtual HRESULT VOnResetDevice();
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void VCleanup();

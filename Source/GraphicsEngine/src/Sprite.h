@@ -39,6 +39,7 @@ namespace Graphics
 		void VCleanup();
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VSetSize(const Base::cVector2 & vSize);
+		void VGetSize(Base::cVector2 & vSize);
 		/********************************************//**
 		 * return True if the index buffer was created successfully
 		 * 

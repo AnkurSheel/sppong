@@ -15,6 +15,7 @@
 namespace Base
 {
 	class cString;
+	class cColor;
 }
 
 namespace Graphics
@@ -61,6 +62,7 @@ namespace Graphics
 		 *
 		 * Returns an object to use this interface
 		 ***********************************************/
+		virtual void VSetTextColor(const Base::cColor & colorText) = 0;
 		GRAPHIC_API static shared_ptr<IMyFont> CreateMyFont();
 	} ;
 }
