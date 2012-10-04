@@ -36,8 +36,7 @@ Graphics::cBaseShader::~cBaseShader()
 
 // ***************************************************************
 bool Graphics::cBaseShader::VInitialize(const Base::cString & strVertexShaderPath,
-										 const Base::cString & strPixelShader,
-										 const int iNumberOfLayouts)
+										 const Base::cString & strPixelShader)
 {
 	if(!CreateVertexShader(strVertexShaderPath))
 		return false;
@@ -107,7 +106,7 @@ bool Graphics::cBaseShader::CreateVertexShader( const Base::cString & strVertexS
 			return false;
 	}
 
-	if(!VCreateLayout(2, pFile))
+	if(!VCreateLayout(pFile))
 	{
 		SAFE_DELETE(pFile);
 		return false;

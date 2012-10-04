@@ -32,6 +32,8 @@ Graphics::cDXBase::cDXBase()
 , m_pRasterState(NULL)
 , m_iScreenWidth(0)
 , m_iScreenHeight(0)
+, m_pAlphaEnableBlendingState(NULL)
+, m_pAlphaDisableBlendingState(NULL)
 {
 
 }
@@ -66,6 +68,9 @@ void Graphics::cDXBase::VInitialize( const HWND hWnd, const Base::cColor & bkCol
 		return;
 
 	if(!SetupRasterStates())
+		return;
+
+	if(!CreateBlendStates())
 		return;
 
 	SetupViewPort(iWidth, iHeight);
@@ -144,6 +149,43 @@ int Graphics::cDXBase::VGetScreenHeight() const
 	return m_iScreenHeight;
 }
 
+// ***************************************************************
+void Graphics::cDXBase::VTurnZBufferOn()
+{
+	m_pDeviceContext->OMSetDepthStencilState(m_p3DDepthStencilState, 1);
+}
+
+// ***************************************************************
+void Graphics::cDXBase::VTurnZBufferOff()
+{
+	m_pDeviceContext->OMSetDepthStencilState(m_p2DDepthStencilState, 1);
+}
+// ***************************************************************
+void Graphics::cDXBase::VTurnOnAlphaBlending()
+{
+	float blendFactor[4];
+
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	// Turn on the alpha blending.
+	m_pDeviceContext->OMSetBlendState(m_pAlphaEnableBlendingState, blendFactor, 0xffffffff);
+}
+// ***************************************************************
+void Graphics::cDXBase::VTurnOffAlphaBlending()
+{
+	float blendFactor[4];
+
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	// Turn on the alpha blending.
+	m_pDeviceContext->OMSetBlendState(m_pAlphaDisableBlendingState, blendFactor, 0xffffffff);
+}
 // ***************************************************************
 bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen )
 {
@@ -334,6 +376,43 @@ bool Graphics::cDXBase::CreateDepthStencilView()
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the depth stencil view")
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		PostQuitMessage(0);
+		return false;
+	}
+	return true;
+}
+
+// ***************************************************************
+bool Graphics::cDXBase::CreateBlendStates()
+{
+	D3D11_BLEND_DESC blendStateDescription;
+	ZeroMemory(&blendStateDescription, sizeof(D3D11_BLEND_DESC));
+
+	// Create an alpha enabled blend state description.
+	blendStateDescription.RenderTarget[0].BlendEnable = TRUE;
+	blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+	HRESULT result = m_pDevice->CreateBlendState(&blendStateDescription, &m_pAlphaEnableBlendingState);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the blend State")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		return false;
+	}
+
+	blendStateDescription.RenderTarget[0].BlendEnable = FALSE;
+	
+	result = m_pDevice->CreateBlendState(&blendStateDescription,
+		&m_pAlphaDisableBlendingState);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create the blend State")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}
 	return true;
@@ -549,21 +628,12 @@ void Graphics::cDXBase::Cleanup()
 	SAFE_RELEASE(m_p2DDepthStencilState);
 	SAFE_RELEASE(m_pDepthStencilBuffer);
 	SAFE_RELEASE(m_pRenderTargetView);
+	SAFE_RELEASE(m_pAlphaEnableBlendingState);
+	SAFE_RELEASE(m_pAlphaDisableBlendingState);
+
 	SAFE_RELEASE(m_pDeviceContext);
 	SAFE_RELEASE(m_pDevice);
 	SAFE_RELEASE(m_pSwapChain);
-}
-
-// ***************************************************************
-void Graphics::cDXBase::VTurnZBufferOn()
-{
-	m_pDeviceContext->OMSetDepthStencilState(m_p3DDepthStencilState, 1);
-}
-
-// ***************************************************************
-void Graphics::cDXBase::VTurnZBufferOff()
-{
-	m_pDeviceContext->OMSetDepthStencilState(m_p2DDepthStencilState, 1);
 }
 
 // ***************************************************************

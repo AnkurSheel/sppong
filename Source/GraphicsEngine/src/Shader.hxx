@@ -27,14 +27,13 @@ namespace Graphics
 		/********************************************//**
  		 * @param[in] strVertexShaderPath The path for the vertex shader file
 		 * @param[in] strPixelShaderPath The path for the pixel shader file
-		 * @param[in] iNumberOfLayouts
 		 * @return False if there is any error
 		 *
 		 * Creates the vertex and pixel shader objects. Creates the layout of the vertex
 		 * data that will be processed by this shader
 		 ***********************************************/
 		virtual bool VInitialize(const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath, const int iNumberOfLayouts) = 0;
+			const Base::cString & strPixelShaderPath) = 0;
 		/********************************************//**
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
@@ -58,5 +57,12 @@ namespace Graphics
 		 * Returns an object to use a texture shader
 		 ***********************************************/
 		static IShader * CreateTextureShader();
+		/********************************************//**
+		 * @return An object to use a font shader
+		 *
+		 * Returns an object to use a font shader
+		 ***********************************************/
+		static IShader * CreateFontShader();
+
 	};
 }

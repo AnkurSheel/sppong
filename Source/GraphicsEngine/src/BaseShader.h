@@ -38,7 +38,7 @@ namespace Graphics
 		cBaseShader();
 		virtual ~cBaseShader();
 		bool VInitialize(const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath, const int iNumberOfLayouts);
+			const Base::cString & strPixelShaderPath);
 		/********************************************//**
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
@@ -73,14 +73,12 @@ namespace Graphics
 		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
 			const D3DXMATRIX & inMatProjection, const ITexture * const pTexture);
 		/********************************************//**
-		  * @param[in] iNumberOfLayouts The number of elements in the vertex shader
 		  * @param[in] pVertexShaderFile The compiled vertex shader file
 		  * @return False if there is any error
 		  *
 		  * Creates the layout of the vertex data that will be processed by this shader
 		  ***********************************************/
-		virtual bool VCreateLayout( const int iNumberOfLayouts,
-			const Utilities::IFileInput * const pVertexShaderFile ) = 0;
+		virtual bool VCreateLayout(const Utilities::IFileInput * const pVertexShaderFile ) = 0;
 		/********************************************//**
 		  * @param[in] strVertexShaderPath The path for the vertex shader file
 		  * @return False if there is any error

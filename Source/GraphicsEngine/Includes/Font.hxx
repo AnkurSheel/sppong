@@ -19,13 +19,32 @@ namespace Base
 
 namespace Graphics
 {
+	class ICamera;
+}
+
+namespace Graphics
+{
 	class IMyFont
 	{
 	public:
 		virtual ~IMyFont(){}
-		virtual void VInitialize(const Base::cString & strFontDescFilename) = 0;
+		virtual bool VInitialize(const Base::cString & strFontDirPath,
+			const Base::cString & strFontDescFilename) = 0;
 		//virtual void InitFont(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) = 0;
 		virtual void VSetText(const Base::cString & strText) = 0;
+		/********************************************//**
+ 		 * @param[in] pCamera The camera which contains the current view matrix
+		 *
+		 * Puts the 2d texture on the video card to prepare it for drawing
+		 * by the shader
+		 ***********************************************/
+		virtual void VRender(const ICamera * const pCamera) = 0;
+		/********************************************//**
+ 		 * @param[in] vPosition The new position at which the sprite should be shown
+		 *
+		 * Sets the position of the sprite
+		 ***********************************************/
+		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
 		//virtual void SetRect(const RECT & boundingRect) = 0;
 		//virtual void CalculateAndSetRect() = 0;
 		//virtual const RECT & GetRect() const = 0;

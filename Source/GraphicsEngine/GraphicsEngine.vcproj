@@ -278,6 +278,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Shaders\Font.psh"
+				>
+			</File>
+			<File
+				RelativePath=".\Shaders\Font.vsh"
+				>
+			</File>
+			<File
 				RelativePath=".\Shaders\Texture.psh"
 				>
 			</File>
@@ -299,6 +307,14 @@
 			</File>
 			<File
 				RelativePath=".\Includes\Font.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FontShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FontShader.h"
 				>
 			</File>
 			<File

@@ -30,9 +30,9 @@ Graphics::cTextureShader::~cTextureShader()
 }
 
 // ***************************************************************
-bool Graphics::cTextureShader::VCreateLayout( const int iNumberOfLayouts,
-											 const IFileInput * const pVertexShaderFile )
+bool Graphics::cTextureShader::VCreateLayout(const IFileInput * const pVertexShaderFile )
 {
+	int iNumberOfLayouts = 2;
 	D3D11_INPUT_ELEMENT_DESC * pPolygonLayout = DEBUG_NEW D3D11_INPUT_ELEMENT_DESC[iNumberOfLayouts];
 
 	pPolygonLayout[0].SemanticName = "POSITION";
@@ -67,10 +67,9 @@ bool Graphics::cTextureShader::VCreateLayout( const int iNumberOfLayouts,
 
 // ***************************************************************
 bool Graphics::cTextureShader::VInitialize( const Base::cString & strVertexShaderPath,
-										   const Base::cString & strPixelShaderPath, 
-										   const int iNumberOfLayouts )
+										   const Base::cString & strPixelShaderPath)
 {
-	if(!cBaseShader::VInitialize(strVertexShaderPath, strPixelShaderPath, iNumberOfLayouts))
+	if(!cBaseShader::VInitialize(strVertexShaderPath, strPixelShaderPath))
 		return false;
 	
 	D3D11_SAMPLER_DESC samplerDesc;

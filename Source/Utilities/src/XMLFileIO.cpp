@@ -172,7 +172,7 @@ cString cXMLFileIO::GetNodeValue( const cString & strNode )
 }
 
 // ***************************************************************
-void Utilities::cXMLFileIO::AddChildElements(XMLElement * const pParent)
+void cXMLFileIO::AddChildElements(XMLElement * const pParent)
 {
 	XMLElement * pElement = pParent->FirstChildElement();
 	if(pElement == NULL)
@@ -228,8 +228,8 @@ void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 }
 
 // ***************************************************************
-void cXMLFileIO::VGetNodeAttribute(const Base::cString & strElementID,
-			const Base::cString & strAttributeName, int iAttributeValue)
+int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
+			const Base::cString & strAttributeName)
 {
 	cString strAttributeValue;
 	VGetNodeAttribute(strElementID, strAttributeName, strAttributeValue);
@@ -237,9 +237,28 @@ void cXMLFileIO::VGetNodeAttribute(const Base::cString & strElementID,
 	if(val.IsInvalid())
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
+		return 0;
+	}
+	return *val;
+}
+
+// ***************************************************************
+void cXMLFileIO::VParse(const char * const xml, const unsigned int size)
+{
+	Log_Write_L1(ILogger::LT_DEBUG, "Parsing XML file ");
+	SAFE_DELETE(m_pDoc);
+	m_pDoc = DEBUG_NEW XMLDocument();
+	
+	if (m_pDoc->Parse(xml, size) != XML_NO_ERROR)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not parse XML file");
 		return;
 	}
-	iAttributeValue = *val;
+
+	XMLElement * pRoot = m_pDoc->FirstChildElement();
+	m_ElementMap.insert(std::make_pair(pRoot->Name(), pRoot));
+
+	AddChildElements(pRoot);
 }
 
 // ***************************************************************

@@ -40,14 +40,14 @@ namespace Graphics
 		 *
 		 * Initializes the sprite with the texture
 		 ***********************************************/
-		virtual bool VOnInitialization(shared_ptr<ITexture> const pTexture) = 0;
+		virtual bool VInitialize(shared_ptr<ITexture> const pTexture) = 0;
 		/********************************************//**
  		 * @param[in] strTextureFilename The path of the tmexture associated with this sprite
 		 * return  True if the sprite was created.
 		 *
 		 * Creates the texture and Initializes the sprite with the texture
 		 ***********************************************/
-		virtual bool VOnInitialization(const Base::cString & strTextureFilename) = 0;
+		virtual bool VInitialize(const Base::cString & strTextureFilename) = 0;
 		/********************************************//**
  		 * @param[in] pCamera The camera which contains the current view matrix
 		 *

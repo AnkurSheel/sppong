@@ -30,9 +30,9 @@ Graphics::cColorShader::~cColorShader()
 }
 
 // ***************************************************************
-bool Graphics::cColorShader::VCreateLayout( const int iNumberOfLayouts,
-										  const Utilities::IFileInput * const pVertexShaderFile)
+bool Graphics::cColorShader::VCreateLayout(const IFileInput * const pVertexShaderFile)
 {
+	int iNumberOfLayouts = 2;
 	D3D11_INPUT_ELEMENT_DESC * pPolygonLayout = DEBUG_NEW D3D11_INPUT_ELEMENT_DESC[iNumberOfLayouts];
 
 	pPolygonLayout[0].SemanticName = "POSITION";

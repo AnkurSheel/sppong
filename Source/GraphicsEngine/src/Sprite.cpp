@@ -26,8 +26,10 @@ Graphics::cSprite::cSprite()
 , m_pIndexBuffer(NULL)
 , m_pShader(NULL)
 , m_vSize(cVector2::Zero())
-, m_vPrevPosition(-1.0f, -1.0f)
 , m_vPosition(cVector2::Zero())
+, m_bIsDirty(true)
+, m_iIndexCount(0)
+, m_iVertexCount(0)
 {
 }
 
@@ -38,20 +40,18 @@ Graphics::cSprite::~cSprite()
 }
 
 // ***************************************************************
-bool Graphics::cSprite::VOnInitialization( shared_ptr<ITexture> const pTexture )
+bool Graphics::cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 {
 	m_pTexture = pTexture;
+	m_iVertexCount = 4;
 	if(!CreateVertexBuffer())
 		return false;
 
-	if(!CreateIndexBuffer())
+	if(!VCreateIndexBuffer())
 		return false;
 
-	m_pShader = IShader::CreateTextureShader();
-	if (!m_pShader->VInitialize("resources\\Shaders\\Texture.vsho", "resources\\Shaders\\Texture.psho", 2))
-	{
+	if(!InitializeShader())
 		return false;
-	}
 
 	m_vPosition = cVector2(-1.0f, -1.0f);
 	
@@ -64,11 +64,13 @@ bool Graphics::cSprite::VOnInitialization( shared_ptr<ITexture> const pTexture )
 	
 	m_vSize.m_dX = desc.Width;
 	m_vSize.m_dY = desc.Height;
+	m_bIsDirty = true;
+	SAFE_RELEASE(resource);
 	return true;
 }
 
 // ***************************************************************
-bool Graphics::cSprite::VOnInitialization( const Base::cString & strTextureFilename )
+bool Graphics::cSprite::VInitialize( const Base::cString & strTextureFilename )
 {
 	Log_Write_L2(ILogger::LT_EVENT, "Loading Sprite : " + strTextureFilename);
 
@@ -78,14 +80,17 @@ bool Graphics::cSprite::VOnInitialization( const Base::cString & strTextureFilen
 	}
 	m_pTexture->VInitialize(strTextureFilename);
 	
-	
-	return VOnInitialization(m_pTexture);
+	return VInitialize(m_pTexture);
 }
 
 // ***************************************************************
 void Graphics::cSprite::VRender(const ICamera * const pCamera)
 {
-	UpdateBuffers();
+	if (m_bIsDirty)
+	{
+		VRecalculateVertexData();
+		m_bIsDirty = false;
+	}
 
 	unsigned int stride = sizeof(stTexVertex);
 	unsigned int offset = 0;
@@ -106,19 +111,21 @@ void Graphics::cSprite::VRender(const ICamera * const pCamera)
 			pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix(),
 			m_pTexture.get());
 	}
-	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(6, 0, 0);
+	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
 }
 
 // ***************************************************************
 void Graphics::cSprite::VSetPosition( const Base::cVector2 & vPosition )
 {
 	m_vPosition = vPosition;
+	m_bIsDirty = true;
 }
 
 // ***************************************************************
 void Graphics::cSprite::VSetSize( const Base::cVector2 & vSize )
 {
 	m_vSize = vSize;
+	m_bIsDirty = true;
 }
 
 // ***************************************************************
@@ -132,14 +139,13 @@ void Graphics::cSprite::VCleanup()
 // ***************************************************************
 bool Graphics::cSprite::CreateVertexBuffer()
 {
-	int iVertexCount = 4;
-	stTexVertex * pVertices = DEBUG_NEW stTexVertex[iVertexCount];
+	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
 
 	D3D11_BUFFER_DESC vertexBufferDesc;
 	ZeroMemory( &vertexBufferDesc, sizeof(vertexBufferDesc));
 
 	vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	vertexBufferDesc.ByteWidth = sizeof(stVertex) * iVertexCount;
+	vertexBufferDesc.ByteWidth = sizeof(stTexVertex) * m_iVertexCount;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
@@ -163,49 +169,18 @@ bool Graphics::cSprite::CreateVertexBuffer()
 }
 
 // ***************************************************************
-bool Graphics::cSprite::CreateIndexBuffer()
+bool Graphics::cSprite::VCreateIndexBuffer()
 {
 	unsigned long aIndices[] = {0,1,2,
 								1,3,2};
+	m_iIndexCount = 6;
+	return CreateIndexBuffer(aIndices);
 
-	//unsigned long aIndices[] = {0,1,2};
-
-	D3D11_BUFFER_DESC indexBufferDesc;
-	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexBufferDesc.ByteWidth = sizeof(unsigned long) * 6;
-	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	indexBufferDesc.CPUAccessFlags = 0;
-	indexBufferDesc.MiscFlags = 0;
-	indexBufferDesc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA indexData;
-	indexData.pSysMem = aIndices;
-	indexData.SysMemPitch = 0;
-	indexData.SysMemSlicePitch = 0;
-
-	// Create the index buffer.
-	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&indexBufferDesc,
-		&indexData, &m_pIndexBuffer);
-
-	if(FAILED(result))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-		return false;
-	}
-	return true;
 }
 
 // ***************************************************************
-bool Graphics::cSprite::UpdateBuffers()
+bool Graphics::cSprite::VRecalculateVertexData()
 {
-	if (m_vPosition == m_vPrevPosition)
-	{
-		return true;
-	}
-
-	m_vPrevPosition = m_vPosition;
-
 	//center of the screen is 0,0
 	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
 	float right = left + m_vSize.m_dX;
@@ -219,11 +194,34 @@ bool Graphics::cSprite::UpdateBuffers()
 	pVertices[2] = stTexVertex(right, bottom, 0.0f, 1.0f, 1.0f);
 	pVertices[3] = stTexVertex(right, top, 0.0f, 1.0f, 0.0f);
 
+	if(!UpdateVertexBuffer(pVertices, 4))
+	{
+		SAFE_DELETE_ARRAY(pVertices);
+		return false;
+	}
+
+	SAFE_DELETE_ARRAY(pVertices);
+	return true;
+}
+// ***************************************************************
+bool Graphics::cSprite::InitializeShader()
+{
+	m_pShader = IShader::CreateTextureShader();
+	if (!m_pShader->VInitialize("resources\\Shaders\\Texture.vsho",
+		"resources\\Shaders\\Texture.psho"))
+	{
+		return false;
+	}
+	return true;
+}
+// ***************************************************************
+bool Graphics::cSprite::UpdateVertexBuffer(const stTexVertex * const pVertices,
+										   const int iNoOfVertices)
+{
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if(FAILED(result))
 	{
-		SAFE_DELETE_ARRAY(pVertices);
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
@@ -233,12 +231,38 @@ bool Graphics::cSprite::UpdateBuffers()
 	stTexVertex * verticesPtr = (stTexVertex*)mappedResource.pData;
 
 	// Copy the data into the vertex buffer.
-	memcpy(verticesPtr, (void*)pVertices, (sizeof(stTexVertex) * 4));
+	memcpy(verticesPtr, (void*)pVertices, (sizeof(stTexVertex) * iNoOfVertices));
 
 	// Unlock the vertex buffer.
 	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pVertexBuffer, 0);
+	return true;
+}
+// ***************************************************************
+bool Graphics::cSprite::CreateIndexBuffer(const unsigned long * pIndices)
+{
+	D3D11_BUFFER_DESC indexBufferDesc;
+	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	indexBufferDesc.ByteWidth = sizeof(unsigned long) * m_iIndexCount;
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.MiscFlags = 0;
+	indexBufferDesc.StructureByteStride = 0;
 
-	SAFE_DELETE_ARRAY(pVertices);
+	D3D11_SUBRESOURCE_DATA indexData;
+	indexData.pSysMem = pIndices;
+	indexData.SysMemPitch = 0;
+	indexData.SysMemSlicePitch = 0;
+
+	// Create the index buffer.
+	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&indexBufferDesc,
+		&indexData, &m_pIndexBuffer);
+
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		return false;
+	}
 	return true;
 }
 

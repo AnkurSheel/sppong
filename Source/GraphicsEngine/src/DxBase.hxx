@@ -75,6 +75,16 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VTurnZBufferOff() = 0;
 		/********************************************//**
+		 *
+		 * Turns Alpha Blending On
+		 ***********************************************/
+		virtual void VTurnOnAlphaBlending() = 0;
+		/********************************************//**
+		 *
+		 * Turns Alpha Blending Off
+		 ***********************************************/
+		virtual void VTurnOffAlphaBlending() = 0;
+		/********************************************//**
 		 * @return The pointer to DX11 device
 		 *
 		 * Returns a pointer to the DirectX11 device

@@ -41,6 +41,8 @@ namespace Graphics
 		void VEndRender();
 		void VTurnZBufferOn();
 		void VTurnZBufferOff();
+		void VTurnOnAlphaBlending();
+		void VTurnOffAlphaBlending();
 		ID3D11Device * VGetDevice() const;
 		ID3D11DeviceContext * VGetDeviceContext() const;
 		const D3DMATRIX & VGetWorldMatrix() const;
@@ -79,9 +81,15 @@ namespace Graphics
 		/********************************************//**
 		 * @return False if there was an error
 		 *
-		 * Creates and sets the depth stencil state for 2D drawing.
+		 * Creates the depth stencil state for 2D drawing.
 		 ***********************************************/
 		bool SetupDepthStencilStateFor2D();
+		/********************************************//**
+		 * @return False if there was an error
+		 *
+		 * Creates the blend states
+		 ***********************************************/
+		bool CreateBlendStates();
 		/********************************************//**
 		 * @return False if there was an error
 		 *
@@ -163,6 +171,8 @@ namespace Graphics
 		float						m_afBackGroundcolor[4];		/*!< The componnets for the back */
 		int							m_iScreenWidth;				/*!< Screen width */
 		int							m_iScreenHeight;			/*!< Screen height */
+		ID3D11BlendState *			m_pAlphaEnableBlendingState;
+		ID3D11BlendState *			m_pAlphaDisableBlendingState;
 	};
 }
 #endif // DxBase_h__

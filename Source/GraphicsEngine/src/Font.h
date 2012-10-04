@@ -11,6 +11,7 @@
 #define Font_h__
 
 #include "Font.hxx"
+#include "Sprite.h"
 
 namespace Base
 {
@@ -38,18 +39,25 @@ namespace Graphics
 
 	class cMyFont
 		: public IMyFont
-		, public Base::cNonCopyable
+		, public cSprite
 	{
 	public:
 		cMyFont() ;
 		~cMyFont() ;
 	
 	private:
-		void VInitialize(const Base::cString & strFontDescFilename);
-		void ParseFontDesc();
+		bool VInitialize(const Base::cString & strFontDirPath,
+			const Base::cString & strFontDescFilename);
+		void ParseFontDesc(const Base::cString & strFontDirPath,
+			const Base::cString & strFontDescFilename);
 		//void InitFont(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) ;
 		//void VOnRender(const Graphics::AppMsg & msg) ;
 		void VSetText(const Base::cString & strText);
+		bool InitializeShader();
+		bool VRecalculateVertexData();
+		bool VCreateIndexBuffer( );
+		void VRender(const ICamera * const pCamera);
+		void VSetPosition(const Base::cVector2 & vPosition);
 		//const RECT & GetRect() const;
 		//const RECT GetRect(const Base::cString & strText) const;
 		//void SetRect(const RECT & boundingRect);
@@ -61,7 +69,7 @@ namespace Graphics
 		//HRESULT VOnResetDevice();
 		//void VSetVisible(bool bIsVisible);
 		//bool VIsVisible() const;
-		void Cleanup();
+		void VCleanup();
 
 	private:
 		//ID3DXFont *		m_pFont ;
@@ -74,13 +82,11 @@ namespace Graphics
 		//int				m_iSpaceWidth;
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;
 
-		Base::cString						m_strFontDescFilename;
-		Base::cString						m_strFontTexFilename;
+		Base::cString						m_strFontTexPath;
 		int									m_iTextureWidth;
 		int									m_iTextureHeight;
 		CharDescriptorMap					m_CharDescriptorMap;
 		Base::cString						m_strText;
-		shared_ptr<Graphics::ITexture>		m_pTexture;
 	};
 }
 #endif // Font_h__

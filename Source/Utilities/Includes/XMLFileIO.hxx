@@ -76,14 +76,14 @@ namespace Utilities
 		/********************************************//**
 		 * @param[in] strElementID The unique ID of the element
 		 * @param[in] strAttributeName The attribute name
-		 * @param[out] iAttributeValue The integer value of the attribute 
+		 * return The integer value of the attribute 
 		 *
 		 * Given an attribute name for an element with unique name strElementID,
 		 * this functions converts the value for the attribute of that name into an,
 		 * an and stores it in iAttributeValue
 		 ***********************************************/
-		virtual void VGetNodeAttribute(const Base::cString & strElementID,
-			const Base::cString & strAttributeName, int iAttributeValue) = 0;
+		virtual int VGetNodeAttributeAsInt(const Base::cString & strElementID,
+			const Base::cString & strAttributeName) = 0;
 		/********************************************//**
 		 * @param[in] strParentID The unique id of the parent element
 		 * @param[out] vElements The vector in which all the child elements unique names are stored 
@@ -104,6 +104,8 @@ namespace Utilities
 		 * Returns an object to use this interface
 		 ***********************************************/
 		UTILITIES_API static IXMLFileIO * CreateXMLFile();
+		// ***************************************************************
+		virtual void VParse(const char * const xml, const unsigned int size) = 0;
 	};
 }
 #endif // XMLFileIO_h__

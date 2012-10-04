@@ -14,6 +14,9 @@
 #include "Optional.h"
 #include "vertexstruct.h"
 #include "Texture.hxx"
+#include "Shader.hxx"
+#include "ResourceManager.hxx"
+#include "ResCache.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -42,7 +45,7 @@ cMyFont::cMyFont()
 // ***************************************************************
 cMyFont::~cMyFont()
 {
-	Cleanup();
+	VCleanup();
 }
 // ***************************************************************
 //
@@ -89,8 +92,9 @@ cMyFont::~cMyFont()
 //}
 //// ***************************************************************
 
-void cMyFont::Cleanup()
+void cMyFont::VCleanup()
 {
+	cSprite::VCleanup();
 	m_CharDescriptorMap.clear();
 	//SAFE_DELETE_ARRAY(m_pChars);
 	//SAFE_RELEASE(m_pFont);
@@ -147,15 +151,19 @@ shared_ptr<IMyFont> IMyFont::CreateMyFont()
 // ***************************************************************
 
 // ***************************************************************
-void cMyFont::ParseFontDesc()
+void cMyFont::ParseFontDesc(const cString & strFontDirPath,
+							const cString & strFontDescFilename)
 {
 	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
-	pFile->VLoad(m_strFontDescFilename);
-	
-	pFile->VGetNodeAttribute("page0", "file", m_strFontTexFilename);
 
-	pFile->VGetNodeAttribute("common", "scaleW", m_iTextureWidth);
-	pFile->VGetNodeAttribute("common", "scaleH", m_iTextureHeight);
+	IResource * pResource = IResource::CreateResource(strFontDirPath + strFontDescFilename);
+	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
+
+	pFile->VGetNodeAttribute("page0", "file", m_strFontTexPath);
+	m_strFontTexPath = strFontDirPath + m_strFontTexPath;
+	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
+	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
 
 	std::vector<cString> vCharIDs;
 	pFile->VGetAllChildrenNames("chars", vCharIDs);
@@ -163,35 +171,79 @@ void cMyFont::ParseFontDesc()
 	CharDescriptor ch;
 	for (int i=0; i<iNoOfCharacters; i++)
 	{
-		pFile->VGetNodeAttribute(vCharIDs[i], "id", ch.id);
-		pFile->VGetNodeAttribute(vCharIDs[i], "x", ch.x);
-		pFile->VGetNodeAttribute(vCharIDs[i], "y", ch.y);
-		pFile->VGetNodeAttribute(vCharIDs[i], "width", ch.Width);
-		pFile->VGetNodeAttribute(vCharIDs[i], "height", ch.Height);
-		pFile->VGetNodeAttribute(vCharIDs[i], "xoffset", ch.XOffset);
-		pFile->VGetNodeAttribute(vCharIDs[i], "yoffset", ch.YOffset);
-		pFile->VGetNodeAttribute(vCharIDs[i], "xadvance", ch.XAdvance);
+		ch.id = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "id");
+		ch.x = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "x");
+		ch.y = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "y");
+		ch.Width = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "width");
+		ch.Height = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "height");
+		ch.XOffset = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "xoffset");
+		ch.YOffset = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "yoffset");
+		ch.XAdvance = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "xadvance");
 		
 		m_CharDescriptorMap.insert(std::make_pair(ch.id, ch));
 	}
+	SAFE_DELETE(pFile);
+	SAFE_DELETE(pResource);
+
 }
 // ***************************************************************
-void cMyFont::VInitialize(const Base::cString & strFontDescFilename)
+bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
+						  const Base::cString & strFontDescFilename)
 {		
-	m_strFontDescFilename = strFontDescFilename;
-	ParseFontDesc();
+	ParseFontDesc(strFontDirPath, strFontDescFilename);
+	Log_Write_L2(ILogger::LT_EVENT, "Loading Sprite : " + m_strFontTexPath);
 
-	m_pTexture = ITexture::CreateTexture();
-	m_pTexture->VInitialize(m_strFontTexFilename);
+	if (m_pTexture == NULL)
+	{
+		m_pTexture = ITexture::CreateTexture();
+	}
+	m_pTexture->VInitialize(m_strFontTexPath);
+
+	m_iVertexCount = MAX_FILENAME_WIDTH * 4;
+
+	if(!CreateVertexBuffer())
+		return false;
+
+	if(!VCreateIndexBuffer())
+		return false;
+
+	if(!InitializeShader())
+		return false;
+
+	m_vPosition = cVector2(-1.0f, -1.0f);
+	return true;
+	
 }
 // ***************************************************************
 void cMyFont::VSetText(const cString & strText)
 {
 	m_strText = strText;
+	m_bIsDirty = true;
+}
+
+// ***************************************************************
+bool cMyFont::InitializeShader()
+{
+	m_pShader = IShader::CreateFontShader();
+	if (!m_pShader->VInitialize("resources\\Shaders\\Font.vsho",
+		"resources\\Shaders\\Font.psho"))
+	{
+		return false;
+	}
+	return true;
+}
+// ***************************************************************
+bool cMyFont::VRecalculateVertexData()
+{
 	int istrLength = m_strText.GetLength();
-	stTexVertex * pVertices = DEBUG_NEW stTexVertex[istrLength * 4];
-	unsigned long * pIndices= DEBUG_NEW unsigned long[istrLength * 6];
-	int curX = 0;
+	m_iIndexCount = istrLength * 6;
+
+	m_iVertexCount = istrLength * 4;
+	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
+	
+	int curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
+	int curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
+
 	for (int i=0; i<istrLength; i++)
 	{
 		int val = (int)m_strText[i];
@@ -202,41 +254,90 @@ void cMyFont::VSetText(const cString & strText)
 		pVertices[i*4].m_fTex0 = (float) ch.x / (float) m_iTextureWidth;
 		pVertices[i*4].m_fTex1 = (float) (ch.y + ch.Height) / (float) m_iTextureHeight;
 		pVertices[i*4].m_fX = (float) curX + ch.XOffset;
-		pVertices[i*4].m_fY = (float) ch.Height + ch.YOffset;
+		pVertices[i*4].m_fY = (float) curY + ch.Height + ch.YOffset;
 		pVertices[i*4+1].m_fZ = 0.0f;
 
 		//upper left
 		pVertices[i*4+1].m_fTex0 = (float) ch.x/ (float) m_iTextureWidth;
 		pVertices[i*4+1].m_fTex1 = (float) ch.y / (float) m_iTextureHeight;
 		pVertices[i*4+1].m_fX = (float) curX + ch.XOffset;
-		pVertices[i*4+1].m_fY = (float) ch.YOffset;
+		pVertices[i*4+1].m_fY = (float) curY + ch.YOffset;
 		pVertices[i*4+1].m_fZ = 0.0f;
 
 		//lower right
 		pVertices[i*4+2].m_fTex0 = (float) (ch.x + ch.Width) / (float) m_iTextureWidth;
 		pVertices[i*4+2].m_fTex1 = (float) (ch.y + ch.Height) / (float)m_iTextureHeight;
-		pVertices[i*4+2].m_fX = (float) ch.Width + curX + ch.XOffset;
-		pVertices[i*4+2].m_fY = (float) ch.Height + ch.YOffset;
+		pVertices[i*4+2].m_fX = (float) curY + ch.Width + curX + ch.XOffset;
+		pVertices[i*4+2].m_fY = (float) curY + ch.Height + ch.YOffset;
 		pVertices[i*4+1].m_fZ = 0.0f;
 
 		//upper right
 		pVertices[i*4+3].m_fTex0 = (float) (ch.x + ch.Width) / (float)m_iTextureWidth;
 		pVertices[i*4+3].m_fTex1 = (float) ch.y / (float) m_iTextureHeight;
 		pVertices[i*4+3].m_fX = (float) ch.Width + curX + ch.XOffset;
-		pVertices[i*4+3].m_fY = (float) ch.YOffset;
+		pVertices[i*4+3].m_fY = (float) curY + ch.YOffset;
 		pVertices[i*4+1].m_fZ = 0.0f;
-
-		pIndices[i*6] = i*6;
-		pIndices[i*6+1] = i*6+1;
-		pIndices[i*6+2] = i*6+2;
-		pIndices[i*6+3] = i*6+1;
-		pIndices[i*6+4] = i*6+3;
-		pIndices[i*6+5] = i*6+2;
 
 		curX += ch.XAdvance;
 	}
+	if(!UpdateVertexBuffer(pVertices, m_iVertexCount))
+	{
+		SAFE_DELETE_ARRAY(pVertices);
+		return false;
+	}
 
 	SAFE_DELETE_ARRAY(pVertices);
-	SAFE_DELETE_ARRAY(pIndices);
+	return true;
+	/*m_vSize = cVector2(256, 256);
+	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
+	float right = left + m_vSize.m_dX;
+	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
+	float bottom = top - m_vSize.m_dY;
+
+	// Create the vertex array.
+	stTexVertex * pVertices = DEBUG_NEW stTexVertex [4];
+	pVertices[0] = stTexVertex(left, bottom, 0.0f, 0.0f, 1.0f);
+	pVertices[1] = stTexVertex(left, top, 0.0f, 0.0f, 0.0f);
+	pVertices[2] = stTexVertex(right, bottom, 0.0f, 1.0f, 1.0f);
+	pVertices[3] = stTexVertex(right, top, 0.0f, 1.0f, 0.0f);
+
+	if(!UpdateVertexBuffer(pVertices, 4))
+	{
+		SAFE_DELETE_ARRAY(pVertices);
+		return false;
+	}
+
+	SAFE_DELETE_ARRAY(pVertices);
+	return true;*/
+}
+// ***************************************************************
+bool cMyFont::VCreateIndexBuffer()
+{
+	m_iIndexCount = MAX_FILENAME_WIDTH * 6;
+	unsigned long * pIndices= DEBUG_NEW unsigned long[m_iIndexCount];
+	for (int i=0;i<MAX_FILENAME_WIDTH;i=i++)
+	{
+		pIndices[i*6] = i*4;
+		pIndices[i*6+1] = i*4+1;
+		pIndices[i*6+2] = i*4+2;
+		pIndices[i*6+3] = i*4+1;
+		pIndices[i*6+4] = i*4+3;
+		pIndices[i*6+5] = i*4+2;
+	}
 	
+	bool bSuccess = CreateIndexBuffer(pIndices);
+	SAFE_DELETE_ARRAY(pIndices);
+	return bSuccess;
+}
+
+void cMyFont::VRender(const ICamera * const pCamera)
+{
+	IDXBase::GetInstance()->VTurnOnAlphaBlending();
+	cSprite::VRender(pCamera);
+	IDXBase::GetInstance()->VTurnOffAlphaBlending();
+}
+// ***************************************************************
+void cMyFont::VSetPosition(const Base::cVector2 & vPosition)
+{
+	cSprite::VSetPosition(vPosition);
 }

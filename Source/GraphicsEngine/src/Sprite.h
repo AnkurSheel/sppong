@@ -15,6 +15,7 @@ namespace Graphics
 {
 	class ITexture;
 	class IShader;
+	struct stTexVertex;
 }
 
 namespace Graphics 
@@ -31,9 +32,9 @@ namespace Graphics
 		cSprite();
 		~cSprite();
 	
-	private:
-		bool VOnInitialization(shared_ptr<ITexture> const pTexture);
-		bool VOnInitialization(const Base::cString & strTextureFilename);
+	protected:
+		bool VInitialize(shared_ptr<ITexture> const pTexture);
+		bool VInitialize(const Base::cString & strTextureFilename);
 		void VRender(const ICamera * const pCamera);
 		void VCleanup();
 		void VSetPosition(const Base::cVector2 & vPosition);
@@ -49,22 +50,30 @@ namespace Graphics
 		 * 
 		 * Creates the index buffer using the indice data
 		 ***********************************************/
-		bool CreateIndexBuffer( );
+		virtual bool VCreateIndexBuffer( );
 		/********************************************//**
 		 * return True if the vertex buffer was updated successfully
 		 * 
 		 * Recalculates the coordinates and updates the vertex data if the position has changed
 		 ***********************************************/
-		bool UpdateBuffers();
+		virtual bool VRecalculateVertexData();
+		// ***************************************************************
+		bool UpdateVertexBuffer(const stTexVertex * const pVertices,
+			const int iNoOfVertices);
+		bool CreateIndexBuffer(const unsigned long * pIndices);
 
-	private:
+		bool InitializeShader();
+
+	protected:
 		ID3D11Buffer * 						m_pVertexBuffer;		/*!< The vertex buffer */
 		ID3D11Buffer *						m_pIndexBuffer;			/*!< The index buffer */
 		IShader *							m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
 		shared_ptr<Graphics::ITexture>		m_pTexture;				/*!< The Texture of the sprite */
 		Base::cVector2						m_vSize;				/*!< The size/scale in pixels */
-		Base::cVector2						m_vPrevPosition;		/*!< The position at which the sprite was previously rendered */
 		Base::cVector2						m_vPosition;			/*!< The current position of the sprite */
+		bool								m_bIsDirty;
+		int									m_iIndexCount;
+		int									m_iVertexCount;
 	};
 }
 #endif // Sprite_h__

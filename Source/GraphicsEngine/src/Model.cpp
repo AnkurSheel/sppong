@@ -56,7 +56,8 @@ bool Graphics::cModel::VOnInitialization(const stVertex * const pVertices,
 		return false;
 
 	m_pShader = IShader::CreateColorShader();
-	if (!m_pShader->VInitialize("resources\\Shaders\\colors.vsho", "resources\\Shaders\\colors.psho", 2))
+	if (!m_pShader->VInitialize("resources\\Shaders\\colors.vsho",
+		"resources\\Shaders\\colors.psho"))
 	{
 		return false;
 	}
@@ -85,7 +86,8 @@ bool Graphics::cModel::VOnInitialization( const stTexVertex * const pVertices,
 	m_pTexture->VInitialize(strTextureFilename);
 	
 	m_pShader = IShader::CreateTextureShader();
-	if (!m_pShader->VInitialize("resources\\Shaders\\Texture.vsho", "resources\\Shaders\\Texture.psho", 2))
+	if (!m_pShader->VInitialize("resources\\Shaders\\Texture.vsho",
+		"resources\\Shaders\\Texture.psho"))
 	{
 		return false;
 	}

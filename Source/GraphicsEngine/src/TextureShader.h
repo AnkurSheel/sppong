@@ -25,16 +25,15 @@ namespace Graphics
 		cTextureShader();
 		~cTextureShader();
 
-	private:
-		bool VInitialize(const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath, const int iNumberOfLayouts);
-		bool VCreateLayout( const int iNumberOfLayouts,
-			const Utilities::IFileInput * const pVertexShaderFile );
+	protected:
+		virtual bool VInitialize(const Base::cString & strVertexShaderPath,
+			const Base::cString & strPixelShaderPath);
+		bool VCreateLayout(const Utilities::IFileInput * const pVertexShaderFile );
 		virtual void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection, 
 			ID3D11ShaderResourceView * pTexture );
-		void VRenderShader();
-		void VCleanup();
+		virtual void VRenderShader();
+		virtual void VCleanup();
 
 	private:
 		ID3D11SamplerState *		m_pSampleState;		/*!< The sampler state pointer is used to interface with the texture shader */

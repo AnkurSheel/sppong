@@ -29,7 +29,6 @@ namespace Graphics
 		~cColorShader();
 
 	private:
-		bool VCreateLayout( const int iNumberOfLayouts,
-			const Utilities::IFileInput * const pVertexShaderFile );
+		bool VCreateLayout(const Utilities::IFileInput * const pVertexShaderFile );
 	};
 }

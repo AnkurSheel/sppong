@@ -152,6 +152,10 @@ void cGraphicsTestView::VRenderPrivate()
 			break;
 
 		case TEST_FONT:
+			if(m_pFont)
+			{
+				m_pFont->VRender(m_pCamera);
+			}
 			break;
 		}
 	}
@@ -469,8 +473,9 @@ void cGraphicsTestView::TestFont()
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 
 	m_pFont = IMyFont::CreateMyFont();
-	m_pFont->VInitialize("resources\\Font\\licorice.fnt");
+	m_pFont->VInitialize("Font\\", "licorice.fnt");
 	m_pFont->VSetText("Ankur");
+	m_pFont->VSetPosition(cVector2(100.0f, 100.0f));
 }
 
 // ***************************************************************
