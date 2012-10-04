@@ -94,8 +94,16 @@ bool cMyFont::VRecalculateVertexData()
 	m_iVertexCount = istrLength * 4;
 	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
 	
-	int curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
-	int curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
+	float curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
+	float curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
+	float left;
+	float right;
+	float top;
+	float bottom;
+	float u;
+	float v;
+	float u1;
+	float v1;
 
 	for (int i=0; i<istrLength; i++)
 	{
@@ -103,33 +111,20 @@ bool cMyFont::VRecalculateVertexData()
 		CharDescriptorMap::const_iterator curr = m_CharDescriptorMap.find(val);
 		const CharDescriptor ch = curr->second;
 
-		//lower left
-		pVertices[i*4].m_fTex0 = (float) ch.x / (float) m_iTextureWidth;
-		pVertices[i*4].m_fTex1 = (float) (ch.y + ch.Height) / (float) m_iTextureHeight;
-		pVertices[i*4].m_fX = (float) curX + ch.XOffset;
-		pVertices[i*4].m_fY = (float) curY + ch.Height + ch.YOffset;
-		pVertices[i*4+1].m_fZ = 0.0f;
+		left = curX + ch.XOffset;
+		right = left + ch.Width;
+		top = curY + ch.YOffset;
+		bottom = top - ch.Height;
+		u = float(ch.x)/ float (m_iTextureWidth);
+		v = float(ch.y)/ float (m_iTextureHeight);
+		u1 = float(ch.x + ch.Width) / float (m_iTextureWidth);
+		v1 = float(ch.y + ch.Height) / float (m_iTextureHeight);
 
-		//upper left
-		pVertices[i*4+1].m_fTex0 = (float) ch.x/ (float) m_iTextureWidth;
-		pVertices[i*4+1].m_fTex1 = (float) ch.y / (float) m_iTextureHeight;
-		pVertices[i*4+1].m_fX = (float) curX + ch.XOffset;
-		pVertices[i*4+1].m_fY = (float) curY + ch.YOffset;
-		pVertices[i*4+1].m_fZ = 0.0f;
-
-		//lower right
-		pVertices[i*4+2].m_fTex0 = (float) (ch.x + ch.Width) / (float) m_iTextureWidth;
-		pVertices[i*4+2].m_fTex1 = (float) (ch.y + ch.Height) / (float)m_iTextureHeight;
-		pVertices[i*4+2].m_fX = (float) curY + ch.Width + curX + ch.XOffset;
-		pVertices[i*4+2].m_fY = (float) curY + ch.Height + ch.YOffset;
-		pVertices[i*4+1].m_fZ = 0.0f;
-
-		//upper right
-		pVertices[i*4+3].m_fTex0 = (float) (ch.x + ch.Width) / (float)m_iTextureWidth;
-		pVertices[i*4+3].m_fTex1 = (float) ch.y / (float) m_iTextureHeight;
-		pVertices[i*4+3].m_fX = (float) ch.Width + curX + ch.XOffset;
-		pVertices[i*4+3].m_fY = (float) curY + ch.YOffset;
-		pVertices[i*4+1].m_fZ = 0.0f;
+		// Create the vertex array.
+		pVertices[i*4] = stTexVertex(left, bottom, 0.0f, u, v1);
+		pVertices[i*4+1] = stTexVertex(left, top, 0.0f, u, v);
+		pVertices[i*4+2] = stTexVertex(right, bottom, 0.0f, u1, v1);
+		pVertices[i*4+3] = stTexVertex(right, top, 0.0f, u1, v);
 
 		curX += ch.XAdvance;
 	}
@@ -141,27 +136,6 @@ bool cMyFont::VRecalculateVertexData()
 
 	SAFE_DELETE_ARRAY(pVertices);
 	return true;
-	/*m_vSize = cVector2(256, 256);
-	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
-	float right = left + m_vSize.m_dX;
-	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
-	float bottom = top - m_vSize.m_dY;
-
-	// Create the vertex array.
-	stTexVertex * pVertices = DEBUG_NEW stTexVertex [4];
-	pVertices[0] = stTexVertex(left, bottom, 0.0f, 0.0f, 1.0f);
-	pVertices[1] = stTexVertex(left, top, 0.0f, 0.0f, 0.0f);
-	pVertices[2] = stTexVertex(right, bottom, 0.0f, 1.0f, 1.0f);
-	pVertices[3] = stTexVertex(right, top, 0.0f, 1.0f, 0.0f);
-
-	if(!UpdateVertexBuffer(pVertices, 4))
-	{
-		SAFE_DELETE_ARRAY(pVertices);
-		return false;
-	}
-
-	SAFE_DELETE_ARRAY(pVertices);
-	return true;*/
 }
 
 // ***************************************************************
@@ -206,7 +180,7 @@ void cMyFont::ParseFontDesc(const cString & strFontDirPath,
 	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
 	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
 
-	std::vector<cString> vCharIDs;
+ 	std::vector<cString> vCharIDs;
 	pFile->VGetAllChildrenNames("chars", vCharIDs);
 	int iNoOfCharacters = vCharIDs.size();
 	CharDescriptor ch;
