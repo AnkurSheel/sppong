@@ -14,12 +14,14 @@
 using namespace Graphics;
 using namespace Base;
 using namespace Utilities;
+
 // ***************************************************************
 cFontShader::cFontShader()
 : m_pPixelBuffer(NULL)
 {
 
 }
+
 // ***************************************************************
 cFontShader::~cFontShader()
 {
@@ -53,12 +55,7 @@ bool cFontShader::VInitialize(const cString & strVertexShaderPath,
 
 	return true;
 }
-// ***************************************************************
-void Graphics::cFontShader::VCleanup()
-{
-	cTextureShader::VCleanup();
-	SAFE_RELEASE(m_pPixelBuffer);
-}
+
 // ***************************************************************
 void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 									   const D3DXMATRIX & inMatView,
@@ -96,9 +93,15 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 }
 
 // ***************************************************************
+void Graphics::cFontShader::VCleanup()
+{
+	cTextureShader::VCleanup();
+	SAFE_RELEASE(m_pPixelBuffer);
+}
+
+// ***************************************************************
 IShader * IShader::CreateFontShader()
 {
 	IShader * pShader= DEBUG_NEW cFontShader();
 	return pShader;
 }
-

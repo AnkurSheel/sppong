@@ -203,6 +203,7 @@ bool Graphics::cSprite::VRecalculateVertexData()
 	SAFE_DELETE_ARRAY(pVertices);
 	return true;
 }
+
 // ***************************************************************
 bool Graphics::cSprite::InitializeShader()
 {
@@ -214,6 +215,7 @@ bool Graphics::cSprite::InitializeShader()
 	}
 	return true;
 }
+
 // ***************************************************************
 bool Graphics::cSprite::UpdateVertexBuffer(const stTexVertex * const pVertices,
 										   const int iNoOfVertices)

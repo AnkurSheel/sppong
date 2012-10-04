@@ -100,7 +100,7 @@ namespace Graphics
 	private:
 		ID3D11VertexShader *	m_pVertexShader;	/*!< The vertex shader object */
 		ID3D11PixelShader *		m_pPixelShader;		/*!< The pixel shader object */
-		ID3D11Buffer *			m_pMatrixBuffer;	/*!< The vertex shader constant buffer */
+		ID3D11Buffer *			m_pMatrixBuffer;	/*!< The vertex shader constant buffer to store the matrix data*/
 	};
 }
 #endif // BaseShader_h__

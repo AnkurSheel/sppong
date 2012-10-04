@@ -28,14 +28,19 @@ namespace Graphics
 	{
 	public:
 		virtual ~IMyFont(){}
+		/********************************************//**
+ 		 * @param[in] strFontDirPath The directory path from the font description file
+		 * @param[in] strFontDescFilename The file name of the font description file
+		 *
+		 * Parses the font descrition file and sets up the character descriptors.
+		 * Creates and Initialises the font texture.
+		 ***********************************************/
 		virtual bool VInitialize(const Base::cString & strFontDirPath,
 			const Base::cString & strFontDescFilename) = 0;
-		//virtual void InitFont(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName) = 0;
-		virtual void VSetText(const Base::cString & strText) = 0;
 		/********************************************//**
  		 * @param[in] pCamera The camera which contains the current view matrix
 		 *
-		 * Puts the 2d texture on the video card to prepare it for drawing
+		 * Puts the text on the video card to prepare it for drawing
 		 * by the shader
 		 ***********************************************/
 		virtual void VRender(const ICamera * const pCamera) = 0;
@@ -45,12 +50,17 @@ namespace Graphics
 		 * Sets the position of the sprite
 		 ***********************************************/
 		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
-		//virtual void SetRect(const RECT & boundingRect) = 0;
-		//virtual void CalculateAndSetRect() = 0;
-		//virtual const RECT & GetRect() const = 0;
-		//virtual const RECT GetRect(const Base::cString & strText) const = 0;
-		//virtual void SetFormat(const DWORD dwFormat) = 0;
-		//virtual void SetTextColor(const D3DCOLOR & color) = 0;
+		/********************************************//**
+ 		 * @param[in] vPosition The text that needs to be displayed
+		 *
+		 * Sets the text that needs to be shown
+		 ***********************************************/
+		virtual void VSetText(const Base::cString & strText) = 0;
+		/********************************************//**
+		 * @return An object to use this interface
+		 *
+		 * Returns an object to use this interface
+		 ***********************************************/
 		GRAPHIC_API static shared_ptr<IMyFont> CreateMyFont();
 	} ;
 }

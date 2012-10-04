@@ -43,6 +43,13 @@ namespace Utilities
 		 ***********************************************/
 		virtual void VLoad(const Base::cString & strFilePath, Base::cString & strRootName) = 0;
 		/********************************************//**
+		 * @param[in] strXML The xml string
+		 * @param[out] size the size of the the string
+		 *
+		 * Parses an XML file from a character string
+		 ***********************************************/
+		virtual void VParse(const Base::cString & strXML, const unsigned int size) = 0;
+		/********************************************//**
 		 * @param[in] strParentElementID The ID of the parent element
 		 * @param[in] strComment The comment text
 		 *
@@ -104,8 +111,6 @@ namespace Utilities
 		 * Returns an object to use this interface
 		 ***********************************************/
 		UTILITIES_API static IXMLFileIO * CreateXMLFile();
-		// ***************************************************************
-		virtual void VParse(const char * const xml, const unsigned int size) = 0;
 	};
 }
 #endif // XMLFileIO_h__

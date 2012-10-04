@@ -51,6 +51,51 @@ void cXMLFileIO::VInitializeForSave(const Base::cString & strRootName,
 	m_ElementMap.insert(std::make_pair(strRootName.GetData(), pRoot));
 }
 
+
+// ***************************************************************
+void cXMLFileIO::VLoad( const cString & strFilePath, cString & strRootName )
+{
+	VLoad(strFilePath);
+	strRootName = m_pDoc->RootElement()->Value();
+}
+
+// ***************************************************************
+void cXMLFileIO::VLoad( const cString & strFilePath)
+{
+	Log_Write_L1(ILogger::LT_DEBUG, "loading XML file " + strFilePath);
+	SAFE_DELETE(m_pDoc);
+	m_pDoc = DEBUG_NEW XMLDocument();
+	if (m_pDoc->LoadFile(strFilePath.GetData()) != XML_NO_ERROR)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not load XML file " + strFilePath);
+		return;
+	}
+
+	XMLElement * pRoot = m_pDoc->FirstChildElement();
+	m_ElementMap.insert(std::make_pair(pRoot->Name(), pRoot));
+
+	AddChildElements(pRoot);
+}
+
+// ***************************************************************
+void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
+{
+	Log_Write_L1(ILogger::LT_DEBUG, "Parsing XML file ");
+	SAFE_DELETE(m_pDoc);
+	m_pDoc = DEBUG_NEW XMLDocument();
+	
+	if (m_pDoc->Parse(strXML.GetData(), size) != XML_NO_ERROR)
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not parse XML file");
+		return;
+	}
+
+	XMLElement * pRoot = m_pDoc->FirstChildElement();
+	m_ElementMap.insert(std::make_pair(pRoot->Name(), pRoot));
+
+	AddChildElements(pRoot);
+}
+
 // ***************************************************************
 void cXMLFileIO::VAddComment( const cString & strParentElementID, 
 							 const cString & strComment )
@@ -114,31 +159,6 @@ void cXMLFileIO::AddAttribute( const cString & strId, const cString & strAttribu
 void cXMLFileIO::Save( const cString & strFilePath )
 {
 	m_pDoc->SaveFile(strFilePath.GetData());
-}
-
-// ***************************************************************
-void cXMLFileIO::VLoad( const cString & strFilePath, cString & strRootName )
-{
-	VLoad(strFilePath);
-	strRootName = m_pDoc->RootElement()->Value();
-}
-
-// ***************************************************************
-void cXMLFileIO::VLoad( const cString & strFilePath)
-{
-	Log_Write_L1(ILogger::LT_DEBUG, "loading XML file " + strFilePath);
-	SAFE_DELETE(m_pDoc);
-	m_pDoc = DEBUG_NEW XMLDocument();
-	if (m_pDoc->LoadFile(strFilePath.GetData()) != XML_NO_ERROR)
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not load XML file " + strFilePath);
-		return;
-	}
-
-	XMLElement * pRoot = m_pDoc->FirstChildElement();
-	m_ElementMap.insert(std::make_pair(pRoot->Name(), pRoot));
-
-	AddChildElements(pRoot);
 }
 
 // ***************************************************************
@@ -240,25 +260,6 @@ int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
 		return 0;
 	}
 	return *val;
-}
-
-// ***************************************************************
-void cXMLFileIO::VParse(const char * const xml, const unsigned int size)
-{
-	Log_Write_L1(ILogger::LT_DEBUG, "Parsing XML file ");
-	SAFE_DELETE(m_pDoc);
-	m_pDoc = DEBUG_NEW XMLDocument();
-	
-	if (m_pDoc->Parse(xml, size) != XML_NO_ERROR)
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not parse XML file");
-		return;
-	}
-
-	XMLElement * pRoot = m_pDoc->FirstChildElement();
-	m_ElementMap.insert(std::make_pair(pRoot->Name(), pRoot));
-
-	AddChildElements(pRoot);
 }
 
 // ***************************************************************

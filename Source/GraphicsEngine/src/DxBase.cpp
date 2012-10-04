@@ -160,6 +160,7 @@ void Graphics::cDXBase::VTurnZBufferOff()
 {
 	m_pDeviceContext->OMSetDepthStencilState(m_p2DDepthStencilState, 1);
 }
+
 // ***************************************************************
 void Graphics::cDXBase::VTurnOnAlphaBlending()
 {
@@ -173,6 +174,7 @@ void Graphics::cDXBase::VTurnOnAlphaBlending()
 	// Turn on the alpha blending.
 	m_pDeviceContext->OMSetBlendState(m_pAlphaEnableBlendingState, blendFactor, 0xffffffff);
 }
+
 // ***************************************************************
 void Graphics::cDXBase::VTurnOffAlphaBlending()
 {
@@ -186,6 +188,7 @@ void Graphics::cDXBase::VTurnOffAlphaBlending()
 	// Turn on the alpha blending.
 	m_pDeviceContext->OMSetBlendState(m_pAlphaDisableBlendingState, blendFactor, 0xffffffff);
 }
+
 // ***************************************************************
 bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen )
 {

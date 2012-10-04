@@ -23,169 +23,18 @@ using namespace Base;
 using namespace Utilities;
 
 // ***************************************************************
-// Constructor
-// ***************************************************************
 cMyFont::cMyFont()
 : m_iTextureWidth(0)
 , m_iTextureHeight(0)
-//: m_pFont(NULL)
-//, m_Color(cColor::BLACK.GetColor())
-//, m_bVisible(true)
-//, m_iSpaceWidth(0)
 {
-	//m_boundingRect.top = 0;
-	//m_boundingRect.bottom = 0;
-	//m_boundingRect.left = 0;
-	//m_boundingRect.right = 0;
 }
-// ***************************************************************
 
-// ***************************************************************
-// Constructor
 // ***************************************************************
 cMyFont::~cMyFont()
 {
 	VCleanup();
 }
-// ***************************************************************
-//
-//// ***************************************************************
-//// Initializes the font
-//// ***************************************************************
-//void cMyFont::InitFont(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const cString & strFaceName )
-//{
-//	ZeroMemory(&m_fonttype, sizeof(D3DXFONT_DESC)) ;
-//	m_fonttype.Height		= iHeight ;
-//	m_fonttype.Width		= iWidth ;
-//	m_fonttype.Weight		= iWeight ;
-//	m_fonttype.Italic		= bItalic ;
-//	m_fonttype.CharSet		= charset ;
-//	strcpy_s(m_fonttype.FaceName, LF_FACESIZE, strFaceName.GetData()) ;
-//
-//	D3DXCreateFontIndirect(IDXBase::GetInstance()->VGetDevice(), &m_fonttype, &m_pFont) ;
-//
-//	RECT rctA = {0,0,0,0};
-//	m_pFont->DrawText(NULL, "_", -1, &rctA, DT_CALCRECT, cColor::BLACK.GetColor());
-//
-//	m_iSpaceWidth = rctA.right - rctA.left;
-//}
-//// ***************************************************************
-//
-//// ***************************************************************
-//// Displays the text
-//// ***************************************************************
-//void cMyFont::VOnRender(const Graphics::AppMsg & msg)
-//{	
-//	m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, m_dwFormat, m_Color) ;
-//}
-//// ***************************************************************
-//
-//void cMyFont::VOnLostDevice()
-//{
-//	Cleanup();
-//}
-//// ***************************************************************
-//
-//HRESULT cMyFont::VOnResetDevice()
-//{
-//	return D3DXCreateFontIndirect(IDXBase::GetInstance()->VGetDevice(), &m_fonttype, &m_pFont);
-//}
-//// ***************************************************************
 
-void cMyFont::VCleanup()
-{
-	cSprite::VCleanup();
-	m_CharDescriptorMap.clear();
-	//SAFE_DELETE_ARRAY(m_pChars);
-	//SAFE_RELEASE(m_pFont);
-}
-// ***************************************************************
-//
-//void Graphics::cMyFont::CalculateAndSetRect()
-//{
-//	if (m_strString.IsEmpty())
-//	{
-//		Log_Write_L2(ILogger::LT_ERROR, "m_strString is empty");
-//	}
-//	if (m_pFont)
-//	{
-//		m_pFont->DrawText(NULL, m_strString.GetData(), -1, &m_boundingRect, DT_CALCRECT, m_Color);
-//		AddTrailingSpaceWidth(m_strString, m_boundingRect);
-//	}
-//}
-//// ***************************************************************
-//
-//const RECT Graphics::cMyFont::GetRect( const Base::cString & strText ) const
-//{
-//	if (strText.IsEmpty())
-//	{
-//		Log_Write_L2(ILogger::LT_ERROR, "Calculating Boundary Rectangle for Empty String");
-//	}
-//	RECT boundingRect;
-//	boundingRect.top = 0;
-//	boundingRect.bottom = 0;
-//	boundingRect.left = 0;
-//	boundingRect.right = 0;
-//	m_pFont->DrawText(NULL, strText.GetData(), -1, &boundingRect, DT_CALCRECT, m_Color);
-//	AddTrailingSpaceWidth(strText, boundingRect);
-//	return boundingRect;
-//}
-//// ***************************************************************
-//
-//void Graphics::cMyFont::AddTrailingSpaceWidth( const Base::cString & strText , RECT & boundingRect ) const
-//{
-//	int index = strText.GetLength() - 1;
-//	while(strText.GetData()[index] == ' ')
-//	{
-//		boundingRect.right += m_iSpaceWidth;
-//		index--;
-//	}
-//}
-// ***************************************************************
-// Creates a font
-// ***************************************************************
-shared_ptr<IMyFont> IMyFont::CreateMyFont()
-{
-	return shared_ptr<IMyFont> (DEBUG_NEW cMyFont());
-}
-// ***************************************************************
-
-// ***************************************************************
-void cMyFont::ParseFontDesc(const cString & strFontDirPath,
-							const cString & strFontDescFilename)
-{
-	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
-
-	IResource * pResource = IResource::CreateResource(strFontDirPath + strFontDescFilename);
-	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
-	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
-
-	pFile->VGetNodeAttribute("page0", "file", m_strFontTexPath);
-	m_strFontTexPath = strFontDirPath + m_strFontTexPath;
-	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
-	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
-
-	std::vector<cString> vCharIDs;
-	pFile->VGetAllChildrenNames("chars", vCharIDs);
-	int iNoOfCharacters = vCharIDs.size();
-	CharDescriptor ch;
-	for (int i=0; i<iNoOfCharacters; i++)
-	{
-		ch.id = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "id");
-		ch.x = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "x");
-		ch.y = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "y");
-		ch.Width = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "width");
-		ch.Height = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "height");
-		ch.XOffset = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "xoffset");
-		ch.YOffset = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "yoffset");
-		ch.XAdvance = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "xadvance");
-		
-		m_CharDescriptorMap.insert(std::make_pair(ch.id, ch));
-	}
-	SAFE_DELETE(pFile);
-	SAFE_DELETE(pResource);
-
-}
 // ***************************************************************
 bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
 						  const Base::cString & strFontDescFilename)
@@ -214,6 +63,21 @@ bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
 	return true;
 	
 }
+
+// ***************************************************************
+void cMyFont::VRender(const ICamera * const pCamera)
+{
+	IDXBase::GetInstance()->VTurnOnAlphaBlending();
+	cSprite::VRender(pCamera);
+	IDXBase::GetInstance()->VTurnOffAlphaBlending();
+}
+
+// ***************************************************************
+void cMyFont::VSetPosition(const Base::cVector2 & vPosition)
+{
+	cSprite::VSetPosition(vPosition);
+}
+
 // ***************************************************************
 void cMyFont::VSetText(const cString & strText)
 {
@@ -221,17 +85,6 @@ void cMyFont::VSetText(const cString & strText)
 	m_bIsDirty = true;
 }
 
-// ***************************************************************
-bool cMyFont::InitializeShader()
-{
-	m_pShader = IShader::CreateFontShader();
-	if (!m_pShader->VInitialize("resources\\Shaders\\Font.vsho",
-		"resources\\Shaders\\Font.psho"))
-	{
-		return false;
-	}
-	return true;
-}
 // ***************************************************************
 bool cMyFont::VRecalculateVertexData()
 {
@@ -310,6 +163,7 @@ bool cMyFont::VRecalculateVertexData()
 	SAFE_DELETE_ARRAY(pVertices);
 	return true;*/
 }
+
 // ***************************************************************
 bool cMyFont::VCreateIndexBuffer()
 {
@@ -330,14 +184,64 @@ bool cMyFont::VCreateIndexBuffer()
 	return bSuccess;
 }
 
-void cMyFont::VRender(const ICamera * const pCamera)
-{
-	IDXBase::GetInstance()->VTurnOnAlphaBlending();
-	cSprite::VRender(pCamera);
-	IDXBase::GetInstance()->VTurnOffAlphaBlending();
-}
 // ***************************************************************
-void cMyFont::VSetPosition(const Base::cVector2 & vPosition)
+void cMyFont::VCleanup()
 {
-	cSprite::VSetPosition(vPosition);
+	cSprite::VCleanup();
+	m_CharDescriptorMap.clear();
+}
+
+// ***************************************************************
+void cMyFont::ParseFontDesc(const cString & strFontDirPath,
+							const cString & strFontDescFilename)
+{
+	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
+
+	IResource * pResource = IResource::CreateResource(strFontDirPath + strFontDescFilename);
+	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
+
+	pFile->VGetNodeAttribute("page0", "file", m_strFontTexPath);
+	m_strFontTexPath = strFontDirPath + m_strFontTexPath;
+	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
+	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
+
+	std::vector<cString> vCharIDs;
+	pFile->VGetAllChildrenNames("chars", vCharIDs);
+	int iNoOfCharacters = vCharIDs.size();
+	CharDescriptor ch;
+	for (int i=0; i<iNoOfCharacters; i++)
+	{
+		ch.id = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "id");
+		ch.x = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "x");
+		ch.y = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "y");
+		ch.Width = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "width");
+		ch.Height = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "height");
+		ch.XOffset = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "xoffset");
+		ch.YOffset = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "yoffset");
+		ch.XAdvance = pFile->VGetNodeAttributeAsInt(vCharIDs[i], "xadvance");
+		
+		m_CharDescriptorMap.insert(std::make_pair(ch.id, ch));
+	}
+	SAFE_DELETE(pFile);
+	SAFE_DELETE(pResource);
+
+}
+
+// ***************************************************************
+bool cMyFont::InitializeShader()
+{
+	m_pShader = IShader::CreateFontShader();
+	if (!m_pShader->VInitialize("resources\\Shaders\\Font.vsho",
+		"resources\\Shaders\\Font.psho"))
+	{
+		return false;
+	}
+	return true;
+}
+
+// ***************************************************************
+shared_ptr<IMyFont> IMyFont::CreateMyFont()
+{
+	return shared_ptr<IMyFont> (DEBUG_NEW cMyFont());
 }

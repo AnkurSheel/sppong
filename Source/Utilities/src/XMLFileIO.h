@@ -44,6 +44,7 @@ namespace Utilities
 			const Base::cString & strStyleSheetPath);
 		void VLoad(const Base::cString & strFilePath);
 		void VLoad(const Base::cString & strFilePath, Base::cString & strRootName);
+		void VParse(const Base::cString & strXML, const unsigned int size);
 		void VAddComment(const Base::cString & strParentElementID,
 			const Base::cString & strComment);
 		Base::cString VAddElement( const Base::cString & strParentName, 
@@ -69,7 +70,7 @@ namespace Utilities
 		 * to the element name and stores it in strName
 		 ***********************************************/
 		void GetUniqueNameForMap(const tinyxml2::XMLElement * const pElement, Base::cString & strName);
-		void VParse(const char * const xml, const unsigned int size);
+	
 	private:
 		typedef std::multimap<Base::cString , const tinyxml2::XMLElement*> ElementMap;
 

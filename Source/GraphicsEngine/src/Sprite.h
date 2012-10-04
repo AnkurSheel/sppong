@@ -40,12 +40,6 @@ namespace Graphics
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VSetSize(const Base::cVector2 & vSize);
 		/********************************************//**
-		 * return True if the vertex buffer was created successfully
-		 *
-		 * Creates the vertex buffer using the vertex data
-		 ***********************************************/
-		bool CreateVertexBuffer();
-		/********************************************//**
 		 * return True if the index buffer was created successfully
 		 * 
 		 * Creates the index buffer using the indice data
@@ -57,11 +51,32 @@ namespace Graphics
 		 * Recalculates the coordinates and updates the vertex data if the position has changed
 		 ***********************************************/
 		virtual bool VRecalculateVertexData();
-		// ***************************************************************
+		/********************************************//**
+		 * return True if the vertex buffer was created successfully
+		 *
+		 * Creates the vertex buffer using the vertex data
+		 ***********************************************/
+		bool CreateVertexBuffer();
+		/********************************************//**
+		 * return True if the vertex buffer was created successfully
+		 *
+		 * Creates the index buffer using the index data
+		 ***********************************************/
+		bool CreateIndexBuffer(const unsigned long * pIndices);
+		/********************************************//**
+		 * @param[in] pVertices The vertex data
+		 * @param[in] iNoOfVertices The number of vertices
+		 * return True if the vertex buffer was updated successfully
+		 *
+		 * Maps the vertex buffer with the vertex data
+		 ***********************************************/
 		bool UpdateVertexBuffer(const stTexVertex * const pVertices,
 			const int iNoOfVertices);
-		bool CreateIndexBuffer(const unsigned long * pIndices);
-
+	private:
+		/********************************************//**
+		 *
+		 * Creates and Initializes the font shader for use
+		 ***********************************************/
 		bool InitializeShader();
 
 	protected:
@@ -71,9 +86,9 @@ namespace Graphics
 		shared_ptr<Graphics::ITexture>		m_pTexture;				/*!< The Texture of the sprite */
 		Base::cVector2						m_vSize;				/*!< The size/scale in pixels */
 		Base::cVector2						m_vPosition;			/*!< The current position of the sprite */
-		bool								m_bIsDirty;
-		int									m_iIndexCount;
-		int									m_iVertexCount;
+		bool								m_bIsDirty;				/*!< True if the vertex data needs to be recalculated */
+		int									m_iIndexCount;			/*!< The number of indices that have to be displayed */
+		int									m_iVertexCount;			/*!< The number of vertices that have to be displayed */
 	};
 }
 #endif // Sprite_h__

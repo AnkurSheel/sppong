@@ -12,6 +12,10 @@
 
 namespace Graphics
 {
+    /********************************************//**
+     * @brief Class use to invoke HLSL shaders for
+	 * displaying text on screen
+     ***********************************************/
 	class cFontShader
 		: public cTextureShader
 	{
@@ -19,6 +23,7 @@ namespace Graphics
 		{
 			D3DXVECTOR4 pixelColor;
 		};
+
 	public:
 		cFontShader();
 		~cFontShader();
@@ -32,6 +37,6 @@ namespace Graphics
 		void VCleanup();
 
 	private:
-		ID3D11Buffer *	 m_pPixelBuffer;
+		ID3D11Buffer *	 m_pPixelBuffer;	/*!< The vertex shader constant buffer to store the pixel color data*/
 	};
 }

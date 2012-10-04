@@ -75,7 +75,7 @@ namespace Graphics
 		/********************************************//**
 		 * @return False if there was an error
 		 *
-		 * Creates and sets the depth stencil state.
+		 * Creates the depth stencil state for 3D.
 		 ***********************************************/
 		bool SetupDepthStencilStateFor3D();
 		/********************************************//**
@@ -155,24 +155,24 @@ namespace Graphics
 		static IDXBase * s_pDXBase;								/*!< static object of this class */
 
 	private:
-		bool						m_bVsyncEnabled;			/*!< True if we want Direct3D to render according to the users monitor refresh rate. False if want it to go as fast as possible. */
-		IDXGISwapChain *			m_pSwapChain;				/*!< The swap chain is the front and back buffer to which the graphics will be drawn. */
-		ID3D11Device *				m_pDevice;					/*!< Pointer to the directX device to create resources */
-		ID3D11DeviceContext *		m_pDeviceContext;			/*!< Pointer to a directX device context which generates rendering commands*/
-		ID3D11RenderTargetView *	m_pRenderTargetView;		/*!< The back buffer to be used as the render target */
-		ID3D11Texture2D *			m_pDepthStencilBuffer;		/*!< Depth Buffer used to render polygons in 3D space */
-		ID3D11DepthStencilState *	m_p3DDepthStencilState;		/*!< The depth stencil state allows us to control what type of depth test Direct3D will do for each pixel */
-		ID3D11DepthStencilState *	m_p2DDepthStencilState;		/*!< The depth stencil state for 2D drawing */
-		ID3D11DepthStencilView *	m_pDepthStencilView;		/*!< The depth stencil view for the render target */
-		ID3D11RasterizerState *		m_pRasterState;				/*!< The rasterizer state give us control over how polygons are rendered. */
-		D3DXMATRIX					m_matProjection;			/*!< The projection matrix is used to translate the 3D scene into a 2D viewport space */
-		D3DXMATRIX					m_matWorld;					/*!< The world matrix is used to convert the vertices of our objects into vertices in the 3D scene. */
-		D3DXMATRIX					m_matOrtho;					/*!< The orthographic projection matrix is used for rendering 2D elements on the screen allowing us to skip the 3D rendering */
-		float						m_afBackGroundcolor[4];		/*!< The componnets for the back */
-		int							m_iScreenWidth;				/*!< Screen width */
-		int							m_iScreenHeight;			/*!< Screen height */
-		ID3D11BlendState *			m_pAlphaEnableBlendingState;
-		ID3D11BlendState *			m_pAlphaDisableBlendingState;
+		bool						m_bVsyncEnabled;				/*!< True if we want Direct3D to render according to the users monitor refresh rate. False if want it to go as fast as possible. */
+		IDXGISwapChain *			m_pSwapChain;					/*!< The swap chain is the front and back buffer to which the graphics will be drawn. */
+		ID3D11Device *				m_pDevice;						/*!< Pointer to the directX device to create resources */
+		ID3D11DeviceContext *		m_pDeviceContext;				/*!< Pointer to a directX device context which generates rendering commands*/
+		ID3D11RenderTargetView *	m_pRenderTargetView;			/*!< The back buffer to be used as the render target */
+		ID3D11Texture2D *			m_pDepthStencilBuffer;			/*!< Depth Buffer used to render polygons in 3D space */
+		ID3D11DepthStencilState *	m_p3DDepthStencilState;			/*!< The depth stencil state allows us to control what type of depth test Direct3D will do for each pixel */
+		ID3D11DepthStencilState *	m_p2DDepthStencilState;			/*!< The depth stencil state for 2D drawing */
+		ID3D11DepthStencilView *	m_pDepthStencilView;			/*!< The depth stencil view for the render target */
+		ID3D11RasterizerState *		m_pRasterState;					/*!< The rasterizer state give us control over how polygons are rendered. */
+		D3DXMATRIX					m_matProjection;				/*!< The projection matrix is used to translate the 3D scene into a 2D viewport space */
+		D3DXMATRIX					m_matWorld;						/*!< The world matrix is used to convert the vertices of our objects into vertices in the 3D scene. */
+		D3DXMATRIX					m_matOrtho;						/*!< The orthographic projection matrix is used for rendering 2D elements on the screen allowing us to skip the 3D rendering */
+		float						m_afBackGroundcolor[4]	;		/*!< The componnets for the back */
+		int							m_iScreenWidth;					/*!< Screen width */
+		int							m_iScreenHeight;				/*!< Screen height */
+		ID3D11BlendState *			m_pAlphaEnableBlendingState;	/*!< The blend state with AlphaBlending enabled */
+		ID3D11BlendState *			m_pAlphaDisableBlendingState;	/*!< The blend state with AlphaBlending disbaled */
 	};
 }
 #endif // DxBase_h__

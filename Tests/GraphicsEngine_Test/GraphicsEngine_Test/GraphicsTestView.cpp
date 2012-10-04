@@ -454,7 +454,7 @@ void cGraphicsTestView::TestSprite()
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pSprite = ISprite::CreateSprite();
-	m_pSprite->VOnInitialization("Test\\seafloor.dds");
+	m_pSprite->VInitialize("Test\\seafloor.dds");
 	m_pSprite->VSetPosition(cVector2(100.0f, 100.0f));
 	m_pSprite->VSetSize(cVector2(256, 256.0f));
 }
