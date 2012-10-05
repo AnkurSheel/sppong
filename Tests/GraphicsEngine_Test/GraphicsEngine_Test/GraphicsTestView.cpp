@@ -264,7 +264,7 @@ void cGraphicsTestView::TestUIControls()
 	//
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, 
 		"Test\\window.png", false);
-	m_pParentControl->VAddChildControl(pWindowControl);
+	m_pAppWindowControl->VAddChildControl(pWindowControl);
 	pWindowControl->VSetPosition(cVector2(300.f, 300.f));
 	pWindowControl->VSetSize(cVector2(400, 400));
 	//

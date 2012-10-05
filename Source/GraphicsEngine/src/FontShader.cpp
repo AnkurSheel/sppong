@@ -18,7 +18,7 @@ using namespace Utilities;
 // ***************************************************************
 cFontShader::cFontShader()
 : m_pPixelBuffer(NULL)
-, m_pixelColor(1.0f, 1.0f, 1.0f, 1.0f)
+, m_pTextColor(1.0f, 1.0f, 1.0f, 1.0f)
 {
 
 }
@@ -80,7 +80,7 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 	PixelBufferType * pPixelData = (PixelBufferType*)mappedResource.pData;
 
 	// Copy the pixel color into the pixel constant buffer.
-	pPixelData->pixelColor = m_pixelColor;
+	pPixelData->pixelColor = m_pTextColor;
 
 	// Unlock the pixel constant buffer.
 	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pPixelBuffer, 0);
@@ -104,7 +104,7 @@ void Graphics::cFontShader::SetTextColor(const Base::cColor & colorText)
 {
 	float fRed, fBlue, fGreen, fAlpha;
 	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
-	m_pixelColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
+	m_pTextColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
 }
 
 // ***************************************************************

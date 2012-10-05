@@ -90,7 +90,6 @@ void cMyFont::VSetTextColor(const Base::cColor & colorText)
 {
 	cFontShader * pFontShader = static_cast<cFontShader *>(m_pShader);
 	pFontShader->SetTextColor(colorText);
-
 }
 
 // ***************************************************************

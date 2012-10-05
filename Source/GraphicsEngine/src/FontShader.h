@@ -27,6 +27,11 @@ namespace Graphics
 	public:
 		cFontShader();
 		~cFontShader();
+		/********************************************//**
+ 		 * @param[in] colorText The text color
+		 *
+		 * Sets the color of the text
+		 ***********************************************/
 		void SetTextColor(const Base::cColor & colorText);
 
 	private:
@@ -38,7 +43,7 @@ namespace Graphics
 		void VCleanup();
 	
 	private:
-		ID3D11Buffer *	m_pPixelBuffer;	/*!< The vertex shader constant buffer to store the pixel color data*/
-		D3DXVECTOR4		m_pixelColor;
+		ID3D11Buffer *	m_pPixelBuffer;	/*!< The vertex shader constant buffer to store the pixel color data */
+		D3DXVECTOR4		m_pTextColor;	/*!< The text color */
 	};
 }

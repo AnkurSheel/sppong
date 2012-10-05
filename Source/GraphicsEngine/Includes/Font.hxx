@@ -58,11 +58,16 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetText(const Base::cString & strText) = 0;
 		/********************************************//**
+ 		 * @param[in] colorText The text color
+		 *
+		 * Sets the color of the text
+		 ***********************************************/
+		virtual void VSetTextColor(const Base::cColor & colorText) = 0;
+		/********************************************//**
 		 * @return An object to use this interface
 		 *
 		 * Returns an object to use this interface
 		 ***********************************************/
-		virtual void VSetTextColor(const Base::cColor & colorText) = 0;
 		GRAPHIC_API static shared_ptr<IMyFont> CreateMyFont();
 	} ;
 }

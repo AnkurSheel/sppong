@@ -57,6 +57,7 @@ namespace Graphics
 		void VRender(const ICamera * const pCamera);
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VSetText(const Base::cString & strText);
+		void VSetTextColor(const Base::cColor & colorText);
 		bool VRecalculateVertexData();
 		bool VCreateIndexBuffer( );
 		void VCleanup();
@@ -73,7 +74,6 @@ namespace Graphics
 		 * Creates and Initializes the font shader for use
 		 ***********************************************/
 		bool InitializeShader();
-		void VSetTextColor(const Base::cColor & colorText);
 
 	private:
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;

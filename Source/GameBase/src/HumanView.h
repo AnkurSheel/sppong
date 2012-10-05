@@ -56,8 +56,6 @@ namespace GameBase
 		GAMEBASE_API void SetCursorVisible(bool bVisible);
 		GAMEBASE_API GAMEVIEWTYPE VGetType();
 		GAMEBASE_API GameViewId VGetId() const;
-		GAMEBASE_API float GetWidth();
-		GAMEBASE_API float GetHeight();
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();
@@ -85,7 +83,7 @@ namespace GameBase
 		bool							m_bLockedKeys[KEYBOARD_KEYS];
 
 	public:
-		Graphics::IBaseControl *		m_pParentControl;
+		Graphics::IBaseControl *		m_pAppWindowControl;
 
 	};
 }

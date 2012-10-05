@@ -28,45 +28,38 @@ namespace Graphics
 		, public Base::cNonCopyable
 	{
 	public:
-		cBaseControl * GetNextSibling() const;
 		void VSetVisible(bool bIsVisible);
+
+		cBaseControl * GetNextSibling() const;
 
 	protected:
 		cBaseControl();
 		virtual ~cBaseControl();
-		void VOnRender(const ICamera * const pCamera );
+		void VRender(const ICamera * const pCamera );
 		virtual bool VOnLeftMouseButtonUp(const int X, const int Y);
 		virtual bool VOnLeftMouseButtonDown(const int X, const int Y);
+		virtual void VSetPosition(const Base::cVector2 & vPosition);
+		virtual void VSetSize(const Base::cVector2 vSize);
+
 		virtual bool VOnMouseMove(const int X, const int Y);
 		virtual bool VOnKeyDown(const Base::AppMsg & msg);
-		virtual void VSetSize(const Base::cVector2 vSize);
-		virtual void VSetPosition(const Base::cVector2 & vPosition);
 		virtual void VSetAbsolutePosition();
-		//D3DXVECTOR3 VGetPosition() const;
 		float VGetWidth() const;
 		float VGetHeight() const;
 		void SetFocusControl(const cBaseControl * const pControl);
-		bool VIsVisible() const;
 		cBaseControl * GetFirstChild() const;
 
 	private:
 		bool VPostMsg(const Base::AppMsg & msg);
-		virtual bool VOnKeyUp(const Base::AppMsg & msg);
-		IBaseControl * VAddChildControl( IBaseControl * const pChildControl);
+		void VAddChildControl( IBaseControl * const pChildControl);
 		void VRemoveAllChildren();
-		void VRegisterCallBack(function <void (bool)> callback){};
-		void VUnregisterCallBack(){};
+		void VRemoveChildControl(const IBaseControl * pChildControl);
+
+		virtual bool VOnKeyUp(const Base::AppMsg & msg);
 		bool AllowMovingControl();
 		void ConstrainChildControl( double & dx, double & dy );
-		void VRemoveChildControl(const IBaseControl * pChildControl);
-		//int GetNoOfChildren() const;
-		//cBaseControl * GetParentControl();
-		//shared_ptr<ISprite> GetSprite() const;
 		cBaseControl * GetPreviousSibling() const;
-		//cBaseControl * GetFocusControl();
-		//bool GetVisible() const;
 		void SetParentControl( cBaseControl * pParentControl );
-		//void SetSprite( shared_ptr<ISprite> pSprite );
 		void SetNextSibling( cBaseControl * pControl );
 		void SetPreviousSibling( cBaseControl * temp );
 		cBaseControl * PostToAll(const Base::AppMsg & msg);
@@ -74,10 +67,11 @@ namespace Graphics
 		void MoveToFront(cBaseControl * const pControl);
 		bool IsCursorIntersect(const float fX, const float fY);
 		void RenderInReverse(cBaseControl * const pControl, const ICamera * const pCamera);
+	
 	protected:
 		shared_ptr<ISprite>			m_pCanvasSprite; 
 		Base::cVector2				m_vControlAbsolutePosition;
-		Base::cVector2				m_vSpriteSize;
+		Base::cVector2				m_vSize;
 		bool						m_bFocus;
 		bool						m_bAllowMovingControls;
 		Base::cVector2				m_vPosition;		
@@ -94,6 +88,5 @@ namespace Graphics
 		int							m_iMouseDownXPos;
 		int							m_iMouseDownYPos;
 	};
-	#include "BaseControl.inl"
 }
 #endif // BaseControl_h__

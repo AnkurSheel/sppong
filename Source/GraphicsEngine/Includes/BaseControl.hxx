@@ -34,26 +34,66 @@ namespace Graphics
 		WT_STANDARD,
 	};
 
+	/********************************************//**
+	 * @brief Interface for All UI controls.
+	 *
+	 * Used to create UI controls such as Window, Label, 
+	 * Button, CheckBox, TextBox and ScrollBars
+	 ***********************************************/
 	class IBaseControl
-		: public IMouseHandler
-		, public IScreenElement
+		: public IScreenElement
+		, public IMouseHandler
 	{
 	public:
 		virtual ~IBaseControl(){}
+		/********************************************//**
+ 		 * @param[in] msg The window message that needs to be processed
+		 * return True if the message is handled by this control or one of its children
+		 *
+		 * Checks if any of the child controls can handle the message. If no child
+		 * controls can handle the message it tries to handle the message itself.
+		 * Returns true if the message is handled. False otherwise
+		 ***********************************************/
 		virtual bool VPostMsg(const Base::AppMsg & msg) = 0;
-		virtual void VOnRender(const ICamera * const pCamera) = 0;
-		virtual IBaseControl * VAddChildControl( IBaseControl * const pChildControl) = 0;
+		/********************************************//**
+ 		 * @param[in] pChildControl The control that needs to be added
+		 *
+		 * Adds a child control
+		 ***********************************************/
+		virtual void VAddChildControl( IBaseControl * const pChildControl) = 0;
+		/********************************************//**
+		 *
+		 * Removes and deletes all the child controls.
+		 ***********************************************/
 		virtual void VRemoveAllChildren() = 0;
+		/********************************************//**
+ 		 * @param[in] pChildControl The control that needs to be removed
+		 *
+		 * Removes and deletes the child control
+		 ***********************************************/
 		virtual void VRemoveChildControl(const IBaseControl * pChildControl) = 0;
+		/********************************************//**
+ 		 * @param[in] vPosition The position of the control
+		 *
+		 * Sets the position of the control
+		 ***********************************************/
 		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
+		/********************************************//**
+ 		 * @param[in] vSize The new size of the sprite
+		 *
+		 * Sets the size of the control
+		 ***********************************************/
 		virtual void VSetSize(const Base::cVector2 vSize) = 0;
-		virtual float VGetWidth() const = 0;
-		virtual float VGetHeight() const = 0;
-		virtual void VRegisterCallBack(function <void (bool)> callback) = 0;
-		virtual void VUnregisterCallBack() = 0;
-
-	public:
-		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType, const Base::cString & strFileName, const bool bAllowMovingControls);
+		/********************************************//**
+		 * @param[in] wType The window type. Can be DESKTOP or STANDARD
+		 * @param[in] strBGImageFile The path for the background image. Can be Empty
+		 * @param[in] bAllowMovingControls True if we want to allow the users to change the position of the control
+		 * @return A window control object
+		 *
+		 * Returns a window control object
+		 ***********************************************/
+		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType,
+			const Base::cString & strBGImageFile, const bool bAllowMovingControls);
 		//GRAPHIC_API static IBaseControl * CreateLabelControl(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption);
 		//GRAPHIC_API static IBaseControl * CreateButtonControl(const Base::cString & strDefaultImage, const Base::cString & strPressedImage, const Base::cString & strCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const bool bAutoSize);
 		//GRAPHIC_API static IBaseControl * CreateButtonControl(const Base::cString & strDefaultImage, const Base::cString & strPressedImage);

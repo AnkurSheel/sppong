@@ -267,6 +267,7 @@ bool Graphics::cSprite::CreateIndexBuffer(const unsigned long * pIndices)
 	}
 	return true;
 }
+
 // ***************************************************************
 void Graphics::cSprite::VGetSize(Base::cVector2 & vSize)
 {
@@ -274,10 +275,7 @@ void Graphics::cSprite::VGetSize(Base::cVector2 & vSize)
 }
 
 // ***************************************************************
-// Creates a Sprite
-// ***************************************************************
 shared_ptr<ISprite> ISprite::CreateSprite()
 {
 	return shared_ptr<ISprite> (DEBUG_NEW cSprite());
 }
-// ***************************************************************

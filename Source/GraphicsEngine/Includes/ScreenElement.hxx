@@ -28,9 +28,18 @@ namespace Graphics
 	{
 	public:
 		virtual ~IScreenElement(){};
-		GRAPHIC_API virtual void VSetVisible(bool bIsVisible) = 0;
-		GRAPHIC_API virtual bool VIsVisible() const = 0;
-		GRAPHIC_API virtual void VOnRender(const ICamera * const pCamera) = 0;
+		/********************************************//**
+ 		 * @param[in] pCamera The camera which contains the current view matrix
+		 *
+		 * Draws the control
+		 ***********************************************/
+		virtual void VRender(const ICamera * const pCamera) = 0;
+		/********************************************//**
+ 		 * @param[in] bIsVisible True if the control should be visible, false otherwise
+		 *
+		 * Sets the visibility of the 2D element
+		 ***********************************************/
+		virtual void VSetVisible(bool bIsVisible) = 0;
 	};
 }
 #endif // ScreenElement_hxx__

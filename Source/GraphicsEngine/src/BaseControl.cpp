@@ -19,7 +19,7 @@ using namespace Base;
 
 // ***************************************************************
 cBaseControl::cBaseControl()
-: m_vSpriteSize(cVector2::Zero())
+: m_vSize(cVector2::Zero())
 , m_bVisible(true)
 , m_pChildControls(NULL) 
 , m_pNextSibling(NULL) 
@@ -160,7 +160,7 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 }
 
 // ***************************************************************
-IBaseControl * cBaseControl::VAddChildControl(IBaseControl * const pChildControl )
+void cBaseControl::VAddChildControl(IBaseControl * const pChildControl )
 {
 	cBaseControl * const pControl = dynamic_cast<cBaseControl * const>(pChildControl);
 	if (pControl)
@@ -184,9 +184,7 @@ IBaseControl * cBaseControl::VAddChildControl(IBaseControl * const pChildControl
 			pControl->SetPreviousSibling(temp);
 		}
 		m_iNoOfChildren++;
-		return pControl;
 	}
-	return NULL;
 }
 
 // ***************************************************************
@@ -210,11 +208,11 @@ void cBaseControl::VRemoveAllChildren()
 // ***************************************************************
 void cBaseControl::VSetSize( const cVector2 vSize)
 {
-	m_vSpriteSize = vSize;
+	m_vSize = vSize;
 
 	if(m_pCanvasSprite)
 	{
-		m_pCanvasSprite->VSetSize(m_vSpriteSize);
+		m_pCanvasSprite->VSetSize(m_vSize);
 	}
 }
 
@@ -247,13 +245,13 @@ void cBaseControl::VRemoveChildControl(const IBaseControl * pChildControl)
 // ***************************************************************
 bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 {
-	if((fX >= m_vControlAbsolutePosition.m_dX) && (fX <= m_vControlAbsolutePosition.m_dX + VGetWidth()))
-	{
-		if((fY >= m_vControlAbsolutePosition.m_dY) && (fY <= m_vControlAbsolutePosition.m_dY + VGetHeight()))
+	if((fX >= m_vControlAbsolutePosition.m_dX) 
+		&& (fX <= m_vControlAbsolutePosition.m_dX + VGetWidth())
+		&& (fY >= m_vControlAbsolutePosition.m_dY)
+		&& (fY <= m_vControlAbsolutePosition.m_dY + VGetHeight()))
 		{
 			return true;
 		}
-	}
 	return false;
 }
 
@@ -347,17 +345,17 @@ void cBaseControl::ConstrainChildControl( double & dx, double & dy )
 		{
 			dx = 0; 
 		}
-		if ((dx + m_vSpriteSize.m_dX) > m_pParentControl->VGetWidth())
+		if ((dx + m_vSize.m_dX) > m_pParentControl->VGetWidth())
 		{
-			dx = m_pParentControl->VGetWidth() - m_vSpriteSize.m_dX; 
+			dx = m_pParentControl->VGetWidth() - m_vSize.m_dX; 
 		}
 		if (dy < 0)
 		{
 			dy = 0; 
 		}
-		if ((dy + m_vSpriteSize.m_dY) > m_pParentControl->VGetHeight())
+		if ((dy + m_vSize.m_dY) > m_pParentControl->VGetHeight())
 		{
-			dy = m_pParentControl->VGetHeight() - m_vSpriteSize.m_dY; 
+			dy = m_pParentControl->VGetHeight() - m_vSize.m_dY; 
 		}
 	}
 }
@@ -393,7 +391,7 @@ void Graphics::cBaseControl::VSetAbsolutePosition()
 }
 
 // ***************************************************************
-void Graphics::cBaseControl::VOnRender(const ICamera * const pCamera)
+void Graphics::cBaseControl::VRender(const ICamera * const pCamera)
 {
 	if (!m_bVisible)
 	{
@@ -411,14 +409,79 @@ void Graphics::cBaseControl::VOnRender(const ICamera * const pCamera)
 	}
 
 }
+
+cBaseControl * cBaseControl::GetFirstChild() const
+{
+	return m_pChildControls;
+}
+
 // ***************************************************************
-void Graphics::cBaseControl::RenderInReverse(cBaseControl * const pControl, const ICamera * const pCamera)
+cBaseControl * cBaseControl::GetNextSibling() const
+{
+	return m_pNextSibling;
+}
+
+// ***************************************************************
+void cBaseControl::SetParentControl( cBaseControl * pParentControl )
+{
+	m_pParentControl = pParentControl;
+}
+
+// ***************************************************************
+void cBaseControl::SetNextSibling( cBaseControl * pControl )
+{
+	m_pNextSibling = pControl;
+}
+
+// ***************************************************************
+cBaseControl * cBaseControl::GetPreviousSibling() const
+{
+	return m_pPreviousSibling;
+}
+
+// ***************************************************************
+void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
+{
+	m_pPreviousSibling = pControl;
+}
+
+// ***************************************************************
+float Graphics::cBaseControl::VGetHeight() const
+{
+	return (float)m_vSize.m_dY;
+}
+
+// ***************************************************************
+float Graphics::cBaseControl::VGetWidth() const
+{
+	return (float)m_vSize.m_dX;
+}
+
+// ***************************************************************
+void Graphics::cBaseControl::VSetVisible( bool bIsVisible )
+{
+	m_bVisible = bIsVisible;
+}
+
+// ***************************************************************
+bool cBaseControl::AllowMovingControl()
+{
+	if (m_pParentControl)
+	{
+		return m_pParentControl->AllowMovingControl();
+	}
+	return m_bAllowMovingControls;
+}
+
+// ***************************************************************
+void Graphics::cBaseControl::RenderInReverse(cBaseControl * const pControl,
+											const ICamera * const pCamera)
 {
 	cBaseControl *  pNextControl = pControl->GetNextSibling();
 	if(pNextControl)
 	{
 		pNextControl->RenderInReverse(pNextControl, pCamera);
 	}
-	pControl->VOnRender(pCamera);
-
+	pControl->VRender(pCamera);
 }
+

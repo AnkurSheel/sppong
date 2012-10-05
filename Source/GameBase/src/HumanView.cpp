@@ -30,7 +30,7 @@ using namespace Base;
 GameBase::cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
 , m_pProcessManager(NULL)
-, m_pParentControl(NULL) 
+, m_pAppWindowControl(NULL) 
 , m_pCamera(NULL)
 {
 	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
@@ -46,8 +46,8 @@ GameBase::cHumanView::~cHumanView()
 void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
 								 int iClientWidth, int iClientHeight)
 {
-	m_pParentControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
-	m_pParentControl->VSetSize(cVector2(iClientWidth, iClientHeight));
+	m_pAppWindowControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
+	m_pAppWindowControl->VSetSize(cVector2(iClientWidth, iClientHeight));
 	m_pCamera = ICamera::CreateCamera();
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
@@ -93,7 +93,7 @@ void GameBase::cHumanView::VOnRender(const TICK tickCurrent, const float fElapse
 // ***************************************************************
 void GameBase::cHumanView::VOnDestroyDevice()
 {
-	SAFE_DELETE(m_pParentControl);
+	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
 	RemoveElements();
 
@@ -107,9 +107,9 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 	switch(msg.m_uMsg)
 	{
 	case WM_CHAR:
-		if (m_pParentControl)
+		if (m_pAppWindowControl)
 		{
-			bHandled = m_pParentControl->VPostMsg(msg);
+			bHandled = m_pAppWindowControl->VPostMsg(msg);
 		}
 		if(!bHandled)
 		{
@@ -126,9 +126,9 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 	case WM_LBUTTONDOWN:
 	case WM_KEYUP:
 	case WM_KEYDOWN:
-		if (m_pParentControl)
+		if (m_pAppWindowControl)
 		{
-			bHandled = m_pParentControl->VPostMsg(msg);
+			bHandled = m_pAppWindowControl->VPostMsg(msg);
 		}
 		break;
 	}
@@ -165,9 +165,9 @@ HRESULT GameBase::cHumanView::OnBeginRender(TICK tickCurrent)
 // ***************************************************************
 void GameBase::cHumanView::VRenderPrivate()
 {
-	if (m_pParentControl)
+	if (m_pAppWindowControl)
 	{
-		m_pParentControl->VOnRender(m_pCamera);
+		m_pAppWindowControl->VRender(m_pCamera);
 	}
 
 	/*for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
@@ -237,38 +237,4 @@ void GameBase::cHumanView::SetCursorVisible( bool bVisible )
 // 	{
 // 		m_pCursorSprite->SetVisible(bVisible);
 // 	}
-}
-
-// ***************************************************************
-//void GameBase::cHumanView::ShowPointList(const cVertex * const pData, const UINT iPrimitiveCount)
-//{
-//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_POINTLIST, iPrimitiveCount, pData);
-//}
-//
-//// ***************************************************************
-//void GameBase::cHumanView::ShowLineList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
-//{
-//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINELIST, iPrimitiveCount, pData);
-//}
-//
-//// ***************************************************************
-//GAMEBASE_API void GameBase::cHumanView::ShowLineStrip( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
-//{
-//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_LINESTRIP, iPrimitiveCount, pData);
-//}
-//
-//// ***************************************************************
-//void GameBase::cHumanView::ShowTriangleList( const Graphics::cVertex * const pData, const UINT iPrimitiveCount )
-//{
-//	IDXBase::GetInstance()->VDrawVertexPrimitiveUP(D3DPT_TRIANGLELIST, iPrimitiveCount, pData);
-//}
-
-float GameBase::cHumanView::GetWidth()
-{
-	return m_pParentControl->VGetWidth();
-}
-
-float GameBase::cHumanView::GetHeight()
-{
-	return m_pParentControl->VGetHeight();
 }
