@@ -47,7 +47,7 @@ bool Graphics::cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	if(!CreateVertexBuffer())
 		return false;
 
-	if(!VCreateIndexBuffer())
+	if(!CreateIndexBuffer())
 		return false;
 
 	if(!InitializeShader())
@@ -88,7 +88,7 @@ void Graphics::cSprite::VRender(const ICamera * const pCamera)
 {
 	if (m_bIsDirty)
 	{
-		VRecalculateVertexData();
+		RecalculateVertexData();
 		m_bIsDirty = false;
 	}
 
@@ -169,17 +169,40 @@ bool Graphics::cSprite::CreateVertexBuffer()
 }
 
 // ***************************************************************
-bool Graphics::cSprite::VCreateIndexBuffer()
+bool Graphics::cSprite::CreateIndexBuffer()
 {
 	unsigned long aIndices[] = {0,1,2,
 								1,3,2};
 	m_iIndexCount = 6;
-	return CreateIndexBuffer(aIndices);
+	D3D11_BUFFER_DESC indexBufferDesc;
+	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	indexBufferDesc.ByteWidth = sizeof(unsigned long) * m_iIndexCount;
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.MiscFlags = 0;
+	indexBufferDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA indexData;
+	indexData.pSysMem = aIndices;
+	indexData.SysMemPitch = 0;
+	indexData.SysMemSlicePitch = 0;
+
+	// Create the index buffer.
+	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&indexBufferDesc,
+		&indexData, &m_pIndexBuffer);
+
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		return false;
+	}
+	return true;
 
 }
 
 // ***************************************************************
-bool Graphics::cSprite::VRecalculateVertexData()
+bool Graphics::cSprite::RecalculateVertexData()
 {
 	//center of the screen is 0,0
 	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
@@ -194,11 +217,27 @@ bool Graphics::cSprite::VRecalculateVertexData()
 	pVertices[2] = stTexVertex(right, bottom, 0.0f, 1.0f, 1.0f);
 	pVertices[3] = stTexVertex(right, top, 0.0f, 1.0f, 0.0f);
 
-	if(!UpdateVertexBuffer(pVertices, 4))
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if(FAILED(result))
 	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		
 		SAFE_DELETE_ARRAY(pVertices);
 		return false;
 	}
+
+	// Get a pointer to the data in the vertex buffer.
+	stTexVertex * verticesPtr = (stTexVertex*)mappedResource.pData;
+
+	// Copy the data into the vertex buffer.
+	memcpy(verticesPtr, (void*)pVertices, (sizeof(stTexVertex) * 4));
+
+	// Unlock the vertex buffer.
+	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pVertexBuffer, 0);
+	SAFE_DELETE_ARRAY(pVertices);
+	return true;
 
 	SAFE_DELETE_ARRAY(pVertices);
 	return true;
@@ -211,58 +250,6 @@ bool Graphics::cSprite::InitializeShader()
 	if (!m_pShader->VInitialize("resources\\Shaders\\Texture.vsho",
 		"resources\\Shaders\\Texture.psho"))
 	{
-		return false;
-	}
-	return true;
-}
-
-// ***************************************************************
-bool Graphics::cSprite::UpdateVertexBuffer(const stTexVertex * const pVertices,
-										   const int iNoOfVertices)
-{
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	if(FAILED(result))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-		return false;
-	}
-
-	// Get a pointer to the data in the vertex buffer.
-	stTexVertex * verticesPtr = (stTexVertex*)mappedResource.pData;
-
-	// Copy the data into the vertex buffer.
-	memcpy(verticesPtr, (void*)pVertices, (sizeof(stTexVertex) * iNoOfVertices));
-
-	// Unlock the vertex buffer.
-	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pVertexBuffer, 0);
-	return true;
-}
-// ***************************************************************
-bool Graphics::cSprite::CreateIndexBuffer(const unsigned long * pIndices)
-{
-	D3D11_BUFFER_DESC indexBufferDesc;
-	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexBufferDesc.ByteWidth = sizeof(unsigned long) * m_iIndexCount;
-	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	indexBufferDesc.CPUAccessFlags = 0;
-	indexBufferDesc.MiscFlags = 0;
-	indexBufferDesc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA indexData;
-	indexData.pSysMem = pIndices;
-	indexData.SysMemPitch = 0;
-	indexData.SysMemSlicePitch = 0;
-
-	// Create the index buffer.
-	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&indexBufferDesc,
-		&indexData, &m_pIndexBuffer);
-
-	if(FAILED(result))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
 		return false;
 	}
 	return true;

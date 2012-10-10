@@ -85,11 +85,10 @@ namespace Utilities
 		ResHandleList m_lru;
 		ResHandleMap  m_Resources;
 		IResourceFile * m_pFile;
-
 		unsigned int m_iCacheSize;
 		unsigned int m_iTotalMemoryAllocated;
-	private:
 
+	private:
 		friend class cResHandle;
 	};
 

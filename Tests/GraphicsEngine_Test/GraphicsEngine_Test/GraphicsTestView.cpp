@@ -20,6 +20,7 @@
 #include "Camera.hxx"
 #include "Sprite.hxx"
 #include "Font.hxx"
+#include "Sentence.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -127,9 +128,10 @@ void cGraphicsTestView::VRenderPrivate()
 			break;
 
 		case TEST_FONT:
-			if(m_pFont)
+			std::vector<ISentence*>::const_iterator iter;
+			for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
 			{
-				m_pFont->VRender(m_pCamera);
+				(*iter)->VRender(m_pCamera);
 			}
 			break;
 		}
@@ -248,9 +250,14 @@ void cGraphicsTestView::TestFont()
 
 	m_pFont = IMyFont::CreateMyFont();
 	m_pFont->VInitialize("Font\\", "licorice.fnt");
-	m_pFont->VSetText("Ankur is awesome");
-	m_pFont->VSetPosition(cVector2(100.0f, 100.0f));
-	m_pFont->VSetTextColor(cColor::RED);
+	ISentence * pSentence = ISentence::CreateSentence();
+	pSentence->VInitialize(m_pFont, "Ankur is awesome", cColor::RED);
+	pSentence->VSetPosition(cVector2(100.0f, 100.0f));
+	m_vSentences.push_back(pSentence);
+	pSentence = ISentence::CreateSentence();
+	pSentence->VInitialize(m_pFont, "Yes he is", cColor::VIOLET);
+	pSentence->VSetPosition(cVector2(400.0f, 200.0f));
+	m_vSentences.push_back(pSentence);
 }
 
 // ***************************************************************
@@ -331,10 +338,22 @@ void cGraphicsTestView::Cleanup()
 {
 //	SAFE_DELETE_ARRAY(m_pVertexData);
 	SAFE_DELETE(m_pModel);
+	std::vector<ISentence*>::iterator iter;
+	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
+	{
+		SAFE_DELETE(*iter)
+	}
+	m_vSentences.clear();
 }
 
 // ***************************************************************
 void cGraphicsTestView::TestFinished()
 {
 	SAFE_DELETE(m_pModel);
+	std::vector<ISentence*>::iterator iter;
+	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
+	{
+		SAFE_DELETE(*iter)
+	}
+	m_vSentences.clear();
 }

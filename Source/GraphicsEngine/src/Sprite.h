@@ -41,38 +41,23 @@ namespace Graphics
 		void VSetSize(const Base::cVector2 & vSize);
 		void VGetSize(Base::cVector2 & vSize);
 		/********************************************//**
-		 * return True if the index buffer was created successfully
-		 * 
-		 * Creates the index buffer using the indice data
-		 ***********************************************/
-		virtual bool VCreateIndexBuffer( );
-		/********************************************//**
-		 * return True if the vertex buffer was updated successfully
-		 * 
-		 * Recalculates the coordinates and updates the vertex data if the position has changed
-		 ***********************************************/
-		virtual bool VRecalculateVertexData();
-		/********************************************//**
 		 * return True if the vertex buffer was created successfully
 		 *
 		 * Creates the vertex buffer using the vertex data
 		 ***********************************************/
 		bool CreateVertexBuffer();
 		/********************************************//**
-		 * return True if the vertex buffer was created successfully
-		 *
-		 * Creates the index buffer using the index data
+		 * return True if the index buffer was created successfully
+		 * 
+		 * Creates the index buffer using the indice data
 		 ***********************************************/
-		bool CreateIndexBuffer(const unsigned long * pIndices);
+		virtual bool CreateIndexBuffer( );
 		/********************************************//**
-		 * @param[in] pVertices The vertex data
-		 * @param[in] iNoOfVertices The number of vertices
 		 * return True if the vertex buffer was updated successfully
-		 *
-		 * Maps the vertex buffer with the vertex data
+		 * 
+		 * Recalculates the coordinates and updates the vertex data if the position has changed
 		 ***********************************************/
-		bool UpdateVertexBuffer(const stTexVertex * const pVertices,
-			const int iNoOfVertices);
+		virtual bool RecalculateVertexData();
 	private:
 		/********************************************//**
 		 *

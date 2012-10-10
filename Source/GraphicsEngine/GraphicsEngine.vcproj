@@ -326,6 +326,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Sentence.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Sentence.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Sentence.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Sprite.cpp"
 				>
 			</File>

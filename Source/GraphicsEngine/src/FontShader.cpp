@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "FontShader.h"
 #include "DxBase.hxx"
+#include "Texture.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -18,7 +19,6 @@ using namespace Utilities;
 // ***************************************************************
 cFontShader::cFontShader()
 : m_pPixelBuffer(NULL)
-, m_pTextColor(1.0f, 1.0f, 1.0f, 1.0f)
 {
 
 }
@@ -63,8 +63,20 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 									   const D3DXMATRIX & inMatProjection,
 									   ID3D11ShaderResourceView * pTexture)
 {
+	Log_Write_L2(ILogger::LT_ERROR, "Using incorrect VSetShaderParameter");
 	cTextureShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTexture);
-	
+		
+}
+
+// *************************************************************************
+void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld, 
+									   const D3DXMATRIX & inMatView,
+									   const D3DXMATRIX & inMatProjection,
+									   ID3D11ShaderResourceView * pTexture,
+									   const D3DXVECTOR4 & textColor)
+{
+	cTextureShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTexture);
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 
 	// Lock the pixel constant buffer so it can be written to.
@@ -80,7 +92,7 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 	PixelBufferType * pPixelData = (PixelBufferType*)mappedResource.pData;
 
 	// Copy the pixel color into the pixel constant buffer.
-	pPixelData->pixelColor = m_pTextColor;
+	pPixelData->pixelColor = textColor;
 
 	// Unlock the pixel constant buffer.
 	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pPixelBuffer, 0);
@@ -93,23 +105,25 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 }
 
 // ***************************************************************
+IShader * IShader::CreateFontShader()
+{
+	IShader * pShader= DEBUG_NEW cFontShader();
+	return pShader;
+}
+// ***************************************************************
 void Graphics::cFontShader::VCleanup()
 {
 	cTextureShader::VCleanup();
 	SAFE_RELEASE(m_pPixelBuffer);
 }
-
-// ***************************************************************
-void Graphics::cFontShader::SetTextColor(const Base::cColor & colorText)
+// *************************************************************************
+void cFontShader::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
+						 const D3DXMATRIX & inMatProjection, const ITexture * const pTexture,
+						 const D3DXVECTOR4 & textColor)
 {
-	float fRed, fBlue, fGreen, fAlpha;
-	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
-	m_pTextColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
-}
+	ID3D11ShaderResourceView * pTex = pTexture->VGetTexture();
 
-// ***************************************************************
-IShader * IShader::CreateFontShader()
-{
-	IShader * pShader= DEBUG_NEW cFontShader();
-	return pShader;
+	VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTex, textColor);
+
+	VRenderShader();
 }

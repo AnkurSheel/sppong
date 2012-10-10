@@ -24,6 +24,7 @@ namespace Graphics
 	struct stVertex;
 	class IModel;
 	class ISprite;
+	class ISentence;
 }
 
 class cGraphicsTestView 
@@ -51,12 +52,13 @@ public:
 private:
 	void VRenderPrivate();
 private:
-	cGame	*						m_pGame;
+	cGame	*							m_pGame;
 	//Graphics::IBaseControl *	m_pInfoLabelControl;
-	bool							m_bFinished;
-	const int						m_iVertexListCount;
-	Graphics::IModel *				m_pModel;
-	shared_ptr<Graphics::ISprite>	m_pSprite;
-	shared_ptr<Graphics::IMyFont>	m_pFont;
+	bool								m_bFinished;
+	const int							m_iVertexListCount;
+	Graphics::IModel *					m_pModel;
+	shared_ptr<Graphics::ISprite>		m_pSprite;
+	shared_ptr<Graphics::IMyFont>		m_pFont;
+	std::vector<Graphics::ISentence *>	m_vSentences;
 };
 #endif // GraphicsTestView_h__
