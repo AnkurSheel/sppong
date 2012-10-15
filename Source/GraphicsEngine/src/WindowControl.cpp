@@ -38,7 +38,6 @@ bool Graphics::cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		Log_Write_L3(ILogger::LT_ERROR, cString(100, "Graphics::cWindowControl::OnMouseUp"));
 		return	cBaseControl::VOnLeftMouseButtonUp(X, Y);
 	}
 	return false;
@@ -49,7 +48,6 @@ bool Graphics::cWindowControl::VOnLeftMouseButtonDown( const int X, const int Y 
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		Log_Write_L3(ILogger::LT_DEBUG, cString(100, "Graphics::cWindowControl::OnMouseDown" ));
 		return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 	}
 	return false;

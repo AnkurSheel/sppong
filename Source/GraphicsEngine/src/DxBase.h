@@ -33,8 +33,7 @@ namespace Graphics
 	private:
 		cDXBase() ;
 		~cDXBase() ;
-		// ***************************************************************
-		void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
+		void VInitialize(const HWND & hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear);
 		void VBeginRender();
@@ -60,7 +59,8 @@ namespace Graphics
 		 * Sets up the device, swap chain, depth buffer, depth stencil state. 
 		 * Bind the render target view and the depth stencil buffer to the output render pipeline.
 		 ***********************************************/
-		bool SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen );
+		bool SetupRenderTargets( const int iWidth, const int iHeight,
+			const HWND & hWnd, const bool bFullScreen);
 		/********************************************//**
 		 * @param[in] iWidth The width of the window
 		 * @param[in] iHeight The height of the window
@@ -70,8 +70,8 @@ namespace Graphics
 		 *
 		 * Fills out the swap chain description and creates the device and swap chain
 		 ***********************************************/
-		bool SetupSwapChain( const int iWidth, const int iHeight, const HWND hWnd,
-			const bool bFullScreen );
+		bool SetupSwapChain( const int iWidth, const int iHeight,
+			const HWND & hWnd, const bool bFullScreen);
 		/********************************************//**
 		 * @return False if there was an error
 		 *

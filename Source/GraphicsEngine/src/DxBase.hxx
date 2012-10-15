@@ -48,7 +48,7 @@ namespace Graphics
 		 *
 		 * Initializes the DirectX device and sets it up for use. 
 		 ***********************************************/
-		virtual void VInitialize(const HWND hWnd, 
+		virtual void VInitialize(const HWND & hWnd, 
 			const Base::cColor & bkColor, const bool bFullScreen, 
 			const bool bVsyncEnabled, const int iWidth, const int iHeight,
 			const float fScreenDepth, const float fScreenNear) = 0;

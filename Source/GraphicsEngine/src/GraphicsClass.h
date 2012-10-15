@@ -34,7 +34,7 @@ namespace Graphics
 		 * Creates an object of this class and returns it
 		 ***********************************************/
 		static IGraphicsClass * Create();
-		void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
+		void VInitialize(const HWND & hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear);
 		void VBeginRender();

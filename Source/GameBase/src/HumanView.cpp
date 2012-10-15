@@ -43,8 +43,10 @@ GameBase::cHumanView::~cHumanView()
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
-								 int iClientWidth, int iClientHeight)
+void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
+										   const HINSTANCE & hInst,
+										   const HWND & hWnd, const int iClientWidth,
+										   const int iClientHeight)
 {
 	m_pAppWindowControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
 	m_pAppWindowControl->VSetSize(cVector2(iClientWidth, iClientHeight));

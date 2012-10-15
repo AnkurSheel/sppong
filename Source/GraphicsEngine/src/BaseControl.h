@@ -36,25 +36,24 @@ namespace Graphics
 		cBaseControl();
 		virtual ~cBaseControl();
 		void VRender(const ICamera * const pCamera );
+		float VGetWidth() const;
+		float VGetHeight() const;
 		virtual bool VOnLeftMouseButtonUp(const int X, const int Y);
 		virtual bool VOnLeftMouseButtonDown(const int X, const int Y);
 		virtual void VSetPosition(const Base::cVector2 & vPosition);
 		virtual void VSetSize(const Base::cVector2 vSize);
-
 		virtual bool VOnMouseMove(const int X, const int Y);
 		virtual bool VOnKeyDown(const Base::AppMsg & msg);
 		virtual void VSetAbsolutePosition();
-		float VGetWidth() const;
-		float VGetHeight() const;
+		virtual void VCleanup();
 		void SetFocusControl(const cBaseControl * const pControl);
 		cBaseControl * GetFirstChild() const;
-
+		
 	private:
 		bool VPostMsg(const Base::AppMsg & msg);
 		void VAddChildControl( IBaseControl * const pChildControl);
 		void VRemoveAllChildren();
 		void VRemoveChildControl(const IBaseControl * pChildControl);
-
 		virtual bool VOnKeyUp(const Base::AppMsg & msg);
 		bool AllowMovingControl();
 		void ConstrainChildControl( double & dx, double & dy );
@@ -63,7 +62,6 @@ namespace Graphics
 		void SetNextSibling( cBaseControl * pControl );
 		void SetPreviousSibling( cBaseControl * temp );
 		cBaseControl * PostToAll(const Base::AppMsg & msg);
-		void PostToAllReverse(cBaseControl * const pControl, const Base::AppMsg & msg);
 		void MoveToFront(cBaseControl * const pControl);
 		bool IsCursorIntersect(const float fX, const float fY);
 		void RenderInReverse(cBaseControl * const pControl, const ICamera * const pCamera);

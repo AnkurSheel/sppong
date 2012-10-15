@@ -53,7 +53,7 @@ namespace Graphics
 		 *
 		 * Creates the DirectX object and Initializes the DirectX system.
 		 ***********************************************/
-		virtual void VInitialize(const HWND hWnd, const Base::cColor & bkColor,
+		virtual void VInitialize(const HWND & hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear) = 0;
 		/********************************************//**

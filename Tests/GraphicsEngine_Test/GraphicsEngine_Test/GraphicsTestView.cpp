@@ -30,7 +30,7 @@ using namespace Base;
 // ***************************************************************
 cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
-//, m_pInfoLabelControl(NULL)
+, m_pInfoLabelControl(NULL)
 , m_bFinished(false)
 //, m_pVertexData(NULL)
 , m_iVertexListCount(1000)
@@ -44,18 +44,20 @@ cGraphicsTestView::~cGraphicsTestView()
 	Cleanup();
 }
 
-void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst,
-										const HWND hWnd, int iClientWidth, 
-										int iClientHeight)
+void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
+										const HWND & hWnd, const int iClientWidth, 
+										const int iClientHeight)
 {
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
-	/*m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-		DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
+	m_pFont = IMyFont::CreateMyFont();
+	m_pFont->VInitialize("Font\\", "licorice.fnt");
+
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
 		"Press 'c' to start test");
-	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));*/
+	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
 }
 
@@ -87,8 +89,8 @@ bool cGraphicsTestView::VOnMsgProc( const Base::AppMsg & msg )
 			case 'c':
 				if(!m_bFinished)
 				{
-					//m_pParentControl->VRemoveAllChildren();
-					//m_pInfoLabelControl = NULL;
+					m_pAppWindowControl->VRemoveAllChildren();
+					m_pInfoLabelControl = NULL;
 				}
 				if(m_pGame)
 					m_pGame->GotoNextTest();
@@ -138,33 +140,26 @@ void cGraphicsTestView::VRenderPrivate()
 	}
 }
 
-//void cGraphicsTestView::Finished()
-//{
-//	m_bFinished = true;
-//	if(m_pInfoLabelControl != NULL)
-//	{
-//		m_pParentControl->VRemoveChildControl(m_pInfoLabelControl);
-//		m_pInfoLabelControl = NULL;
-//	}
-//
-//	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-//		DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
-//		"Finished all Tests. Press 'c' to exit");
-//	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-//	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-//}
-//
+// ***************************************************************
+void cGraphicsTestView::Finished()
+{
+	m_bFinished = true;
+
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
+		"Finished all Tests. Press 'c' to exit");
+	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+}
 
 // ***************************************************************
 void cGraphicsTestView::TestTriangle()
 {
-	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
-	//	"Testing IndexBuffer. Press 'c' to go to next test");
-	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
+		"Testing Triangle. Press 'c' to go to next test");
+	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
-	Log_Write_L1(ILogger::LT_ERROR, "Testing Traiangle");
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Triangle");
 
 	stVertex * pVertexData = DEBUG_NEW stVertex[7];
 
@@ -189,11 +184,10 @@ void cGraphicsTestView::TestTriangle()
 // ***************************************************************
 void cGraphicsTestView::TestTextureTriangle()
 {
-	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
-	//	"Testing IndexBuffer. Press 'c' to go to next test");
-	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
+		"Testing Texture Triangle. Press 'c' to go to next test");
+	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Texture Triangle");
 
@@ -220,11 +214,10 @@ void cGraphicsTestView::TestTextureTriangle()
 // ***************************************************************
 void cGraphicsTestView::TestSprite()
 {
-	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
-	//	"Testing IndexBuffer. Press 'c' to go to next test");
-	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
+		"Testing Sprite. Press 'c' to go to next test");
+	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Sprite");
 
@@ -238,18 +231,15 @@ void cGraphicsTestView::TestSprite()
 // ***************************************************************
 void cGraphicsTestView::TestFont()
 {
-	//m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-	//	DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
-	//	"Testing IndexBuffer. Press 'c' to go to next test");
-	//m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-	//m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
+		"Testing Font. Press 'c' to go to next test");
+	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Font");
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 
-	m_pFont = IMyFont::CreateMyFont();
-	m_pFont->VInitialize("Font\\", "licorice.fnt");
 	ISentence * pSentence = ISentence::CreateSentence();
 	pSentence->VInitialize(m_pFont, "Ankur is awesome", cColor::RED);
 	pSentence->VSetPosition(cVector2(100.0f, 100.0f));
@@ -263,24 +253,21 @@ void cGraphicsTestView::TestFont()
 // ***************************************************************
 void cGraphicsTestView::TestUIControls()
 {
-	//	m_pInfoLabelControl = IBaseControl::CreateLabelControl(17, 14, 20, false,
-	//		DEFAULT_CHARSET, "Arial", DT_LEFT, cColor::BLUE.GetColor(), 
-	//		"Testing UI Controls. Press 'c' to go to next test");
-	//	m_pParentControl->VAddChildControl(m_pInfoLabelControl);
-	//	m_pInfoLabelControl->VSetPosition(cVector3(0.f, 0.f, 0.f));
-	//
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
+		"Testing UI Controls. Press 'c' to go to next test");
+	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, 
 		"Test\\window.png", false);
 	m_pAppWindowControl->VAddChildControl(pWindowControl);
 	pWindowControl->VSetPosition(cVector2(300.f, 300.f));
 	pWindowControl->VSetSize(cVector2(400, 400));
-	//
-	//	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(17, 14, 
-	//		20, false, DEFAULT_CHARSET, "Mistral", DT_LEFT, cColor::BLUE.GetColor(),
-	//		"Label  ");
-	//	pWindowControl->VAddChildControl(pLabelControl);
-	//	pLabelControl->VSetPosition(cVector3(0.f, 40.f, 0.f));
-	//
+
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GREEN, "Label  ");
+	pWindowControl->VAddChildControl(pLabelControl);
+	pLabelControl->VSetPosition(cVector2(0.f, 70.f));
+
 	//	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png",
 	//		"Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET,
 	//		"Vladimir Script", DT_VCENTER|DT_CENTER, cColor::WHITE.GetColor(), false);
@@ -344,6 +331,7 @@ void cGraphicsTestView::Cleanup()
 		SAFE_DELETE(*iter)
 	}
 	m_vSentences.clear();
+	SAFE_DELETE(m_pAppWindowControl);
 }
 
 // ***************************************************************
@@ -356,4 +344,5 @@ void cGraphicsTestView::TestFinished()
 		SAFE_DELETE(*iter)
 	}
 	m_vSentences.clear();
+	m_pAppWindowControl->VRemoveAllChildren();
 }

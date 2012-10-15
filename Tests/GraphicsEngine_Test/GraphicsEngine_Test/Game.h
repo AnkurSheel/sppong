@@ -25,7 +25,8 @@ class cGame :
 public:
 	cGame(const Base::cString strName);
 	~cGame();
-	void VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const Base::cString & strOptionsFileName);
+	void VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
+		const Base::cString & strOptionsFileName);
 	Base::cString VGetGameTitle() const; 
 	void VCreateHumanView();
 	void ButtonPressed(bool bPressed);
@@ -35,7 +36,6 @@ public:
 	Tests GetCurrentTest() const;
 
 private:
-	void VOnUpdate(){}
 	bool VOnHandleMessage(const AI::Telegram & telegram){return false;}
 
 private:

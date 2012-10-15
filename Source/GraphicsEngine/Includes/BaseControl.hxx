@@ -18,12 +18,13 @@ namespace Base
 {
 	class cString;
 	class cVector2;
-	struct AppMsg;
+	class cColor;
 }
 
 namespace Graphics
 {
 	class ICamera;
+	class IMyFont;
 }
 
 namespace Graphics
@@ -94,7 +95,8 @@ namespace Graphics
 		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType,
 			const Base::cString & strBGImageFile, const bool bAllowMovingControls);
-		//GRAPHIC_API static IBaseControl * CreateLabelControl(const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const Base::cString & strCaption);
+		GRAPHIC_API static IBaseControl * CreateLabelControl(const shared_ptr<IMyFont> m_pFont,
+			const Base::cColor & textColor, const Base::cString & strText);
 		//GRAPHIC_API static IBaseControl * CreateButtonControl(const Base::cString & strDefaultImage, const Base::cString & strPressedImage, const Base::cString & strCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color, const bool bAutoSize);
 		//GRAPHIC_API static IBaseControl * CreateButtonControl(const Base::cString & strDefaultImage, const Base::cString & strPressedImage);
 		//GRAPHIC_API static IBaseControl * CreateCheckBoxControl(const Base::cString & strCheckedImage, const Base::cString & strUncheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);

@@ -29,7 +29,7 @@ Graphics::cGraphicsClass::~cGraphicsClass()
 }
 
 // ***************************************************************
-void Graphics::cGraphicsClass::VInitialize( const HWND hWnd,
+void Graphics::cGraphicsClass::VInitialize( const HWND & hWnd,
 										   const Base::cColor & bkColor, 
 										   const bool bFullScreen, 
 										   const bool bVsyncEnabled,
@@ -73,7 +73,7 @@ void Graphics::cGraphicsClass::VEndRender()
 }
 
 // ***************************************************************
-IGraphicsClass * Graphics::IGraphicsClass::GetInstance()
+IGraphicsClass * IGraphicsClass::GetInstance()
 {
 	if(cGraphicsClass::s_pGraphic == NULL)
 		cGraphicsClass::s_pGraphic = cGraphicsClass::Create();
@@ -81,7 +81,7 @@ IGraphicsClass * Graphics::IGraphicsClass::GetInstance()
 }
 
 // ***************************************************************
-void Graphics::IGraphicsClass::Destroy()
+void IGraphicsClass::Destroy()
 {
 	SAFE_DELETE(cGraphicsClass::s_pGraphic);
 }

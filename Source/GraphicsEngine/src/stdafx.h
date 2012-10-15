@@ -26,12 +26,11 @@
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
 // TODO: reference additional headers your program requires here
-#define STRSAFE_NO_CB_FUNCTIONS
-#define NULLCHAR '\0'
-
 #ifdef _DEBUG
 #define D3D_DEBUG_INFO
 #endif
+
+//#define  DIRECTINPUT_VERSION 0x800
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
@@ -48,7 +47,6 @@
 #include <D3DCompiler.h>
 #include "Logger.hxx"
 #include "Includes.h"
-//#include "GraphicUtils.h"
 #include "Color.h"
 #include "Vector3.h"
 #include "Vector2.h"

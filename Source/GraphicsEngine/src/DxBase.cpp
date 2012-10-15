@@ -51,7 +51,7 @@ Graphics::IDXBase * Graphics::cDXBase::Create()
 }
 
 // ***************************************************************
-void Graphics::cDXBase::VInitialize( const HWND hWnd, const Base::cColor & bkColor,
+void Graphics::cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 										  const bool bFullScreen, const bool bVsyncEnabled,
 										  const int iWidth, const int iHeight,
 										  const float fScreenDepth, const float fScreenNear )
@@ -190,7 +190,9 @@ void Graphics::cDXBase::VTurnOffAlphaBlending()
 }
 
 // ***************************************************************
-bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight, const HWND hWnd, const bool bFullScreen )
+bool Graphics::cDXBase::SetupRenderTargets( const int iWidth,
+										   const int iHeight, const HWND & hWnd,
+										   const bool bFullScreen )
 {
 	if(!SetupSwapChain(iWidth, iHeight, hWnd, bFullScreen))
 		return false;
@@ -217,7 +219,7 @@ bool Graphics::cDXBase::SetupRenderTargets( const int iWidth, const int iHeight,
 
 // ***************************************************************
 bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
-									 const HWND hWnd, const bool bFullScreen )
+									 const HWND & hWnd, const bool bFullScreen )
 {
 	unsigned int iRefreshRateNumerator;
 	unsigned int iRefreshRateDenominator;

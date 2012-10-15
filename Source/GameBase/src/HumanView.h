@@ -46,7 +46,9 @@ namespace GameBase
 	public:
 		GAMEBASE_API cHumanView();
 		GAMEBASE_API virtual ~cHumanView();
-		GAMEBASE_API virtual void VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
+		GAMEBASE_API virtual void VOnCreateDevice(IBaseApp * pGame,
+			const HINSTANCE & hInst, const HWND & hWnd, const int iClientWidth,
+			const int iClientHeight );
 		GAMEBASE_API virtual bool VOnMsgProc( const Base::AppMsg & msg );	
 		GAMEBASE_API virtual void VOnRender(const TICK tickCurrent, const float fElapsedTime);
 		GAMEBASE_API virtual void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);

@@ -30,8 +30,6 @@
     #define D3D_DEBUG_INFO
 #endif
 
-//#define DIRECTINPUT_VERSION 0x0800
-
 #include "Includes.h"
 #include "Logger.hxx"
 

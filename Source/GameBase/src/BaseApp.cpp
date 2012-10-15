@@ -29,7 +29,9 @@ cBaseApp::cBaseApp(const cString strName)
 }
 
 // ***************************************************************
-void GameBase::cBaseApp::VOnInitialization(const HINSTANCE hInstance, const int nCmdShow, const cString & strOptionsFileName)
+void GameBase::cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
+										   const int nCmdShow,
+										   const cString & strOptionsFileName)
 {
 	if(m_spParamLoader == NULL)
 	{
@@ -108,6 +110,7 @@ void GameBase::cBaseApp::VRun()
 void GameBase::cBaseApp::VOnUpdate()
 {
 	m_pGameTimer->VOnUpdate();
+	m_pHumanView->VOnUpdate(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
 }
 
 // ***************************************************************

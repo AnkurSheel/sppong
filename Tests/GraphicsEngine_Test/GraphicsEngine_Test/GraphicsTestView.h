@@ -33,19 +33,15 @@ class cGraphicsTestView
 public:
 	cGraphicsTestView();
 	~cGraphicsTestView();
-	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
+	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE & hInst,
+		const HWND & hWnd, const int iClientWidth, const int iClientHeight );
 	bool VOnMsgProc( const Base::AppMsg & msg );	
-	//void TestPointList();
-	//void TestLineList();
-	//void TestLineStrip();
-	//void TestTriangleList();
-	//void TestVertexBuffer();
 	void TestTriangle();
 	void TestTextureTriangle();
 	void TestSprite();
 	void TestFont();
 	void TestUIControls();
-	//void Finished();
+	void Finished();
 	void TestFinished();
 	void Cleanup();
 
@@ -53,7 +49,7 @@ private:
 	void VRenderPrivate();
 private:
 	cGame	*							m_pGame;
-	//Graphics::IBaseControl *	m_pInfoLabelControl;
+	Graphics::IBaseControl *			m_pInfoLabelControl;
 	bool								m_bFinished;
 	const int							m_iVertexListCount;
 	Graphics::IModel *					m_pModel;
