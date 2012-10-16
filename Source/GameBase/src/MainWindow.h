@@ -38,7 +38,7 @@ namespace GameBase
 		cMainWindow();
 		~cMainWindow();
 		HWND VOnInitialization(const HINSTANCE & hInstance, const int& nCmdShow,
-			IBaseApp* const pGame, const bool bFullScreen,
+			IBaseApp * const pGame, const bool bFullScreen,
 			const int iFullScreenWidth, const int iFullScreenHeight);
 		void VToggleFullScreen();
 		void VCleanup();

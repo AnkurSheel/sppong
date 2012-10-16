@@ -31,6 +31,16 @@ namespace Graphics
 	public:
 		virtual ~ISentence(){}
 		/********************************************//**
+ 		 * @param[in] pFont pointer to the font object which contains the font the text is rendered with
+		 * @param[in] strText The text to be rendered
+		 * @param[in] textColor The color of the text
+		 *
+		 * Puts the text on the video card to prepare it for drawing
+		 * by the shader
+		 ***********************************************/
+		virtual bool VInitialize(shared_ptr<IMyFont> pFont, 
+			const Base::cString & strText, const Base::cColor & textColor) = 0;
+		/********************************************//**
  		 * @param[in] pCamera The camera which contains the current view matrix
 		 *
 		 * Puts the text on the video card to prepare it for drawing
@@ -38,13 +48,13 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VRender(const ICamera * const pCamera) = 0;
 		/********************************************//**
- 		 * @param[in] vPosition The new position at which the sprite should be shown
+ 		 * @param[in] vPosition The new position at which the text should be shown
 		 *
-		 * Sets the position of the sprite
+		 * Sets the position of the text
 		 ***********************************************/
 		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
 		/********************************************//**
- 		 * @param[in] vPosition The text that needs to be displayed
+ 		 * @param[in] strText The text that needs to be displayed
 		 *
 		 * Sets the text that needs to be shown
 		 ***********************************************/
@@ -56,16 +66,30 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetTextColor(const Base::cColor & colorText) = 0;
 		/********************************************//**
+ 		 * @return The width of the sentence
+		 *
+		 * Gets the width of the sentence
+		 ***********************************************/
+		virtual float VGetWidth() const = 0;
+		/********************************************//**
+ 		 * @return The height used by the sentence
+		 *
+		 * Gets the height of the characters of the sentence
+		 ***********************************************/
+		virtual float VGetHeight() const = 0;
+		/********************************************//**
+ 		 * @param[in] fTextHeight The new height of the characters in the sentence
+		 *
+		 * Sets the new height of the characters in the sentence
+		 ***********************************************/
+		virtual void VSetHeight(const float fTextHeight) = 0;
+
+		/********************************************//**
 		 * @return An object to use this interface
 		 *
 		 * Returns an object to use this interface
 		 ***********************************************/
 		GRAPHIC_API static ISentence * CreateSentence();
-		virtual bool VInitialize(shared_ptr<IMyFont> pFont, 
-			const Base::cString & strText, const Base::cColor & textColor) = 0;
-		virtual float VGetWidth() const = 0;
-		virtual float VGetHeight() const = 0;
-		virtual void VSetHeight(const float fTextHeight) = 0;
 	};
 }
 #endif // Sentence_hxx__

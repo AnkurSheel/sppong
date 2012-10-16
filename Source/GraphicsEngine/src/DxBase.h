@@ -152,7 +152,7 @@ namespace Graphics
 		void Cleanup() ;
 
 	public:
-		static IDXBase * s_pDXBase;								/*!< static object of this class */
+		static IDXBase * s_pDXBase;									/*!< static object of this class */
 
 	private:
 		bool						m_bVsyncEnabled;				/*!< True if we want Direct3D to render according to the users monitor refresh rate. False if want it to go as fast as possible. */

@@ -260,6 +260,7 @@ void Graphics::cSprite::VGetSize(Base::cVector2 & vSize)
 {
 	vSize = m_vSize;
 }
+
 // *************************************************************************
 void cSprite::VSetTexture(shared_ptr<ITexture> const pTexture)
 {

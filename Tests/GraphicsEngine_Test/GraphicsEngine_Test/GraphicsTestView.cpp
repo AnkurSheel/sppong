@@ -32,7 +32,6 @@ cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
 , m_pInfoLabelControl(NULL)
 , m_bFinished(false)
-//, m_pVertexData(NULL)
 , m_iVertexListCount(1000)
 , m_pModel(NULL)
 {
@@ -86,11 +85,6 @@ bool cGraphicsTestView::VOnMsgProc( const Base::AppMsg & msg )
 			switch (msg.m_wParam)
 			{ 
 			case 'c':
-				if(!m_bFinished)
-				{
-					m_pAppWindowControl->VRemoveAllChildren();
-					m_pInfoLabelControl = NULL;
-				}
 				if(m_pGame)
 					m_pGame->GotoNextTest();
 				break;
@@ -144,19 +138,19 @@ void cGraphicsTestView::Finished()
 {
 	m_bFinished = true;
 
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Finished all Tests. Press 'c' to exit", 20);
-	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pInfoLabelControl->VSetText("Finished all Tests. Press 'c' to exit");
+	}
 }
 
 // ***************************************************************
 void cGraphicsTestView::TestTriangle()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Triangle. Press 'c' to go to next test", 20);
-	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pInfoLabelControl->VSetText("Testing Triangle. Press 'c' to go to next test");
+	}
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Triangle");
 
@@ -183,10 +177,10 @@ void cGraphicsTestView::TestTriangle()
 // ***************************************************************
 void cGraphicsTestView::TestTextureTriangle()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Texture Triangle. Press 'c' to go to next test", 20);
-	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pInfoLabelControl->VSetText("Testing Texture Triangle. Press 'c' to go to next test");
+	}
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Texture Triangle");
 
@@ -213,10 +207,10 @@ void cGraphicsTestView::TestTextureTriangle()
 // ***************************************************************
 void cGraphicsTestView::TestSprite()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Sprite. Press 'c' to go to next test", 20);
-	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pInfoLabelControl->VSetText("Testing Sprite. Press 'c' to go to next test");
+	}
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Sprite");
 
@@ -230,10 +224,10 @@ void cGraphicsTestView::TestSprite()
 // ***************************************************************
 void cGraphicsTestView::TestFont()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Font. Press 'c' to go to next test", 20);
-	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pInfoLabelControl->VSetText("Testing Font. Press 'c' to go to next test");
+	}
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Font");
 
@@ -252,10 +246,10 @@ void cGraphicsTestView::TestFont()
 // ***************************************************************
 void cGraphicsTestView::TestUIControls()
 {
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing UI Controls. Press 'c' to go to next test", 35);
-	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
-	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pInfoLabelControl->VSetText("Testing UI Controls. Press 'c' to go to next test");
+	}
 
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, 
 		"Test\\window.png", false);
@@ -322,7 +316,6 @@ void cGraphicsTestView::TestUIControls()
 // ***************************************************************
 void cGraphicsTestView::Cleanup()
 {
-//	SAFE_DELETE_ARRAY(m_pVertexData);
 	SAFE_DELETE(m_pModel);
 	std::vector<ISentence*>::iterator iter;
 	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
@@ -343,5 +336,4 @@ void cGraphicsTestView::TestFinished()
 		SAFE_DELETE(*iter)
 	}
 	m_vSentences.clear();
-	m_pAppWindowControl->VRemoveAllChildren();
 }

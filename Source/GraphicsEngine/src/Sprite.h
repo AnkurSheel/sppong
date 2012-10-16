@@ -58,13 +58,14 @@ namespace Graphics
 		 * Recalculates the coordinates and updates the vertex data if the position has changed
 		 ***********************************************/
 		virtual bool RecalculateVertexData();
+
 	private:
+		void VSetTexture( shared_ptr<ITexture> const pTexture);
 		/********************************************//**
 		 *
 		 * Creates and Initializes the font shader for use
 		 ***********************************************/
 		bool InitializeShader();
-		void VSetTexture( shared_ptr<ITexture> const pTexture);
 
 	protected:
 		ID3D11Buffer * 						m_pVertexBuffer;		/*!< The vertex buffer */

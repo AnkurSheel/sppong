@@ -32,7 +32,7 @@ namespace GameBase
 		};
 	public:
 		virtual ~IGameView() {}
-		virtual void VOnCreateDevice(IBaseApp * pGame,  const HINSTANCE & hInst,
+		virtual void VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 			const HWND & hWnd, const int iClientWidth, const int iClientHeight ) = 0;
 		virtual void VOnUpdate(const TICK tickCurrent, const float fElapsedTime) = 0;
 		virtual void VOnRender(const TICK tickCurrent, const float fElapsedTime) = 0;

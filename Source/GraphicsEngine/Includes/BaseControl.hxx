@@ -86,6 +86,36 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetSize(const Base::cVector2 vSize) = 0;
 		/********************************************//**
+ 		 * @param[in] callback pointer to the callback funtion. The function takes in a bool and returns void
+		 *
+		 * Sets the callback function to invoke when an event occurs
+		 ***********************************************/
+		virtual void VRegisterCallBack(function <void (bool)> callback) = 0;
+		/********************************************//**
+		 *
+		 * UnRgisters the callback function
+		 ***********************************************/
+		virtual void VUnregisterCallBack() = 0;
+		/********************************************//**
+ 		 * @return The width of the control
+		 *
+		 * Returns the width of the control
+		 ***********************************************/
+		virtual float VGetWidth() const = 0;
+		/********************************************//**
+ 		 * @return The width of the control
+		 *
+		 * Returns the height of the control
+		 ***********************************************/
+		virtual float VGetHeight() const = 0;
+		/********************************************//**
+ 		 * @param[in] strText The text to be displayed on the control
+		 *
+		 * Sets the text to be displayed on the control
+		 ***********************************************/
+		virtual void VSetText(const Base::cString & strText) = 0;
+
+		/********************************************//**
 		 * @param[in] wType The window type. Can be DESKTOP or STANDARD
 		 * @param[in] strBGImageFile The path for the background image. Can be Empty
 		 * @param[in] bAllowMovingControls True if we want to allow the users to change the position of the control
@@ -107,12 +137,6 @@ namespace Graphics
 		//GRAPHIC_API static IBaseControl * CreateTextBoxControl(const Base::cString & strDefaultImage, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color );
 		//GRAPHIC_API static IBaseControl * CreateVScrollBarControl(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultMinImage, const Base::cString & strPressedMinImage, const Base::cString & strDefaultMaxImage,	const Base::cString & strPressedMaxImage, const int iMinPos, const int iMaxPos);
 		//GRAPHIC_API static IBaseControl * CreateHScrollBarControl(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultMinImage, const Base::cString & strPressedMinImage, const Base::cString & strDefaultMaxImage, const Base::cString & strPressedMaxImage, const int iMinPos, const int iMaxPos);
-		virtual void VRegisterCallBack(function <void (bool)> callback) = 0;
-		virtual void VUnregisterCallBack() = 0;
-		virtual float VGetWidth() const = 0;
-		virtual float VGetHeight() const = 0;
-
-
 	};
 }
 #endif // BaseControl_hxx__

@@ -32,6 +32,7 @@ namespace Graphics
 		~cLabelControl();
 		void VRender(const ICamera * const pCamera);
 		void VSetAbsolutePosition();
+		void VSetText(const Base::cString & strText);
 		void VCleanup();
 
 	private:

@@ -43,7 +43,7 @@ namespace Graphics
 		float VGetWidth() const;
 		float VGetHeight() const;
 		void VRegisterCallBack(function <void (bool)> callback);;
-		void VUnregisterCallBack();;
+		void VUnregisterCallBack();
 
 		virtual bool VOnMouseMove(const int X, const int Y);
 		virtual bool VOnKeyDown(const Base::AppMsg & msg);
@@ -58,7 +58,8 @@ namespace Graphics
 		void VAddChildControl( IBaseControl * const pChildControl);
 		void VRemoveAllChildren();
 		void VRemoveChildControl(const IBaseControl * pChildControl);
-	
+		void VSetText(const Base::cString & strText);
+
 		virtual bool VOnKeyUp(const Base::AppMsg & msg);
 
 		bool AllowMovingControl();
@@ -80,6 +81,7 @@ namespace Graphics
 		bool						m_bAllowMovingControls;
 		Base::cVector2				m_vPosition;		
 		bool						m_bIsMouseDown;
+		function<void (bool)>		m_pfnCallBack;
 	
 	private:
 		cBaseControl *				m_pFocusControl;

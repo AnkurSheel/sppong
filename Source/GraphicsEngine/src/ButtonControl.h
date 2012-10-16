@@ -18,13 +18,28 @@ namespace Graphics
 	class cLabelControl;
 	class ITexture;
 }
+
 namespace Graphics
 {
+    /********************************************//**
+     * @brief Class Declaration for \c Button UI Control
+     ***********************************************/
 	class cButtonControl
 		: public cBaseControl
 	{
 	public:
 		cButtonControl();
+		/********************************************//**
+		 * @param[in] strDefaultImage
+		 * @param[in] strPressedImage
+		 * @param[in] strCaption
+		 * @param[in] m_pFont
+		 * @param[in] textColor
+		 * @param[in] bAutoSize
+		 *
+		 * Sets up the device, swap chain, depth buffer, depth stencil state. 
+		 * Bind the render target view and the depth stencil buffer to the output render pipeline.
+		 ***********************************************/
 		void Init(const Base::cString & strDefaultImage, const Base::cString & strPressedImage,
 			const Base::cString & strCaption, const shared_ptr<IMyFont> m_pFont,
 			const Base::cColor & textColor, const bool bAutoSize);
@@ -35,16 +50,13 @@ namespace Graphics
 		void VRender(const ICamera * const pCamera );
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
-		void VRegisterCallBack(function <void (bool)> callback);
-		void VUnregisterCallBack();
 		void VSetAbsolutePosition();
 		void VCleanup();
 	private:
-		IBaseControl *				m_pLabelCaption;
+		IBaseControl *				m_pLabelCaption;	/*!< static object of this class */
 		shared_ptr<ITexture>		m_pDefaultTexture;
 		shared_ptr<ITexture>		m_pPressedTexture;
 		bool						m_bPressed;
-		function<void (bool)>		m_pfnCallBack;
 	};
 }
 #endif // ButtonControl_h__

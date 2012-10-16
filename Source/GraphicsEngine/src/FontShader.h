@@ -29,6 +29,15 @@ namespace Graphics
 		~cFontShader();
 		bool VInitialize(const Base::cString & strVertexShaderPath,
 			const Base::cString & strPixelShaderPath);
+		/********************************************//**
+ 		 * @param[in] inMatWorld The world matrix
+		 * @param[in] inMatView The View Matrix
+		 * @param[in] inMatProjection The projection Matrix
+		 * @param[in] pTexture The texture resource
+		 * @param[in] textColor The text/font pixel color
+		 *
+		 * Sets the shader parameters and renders the shader
+		 ***********************************************/
 		void Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
 			const D3DXMATRIX & inMatProjection, const ITexture * const pTexture,
 			const D3DXVECTOR4 & textColor);
@@ -43,6 +52,6 @@ namespace Graphics
 		void VCleanup();
 
 	private:
-		ID3D11Buffer *	m_pPixelBuffer;	/*!< The vertex shader constant buffer to store the pixel color data */
+		ID3D11Buffer *	m_pPixelBuffer;		/*!< The vertex shader constant buffer to store the pixel color data */
 	};
 }

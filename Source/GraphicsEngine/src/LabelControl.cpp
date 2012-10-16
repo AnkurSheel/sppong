@@ -55,6 +55,15 @@ void cLabelControl::VSetAbsolutePosition()
 }
 
 // *************************************************************************
+void cLabelControl::VSetText(const Base::cString & strText)
+{
+	if(m_pSentence != NULL)
+	{
+		m_pSentence->VSetText(strText);
+	}
+}
+
+// *************************************************************************
 void cLabelControl::VCleanup()
 {
 	SAFE_DELETE(m_pSentence);

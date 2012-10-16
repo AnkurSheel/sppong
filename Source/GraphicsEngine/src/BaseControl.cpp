@@ -32,6 +32,7 @@ cBaseControl::cBaseControl()
 , m_bIsMouseDown(false)
 , m_bAllowMovingControls(false)
 , m_vControlAbsolutePosition(cVector2::Zero())
+, m_pfnCallBack(NULL)
 {
 
 }
@@ -207,12 +208,19 @@ void cBaseControl::VSetSize( const cVector2 vSize)
 // *************************************************************************
 void cBaseControl::VRegisterCallBack(function <void (bool)> callback)
 {
-
+	m_pfnCallBack = callback;
 }
+
 // *************************************************************************
 void cBaseControl::VUnregisterCallBack()
 {
+	m_pfnCallBack = NULL;
+}
 
+// ***************************************************************
+void cBaseControl::VSetText(const Base::cString & strText)
+{
+	Log_Write_L1(ILogger::LT_ERROR, "This function should be implemented in a child class.")
 }
 
 // ***************************************************************

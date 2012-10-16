@@ -22,7 +22,6 @@ using namespace Base;
 cButtonControl::cButtonControl()
 : m_pLabelCaption(NULL)
 , m_bPressed(false)
-, m_pfnCallBack(NULL)
 {
 
 }
@@ -109,18 +108,6 @@ bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 		m_pfnCallBack(true);
 	}
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
-}
-
-// ***************************************************************
-void cButtonControl::VRegisterCallBack( function <void (bool)> callback )
-{
-	m_pfnCallBack = callback;
-}
-
-// ***************************************************************
-void cButtonControl::VUnregisterCallBack()
-{
-	m_pfnCallBack = NULL;
 }
 
 // ***************************************************************
