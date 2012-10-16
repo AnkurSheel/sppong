@@ -114,52 +114,6 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 }
 
 // ***************************************************************
-bool cBaseControl::VOnKeyDown( const AppMsg & msg )
-{
-	return false;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnKeyUp( const AppMsg & msg )
-{
-	return false;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
-{
-	m_iMouseDownXPos = X - (int)m_vControlAbsolutePosition.m_dX;
-	m_iMouseDownYPos = Y - (int)m_vControlAbsolutePosition.m_dY;
-	m_bIsMouseDown = true;
-	return true;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
-{
-	if(AllowMovingControl() && m_bIsMouseDown)
-		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.m_dX, m_vPosition.m_dY ));
-
-	m_bIsMouseDown = false;
-	return true;
-}
-
-// ***************************************************************
-bool cBaseControl::VOnMouseMove( const int X, const int Y )
-{
-	if (AllowMovingControl() && m_bIsMouseDown)
-	{
-		double x = m_vPosition.m_dX + (X - (int)m_vControlAbsolutePosition.m_dX) - m_iMouseDownXPos;
-		double y = m_vPosition.m_dY + (Y - (int)m_vControlAbsolutePosition.m_dY) - m_iMouseDownYPos;
-
-		ConstrainChildControl(x, y);
-		VSetPosition(cVector2(x, y));
-		return true;
-	}
-	return false;
-}
-
-// ***************************************************************
 void cBaseControl::VAddChildControl(IBaseControl * const pChildControl )
 {
 	cBaseControl * const pControl = dynamic_cast<cBaseControl * const>(pChildControl);
@@ -206,17 +160,6 @@ void cBaseControl::VRemoveAllChildren()
 }
 
 // ***************************************************************
-void cBaseControl::VSetSize( const cVector2 vSize)
-{
-	m_vSize = vSize;
-
-	if(m_pCanvasSprite)
-	{
-		m_pCanvasSprite->VSetSize(m_vSize);
-	}
-}
-
-// ***************************************************************
 void cBaseControl::VRemoveChildControl(const IBaseControl * pChildControl)
 {
 	const cBaseControl * pControl = dynamic_cast<const cBaseControl * >(pChildControl);
@@ -251,25 +194,44 @@ void cBaseControl::VSetPosition( const cVector2 & vPosition )
 }
 
 // ***************************************************************
-void cBaseControl::VSetAbsolutePosition()
+void cBaseControl::VSetSize( const cVector2 vSize)
 {
-	m_vControlAbsolutePosition = m_vPosition;
-	if (m_pParentControl)
-	{
-		m_vControlAbsolutePosition += m_pParentControl->m_vControlAbsolutePosition;
-	}
-	if (m_pCanvasSprite)
-	{
-		m_pCanvasSprite->VSetPosition(m_vControlAbsolutePosition);
-	}
+	m_vSize = vSize;
 
-	cBaseControl * pTempControl = GetFirstChild();
-
-	while(pTempControl)
+	if(m_pCanvasSprite)
 	{
-		pTempControl->VSetAbsolutePosition();
-		pTempControl = pTempControl->GetNextSibling();
+		m_pCanvasSprite->VSetSize(m_vSize);
 	}
+}
+
+// *************************************************************************
+void cBaseControl::VRegisterCallBack(function <void (bool)> callback)
+{
+
+}
+// *************************************************************************
+void cBaseControl::VUnregisterCallBack()
+{
+
+}
+
+// ***************************************************************
+bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
+{
+	if(AllowMovingControl() && m_bIsMouseDown)
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.m_dX, m_vPosition.m_dY ));
+
+	m_bIsMouseDown = false;
+	return true;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
+{
+	m_iMouseDownXPos = X - (int)m_vControlAbsolutePosition.m_dX;
+	m_iMouseDownYPos = Y - (int)m_vControlAbsolutePosition.m_dY;
+	m_bIsMouseDown = true;
+	return true;
 }
 
 // ***************************************************************
@@ -293,15 +255,52 @@ void cBaseControl::VRender(const ICamera * const pCamera)
 }
 
 // ***************************************************************
-float cBaseControl::VGetHeight() const
+bool cBaseControl::VOnKeyDown( const AppMsg & msg )
 {
-	return (float)m_vSize.m_dY;
+	return false;
 }
 
 // ***************************************************************
-float cBaseControl::VGetWidth() const
+bool cBaseControl::VOnKeyUp( const AppMsg & msg )
 {
-	return (float)m_vSize.m_dX;
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnMouseMove( const int X, const int Y )
+{
+	if (AllowMovingControl() && m_bIsMouseDown)
+	{
+		double x = m_vPosition.m_dX + (X - (int)m_vControlAbsolutePosition.m_dX) - m_iMouseDownXPos;
+		double y = m_vPosition.m_dY + (Y - (int)m_vControlAbsolutePosition.m_dY) - m_iMouseDownYPos;
+
+		ConstrainChildControl(x, y);
+		VSetPosition(cVector2(x, y));
+		return true;
+	}
+	return false;
+}
+
+// ***************************************************************
+void cBaseControl::VSetAbsolutePosition()
+{
+	m_vControlAbsolutePosition = m_vPosition;
+	if (m_pParentControl)
+	{
+		m_vControlAbsolutePosition += m_pParentControl->m_vControlAbsolutePosition;
+	}
+	if (m_pCanvasSprite)
+	{
+		m_pCanvasSprite->VSetPosition(m_vControlAbsolutePosition);
+	}
+
+	cBaseControl * pTempControl = GetFirstChild();
+
+	while(pTempControl)
+	{
+		pTempControl->VSetAbsolutePosition();
+		pTempControl = pTempControl->GetNextSibling();
+	}
 }
 
 // ***************************************************************
@@ -314,6 +313,18 @@ void cBaseControl::VSetVisible( bool bIsVisible )
 void cBaseControl::VCleanup()
 {
 	VRemoveAllChildren();
+}
+
+// ***************************************************************
+float cBaseControl::VGetHeight() const
+{
+	return (float)m_vSize.m_dY;
+}
+
+// ***************************************************************
+float cBaseControl::VGetWidth() const
+{
+	return (float)m_vSize.m_dX;
 }
 
 // ***************************************************************

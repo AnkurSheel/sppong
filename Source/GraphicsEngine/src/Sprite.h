@@ -64,6 +64,7 @@ namespace Graphics
 		 * Creates and Initializes the font shader for use
 		 ***********************************************/
 		bool InitializeShader();
+		void VSetTexture( shared_ptr<ITexture> const pTexture);
 
 	protected:
 		ID3D11Buffer * 						m_pVertexBuffer;		/*!< The vertex buffer */

@@ -36,16 +36,20 @@ namespace Graphics
 		cBaseControl();
 		virtual ~cBaseControl();
 		void VRender(const ICamera * const pCamera );
+		bool VOnLeftMouseButtonUp(const int X, const int Y);
+		bool VOnLeftMouseButtonDown(const int X, const int Y);
+		void VSetPosition(const Base::cVector2 & vPosition);
+		void VSetSize(const Base::cVector2 vSize);
 		float VGetWidth() const;
 		float VGetHeight() const;
-		virtual bool VOnLeftMouseButtonUp(const int X, const int Y);
-		virtual bool VOnLeftMouseButtonDown(const int X, const int Y);
-		virtual void VSetPosition(const Base::cVector2 & vPosition);
-		virtual void VSetSize(const Base::cVector2 vSize);
+		void VRegisterCallBack(function <void (bool)> callback);;
+		void VUnregisterCallBack();;
+
 		virtual bool VOnMouseMove(const int X, const int Y);
 		virtual bool VOnKeyDown(const Base::AppMsg & msg);
 		virtual void VSetAbsolutePosition();
 		virtual void VCleanup();
+
 		void SetFocusControl(const cBaseControl * const pControl);
 		cBaseControl * GetFirstChild() const;
 		
@@ -54,7 +58,9 @@ namespace Graphics
 		void VAddChildControl( IBaseControl * const pChildControl);
 		void VRemoveAllChildren();
 		void VRemoveChildControl(const IBaseControl * pChildControl);
+	
 		virtual bool VOnKeyUp(const Base::AppMsg & msg);
+
 		bool AllowMovingControl();
 		void ConstrainChildControl( double & dx, double & dy );
 		cBaseControl * GetPreviousSibling() const;

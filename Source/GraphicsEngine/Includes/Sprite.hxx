@@ -84,6 +84,8 @@ namespace Graphics
 		 * Returns an object to use this interface
 		 ***********************************************/
 		GRAPHIC_API static shared_ptr<ISprite> CreateSprite();
+		virtual void VSetTexture( shared_ptr<ITexture> const pTexture) = 0;
+
 	};
 }
 #endif // Sprite_h__

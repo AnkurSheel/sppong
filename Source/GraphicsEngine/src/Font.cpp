@@ -52,6 +52,12 @@ bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
 	
 }
 
+// *************************************************************************
+float cMyFont::GetFontHeight() const
+{
+	return m_iFontHeight;
+}
+
 // ***************************************************************
 void cMyFont::Cleanup()
 {
@@ -73,6 +79,7 @@ void cMyFont::ParseFontDesc(const cString & strFontDirPath,
 	m_strFontTexPath = strFontDirPath + m_strFontTexPath;
 	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
 	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
+	m_iFontHeight = pFile->VGetNodeAttributeAsInt("common", "lineHeight");
 
  	std::vector<cString> vCharIDs;
 	pFile->VGetAllChildrenNames("chars", vCharIDs);

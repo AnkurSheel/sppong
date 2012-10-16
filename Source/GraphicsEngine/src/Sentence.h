@@ -47,6 +47,10 @@ namespace Graphics
 		void Cleanup();
 		bool VInitialize(shared_ptr<IMyFont> pFont, 
 			const Base::cString & strText, const Base::cColor & textColor);
+		float VGetWidth() const ;
+		float VGetHeight() const;
+		void VSetHeight(const float fTextHeight);
+
 	private:
 		ID3D11Buffer * 						m_pVertexBuffer;	/*!< The vertex buffer */
 		ID3D11Buffer *						m_pIndexBuffer;		/*!< The index buffer */
@@ -57,6 +61,8 @@ namespace Graphics
 		int									m_iIndexCount;		/*!< The number of indices that have to be displayed */
 		Base::cVector2						m_vPosition;		/*!< The current position of the sprite */
 		bool								m_bIsDirty;			/*!< True if the vertex data needs to be recalculated */
+		float								m_fWidth;
+		float								m_fScale;
 	};
 }
 #endif // Sentence_h__

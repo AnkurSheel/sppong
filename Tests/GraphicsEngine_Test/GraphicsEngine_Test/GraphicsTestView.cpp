@@ -55,10 +55,9 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	m_pFont->VInitialize("Font\\", "licorice.fnt");
 
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Press 'c' to start test");
+		"Press 'c' to start test", 20);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
-
 }
 
 // ***************************************************************
@@ -146,7 +145,7 @@ void cGraphicsTestView::Finished()
 	m_bFinished = true;
 
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Finished all Tests. Press 'c' to exit");
+		"Finished all Tests. Press 'c' to exit", 20);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 }
@@ -155,7 +154,7 @@ void cGraphicsTestView::Finished()
 void cGraphicsTestView::TestTriangle()
 {
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Triangle. Press 'c' to go to next test");
+		"Testing Triangle. Press 'c' to go to next test", 20);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
@@ -185,7 +184,7 @@ void cGraphicsTestView::TestTriangle()
 void cGraphicsTestView::TestTextureTriangle()
 {
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Texture Triangle. Press 'c' to go to next test");
+		"Testing Texture Triangle. Press 'c' to go to next test", 20);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
@@ -215,7 +214,7 @@ void cGraphicsTestView::TestTextureTriangle()
 void cGraphicsTestView::TestSprite()
 {
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Sprite. Press 'c' to go to next test");
+		"Testing Sprite. Press 'c' to go to next test", 20);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
@@ -232,7 +231,7 @@ void cGraphicsTestView::TestSprite()
 void cGraphicsTestView::TestFont()
 {
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing Font. Press 'c' to go to next test");
+		"Testing Font. Press 'c' to go to next test", 20);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
@@ -254,7 +253,7 @@ void cGraphicsTestView::TestFont()
 void cGraphicsTestView::TestUIControls()
 {
 	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Testing UI Controls. Press 'c' to go to next test");
+		"Testing UI Controls. Press 'c' to go to next test", 35);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 
@@ -264,29 +263,29 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VSetPosition(cVector2(300.f, 300.f));
 	pWindowControl->VSetSize(cVector2(400, 400));
 
-	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GREEN, "Label  ");
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(m_pFont,
+		cColor::GREEN, "Label  ", 45);
 	pWindowControl->VAddChildControl(pLabelControl);
 	pLabelControl->VSetPosition(cVector2(0.f, 70.f));
 
-	//	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png",
-	//		"Test\\buttonPressed.png", "Button", 20, 10, 8, false, DEFAULT_CHARSET,
-	//		"Vladimir Script", DT_VCENTER|DT_CENTER, cColor::WHITE.GetColor(), false);
-	//	pWindowControl->VAddChildControl(pButtonControl);
-	//	pButtonControl->VSetSize(100, 100);
-	//	pButtonControl->VSetPosition(cVector3(0.f, 90.f, 0.f));
-	//	function<void (bool)> btnCallback;
-	//	btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
-	//	pButtonControl->VRegisterCallBack(btnCallback);
-	//
-	//	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl("Test\\buttonDefault.png",
-	//		"Test\\buttonPressed.png");
-	//	pWindowControl->VAddChildControl(pButtonControl1);
-	//	pButtonControl1->VSetSize(30, 30);
-	//	pButtonControl1->VSetPosition(cVector3(150.f, 90.f, 0.f));
-	//	function<void (bool)> btn1Callback;
-	//	btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
-	//	pButtonControl1->VRegisterCallBack(btn1Callback);
-	//
+		IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png",
+			"Test\\buttonPressed.png", "Button", m_pFont, cColor::WHITE, false);
+		pWindowControl->VAddChildControl(pButtonControl);
+		pButtonControl->VSetSize(cVector2(100, 100));
+		pButtonControl->VSetPosition(cVector2(0.f, 90.f));
+		function<void (bool)> btnCallback;
+		btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
+		pButtonControl->VRegisterCallBack(btnCallback);
+	
+		IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl("Test\\buttonDefault.png",
+			"Test\\buttonPressed.png");
+		pWindowControl->VAddChildControl(pButtonControl1);
+		pButtonControl1->VSetSize(cVector2(60, 30));
+		pButtonControl1->VSetPosition(cVector2(150.f, 90.f));
+		function<void (bool)> btn1Callback;
+		btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
+		pButtonControl1->VRegisterCallBack(btn1Callback);
+	
 	//	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png",
 	//		10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, 
 	//		cColor::BLACK.GetColor());

@@ -57,6 +57,7 @@ namespace Graphics
 			const D3DXMATRIX & inMatProjection, const D3DXVECTOR4 & textColor);
 		void GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch,
 			float & fTexU, float & fTexV, float & fTexU1, float & fTexV1);
+		float GetFontHeight() const ;
 
 	private:
 		bool VInitialize(const Base::cString & strFontDirPath,
@@ -79,7 +80,6 @@ namespace Graphics
 		 * Releases and destroys all the resources 
 		 ***********************************************/
 		void Cleanup();
-
 	private:
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;
 
@@ -89,6 +89,7 @@ namespace Graphics
 		int									m_iTextureWidth;		/*!< The width of the texture file */
 		int									m_iTextureHeight;		/*!< The height of the texture file */
 		CharDescriptorMap					m_CharDescriptorMap;	/*!< The map contaning all the character descriptions with their ascii value as the key */
+		int									m_iFontHeight;
 	};
 }
 #endif // Font_h__

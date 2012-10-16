@@ -36,6 +36,8 @@ cSentence::cSentence()
 , m_iIndexCount(0)
 , m_vPosition(cVector2::Zero())
 , m_bIsDirty(true)
+, m_fWidth(0.0f)
+, m_fScale(1.0f)
 {
 }
 
@@ -43,6 +45,28 @@ cSentence::cSentence()
 cSentence::~cSentence()
 {
 	Cleanup();
+}
+
+// *************************************************************************
+bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
+							const Base::cString & strText,
+							const Base::cColor & textColor)
+{
+	m_pFont = static_pointer_cast<cMyFont>(pFont);
+
+	m_iVertexCount = MAX_FILENAME_WIDTH * 4;
+
+	if(!CreateVertexBuffer())
+		return false;
+
+	if(!CreateIndexBuffer())
+		return false;
+
+	m_vPosition = cVector2(-1.0f, -1.0f);
+	VSetText(strText);
+	VSetTextColor(textColor);
+	RecalculateVertexData();
+	return true;
 }
 
 // ***************************************************************
@@ -96,9 +120,29 @@ void cSentence::VSetTextColor(const Base::cColor & colorText)
 	m_TextColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
 }
 
+// *************************************************************************
+float cSentence::VGetWidth() const
+{
+	return m_fWidth;
+}
+
+// *************************************************************************
+float cSentence::VGetHeight() const
+{
+	return m_fScale * m_pFont->GetFontHeight();
+}
+
+// *************************************************************************
+void cSentence::VSetHeight(const float fTextHeight)
+{
+	m_fScale = fTextHeight/m_pFont->GetFontHeight();
+	m_bIsDirty = true;
+}
+
 // ***************************************************************
 bool cSentence::RecalculateVertexData()
 {
+	m_fWidth = 0.0f;
 	int istrLength = m_strText.GetLength();
 	m_iIndexCount = istrLength * 6;
 
@@ -122,10 +166,10 @@ bool cSentence::RecalculateVertexData()
 		int val = (int)m_strText[i];
 		m_pFont->GetCharVertexData(val, ch, u, v, u1, v1);
 
-		left = curX + ch.XOffset;
-		right = left + ch.Width;
-		top = curY + ch.YOffset;
-		bottom = top - ch.Height;
+		left = curX + m_fScale * ch.XOffset;
+		right = left + m_fScale * ch.Width;
+		top = curY + m_fScale * ch.YOffset;
+		bottom = top - m_fScale * ch.Height;
 
 		// Create the vertex array.
 		pVertices[i*4] = stTexVertex(left, bottom, 0.0f, u, v1);
@@ -133,7 +177,8 @@ bool cSentence::RecalculateVertexData()
 		pVertices[i*4+2] = stTexVertex(right, bottom, 0.0f, u1, v1);
 		pVertices[i*4+3] = stTexVertex(right, top, 0.0f, u1, v);
 
-		curX += ch.XAdvance;
+		curX += m_fScale * ch.XAdvance;
+		m_fWidth += m_fScale * ch.XAdvance;
 	}
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -215,28 +260,6 @@ void cSentence::Cleanup()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
-}
-
-// *************************************************************************
-bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
-							const Base::cString & strText,
-							const Base::cColor & textColor)
-{
-	m_pFont = static_pointer_cast<cMyFont>(pFont);
-
-	m_iVertexCount = MAX_FILENAME_WIDTH * 4;
-
-	if(!CreateVertexBuffer())
-		return false;
-
-	if(!CreateIndexBuffer())
-		return false;
-
-	m_vPosition = cVector2(-1.0f, -1.0f);
-	VSetText(strText);
-	VSetTextColor(textColor);
-	m_bIsDirty = true;
-	return true;
 }
 
 // *************************************************************************

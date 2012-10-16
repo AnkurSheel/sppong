@@ -12,13 +12,10 @@
 #include "GraphicsClass.hxx"
 #include "ProcessManager.hxx"
 #include "BaseApp.hxx"
-//#include "Font.hxx"
-//#include "Sprite.hxx"
-//#include "ScreenElement.hxx"
 #include "BaseControl.hxx"
 #include "MainWindow.hxx"
 #include "Vector2.h"
-//#include "vertexstruct.h"
+#include "vector3.h"
 #include "Color.h"
 #include "Camera.hxx"
 
@@ -51,6 +48,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	m_pAppWindowControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
 	m_pAppWindowControl->VSetSize(cVector2(iClientWidth, iClientHeight));
 	m_pCamera = ICamera::CreateCamera();
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
 // 		"Sprites\\cursor.png");

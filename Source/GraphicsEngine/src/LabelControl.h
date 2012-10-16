@@ -26,7 +26,7 @@ namespace Graphics
 	public:
 		cLabelControl();
 		void Init(const shared_ptr<IMyFont> m_pFont, const Base::cColor & textColor,
-			const Base::cString & strText);
+			const Base::cString & strText, const float fTextHeight);
 	
 	private:
 		~cLabelControl();

@@ -63,6 +63,9 @@ namespace Graphics
 		GRAPHIC_API static ISentence * CreateSentence();
 		virtual bool VInitialize(shared_ptr<IMyFont> pFont, 
 			const Base::cString & strText, const Base::cColor & textColor) = 0;
+		virtual float VGetWidth() const = 0;
+		virtual float VGetHeight() const = 0;
+		virtual void VSetHeight(const float fTextHeight) = 0;
 	};
 }
 #endif // Sentence_hxx__

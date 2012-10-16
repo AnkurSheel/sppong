@@ -381,6 +381,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ButtonControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ButtonControl.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\LabelControl.cpp"
 					>
 				</File>
