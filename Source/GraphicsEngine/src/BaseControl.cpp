@@ -16,16 +16,12 @@
 using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
-
+using namespace std;
 // ***************************************************************
 cBaseControl::cBaseControl()
 : m_vSize(cVector2::Zero())
 , m_bVisible(true)
-, m_pChildControls(NULL) 
-, m_pNextSibling(NULL) 
-, m_pPreviousSibling(NULL) 
 , m_pParentControl(NULL) 
-, m_iNoOfChildren(0)
 , m_vPosition(cVector2::Zero())
 , m_bFocus(false)
 , m_pFocusControl(NULL)
@@ -117,28 +113,11 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 // ***************************************************************
 void cBaseControl::VAddChildControl(IBaseControl * const pChildControl )
 {
-	cBaseControl * const pControl = dynamic_cast<cBaseControl * const>(pChildControl);
+	cBaseControl * const pControl = static_cast<cBaseControl * const>(pChildControl);
 	if (pControl)
 	{
 		pControl->SetParentControl(this);
-
-		if (!m_pChildControls)
-		{
-			m_pChildControls = pControl;
-		}
-		else
-		{
-			cBaseControl * temp = GetFirstChild();
-
-			while (temp->GetNextSibling())
-			{
-				temp = temp->GetNextSibling();
-			}
-
-			temp->SetNextSibling(pControl);
-			pControl->SetPreviousSibling(temp);
-		}
-		m_iNoOfChildren++;
+		m_pChildControl.push_back(pControl);
 	}
 }
 
@@ -149,40 +128,21 @@ void cBaseControl::VRemoveAllChildren()
 	{
 		m_pFocusControl = this;
 	}
-	cBaseControl * temp = GetFirstChild();
-	while(temp)
+	/*list<IBaseControl * const>::iterator iter;
+	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
-		cBaseControl * pNextControl = temp->GetNextSibling();
-		SAFE_DELETE(temp);
-		temp = pNextControl;
-	}
-	m_iNoOfChildren = 0;
-	m_pChildControls = NULL;
+		SAFE_DELETE(*iter);
+	}*/
+	m_pChildControl.clear();
 }
 
 // ***************************************************************
-void cBaseControl::VRemoveChildControl(const IBaseControl * pChildControl)
+void cBaseControl::VRemoveChildControl(const IBaseControl * const pChildControl)
 {
-	const cBaseControl * pControl = dynamic_cast<const cBaseControl * >(pChildControl);
-	if(pControl)
+	list<cBaseControl * const>::iterator iter = GetChildControlIterator(pChildControl);
+	if(iter != m_pChildControl.end())
 	{
-		cBaseControl * pNextControl = pControl->GetNextSibling();
-		cBaseControl * pPreviousControl = pControl->GetPreviousSibling();
-
-		SAFE_DELETE(pChildControl);
-		if (pNextControl)
-		{
-			pNextControl->SetPreviousSibling(pPreviousControl);
-		}
-		if(pPreviousControl)
-		{
-			pPreviousControl->SetNextSibling(pNextControl);
-		}
-		else
-		{
-			m_pChildControls = pNextControl;
-		}
-		m_iNoOfChildren--;
+		m_pChildControl.erase(iter);
 	}
 }
 
@@ -195,7 +155,7 @@ void cBaseControl::VSetPosition( const cVector2 & vPosition )
 }
 
 // ***************************************************************
-void cBaseControl::VSetSize( const cVector2 vSize)
+void cBaseControl::VSetSize( const cVector2 & vSize)
 {
 	m_vSize = vSize;
 
@@ -255,11 +215,11 @@ void cBaseControl::VRender(const ICamera * const pCamera)
 		m_pCanvasSprite->VRender(pCamera);
 	}
 
-	if (m_pChildControls)
+	list<cBaseControl * const>::reverse_iterator iter;
+	for(iter = m_pChildControl.rbegin(); iter != m_pChildControl.rend(); iter++)
 	{
-		RenderInReverse(m_pChildControls, pCamera);
+		(*iter)->VRender(pCamera);
 	}
-
 }
 
 // ***************************************************************
@@ -302,12 +262,10 @@ void cBaseControl::VSetAbsolutePosition()
 		m_pCanvasSprite->VSetPosition(m_vControlAbsolutePosition);
 	}
 
-	cBaseControl * pTempControl = GetFirstChild();
-
-	while(pTempControl)
+	list<cBaseControl * const>::iterator iter;
+	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
-		pTempControl->VSetAbsolutePosition();
-		pTempControl = pTempControl->GetNextSibling();
+		(*iter)->VSetAbsolutePosition();
 	}
 }
 
@@ -351,16 +309,13 @@ bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 // ***************************************************************
 cBaseControl * cBaseControl::PostToAll( const AppMsg & msg )
 {
-	cBaseControl * pTempControl = GetFirstChild();
-
-	while(pTempControl)
+	list<cBaseControl * const>::iterator iter;
+	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
-		cBaseControl * pNextControl = pTempControl->GetNextSibling();
-		if (pTempControl->VPostMsg(msg))
+		if((*iter)->VPostMsg(msg))
 		{
-			return pTempControl;
+			return (*iter);
 		}
-		pTempControl = pNextControl;
 	}
 	return NULL;
 }
@@ -394,26 +349,11 @@ void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 // ***************************************************************
 void cBaseControl::MoveToFront( cBaseControl * const pControl )
 {
-	cBaseControl * pNextControl = pControl->GetNextSibling();
-	cBaseControl * pPrevControl = pControl->GetPreviousSibling();
-
-	if (pPrevControl) // not in front
+	list<cBaseControl * const>::iterator iter = GetChildControlIterator(pControl);
+	if(iter != m_pChildControl.end() && iter != m_pChildControl.begin())
 	{
-		pPrevControl->SetNextSibling(pNextControl);
-		if (pNextControl)
-		{
-			pNextControl->SetPreviousSibling(pPrevControl);
-		}
+		m_pChildControl.splice(m_pChildControl.begin(), m_pChildControl, iter);
 	}
-	else
-	{
-		return;
-	}
-
-	pControl->SetNextSibling(m_pChildControls);
-	m_pChildControls->SetPreviousSibling(pControl);
-	pControl->SetPreviousSibling(NULL);
-	m_pChildControls = pControl;
 }
 
 // ***************************************************************
@@ -441,40 +381,12 @@ void cBaseControl::ConstrainChildControl( double & dx, double & dy )
 	}
 }
 
-cBaseControl * cBaseControl::GetFirstChild() const
-{
-	return m_pChildControls;
-}
-
-// ***************************************************************
-cBaseControl * cBaseControl::GetNextSibling() const
-{
-	return m_pNextSibling;
-}
-
 // ***************************************************************
 void cBaseControl::SetParentControl( cBaseControl * pParentControl )
 {
 	m_pParentControl = pParentControl;
 }
 
-// ***************************************************************
-void cBaseControl::SetNextSibling( cBaseControl * pControl )
-{
-	m_pNextSibling = pControl;
-}
-
-// ***************************************************************
-cBaseControl * cBaseControl::GetPreviousSibling() const
-{
-	return m_pPreviousSibling;
-}
-
-// ***************************************************************
-void cBaseControl::SetPreviousSibling( cBaseControl * pControl )
-{
-	m_pPreviousSibling = pControl;
-}
 
 // ***************************************************************
 bool cBaseControl::AllowMovingControl()
@@ -487,13 +399,19 @@ bool cBaseControl::AllowMovingControl()
 }
 
 // ***************************************************************
-void cBaseControl::RenderInReverse(cBaseControl * const pControl,
-											const ICamera * const pCamera)
+list<cBaseControl * const>::iterator cBaseControl::GetChildControlIterator(const IBaseControl * const pChildControl)
 {
-	cBaseControl *  pNextControl = pControl->GetNextSibling();
-	if(pNextControl)
+	list<cBaseControl * const>::iterator iter;
+	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
-		pNextControl->RenderInReverse(pNextControl, pCamera);
+		if(*iter == pChildControl)
+		{
+			break;
+		}
 	}
-	pControl->VRender(pCamera);
+	if(iter == m_pChildControl.end())
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child contron in Base Control");
+	}
+	return iter;
 }

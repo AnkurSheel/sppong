@@ -67,7 +67,7 @@ namespace Graphics
 		 *
 		 * Removes and deletes the child control
 		 ***********************************************/
-		virtual void VRemoveChildControl(const IBaseControl * pChildControl) = 0;
+		virtual void VRemoveChildControl(const IBaseControl * const pChildControl) = 0;
 		/********************************************//**
  		 * @param[in] vPosition The position of the control
 		 *
@@ -79,7 +79,7 @@ namespace Graphics
 		 *
 		 * Sets the size of the control
 		 ***********************************************/
-		virtual void VSetSize(const Base::cVector2 vSize) = 0;
+		virtual void VSetSize(const Base::cVector2 & vSize) = 0;
 		/********************************************//**
  		 * @param[in] callback pointer to the callback funtion. The function takes in a bool and returns void
 		 *

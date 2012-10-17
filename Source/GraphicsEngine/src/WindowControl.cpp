@@ -15,6 +15,7 @@
 using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
+using namespace std;
 
 // ***************************************************************
 Graphics::cWindowControl::cWindowControl(WINDOWTYPE wType, bool bAllowMovingControls)
@@ -90,13 +91,10 @@ void Graphics::cWindowControl::Minimize( const int iWidth, const int iHeight,
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		cBaseControl * pTempControl = GetFirstChild();
-
-		while(pTempControl)
+		list<cBaseControl * const>::iterator iter;
+		for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 		{
-			cBaseControl * pNextControl = pTempControl->GetNextSibling();
-			pNextControl->VSetVisible(false);
-			pTempControl = pNextControl;
+			(*iter)->VSetVisible(false);
 		}
 
 		m_iLastNormalPosX = (int)m_vPosition.m_dX;
@@ -110,7 +108,6 @@ void Graphics::cWindowControl::Minimize( const int iWidth, const int iHeight,
 		m_vPosition.m_dY = iY;
 		m_vSize.m_dX = iWidth;
 		m_vSize.m_dY = iHeight;
-
 	}
 }
 
