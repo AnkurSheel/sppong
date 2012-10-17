@@ -389,6 +389,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Includes\ControlStructures.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\LabelControl.cpp"
 					>
 				</File>

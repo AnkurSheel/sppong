@@ -29,21 +29,7 @@ namespace Graphics
 	{
 	public:
 		cButtonControl();
-		/********************************************//**
-		 * @param[in] strDefaultImage
-		 * @param[in] strPressedImage
-		 * @param[in] strCaption
-		 * @param[in] m_pFont
-		 * @param[in] textColor
-		 * @param[in] bAutoSize
-		 *
-		 * Sets up the device, swap chain, depth buffer, depth stencil state. 
-		 * Bind the render target view and the depth stencil buffer to the output render pipeline.
-		 ***********************************************/
-		void Init(const Base::cString & strDefaultImage, const Base::cString & strPressedImage,
-			const Base::cString & strCaption, const shared_ptr<IMyFont> m_pFont,
-			const Base::cColor & textColor, const bool bAutoSize);
-		void Init(const Base::cString & strDefaultImage, const Base::cString & strPressedImage);
+		void Init(const ButtonControlDef & def);
 
 	private:
 		~cButtonControl();

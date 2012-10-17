@@ -86,6 +86,10 @@ bool Graphics::cSprite::VInitialize( const Base::cString & strTextureFilename )
 // ***************************************************************
 void Graphics::cSprite::VRender(const ICamera * const pCamera)
 {
+	if (!m_pTexture)
+	{
+		return;
+	}
 	if (m_bIsDirty)
 	{
 		RecalculateVertexData();

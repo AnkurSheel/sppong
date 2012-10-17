@@ -13,6 +13,7 @@
 #include "GraphicEngineDefines.h"
 #include "ScreenElement.hxx"
 #include "MouseHandler.hxx"
+#include "ControlStructures.h"
 
 namespace Base
 {
@@ -29,12 +30,6 @@ namespace Graphics
 
 namespace Graphics
 {
-	enum WINDOWTYPE
-	{
-		WT_DESKTOP,
-		WT_STANDARD,
-	};
-
 	/********************************************//**
 	 * @brief Interface for All UI controls.
 	 *
@@ -116,23 +111,14 @@ namespace Graphics
 		virtual void VSetText(const Base::cString & strText) = 0;
 
 		/********************************************//**
-		 * @param[in] wType The window type. Can be DESKTOP or STANDARD
-		 * @param[in] strBGImageFile The path for the background image. Can be Empty
-		 * @param[in] bAllowMovingControls True if we want to allow the users to change the position of the control
+		 * @param[in] def The params to create the window control  
 		 * @return A window control object
 		 *
 		 * Returns a window control object
 		 ***********************************************/
-		GRAPHIC_API static IBaseControl * CreateWindowControl(WINDOWTYPE wType,
-			const Base::cString & strBGImageFile, const bool bAllowMovingControls);
-		GRAPHIC_API static IBaseControl * CreateLabelControl(const shared_ptr<IMyFont> m_pFont,
-			const Base::cColor & textColor, const Base::cString & strText, const float fTextHeight);
-		GRAPHIC_API static IBaseControl * CreateButtonControl(const Base::cString & strDefaultImage,
-			const Base::cString & strPressedImage, const Base::cString & strCaption,
-			const shared_ptr<IMyFont> m_pFont, const Base::cColor & textColor,
-			const bool bAutoSize);
-		GRAPHIC_API static IBaseControl * CreateButtonControl(const Base::cString & strDefaultImage,
-			const Base::cString & strPressedImage);
+		GRAPHIC_API static IBaseControl * CreateWindowControl(const WindowControlDef & def);
+		GRAPHIC_API static IBaseControl * CreateLabelControl(const LabelControlDef & def);
+		GRAPHIC_API static IBaseControl * CreateButtonControl(const ButtonControlDef & def);
 		//GRAPHIC_API static IBaseControl * CreateCheckBoxControl(const Base::cString & strCheckedImage, const Base::cString & strUncheckedImage, const Base::cString & strCaption, const int iCheckBoxWidth, const int iCheckBoxHeight, const int iSpaceCaption, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color);
 		//GRAPHIC_API static IBaseControl * CreateTextBoxControl(const Base::cString & strDefaultImage, const int iHeight, const UINT iWidth, const UINT iWeight, const BOOL bItalic, const BYTE charset, const Base::cString & strFaceName, DWORD dwFormat, const D3DXCOLOR & color );
 		//GRAPHIC_API static IBaseControl * CreateVScrollBarControl(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultMinImage, const Base::cString & strPressedMinImage, const Base::cString & strDefaultMaxImage,	const Base::cString & strPressedMaxImage, const int iMinPos, const int iMaxPos);

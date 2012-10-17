@@ -33,41 +33,52 @@ cButtonControl::~cButtonControl()
 }
 
 // ***************************************************************
-void cButtonControl::Init(const Base::cString & strDefaultImage,
-									const Base::cString & strPressedImage,
-									const Base::cString & strCaption,
-									const shared_ptr<IMyFont> m_pFont,
-									const Base::cColor & textColor,
-									const bool bAutoSize)
+void cButtonControl::Init(const ButtonControlDef & def)
 {
-	Init(strDefaultImage, strPressedImage);
+	if (!def.strDefaultImage.IsEmpty())
+	{
+		if(m_pDefaultTexture == NULL)
+		{
+			m_pDefaultTexture = ITexture::CreateTexture();
+		}
+		m_pDefaultTexture->VInitialize(def.strDefaultImage);
+
+	}
+
+	if (!def.strPressedImage.IsEmpty())
+	{
+		if(m_pPressedTexture == NULL)
+		{
+			m_pPressedTexture = ITexture::CreateTexture();
+		}
+		m_pPressedTexture->VInitialize(def.strPressedImage);
+	}
+
+	//if ((m_pDefaultTexture || m_pPressedTexture))
+	{
+		m_pCanvasSprite = ISprite::CreateSprite();
+		if (m_pDefaultTexture)
+		{
+			m_pCanvasSprite->VInitialize(m_pDefaultTexture);
+		}
+	}
 
 	SAFE_DELETE(m_pLabelCaption);
-	m_pLabelCaption = IBaseControl::CreateLabelControl(m_pFont, textColor, strCaption, 35);
-	if(bAutoSize)
+	
+	if (def.pFont)
 	{
-		VSetSize(cVector2(m_pLabelCaption->VGetWidth(), m_pLabelCaption->VGetHeight()));
-	}
-}
+		LabelControlDef labelDef;
+		labelDef.pFont = def.pFont;
+		labelDef.textColor = def.textColor;
+		labelDef.strText = def.strCaption;
+		labelDef.fTextHeight = 35;
 
-// ***************************************************************
-void cButtonControl::Init( const Base::cString & strDefaultImage,
-									const Base::cString & strPressedImage )
-{
-	if(m_pDefaultTexture == NULL)
-	{
-		m_pDefaultTexture = ITexture::CreateTexture();
+		m_pLabelCaption = IBaseControl::CreateLabelControl(labelDef);
+		if(def.bAutoSize)
+		{
+			VSetSize(cVector2(m_pLabelCaption->VGetWidth(), m_pLabelCaption->VGetHeight()));
+		}
 	}
-	m_pDefaultTexture->VInitialize(strDefaultImage);
-
-	if(m_pPressedTexture == NULL)
-	{
-		m_pPressedTexture = ITexture::CreateTexture();
-	}
-	m_pPressedTexture->VInitialize(strPressedImage);
-
-	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->VInitialize(m_pDefaultTexture);
 }
 
 // ***************************************************************
@@ -87,7 +98,10 @@ bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 	{
 		Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl :Button Released");
 		m_bPressed = false;
-		m_pCanvasSprite->VSetTexture(m_pDefaultTexture);
+		if(m_pDefaultTexture)
+		{
+			m_pCanvasSprite->VSetTexture(m_pDefaultTexture);
+		}
 		if (m_pfnCallBack)
 		{
 			m_pfnCallBack(false);
@@ -102,7 +116,10 @@ bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl: Button Pressed");
 	m_bPressed = true;
-	m_pCanvasSprite->VSetTexture(m_pPressedTexture);
+	if (m_pPressedTexture)
+	{
+		m_pCanvasSprite->VSetTexture(m_pPressedTexture);
+	}
 	if (m_pfnCallBack)
 	{
 		m_pfnCallBack(true);
@@ -130,23 +147,9 @@ void cButtonControl::VCleanup()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateButtonControl(const Base::cString & strDefaultImage,
-												 const Base::cString & strPressedImage,
-												 const Base::cString & strCaption,
-												 const shared_ptr<IMyFont> m_pFont,
-												 const Base::cColor & textColor,
-												 const bool bAutoSize)
+IBaseControl * IBaseControl::CreateButtonControl(const ButtonControlDef & def)
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
-	pControl->Init(strDefaultImage, strPressedImage, strCaption, m_pFont, textColor, bAutoSize);
-	return pControl;
-}
-
-// ***************************************************************
-IBaseControl * IBaseControl::CreateButtonControl( const Base::cString & strDefaultImage, 
-												 const Base::cString & strPressedImage )
-{
-	cButtonControl * pControl = DEBUG_NEW cButtonControl();
-	pControl->Init(strDefaultImage, strPressedImage);
+	pControl->Init(def);
 	return pControl;
 }

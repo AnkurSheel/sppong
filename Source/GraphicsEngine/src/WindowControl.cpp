@@ -129,14 +129,12 @@ void Graphics::cWindowControl::Restore()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateWindowControl( WINDOWTYPE wType,
-												 const Base::cString & strFileName, 
-												 const bool bAllowMovingControls)
+IBaseControl * IBaseControl::CreateWindowControl(const WindowControlDef & def)
 {
-	cWindowControl * pControl = DEBUG_NEW cWindowControl(wType, bAllowMovingControls);
-	if (!strFileName.IsEmpty())
+	cWindowControl * pControl = DEBUG_NEW cWindowControl(def.wType, def.bAllowMovingControls);
+	if (!def.strBGImageFile.IsEmpty())
 	{
-		pControl->LoadCanvasFromFile(strFileName);
+		pControl->LoadCanvasFromFile(def.strBGImageFile);
 	}
 	return pControl;
 }

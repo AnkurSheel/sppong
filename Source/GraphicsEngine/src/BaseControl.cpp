@@ -414,7 +414,6 @@ void cBaseControl::MoveToFront( cBaseControl * const pControl )
 	m_pChildControls->SetPreviousSibling(pControl);
 	pControl->SetPreviousSibling(NULL);
 	m_pChildControls = pControl;
-
 }
 
 // ***************************************************************

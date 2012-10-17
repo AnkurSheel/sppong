@@ -28,12 +28,11 @@ cLabelControl::~cLabelControl()
 }
 
 // ***************************************************************
-void cLabelControl::Init(const shared_ptr<IMyFont> m_pFont, const cColor & textColor,
-								   const cString & strText, const float fTextHeight)
+void cLabelControl::Init(const LabelControlDef & def)
 {
 	m_pSentence = ISentence::CreateSentence();
-	m_pSentence->VInitialize(m_pFont, strText, textColor);
-	m_pSentence->VSetHeight(fTextHeight);
+	m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
+	m_pSentence->VSetHeight(def.fTextHeight);
 	VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
 }
 
@@ -71,12 +70,9 @@ void cLabelControl::VCleanup()
 }
 
 // *************************************************************************
-IBaseControl * IBaseControl::CreateLabelControl(const shared_ptr<IMyFont> m_pFont,
-														  const cColor & textColor,
-														  const cString & strText,
-														  const float fTextHeightt)
+IBaseControl * IBaseControl::CreateLabelControl(const LabelControlDef & def)
 {
 	cLabelControl * pControl = DEBUG_NEW cLabelControl();
-	pControl->Init(m_pFont, textColor, strText, fTextHeightt);
+	pControl->Init(def);
 	return pControl;
 }

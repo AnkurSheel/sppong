@@ -53,8 +53,12 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	m_pFont = IMyFont::CreateMyFont();
 	m_pFont->VInitialize("Font\\", "licorice.fnt");
 
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(m_pFont, cColor::GRAY, 
-		"Press 'c' to start test", 20);
+	LabelControlDef def;
+	def.pFont = m_pFont;
+	def.textColor = cColor::GRAY;
+	def.strText = "Press 'c' to start test";
+	def.fTextHeight = 20;
+	m_pInfoLabelControl = IBaseControl::CreateLabelControl(def);
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 }
@@ -251,34 +255,52 @@ void cGraphicsTestView::TestUIControls()
 		m_pInfoLabelControl->VSetText("Testing UI Controls. Press 'c' to go to next test");
 	}
 
-	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(WT_STANDARD, 
-		"Test\\window.png", false);
+	WindowControlDef wcDef;
+	wcDef.wType = WT_STANDARD;
+	wcDef.strBGImageFile = "Test\\window.png";
+	wcDef.bAllowMovingControls = false;
+
+	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(wcDef);
 	m_pAppWindowControl->VAddChildControl(pWindowControl);
 	pWindowControl->VSetPosition(cVector2(300.f, 300.f));
 	pWindowControl->VSetSize(cVector2(400, 400));
 
-	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(m_pFont,
-		cColor::GREEN, "Label  ", 45);
+	LabelControlDef labelDef;
+	labelDef.pFont = m_pFont;
+	labelDef.textColor = cColor::GREEN;
+	labelDef.strText = "Label";
+	labelDef.fTextHeight = 30;
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(labelDef);
 	pWindowControl->VAddChildControl(pLabelControl);
 	pLabelControl->VSetPosition(cVector2(0.f, 70.f));
 
-		IBaseControl * pButtonControl = IBaseControl::CreateButtonControl("Test\\buttonDefault.png",
-			"Test\\buttonPressed.png", "Button", m_pFont, cColor::WHITE, false);
-		pWindowControl->VAddChildControl(pButtonControl);
-		pButtonControl->VSetSize(cVector2(100, 100));
-		pButtonControl->VSetPosition(cVector2(0.f, 90.f));
-		function<void (bool)> btnCallback;
-		btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
-		pButtonControl->VRegisterCallBack(btnCallback);
+	ButtonControlDef buttonDef;
+	buttonDef.pFont = m_pFont;
+	buttonDef.bAutoSize = false;
+	buttonDef.strCaption = "Button";
+	buttonDef.strDefaultImage = "Test\\buttonDefault.png";
+	buttonDef.strPressedImage = "Test\\buttonPressed.png";
+	buttonDef.textColor = cColor::WHITE;
 	
-		IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl("Test\\buttonDefault.png",
-			"Test\\buttonPressed.png");
-		pWindowControl->VAddChildControl(pButtonControl1);
-		pButtonControl1->VSetSize(cVector2(60, 30));
-		pButtonControl1->VSetPosition(cVector2(150.f, 90.f));
-		function<void (bool)> btn1Callback;
-		btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
-		pButtonControl1->VRegisterCallBack(btn1Callback);
+	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
+	pWindowControl->VAddChildControl(pButtonControl);
+	pButtonControl->VSetSize(cVector2(100, 100));
+	pButtonControl->VSetPosition(cVector2(0.f, 90.f));
+	function<void (bool)> btnCallback;
+	btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
+	pButtonControl->VRegisterCallBack(btnCallback);
+
+	ButtonControlDef buttonDef1;
+	buttonDef1.strDefaultImage = "Test\\buttonDefault.png";
+	buttonDef1.strPressedImage = "Test\\buttonPressed.png";
+
+	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl(buttonDef1);
+	pWindowControl->VAddChildControl(pButtonControl1);
+	pButtonControl1->VSetSize(cVector2(60, 30));
+	pButtonControl1->VSetPosition(cVector2(150.f, 90.f));
+	function<void (bool)> btn1Callback;
+	btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
+	pButtonControl1->VRegisterCallBack(btn1Callback);
 	
 	//	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png",
 	//		10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, 

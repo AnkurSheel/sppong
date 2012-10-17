@@ -21,6 +21,7 @@
 #include <limits>
 #include "Macros.h"
 #include "myString.h"
+#include "Color.h"
 #include "NonCopyable.h"
 
 using namespace std::tr1;

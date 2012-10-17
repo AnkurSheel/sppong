@@ -45,7 +45,10 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const HWND & hWnd, const int iClientWidth,
 										   const int iClientHeight)
 {
-	m_pAppWindowControl = IBaseControl::CreateWindowControl(WT_DESKTOP, "", true);
+	WindowControlDef def;
+	def.wType = WT_DESKTOP;
+	def.bAllowMovingControls = true;
+	m_pAppWindowControl = IBaseControl::CreateWindowControl(def);
 	m_pAppWindowControl->VSetSize(cVector2(iClientWidth, iClientHeight));
 	m_pCamera = ICamera::CreateCamera();
 
