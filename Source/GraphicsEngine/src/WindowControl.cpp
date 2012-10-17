@@ -91,7 +91,7 @@ void Graphics::cWindowControl::Minimize( const int iWidth, const int iHeight,
 {
 	if (m_eWindowType != WT_DESKTOP)
 	{
-		list<cBaseControl * const>::iterator iter;
+		list<cBaseControl * const>::const_iterator iter;
 		for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 		{
 			(*iter)->VSetVisible(false);

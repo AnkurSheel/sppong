@@ -52,8 +52,6 @@ namespace GameBase
 		GAMEBASE_API virtual bool VOnMsgProc( const Base::AppMsg & msg );	
 		GAMEBASE_API virtual void VOnRender(const TICK tickCurrent, const float fElapsedTime);
 		GAMEBASE_API virtual void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
-		GAMEBASE_API void RemoveElements();
-		GAMEBASE_API void PushElement(shared_ptr<Graphics::IScreenElement> pScreenElement);
 		GAMEBASE_API virtual void VOnDestroyDevice();
 		GAMEBASE_API void SetCursorVisible(bool bVisible);
 		GAMEBASE_API GAMEVIEWTYPE VGetType();
@@ -67,7 +65,6 @@ namespace GameBase
 		GAMEBASE_API HRESULT OnBeginRender(TICK tickCurrent);
 		GAMEBASE_API void OnEndRender(const HRESULT hr);
 		GAMEBASE_API void VOnAttach(GameViewId id);
-		GAMEBASE_API void PopElement(shared_ptr<Graphics::IScreenElement> pScreenElement);
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
 
 	protected:
@@ -80,7 +77,6 @@ namespace GameBase
 		TICK							m_tickCurrent;
 		TICK							m_tickLastDraw;
 		bool							m_bRunFullSpeed;
-		//ScreenElementList				m_pElementList;
 		//shared_ptr<Graphics::ISprite>	m_pCursorSprite;		// the sprite for the cursor
 		bool							m_bLockedKeys[KEYBOARD_KEYS];
 

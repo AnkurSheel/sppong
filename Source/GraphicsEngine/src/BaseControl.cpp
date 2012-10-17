@@ -128,18 +128,13 @@ void cBaseControl::VRemoveAllChildren()
 	{
 		m_pFocusControl = this;
 	}
-	/*list<IBaseControl * const>::iterator iter;
-	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
-	{
-		SAFE_DELETE(*iter);
-	}*/
 	m_pChildControl.clear();
 }
 
 // ***************************************************************
 void cBaseControl::VRemoveChildControl(const IBaseControl * const pChildControl)
 {
-	list<cBaseControl * const>::iterator iter = GetChildControlIterator(pChildControl);
+	list<cBaseControl * const>::const_iterator iter = GetChildControlIterator(pChildControl);
 	if(iter != m_pChildControl.end())
 	{
 		m_pChildControl.erase(iter);
@@ -262,7 +257,7 @@ void cBaseControl::VSetAbsolutePosition()
 		m_pCanvasSprite->VSetPosition(m_vControlAbsolutePosition);
 	}
 
-	list<cBaseControl * const>::iterator iter;
+	list<cBaseControl * const>::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
 		(*iter)->VSetAbsolutePosition();
@@ -309,7 +304,7 @@ bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 // ***************************************************************
 cBaseControl * cBaseControl::PostToAll( const AppMsg & msg )
 {
-	list<cBaseControl * const>::iterator iter;
+	list<cBaseControl * const>::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
 		if((*iter)->VPostMsg(msg))
@@ -349,7 +344,7 @@ void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 // ***************************************************************
 void cBaseControl::MoveToFront( cBaseControl * const pControl )
 {
-	list<cBaseControl * const>::iterator iter = GetChildControlIterator(pControl);
+	list<cBaseControl * const>::const_iterator iter = GetChildControlIterator(pControl);
 	if(iter != m_pChildControl.end() && iter != m_pChildControl.begin())
 	{
 		m_pChildControl.splice(m_pChildControl.begin(), m_pChildControl, iter);
@@ -387,7 +382,6 @@ void cBaseControl::SetParentControl( cBaseControl * pParentControl )
 	m_pParentControl = pParentControl;
 }
 
-
 // ***************************************************************
 bool cBaseControl::AllowMovingControl()
 {
@@ -399,9 +393,9 @@ bool cBaseControl::AllowMovingControl()
 }
 
 // ***************************************************************
-list<cBaseControl * const>::iterator cBaseControl::GetChildControlIterator(const IBaseControl * const pChildControl)
+list<cBaseControl * const>::const_iterator cBaseControl::GetChildControlIterator(const IBaseControl * const pChildControl)
 {
-	list<cBaseControl * const>::iterator iter;
+	list<cBaseControl * const>::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
 		if(*iter == pChildControl)
@@ -411,7 +405,7 @@ list<cBaseControl * const>::iterator cBaseControl::GetChildControlIterator(const
 	}
 	if(iter == m_pChildControl.end())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child contron in Base Control");
+		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control in Base Control");
 	}
 	return iter;
 }

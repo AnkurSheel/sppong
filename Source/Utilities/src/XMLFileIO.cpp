@@ -100,7 +100,7 @@ void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
 void cXMLFileIO::VAddComment( const cString & strParentElementID, 
 							 const cString & strComment )
 {
-	ElementMap::iterator  curr = m_ElementMap.find(strParentElementID);
+	ElementMap::const_iterator  curr = m_ElementMap.find(strParentElementID);
 	XMLElement * pElement = const_cast<XMLElement*> (curr->second);
 	pElement->InsertEndChild(m_pDoc->NewComment(strComment.GetData()));
 }
@@ -121,7 +121,7 @@ cString cXMLFileIO::VAddElement( const cString & strParentName, const cString & 
 		pElement->InsertEndChild(pText);
 	}
 
-	ElementMap::iterator  curr = m_ElementMap.find(strParentName);
+	ElementMap::const_iterator  curr = m_ElementMap.find(strParentName);
 	XMLElement * pParentElement = const_cast<XMLElement*> (curr->second);
 	pParentElement->LinkEndChild(pElement);
 
@@ -137,7 +137,7 @@ cString cXMLFileIO::VAddElement( const cString & strParentName, const cString & 
 // ***************************************************************
 void cXMLFileIO::AddAttribute(const cString & strId, const cString & strAttributeNode, const int iValue )
 {
-	ElementMap::iterator  curr = m_ElementMap.find(strId);
+	ElementMap::const_iterator  curr = m_ElementMap.find(strId);
 	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), iValue);
 }
 // ***************************************************************
@@ -147,7 +147,7 @@ void cXMLFileIO::AddAttribute(const cString & strId, const cString & strAttribut
 // ***************************************************************
 void cXMLFileIO::AddAttribute( const cString & strId, const cString & strAttributeNode, const cString & strValue )
 {
-	ElementMap::iterator  curr = m_ElementMap.find(strId);
+	ElementMap::const_iterator  curr = m_ElementMap.find(strId);
 	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), strValue.GetData());
 
 }
@@ -168,7 +168,7 @@ cString cXMLFileIO::GetNodeName( const cString & strParent, const int iIndex )
 {
 	XMLElement *pElem;
 
-	ElementMap::iterator  curr = m_ElementMap.find(strParent);
+	ElementMap::const_iterator  curr = m_ElementMap.find(strParent);
 	XMLElement *pParent =const_cast<XMLElement*> (curr->second);
 	pElem = pParent->FirstChildElement();
 	for(int i=0;i<iIndex;i++)
@@ -186,7 +186,7 @@ cString cXMLFileIO::GetNodeValue( const cString & strNode )
 {
 	XMLElement *pElem;
 
-	ElementMap::iterator  curr = m_ElementMap.find(strNode);
+	ElementMap::const_iterator  curr = m_ElementMap.find(strNode);
 	pElem =const_cast<XMLElement*> (curr->second);
 	return(pElem->GetText());
 }
@@ -199,7 +199,7 @@ void cXMLFileIO::AddChildElements(XMLElement * const pParent)
 		return;
 
 	cString strName;
-	ElementMap::iterator itr;
+	ElementMap::const_iterator itr;
 	while(pElement)
 	{
 		strName = cString(pElement->Value()) + pElement->Attribute("id");
@@ -223,7 +223,7 @@ void cXMLFileIO::GetUniqueNameForMap( const XMLElement * const pElement, cString
 void cXMLFileIO::VGetAllChildrenNames( const Base::cString & strParentID,
 									  std::vector<cString> & vElements )
 {
-	ElementMap::iterator  curr = m_ElementMap.find(strParentID);
+	ElementMap::const_iterator  curr = m_ElementMap.find(strParentID);
 	const XMLElement * pParentElement = curr->second;
 	const XMLElement *pElement = pParentElement->FirstChildElement();
 	cString strId;
@@ -240,7 +240,7 @@ void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 								   const cString & strAttributeName,
 								   cString & strAttributeValue)
 {
-	ElementMap::iterator curr = m_ElementMap.find(strElementID);
+	ElementMap::const_iterator curr = m_ElementMap.find(strElementID);
 	if (curr != m_ElementMap.end())
 	{
 		strAttributeValue = curr->second->Attribute(strAttributeName.GetData());

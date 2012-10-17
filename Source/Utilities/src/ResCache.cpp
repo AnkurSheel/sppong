@@ -118,7 +118,7 @@ void cResCache::Flush()
 
 shared_ptr<IResHandle> cResCache::Find(const IResource & r)
 {
-	ResHandleMap::iterator itr = m_Resources.find(r.GetFileName());
+	ResHandleMap::const_iterator itr = m_Resources.find(r.GetFileName());
 	if(itr == m_Resources.end())
 	{
 		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Could not find %s in cache", r.GetFileName().GetData()));
@@ -200,7 +200,7 @@ char * cResCache::Allocate(unsigned int iSize)
 
 void cResCache::FreeOneResource()
 {
-	ResHandleList::iterator itr = m_lru.end();
+	ResHandleList::const_iterator itr = m_lru.end();
 	
 	itr--;
 	shared_ptr<IResHandle> handle = *itr;

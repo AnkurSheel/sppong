@@ -66,7 +66,7 @@ namespace Graphics
 		cBaseControl * PostToAll(const Base::AppMsg & msg);
 		void MoveToFront(cBaseControl * const pControl);
 		bool IsCursorIntersect(const float fX, const float fY);
-		std::list<cBaseControl * const>::iterator GetChildControlIterator(const IBaseControl * const pChildControl);
+		std::list<cBaseControl * const>::const_iterator GetChildControlIterator(const IBaseControl * const pChildControl);
 
 	protected:
 		shared_ptr<ISprite>					m_pCanvasSprite; 

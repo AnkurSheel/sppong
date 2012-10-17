@@ -98,7 +98,6 @@ void GameBase::cHumanView::VOnDestroyDevice()
 {
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
-	RemoveElements();
 
 	//SAFE_DELETE(m_pCursorSprite);
 }
@@ -173,13 +172,6 @@ void GameBase::cHumanView::VRenderPrivate()
 		m_pAppWindowControl->VRender(m_pCamera);
 	}
 
-	/*for(ScreenElementList::iterator i=m_pElementList.begin(); i!=m_pElementList.end(); ++i)
-	{
-		if ((*i)->VIsVisible())
-		{
-			(*i)->VOnRender(appMsg);
-		}
-	}*/
 // 		if (m_pCursorSprite->IsVisible())
 // 		{
 // 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
@@ -192,27 +184,6 @@ void GameBase::cHumanView::OnEndRender(const HRESULT hr)
 {
 	m_tickLastDraw = m_tickCurrent; 
 	IGraphicsClass::GetInstance()->VEndRender();
-}
-
-// ***************************************************************
-void GameBase::cHumanView::PushElement(shared_ptr<IScreenElement> pScreenElement)
-{
-	//m_pElementList.push_back(pScreenElement);
-}
-
-// ***************************************************************
-void GameBase::cHumanView::PopElement(shared_ptr<IScreenElement> pScreenElement)
-{
-	//m_pElementList.remove(pScreenElement);
-}
-
-// ***************************************************************
-void GameBase::cHumanView::RemoveElements()
-{
-	/*while (!m_pElementList.empty())
-	{
-		m_pElementList.pop_front();
-	}*/
 }
 
 bool GameBase::cHumanView::IsKeyLocked( const DWORD dwKey )  const

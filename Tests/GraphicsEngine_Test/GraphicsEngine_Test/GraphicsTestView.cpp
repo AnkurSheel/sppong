@@ -339,11 +339,6 @@ void cGraphicsTestView::TestUIControls()
 void cGraphicsTestView::Cleanup()
 {
 	SAFE_DELETE(m_pModel);
-	std::vector<ISentence*>::iterator iter;
-	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
-	{
-		SAFE_DELETE(*iter)
-	}
 	m_vSentences.clear();
 	SAFE_DELETE(m_pAppWindowControl);
 }
@@ -352,10 +347,5 @@ void cGraphicsTestView::Cleanup()
 void cGraphicsTestView::TestFinished()
 {
 	SAFE_DELETE(m_pModel);
-	std::vector<ISentence*>::iterator iter;
-	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
-	{
-		SAFE_DELETE(*iter)
-	}
 	m_vSentences.clear();
 }

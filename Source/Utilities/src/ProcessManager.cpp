@@ -15,7 +15,7 @@ using namespace Utilities;
 
 cProcessManager::~cProcessManager()
 {	
-	for(ProcessList::iterator i = m_pProcessList.begin(); i != m_pProcessList.end(); i++)
+	for(ProcessList::const_iterator i = m_pProcessList.begin(); i != m_pProcessList.end(); i++)
 	{
 		Detach(*(i));
 	}
@@ -34,7 +34,7 @@ bool cProcessManager::HasProcesses() const
 
 bool cProcessManager::IsProcessActive(const int iType) 
 {
-	for(ProcessList::iterator i = m_pProcessList.begin(); i != m_pProcessList.end(); i++)
+	for(ProcessList::const_iterator i = m_pProcessList.begin(); i != m_pProcessList.end(); i++)
 	{
 		if((*i)->GetType() == iType 
 			&& ((*i)->IsDead() == false || ( *i )->GetNext()))
@@ -49,7 +49,7 @@ void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 {
 	shared_ptr<cProcess> pNext;
 
-	ProcessList::iterator curProcess = m_pProcessList.begin();
+	ProcessList::const_iterator curProcess = m_pProcessList.begin();
 
 	for(curProcess; curProcess != m_pProcessList.end(); curProcess++)
 	{
