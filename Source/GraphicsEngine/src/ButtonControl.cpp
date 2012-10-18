@@ -142,8 +142,8 @@ void cButtonControl::VSetAbsolutePosition()
 // ***************************************************************
 void cButtonControl::VCleanup()
 {
+	cBaseControl::VCleanup();
 	SAFE_DELETE(m_pLabelCaption);
-	VUnregisterCallBack();
 }
 
 // ***************************************************************

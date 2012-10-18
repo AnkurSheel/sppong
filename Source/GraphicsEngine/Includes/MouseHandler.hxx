@@ -36,6 +36,13 @@ namespace Graphics
 		 * Event Handler for left button up at (X,Y)
 		 ***********************************************/
 		virtual bool VOnLeftMouseButtonDown(const int X, const int Y) = 0;
+		/********************************************//**
+ 		 * @param[in] X The X position of the mouse
+		 * @param[in] Y The Y position of the mouse
+		 *
+		 * Event Handler for mouse move
+		 ***********************************************/
+		virtual bool VOnMouseMove(const int X, const int Y) = 0;
 	};
 }
 

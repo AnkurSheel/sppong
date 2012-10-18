@@ -13,6 +13,7 @@
 #include "GraphicEngineDefines.h"
 #include "ScreenElement.hxx"
 #include "MouseHandler.hxx"
+#include "KeyboardHandler.hxx"
 #include "ControlStructures.h"
 
 namespace Base
@@ -39,6 +40,7 @@ namespace Graphics
 	class IBaseControl
 		: public IScreenElement
 		, public IMouseHandler
+		, public IKeyboardHandler
 	{
 	public:
 		virtual ~IBaseControl(){}
