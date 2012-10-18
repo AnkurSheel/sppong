@@ -18,6 +18,7 @@
 #include "vector3.h"
 #include "Color.h"
 #include "Camera.hxx"
+#include "ParamLoaders.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -47,7 +48,10 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 {
 	WindowControlDef def;
 	def.wType = WT_DESKTOP;
-	def.bAllowMovingControls = true;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		def.bAllowMovingControls = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);
+	}
 	m_pAppWindowControl = IBaseControl::CreateWindowControl(def);
 	m_pAppWindowControl->VSetSize(cVector2(iClientWidth, iClientHeight));
 	m_pCamera = ICamera::CreateCamera();
