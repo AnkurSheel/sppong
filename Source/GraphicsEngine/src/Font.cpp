@@ -144,7 +144,7 @@ void cMyFont::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView
 }
 
 // ***************************************************************
-shared_ptr<IMyFont> IMyFont::CreateMyFont()
+IMyFont * IMyFont::CreateMyFont()
 {
-	return shared_ptr<IMyFont> (DEBUG_NEW cMyFont());
+	return DEBUG_NEW cMyFont();
 }

@@ -42,14 +42,12 @@ cBaseControl::~cBaseControl()
 // ***************************************************************
 bool cBaseControl::VPostMsg( const AppMsg & msg )
 {
-	cBaseControl * pTempControl = NULL;
 	switch(msg.m_uMsg)
 	{
 	case WM_LBUTTONDOWN:
 		if(IsCursorIntersect(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)))
 		{
-			pTempControl = PostToAll(msg);
-			if(!pTempControl)
+			if(!PostToAll(msg))
 			{
 				VOnLeftMouseButtonDown(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
 				if (m_pParentControl)
@@ -63,8 +61,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 		break;
 
 	case WM_LBUTTONUP:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
+		if(!PostToAll(msg))
 		{
 			if (m_pFocusControl)
 			{
@@ -74,8 +71,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 		break;
 
 	case WM_MOUSEMOVE:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
+		if(!PostToAll(msg))
 		{
 			if (m_pFocusControl)
 			{
@@ -85,8 +81,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 		break;
 
 	case WM_KEYUP:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
+		if(!PostToAll(msg))
 		{
 			if(m_pFocusControl)
 			{
@@ -97,8 +92,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 
 	case WM_KEYDOWN:
 	case WM_CHAR:
-		pTempControl = PostToAll(msg);
-		if(!pTempControl)
+		if(!PostToAll(msg))
 		{
 			if(m_pFocusControl)
 			{
@@ -111,9 +105,9 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 }
 
 // ***************************************************************
-void cBaseControl::VAddChildControl(IBaseControl * const pChildControl )
+void cBaseControl::VAddChildControl(shared_ptr<IBaseControl> pChildControl)
 {
-	cBaseControl * const pControl = static_cast<cBaseControl * const>(pChildControl);
+	shared_ptr<cBaseControl> pControl = static_pointer_cast<cBaseControl>(pChildControl);
 	if (pControl)
 	{
 		pControl->SetParentControl(this);
@@ -132,9 +126,10 @@ void cBaseControl::VRemoveAllChildren()
 }
 
 // ***************************************************************
-void cBaseControl::VRemoveChildControl(const IBaseControl * const pChildControl)
+void cBaseControl::VRemoveChildControl(shared_ptr<IBaseControl> pChildControl)
 {
-	list<cBaseControl * const>::const_iterator iter = GetChildControlIterator(pChildControl);
+	cBaseControl * const pControl = static_cast<cBaseControl * const>(pChildControl.get());
+	ControlList::const_iterator iter = GetChildControlIterator(pControl);
 	if(iter != m_pChildControl.end())
 	{
 		m_pChildControl.erase(iter);
@@ -210,7 +205,7 @@ void cBaseControl::VRender(const ICamera * const pCamera)
 		m_pCanvasSprite->VRender(pCamera);
 	}
 
-	list<cBaseControl * const>::reverse_iterator iter;
+	ControlList::reverse_iterator iter;
 	for(iter = m_pChildControl.rbegin(); iter != m_pChildControl.rend(); iter++)
 	{
 		(*iter)->VRender(pCamera);
@@ -257,7 +252,7 @@ void cBaseControl::VSetAbsolutePosition()
 		m_pCanvasSprite->VSetPosition(m_vControlAbsolutePosition);
 	}
 
-	list<cBaseControl * const>::const_iterator iter;
+	ControlList::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
 		(*iter)->VSetAbsolutePosition();
@@ -302,17 +297,17 @@ bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 }
 
 // ***************************************************************
-cBaseControl * cBaseControl::PostToAll( const AppMsg & msg )
+bool cBaseControl::PostToAll( const AppMsg & msg )
 {
-	list<cBaseControl * const>::const_iterator iter;
+	ControlList::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
 		if((*iter)->VPostMsg(msg))
 		{
-			return (*iter);
+			return true;
 		}
 	}
-	return NULL;
+	return false;
 }
 
 // ***************************************************************
@@ -342,9 +337,9 @@ void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 }
 
 // ***************************************************************
-void cBaseControl::MoveToFront( cBaseControl * const pControl )
+void cBaseControl::MoveToFront(const cBaseControl * const pControl )
 {
-	list<cBaseControl * const>::const_iterator iter = GetChildControlIterator(pControl);
+	ControlList::const_iterator iter = GetChildControlIterator(pControl);
 	if(iter != m_pChildControl.end() && iter != m_pChildControl.begin())
 	{
 		m_pChildControl.splice(m_pChildControl.begin(), m_pChildControl, iter);
@@ -393,12 +388,12 @@ bool cBaseControl::AllowMovingControl()
 }
 
 // ***************************************************************
-list<cBaseControl * const>::const_iterator cBaseControl::GetChildControlIterator(const IBaseControl * const pChildControl)
+cBaseControl::ControlList::const_iterator cBaseControl::GetChildControlIterator(const cBaseControl * const pChildControl)
 {
-	list<cBaseControl * const>::const_iterator iter;
+	ControlList::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
-		if(*iter == pChildControl)
+		if((*iter).get() == pChildControl)
 		{
 			break;
 		}

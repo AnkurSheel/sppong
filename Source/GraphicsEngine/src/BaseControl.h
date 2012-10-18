@@ -32,6 +32,8 @@ namespace Graphics
 		void VSetVisible(bool bIsVisible);
 
 	protected:
+		typedef std::list<shared_ptr<cBaseControl> >  ControlList;
+
 		cBaseControl();
 		virtual ~cBaseControl();
 		void VRender(const ICamera * const pCamera );
@@ -52,9 +54,9 @@ namespace Graphics
 		
 	private:
 		bool VPostMsg(const Base::AppMsg & msg);
-		void VAddChildControl( IBaseControl * const pChildControl);
+		void VAddChildControl(shared_ptr<IBaseControl> pChildControl);
 		void VRemoveAllChildren();
-		void VRemoveChildControl(const IBaseControl * const pChildControl);
+		void VRemoveChildControl(shared_ptr<IBaseControl> pChildControl);
 		void VSetText(const Base::cString & strText);
 		void VSetPosition(const Base::cVector2 & vPosition);
 
@@ -63,28 +65,28 @@ namespace Graphics
 		bool AllowMovingControl();
 		void ConstrainChildControl( double & dx, double & dy );
 		void SetParentControl( cBaseControl * pParentControl );
-		cBaseControl * PostToAll(const Base::AppMsg & msg);
-		void MoveToFront(cBaseControl * const pControl);
+		bool PostToAll(const Base::AppMsg & msg);
+		void MoveToFront(const cBaseControl * const pControl);
 		bool IsCursorIntersect(const float fX, const float fY);
-		std::list<cBaseControl * const>::const_iterator GetChildControlIterator(const IBaseControl * const pChildControl);
+		ControlList::const_iterator GetChildControlIterator(const cBaseControl * const pChildControl);
 
 	protected:
-		shared_ptr<ISprite>					m_pCanvasSprite; 
-		Base::cVector2						m_vControlAbsolutePosition;
-		Base::cVector2						m_vSize;
-		bool								m_bFocus;
-		bool								m_bAllowMovingControls;
-		Base::cVector2						m_vPosition;		
-		bool								m_bIsMouseDown;
-		function<void (bool)>				m_pfnCallBack;
-		std::list<cBaseControl * const>		m_pChildControl;
+		shared_ptr<ISprite>			m_pCanvasSprite; 
+		Base::cVector2				m_vControlAbsolutePosition;
+		Base::cVector2				m_vSize;
+		bool						m_bFocus;
+		bool						m_bAllowMovingControls;
+		Base::cVector2				m_vPosition;		
+		bool						m_bIsMouseDown;
+		function<void (bool)>		m_pfnCallBack;
+		ControlList					m_pChildControl;
 	
 	private:
-		cBaseControl *						m_pFocusControl;
-		bool								m_bVisible;
-		cBaseControl *						m_pParentControl;
-		int									m_iMouseDownXPos;
-		int									m_iMouseDownYPos;
+		cBaseControl *				m_pFocusControl;
+		bool						m_bVisible;
+		cBaseControl *				m_pParentControl;
+		int							m_iMouseDownXPos;
+		int							m_iMouseDownYPos;
 	};
 }
 #endif // BaseControl_h__

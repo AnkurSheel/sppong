@@ -32,7 +32,7 @@ namespace Graphics
 		 *
 		 * Returns an object to use this interface
 		 ***********************************************/
-		GRAPHIC_API static shared_ptr<IMyFont> CreateMyFont();
+		GRAPHIC_API static IMyFont * CreateMyFont();
 	} ;
 }
 #endif // Font_h__

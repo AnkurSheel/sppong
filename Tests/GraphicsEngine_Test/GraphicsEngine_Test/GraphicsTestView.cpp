@@ -30,7 +30,6 @@ using namespace Base;
 // ***************************************************************
 cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
-, m_pInfoLabelControl(NULL)
 , m_bFinished(false)
 , m_iVertexListCount(1000)
 , m_pModel(NULL)
@@ -50,7 +49,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
-	m_pFont = IMyFont::CreateMyFont();
+	m_pFont = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
 	m_pFont->VInitialize("Font\\", "licorice.fnt");
 
 	LabelControlDef def;
@@ -58,7 +57,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	def.textColor = cColor::GRAY;
 	def.strText = "Press 'c' to start test";
 	def.fTextHeight = 20;
-	m_pInfoLabelControl = IBaseControl::CreateLabelControl(def);
+	m_pInfoLabelControl = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def));
 	m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 }
@@ -261,7 +260,7 @@ void cGraphicsTestView::TestUIControls()
 	wcDef.bAllowMovingControls = false;
 
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(wcDef);
-	m_pAppWindowControl->VAddChildControl(pWindowControl);
+	m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pWindowControl));
 	pWindowControl->VSetPosition(cVector2(300.f, 300.f));
 	pWindowControl->VSetSize(cVector2(400, 400));
 
@@ -271,7 +270,7 @@ void cGraphicsTestView::TestUIControls()
 	labelDef.strText = "Label";
 	labelDef.fTextHeight = 30;
 	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(labelDef);
-	pWindowControl->VAddChildControl(pLabelControl);
+	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 	pLabelControl->VSetPosition(cVector2(0.f, 70.f));
 
 	ButtonControlDef buttonDef;
@@ -283,7 +282,7 @@ void cGraphicsTestView::TestUIControls()
 	buttonDef.textColor = cColor::WHITE;
 	
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
-	pWindowControl->VAddChildControl(pButtonControl);
+	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl));
 	pButtonControl->VSetSize(cVector2(100, 100));
 	pButtonControl->VSetPosition(cVector2(0.f, 90.f));
 	function<void (bool)> btnCallback;
@@ -295,7 +294,7 @@ void cGraphicsTestView::TestUIControls()
 	buttonDef1.strPressedImage = "Test\\buttonPressed.png";
 
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl(buttonDef1);
-	pWindowControl->VAddChildControl(pButtonControl1);
+	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl1));
 	pButtonControl1->VSetSize(cVector2(60, 30));
 	pButtonControl1->VSetPosition(cVector2(150.f, 90.f));
 	function<void (bool)> btn1Callback;
@@ -339,6 +338,11 @@ void cGraphicsTestView::TestUIControls()
 void cGraphicsTestView::Cleanup()
 {
 	SAFE_DELETE(m_pModel);
+	std::vector<ISentence*>::iterator iter;
+	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
+	{
+		SAFE_DELETE(*iter)
+	}
 	m_vSentences.clear();
 	SAFE_DELETE(m_pAppWindowControl);
 }
@@ -347,5 +351,15 @@ void cGraphicsTestView::Cleanup()
 void cGraphicsTestView::TestFinished()
 {
 	SAFE_DELETE(m_pModel);
+	std::vector<ISentence*>::iterator iter;
+	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
+	{
+		SAFE_DELETE(*iter)
+	}
 	m_vSentences.clear();
+	m_pAppWindowControl->VRemoveAllChildren();
+	if(m_pInfoLabelControl)
+	{
+		m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
+	}
 }

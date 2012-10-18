@@ -49,7 +49,7 @@ private:
 	void VRenderPrivate();
 private:
 	cGame	*							m_pGame;
-	Graphics::IBaseControl *			m_pInfoLabelControl;
+	shared_ptr<Graphics::IBaseControl>	m_pInfoLabelControl;
 	bool								m_bFinished;
 	const int							m_iVertexListCount;
 	Graphics::IModel *					m_pModel;

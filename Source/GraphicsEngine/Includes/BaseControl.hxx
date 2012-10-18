@@ -56,7 +56,7 @@ namespace Graphics
 		 *
 		 * Adds a child control
 		 ***********************************************/
-		virtual void VAddChildControl( IBaseControl * const pChildControl) = 0;
+		virtual void VAddChildControl(shared_ptr<IBaseControl> pChildControl) = 0;
 		/********************************************//**
 		 *
 		 * Removes and deletes all the child controls.
@@ -67,7 +67,7 @@ namespace Graphics
 		 *
 		 * Removes and deletes the child control
 		 ***********************************************/
-		virtual void VRemoveChildControl(const IBaseControl * const pChildControl) = 0;
+		virtual void VRemoveChildControl(shared_ptr<IBaseControl> pChildControl) = 0;
 		/********************************************//**
  		 * @param[in] vPosition The position of the control
 		 *
