@@ -389,6 +389,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\CheckBoxControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CheckBoxControl.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Includes\ControlStructures.h"
 					>
 				</File>

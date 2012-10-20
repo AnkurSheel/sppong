@@ -1,5 +1,5 @@
 // ***************************************************************
-//  LabelControl   version:  1.0   Ankur Sheel  date: 2011/11/22
+//  CheckBoxControl   version:  1.0   Ankur Sheel  date: 2011/12/11
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -7,35 +7,30 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#ifndef LabelControl_h__
-#define LabelControl_h__
+#ifndef CheckBoxControl_h__
+#define CheckBoxControl_h__
 
 #include "BaseControl.h"
 
 namespace Graphics
 {
-	class IMyFont;
-	class ISentence;
-}
-
-namespace Graphics
-{
-	class cLabelControl
+	class cCheckBoxControl
 		: public cBaseControl
 	{
 	public:
-		cLabelControl();
-		void Init(const stLabelControlDef & def);
-	
-	private:
-		~cLabelControl();
-		void VRender(const ICamera * const pCamera);
-		void VSetAbsolutePosition();
-		void VSetText(const Base::cString & strText);
-		void VCleanup();
+		cCheckBoxControl();
+		void Init(const stCheckBoxControlDef & def);
 
 	private:
-		ISentence *		m_pSentence;
+		~cCheckBoxControl();
+		
+		bool VOnLeftMouseButtonDown(const int X, const int Y);
+		void VSetAbsolutePosition();
+		void VRender(const ICamera * const pCamera );
+
+	private:
+		bool						m_bChecked;
+		shared_ptr<IBaseControl>	m_pTickBox;
 	};
 }
-#endif // LabelControl_h__
+#endif // CheckBoxControl_h__

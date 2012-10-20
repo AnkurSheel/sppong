@@ -27,33 +27,33 @@ namespace Graphics
 		WT_STANDARD,
 	};
 
-	struct WindowControlDef
+	struct stWindowControlDef
 	{
 		WINDOWTYPE wType;					/*!< The window type. Can be DESKTOP or STANDARD */ 
 		Base::cString strBGImageFile;		/*!< The path for the background image. Can be Empty */
 		bool bAllowMovingControls;			/*!< True if we want to allow the users to change the position of the control */
 
-		WindowControlDef()
+		stWindowControlDef()
 			: wType(WT_DESKTOP)
 			, bAllowMovingControls(false)
 		{
 		}
 	};
 
-	struct LabelControlDef
+	struct stLabelControlDef
 	{
 		shared_ptr<IMyFont> pFont;
 		Base::cColor textColor;
 		Base::cString strText;
 		float fTextHeight;
 
-		LabelControlDef()
+		stLabelControlDef()
 			: fTextHeight(0.0f)
 		{
 		}
 	};
 
-	struct ButtonControlDef
+	struct stButtonControlDef
 	{
 		Base::cString strDefaultImage;
 		Base::cString strPressedImage;
@@ -61,12 +61,28 @@ namespace Graphics
 		shared_ptr<IMyFont> pFont;
 		Base::cColor textColor;
 		bool bAutoSize;
+		int iWidth;
+		int iHeight;
 
-		ButtonControlDef()
+		stButtonControlDef()
 			: bAutoSize(false)
+			, iWidth(0)
+			, iHeight(0)
+
 		{
 		}
 	};
 	
+	struct stCheckBoxControlDef
+	{
+		stButtonControlDef buttonControlDef;
+		stLabelControlDef  labelControlDef;
+
+		int iSpaceCaption;
+		stCheckBoxControlDef()
+			: iSpaceCaption(0)
+		{
+		}
+	};
 }
 #endif // ControlStructures_h__

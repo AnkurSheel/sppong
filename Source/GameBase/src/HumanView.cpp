@@ -46,7 +46,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const HWND & hWnd, const int iClientWidth,
 										   const int iClientHeight)
 {
-	WindowControlDef def;
+	stWindowControlDef def;
 	def.wType = WT_DESKTOP;
 	if(IBaseApp::VGetParamLoader() != NULL)
 	{

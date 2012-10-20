@@ -126,7 +126,7 @@ void Graphics::cWindowControl::Restore()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateWindowControl(const WindowControlDef & def)
+IBaseControl * IBaseControl::CreateWindowControl(const stWindowControlDef & def)
 {
 	cWindowControl * pControl = DEBUG_NEW cWindowControl(def.wType, def.bAllowMovingControls);
 	if (!def.strBGImageFile.IsEmpty())

@@ -52,7 +52,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	m_pFont = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
 	m_pFont->VInitialize("Font\\", "licorice.fnt");
 
-	LabelControlDef def;
+	stLabelControlDef def;
 	def.pFont = m_pFont;
 	def.textColor = cColor::GRAY;
 	def.strText = "Press 'c' to start test";
@@ -254,7 +254,7 @@ void cGraphicsTestView::TestUIControls()
 		m_pInfoLabelControl->VSetText("Testing UI Controls. Press 'c' to go to next test");
 	}
 
-	WindowControlDef wcDef;
+	stWindowControlDef wcDef;
 	wcDef.wType = WT_STANDARD;
 	wcDef.strBGImageFile = "Test\\window.png";
 	wcDef.bAllowMovingControls = false;
@@ -264,7 +264,7 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VSetPosition(cVector2(300.f, 300.f));
 	pWindowControl->VSetSize(cVector2(400, 400));
 
-	LabelControlDef labelDef;
+	stLabelControlDef labelDef;
 	labelDef.pFont = m_pFont;
 	labelDef.textColor = cColor::GREEN;
 	labelDef.strText = "Label";
@@ -273,9 +273,10 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 	pLabelControl->VSetPosition(cVector2(0.f, 70.f));
 
-	ButtonControlDef buttonDef;
+	stButtonControlDef buttonDef;
 	buttonDef.pFont = m_pFont;
-	buttonDef.bAutoSize = false;
+	buttonDef.iWidth = 100;
+	buttonDef.iHeight = 100;
 	buttonDef.strCaption = "Button";
 	buttonDef.strDefaultImage = "Test\\buttonDefault.png";
 	buttonDef.strPressedImage = "Test\\buttonPressed.png";
@@ -283,19 +284,18 @@ void cGraphicsTestView::TestUIControls()
 	
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl));
-	pButtonControl->VSetSize(cVector2(100, 100));
 	pButtonControl->VSetPosition(cVector2(0.f, 90.f));
 	function<void (bool)> btnCallback;
 	btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
 	pButtonControl->VRegisterCallBack(btnCallback);
 
-	ButtonControlDef buttonDef1;
+	stButtonControlDef buttonDef1;
 	buttonDef1.strDefaultImage = "Test\\buttonDefault.png";
 	buttonDef1.strPressedImage = "Test\\buttonPressed.png";
-
+	buttonDef1.iWidth = 15;
+	buttonDef1.iHeight = 30;
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl(buttonDef1);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl1));
-	pButtonControl1->VSetSize(cVector2(60, 30));
 	pButtonControl1->VSetPosition(cVector2(150.f, 90.f));
 	function<void (bool)> btn1Callback;
 	btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
@@ -308,16 +308,24 @@ void cGraphicsTestView::TestUIControls()
 	//	pTextBoxControl->VSetSize(200, 30);
 	//	pTextBoxControl->VSetPosition(cVector3(0.f, 200.f, 0.f));
 	//
-	//	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl("Test\\Checked.png",
-	//		"Test\\Unchecked.png", "Check\nBox", 30, 30, 10, 20, 10, 8, false, 
-	//		DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_CENTER, 
-	//		cColor::WHITE.GetColor());
-	//	pWindowControl->VAddChildControl(pCheckBoxControl);
-	//	pCheckBoxControl->VSetPosition(cVector3(0.f, 250.f, 0.f));
-	//	function<void (bool)> checkBoxCallback;
-	//	checkBoxCallback = bind(&cGame::CheckBoxPressed, m_pGame, _1);
-	//	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
-	//
+	stCheckBoxControlDef checkboxControlDef;
+	checkboxControlDef.buttonControlDef.strDefaultImage = "Test\\Unchecked.png";
+	checkboxControlDef.buttonControlDef.strPressedImage = "Test\\Checked.png";
+	checkboxControlDef.labelControlDef.strText = "Check\nBox";
+	checkboxControlDef.labelControlDef.pFont = m_pFont;
+	checkboxControlDef.labelControlDef.fTextHeight = 20;
+	checkboxControlDef.labelControlDef.textColor = cColor::WHITE;
+	checkboxControlDef.buttonControlDef.iHeight= 50;
+	checkboxControlDef.buttonControlDef.iWidth = 30;
+	checkboxControlDef.iSpaceCaption = 10;
+
+	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
+	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pCheckBoxControl));
+	pCheckBoxControl->VSetPosition(cVector2(0.f, 250.f));
+	function<void (bool)> checkBoxCallback;
+	checkBoxCallback = bind(&cGame::CheckBoxPressed, m_pGame, _1);
+	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
+
 	//	IBaseControl * pVScrollBarControl = IBaseControl::CreateVScrollBarControl("Test\\ScrollBar_BG.png",
 	//		"Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Up.png", 
 	//		"Test\\ScrollBar_Up.png", "Test\\ScrollBar_Down.png","Test\\ScrollBar_Down.png",

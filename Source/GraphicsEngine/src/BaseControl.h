@@ -39,12 +39,13 @@ namespace Graphics
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		bool VOnMouseMove(const int X, const int Y);
+		void VAddChildControl(shared_ptr<IBaseControl> pChildControl);
 		void VSetSize(const Base::cVector2 & vSize);
 		float VGetWidth() const;
 		float VGetHeight() const;
 
-		void VSetAbsolutePosition();
-		void VCleanup();
+		virtual void VSetAbsolutePosition();
+		virtual void VCleanup();
 
 	private:
 		typedef std::list<shared_ptr<cBaseControl> >  ControlList;
@@ -53,7 +54,6 @@ namespace Graphics
 		bool VOnKeyDown(const Base::AppMsg & msg);
 
 		bool VPostMsg(const Base::AppMsg & msg);
-		void VAddChildControl(shared_ptr<IBaseControl> pChildControl);
 		void VRemoveAllChildren();
 		void VRemoveChildControl(shared_ptr<IBaseControl> pChildControl);
 		void VSetText(const Base::cString & strText);
