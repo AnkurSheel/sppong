@@ -34,8 +34,13 @@ namespace Graphics
 	private:
 		void VRender(const ICamera * const pCamera);
 		void VSetPosition(const Base::cVector2 & vPosition);
+		void VGetText(Base::cString & strText) const;
 		void VSetText(const Base::cString & strText);
 		void VSetTextColor(const Base::cColor & colorText);
+		float VGetWidth() const ;
+		float VGetWidth(const Base::cString & strText) const;
+		float VGetHeight() const;
+		void VSetHeight(const float fTextHeight);
 		/********************************************//**
 		 * return True if the vertex buffer was created successfully
 		 *
@@ -47,9 +52,6 @@ namespace Graphics
 		void Cleanup();
 		bool VInitialize(shared_ptr<IMyFont> pFont, 
 			const Base::cString & strText, const Base::cColor & textColor);
-		float VGetWidth() const ;
-		float VGetHeight() const;
-		void VSetHeight(const float fTextHeight);
 
 	private:
 		ID3D11Buffer * 						m_pVertexBuffer;	/*!< The vertex buffer */

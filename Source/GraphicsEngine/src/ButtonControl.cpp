@@ -74,15 +74,21 @@ void cButtonControl::Init(const stButtonControlDef & def)
 		labelDef.strText = def.strCaption;
 		labelDef.fTextHeight = 35;
 
-		IBaseControl * pLabel = IBaseControl::CreateLabelControl(labelDef);
+		m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(labelDef));
 		if(def.bAutoSize)
 		{
-			VSetSize(cVector2(pLabel->VGetWidth(), pLabel->VGetHeight()));
+			VSetSize(cVector2(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));
 		}
-		VAddChildControl(shared_ptr<IBaseControl>(pLabel));
-		float fcenterX = VGetWidth()/2.0f - pLabel->VGetWidth()/2.0f;
-		float fcenterY = VGetHeight()/2.0f- pLabel->VGetHeight()/2.0f;;
-		pLabel->VSetPosition(cVector2(fcenterX, fcenterY));
+	}
+}
+
+// *************************************************************************
+void cButtonControl::VRender(const ICamera * const pCamera)
+{
+	cBaseControl::VRender(pCamera);
+	if (m_pLabel)
+	{
+		m_pLabel->VRender(pCamera);
 	}
 }
 
@@ -122,6 +128,17 @@ bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }
 
+// *************************************************************************
+void cButtonControl::VSetAbsolutePosition()
+{
+	cBaseControl::VSetAbsolutePosition();
+	if (m_pLabel)
+	{
+		float fcenterX = m_vControlAbsolutePosition.m_dX + VGetWidth()/2.0f - m_pLabel->VGetWidth()/2.0f;
+		float fcenterY = m_vControlAbsolutePosition.m_dY + VGetHeight()/2.0f- m_pLabel->VGetHeight()/2.0f;;
+		m_pLabel->VSetPosition(cVector2(fcenterX, fcenterY));
+	}
+}
 
 // ***************************************************************
 IBaseControl * IBaseControl::CreateButtonControl(const stButtonControlDef & def)

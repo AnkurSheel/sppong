@@ -42,6 +42,7 @@ namespace Graphics
 		void VTurnZBufferOff();
 		void VTurnOnAlphaBlending();
 		void VTurnOffAlphaBlending();
+		void VSetFullScreenMode(const bool bIsFullScreen);
 		ID3D11Device * VGetDevice() const;
 		ID3D11DeviceContext * VGetDeviceContext() const;
 		const D3DMATRIX & VGetWorldMatrix() const;

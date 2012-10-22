@@ -57,6 +57,7 @@ namespace Graphics
 			const D3DXMATRIX & inMatProjection, const D3DXVECTOR4 & textColor);
 		void GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch,
 			float & fTexU, float & fTexV, float & fTexU1, float & fTexV1);
+		void GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch);
 		float GetFontHeight() const ;
 
 	private:

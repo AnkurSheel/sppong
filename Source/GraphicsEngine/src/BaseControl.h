@@ -39,19 +39,23 @@ namespace Graphics
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		bool VOnMouseMove(const int X, const int Y);
+		bool VOnKeyDown(const Base::AppMsg & msg);
 		void VAddChildControl(shared_ptr<IBaseControl> pChildControl);
 		void VSetSize(const Base::cVector2 & vSize);
 		float VGetWidth() const;
 		float VGetHeight() const;
 
 		virtual void VSetAbsolutePosition();
+		virtual void VOnFocusChanged();
 		virtual void VCleanup();
+
+		void SetFocusControl(const cBaseControl * const pControl);
+		void SetFocus(const bool bFocus);
 
 	private:
 		typedef std::list<shared_ptr<cBaseControl> >  ControlList;
 
 		bool VOnKeyUp(const Base::AppMsg & msg);
-		bool VOnKeyDown(const Base::AppMsg & msg);
 
 		bool VPostMsg(const Base::AppMsg & msg);
 		void VRemoveAllChildren();
@@ -68,7 +72,7 @@ namespace Graphics
 		void MoveToFront(const cBaseControl * const pControl);
 		bool IsCursorIntersect(const float fX, const float fY);
 		ControlList::const_iterator GetChildControlIterator(const cBaseControl * const pChildControl);
-		void SetFocusControl(const cBaseControl * const pControl);
+		int GetCaptionSize() const;
 		
 	protected:
 		shared_ptr<ISprite>			m_pCanvasSprite; 
@@ -87,6 +91,7 @@ namespace Graphics
 		cBaseControl *				m_pParentControl;
 		int							m_iMouseDownXPos;
 		int							m_iMouseDownYPos;
+		int							m_iCaptionSize;
 	};
 }
 #endif // BaseControl_h__

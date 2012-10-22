@@ -65,9 +65,17 @@ namespace Graphics
 		/********************************************//**
 		 * 
 		 *	
-		 *Ends the rendering and presents the contents
+		 * Ends the rendering and presents the contents
 		 ***********************************************/
 		virtual void VEndRender() = 0;
+		/********************************************//**
+		 * 
+		 *	
+		 * Sets the fullscreen/windowed mode for the
+		 * graphics engine
+		 ***********************************************/
+		virtual void VSetFullScreenMode(const bool bIsFullScreen) = 0;
+	
 	protected:
 		virtual ~IGraphicsClass(){}
 	};

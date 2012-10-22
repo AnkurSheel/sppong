@@ -72,6 +72,20 @@ namespace Graphics
 		 ***********************************************/
 		virtual float VGetWidth() const = 0;
 		/********************************************//**
+		 * @param[in] strText The text for which the width is needed
+		 * @return The width of the sentence
+		 *
+		 * Gets the width of the sentence thats has been passed
+		 * in strText
+		 ***********************************************/
+		virtual float VGetWidth(const Base::cString & strText) const = 0;
+		/********************************************//**
+ 		 * @param[out] The text 
+		 *
+		 * Gets the text of the sentence
+		 ***********************************************/
+		virtual void VGetText(Base::cString & strText) const = 0;
+		/********************************************//**
  		 * @return The height used by the sentence
 		 *
 		 * Gets the height of the characters of the sentence
@@ -83,7 +97,6 @@ namespace Graphics
 		 * Sets the new height of the characters in the sentence
 		 ***********************************************/
 		virtual void VSetHeight(const float fTextHeight) = 0;
-
 		/********************************************//**
 		 * @return An object to use this interface
 		 *

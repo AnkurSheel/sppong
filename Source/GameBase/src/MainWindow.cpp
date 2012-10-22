@@ -123,6 +123,17 @@ void cMainWindow::VToggleFullScreen()
 	{
 		ShowWindow(m_Hwnd, SW_SHOW);
 	}
+	IGraphicsClass::GetInstance()->VSetFullScreenMode(m_bFullScreen);
+}
+
+// *************************************************************************
+int cMainWindow::VGetTitleBarSize() const
+{
+	if (!m_bFullScreen)
+	{
+		return GetSystemMetrics(SM_CYSMCAPTION);
+	}
+	return 0;
 }
 
 // ***************************************************************
@@ -130,7 +141,7 @@ void cMainWindow::VToggleFullScreen()
 // ***************************************************************
 void cMainWindow::RegisterWin()
 {
-	WNDCLASSEX		wc ;
+	WNDCLASSEX	wc;
 
 	wc.cbSize = sizeof(WNDCLASSEX) ;
 	wc.style = 0 ;
@@ -258,7 +269,6 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 			if(m_bFullScreen)
 			{
 				SetDisplayResolution();
-				ShowWindow(m_Hwnd, SW_MINIMIZE);
 			}
 		}
 		return 0;

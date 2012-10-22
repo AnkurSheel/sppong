@@ -50,7 +50,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
 	m_pFont = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
-	m_pFont->VInitialize("Font\\", "licorice.fnt");
+	m_pFont->VInitialize("Font\\", "arial.fnt");
 
 	stLabelControlDef def;
 	def.pFont = m_pFont;
@@ -284,7 +284,7 @@ void cGraphicsTestView::TestUIControls()
 	
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl));
-	pButtonControl->VSetPosition(cVector2(0.f, 90.f));
+	pButtonControl->VSetPosition(cVector2(0.f, 130.f));
 	function<void (bool)> btnCallback;
 	btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
 	pButtonControl->VRegisterCallBack(btnCallback);
@@ -301,17 +301,24 @@ void cGraphicsTestView::TestUIControls()
 	btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
 	pButtonControl1->VRegisterCallBack(btn1Callback);
 	
-	//	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl("Test\\buttonDefault.png",
-	//		10, 10, 8, false, DEFAULT_CHARSET, "Arial", DT_VCENTER|DT_LEFT, 
-	//		cColor::BLACK.GetColor());
-	//	pWindowControl->VAddChildControl(pTextBoxControl);
-	//	pTextBoxControl->VSetSize(200, 30);
-	//	pTextBoxControl->VSetPosition(cVector3(0.f, 200.f, 0.f));
-	//
+	stTextBoxControlDef textControlDef;
+	textControlDef.strBGImage = "Test\\buttonDefault.png";
+	textControlDef.pFont = m_pFont;
+	textControlDef.fTextHeight = 30;
+	textControlDef.textColor = cColor::VIOLET;
+	textControlDef.strCaretImage = "Test\\caret.png";
+	textControlDef.iCaretWidth = 3;
+	textControlDef.fCaretUpdateTime =0.25f;
+
+	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl(textControlDef);
+	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pTextBoxControl));
+	pTextBoxControl->VSetSize(cVector2(200, 45));
+	pTextBoxControl->VSetPosition(cVector2(150.f, 200.f));
+	
 	stCheckBoxControlDef checkboxControlDef;
 	checkboxControlDef.buttonControlDef.strDefaultImage = "Test\\Unchecked.png";
 	checkboxControlDef.buttonControlDef.strPressedImage = "Test\\Checked.png";
-	checkboxControlDef.labelControlDef.strText = "Check\nBox";
+	checkboxControlDef.labelControlDef.strText = "CheckBox";
 	checkboxControlDef.labelControlDef.pFont = m_pFont;
 	checkboxControlDef.labelControlDef.fTextHeight = 20;
 	checkboxControlDef.labelControlDef.textColor = cColor::WHITE;

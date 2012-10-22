@@ -53,7 +53,6 @@ namespace Graphics
 			const bool bVsyncEnabled, const int iWidth, const int iHeight,
 			const float fScreenDepth, const float fScreenNear) = 0;
 		/********************************************//**
-		 * 
 		 *
 		 * Begins the rendering and clears the surface
 		 ***********************************************/
@@ -126,6 +125,12 @@ namespace Graphics
 		 * Returns the screen height
 		 ***********************************************/
 		virtual int VGetScreenHeight() const = 0;
+		/********************************************//**
+		 * @param[in] True if fullscreen. False otherwise
+		 *
+		 * Sets the full screen/windowed mode for the DirectX engine
+		 ***********************************************/
+		virtual void VSetFullScreenMode(const bool bIsFullScreen) = 0;
 	};
 }
 #endif // DxBase_h__

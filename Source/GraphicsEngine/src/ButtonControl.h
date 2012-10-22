@@ -33,12 +33,15 @@ namespace Graphics
 
 	private:
 		~cButtonControl();
+		void VRender(const ICamera * const pCamera);
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
+		void VSetAbsolutePosition();
 
 	private:
 		shared_ptr<ITexture>		m_pDefaultTexture;
 		shared_ptr<ITexture>		m_pPressedTexture;
+		shared_ptr<IBaseControl>	m_pLabel;
 		bool						m_bPressed;
 	};
 }

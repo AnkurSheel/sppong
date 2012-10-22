@@ -56,6 +56,11 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	m_pAppWindowControl->VSetSize(cVector2(iClientWidth, iClientHeight));
 	m_pCamera = ICamera::CreateCamera();
 
+	AppMsg msg;
+	msg.m_uMsg = WM_FULLSCREEN;
+	msg.m_wParam = IMainWindow::GetInstance()->VGetTitleBarSize();
+	m_pAppWindowControl->VPostMsg(msg);
+
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
 // 		"Sprites\\cursor.png");
@@ -123,6 +128,10 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 			{ 
 			case VK_SPACE:
 				IMainWindow::GetInstance()->VToggleFullScreen();
+				AppMsg msg;
+				msg.m_uMsg = WM_FULLSCREEN;
+				msg.m_wParam = IMainWindow::GetInstance()->VGetTitleBarSize();
+				m_pAppWindowControl->VPostMsg(msg);
 				Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
 			}
 		}

@@ -50,7 +50,10 @@ void cLabelControl::VRender(const ICamera * const pCamera)
 void cLabelControl::VSetAbsolutePosition()
 {
 	cBaseControl::VSetAbsolutePosition();
-	m_pSentence->VSetPosition(m_vControlAbsolutePosition);
+	if(m_pSentence)
+	{
+		m_pSentence->VSetPosition(m_vControlAbsolutePosition);	
+	}
 }
 
 // *************************************************************************

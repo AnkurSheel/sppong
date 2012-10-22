@@ -189,6 +189,15 @@ void Graphics::cDXBase::VTurnOffAlphaBlending()
 	m_pDeviceContext->OMSetBlendState(m_pAlphaDisableBlendingState, blendFactor, 0xffffffff);
 }
 
+// *************************************************************************
+void Graphics::cDXBase::VSetFullScreenMode(const bool bIsFullScreen)
+{
+	if (m_pSwapChain)
+	{
+		m_pSwapChain->SetFullscreenState(bIsFullScreen, NULL);
+	}
+}
+
 // ***************************************************************
 bool Graphics::cDXBase::SetupRenderTargets( const int iWidth,
 										   const int iHeight, const HWND & hWnd,
@@ -622,10 +631,7 @@ void Graphics::cDXBase::SetupProjectionMatrix( const int iWidth, const int iHeig
 void Graphics::cDXBase::Cleanup()
 {
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
-	if(m_pSwapChain)
-	{
-		m_pSwapChain->SetFullscreenState(false, NULL);
-	}
+	VSetFullScreenMode(false);
 
 	SAFE_RELEASE(m_pRasterState);
 	SAFE_RELEASE(m_pDepthStencilView);

@@ -124,13 +124,23 @@ void cMyFont::GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch,
 	if (curr != m_CharDescriptorMap.end())
 	{
 		ch = (curr->second);
-		fTexU = float(ch.x)/ float (m_iTextureWidth);
-		fTexV = float(ch.y)/ float (m_iTextureHeight);
+		fTexU = (float(ch.x)+0.5f) / float (m_iTextureWidth);
+		fTexV = (float(ch.y)+0.5f) / float (m_iTextureHeight);
 		fTexU1 = float(ch.x + ch.Width) / float (m_iTextureWidth);
 		fTexV1 = float(ch.y + ch.Height) / float (m_iTextureHeight);
 	}
 }
 
+
+// *************************************************************************
+void cMyFont::GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch)
+{
+	CharDescriptorMap::const_iterator curr = m_CharDescriptorMap.find(iCharAsciiValue);
+	if (curr != m_CharDescriptorMap.end())
+	{
+		ch = (curr->second);
+	}
+}
 
 // *************************************************************************
 void cMyFont::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,

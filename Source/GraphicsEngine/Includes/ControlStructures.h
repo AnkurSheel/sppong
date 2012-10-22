@@ -84,5 +84,23 @@ namespace Graphics
 		{
 		}
 	};
+
+	struct stTextBoxControlDef
+	{
+		Base::cString strBGImage;
+		shared_ptr<IMyFont> pFont;
+		Base::cColor textColor;
+		float fTextHeight;
+		Base::cString strCaretImage;
+		int iCaretWidth;
+		float fCaretUpdateTime;
+
+		stTextBoxControlDef()
+			: fTextHeight(0.0f)
+			, iCaretWidth(0)
+			, fCaretUpdateTime(0.0f)
+		{
+		}
+	};
 }
 #endif // ControlStructures_h__

@@ -39,7 +39,7 @@ namespace Graphics
 			const int iHeight, const float fScreenDepth, const float fScreenNear);
 		void VBeginRender();
 		void VEndRender();
-
+		void VSetFullScreenMode(const bool bIsFullScreen);
 		/********************************************//**
 		 *
 		 * Releases all the resources

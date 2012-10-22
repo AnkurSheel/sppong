@@ -409,6 +409,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\TextBoxControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TextBoxControl.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\WindowControl.cpp"
 					>
 				</File>

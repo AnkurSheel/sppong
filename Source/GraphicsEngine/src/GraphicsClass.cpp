@@ -48,6 +48,12 @@ void Graphics::cGraphicsClass::VInitialize( const HWND & hWnd,
 		iHeight, fScreenDepth, fScreenNear);
 }
 
+// *************************************************************************
+void Graphics::cGraphicsClass::VSetFullScreenMode(const bool bIsFullScreen)
+{
+	IDXBase::GetInstance()->VSetFullScreenMode(bIsFullScreen);
+}
+
 // ***************************************************************
 void Graphics::cGraphicsClass::Cleanup()
 {

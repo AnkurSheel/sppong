@@ -57,6 +57,12 @@ namespace GameBase
 		GAMEBASE_API virtual void VToggleFullScreen() = 0;
 		/********************************************//**
 		 *
+		 * Returns the title bar size if in windowed mode
+		 * 0 if in fullscreen mode
+		 ***********************************************/
+		GAMEBASE_API virtual int VGetTitleBarSize() const = 0;
+		/********************************************//**
+		 *
 		 * Destroys the Window
 		 ***********************************************/
 		virtual void VCleanup() = 0;

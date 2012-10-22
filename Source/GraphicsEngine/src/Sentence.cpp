@@ -96,6 +96,12 @@ void cSentence::VSetPosition(const Base::cVector2 & vPosition)
 	m_bIsDirty = true;
 }
 
+// *************************************************************************
+void cSentence::VGetText(Base::cString & strText) const
+{
+	strText = m_strText;
+}
+
 // ***************************************************************
 void cSentence::VSetText(const cString & strText)
 {
@@ -121,6 +127,24 @@ float cSentence::VGetWidth() const
 float cSentence::VGetHeight() const
 {
 	return m_fScale * m_pFont->GetFontHeight();
+}
+
+// *************************************************************************
+float cSentence::VGetWidth(const Base::cString & strText) const
+{
+	float fWidth = 0.0f;
+	int istrLength = strText.GetLength();
+
+	CharDescriptor ch;
+	for (int i=0; i<istrLength; i++)
+	{
+		int val = (int)strText[i];
+		m_pFont->GetCharVertexData(val, ch);
+
+		fWidth += m_fScale * ch.XAdvance;
+	}
+
+	return fWidth;
 }
 
 // *************************************************************************
