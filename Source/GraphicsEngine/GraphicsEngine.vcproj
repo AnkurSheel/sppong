@@ -401,6 +401,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\HScrollBar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\HScrollBar.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\LabelControl.cpp"
 					>
 				</File>

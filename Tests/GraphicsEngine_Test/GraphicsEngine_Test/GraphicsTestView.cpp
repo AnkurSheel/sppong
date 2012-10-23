@@ -348,14 +348,22 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pVScrollBarControl));
 	pVScrollBarControl->VSetPosition(cVector2(326.f, 56.f));
 	pVScrollBarControl->VSetSize(cVector2(30, 300));	
-	//
-	//	IBaseControl * pHScrollBarControl = IBaseControl::CreateHScrollBarControl("Test\\ScrollBar_BG.png",
-	//		"Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Left.png", 
-	//		"Test\\ScrollBar_Left.png", "Test\\ScrollBar_Right.png","Test\\ScrollBar_Right.png",
-	//		0, 50);
-	//	pWindowControl->VAddChildControl(pHScrollBarControl);
-	//	pHScrollBarControl->VSetPosition(cVector3(0.f, 300.f, 0.f));
-	//	pHScrollBarControl->VSetSize(300, 30);	
+
+	stScrollBarControlDef hScrollBarDef;
+	hScrollBarDef.strBGImage = "Test\\ScrollBar_BG.png";
+	hScrollBarDef.iMinPos = 0;
+	hScrollBarDef.iMaxPos = 25;
+	hScrollBarDef.thumbBtnDef.strDefaultImage= "Test\\ScrollBar_Thumb.png";
+	hScrollBarDef.thumbBtnDef.strPressedImage = "Test\\ScrollBar_Thumb.png";
+	hScrollBarDef.TopLeftArrowDef.strDefaultImage = "Test\\ScrollBar_Left.png";
+	hScrollBarDef.TopLeftArrowDef.strPressedImage = "Test\\ScrollBar_Left.png";
+	hScrollBarDef.BottomRightArrowDef.strDefaultImage = "Test\\ScrollBar_Right.png";
+	hScrollBarDef.BottomRightArrowDef.strPressedImage = "Test\\ScrollBar_Right.png";
+
+	IBaseControl * pHScrollBarControl = IBaseControl::CreateHScrollBarControl(hScrollBarDef);
+	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHScrollBarControl));
+	pHScrollBarControl->VSetPosition(cVector2(20.f, 330.f));
+	pHScrollBarControl->VSetSize(cVector2(200, 30));
 }
 // ***************************************************************
 void cGraphicsTestView::Cleanup()
