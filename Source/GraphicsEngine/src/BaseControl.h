@@ -64,7 +64,7 @@ namespace Graphics
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VRegisterCallBack(function <void (bool)> callback);;
 		void VUnregisterCallBack();
-
+		
 		bool AllowMovingControl();
 		void ConstrainChildControl( double & dx, double & dy );
 		void SetParentControl( cBaseControl * pParentControl );
@@ -72,7 +72,6 @@ namespace Graphics
 		void MoveToFront(const cBaseControl * const pControl);
 		bool IsCursorIntersect(const float fX, const float fY);
 		ControlList::const_iterator GetChildControlIterator(const cBaseControl * const pChildControl);
-		int GetCaptionSize() const;
 		
 	protected:
 		shared_ptr<ISprite>			m_pCanvasSprite; 
@@ -91,7 +90,6 @@ namespace Graphics
 		cBaseControl *				m_pParentControl;
 		int							m_iMouseDownXPos;
 		int							m_iMouseDownYPos;
-		int							m_iCaptionSize;
 	};
 }
 #endif // BaseControl_h__

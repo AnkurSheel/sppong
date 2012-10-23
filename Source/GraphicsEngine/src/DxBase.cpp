@@ -78,6 +78,7 @@ void Graphics::cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkC
 	SetupProjectionMatrix(iWidth, iHeight, fScreenNear, fScreenDepth);
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixOrthoLH(&m_matOrtho, (float)iWidth, (float)iHeight, fScreenNear, fScreenDepth);
+	VTurnOnAlphaBlending();
 }
 
 // ***************************************************************
@@ -403,7 +404,7 @@ bool Graphics::cDXBase::CreateBlendStates()
 
 	// Create an alpha enabled blend state description.
 	blendStateDescription.RenderTarget[0].BlendEnable = TRUE;
-	blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 	blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 	blendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	blendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;

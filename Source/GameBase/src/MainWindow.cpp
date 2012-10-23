@@ -100,8 +100,6 @@ void cMainWindow::VToggleFullScreen()
 {
 	m_bFullScreen = !m_bFullScreen;
 
-	SetDisplayResolution();
-
 	if (m_bFullScreen)
 	{
 		//Set style for Full Screen mode
@@ -114,26 +112,19 @@ void cMainWindow::VToggleFullScreen()
 	{
 	    //Set style for Windowed mode
 		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwWindowedStyle);
-
-		// allow other windows to come in front when we lose focus in windowed mode
-		SetWindowPos(m_Hwnd, HWND_NOTOPMOST, m_windowRect.left, m_windowRect.top, m_windowRect.right - m_windowRect.left, m_windowRect.bottom - m_windowRect.top, 0);
+		
+		CalculateWindowRect();
+		SetWindowPos(m_Hwnd, HWND_NOTOPMOST,0,0,
+			m_windowRect.right - m_windowRect.left,
+ 			m_windowRect.bottom - m_windowRect.top, 0);
 	}
+	SetDisplayResolution();
 
 	if (!IsWindowVisible(m_Hwnd))
 	{
 		ShowWindow(m_Hwnd, SW_SHOW);
 	}
 	IGraphicsClass::GetInstance()->VSetFullScreenMode(m_bFullScreen);
-}
-
-// *************************************************************************
-int cMainWindow::VGetTitleBarSize() const
-{
-	if (!m_bFullScreen)
-	{
-		return GetSystemMetrics(SM_CYSMCAPTION);
-	}
-	return 0;
 }
 
 // ***************************************************************
@@ -168,32 +159,38 @@ void cMainWindow::RegisterWin()
 void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
 	DWORD dwStyle;
+	
+	CalculateWindowRect();
+
+	int x, y, height, width;
 	if(m_bFullScreen)
 	{
 		dwStyle = m_kdwFullScreenStyle;
+		x = 0;
+		y = 0;
+		width = m_iFullScreenWidth;
+		height = m_iFullScreenHeight;
+
 	}
 	else
 	{
 		dwStyle = m_kdwWindowedStyle;
+		x = m_windowRect.left;
+		y = m_windowRect.top;
+		width = m_windowRect.right - m_windowRect.left;
+		height = m_windowRect.bottom - m_windowRect.top;
 	}
 
-	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - m_iFullScreenWidth)  / 2;
-	m_windowRect.top = (GetSystemMetrics(SM_CYSCREEN) - m_iFullScreenHeight) / 2;
-	m_windowRect.right =  m_windowRect.left + m_iFullScreenWidth;
-	m_windowRect.bottom = m_windowRect.top + m_iFullScreenHeight;
-
-	//get the required size of the window rectangle, based on the desired size of the client rectangle
-	AdjustWindowRectEx(&m_windowRect, dwStyle, false, 0);
 
 	m_Hwnd = CreateWindowEx(
 		WS_EX_APPWINDOW,
 		"Window",
 		lpWindowTitle.GetData(),
 		dwStyle,
-		m_windowRect.left,
-		m_windowRect.top,
-		m_iFullScreenWidth,
-		m_iFullScreenHeight,
+		x,
+		y,
+		width,
+		height,
 		NULL,
 		NULL,
 		m_hInstance,
@@ -263,6 +260,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 			{
 				SetDisplayResolution();
 			}
+			ShowWindow(hwnd, SW_RESTORE);
 		}
 		else if (LOWORD(wParam) == WA_INACTIVE)
 		{
@@ -270,6 +268,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 			{
 				SetDisplayResolution();
 			}
+			ShowWindow(hwnd, SW_MINIMIZE);
 		}
 		return 0;
 	}
@@ -404,6 +403,18 @@ void cMainWindow::SetDisplayResolution()
 	return;
 }
 
+// *************************************************************************
+void cMainWindow::CalculateWindowRect()
+{
+	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - m_iFullScreenWidth)  / 2;
+	m_windowRect.top = (GetSystemMetrics(SM_CYSCREEN) - m_iFullScreenHeight) / 2;
+	m_windowRect.right =  m_windowRect.left + m_iFullScreenWidth;
+	m_windowRect.bottom = m_windowRect.top + m_iFullScreenHeight;
+
+	//get the required size of the window rectangle, based on the desired size of the client rectangle
+	AdjustWindowRectEx(&m_windowRect, m_kdwWindowedStyle, false, 0);
+}
+
 // ***************************************************************
 // Destroys the Window
 // ***************************************************************
@@ -445,4 +456,4 @@ void IMainWindow::Destroy()
 {
 	cMainWindow::Destroy();
 }
- 
+

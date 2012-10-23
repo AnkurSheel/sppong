@@ -24,9 +24,9 @@ namespace Graphics
 	private:
 		~cCheckBoxControl();
 		
+		void VRender(const ICamera * const pCamera );
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		void VSetAbsolutePosition();
-		void VRender(const ICamera * const pCamera );
 
 	private:
 		bool						m_bChecked;

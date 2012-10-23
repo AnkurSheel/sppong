@@ -9,6 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "CheckBoxControl.h"
+#include "Structures.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -36,7 +37,9 @@ void cCheckBoxControl::Init(const stCheckBoxControlDef & def)
 
 	VSetSize(cVector2(m_pTickBox->VGetWidth() + def.iSpaceCaption + pLabel->VGetWidth(),
 		max(m_pTickBox->VGetHeight(), pLabel->VGetHeight())));
-	pLabel->VSetPosition(cVector2(m_pTickBox->VGetWidth() + def.iSpaceCaption, 0.0f));
+	float fX = m_pTickBox->VGetWidth() + def.iSpaceCaption;
+	float fY = VGetHeight()/2.0f - pLabel->VGetHeight()/2.0f;
+	pLabel->VSetPosition(cVector2(fX, fY));
 }
 
 // *************************************************************************
@@ -52,19 +55,26 @@ void cCheckBoxControl::VRender(const ICamera * const pCamera)
 // ***************************************************************
 bool cCheckBoxControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
-	if (m_bChecked)
+	AppMsg msg;
+	msg.m_uMsg = WM_LBUTTONDOWN;
+	msg.m_lParam = MAKELONG(X, Y);
+
+	if(m_pTickBox && m_pTickBox->VPostMsg(msg))
 	{
-		m_pTickBox->VOnLeftMouseButtonUp(X, Y);
-		m_bChecked = false;
-	}
-	else
-	{
-		m_pTickBox->VOnLeftMouseButtonDown(X, Y);
-		m_bChecked = true;
-	}
-	if (m_pfnCallBack)
-	{
-		m_pfnCallBack(m_bChecked);
+		if (m_bChecked)
+		{
+			m_pTickBox->VOnLeftMouseButtonUp(X, Y);
+			m_bChecked = false;
+		}
+		else
+		{
+			m_pTickBox->VOnLeftMouseButtonDown(X, Y);
+			m_bChecked = true;
+		}
+		if (m_pfnCallBack)
+		{
+			m_pfnCallBack(m_bChecked);
+		}
 	}
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }

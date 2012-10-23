@@ -123,7 +123,7 @@ namespace Graphics
 		GRAPHIC_API static IBaseControl * CreateButtonControl(const stButtonControlDef & def);
 		GRAPHIC_API static IBaseControl * CreateCheckBoxControl(const stCheckBoxControlDef & def);
 		GRAPHIC_API static IBaseControl * CreateTextBoxControl(const stTextBoxControlDef & def);
-		//GRAPHIC_API static IBaseControl * CreateVScrollBarControl(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultMinImage, const Base::cString & strPressedMinImage, const Base::cString & strDefaultMaxImage,	const Base::cString & strPressedMaxImage, const int iMinPos, const int iMaxPos);
+		GRAPHIC_API static IBaseControl * CreateVScrollBarControl(const stScrollBarControlDef & def);
 		//GRAPHIC_API static IBaseControl * CreateHScrollBarControl(const Base::cString & strBackgroundImage, const Base::cString & strDefaultThumbImage, const Base::cString & strPressedThumbImage, const Base::cString & strDefaultMinImage, const Base::cString & strPressedMinImage, const Base::cString & strDefaultMaxImage, const Base::cString & strPressedMaxImage, const int iMinPos, const int iMaxPos);
 	};
 }

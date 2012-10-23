@@ -102,5 +102,22 @@ namespace Graphics
 		{
 		}
 	};
+
+	struct stScrollBarControlDef
+	{
+		Base::cString strBGImage;
+		stButtonControlDef thumbBtnDef;
+		stButtonControlDef TopLeftArrowDef;
+		stButtonControlDef BottomRightArrowDef;
+		int iMinPos;
+		int iMaxPos;
+
+		stScrollBarControlDef()
+			: iMinPos(0)
+			, iMaxPos(0)
+		{
+		}
+	};
+		
 }
 #endif // ControlStructures_h__

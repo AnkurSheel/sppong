@@ -110,7 +110,6 @@ const int KEYBOARD_KEYS = 256;
 #endif 
 
 typedef DWORD TICK;
-#define WM_FULLSCREEN WM_USER + 1
 
 const unsigned int SCREEN_REFRESH_RATE(1000/60);
 const int     MaxInt    = (std::numeric_limits<int>::max)();

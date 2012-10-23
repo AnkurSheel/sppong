@@ -63,7 +63,7 @@ bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
 // ***************************************************************
 void cSentence::VRender(const ICamera * const pCamera)
 {
-	IDXBase::GetInstance()->VTurnOnAlphaBlending();
+	//IDXBase::GetInstance()->VTurnOnAlphaBlending();
 	if (m_bIsDirty)
 	{
 		RecalculateVertexData();
@@ -86,7 +86,7 @@ void cSentence::VRender(const ICamera * const pCamera)
 	m_pFont->Render(IDXBase::GetInstance()->VGetWorldMatrix(),
 		pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix(), m_TextColor);
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
-	IDXBase::GetInstance()->VTurnOffAlphaBlending();
+	//IDXBase::GetInstance()->VTurnOffAlphaBlending();
 }
 
 // ***************************************************************

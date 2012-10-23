@@ -135,7 +135,7 @@ void cButtonControl::VSetAbsolutePosition()
 	if (m_pLabel)
 	{
 		float fcenterX = m_vControlAbsolutePosition.m_dX + VGetWidth()/2.0f - m_pLabel->VGetWidth()/2.0f;
-		float fcenterY = m_vControlAbsolutePosition.m_dY + VGetHeight()/2.0f- m_pLabel->VGetHeight()/2.0f;;
+		float fcenterY = m_vControlAbsolutePosition.m_dY + VGetHeight()/2.0f- m_pLabel->VGetHeight()/2.0f;
 		m_pLabel->VSetPosition(cVector2(fcenterX, fcenterY));
 	}
 }

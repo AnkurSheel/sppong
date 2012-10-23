@@ -100,14 +100,6 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 			}
 		}
 		break;
-
-	case WM_FULLSCREEN:
-		if (m_pParentControl)
-		{
-			return false;
-		}
-		m_iCaptionSize = msg.m_wParam;
-		return true;
 	}
 	return false;
 }
@@ -302,8 +294,8 @@ bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 {
 	if((fX >= m_vControlAbsolutePosition.m_dX) 
 		&& (fX <= m_vControlAbsolutePosition.m_dX + VGetWidth())
-		&& ((fY + GetCaptionSize())  >= m_vControlAbsolutePosition.m_dY)
-		&& ((fY + GetCaptionSize()) <= m_vControlAbsolutePosition.m_dY + VGetHeight()))
+		&& (fY >= m_vControlAbsolutePosition.m_dY)
+		&& (fY <= m_vControlAbsolutePosition.m_dY + VGetHeight()))
 		{
 			return true;
 		}
@@ -423,14 +415,4 @@ cBaseControl::ControlList::const_iterator cBaseControl::GetChildControlIterator(
 		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control in Base Control");
 	}
 	return iter;
-}
-
-// *************************************************************************
-int cBaseControl::GetCaptionSize() const
-{
-	if (m_pParentControl)
-	{
-		return m_pParentControl->GetCaptionSize();
-	}
-	return m_iCaptionSize;
 }

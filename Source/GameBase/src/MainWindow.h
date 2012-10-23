@@ -41,7 +41,6 @@ namespace GameBase
 			IBaseApp * const pGame, const bool bFullScreen,
 			const int iFullScreenWidth, const int iFullScreenHeight);
 		void VToggleFullScreen();
-		int VGetTitleBarSize() const;
 		void VCleanup();
 		/********************************************//**
 		 * @param[in] hWnd – Unique handle to the window.
@@ -93,6 +92,7 @@ namespace GameBase
 		 * to the specified graphics mode.
 		 ***********************************************/
 		void SetDisplayResolution();
+		void CalculateWindowRect();
 
 	private:
 		const DWORD			m_kdwFullScreenStyle;   /*!< The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE */

@@ -313,7 +313,7 @@ void cGraphicsTestView::TestUIControls()
 	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl(textControlDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pTextBoxControl));
 	pTextBoxControl->VSetSize(cVector2(200, 45));
-	pTextBoxControl->VSetPosition(cVector2(150.f, 200.f));
+	pTextBoxControl->VSetPosition(cVector2(110.0f, 200.f));
 	
 	stCheckBoxControlDef checkboxControlDef;
 	checkboxControlDef.buttonControlDef.strDefaultImage = "Test\\Unchecked.png";
@@ -333,13 +333,21 @@ void cGraphicsTestView::TestUIControls()
 	checkBoxCallback = bind(&cGame::CheckBoxPressed, m_pGame, _1);
 	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
 
-	//	IBaseControl * pVScrollBarControl = IBaseControl::CreateVScrollBarControl("Test\\ScrollBar_BG.png",
-	//		"Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Up.png", 
-	//		"Test\\ScrollBar_Up.png", "Test\\ScrollBar_Down.png","Test\\ScrollBar_Down.png",
-	//		0, 50);
-	//	pWindowControl->VAddChildControl(pVScrollBarControl);
-	//	pVScrollBarControl->VSetPosition(cVector3(300.f, 0.f, 0.f));
-	//	pVScrollBarControl->VSetSize(30, 300);	
+	stScrollBarControlDef vScrollBarDef;
+	vScrollBarDef.strBGImage = "Test\\ScrollBar_BG.png";
+	vScrollBarDef.iMinPos = 0;
+	vScrollBarDef.iMaxPos = 50;
+	vScrollBarDef.thumbBtnDef.strDefaultImage= "Test\\ScrollBar_Thumb.png";
+	vScrollBarDef.thumbBtnDef.strPressedImage = "Test\\ScrollBar_Thumb.png";
+	vScrollBarDef.TopLeftArrowDef.strDefaultImage = "Test\\ScrollBar_Up.png";
+	vScrollBarDef.TopLeftArrowDef.strPressedImage = "Test\\ScrollBar_Up.png";
+	vScrollBarDef.BottomRightArrowDef.strDefaultImage = "Test\\ScrollBar_Down.png";
+	vScrollBarDef.BottomRightArrowDef.strPressedImage = "Test\\ScrollBar_Down.png";
+	
+	IBaseControl * pVScrollBarControl = IBaseControl::CreateVScrollBarControl(vScrollBarDef);
+	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pVScrollBarControl));
+	pVScrollBarControl->VSetPosition(cVector2(326.f, 56.f));
+	pVScrollBarControl->VSetSize(cVector2(30, 300));	
 	//
 	//	IBaseControl * pHScrollBarControl = IBaseControl::CreateHScrollBarControl("Test\\ScrollBar_BG.png",
 	//		"Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Thumb.png", "Test\\ScrollBar_Left.png", 
