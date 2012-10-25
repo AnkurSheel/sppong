@@ -280,7 +280,7 @@ void cGraphicsTestView::TestUIControls()
 	buttonDef.strCaption = "Button";
 	buttonDef.strDefaultImage = "Test\\buttonDefault.png";
 	buttonDef.strPressedImage = "Test\\buttonPressed.png";
-	buttonDef.textColor = cColor::WHITE;
+	buttonDef.textColor = cColor::ORANGE;
 	
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl));
@@ -302,7 +302,7 @@ void cGraphicsTestView::TestUIControls()
 	pButtonControl1->VRegisterCallBack(btn1Callback);
 	
 	stTextBoxControlDef textControlDef;
-	textControlDef.strBGImage = "Test\\buttonDefault.png";
+	textControlDef.strBGImage = "Test\\TextBox.png";
 	textControlDef.pFont = m_pFont;
 	textControlDef.fTextHeight = 30;
 	textControlDef.textColor = cColor::VIOLET;
@@ -352,7 +352,7 @@ void cGraphicsTestView::TestUIControls()
 	stScrollBarControlDef hScrollBarDef;
 	hScrollBarDef.strBGImage = "Test\\ScrollBar_BG.png";
 	hScrollBarDef.iMinPos = 0;
-	hScrollBarDef.iMaxPos = 25;
+	hScrollBarDef.iMaxPos = 10;
 	hScrollBarDef.thumbBtnDef.strDefaultImage= "Test\\ScrollBar_Thumb.png";
 	hScrollBarDef.thumbBtnDef.strPressedImage = "Test\\ScrollBar_Thumb.png";
 	hScrollBarDef.TopLeftArrowDef.strDefaultImage = "Test\\ScrollBar_Left.png";
