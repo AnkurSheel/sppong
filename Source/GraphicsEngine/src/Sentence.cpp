@@ -56,7 +56,7 @@ bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
 	m_vPosition = cVector2(-1.0f, -1.0f);
 	VSetText(strText);
 	VSetTextColor(textColor);
-	RecalculateVertexData();
+	m_bIsDirty = true;
 	return true;
 }
 
@@ -66,7 +66,7 @@ void cSentence::VRender(const ICamera * const pCamera)
 	//IDXBase::GetInstance()->VTurnOnAlphaBlending();
 	if (m_bIsDirty)
 	{
-		RecalculateVertexData();
+		RecalculateVertexData(pCamera);
 		m_bIsDirty = false;
 	}
 
@@ -155,7 +155,7 @@ void cSentence::VSetHeight(const float fTextHeight)
 }
 
 // ***************************************************************
-bool cSentence::RecalculateVertexData()
+bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 {
 	m_fWidth = 0.0f;
 	int istrLength = m_strText.GetLength();
@@ -186,11 +186,13 @@ bool cSentence::RecalculateVertexData()
 		top = curY + m_fScale * ch.YOffset;
 		bottom = top - m_fScale * ch.Height;
 
+		float z = pCamera->VGetPosition().m_dZ + 1.0f;
+
 		// Create the vertex array.
-		pVertices[i*4] = stTexVertex(left, bottom, 0.0f, u, v1);
-		pVertices[i*4+1] = stTexVertex(left, top, 0.0f, u, v);
-		pVertices[i*4+2] = stTexVertex(right, bottom, 0.0f, u1, v1);
-		pVertices[i*4+3] = stTexVertex(right, top, 0.0f, u1, v);
+		pVertices[i*4] = stTexVertex(left, bottom, z, u, v1);
+		pVertices[i*4+1] = stTexVertex(left, top, z, u, v);
+		pVertices[i*4+2] = stTexVertex(right, bottom, z, u1, v1);
+		pVertices[i*4+3] = stTexVertex(right, top, z, u1, v);
 
 		curX += m_fScale * ch.XAdvance;
 		m_fWidth += m_fScale * ch.XAdvance;

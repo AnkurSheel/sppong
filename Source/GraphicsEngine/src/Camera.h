@@ -39,6 +39,7 @@ namespace Graphics
 	
 	private:
 		~cCamera();
+		Base::cVector3 VGetPosition() const;
 		void VSetPosition(const Base::cVector3 & vPosition);
 		/********************************************//**
  		 * @param[in] vRotation The rotation of the camera

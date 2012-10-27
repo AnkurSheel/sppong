@@ -52,12 +52,6 @@ namespace Graphics
 		 * Creates the index buffer using the indice data
 		 ***********************************************/
 		virtual bool CreateIndexBuffer( );
-		/********************************************//**
-		 * return True if the vertex buffer was updated successfully
-		 * 
-		 * Recalculates the coordinates and updates the vertex data if the position has changed
-		 ***********************************************/
-		virtual bool RecalculateVertexData();
 
 	private:
 		void VSetTexture( shared_ptr<ITexture> const pTexture);
@@ -66,6 +60,13 @@ namespace Graphics
 		 * Creates and Initializes the font shader for use
 		 ***********************************************/
 		bool InitializeShader();
+		/********************************************//**
+		 * @param[in] pCamera The camera which contains the current view matrix
+		 * return True if the vertex buffer was updated successfully
+		 * 
+		 * Recalculates the coordinates and updates the vertex data if the position has changed
+		 ***********************************************/
+		bool RecalculateVertexData(const ICamera * const pCamera);
 
 	protected:
 		ID3D11Buffer * 						m_pVertexBuffer;		/*!< The vertex buffer */

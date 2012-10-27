@@ -48,7 +48,13 @@ namespace Graphics
 		 ***********************************************/
 		bool CreateVertexBuffer();
 		bool CreateIndexBuffer( );
-		bool RecalculateVertexData();
+		/********************************************//**
+		 * @param[in] pCamera The camera which contains the current view matrix
+		 * return True if the vertex buffer was updated successfully
+		 * 
+		 * Recalculates the coordinates and updates the vertex data if the position has changed
+		 ***********************************************/
+		bool RecalculateVertexData(const ICamera * const pCamera);
 		void Cleanup();
 		bool VInitialize(shared_ptr<IMyFont> pFont, 
 			const Base::cString & strText, const Base::cColor & textColor);

@@ -15,7 +15,7 @@ using namespace Graphics;
 using namespace Base;
 
 // ***************************************************************
-Graphics::cCamera::cCamera()
+cCamera::cCamera()
 : m_vPosition(cVector3::Zero())
 , m_vRotation(cVector3::Zero())
 {
@@ -23,13 +23,19 @@ Graphics::cCamera::cCamera()
 }
 
 // ***************************************************************
-Graphics::cCamera::~cCamera()
+cCamera::~cCamera()
 {
 
 }
 
+// *************************************************************************
+cVector3 cCamera::VGetPosition() const
+{
+	return m_vPosition;
+}
+
 // ***************************************************************
-void Graphics::cCamera::VSetPosition( const cVector3 & vPosition )
+void cCamera::VSetPosition( const cVector3 & vPosition )
 {
 	if (m_vPosition != vPosition)
 	{
@@ -39,7 +45,7 @@ void Graphics::cCamera::VSetPosition( const cVector3 & vPosition )
 }
 
 // ***************************************************************
-void Graphics::cCamera::SetRotation( const cVector3 & vRotation )
+void cCamera::SetRotation( const cVector3 & vRotation )
 {
 	if (m_vRotation != vRotation)
 	{
@@ -48,12 +54,12 @@ void Graphics::cCamera::SetRotation( const cVector3 & vRotation )
 	}	
 }
 
-const D3DXMATRIX & Graphics::cCamera::GetViewMatrix() const 
+const D3DXMATRIX & cCamera::GetViewMatrix() const 
 { 
 	return m_matView; 
 }
 // ***************************************************************
-void Graphics::cCamera::CalculateViewMatrix()
+void cCamera::CalculateViewMatrix()
 {
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
 	float fPitch = static_cast<float>(DegtoRad(m_vRotation.m_dX));
@@ -83,9 +89,8 @@ void Graphics::cCamera::CalculateViewMatrix()
 	// Finally create the view matrix from the three updated vectors.
 	D3DXMatrixLookAtLH(&m_matView, &vPosition, &vLookAt, &up);
 }
-
 // ***************************************************************
-ICamera * Graphics::ICamera::CreateCamera()
+ICamera * ICamera::CreateCamera()
 {
 	return DEBUG_NEW cCamera();
 }

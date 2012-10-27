@@ -32,6 +32,12 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetPosition(const Base::cVector3 & vPosition) = 0;
 		/********************************************//**
+ 		 * @return The position of the camera
+		 *
+		 * Gets the position of the camera 
+		 ***********************************************/
+		virtual Base::cVector3 VGetPosition() const = 0;
+		/********************************************//**
 		 * @return An object to use this interface
 		 *
 		 * Returns an object to use this interface

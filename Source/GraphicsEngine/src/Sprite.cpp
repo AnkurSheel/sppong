@@ -92,7 +92,7 @@ void cSprite::VRender(const ICamera * const pCamera)
 	}
 	if (m_bIsDirty)
 	{
-		RecalculateVertexData();
+		RecalculateVertexData(pCamera);
 		m_bIsDirty = false;
 	}
 
@@ -217,7 +217,7 @@ bool cSprite::CreateIndexBuffer()
 }
 
 // ***************************************************************
-bool cSprite::RecalculateVertexData()
+bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 {
 	//center of the screen is 0,0
 	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
@@ -225,12 +225,13 @@ bool cSprite::RecalculateVertexData()
 	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
 	float bottom = top - m_vSize.m_dY;
 
+	float z = pCamera->VGetPosition().m_dZ + 1.0f;
 	// Create the vertex array.
 	stTexVertex * pVertices = DEBUG_NEW stTexVertex [4];
-	pVertices[0] = stTexVertex(left, bottom, 0.0f, 0.0f, 1.0f);
-	pVertices[1] = stTexVertex(left, top, 0.0f, 0.0f, 0.0f);
-	pVertices[2] = stTexVertex(right, bottom, 0.0f, 1.0f, 1.0f);
-	pVertices[3] = stTexVertex(right, top, 0.0f, 1.0f, 0.0f);
+	pVertices[0] = stTexVertex(left, bottom, z, 0.0f, 1.0f);
+	pVertices[1] = stTexVertex(left, top, z, 0.0f, 0.0f);
+	pVertices[2] = stTexVertex(right, bottom, z, 1.0f, 1.0f);
+	pVertices[3] = stTexVertex(right, top, z, 1.0f, 0.0f);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
