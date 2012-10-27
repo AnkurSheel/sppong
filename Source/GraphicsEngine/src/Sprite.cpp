@@ -15,6 +15,7 @@
 #include "TextureShader.h"
 #include "vertexstruct.h"
 #include "Camera.h"
+#include "ShaderFactory.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -24,7 +25,6 @@ using namespace Base;
 cSprite::cSprite()
 : m_pVertexBuffer(NULL)
 , m_pIndexBuffer(NULL)
-, m_pShader(NULL)
 , m_vSize(cVector2::Zero())
 , m_vPosition(cVector2::Zero())
 , m_bIsDirty(true)
@@ -149,7 +149,6 @@ void cSprite::VCleanup()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
-	SAFE_DELETE(m_pShader);
 }
 
 // ***************************************************************
@@ -262,13 +261,9 @@ bool cSprite::RecalculateVertexData()
 // ***************************************************************
 bool cSprite::InitializeShader()
 {
-	m_pShader = IShader::CreateTextureShader();
-	if (!m_pShader->VInitialize("resources\\Shaders\\Texture.vsho",
-		"resources\\Shaders\\Texture.psho"))
-	{
-		return false;
-	}
-	return true;
+	m_pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
+	return IShaderFactory::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\Texture.vsho",
+		"resources\\Shaders\\Texture.psho");
 }
 
 // ***************************************************************

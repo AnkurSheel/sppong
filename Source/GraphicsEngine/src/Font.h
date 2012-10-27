@@ -84,7 +84,7 @@ namespace Graphics
 	private:
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;
 
-		cFontShader *						m_pShader;				/*!< The shader responsible for rendering the font. */
+		shared_ptr<cFontShader>				m_pShader;				/*!< The shader responsible for rendering the font. */
 		shared_ptr<ITexture>				m_pTexture;				/*!< The Texture of the sprite */
 		Base::cString						m_strFontTexPath;		/*!< The path of the font texture file */
 		int									m_iTextureWidth;		/*!< The width of the texture file */

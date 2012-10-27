@@ -69,7 +69,7 @@ namespace Graphics
 		UINT								m_iIndexCount;			/*!< The number of indices in this model */
 		UINT								m_iPrimitiveCount;		/*!< The number of primitives that need to be drawn*/
 		UINT								m_iVertexSize;			/*!< The size of the vertex structure */
-		IShader *							m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
+		shared_ptr<IShader>					m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
 		shared_ptr<Graphics::ITexture>		m_pTexture;				/*!< The Texture of the model */
 	};
 }

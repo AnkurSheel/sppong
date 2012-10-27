@@ -14,6 +14,7 @@
 #include "Shader.hxx"
 #include "Camera.h"
 #include "Texture.hxx"
+#include "ShaderFactory.hxx"
 
 using namespace Utilities;
 using namespace Base;
@@ -26,8 +27,6 @@ Graphics::cModel::cModel()
 , m_iIndexCount(0)
 , m_iPrimitiveCount(0)
 , m_iVertexSize(0)
-, m_pShader(NULL)
-//, m_pTexture(NULL)
 {
 
 }
@@ -55,13 +54,9 @@ bool Graphics::cModel::VOnInitialization(const stVertex * const pVertices,
 	if(!CreateIndexBuffer(pIndices))
 		return false;
 
-	m_pShader = IShader::CreateColorShader();
-	if (!m_pShader->VInitialize("resources\\Shaders\\colors.vsho",
-		"resources\\Shaders\\colors.psho"))
-	{
-		return false;
-	}
-	return true;
+	m_pShader = shared_ptr<IShader>(IShader::CreateColorShader());
+	return IShaderFactory::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\colors.vsho",
+		"resources\\Shaders\\colors.psho");
 }
 
 // ***************************************************************
@@ -85,13 +80,10 @@ bool Graphics::cModel::VOnInitialization( const stTexVertex * const pVertices,
 	m_pTexture = ITexture::CreateTexture();
 	m_pTexture->VInitialize(strTextureFilename);
 	
-	m_pShader = IShader::CreateTextureShader();
-	if (!m_pShader->VInitialize("resources\\Shaders\\Texture.vsho",
-		"resources\\Shaders\\Texture.psho"))
-	{
-		return false;
-	}
-	return true;
+	m_pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
+	return IShaderFactory::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\Texture.vsho",
+		"resources\\Shaders\\Texture.psho");
+
 }
 
 // ***************************************************************
@@ -127,8 +119,6 @@ void Graphics::cModel::VCleanup()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
-	SAFE_DELETE(m_pShader);
-	//m_pTexture.reset();
 }
 
 // ***************************************************************

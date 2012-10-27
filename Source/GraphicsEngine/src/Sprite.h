@@ -70,7 +70,7 @@ namespace Graphics
 	protected:
 		ID3D11Buffer * 						m_pVertexBuffer;		/*!< The vertex buffer */
 		ID3D11Buffer *						m_pIndexBuffer;			/*!< The index buffer */
-		IShader *							m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
+		shared_ptr<IShader>					m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
 		shared_ptr<Graphics::ITexture>		m_pTexture;				/*!< The Texture of the sprite */
 		Base::cVector2						m_vSize;				/*!< The size/scale in pixels */
 		Base::cVector2						m_vPosition;			/*!< The current position of the sprite */

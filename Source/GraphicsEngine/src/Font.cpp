@@ -14,6 +14,7 @@
 #include "FontShader.h"
 #include "ResourceManager.hxx"
 #include "ResCache.hxx"
+#include "ShaderFactory.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -61,7 +62,6 @@ float cMyFont::GetFontHeight() const
 // ***************************************************************
 void cMyFont::Cleanup()
 {
-	SAFE_DELETE(m_pShader);
 	m_CharDescriptorMap.clear();
 }
 
@@ -106,13 +106,11 @@ void cMyFont::ParseFontDesc(const cString & strFontDirPath,
 // ***************************************************************
 bool cMyFont::InitializeShader()
 {
-	m_pShader = static_cast<cFontShader *>(IShader::CreateFontShader());
-	if (!m_pShader->VInitialize("resources\\Shaders\\Font.vsho",
-		"resources\\Shaders\\Font.psho"))
-	{
-		return false;
-	}
-	return true;
+	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateFontShader());
+	bool bSuccess = IShaderFactory::GetInstance()->VGetShader(pShader,
+		"resources\\Shaders\\Font.vsho", "resources\\Shaders\\Font.psho");
+	m_pShader = static_pointer_cast<cFontShader>(pShader);
+	return bSuccess;
 }
 
 // ***************************************************************

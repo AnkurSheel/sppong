@@ -511,6 +511,18 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\ShaderFactory.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\ShaderFactory.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\ShaderFactory.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>

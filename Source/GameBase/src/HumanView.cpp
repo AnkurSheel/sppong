@@ -19,6 +19,7 @@
 #include "Color.h"
 #include "Camera.hxx"
 #include "ParamLoaders.hxx"
+#include "ShaderFactory.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -103,6 +104,7 @@ void GameBase::cHumanView::VOnDestroyDevice()
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
 
+	IShaderFactory::Destroy();
 	//SAFE_DELETE(m_pCursorSprite);
 }
 
