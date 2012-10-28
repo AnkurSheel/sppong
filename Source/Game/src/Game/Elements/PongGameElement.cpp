@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "PongGameElement.h"
-#include "Polygon.hxx"
+//#include "Polygon.hxx"
 
 UINT cPongGameElement::m_siTableHeight = 0;
 UINT cPongGameElement::m_siTableWidth = 0; 

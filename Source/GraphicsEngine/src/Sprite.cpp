@@ -15,7 +15,8 @@
 #include "TextureShader.h"
 #include "vertexstruct.h"
 #include "Camera.h"
-#include "ShaderFactory.hxx"
+#include "ShaderManager.hxx"
+#include "TextureManager.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -76,9 +77,8 @@ bool cSprite::VInitialize( const Base::cString & strTextureFilename )
 
 	if (m_pTexture == NULL)
 	{
-		m_pTexture = ITexture::CreateTexture();
+		m_pTexture = ITextureManager::GetInstance()->VGetTexture(strTextureFilename);
 	}
-	m_pTexture->VInitialize(strTextureFilename);
 	
 	return VInitialize(m_pTexture);
 }
@@ -133,9 +133,9 @@ void cSprite::VSetSize( const Base::cVector2 & vSize )
 }
 
 // ***************************************************************
-void cSprite::VGetSize(Base::cVector2 & vSize)
+cVector2 cSprite::VGetSize() const
 {
-	vSize = m_vSize;
+	return m_vSize;
 }
 
 // *************************************************************************
@@ -263,7 +263,7 @@ bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 bool cSprite::InitializeShader()
 {
 	m_pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
-	return IShaderFactory::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\Texture.vsho",
+	return IShaderManager::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\Texture.vsho",
 		"resources\\Shaders\\Texture.psho");
 }
 

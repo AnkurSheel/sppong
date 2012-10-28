@@ -39,7 +39,7 @@ void cPaddle::Init( const cVector3& vInitialPos, const cString & strFilename )
 	cVector3 vPos(vInitialPos);
 	if (vPos.m_dX > m_siTableWidth /2)
 	{
-		vPos.m_dX = m_siTableWidth - m_pSprite->GetScaledWidth() - 10.0f ;
+		vPos.m_dX = m_siTableWidth - m_pSprite->VGetSize().m_dX - 10.0f ;
 	}
 	m_iMoveFactor = m_siTableHeight/3;
 	cGameElement::OnEndInit(vPos);
@@ -95,7 +95,7 @@ void cPaddle::OnRestart( const Base::cVector3& vInitialPos )
 	cGameElement::OnRestart(vInitialPos);
 	if (m_vPosition.m_dX > m_siTableWidth /2)
 	{
-		m_vPosition.m_dX = m_siTableWidth - m_pSprite->GetScaledWidth()-10.0f ;
+		m_vPosition.m_dX = m_siTableWidth - m_pSprite->VGetSize().m_dX - 10.0f ;
 		UpdatePosition();
 	}
 }

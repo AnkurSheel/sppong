@@ -24,6 +24,12 @@ namespace Base
 {
 	class cString;
 }
+
+namespace GameBase
+{
+	class cBaseApp;
+}
+
 namespace Graphics
 {
 	class IScreenElement;
@@ -33,7 +39,6 @@ namespace Graphics
 	class IBaseControl;
 	struct stVertex;
 	class ICamera;
-
 }
 
 namespace GameBase
@@ -78,10 +83,13 @@ namespace GameBase
 		TICK							m_tickLastDraw;
 		bool							m_bRunFullSpeed;
 		//shared_ptr<Graphics::ISprite>	m_pCursorSprite;		// the sprite for the cursor
+		bool							m_bDisplayFPS;
 		bool							m_bLockedKeys[KEYBOARD_KEYS];
+		GameBase::IBaseApp	*			m_pGame;
 
 	public:
 		Graphics::IBaseControl *		m_pAppWindowControl;
+
 
 	};
 }

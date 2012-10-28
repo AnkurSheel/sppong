@@ -39,7 +39,7 @@ namespace Graphics
 		void VCleanup();
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VSetSize(const Base::cVector2 & vSize);
-		void VGetSize(Base::cVector2 & vSize);
+		Base::cVector2 VGetSize() const;
 		/********************************************//**
 		 * return True if the vertex buffer was created successfully
 		 *

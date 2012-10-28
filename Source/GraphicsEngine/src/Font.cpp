@@ -14,7 +14,8 @@
 #include "FontShader.h"
 #include "ResourceManager.hxx"
 #include "ResCache.hxx"
-#include "ShaderFactory.hxx"
+#include "ShaderManager.hxx"
+#include "TextureManager.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -42,9 +43,8 @@ bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
 
 	if (m_pTexture == NULL)
 	{
-		m_pTexture = ITexture::CreateTexture();
+		m_pTexture = ITextureManager::GetInstance()->VGetTexture(m_strFontTexPath);
 	}
-	m_pTexture->VInitialize(m_strFontTexPath);
 
 	if(!InitializeShader())
 		return false;
@@ -107,7 +107,7 @@ void cMyFont::ParseFontDesc(const cString & strFontDirPath,
 bool cMyFont::InitializeShader()
 {
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateFontShader());
-	bool bSuccess = IShaderFactory::GetInstance()->VGetShader(pShader,
+	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,
 		"resources\\Shaders\\Font.vsho", "resources\\Shaders\\Font.psho");
 	m_pShader = static_pointer_cast<cFontShader>(pShader);
 	return bSuccess;

@@ -12,6 +12,7 @@
 #include "Structures.h"
 
 using namespace Graphics;
+using namespace Base;
 
 // ***************************************************************
 P2PaddleHandler::P2PaddleHandler()

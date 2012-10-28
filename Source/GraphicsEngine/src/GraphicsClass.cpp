@@ -10,6 +10,8 @@
 #include "stdafx.h"
 #include "GraphicsClass.h"
 #include "DxBase.hxx"
+#include "ShaderManager.hxx"
+#include "TextureManager.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -57,6 +59,8 @@ void Graphics::cGraphicsClass::VSetFullScreenMode(const bool bIsFullScreen)
 // ***************************************************************
 void Graphics::cGraphicsClass::Cleanup()
 {
+	IShaderManager::Destroy();
+	ITextureManager::Destroy();
 	IDXBase::Destroy();
 }
 

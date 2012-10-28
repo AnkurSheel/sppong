@@ -9,7 +9,7 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "ButtonControl.h"
-#include "Texture.hxx"
+#include "TextureManager.hxx"
 #include "DxBase.hxx"
 #include "Font.hxx"
 #include "Sprite.hxx"
@@ -38,29 +38,24 @@ void cButtonControl::Init(const stButtonControlDef & def)
 	{
 		if(m_pDefaultTexture == NULL)
 		{
-			m_pDefaultTexture = ITexture::CreateTexture();
+			m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(def.strDefaultImage);
 		}
-		m_pDefaultTexture->VInitialize(def.strDefaultImage);
-
 	}
 
 	if (!def.strPressedImage.IsEmpty())
 	{
 		if(m_pPressedTexture == NULL)
 		{
-			m_pPressedTexture = ITexture::CreateTexture();
+			m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(def.strPressedImage);
 		}
-		m_pPressedTexture->VInitialize(def.strPressedImage);
 	}
 
-	//if ((m_pDefaultTexture || m_pPressedTexture))
+	m_pCanvasSprite = ISprite::CreateSprite();
+	if (m_pDefaultTexture)
 	{
-		m_pCanvasSprite = ISprite::CreateSprite();
-		if (m_pDefaultTexture)
-		{
-			m_pCanvasSprite->VInitialize(m_pDefaultTexture);
-		}
+		m_pCanvasSprite->VInitialize(m_pDefaultTexture);
 	}
+
 	if (!def.bAutoSize)
 	{
 		VSetSize(cVector2(def.iWidth, def.iHeight));

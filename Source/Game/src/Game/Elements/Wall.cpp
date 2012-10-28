@@ -37,7 +37,7 @@ void cWall::Init( const cVector3& vPosition, const cString & strFilename )
 	cVector3 vPos(vPosition);
 	if (vPos.m_dY > m_siTableHeight /2)
 	{
-		vPos.m_dY = (float)(m_siTableHeight - m_pSprite->GetScaledHeight());
+		vPos.m_dY = (float)(m_siTableHeight - m_pSprite->VGetSize().m_dY);
 	}
 	cPongGameElement::OnEndInit(vPos);
 }

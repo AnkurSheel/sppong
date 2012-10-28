@@ -73,11 +73,11 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetSize(const Base::cVector2 & vSize) = 0;
 		/********************************************//**
- 		 * @param[out] vSize The size of the sprite
+ 		 * @return The size of the sprite
 		 *
 		 * Gets the size(scale in pixels) of the sprite
 		 ***********************************************/
-		virtual void VGetSize(Base::cVector2 & vSize) = 0;
+		virtual Base::cVector2 VGetSize() const = 0;
 		/********************************************//**
  		 * @param[in] pTexture The new texture of the sprite
 		 *

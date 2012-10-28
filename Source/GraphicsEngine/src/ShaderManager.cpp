@@ -9,34 +9,34 @@
 // *************************************************************************
 
 #include "stdafx.h"
-#include "ShaderFactory.h"
+#include "ShaderManager.h"
 #include "Shader.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
 
-IShaderFactory * cShaderFactory::s_pShadermanager = NULL;
+IShaderManager * cShaderManager::s_pShadermanager = NULL;
 
 // *************************************************************************
-cShaderFactory::cShaderFactory()
+cShaderManager::cShaderManager()
 {
 
 }
 
 // *************************************************************************
-cShaderFactory::~cShaderFactory()
+cShaderManager::~cShaderManager()
 {
 	m_pShaders.clear();
 }
 
 // *************************************************************************
-IShaderFactory * cShaderFactory::Create()
+IShaderManager * cShaderManager::Create()
 {
-	return DEBUG_NEW cShaderFactory();
+	return DEBUG_NEW cShaderManager();
 }
 
 // *************************************************************************
-bool cShaderFactory::VGetShader(shared_ptr<IShader> & pShader,
+bool cShaderManager::VGetShader(shared_ptr<IShader> & pShader,
 							   const Base::cString & strVertexShaderPath,
 							   const Base::cString & strPixelShaderPath)
 {
@@ -55,7 +55,7 @@ bool cShaderFactory::VGetShader(shared_ptr<IShader> & pShader,
 	return bSuccess;
 }
 
-shared_ptr<IShader> cShaderFactory::Find(const Base::cString & strVertexShaderPath,
+shared_ptr<IShader> cShaderManager::Find(const Base::cString & strVertexShaderPath,
 										 const Base::cString & strPixelShaderPath)
 {
 
@@ -71,15 +71,15 @@ shared_ptr<IShader> cShaderFactory::Find(const Base::cString & strVertexShaderPa
 }
 
 // *************************************************************************
-IShaderFactory * IShaderFactory::GetInstance()
+IShaderManager * IShaderManager::GetInstance()
 {
-	if(cShaderFactory::s_pShadermanager == NULL)
-		cShaderFactory::s_pShadermanager = cShaderFactory::Create();
-	return cShaderFactory::s_pShadermanager ;
+	if(cShaderManager::s_pShadermanager == NULL)
+		cShaderManager::s_pShadermanager = cShaderManager::Create();
+	return cShaderManager::s_pShadermanager ;
 }
 
 // *************************************************************************
-void IShaderFactory::Destroy()
+void IShaderManager::Destroy()
 {
-	SAFE_DELETE(cShaderFactory::s_pShadermanager);
+	SAFE_DELETE(cShaderManager::s_pShadermanager);
 }

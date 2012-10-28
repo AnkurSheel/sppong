@@ -49,7 +49,7 @@ namespace GameBase
 		GAMEBASE_API void UpdatePosition();
 
 	protected:
-		//shared_ptr<Graphics::ISprite>		m_pSprite;
+		shared_ptr<Graphics::ISprite>		m_pSprite;
 		Base::cVector3						m_vPosition;
 		Base::cVector3						m_vPrevPosition;
 		//Graphics::IPolygon *				m_pBoundingPolygon;

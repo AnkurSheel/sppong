@@ -14,7 +14,8 @@
 #include "Shader.hxx"
 #include "Camera.h"
 #include "Texture.hxx"
-#include "ShaderFactory.hxx"
+#include "ShaderManager.hxx"
+#include "TextureManager.hxx"
 
 using namespace Utilities;
 using namespace Base;
@@ -55,7 +56,7 @@ bool Graphics::cModel::VOnInitialization(const stVertex * const pVertices,
 		return false;
 
 	m_pShader = shared_ptr<IShader>(IShader::CreateColorShader());
-	return IShaderFactory::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\colors.vsho",
+	return IShaderManager::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\colors.vsho",
 		"resources\\Shaders\\colors.psho");
 }
 
@@ -77,11 +78,10 @@ bool Graphics::cModel::VOnInitialization( const stTexVertex * const pVertices,
 	if(!CreateIndexBuffer(pIndices))
 		return false;
 
-	m_pTexture = ITexture::CreateTexture();
-	m_pTexture->VInitialize(strTextureFilename);
+	m_pTexture = ITextureManager::GetInstance()->VGetTexture(strTextureFilename);
 	
 	m_pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
-	return IShaderFactory::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\Texture.vsho",
+	return IShaderManager::GetInstance()->VGetShader(m_pShader, "resources\\Shaders\\Texture.vsho",
 		"resources\\Shaders\\Texture.psho");
 
 }

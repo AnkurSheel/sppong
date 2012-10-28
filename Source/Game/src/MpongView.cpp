@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "MpongView.h"
 #include "Sprite.hxx"
-#include "DxBase.hxx"
+//#include "DxBase.hxx"
 #include "Game/Game.h"
 #include "Input.hxx"
 #include "Font.hxx"
@@ -64,31 +64,12 @@ void cMPongView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 }
 
 // ***************************************************************
-void cMPongView::VRenderPrivate()
-{
-	cHumanView::VRenderPrivate();
-		
-	if (m_bDisplayFPS && m_pGame)
-	{
-		AppMsg msg;
-		m_pFont->SetText(cString(20, "%0.2f", m_pGame->GetFPS()));
-		m_pFont->VOnRender(msg);
-	}
-}
-
-// ***************************************************************
 bool cMPongView::VOnMsgProc( const Graphics::AppMsg & msg )
 {
 	if(!cHumanView::VOnMsgProc(msg))
 	{
 		if(msg.m_uMsg == WM_KEYDOWN)
 		{
-			if (msg.m_wParam == VK_F2 && !IsKeyLocked(VK_F2) )
-			{
-				// lock the F2 key
-				LockKey(VK_F2);
-				m_bDisplayFPS = !m_bDisplayFPS;
-			}
 			if (msg.m_wParam == VK_ESCAPE  && !IsKeyLocked(VK_ESCAPE))
 			{
 				// lock the ESC key

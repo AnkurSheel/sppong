@@ -14,7 +14,7 @@
 
 namespace Graphics
 {
-	class IFont;
+	class IMyFont;
 	class cLabelControl;
 	class ITexture;
 }

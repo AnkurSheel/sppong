@@ -17,7 +17,7 @@ namespace Graphics
 }
 
 class P1PaddleHandler 
-	: public Graphics::IKeyBoardHandler
+	: public Graphics::IKeyboardHandler
 {
 public:
 	P1PaddleHandler();

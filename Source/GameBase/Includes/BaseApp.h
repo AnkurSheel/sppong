@@ -47,6 +47,7 @@ namespace GameBase
 		GAMEBASE_API virtual void VCleanup();
 		GAMEBASE_API TICK GetRunningTicks();
 		GAMEBASE_API float GetRunningTime();
+
 	protected:
 		Utilities::ITimer *					m_pGameTimer;
 		cHumanView *						m_pHumanView;

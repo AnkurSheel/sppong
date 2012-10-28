@@ -20,7 +20,7 @@ namespace Base
 
 namespace Graphics
 {
-	class IFont;
+	class IMyFont;
 	class ISentence;
 	class ISprite;
 }

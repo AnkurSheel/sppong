@@ -29,13 +29,11 @@ public:
 	~cMPongView();
 	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
 	void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
-	void VRenderPrivate();
-	bool VOnMsgProc( const Graphics::AppMsg & msg );	
+	bool VOnMsgProc( const Base::AppMsg & msg );	
 	void OnSinglePlayerSelected(cGame * pGame);
 	void OnMultiPlayerSelected(cGame * pGame);
 
 private:
-	bool							m_bDisplayFPS;
 	shared_ptr<P1PaddleHandler>		m_P1PaddleHandler;
 	shared_ptr<P2PaddleHandler>		m_P2PaddleHandler;
 	cGame	*						m_pGame;

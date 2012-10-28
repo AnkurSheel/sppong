@@ -19,7 +19,6 @@
 #include "Color.h"
 #include "Camera.hxx"
 #include "ParamLoaders.hxx"
-#include "ShaderFactory.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -47,6 +46,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const HWND & hWnd, const int iClientWidth,
 										   const int iClientHeight)
 {
+	m_pGame = pGame;
 	stWindowControlDef def;
 	def.wType = WT_DESKTOP;
 	if(IBaseApp::VGetParamLoader() != NULL)
@@ -104,7 +104,6 @@ void GameBase::cHumanView::VOnDestroyDevice()
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
 
-	IShaderFactory::Destroy();
 	//SAFE_DELETE(m_pCursorSprite);
 }
 
@@ -137,6 +136,12 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 		if (m_pAppWindowControl)
 		{
 			bHandled = m_pAppWindowControl->VPostMsg(msg);
+		}
+		if (msg.m_wParam == VK_F2 && !IsKeyLocked(VK_F2) )
+		{
+			// lock the F2 key
+			LockKey(VK_F2);
+			m_bDisplayFPS = !m_bDisplayFPS;
 		}
 		break;
 	}
@@ -183,6 +188,12 @@ void GameBase::cHumanView::VRenderPrivate()
 // 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
 // 			m_pCursorSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
 // 		}
+		if (m_bDisplayFPS && m_pGame)
+		{
+			//AppMsg msg;
+			//m_pFont->SetText(cString(20, "%0.2f", m_pGame->GetFPS()));
+			//m_pFont->VOnRender(msg);
+		}
 }
 
 // ***************************************************************

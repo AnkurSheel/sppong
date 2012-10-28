@@ -81,7 +81,7 @@ void Graphics::cWindowControl::LoadCanvasFromFile( const Base::cString & strFile
 		m_pCanvasSprite = ISprite::CreateSprite();
 		m_pCanvasSprite->VInitialize(strFileName);
 
-		m_pCanvasSprite->VGetSize(m_vSize);
+		m_vSize = m_pCanvasSprite->VGetSize();
 	}
 }
 

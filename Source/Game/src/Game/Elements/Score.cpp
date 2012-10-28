@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "Score.h"
 #include "font.hxx"
-#include "DxBase.hxx"
+//#include "DxBase.hxx"
 #include "Color.h"
 
 using namespace Graphics;
@@ -40,8 +40,8 @@ cScore::~cScore()
 // ***************************************************************
 void cScore::Init( const D3DXVECTOR3& vInitialPos )
 {
-	m_pFont = IFont::CreateMyFont();
-	m_pFont->InitFont(40, 30, 500, false, DEFAULT_CHARSET, "Forte");
+	m_pFont = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
+	m_pFont->VInitialize(40, 30, 500, false, DEFAULT_CHARSET, "Forte");
 
 	RECT boundingRect;
 	if (vInitialPos.x > 0 )
@@ -84,7 +84,7 @@ void cScore::IncrementScore()
 }
 // ***************************************************************
 
-shared_ptr<IFont> cScore::GetFont()
+shared_ptr<IMyFont> cScore::GetFont()
 {
 	return m_pFont;
 }

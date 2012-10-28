@@ -56,6 +56,7 @@ bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
 	m_vPosition = cVector2(-1.0f, -1.0f);
 	VSetText(strText);
 	VSetTextColor(textColor);
+	RecalculateVertexData(NULL);
 	m_bIsDirty = true;
 	return true;
 }
@@ -186,7 +187,11 @@ bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 		top = curY + m_fScale * ch.YOffset;
 		bottom = top - m_fScale * ch.Height;
 
-		float z = pCamera->VGetPosition().m_dZ + 1.0f;
+		float z = 0.f;
+		if (pCamera)
+		{
+			z = pCamera->VGetPosition().m_dZ + 1.0f;
+		}
 
 		// Create the vertex array.
 		pVertices[i*4] = stTexVertex(left, bottom, z, u, v1);

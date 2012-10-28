@@ -17,7 +17,7 @@ namespace Base
 
 namespace Graphics
 {
-	class IFont ;
+	class IMyFont;
 }
 class cScore
 {
@@ -30,10 +30,10 @@ public:
 	void Init(const D3DXVECTOR3& vInitialPos);
 	void Cleanup();
 	void IncrementScore();
-	shared_ptr<Graphics::IFont> GetFont();
+	shared_ptr<Graphics::IMyFont> GetFont();
 
 private:
-	shared_ptr<Graphics::IFont>		m_pFont;
+	shared_ptr<Graphics::IMyFont>	m_pFont;
 	UINT							m_iValue;
 };
 #endif // Score_h__

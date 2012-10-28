@@ -11,19 +11,19 @@
 #define P2PaddleHandler_h__
 
 #include "KeyboardHandler.hxx"
-namespace Graphics
+namespace Base
 {
 	struct AppMsg;
 }
 
 class P2PaddleHandler 
-	: public Graphics::IKeyBoardHandler
+	: public Graphics::IKeyboardHandler
 {
 public:
 	P2PaddleHandler();
 	~P2PaddleHandler();
-	bool VOnKeyDown(const Graphics::AppMsg & msg);
-	bool VOnKeyUp(const Graphics::AppMsg& msg);
+	bool VOnKeyDown(const Base::AppMsg & msg);
+	bool VOnKeyUp(const Base::AppMsg& msg);
 	void VLockKey(const BYTE c, const bool bLock);
 	void OnUpdate();
 	void RegisterCallBack(function <void (bool)> callback);;

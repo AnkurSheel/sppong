@@ -1,5 +1,5 @@
 // *************************************************************************
-//  ShaderManager   version:  1.0   Ankur Sheel  date: 2012/10/26
+//  TextureManager   version:  1.0   Ankur Sheel  date: 2012/10/28
 //  ------------------------------------------------------------------------
 //  
 //  ------------------------------------------------------------------------
@@ -7,24 +7,23 @@
 // *************************************************************************
 // 
 // *************************************************************************
+
 #include "GraphicEngineDefines.h"
 
 namespace Graphics
 {
-	class IShader;
+	class ITexture;
 }
 
 namespace Graphics
 {
-	class IShaderFactory
+	class ITextureManager
 	{
 	public:
-		virtual ~IShaderFactory(){}
-		virtual bool VGetShader(shared_ptr<IShader> & pShader, 
-			const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath) = 0;
+		virtual ~ITextureManager(){}
+		virtual shared_ptr<ITexture> VGetTexture(const Base::cString & strTexturePath) = 0;
 
-		GRAPHIC_API static IShaderFactory * GetInstance();
+		GRAPHIC_API static ITextureManager * GetInstance();
 		GRAPHIC_API static void Destroy();
 	};
 }

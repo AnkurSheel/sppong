@@ -245,19 +245,11 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Includes\KeyboardHandler.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\Includes\MouseHandler.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ResourceManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ResourceManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\ResourceManager.hxx"
 				>
 			</File>
 			<File
@@ -268,6 +260,46 @@
 				RelativePath=".\Includes\vertexstruct.h"
 				>
 			</File>
+			<Filter
+				Name="Managers"
+				>
+				<File
+					RelativePath=".\src\ResourceManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ResourceManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Includes\ResourceManager.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ShaderManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ShaderManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ShaderManager.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TextureManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TextureManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TextureManager.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Shaders"
@@ -355,10 +387,6 @@
 			</File>
 			<File
 				RelativePath=".\src\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Texture.hxx"
 				>
 			</File>
 			<Filter
@@ -490,6 +518,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Texture.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\TextureShader.cpp"
 				>
 			</File>
@@ -508,18 +540,6 @@
 		</File>
 		<File
 			RelativePath=".\src\GraphicUtils.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\ShaderFactory.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\src\ShaderFactory.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Includes\ShaderFactory.hxx"
 			>
 		</File>
 		<File
