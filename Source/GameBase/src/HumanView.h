@@ -11,7 +11,6 @@
 #define HumanView_h__
 
 #include "GameBaseDefines.h"
-#include <list>
 #include "GameView.hxx"
 #include "Structures.h"
 

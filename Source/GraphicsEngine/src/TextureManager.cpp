@@ -51,6 +51,7 @@ shared_ptr<ITexture> cTextureManager::VGetTexture(const cString & strTexturePath
 	return ptr;
 }
 
+// *************************************************************************
 shared_ptr<ITexture> cTextureManager::Find(const Base::cString & strTexturePath)
 {
 	TextureMap::const_iterator itr = m_pTextures.find(strTexturePath);

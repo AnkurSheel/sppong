@@ -12,7 +12,6 @@
 
 #define ZLIB_WINAPI
 
-#include <map>
 #include "ZipFile.hxx"
 #include "FileInput.h"
 

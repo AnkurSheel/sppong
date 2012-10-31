@@ -9,8 +9,8 @@
 // ***************************************************************
 #ifndef BaseControl_h__
 #define BaseControl_h__
+
 #include "BaseControl.hxx"
-#include <list>
 
 namespace Base
 {
@@ -39,7 +39,8 @@ namespace Graphics
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		bool VOnMouseMove(const int X, const int Y);
-		bool VOnKeyDown(const Base::AppMsg & msg);
+		bool VOnKeyDown(const unsigned int iCharID);
+		bool VOnCharPress(const unsigned int iCharID);
 		void VAddChildControl(shared_ptr<IBaseControl> pChildControl);
 		void VSetSize(const Base::cVector2 & vSize);
 		float VGetWidth() const;
@@ -55,7 +56,7 @@ namespace Graphics
 	private:
 		typedef std::list<shared_ptr<cBaseControl> >  ControlList;
 
-		bool VOnKeyUp(const Base::AppMsg & msg);
+		bool VOnKeyUp(const unsigned int iCharID);
 
 		bool VPostMsg(const Base::AppMsg & msg);
 		void VRemoveAllChildren();

@@ -10,19 +10,36 @@
 #ifndef KeyboardHandler_hxx__
 #define KeyboardHandler_hxx__
 
-namespace Base
-{
-	struct AppMsg;
-}
-
 namespace Graphics
 {
+	/********************************************//**
+	 * @brief Interface for Handling key presses on the keyboard
+	 *
+	 * Should be implemented by all classes that want to
+	 * handle key presses
+	 ***********************************************/
 	class IKeyboardHandler
 	{
 	public:
 		virtual ~IKeyboardHandler(){}
-		virtual bool VOnKeyDown(const Base::AppMsg & msg) = 0;
-		virtual bool VOnKeyUp(const Base::AppMsg & msg) = 0;
+		/********************************************//**
+ 		 * @param[int] iCharID The ascii value of the key that is pressed
+		 *
+		 * Event Handler for key down
+		 ***********************************************/
+		virtual bool VOnKeyDown(const unsigned int iCharID) = 0;
+		/********************************************//**
+ 		 * @param[int] iCharID The ascii value of the key that is released
+		 *
+		 * Event Handler for key up
+		 ***********************************************/
+		virtual bool VOnKeyUp(const unsigned int iCharID) = 0;
+		/********************************************//**
+ 		 * @param[int] iCharID The ascii value of the character key that is pressed
+		 *
+		 * Event Handler for character key pressed
+		 ***********************************************/
+		virtual bool VOnCharPress(const unsigned int iCharID) = 0;
 	};
 }
 

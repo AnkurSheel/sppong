@@ -11,8 +11,6 @@
 #define XMLFileIO_h__
 
 #include "XMLFileIO.hxx"
-#include <map>
-#include <string>
 
 namespace tinyxml2
 {

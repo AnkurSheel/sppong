@@ -111,19 +111,54 @@ namespace Graphics
 		 * Sets the text to be displayed on the control
 		 ***********************************************/
 		virtual void VSetText(const Base::cString & strText) = 0;
-
 		/********************************************//**
 		 * @param[in] def The params to create the window control  
-		 * @return A window control object
+		 * @return Pointer to a window control object
 		 *
-		 * Returns a window control object
+		 * Returns a pointer to a window control object
 		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateWindowControl(const stWindowControlDef & def);
+		/********************************************//**
+		 * @param[in] def The params to create the label control  
+		 * @return Pointer to a label control object
+		 *
+		 * Returns a pointer to a label control object
+		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateLabelControl(const stLabelControlDef & def);
+		/********************************************//**
+		 * @param[in] def The params to create the button control  
+		 * @return Pointer to a button control object
+		 *
+		 * Returns a pointer to a button control object
+		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateButtonControl(const stButtonControlDef & def);
+		/********************************************//**
+		 * @param[in] def The params to create the checkbox control  
+		 * @return Pointer to a checkbox control object
+		 *
+		 * Returns a pointer to a checkbox control object
+		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateCheckBoxControl(const stCheckBoxControlDef & def);
+		/********************************************//**
+		 * @param[in] def The params to create the textbox control  
+		 * @return Pointer to a textbox control object
+		 *
+		 * Returns a pointer to a textbox control object
+		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateTextBoxControl(const stTextBoxControlDef & def);
+		/********************************************//**
+		 * @param[in] def The params to create the vertical scrollbar control  
+		 * @return Pointer to a vertical scrollbar control object
+		 *
+		 * Returns a pointer to a vertical scrollbar control object
+		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateVScrollBarControl(const stScrollBarControlDef & def);
+		/********************************************//**
+		 * @param[in] def The params to create the horizontal scrollbar control  
+		 * @return Pointer to a horizontal scrollbar control object
+		 *
+		 * Returns a pointer to a horizontal scrollbar control object
+		 ***********************************************/
 		GRAPHIC_API static IBaseControl * CreateHScrollBarControl(const stScrollBarControlDef & def);
 	};
 }

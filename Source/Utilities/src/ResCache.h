@@ -11,8 +11,6 @@
 #define ResCache_h__
 
 #include "ResCache.hxx"
-#include <list>
-#include <map>
 
 namespace Base
 {

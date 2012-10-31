@@ -19,9 +19,12 @@ namespace Graphics
 	class cFontShader
 		: public cTextureShader
 	{
+	/********************************************//**
+     * @brief Constant buffer to be passed to the shader.
+     ***********************************************/
 		struct PixelBufferType
 		{
-			D3DXVECTOR4 pixelColor;
+			D3DXVECTOR4 pixelColor;		/*!< The color of the pixel that will be used to draw the font text. */
 		};
 
 	public:

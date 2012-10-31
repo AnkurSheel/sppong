@@ -42,7 +42,8 @@ namespace Graphics
 	private:
 		~cTextBoxControl();
 		void VRender(const ICamera * const pCamera);
-		bool VOnKeyDown(const Base::AppMsg & msg );
+		bool VOnKeyDown(const unsigned int iCharID);
+		bool VOnCharPress(const unsigned int iCharID);
 		void VSetAbsolutePosition();
 		void VOnFocusChanged();
 		void VCleanup();

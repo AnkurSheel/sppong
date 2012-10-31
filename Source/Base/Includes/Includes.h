@@ -14,6 +14,7 @@
 #include <memory>
 #include <functional>
 #include <map>
+#include <list>
 #include <set>
 #include <deque>
 #include <crtdbg.h>

@@ -46,7 +46,7 @@ namespace Graphics
 		 *
 		 * Creates an object of this class and returns it
 		 ***********************************************/
-		GRAPHIC_API static shared_ptr<ITexture> CreateTexture();
+		static shared_ptr<ITexture> CreateTexture();
 	};
 }
 

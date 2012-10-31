@@ -61,15 +61,9 @@ void cButtonControl::Init(const stButtonControlDef & def)
 		VSetSize(cVector2(def.iWidth, def.iHeight));
 	}
 
-	if (def.pFont)
+	if (def.labelControlDef.pFont && !def.labelControlDef.strText.IsEmpty())
 	{
-		stLabelControlDef labelDef;
-		labelDef.pFont = def.pFont;
-		labelDef.textColor = def.textColor;
-		labelDef.strText = def.strCaption;
-		labelDef.fTextHeight = 35;
-
-		m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(labelDef));
+		m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def.labelControlDef));
 		if(def.bAutoSize)
 		{
 			VSetSize(cVector2(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));

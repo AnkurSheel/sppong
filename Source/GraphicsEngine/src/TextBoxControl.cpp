@@ -91,50 +91,49 @@ void cTextBoxControl::VRender(const ICamera * const pCamera )
 }
 
 // ***************************************************************
-bool cTextBoxControl::VOnKeyDown( const AppMsg & msg )
+bool cTextBoxControl::VOnCharPress(const unsigned int iCharID)
 {
-	cBaseControl::VOnKeyDown(msg);
-	
-	// some messages are handled by both keydown and char
-	if (msg.m_uMsg == WM_CHAR)
+	cBaseControl::VOnCharPress(iCharID);
+
+	switch (iCharID)
 	{
-		switch (msg.m_wParam)
-		{
-		case VK_BACK:
-			RemoveText(1);
-			return true;
+	case VK_BACK:
+		RemoveText(1);
+		return true;
 
-		case VK_ESCAPE:
-			SetFocusControl(NULL);
-			return true;
+	case VK_ESCAPE:
+		SetFocusControl(NULL);
+		return true;
 
-		default:
-			InsertText((char *)&msg.m_wParam);
-			return true;
-		}
+	default:
+		InsertText((char *)&iCharID);
+		return true;
 	}
-	else if (msg.m_uMsg == WM_KEYDOWN)
+	return false;
+}
+
+
+// ***************************************************************
+bool cTextBoxControl::VOnKeyDown(const unsigned int iCharID)
+{
+	cBaseControl::VOnKeyDown(iCharID);
+	
+	switch (iCharID)
 	{
-		switch (msg.m_wParam)
+	case VK_DELETE:
+		if(SetCaratPosition(m_iCaretPos + 1))
 		{
-		case VK_DELETE:
-			//if (m_iCaretPos < m_strText.GetLength())
-			{
-				if(SetCaratPosition(m_iCaretPos + 1))
-				{
-					RemoveText(1);
-				}
-			}
-			return true;
-
-		case VK_LEFT:
-			SetCaratPosition(m_iCaretPos - 1);
-			return true;
-
-		case VK_RIGHT:
-			SetCaratPosition(m_iCaretPos + 1);
-			return true;
+			RemoveText(1);
 		}
+		return true;
+
+	case VK_LEFT:
+		SetCaratPosition(m_iCaretPos - 1);
+		return true;
+
+	case VK_RIGHT:
+		SetCaratPosition(m_iCaretPos + 1);
+		return true;
 	}
 	return false;
 }

@@ -27,11 +27,14 @@ namespace Graphics
 		: public IShader
 		, public Base::cNonCopyable
 	{
+		/********************************************//**
+		 * @brief Constant buffer to be passed to the shader.
+		 ***********************************************/
 		struct MatrixBufferType
 		{
-			D3DXMATRIX world;
-			D3DXMATRIX view;
-			D3DXMATRIX projection;
+			D3DXMATRIX world;			/*!< The world matrix. */
+			D3DXMATRIX view;			/*!< The view matrix. */
+			D3DXMATRIX projection;		/*!< The projection matrix. */
 		};
 
 	protected:

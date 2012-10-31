@@ -39,7 +39,17 @@ namespace Graphics
 	
 	private:
 		~cCamera();
+		/********************************************//**
+ 		 * @return The position of the camera
+		 *
+		 * Gets the rotation of the camera 
+		 ***********************************************/
 		Base::cVector3 VGetPosition() const;
+		/********************************************//**
+ 		 * @param[in] vPosition The position of the camera
+		 *
+		 * Sets the position of the camera 
+		 ***********************************************/
 		void VSetPosition(const Base::cVector3 & vPosition);
 		/********************************************//**
  		 * @param[in] vRotation The rotation of the camera

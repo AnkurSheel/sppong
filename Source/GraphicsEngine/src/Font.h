@@ -25,19 +25,29 @@ namespace Graphics
 
 namespace Graphics
 {
+	/********************************************//**
+     * @brief Char description for each character
+     ***********************************************/
 	struct CharDescriptor
 	{
-		unsigned short id;
-		unsigned short x, y;
-		unsigned short Width, Height;
-		unsigned short XOffset, YOffset;
-		unsigned short XAdvance;
+		unsigned short id;			/*!< The character id */
+		unsigned short x;			/*!< The left position of the character image in the font texture */
+		unsigned short y;			/*!< The top position of the character image in the font texture */
+		unsigned short Width;		/*!< TThe width of the character image in the font texture */
+		unsigned short Height;		/*!< The height of the character image in the font texture */
+		unsigned short XOffset;		/*!< How much the current position should be offset when copying the image from the font texture to the screen */
+		unsigned short YOffset;		/*!< How much the current position should be offset when copying the image from the font texture to the screen */
+		unsigned short XAdvance;	/*!< How much the current position should be advanced after drawing the character */
 
 		CharDescriptor() : id(0), x( 0 ), y( 0 ), Width( 0 ), Height( 0 ),
 			XOffset( 0 ), YOffset( 0 ),	XAdvance( 0 )
 		{ }
 	};
 
+	 /********************************************//**
+     * @brief Class Declaration for \c IMyFont
+     * interface
+     ***********************************************/
 	class cMyFont
 		: public IMyFont
 	{
@@ -81,6 +91,7 @@ namespace Graphics
 		 * Releases and destroys all the resources 
 		 ***********************************************/
 		void Cleanup();
+
 	private:
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;
 
@@ -90,7 +101,7 @@ namespace Graphics
 		int									m_iTextureWidth;		/*!< The width of the texture file */
 		int									m_iTextureHeight;		/*!< The height of the texture file */
 		CharDescriptorMap					m_CharDescriptorMap;	/*!< The map contaning all the character descriptions with their ascii value as the key */
-		int									m_iFontHeight;
+		int									m_iFontHeight;			/*!< The height of each line of text */
 	};
 }
 #endif // Font_h__

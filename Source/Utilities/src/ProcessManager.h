@@ -10,8 +10,6 @@
 #ifndef ProcessManager_h__
 #define ProcessManager_h__
 
-#include <list>
-
 namespace Utilities
 {
 	class cProcess;

@@ -42,10 +42,10 @@ namespace Graphics
 
 	struct stLabelControlDef
 	{
-		shared_ptr<IMyFont> pFont;
-		Base::cColor textColor;
-		Base::cString strText;
-		float fTextHeight;
+		shared_ptr<IMyFont> pFont;		/*!< The font that will be used to display the text */ 
+		Base::cColor textColor;			/*!< The text color */ 
+		Base::cString strText;			/*!< The text that should be displayed initially */ 
+		float fTextHeight;				/*!< The text height */ 
 
 		stLabelControlDef()
 			: fTextHeight(0.0f)
@@ -55,14 +55,12 @@ namespace Graphics
 
 	struct stButtonControlDef
 	{
-		Base::cString strDefaultImage;
-		Base::cString strPressedImage;
-		Base::cString strCaption;
-		shared_ptr<IMyFont> pFont;
-		Base::cColor textColor;
-		bool bAutoSize;
-		int iWidth;
-		int iHeight;
+		Base::cString strDefaultImage;		/*!< The filename of the default texture for the button */ 
+		Base::cString strPressedImage;		/*!< The filename of the pressed texture for the button */ 
+		stLabelControlDef labelControlDef;	/*!< Optional. Params for The label/text associated with this button */ 
+		bool bAutoSize;						/*!< If true, autosizes the button based on the text width and height */ 
+		int iWidth;							/*!< The width of the button. Not required if autosize is true */ 
+		int iHeight;						/*!< The height of the button. Not required if autosize is true */ 
 
 		stButtonControlDef()
 			: bAutoSize(false)
@@ -75,10 +73,10 @@ namespace Graphics
 	
 	struct stCheckBoxControlDef
 	{
-		stButtonControlDef buttonControlDef;
-		stLabelControlDef  labelControlDef;
-
-		int iSpaceCaption;
+		stButtonControlDef buttonControlDef;	/*!< Params for The button of the checkbox */ 
+		stLabelControlDef  labelControlDef;		/*!< Params for The label of the checkbox */ 
+		int iSpaceCaption;						/*!< The space between the button and the label */ 
+		
 		stCheckBoxControlDef()
 			: iSpaceCaption(0)
 		{
@@ -88,9 +86,9 @@ namespace Graphics
 	struct stTextBoxControlDef
 	{
 		Base::cString strBGImage;
-		shared_ptr<IMyFont> pFont;
-		Base::cColor textColor;
-		float fTextHeight;
+		shared_ptr<IMyFont> pFont;		/*!< The font that will be used to display the text */ 
+		Base::cColor textColor;			/*!< The text color */ 
+		float fTextHeight;				/*!< The text height */ 
 		Base::cString strCaretImage;
 		int iCaretWidth;
 		float fCaretUpdateTime;
@@ -105,10 +103,10 @@ namespace Graphics
 
 	struct stScrollBarControlDef
 	{
-		Base::cString strBGImage;
-		stButtonControlDef thumbBtnDef;
-		stButtonControlDef TopLeftArrowDef;
-		stButtonControlDef BottomRightArrowDef;
+		Base::cString strBGImage;					
+		stButtonControlDef thumbBtnDef;				/*!< Params for The thumb button of the scrollbar */ 
+		stButtonControlDef TopLeftArrowDef;			/*!< Params for The top or left arrow button of the scrollbar */ 
+		stButtonControlDef BottomRightArrowDef;		/*!< Params for The bottom or right arrow button of the scrollbar */ 
 		int iMinPos;
 		int iMaxPos;
 

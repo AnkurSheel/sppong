@@ -274,13 +274,14 @@ void cGraphicsTestView::TestUIControls()
 	pLabelControl->VSetPosition(cVector2(0.f, 70.f));
 
 	stButtonControlDef buttonDef;
-	buttonDef.pFont = m_pFont;
 	buttonDef.iWidth = 100;
 	buttonDef.iHeight = 100;
-	buttonDef.strCaption = "Button";
 	buttonDef.strDefaultImage = "Test\\buttonDefault.png";
 	buttonDef.strPressedImage = "Test\\buttonPressed.png";
-	buttonDef.textColor = cColor::ORANGE;
+	buttonDef.labelControlDef.pFont = m_pFont;
+	buttonDef.labelControlDef.strText = "Button";
+	buttonDef.labelControlDef.textColor = cColor::ORANGE;
+	buttonDef.labelControlDef.fTextHeight = 30;
 	
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl));

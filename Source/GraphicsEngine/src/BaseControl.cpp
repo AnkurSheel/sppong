@@ -85,18 +85,27 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 		{
 			if(m_pFocusControl)
 			{
-				return m_pFocusControl->VOnKeyUp(msg);
+				return m_pFocusControl->VOnKeyUp(msg.m_wParam);
 			}
 		}
 		break;
 
 	case WM_KEYDOWN:
+		if(!PostToAll(msg))
+		{
+			if(m_pFocusControl)
+			{
+				return m_pFocusControl->VOnKeyDown(msg.m_wParam);
+			}
+		}
+		break;
+
 	case WM_CHAR:
 		if(!PostToAll(msg))
 		{
 			if(m_pFocusControl)
 			{
-				return m_pFocusControl->VOnKeyDown(msg);
+				return m_pFocusControl->VOnCharPress(msg.m_wParam);
 			}
 		}
 		break;
@@ -213,13 +222,19 @@ void cBaseControl::VRender(const ICamera * const pCamera)
 }
 
 // ***************************************************************
-bool cBaseControl::VOnKeyDown( const AppMsg & msg )
+bool cBaseControl::VOnKeyDown(const unsigned int iCharID)
 {
 	return false;
 }
 
 // ***************************************************************
-bool cBaseControl::VOnKeyUp( const AppMsg & msg )
+bool cBaseControl::VOnKeyUp(const unsigned int iCharID)
+{
+	return false;
+}
+
+// ***************************************************************
+bool cBaseControl::VOnCharPress(const unsigned int iCharID)
 {
 	return false;
 }
