@@ -24,6 +24,10 @@ namespace Graphics
 
 namespace Graphics
 {
+	/********************************************//**
+     * @brief Encapsulates all the base functionality 
+	 * reequired by all th UI controls
+     ***********************************************/
 	class cBaseControl
 		: public IBaseControl
 		, public Base::cNonCopyable

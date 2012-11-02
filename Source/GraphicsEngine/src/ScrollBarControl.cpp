@@ -53,7 +53,7 @@ void cScrollBarControl::Init(const stScrollBarControlDef & def)
 	m_iMinPos = def.iMinPos;
 	m_iMaxPos = def.iMaxPos;
 	m_iNoOfIncrements = m_iMaxPos - m_iMinPos;
-	VSetThumbPosition(0);
+	VSetThumbPosition(def.iInitialThumbPosition - m_iMinPos);
 
 	m_callbackIncrementArrowPressed = bind(&cScrollBarControl::IncrementArrowPressed, this, _1);
 	m_pBtnIncrementArrow->VRegisterCallBack(m_callbackIncrementArrowPressed);

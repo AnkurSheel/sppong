@@ -50,7 +50,7 @@ bool cVScrollBar::VOnMouseMove( const int X, const int Y )
 				float fRange = (VGetHeight() - m_pBtnIncrementArrow->VGetHeight()) -
 					m_pBtnDecrementArrow->VGetHeight();
 				float fIncrement = fRange / m_iNoOfIncrements;
-				for(int counter = m_iMinPos; counter < m_iNoOfIncrements; counter++)
+				for(int counter = 0; counter < m_iNoOfIncrements; counter++)
 				{
 					float fItem = m_pBtnDecrementArrow->VGetHeight() + (fIncrement * counter);
 					if(((fVal >= fItem)) && (fVal<= (fItem + fIncrement)))
@@ -62,7 +62,6 @@ bool cVScrollBar::VOnMouseMove( const int X, const int Y )
 			}
 		}
 		VSetThumbPosition(iThumbPos);
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "ThumbPos % d" , iThumbPos));
 		return true;
 	}
 	return  cBaseControl::VOnMouseMove(X, Y);
@@ -75,7 +74,6 @@ void cVScrollBar::VSetAbsolutePosition()
 	cVector2 pos = m_vControlAbsolutePosition;
 	if (m_pBtnDecrementArrow)
 	{
-		pos.m_dY += m_iMinPos;
 		m_pBtnDecrementArrow->VSetPosition(pos);
 		if (m_pCanvasSprite)
 		{
@@ -122,13 +120,13 @@ void cVScrollBar::VSetSize(const cVector2 & vSize)
 void cVScrollBar::VSetThumbPosition( const int iNewPosition )
 {
 	m_iThumbPos = iNewPosition;
-	if (m_iThumbPos < m_iMinPos)
+	if (m_iThumbPos < 0)
 	{
-		m_iThumbPos = m_iMinPos;
+		m_iThumbPos = 0;
 	}
-	else if (m_iThumbPos >= m_iNoOfIncrements)
+	else if (m_iThumbPos > m_iNoOfIncrements)
 	{
-		m_iThumbPos = m_iNoOfIncrements - 1;
+		m_iThumbPos = m_iNoOfIncrements;
 	}
 
 	cVector2 pos = m_vControlAbsolutePosition;
@@ -137,6 +135,7 @@ void cVScrollBar::VSetThumbPosition( const int iNewPosition )
 		pos.m_dY += m_pBtnDecrementArrow->VGetHeight() + (m_pBtnThumb->VGetHeight() * m_iThumbPos);
 		m_pBtnThumb->VSetPosition(pos);
 	}
+	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "ThumbPos % d" , (m_iThumbPos + m_iMinPos)));
 }
 
 // ***************************************************************

@@ -336,8 +336,9 @@ void cGraphicsTestView::TestUIControls()
 
 	stScrollBarControlDef vScrollBarDef;
 	vScrollBarDef.strBGImage = "Test\\ScrollBar_BG.png";
-	vScrollBarDef.iMinPos = 0;
+	vScrollBarDef.iMinPos = 10;
 	vScrollBarDef.iMaxPos = 50;
+	vScrollBarDef.iInitialThumbPosition = 20;
 	vScrollBarDef.thumbBtnDef.strDefaultImage= "Test\\ScrollBar_Thumb.png";
 	vScrollBarDef.thumbBtnDef.strPressedImage = "Test\\ScrollBar_Thumb.png";
 	vScrollBarDef.TopLeftArrowDef.strDefaultImage = "Test\\ScrollBar_Up.png";

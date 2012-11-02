@@ -28,7 +28,7 @@ cCheckBoxControl::~cCheckBoxControl()
 }		
 
 // ***************************************************************
-void cCheckBoxControl::Init(const stCheckBoxControlDef & def)
+void cCheckBoxControl::Initialize(const stCheckBoxControlDef & def)
 {
 	m_pTickBox = shared_ptr<IBaseControl>(IBaseControl::CreateButtonControl(def.buttonControlDef));
 	
@@ -93,6 +93,6 @@ void cCheckBoxControl::VSetAbsolutePosition()
 GRAPHIC_API  IBaseControl * IBaseControl::CreateCheckBoxControl(const stCheckBoxControlDef & def)
 {
 	cCheckBoxControl * pControl = DEBUG_NEW cCheckBoxControl();
-	pControl->Init(def);
+	pControl->Initialize(def);
 	return pControl;
 }

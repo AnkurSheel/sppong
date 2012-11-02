@@ -19,7 +19,7 @@ namespace Graphics
 	{
 	public:
 		cCheckBoxControl();
-		void Init(const stCheckBoxControlDef & def);
+		void Initialize(const stCheckBoxControlDef & def);
 
 	private:
 		~cCheckBoxControl();
