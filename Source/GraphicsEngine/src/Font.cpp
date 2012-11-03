@@ -109,7 +109,7 @@ bool cMyFont::InitializeShader()
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateFontShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,
 		"resources\\Shaders\\Font.vsho", "resources\\Shaders\\Font.psho");
-	m_pShader = static_pointer_cast<cFontShader>(pShader);
+	m_pShader = dynamic_pointer_cast<cFontShader>(pShader);
 	return bSuccess;
 }
 
@@ -142,11 +142,13 @@ void cMyFont::GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch)
 
 // *************************************************************************
 void cMyFont::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-					  const D3DXMATRIX & inMatProjection, const D3DXVECTOR4 & textColor)
+					  const D3DXMATRIX & inMatProjection, const cColor & textColor)
 {
 	if (m_pShader)
 	{
-		m_pShader->Render(inMatWorld, inMatView, inMatProjection, m_pTexture.get(), textColor);
+		m_pShader->SetTextColor(textColor);
+		m_pShader->VSetTexture(m_pTexture);
+		m_pShader->VRender(inMatWorld, inMatView, inMatProjection);
 	}
 
 }

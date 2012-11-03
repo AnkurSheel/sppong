@@ -73,7 +73,7 @@ namespace Graphics
 		ID3D11Buffer *						m_pIndexBuffer;		/*!< The index buffer */
 		Base::cString						m_strText;			/*!< The text that has to be displayed */
 		shared_ptr<cMyFont>					m_pFont;			/*!< The font that needs to be used to display the text */
-		D3DXVECTOR4							m_TextColor;		/*!< The text color */
+		Base::cColor						m_TextColor;		/*!< The text color */
 		int									m_iVertexCount;		/*!< The number of vertices that have to be displayed */
 		int									m_iIndexCount;		/*!< The number of indices that have to be displayed */
 		Base::cVector2						m_vPosition;		/*!< The current position of the sprite */

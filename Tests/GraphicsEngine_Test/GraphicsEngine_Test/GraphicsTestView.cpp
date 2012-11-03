@@ -21,6 +21,7 @@
 #include "Sprite.hxx"
 #include "Font.hxx"
 #include "Sentence.hxx"
+#include "ObjModelLoader.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -111,6 +112,13 @@ void cGraphicsTestView::VRenderPrivate()
 		switch(m_pGame->GetCurrentTest())
 		{
 		case TEST_TRIANGLE:
+			if(m_pModel)
+			{
+				m_pModel->VSetRotation(m_pModel->VGetRotation() + DegtoRad(0.1f));
+				m_pModel->VRender(m_pCamera);
+			}
+			break;
+
 		case TEST_TEXTURETRIANGLE:
 			if(m_pModel)
 			{
@@ -157,24 +165,11 @@ void cGraphicsTestView::TestTriangle()
 
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Triangle");
 
-	stVertex * pVertexData = DEBUG_NEW stVertex[7];
-
-	pVertexData[0] = stVertex(-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	pVertexData[1] = stVertex(0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	pVertexData[2] = stVertex(1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	pVertexData[3] = stVertex(3.0f, 3.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f);
-	pVertexData[4] = stVertex(3.0f, 5.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	pVertexData[5] = stVertex(5.0f, 3.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f);
-	pVertexData[6] = stVertex(5.0f, 5.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f);
-
-	unsigned long aIndices[] = {0,1,2,
-								3,4,5,
-								4,6,5};
-
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pModel = IModel::CreateModel();
-	m_pModel->VOnInitialization(pVertexData, aIndices, 7, 9, 1);
-	SAFE_DELETE_ARRAY(pVertexData);
+
+	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
+	pObjModelLoader->VLoadModelFromFile("resources//cube.obj", m_pModel);
 }
 
 // ***************************************************************
@@ -202,8 +197,17 @@ void cGraphicsTestView::TestTextureTriangle()
 		4,6,5};
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -15.0f));
+	
+	stModelDef def;
+	def.pVertices = pVertexData;
+	def.pIndices = aIndices;
+	def.iNumberOfVertices = 7;
+	def.iNumberOfIndices = 9;
+	def.strDiffuseTextureFilename = "Test\\seafloor.dds";
+	
 	m_pModel = IModel::CreateModel();
-	m_pModel->VOnInitialization(pVertexData, aIndices, 7, 9, 1, "Test\\seafloor.dds");
+	m_pModel->VOnInitialization(def);
+	
 	SAFE_DELETE_ARRAY(pVertexData);
 }
 

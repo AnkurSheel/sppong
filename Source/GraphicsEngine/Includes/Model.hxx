@@ -26,6 +26,24 @@ namespace Graphics
 
 namespace Graphics
 {
+	struct stModelDef
+	{
+		stTexVertex *		pVertices;						/*!< The vertex data of this model */ 
+		unsigned long *		pIndices;						/*!< The index data of this model */ 
+		unsigned int		iNumberOfVertices;				/*!< The number of vertices */ 
+		unsigned int		iNumberOfIndices;				/*!< The number of indices */ 	
+		Base::cString		strDiffuseTextureFilename;		/*!< Optional.The diffuse texture file name */ 	
+		Base::cColor		diffuseColor;					/*!< Optional.The diffuse color */ 	
+
+		stModelDef()
+			: pVertices(NULL)
+			, pIndices(NULL)
+			, iNumberOfVertices(0)
+			, iNumberOfIndices(0)
+		{
+		}
+	};
+
 /********************************************//**
  * @brief Interface to encapsulate the geometry 
  * for 3D models
@@ -36,51 +54,31 @@ namespace Graphics
 	public:
 		GRAPHIC_API virtual ~IModel(){}
 		/********************************************//**
- 		 * @param[in] pVertices The vertices of this model
-		 * @param[in] pIndices The indices of this model
-		 * @param[in] iNumberOfVertices The number of vertices
-		 * @param[in] iNumberOfIndices The number of indices
-		 * @param[in] iPrimitiveCount The number of primitives
-		 * @return False if there is any error
+ 		 * @param[in] def The params to create the model
 		 *
-		 * Initializes the vertex buffer, index buffer and shader for this model
+		 * Initializes the model
 		 ***********************************************/
-		GRAPHIC_API virtual bool VOnInitialization(const stVertex * const pVertices, 
-			const unsigned long * const pIndices, const UINT iNumberOfVertices, 
-			const UINT iNumberOfIndices, const UINT iPrimitiveCount) = 0;
-		/********************************************//**
- 		 * @param[in] pVertices The vertices of this model
-		 * @param[in] pIndices The indices of this model
-		 * @param[in] iNumberOfVertices The number of vertices
-		 * @param[in] iNumberOfIndices The number of indices
-		 * @param[in] iPrimitiveCount The number of primitives
-		 * @param[in] strTextureFilename The name of the texture file
-		 * @return False if there is any error
-		 *
-		 * Initializes the vertex buffer, index buffer and shader for this model
-		 ***********************************************/
-		GRAPHIC_API virtual bool VOnInitialization(const stTexVertex * const pVertices, 
-			const unsigned long * const pIndices, const UINT iNumberOfVertices, 
-			const UINT iNumberOfIndices, const UINT iPrimitiveCount,
-			const Base::cString & strTextureFilename) = 0;
+		virtual bool VOnInitialization(const stModelDef & def) = 0;
 		/********************************************//**
 		 *
 		 * Releases and destroys all the resources 
 		 ***********************************************/
-		GRAPHIC_API virtual void VCleanup() = 0;
+		virtual void VCleanup() = 0;
 		/********************************************//**
  		 * @param[in] pCamera The camera which contains the current view matrix
 		 *
 		 * Puts the model geometry on the video card to prepare it for drawing
 		 * by the shader
 		 ***********************************************/
-		GRAPHIC_API virtual void VRender(const ICamera * const pCamera) = 0;
+		virtual void VRender(const ICamera * const pCamera) = 0;
 		/********************************************//**
 		 * @return An object to use this interface
 		 *
 		 * Returns an object to use this interface
 		 ***********************************************/
 		GRAPHIC_API static IModel * CreateModel();
+		virtual void VSetRotation(const float fRadians) = 0;
+		virtual float VGetRotation() const = 0;
 	};
 }
 #endif // Model_hxx__

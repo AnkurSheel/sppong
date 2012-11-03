@@ -7,6 +7,9 @@
 // ***************************************************************
 // 
 // ***************************************************************
+#ifndef Shader_hxx__
+#define Shader_hxx__
+
 
 namespace Graphics
 {
@@ -38,13 +41,12 @@ namespace Graphics
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
 		 * @param[in] inMatProjection The projection Matrix
-		 * @param[in] pTexture
 		 *
 		 * Sets the shader parameters and then draws the model
 		 * using the HLSL shader
 		 ***********************************************/
 		virtual void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection, const Graphics::ITexture * const pTexture) = 0;
+			const D3DXMATRIX & inMatProjection) = 0;
 		/********************************************//**
 		 * @return An object to use a color shader
 		 *
@@ -57,12 +59,15 @@ namespace Graphics
 		 * Returns an object to use a texture shader
 		 ***********************************************/
 		static IShader * CreateTextureShader();
+
 		/********************************************//**
 		 * @return An object to use a font shader
 		 *
 		 * Returns an object to use a font shader
 		 ***********************************************/
 		static IShader * CreateFontShader();
+		virtual void VSetTexture(shared_ptr<ITexture> pTexture) = 0;
 
 	};
 }
+#endif // Shader_hxx__

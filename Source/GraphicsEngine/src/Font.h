@@ -58,13 +58,13 @@ namespace Graphics
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
 		 * @param[in] inMatProjection The projection Matrix
-		 * @param[in] pTexture
+		 * @param[in] textColor The color of the text
 		 *
 		 * Sets the shader parameters and then draws the model
 		 * using the HLSL shader
 		 ***********************************************/
 		void Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection, const D3DXVECTOR4 & textColor);
+			const D3DXMATRIX & inMatProjection, const Base::cColor & textColor);
 		void GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch,
 			float & fTexU, float & fTexV, float & fTexU1, float & fTexV1);
 		void GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch);

@@ -22,8 +22,6 @@ namespace Utilities
 	{
 	public:
 		virtual ~IParamLoader(){}
-		//UTILITIES_API virtual bool VOpen(const Base::cString & strFileName) = 0;
-		//UTILITIES_API virtual bool VClose() = 0;
 		UTILITIES_API virtual void VLoadParametersFromFile(const Base::cString & strFileName) = 0;
 		
 		UTILITIES_API virtual Base::tOptional<int> VGetParameterValueAsInt(const Base::cString & strParameter) = 0;

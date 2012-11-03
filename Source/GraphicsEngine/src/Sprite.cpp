@@ -110,10 +110,10 @@ void cSprite::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VTurnZBufferOff();
 	if (m_pShader)
 	{
+		m_pShader->VSetTexture(m_pTexture);
 		const cCamera * pCam = static_cast<const cCamera *>(pCamera);
 		m_pShader->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
-			pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix(),
-			m_pTexture.get());
+			pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix());
 	}
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
 }

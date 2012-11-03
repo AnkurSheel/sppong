@@ -118,10 +118,10 @@ const double  MinDouble = (std::numeric_limits<double>::min)();
 const float   MaxFloat  = (std::numeric_limits<float>::max)();
 const float   MinFloat  = (std::numeric_limits<float>::min)();
 
-const double   Pi        = 3.14159;
-const double   TwoPi     = Pi * 2;
-const double   HalfPi    = Pi / 2;
-const double   QuarterPi = Pi / 4;
+const float   Pi        = 3.14159;
+const float   TwoPi     = Pi * 2;
+const float   HalfPi    = Pi / 2;
+const float   QuarterPi = Pi / 4;
 
 inline bool isEqual(const double a, const double b)
 {
@@ -137,4 +137,35 @@ inline double DegtoRad(const double x)
 {
 	return (x * Pi /180);
 }
+
+inline double RadtoDeg(const double x)
+{
+	return (x * 180 /Pi);
+}
+
+inline int roundUp(int numToRound, int multiple)  
+{  
+	if(multiple == 0)  
+	{  
+		return numToRound;  
+	}  
+
+	int remainder = numToRound % multiple; 
+	if (remainder == 0)
+	{
+		return numToRound; 
+	}
+
+	return numToRound + multiple - remainder; 
+}  
+
+template <class T>
+class ArrayDeleter
+{
+public:
+	void operator () (T* d) const
+	{ 
+		SAFE_DELETE_ARRAY(d);
+	}
+};
 #endif // Macros_h__

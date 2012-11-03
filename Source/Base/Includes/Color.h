@@ -19,6 +19,7 @@ namespace Base
 	public:
 		cColor();
 		cColor(const int iRed, const int iGreen, const int iBlue, const int iAlpha);
+		cColor(const float fRed, const float fGreen, const float fBlue, const float fAlpha);
 		DWORD GetColor() const;
 		BASE_API void GetColorComponentsInFloat(float & fRed, float & fBlue, float & fGreen, float & fAlpha) const;
 		

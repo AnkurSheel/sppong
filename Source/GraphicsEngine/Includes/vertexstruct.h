@@ -16,21 +16,6 @@ namespace Graphics
 { 
 	/********************************************//**
 	 * @brief Structure of vertex data having position
-	 * and color
-	 *
-	 ***********************************************/
-	struct stVertex
-	{
-	public:
-		float		m_fX, m_fY, m_fZ;						/*!< The (X,Y,Z)position of this vertex in world space */
-		float		m_fRed, m_fBlue, m_fGreen, m_fAlpha;	/*!< The (R,G,B,A) color of this vertex */
-		GRAPHIC_API stVertex();
-		GRAPHIC_API stVertex(const float fX, const float fY, const float fZ, 
-			const float fRed, const float fBlue, const float fGreen, const float fAlpha);
-	};
-
-	/********************************************//**
-	 * @brief Structure of vertex data having position
 	 * and texture
 	 *
 	 ***********************************************/

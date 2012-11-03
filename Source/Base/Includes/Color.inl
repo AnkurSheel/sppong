@@ -18,6 +18,16 @@ inline cColor::cColor( const int iRed, const int iGreen, const int iBlue, const 
 	CalculateColorFromComponents();
 }
 
+// *************************************************************************
+inline cColor::cColor(const float fRed, const float fGreen, const float fBlue, const float fAlpha)
+: m_iRed(fRed * 255)
+, m_iGreen(fGreen * 255)
+, m_iBlue(fBlue * 255)
+, m_iAlpha(fAlpha * 255)
+{
+	CalculateColorFromComponents();
+}
+
 // ***************************************************************
 inline void cColor::CalculateColorFromComponents()
 {

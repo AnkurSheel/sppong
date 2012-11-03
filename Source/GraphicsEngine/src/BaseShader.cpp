@@ -14,12 +14,13 @@
 #include "FileInput.hxx"
 #include "Texture.hxx"
 
+using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 using namespace std;
 
 // ***************************************************************
-Graphics::cBaseShader::cBaseShader()
+cBaseShader::cBaseShader()
 : m_pVertexShader(NULL)
 , m_pPixelShader(NULL)
 , m_pLayout(NULL)
@@ -29,13 +30,13 @@ Graphics::cBaseShader::cBaseShader()
 }
 
 // ***************************************************************
-Graphics::cBaseShader::~cBaseShader()
+cBaseShader::~cBaseShader()
 {
 	VCleanup();
 }
 
 // ***************************************************************
-bool Graphics::cBaseShader::VInitialize(const Base::cString & strVertexShaderPath,
+bool cBaseShader::VInitialize(const Base::cString & strVertexShaderPath,
 										 const Base::cString & strPixelShader)
 {
 	if(!CreateVertexShader(strVertexShaderPath))
@@ -67,25 +68,24 @@ bool Graphics::cBaseShader::VInitialize(const Base::cString & strVertexShaderPat
 }
 
 // ***************************************************************
-void Graphics::cBaseShader::VRender(const D3DXMATRIX & inMatWorld,
+void cBaseShader::VRender(const D3DXMATRIX & inMatWorld,
 									 const D3DXMATRIX & inMatView,
-									 const D3DXMATRIX & inMatProjection,
-									 const ITexture * const pTexture)
-{
-	ID3D11ShaderResourceView * pTex = NULL;
-	if (pTexture)
-	{
-		pTex = pTexture->VGetTexture();
-	}
-	
-	VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTex);
+									 const D3DXMATRIX & inMatProjection)
+{	
+	VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
 
 	VRenderShader();
 
 }
 
+// *************************************************************************
+void cBaseShader::VSetTexture(shared_ptr<ITexture> pTexture)
+{
+	m_pTexture = pTexture;
+}
+
 // ***************************************************************
-bool Graphics::cBaseShader::CreateVertexShader( const Base::cString & strVertexShaderPath)
+bool cBaseShader::CreateVertexShader( const Base::cString & strVertexShaderPath)
 {
 	//ID3D10Blob * pVertexShaderBuffer = NULL;
 
@@ -117,7 +117,7 @@ bool Graphics::cBaseShader::CreateVertexShader( const Base::cString & strVertexS
 }
 
 // ***************************************************************
-bool Graphics::cBaseShader::CreatePixelShader(const Base::cString & strPixelShaderPath)
+bool cBaseShader::CreatePixelShader(const Base::cString & strPixelShaderPath)
 {
 	IFileInput * pFile = IFileInput::CreateInputFile();
 	pFile->Open(strPixelShaderPath, ios_base::in | ios_base::binary);
@@ -138,10 +138,9 @@ bool Graphics::cBaseShader::CreatePixelShader(const Base::cString & strPixelShad
 }
 
 // ***************************************************************
-void Graphics::cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
+void cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 												 const D3DXMATRIX & inMatView,
-												 const D3DXMATRIX & inMatProjection,
-												 ID3D11ShaderResourceView * pTexture)
+												 const D3DXMATRIX & inMatProjection)
 {
 	D3DXMATRIX matWorld;
 	D3DXMATRIX matView;
@@ -180,7 +179,7 @@ void Graphics::cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 }
 
 // ***************************************************************
-void Graphics::cBaseShader::VRenderShader()
+void cBaseShader::VRenderShader()
 {
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetInputLayout(m_pLayout);
 
@@ -190,7 +189,7 @@ void Graphics::cBaseShader::VRenderShader()
 }
 
 // ***************************************************************
-void Graphics::cBaseShader::VCleanup()
+void cBaseShader::VCleanup()
 {
 	SAFE_RELEASE(m_pMatrixBuffer);
 	SAFE_RELEASE(m_pLayout);

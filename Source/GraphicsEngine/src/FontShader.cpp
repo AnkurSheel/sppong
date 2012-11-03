@@ -18,7 +18,6 @@ using namespace Utilities;
 
 // ***************************************************************
 cFontShader::cFontShader()
-: m_pPixelBuffer(NULL)
 {
 
 }
@@ -33,25 +32,17 @@ cFontShader::~cFontShader()
 bool cFontShader::VInitialize(const cString & strVertexShaderPath, 
 							 const cString & strPixelShaderPath)
 {
-	if(!cTextureShader::VInitialize(strVertexShaderPath, strPixelShaderPath))
+	if(!cBaseShader::VInitialize(strVertexShaderPath, strPixelShaderPath))
 		return false;
 
-	D3D11_BUFFER_DESC pixelBufferDesc;
-	pixelBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	pixelBufferDesc.ByteWidth = sizeof(PixelBufferType);
-	pixelBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	pixelBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	pixelBufferDesc.MiscFlags = 0;
-	pixelBufferDesc.StructureByteStride = 0;
-
-	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&pixelBufferDesc, 
-		NULL, &m_pPixelBuffer);
-
-	if(FAILED(result))
+	if(!CreateSampleState())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating pixel buffer ")
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
-			return false;
+		return false;
+	}
+
+	if(!CreatePixelBuffer(sizeof(PixelBufferType)))
+	{
+		return false;
 	}
 
 	return true;
@@ -60,22 +51,14 @@ bool cFontShader::VInitialize(const cString & strVertexShaderPath,
 // ***************************************************************
 void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 									   const D3DXMATRIX & inMatView,
-									   const D3DXMATRIX & inMatProjection,
-									   ID3D11ShaderResourceView * pTexture)
+									   const D3DXMATRIX & inMatProjection)
 {
-	Log_Write_L2(ILogger::LT_ERROR, "Using incorrect VSetShaderParameter");
-	cTextureShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTexture);
-		
-}
-
-// *************************************************************************
-void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld, 
-									   const D3DXMATRIX & inMatView,
-									   const D3DXMATRIX & inMatProjection,
-									   ID3D11ShaderResourceView * pTexture,
-									   const D3DXVECTOR4 & textColor)
-{
-	cTextureShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTexture);
+	cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
+	if(m_pTexture)
+	{
+		ID3D11ShaderResourceView * pTex = m_pTexture->VGetTexture();
+		IDXBase::GetInstance()->VGetDeviceContext()->PSSetShaderResources(0, 1, &pTex);
+	}
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 
@@ -92,7 +75,7 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 	PixelBufferType * pPixelData = (PixelBufferType*)mappedResource.pData;
 
 	// Copy the pixel color into the pixel constant buffer.
-	pPixelData->pixelColor = textColor;
+	pPixelData->pixelColor = m_TextColor;
 
 	// Unlock the pixel constant buffer.
 	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pPixelBuffer, 0);
@@ -105,25 +88,23 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 }
 
 // ***************************************************************
-IShader * IShader::CreateFontShader()
-{
-	IShader * pShader= DEBUG_NEW cFontShader();
-	return pShader;
-}
-// ***************************************************************
 void Graphics::cFontShader::VCleanup()
 {
 	cTextureShader::VCleanup();
 	SAFE_RELEASE(m_pPixelBuffer);
 }
+
 // *************************************************************************
-void cFontShader::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-						 const D3DXMATRIX & inMatProjection, const ITexture * const pTexture,
-						 const D3DXVECTOR4 & textColor)
+void cFontShader::SetTextColor(const Base::cColor colorText)
 {
-	ID3D11ShaderResourceView * pTex = pTexture->VGetTexture();
+	float fRed, fBlue, fGreen, fAlpha;
+	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
+	m_TextColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
+}
 
-	VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTex, textColor);
-
-	VRenderShader();
+// ***************************************************************
+IShader * IShader::CreateFontShader()
+{
+	IShader * pShader= DEBUG_NEW cFontShader();
+	return pShader;
 }

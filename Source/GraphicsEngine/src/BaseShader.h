@@ -37,6 +37,11 @@ namespace Graphics
 			D3DXMATRIX projection;		/*!< The projection matrix. */
 		};
 
+	public:
+		void VSetTexture(shared_ptr<ITexture> pTexture);
+		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
+			const D3DXMATRIX & inMatProjection);
+
 	protected:
 		cBaseShader();
 		virtual ~cBaseShader();
@@ -46,13 +51,11 @@ namespace Graphics
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix
 		 * @param[in] inMatProjection The projection Matrix
-		 * @param[in] pTexture The texture resource
 		 *
 		 * Sets the shader parameters
 		 ***********************************************/
 		virtual void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection,
-			ID3D11ShaderResourceView * pTexture);
+			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
 		/********************************************//**
 		  *
 		  * Renders the shader
@@ -65,16 +68,6 @@ namespace Graphics
 		virtual void VCleanup();
 
 	private:
-		/********************************************//**
- 		 * @param[in] inMatWorld The world matrix
-		 * @param[in] inMatView The View Matrix
-		 * @param[in] inMatProjection The projection Matrix
-		 * @param[in] pTexture The texture resource
-		 *
-		 * Sets the shader parameters and renders the shader
-		 ***********************************************/
-		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection, const ITexture * const pTexture);
 		/********************************************//**
 		  * @param[in] pVertexShaderFile The compiled vertex shader file
 		  * @return False if there is any error
@@ -99,6 +92,7 @@ namespace Graphics
 
 	protected:
 		ID3D11InputLayout *		m_pLayout;			/*!< The input layout of the vertex shader */
+		shared_ptr<ITexture>	m_pTexture;
 
 	private:
 		ID3D11VertexShader *	m_pVertexShader;	/*!< The vertex shader object */

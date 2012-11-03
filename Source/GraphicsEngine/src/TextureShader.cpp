@@ -11,6 +11,7 @@
 #include "TextureShader.h"
 #include "DxBase.hxx"
 #include "FileInput.hxx"
+#include "Texture.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -19,6 +20,7 @@ using namespace Base;
 // ***************************************************************
 Graphics::cTextureShader::cTextureShader()
 : m_pSampleState(NULL)
+, m_pPixelBuffer(NULL)
 {
 
 }
@@ -72,6 +74,76 @@ bool Graphics::cTextureShader::VInitialize( const Base::cString & strVertexShade
 	if(!cBaseShader::VInitialize(strVertexShaderPath, strPixelShaderPath))
 		return false;
 	
+	if(!CreateSampleState())
+	{
+		return false;
+	}
+
+	if(!CreatePixelBuffer(sizeof(stPixelBufferData)))
+	{
+		return false;
+	}
+	return true;
+}
+
+// ***************************************************************
+void Graphics::cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
+													const D3DXMATRIX & inMatView,
+													const D3DXMATRIX & inMatProjection)
+{
+	cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection);
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	bool bHasTexture = false;
+	if(m_pTexture)
+	{
+		bHasTexture = true;
+		ID3D11ShaderResourceView * pTex = m_pTexture->VGetTexture();
+		IDXBase::GetInstance()->VGetDeviceContext()->PSSetShaderResources(0, 1, &pTex);
+	}
+
+	// Lock the pixel constant buffer so it can be written to.
+	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pPixelBuffer,
+		0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the pixel Buffer to update with the data: ") 
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		return ;
+	}
+
+	stPixelBufferData * pPixelData = (stPixelBufferData*)mappedResource.pData;
+	// Copy the pixel color into the pixel constant buffer.
+	pPixelData->pixelColor = m_DiffuseColor;
+	pPixelData->hasTexture = bHasTexture;
+
+	// Unlock the pixel constant buffer.
+	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pPixelBuffer, 0);
+
+	// Set the position of the pixel constant buffer in the pixel shader.
+	unsigned int iBufferNumber = 0;
+
+	// Now set the pixel constant buffer in the pixel shader with the updated value.
+	IDXBase::GetInstance()->VGetDeviceContext()->PSSetConstantBuffers(iBufferNumber, 1, &m_pPixelBuffer);
+}
+
+// ***************************************************************
+void Graphics::cTextureShader::VRenderShader()
+{
+	cBaseShader::VRenderShader();
+	IDXBase::GetInstance()->VGetDeviceContext()->PSSetSamplers(0, 1, &m_pSampleState);
+
+}
+
+// ***************************************************************
+void Graphics::cTextureShader::VCleanup()
+{
+	SAFE_RELEASE(m_pSampleState);
+	SAFE_RELEASE(m_pPixelBuffer);
+	cBaseShader::VCleanup();
+}
+// *************************************************************************
+bool Graphics::cTextureShader::CreateSampleState()
+{
 	D3D11_SAMPLER_DESC samplerDesc;
 	ZeroMemory( &samplerDesc, sizeof( samplerDesc ) );
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -91,32 +163,36 @@ bool Graphics::cTextureShader::VInitialize( const Base::cString & strVertexShade
 			return false;
 	}
 	return true;
-	
+}
+// *************************************************************************
+bool Graphics::cTextureShader::CreatePixelBuffer(const unsigned int ibufferSize)
+{
+	D3D11_BUFFER_DESC pixelBufferDesc;
+	pixelBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	pixelBufferDesc.ByteWidth = roundUp(ibufferSize, 16);
+	pixelBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	pixelBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	pixelBufferDesc.MiscFlags = 0;
+	pixelBufferDesc.StructureByteStride = 0;
+
+	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&pixelBufferDesc, 
+		NULL, &m_pPixelBuffer);
+
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating pixel buffer ")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
+			return false;
+	}
+	return true;
 }
 
-// ***************************************************************
-void Graphics::cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-													const D3DXMATRIX & inMatView,
-													const D3DXMATRIX & inMatProjection,
-													ID3D11ShaderResourceView * pTexture )
+// *************************************************************************
+void Graphics::cTextureShader::SetTextColor(const Base::cColor colorText)
 {
-	cBaseShader::VSetShaderParameters(inMatWorld, inMatView, inMatProjection, pTexture);
-	IDXBase::GetInstance()->VGetDeviceContext()->PSSetShaderResources(0, 1, &pTexture);
-}
-
-// ***************************************************************
-void Graphics::cTextureShader::VRenderShader()
-{
-	cBaseShader::VRenderShader();
-	IDXBase::GetInstance()->VGetDeviceContext()->PSSetSamplers(0, 1, &m_pSampleState);
-
-}
-
-// ***************************************************************
-void Graphics::cTextureShader::VCleanup()
-{
-	SAFE_RELEASE(m_pSampleState);
-	cBaseShader::VCleanup();
+	float fRed, fBlue, fGreen, fAlpha;
+	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
+	m_DiffuseColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
 }
 
 // ***************************************************************

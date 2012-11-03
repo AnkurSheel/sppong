@@ -56,7 +56,7 @@ Base::cString::cString( const cString & str)
 Base::cString Base::cString::operator=( const cString & str)
 {
 	m_str = str.m_str;
-	return m_str;
+	return *this;
 }
 
 void Base::cString::operator += (const char * const str)
@@ -240,6 +240,7 @@ Base::tOptional<float> Base::cString::ToFloat() const
 			return value;
 		}
 		floatVal = floatVal + ((ch - '0') * decimalDigit);
+		decimalDigit *= 0.1f;
 	}
 	floatVal += intVal; 
 	if(bNegative)

@@ -113,9 +113,7 @@ void cSentence::VSetText(const cString & strText)
 // ***************************************************************
 void cSentence::VSetTextColor(const Base::cColor & colorText)
 {
-	float fRed, fBlue, fGreen, fAlpha;
-	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
-	m_TextColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
+	m_TextColor = colorText;
 }
 
 // *************************************************************************
@@ -229,6 +227,38 @@ bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 	return true;
 }
 
+// *************************************************************************
+bool cSentence::CreateVertexBuffer()
+{
+	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
+
+	D3D11_BUFFER_DESC vertexBufferDesc;
+	ZeroMemory( &vertexBufferDesc, sizeof(vertexBufferDesc));
+
+	vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	vertexBufferDesc.ByteWidth = sizeof(stTexVertex) * m_iVertexCount;
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	D3D11_SUBRESOURCE_DATA vertexData;
+	ZeroMemory( &vertexData, sizeof(vertexData));
+	vertexData.pSysMem = pVertices;
+
+	// Now create the vertex buffer.
+	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&vertexBufferDesc,
+		&vertexData, &m_pVertexBuffer);
+
+	SAFE_DELETE_ARRAY(pVertices);
+
+	if(FAILED(result))
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Vertex Buffer ")
+			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+		return false;
+	}
+	return true;
+}
+
 // ***************************************************************
 bool cSentence::CreateIndexBuffer()
 {
@@ -282,38 +312,6 @@ void cSentence::Cleanup()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
-}
-
-// *************************************************************************
-bool cSentence::CreateVertexBuffer()
-{
-	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
-
-	D3D11_BUFFER_DESC vertexBufferDesc;
-	ZeroMemory( &vertexBufferDesc, sizeof(vertexBufferDesc));
-
-	vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	vertexBufferDesc.ByteWidth = sizeof(stTexVertex) * m_iVertexCount;
-	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	D3D11_SUBRESOURCE_DATA vertexData;
-	ZeroMemory( &vertexData, sizeof(vertexData));
-	vertexData.pSysMem = pVertices;
-
-	// Now create the vertex buffer.
-	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&vertexBufferDesc,
-		&vertexData, &m_pVertexBuffer);
-
-	SAFE_DELETE_ARRAY(pVertices);
-
-	if(FAILED(result))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Vertex Buffer ")
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-		return false;
-	}
-	return true;
 }
 
 // ***************************************************************

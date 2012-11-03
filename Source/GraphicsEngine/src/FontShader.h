@@ -30,31 +30,16 @@ namespace Graphics
 	public:
 		cFontShader();
 		~cFontShader();
+		
+		void SetTextColor(const Base::cColor colorText);
+	private:
 		bool VInitialize(const Base::cString & strVertexShaderPath,
 			const Base::cString & strPixelShaderPath);
-		/********************************************//**
- 		 * @param[in] inMatWorld The world matrix
-		 * @param[in] inMatView The View Matrix
-		 * @param[in] inMatProjection The projection Matrix
-		 * @param[in] pTexture The texture resource
-		 * @param[in] textColor The text/font pixel color
-		 *
-		 * Sets the shader parameters and renders the shader
-		 ***********************************************/
-		void Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection, const ITexture * const pTexture,
-			const D3DXVECTOR4 & textColor);
-
-	private:
 		void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection, 
-			ID3D11ShaderResourceView * pTexture );
-		void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection, 
-			ID3D11ShaderResourceView * pTexture, const D3DXVECTOR4 & textColor );
+			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
 		void VCleanup();
 
 	private:
-		ID3D11Buffer *	m_pPixelBuffer;		/*!< The vertex shader constant buffer to store the pixel color data */
+		D3DXVECTOR4		m_TextColor;
 	};
 }

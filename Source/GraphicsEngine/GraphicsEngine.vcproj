@@ -514,6 +514,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ObjModelLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ObjModelLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\ObjModelLoader.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Shader.hxx"
 				>
 			</File>

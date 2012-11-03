@@ -13,7 +13,7 @@
 #include "Model.hxx"
 namespace Graphics
 {
-	class IShader;
+	class cTextureShader;
 	class ITexture;
 }
 
@@ -32,14 +32,10 @@ namespace Graphics
 		~cModel();
 
 	private:
-		bool VOnInitialization(const stVertex * const pVertices, 
-			const unsigned long * const pIndices, const UINT iNumberOfVertices, 
-			const UINT iNumberOfIndices, const UINT iPrimitiveCount);
-		bool VOnInitialization(const stTexVertex * const pVertices, 
-			const unsigned long * const pIndices, const UINT iNumberOfVertices, 
-			const UINT iNumberOfIndices, const UINT iPrimitiveCount,
-			const Base::cString & strTextureFilename);
+		bool VOnInitialization(const stModelDef & def);
 		void VRender(const ICamera * const pCamera);
+		void VSetRotation(const float fRadians);
+		float VGetRotation() const;
 		void VCleanup();
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model
@@ -69,8 +65,10 @@ namespace Graphics
 		UINT								m_iIndexCount;			/*!< The number of indices in this model */
 		UINT								m_iPrimitiveCount;		/*!< The number of primitives that need to be drawn*/
 		UINT								m_iVertexSize;			/*!< The size of the vertex structure */
-		shared_ptr<IShader>					m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
+		shared_ptr<cTextureShader>			m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
 		shared_ptr<Graphics::ITexture>		m_pTexture;				/*!< The Texture of the model */
+		Base::cColor						m_diffuseColor;
+		float								m_fRotation;
 	};
 }
 #endif // Model_h__
