@@ -48,6 +48,19 @@ namespace Graphics
 	class cObjModelLoader
 		: public IObjModelLoader
 	{
+
+		struct stSubsetData
+		{
+			std::vector<int> vIndices;
+			Base::cColor diffuseColor;
+			int iStartIndexNo;
+
+			stSubsetData()
+				: iStartIndexNo(0)
+			{
+			}
+		};
+
 		typedef std::map<Base::cString, stMaterial> MaterialMap;
 
 	public:
@@ -61,6 +74,7 @@ namespace Graphics
 		int GetIntValue(const Base::cString & strVal);
 
 	private:
-		MaterialMap		m_MaterialsMap;
+		MaterialMap				m_MaterialsMap;
+		std::vector<stSubsetData>	m_vSubset;
 	};
 }

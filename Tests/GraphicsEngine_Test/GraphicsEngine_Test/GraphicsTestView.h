@@ -36,7 +36,8 @@ public:
 	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE & hInst,
 		const HWND & hWnd, const int iClientWidth, const int iClientHeight );
 	bool VOnMsgProc( const Base::AppMsg & msg );	
-	void TestTriangle();
+	void TestModel1Mat();
+	void TestModelMultipleMat();
 	void TestTextureTriangle();
 	void TestSprite();
 	void TestFont();
@@ -47,6 +48,7 @@ public:
 
 private:
 	void VRenderPrivate();
+
 private:
 	cGame	*							m_pGame;
 	shared_ptr<Graphics::IBaseControl>	m_pInfoLabelControl;

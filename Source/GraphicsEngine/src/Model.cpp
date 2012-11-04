@@ -25,10 +25,7 @@ using namespace Graphics;
 // ***************************************************************
 cModel::cModel()
 : m_pVertexBuffer(NULL)
-, m_pIndexBuffer(NULL)
 , m_iVertexCount(0)
-, m_iIndexCount(0)
-, m_iPrimitiveCount(0)
 , m_iVertexSize(0)
 , m_fRotation(0.0f)
 {
@@ -45,21 +42,28 @@ cModel::~cModel()
 bool cModel::VOnInitialization(const stModelDef & def)
 {
 	m_iVertexCount = def.iNumberOfVertices;
-	m_iIndexCount = def.iNumberOfIndices;
 	m_iVertexSize = sizeof(stTexVertex);
 
 	if(!CreateVertexBuffer(def.pVertices))
 		return false;
 
-	if(!CreateIndexBuffer(def.pIndices))
-		return false;
-
-	m_diffuseColor = def.diffuseColor;
-
-	if(!def.strDiffuseTextureFilename.IsEmpty())
+	for (int i=0; i<def.vSubsetsDef.size(); i++)
 	{
-		m_pTexture = ITextureManager::GetInstance()->VGetTexture(def.strDiffuseTextureFilename);
+		stObjectSubset subset;
+		subset.m_iIndexCount = def.vSubsetsDef[i].iNumberOfIndices;
+		subset.m_diffuseColor = def.vSubsetsDef[i].diffuseColor;
+		if(!def.vSubsetsDef[i].strDiffuseTextureFilename.IsEmpty())
+		{
+			subset.m_pTexture = ITextureManager::GetInstance()->VGetTexture(def.vSubsetsDef[i].strDiffuseTextureFilename);
+		}
+		if(!CreateIndexBuffer(def.vSubsetsDef[i].pIndices, subset))
+			return false;
+		m_vSubsets.push_back(subset);
 	}
+
+
+
+	
 
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader, "resources\\Shaders\\Texture.vsho",
@@ -79,24 +83,29 @@ void cModel::VRender(const ICamera * const pCamera)
 	 IDXBase::GetInstance()->VGetDeviceContext()->IASetVertexBuffers(0, 1, 
 		 &m_pVertexBuffer, &stride, &offset);
 
-	IDXBase::GetInstance()->VGetDeviceContext()->IASetIndexBuffer(m_pIndexBuffer,
-		DXGI_FORMAT_R32_UINT, 0);
 
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOn();
 
-	if (m_pShader)
-	{
-		D3DXMATRIX worldMatrix = IDXBase::GetInstance()->VGetWorldMatrix();
-		D3DXMatrixRotationY(&worldMatrix, m_fRotation);
-		const cCamera * pCam = static_cast<const cCamera *>(pCamera);
-		m_pShader->SetTextColor(m_diffuseColor);
-		m_pShader->VSetTexture(m_pTexture);
-		m_pShader->VRender(worldMatrix,
-		pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetProjectionMatrix());
-	}
+	D3DXMATRIX worldMatrix = IDXBase::GetInstance()->VGetWorldMatrix();
+	D3DXMatrixRotationY(&worldMatrix, m_fRotation);
+	const cCamera * pCam = static_cast<const cCamera *>(pCamera);
 
-	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
+	for (int i=0; i<m_vSubsets.size(); i++)
+	{
+		IDXBase::GetInstance()->VGetDeviceContext()->IASetIndexBuffer(m_vSubsets[i].m_pIndexBuffer,
+			DXGI_FORMAT_R32_UINT, 0);
+
+		if (m_pShader)
+		{
+			m_pShader->SetTextColor(m_vSubsets[i].m_diffuseColor);
+			m_pShader->VSetTexture(m_vSubsets[i].m_pTexture);
+			m_pShader->VRender(worldMatrix, pCam->GetViewMatrix(), 
+				IDXBase::GetInstance()->VGetProjectionMatrix());
+		}
+
+		IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_vSubsets[i].m_iIndexCount, 0, 0);
+	}
 
 }
 
@@ -125,7 +134,11 @@ float cModel::VGetRotation() const
 void cModel::VCleanup()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
-	SAFE_RELEASE(m_pIndexBuffer);
+	for (int i=0; i<m_vSubsets.size(); i++)
+	{
+		SAFE_RELEASE(m_vSubsets[i].m_pIndexBuffer);
+	}
+	m_vSubsets.clear();
 }
 
 // ***************************************************************
@@ -155,11 +168,11 @@ bool cModel::CreateVertexBuffer( const stTexVertex * const pVertices )
 }
 
 // ***************************************************************
-bool cModel::CreateIndexBuffer( const unsigned long * const pIndices )
+bool cModel::CreateIndexBuffer(const unsigned long * const pIndices, stObjectSubset & subset)
 {
 	D3D11_BUFFER_DESC indexBufferDesc;
 	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexBufferDesc.ByteWidth = sizeof(unsigned long) * m_iIndexCount;
+	indexBufferDesc.ByteWidth = sizeof(unsigned long) * subset.m_iIndexCount;
 	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	indexBufferDesc.CPUAccessFlags = 0;
 	indexBufferDesc.MiscFlags = 0;
@@ -172,7 +185,7 @@ bool cModel::CreateIndexBuffer( const unsigned long * const pIndices )
 
 	// Create the index buffer.
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&indexBufferDesc,
-		&indexData, &m_pIndexBuffer);
+		&indexData, &subset.m_pIndexBuffer);
 	if(FAILED(result))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")

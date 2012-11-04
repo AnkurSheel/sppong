@@ -111,7 +111,15 @@ void cGraphicsTestView::VRenderPrivate()
 	{
 		switch(m_pGame->GetCurrentTest())
 		{
-		case TEST_TRIANGLE:
+		case TEST_MODEL1MAT:
+			if(m_pModel)
+			{
+				m_pModel->VSetRotation(m_pModel->VGetRotation() + DegtoRad(0.1f));
+				m_pModel->VRender(m_pCamera);
+			}
+			break;
+
+		case TEST_MODELMULTIPLEMAT:
 			if(m_pModel)
 			{
 				m_pModel->VSetRotation(m_pModel->VGetRotation() + DegtoRad(0.1f));
@@ -156,7 +164,7 @@ void cGraphicsTestView::Finished()
 }
 
 // ***************************************************************
-void cGraphicsTestView::TestTriangle()
+void cGraphicsTestView::TestModel1Mat()
 {
 	if(m_pInfoLabelControl != NULL)
 	{
@@ -170,6 +178,23 @@ void cGraphicsTestView::TestTriangle()
 
 	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
 	pObjModelLoader->VLoadModelFromFile("resources//cube.obj", m_pModel);
+}
+
+// *************************************************************************
+void cGraphicsTestView::TestModelMultipleMat()
+{
+	if(m_pInfoLabelControl != NULL)
+	{
+		m_pInfoLabelControl->VSetText("Testing Triangle. Press 'c' to go to next test");
+	}
+
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Triangle");
+
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
+	m_pModel = IModel::CreateModel();
+
+	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
+	pObjModelLoader->VLoadModelFromFile("resources//sphere.obj", m_pModel);
 }
 
 // ***************************************************************
@@ -198,15 +223,17 @@ void cGraphicsTestView::TestTextureTriangle()
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -15.0f));
 	
-	stModelDef def;
-	def.pVertices = pVertexData;
-	def.pIndices = aIndices;
-	def.iNumberOfVertices = 7;
-	def.iNumberOfIndices = 9;
-	def.strDiffuseTextureFilename = "Test\\seafloor.dds";
-	
+	stModelDef modelDef;
+	modelDef.pVertices = pVertexData;
+	modelDef.iNumberOfVertices = 7;
+	stModelDef::stSubsetDef subsetDef;
+	subsetDef.pIndices = aIndices;
+	subsetDef.iNumberOfIndices= 9;
+	subsetDef.strDiffuseTextureFilename = "Test\\seafloor.dds";
+	modelDef.vSubsetsDef.push_back(subsetDef);
+
 	m_pModel = IModel::CreateModel();
-	m_pModel->VOnInitialization(def);
+	m_pModel->VOnInitialization(modelDef);
 	
 	SAFE_DELETE_ARRAY(pVertexData);
 }

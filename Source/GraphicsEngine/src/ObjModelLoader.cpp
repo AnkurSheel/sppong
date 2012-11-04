@@ -41,9 +41,8 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 		cString strLine;
 		vector<cString> vtokens;
 		vector<cVector3> vVertexPositions;
-		vector<int> vIndices;
-		Base::cColor diffuseColor;
-
+		int iCurrentSubset = -1;
+		int iStartIndexNo = 0;
 		do
 		{
 			strLine = pObjFile->ReadLine();
@@ -73,9 +72,10 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 					// faces/triangles
 					else if (vtokens[0] == "f")
 					{
-						vIndices.push_back(GetIntValue(vtokens[1]) - 1);
-						vIndices.push_back(GetIntValue(vtokens[2]) - 1);
-						vIndices.push_back(GetIntValue(vtokens[3]) - 1);
+						m_vSubset[iCurrentSubset].vIndices.push_back(GetIntValue(vtokens[1]) - 1);
+						m_vSubset[iCurrentSubset].vIndices.push_back(GetIntValue(vtokens[2]) - 1);
+						m_vSubset[iCurrentSubset].vIndices.push_back(GetIntValue(vtokens[3]) - 1);
+						iStartIndexNo += 3;
 					}
 					else if (vtokens[0] == "mtllib")
 					{
@@ -86,8 +86,11 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 						MaterialMap::const_iterator curr = m_MaterialsMap.find(vtokens[1]);
 						if (curr != m_MaterialsMap.end())
 						{
-							stMaterial material = curr->second;
-							diffuseColor = material.Diffuse;
+							iCurrentSubset++;
+							stSubsetData subset;
+							subset.diffuseColor = curr->second.Diffuse;
+							subset.iStartIndexNo = iStartIndexNo;
+							m_vSubset.push_back(subset);
 						}
 					}
 				}
@@ -96,31 +99,41 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 		while(!pObjFile->IsEOF() || !strLine.IsEmpty());
 		pObjFile->Close();
 
+		stModelDef def;
+
 		stTexVertex * pVertices = DEBUG_NEW stTexVertex[vVertexPositions.size()];
 		for (int i=0; i<vVertexPositions.size(); i++)
 		{
 			pVertices[i].m_fX = vVertexPositions[i].m_dX;
 			pVertices[i].m_fY = vVertexPositions[i].m_dY;
 			pVertices[i].m_fZ = vVertexPositions[i].m_dZ;
-		}
+		} 
 
-		unsigned long * pIndices = DEBUG_NEW unsigned long[vIndices.size()];
-		for (int i=0;i<vIndices.size();i++)
-		{
-			pIndices[i] = vIndices[i];
-		}
-
-		stModelDef def;
 		def.pVertices = pVertices;
-		def.pIndices = pIndices;
 		def.iNumberOfVertices = vVertexPositions.size();
-		def.iNumberOfIndices = vIndices.size();
-		def.diffuseColor = diffuseColor;
 
+		for (int i=0;i<m_vSubset.size();i++)
+		{
+			int size = m_vSubset[i].vIndices.size();
+			unsigned long * pIndices = DEBUG_NEW unsigned long[size];
+			for (int j=0; j<size; j++)
+			{
+				pIndices[j] = m_vSubset[i].vIndices[j];
+			}
+			stModelDef::stSubsetDef subsetDef;
+			subsetDef.pIndices = pIndices;
+			subsetDef.iNumberOfIndices = size;
+			subsetDef.diffuseColor = m_vSubset[i].diffuseColor;
+			def.vSubsetsDef.push_back(subsetDef);
+		}
 		pModel->VOnInitialization(def);
 
 		SAFE_DELETE_ARRAY(pVertices);
-		SAFE_DELETE_ARRAY(pIndices);
+		for (int i=0;i<m_vSubset.size();i++)
+		{
+			SAFE_DELETE_ARRAY(def.vSubsetsDef[i].pIndices);
+		}
+		
 		m_MaterialsMap.clear();
 	}
 }
@@ -164,8 +177,8 @@ void cObjModelLoader::LoadMaterialFile(const Base::cString & strMaterialFile)
 						if (curr != m_MaterialsMap.end())
 						{
 							float r = GetFloatValue(vtokens[1]);
-							float b = GetFloatValue(vtokens[2]);
-							float g = GetFloatValue(vtokens[3]);
+							float g = GetFloatValue(vtokens[2]);
+							float b = GetFloatValue(vtokens[3]);
 							(curr->second).Diffuse = cColor(r, g, b, 1.0f);
 
 						}
