@@ -26,7 +26,8 @@ namespace Graphics
 namespace Graphics
 {
 	/********************************************//**
-     * @brief Char description for each character
+     * @brief Structure to hold the various parameters
+	 * defining the character
      ***********************************************/
 	struct CharDescriptor
 	{
@@ -39,9 +40,37 @@ namespace Graphics
 		unsigned short YOffset;		/*!< How much the current position should be offset when copying the image from the font texture to the screen */
 		unsigned short XAdvance;	/*!< How much the current position should be advanced after drawing the character */
 
-		CharDescriptor() : id(0), x( 0 ), y( 0 ), Width( 0 ), Height( 0 ),
-			XOffset( 0 ), YOffset( 0 ),	XAdvance( 0 )
-		{ }
+		CharDescriptor() 
+			: id(0)
+			, x(0)
+			, y(0)
+			, Width(0)
+			, Height(0)
+			, XOffset(0)
+			, YOffset(0)
+			, XAdvance(0)
+		{
+		}
+	};
+
+	/********************************************//**
+     * @brief Vertex Data description for a character
+     ***********************************************/
+	struct stVertexData
+	{
+		CharDescriptor	ch;		/*!< The parameters describing the character */
+		float			fTexU;	/*!< The U position of this character in the texture map */
+		float			fTexV;	/*!< The V position of this character in the texture map */
+		float			fTexU1;	/*!< The U1 position of this character in the texture map */
+		float			fTexV1;	/*!< The V1 position of this character in the texture map */
+
+		stVertexData()
+			: fTexU(0.0f)
+			, fTexV(0.0f)
+			, fTexU1(0.0f)
+			, fTexV1(0.0f)
+		{
+		}
 	};
 
 	 /********************************************//**
@@ -65,9 +94,19 @@ namespace Graphics
 		 ***********************************************/
 		void Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
 			const D3DXMATRIX & inMatProjection, const Base::cColor & textColor);
-		void GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch,
-			float & fTexU, float & fTexV, float & fTexU1, float & fTexV1);
-		void GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch);
+		/********************************************//**
+ 		 * @param[in] iCharAsciiValue The ascii value of the character
+		 * @return The vertex data
+		 *
+		 * Returns the vertex data for a character with the 
+		 * given ascii vakue
+		 ***********************************************/
+		stVertexData GetCharVertexData(const int iCharAsciiValue);
+		/********************************************//**
+		 * @return The height of the a line using this font
+		 *
+		 * Returns the height of the a line using this font
+		 ***********************************************/
 		float GetFontHeight() const ;
 
 	private:
@@ -77,7 +116,8 @@ namespace Graphics
  		 * @param[in] strFontDirPath The directory path from the font description file
 		 * @param[in] strFontDescFilename The file name of the font description file
 		 *
-		 * Initializes the sprite with the texture
+		 * Parses and stores the character defintions from the font
+		 * description file name
 		 ***********************************************/
 		void ParseFontDesc(const Base::cString & strFontDirPath,
 			const Base::cString & strFontDescFilename);
@@ -93,6 +133,7 @@ namespace Graphics
 		void Cleanup();
 
 	private:
+		/** Map with key as ascii value of char. Value is the char descriptor for the character denoted by this ascii value */
 		typedef std::map<int, const CharDescriptor> CharDescriptorMap;
 
 		shared_ptr<cFontShader>				m_pShader;				/*!< The shader responsible for rendering the font. */

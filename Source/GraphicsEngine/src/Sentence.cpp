@@ -134,13 +134,13 @@ float cSentence::VGetWidth(const Base::cString & strText) const
 	float fWidth = 0.0f;
 	int istrLength = strText.GetLength();
 
-	CharDescriptor ch;
+	stVertexData vertexData;
 	for (int i=0; i<istrLength; i++)
 	{
 		int val = (int)strText[i];
-		m_pFont->GetCharVertexData(val, ch);
+		vertexData = m_pFont->GetCharVertexData(val);
 
-		fWidth += m_fScale * ch.XAdvance;
+		fWidth += m_fScale * vertexData.ch.XAdvance;
 	}
 
 	return fWidth;
@@ -169,21 +169,18 @@ bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 	float right;
 	float top;
 	float bottom;
-	float u;
-	float v;
-	float u1;
-	float v1;
 
-	CharDescriptor ch;
+	stVertexData vertexData;
 	for (int i=0; i<istrLength; i++)
 	{
 		int val = (int)m_strText[i];
-		m_pFont->GetCharVertexData(val, ch, u, v, u1, v1);
+		vertexData = m_pFont->GetCharVertexData(val);
+		//vertexData = m_pFont->GetCharVertexData(val, ch, u, v, u1, v1);
 
-		left = curX + m_fScale * ch.XOffset;
-		right = left + m_fScale * ch.Width;
-		top = curY + m_fScale * ch.YOffset;
-		bottom = top - m_fScale * ch.Height;
+		left = curX + m_fScale * vertexData.ch.XOffset;
+		right = left + m_fScale * vertexData.ch.Width;
+		top = curY + m_fScale * vertexData.ch.YOffset;
+		bottom = top - m_fScale * vertexData.ch.Height;
 
 		float z = 0.f;
 		if (pCamera)
@@ -192,13 +189,13 @@ bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 		}
 
 		// Create the vertex array.
-		pVertices[i*4] = stTexVertex(left, bottom, z, u, v1);
-		pVertices[i*4+1] = stTexVertex(left, top, z, u, v);
-		pVertices[i*4+2] = stTexVertex(right, bottom, z, u1, v1);
-		pVertices[i*4+3] = stTexVertex(right, top, z, u1, v);
+		pVertices[i*4] = stTexVertex(left, bottom, z, vertexData.fTexU, vertexData.fTexV1);
+		pVertices[i*4+1] = stTexVertex(left, top, z, vertexData.fTexU, vertexData.fTexV);
+		pVertices[i*4+2] = stTexVertex(right, bottom, z, vertexData.fTexU1, vertexData.fTexV1);
+		pVertices[i*4+3] = stTexVertex(right, top, z, vertexData.fTexU1, vertexData.fTexV);
 
-		curX += m_fScale * ch.XAdvance;
-		m_fWidth += m_fScale * ch.XAdvance;
+		curX += m_fScale *  vertexData.ch.XAdvance;
+		m_fWidth += m_fScale *  vertexData.ch.XAdvance;
 	}
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

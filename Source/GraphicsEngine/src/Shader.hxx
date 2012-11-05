@@ -48,6 +48,12 @@ namespace Graphics
 		virtual void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
 			const D3DXMATRIX & inMatProjection) = 0;
 		/********************************************//**
+ 		 * @param[in] pTexture The texture to be used by the shader
+		 *
+		 * Sets the texture to be used by the shader
+		 ***********************************************/
+		virtual void VSetTexture(shared_ptr<ITexture> pTexture) = 0;
+		/********************************************//**
 		 * @return An object to use a color shader
 		 *
 		 * Returns an object to use a color shader
@@ -66,8 +72,6 @@ namespace Graphics
 		 * Returns an object to use a font shader
 		 ***********************************************/
 		static IShader * CreateFontShader();
-		virtual void VSetTexture(shared_ptr<ITexture> pTexture) = 0;
-
 	};
 }
 #endif // Shader_hxx__

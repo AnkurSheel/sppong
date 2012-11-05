@@ -40,6 +40,6 @@ namespace Graphics
 		void VCleanup();
 
 	private:
-		D3DXVECTOR4		m_TextColor;
+		D3DXVECTOR4		m_TextColor;	/*!< The color of the text. */
 	};
 }

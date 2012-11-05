@@ -92,7 +92,7 @@ namespace Graphics
 
 	protected:
 		ID3D11InputLayout *		m_pLayout;			/*!< The input layout of the vertex shader */
-		shared_ptr<ITexture>	m_pTexture;
+		shared_ptr<ITexture>	m_pTexture;			/*!< The texture to be used by this shader*/
 
 	private:
 		ID3D11VertexShader *	m_pVertexShader;	/*!< The vertex shader object */

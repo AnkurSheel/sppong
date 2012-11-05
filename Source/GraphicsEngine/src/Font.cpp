@@ -114,30 +114,24 @@ bool cMyFont::InitializeShader()
 }
 
 // ***************************************************************
-void cMyFont::GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch,
-								 float & fTexU, float & fTexV, float & fTexU1,
-								 float & fTexV1)
+stVertexData cMyFont::GetCharVertexData(const int iCharAsciiValue)
 {
+	stVertexData vertexData;
 	CharDescriptorMap::const_iterator curr = m_CharDescriptorMap.find(iCharAsciiValue);
 	if (curr != m_CharDescriptorMap.end())
 	{
-		ch = (curr->second);
-		fTexU = (float(ch.x)+0.5f) / float (m_iTextureWidth);
-		fTexV = (float(ch.y)+0.5f) / float (m_iTextureHeight);
-		fTexU1 = float(ch.x + ch.Width) / float (m_iTextureWidth);
-		fTexV1 = float(ch.y + ch.Height) / float (m_iTextureHeight);
+		CharDescriptor ch = curr->second;
+		vertexData.ch = ch;
+		vertexData.fTexU = (float(ch.x)+0.5f) / float (m_iTextureWidth);
+		vertexData.fTexV = (float(ch.y)+0.5f) / float (m_iTextureHeight);
+		vertexData.fTexU1 = float(ch.x + ch.Width) / float (m_iTextureWidth);
+		vertexData.fTexV1 = float(ch.y + ch.Height) / float (m_iTextureHeight);
 	}
-}
-
-
-// *************************************************************************
-void cMyFont::GetCharVertexData(const int iCharAsciiValue, CharDescriptor & ch)
-{
-	CharDescriptorMap::const_iterator curr = m_CharDescriptorMap.find(iCharAsciiValue);
-	if (curr != m_CharDescriptorMap.end())
+	else
 	{
-		ch = (curr->second);
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not find char descriptor for ascii value : %d", iCharAsciiValue));
 	}
+	return vertexData;
 }
 
 // *************************************************************************

@@ -1,4 +1,4 @@
-// ***************************************************************
+	// ***************************************************************
 //  Model   version:  1.0   Ankur Sheel  date: 2012/09/13
 //  -------------------------------------------------------------
 //  
@@ -28,12 +28,15 @@ namespace Graphics
 		, public Base::cNonCopyable
 	{
 	public:
+	/********************************************//**
+		 * @brief Structure to hold the properties of the subsets
+		 ***********************************************/
 		struct stObjectSubset
 		{
-			ID3D11Buffer *					m_pIndexBuffer;			/*!< The index buffer */
-			UINT							m_iIndexCount;			/*!< The number of indices in this model */
-			Base::cColor					m_diffuseColor;
-			shared_ptr<Graphics::ITexture>	m_pTexture;				/*!< The Texture of the model */
+			ID3D11Buffer *					m_pIndexBuffer;		/*!< The index buffer */
+			UINT							m_iIndexCount;		/*!< The number of indices in this model */
+			Base::cColor					m_diffuseColor;		/*!< The diffuse color of this model subset */
+			shared_ptr<Graphics::ITexture>	m_pTexture;			/*!< The Texture of the model */
 
 			stObjectSubset()
 				: m_pIndexBuffer(NULL)
@@ -57,12 +60,6 @@ namespace Graphics
 		 *
 		 * Creates the vertex buffer using the vertex data
 		 ***********************************************/
-		bool CreateVertexBuffer( const stVertex * const pVertices);
-		/********************************************//**
- 		 * @param[in] pVertices The vertex data of this model
-		 * return True if the vertex buffer was created successfully
-		 * Creates the vertex buffer using the vertex data
-		 ***********************************************/
 		bool CreateVertexBuffer( const stTexVertex * const pVertices);
 		/********************************************//**
 		 * @param[in] pIndices The indices data of this model
@@ -74,12 +71,12 @@ namespace Graphics
 		bool CreateIndexBuffer(const unsigned long * const pIndices, stObjectSubset & subset);
 
 	private:
-		ID3D11Buffer * 						m_pVertexBuffer;		/*!< The vertex buffer */
-		UINT								m_iVertexCount;			/*!< The number of vertices in this model */
-		UINT								m_iVertexSize;			/*!< The size of the vertex structure */
-		shared_ptr<cTextureShader>			m_pShader;				/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
-		float								m_fRotation;
-		std::vector<stObjectSubset>			m_vSubsets;
+		ID3D11Buffer * 						m_pVertexBuffer;	/*!< The vertex buffer */
+		UINT								m_iVertexCount;		/*!< The number of vertices in this model */
+		UINT								m_iVertexSize;		/*!< The size of the vertex structure */
+		shared_ptr<cTextureShader>			m_pShader;			/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
+		float								m_fRotation;		/*!< The rotation of the model.*/
+		std::vector<stObjectSubset>			m_vSubsets;			/*!< Vector of subsets of the model. */
 	};
 }
 #endif // Model_h__

@@ -24,11 +24,8 @@ namespace Graphics
 	public:
 		struct stPixelBufferData
 		{
-			D3DXVECTOR4 pixelColor;		/*!< The color of the pixel that will be used to draw the font text. */
-			// Because of HLSL structure packing, we will use windows BOOL
-			// instead of bool because HLSL packs things into 4 bytes, and
-			// bool is only one byte, where BOOL is 4 bytes
-			BOOL hasTexture;
+			D3DXVECTOR4		pixelColor;		/*!< The color of the pixel that will be used to draw the font text. */
+			int				hasTexture;				/*!< True if rendering a texture. This should be int because HLSL packs things into 4 bytes. */
 		};
 
 		cTextureShader();
