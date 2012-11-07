@@ -43,8 +43,7 @@ shared_ptr<ITexture> cTextureManager::VGetTexture(const cString & strTexturePath
 
 	if(ptr == NULL)
 	{
-		ptr = ITexture::CreateTexture();
-		ptr->VInitialize(strTexturePath);
+		ptr = ITexture::CreateTexture(strTexturePath);
 		m_pTextures[strTexturePath] = ptr;
 	}
 

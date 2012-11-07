@@ -29,12 +29,6 @@ namespace Graphics
 	public:
 		virtual ~ITexture(){}
 		/********************************************//**
- 		 * @param[in] strTexturePath The path of the texture file
-		 *
-		 * Loads and creates the texture from the resource cache
-		 ***********************************************/
-		virtual void VInitialize(const Base::cString & strTexturePath) = 0;
-		/********************************************//**
 		 * @return A pointer to the texture resource 
 		 *
 		 * Returns a pointer to the texture resource so that
@@ -46,7 +40,7 @@ namespace Graphics
 		 *
 		 * Creates an object of this class and returns it
 		 ***********************************************/
-		static shared_ptr<ITexture> CreateTexture();
+		static shared_ptr<ITexture> CreateTexture(const Base::cString & strTexturePath);
 	};
 }
 

@@ -258,6 +258,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\FileOutput.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\FileOutput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\FileOutput.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ParamLoader.cpp"
 				>
 			</File>

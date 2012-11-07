@@ -94,16 +94,12 @@ void cGame::GotoNextTest()
 			pView->Finished();
 			break;
 		
-		case TEST_MODEL1MAT:
-			pView->TestModel1Mat();
+		case TEST_MODELCOLOR:
+			pView->TestModelColor();
 			break;
 
-		case TEST_MODELMULTIPLEMAT:
-			pView->TestModelMultipleMat();
-			break;
-
-		case TEST_TEXTURETRIANGLE:
-			pView->TestTextureTriangle();
+		case TEST_MODELTEXTURE:
+			pView->TestModelTexture();
 			break;
 
 		case TEST_SPRITE:

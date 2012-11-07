@@ -419,7 +419,7 @@ void Base::cString::TrimBoth()
 }
 
 // ***************************************************************
-void Base::cString::Tokenize(char cToken, std::vector<Base::cString> & vValue)
+void Base::cString::Tokenize(char cToken, std::vector<Base::cString> & vValue) const
 {
 	int n = GetLength();
 	int iStartIndex = 0;

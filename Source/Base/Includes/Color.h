@@ -39,7 +39,7 @@ namespace Base
 			BASE_API static const cColor ORANGE;
 			BASE_API static const cColor VIOLET;
 
-	private:
+	public:
 		int m_iRed;
 		int m_iGreen;
 		int m_iBlue;

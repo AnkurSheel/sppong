@@ -26,8 +26,15 @@ namespace Graphics
 	public:
 		cTexture();
 		~cTexture();
+		/********************************************//**
+ 		 * @param[in] strTexturePath The path of the texture file
+		 * return True if the texture is created. False otherwise
+		 *
+		 * Loads and creates the texture from the resource cache
+		 ***********************************************/
+		bool Initialize(const Base::cString & strTexturePath);
+
 	private:
-		void VInitialize(const Base::cString & strTexturePath);
 		ID3D11ShaderResourceView * VGetTexture() const;
 		/********************************************//**
 		 *

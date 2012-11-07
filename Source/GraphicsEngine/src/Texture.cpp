@@ -32,25 +32,33 @@ cTexture::~cTexture()
 }
 
 // ***************************************************************
-void Graphics::cTexture::VInitialize( const Base::cString & strTexturePath )
+bool Graphics::cTexture::Initialize( const Base::cString & strTexturePath )
 {
 	SAFE_RELEASE(m_pTexture);	
-	IResource * pResource = IResource::CreateResource(strTexturePath);
+	shared_ptr<IResource> pResource = shared_ptr<IResource>(IResource::CreateResource(strTexturePath));
 	shared_ptr<IResHandle> texture = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 
-	if(texture.get() == NULL)
+	HRESULT result;
+	if(texture.get() != NULL)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not add to cache:" + strTexturePath);
+		Log_Write_L1(ILogger::LT_ERROR, "Could not find in cache : " + strTexturePath);
+	
+		// Create the texture associated with this sprite
+		result = D3DX11CreateShaderResourceViewFromMemory(IDXBase::GetInstance()->VGetDevice(), 
+			texture->GetBuffer(), texture->GetSize(), NULL, NULL, &m_pTexture, NULL);
+		if (FAILED(result))
+		{
+			result = D3DX11CreateShaderResourceViewFromFile(IDXBase::GetInstance()->VGetDevice(), 
+				strTexturePath.GetData(), NULL, NULL, &m_pTexture, NULL);
+			if (FAILED(result))
+			{
+				Log_Write_L1(ILogger::LT_ERROR, "Texture Creation failed " + strTexturePath + " " 
+				+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+				return false;
+			}
+		}
+		return true;
 	}
-	// Create the texture associated with this sprite
-	HRESULT result = D3DX11CreateShaderResourceViewFromMemory(IDXBase::GetInstance()->VGetDevice(), 
-		texture->GetBuffer(), texture->GetSize(), NULL, NULL, &m_pTexture, NULL);
-	if (FAILED(result))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Texture Creation failed " + strTexturePath + " " 
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-	}
-	SAFE_DELETE(pResource);
 }
 
 // ***************************************************************
@@ -66,7 +74,13 @@ void Graphics::cTexture::Cleanup()
 }
 
 // ***************************************************************
-shared_ptr<ITexture> Graphics::ITexture::CreateTexture()
+shared_ptr<ITexture> Graphics::ITexture::CreateTexture(const Base::cString & strTexturePath)
 {
-	return shared_ptr<ITexture> (DEBUG_NEW cTexture());
+	shared_ptr<cTexture> ptr(DEBUG_NEW cTexture());
+	if(!ptr->Initialize(strTexturePath))
+	{
+		return shared_ptr<ITexture>();
+	}
+	return ptr;
+
 }

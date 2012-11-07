@@ -1,6 +1,7 @@
 #pragma once
 
-#include "FileIO.hxx"
+#include "FileOutput.hxx"
+#include <fstream>
 
 namespace Base
 {
@@ -9,21 +10,18 @@ namespace Base
 
 namespace Utilities
 {
-	class cFileIO
-		: public IFileIO
+	class cFileOutput
+		: public IFileOutput
 	{
 	public:
-		cFileIO();
-		~cFileIO();
-		bool Open(const Base::cString & strFileName);
-		Base::cString ReadAll();
-		Base::cString Read(size_t size);
+		cFileOutput();
+		~cFileOutput();
+		bool Open(const Base::cString & strFileName, const std::ios_base::openmode mode);
 		bool Close();
-		Base::cString GetBuffer() const;
+		void WriteLine(const Base::cString & strLine);
 
 	protected:
-		FILE *			m_fStdOut;
+		std::ofstream	m_OutputFile;
 		Base::cString	m_strFileName;
-		Base::cString	m_strBuffer;
 	};
 }

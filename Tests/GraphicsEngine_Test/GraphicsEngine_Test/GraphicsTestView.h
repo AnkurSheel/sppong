@@ -36,9 +36,8 @@ public:
 	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE & hInst,
 		const HWND & hWnd, const int iClientWidth, const int iClientHeight );
 	bool VOnMsgProc( const Base::AppMsg & msg );	
-	void TestModel1Mat();
-	void TestModelMultipleMat();
-	void TestTextureTriangle();
+	void TestModelColor();
+	void TestModelTexture();
 	void TestSprite();
 	void TestFont();
 	void TestUIControls();
