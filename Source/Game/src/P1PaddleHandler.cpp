@@ -27,19 +27,25 @@ P1PaddleHandler::~P1PaddleHandler()
 }
 
 // ***************************************************************
-bool P1PaddleHandler::VOnKeyDown( const AppMsg & msg )
+bool P1PaddleHandler::VOnKeyDown(const unsigned int iCharID)
 {
-	BYTE c = static_cast<const BYTE>(msg.m_wParam);
+	BYTE c = static_cast<const BYTE>(iCharID);
 	m_bKey[c] = true;
 	return true;
 }
 
 // ***************************************************************
-bool P1PaddleHandler::VOnKeyUp( const AppMsg & msg )
+bool P1PaddleHandler::VOnKeyUp(const unsigned int iCharID)
 {
-	BYTE c = static_cast<const BYTE>(msg.m_wParam);
+	BYTE c = static_cast<const BYTE>(iCharID);
 	m_bKey[c] = false;
 	return true;
+}
+
+// ***************************************************************
+bool P1PaddleHandler::VOnCharPress(const unsigned int iCharID)
+{
+	return false;
 }
 
 // ***************************************************************

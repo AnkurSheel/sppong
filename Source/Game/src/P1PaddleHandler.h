@@ -22,8 +22,9 @@ class P1PaddleHandler
 public:
 	P1PaddleHandler();
 	~P1PaddleHandler();
-	bool VOnKeyDown(const Graphics::AppMsg & msg);
-	bool VOnKeyUp(const Graphics::AppMsg& msg);
+	bool VOnKeyDown(const unsigned int iCharID);
+	bool VOnKeyUp(const unsigned int iCharID);
+	bool VOnCharPress(const unsigned int iCharID);
 	void VLockKey(const BYTE c, const bool bLock);
 	void OnUpdate();
 	void RegisterCallBack(function <void (bool)> callback);;

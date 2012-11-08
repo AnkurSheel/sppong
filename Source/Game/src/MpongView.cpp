@@ -12,7 +12,7 @@
 #include "Sprite.hxx"
 //#include "DxBase.hxx"
 #include "Game/Game.h"
-#include "Input.hxx"
+//#include "Input.hxx"
 #include "Font.hxx"
 #include "Game/Elements/Score.h"
 #include "P1PaddleHandler.h"
@@ -25,8 +25,7 @@ using namespace Base;
 
 // ***************************************************************
 cMPongView::cMPongView()
-: m_bDisplayFPS(false)
-, m_pGame(NULL)
+: m_pGame(NULL)
 {
 }
 
@@ -64,7 +63,7 @@ void cMPongView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 }
 
 // ***************************************************************
-bool cMPongView::VOnMsgProc( const Graphics::AppMsg & msg )
+bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
 {
 	if(!cHumanView::VOnMsgProc(msg))
 	{
@@ -78,11 +77,11 @@ bool cMPongView::VOnMsgProc( const Graphics::AppMsg & msg )
 			}
 			if (m_P1PaddleHandler)
 			{
-				m_P1PaddleHandler->VOnKeyDown(msg);
+				m_P1PaddleHandler->VOnKeyDown(msg.m_wParam);
 			}
 			if (m_P2PaddleHandler)
 			{
-				m_P2PaddleHandler->VOnKeyDown(msg);
+				m_P2PaddleHandler->VOnKeyDown(msg.m_wParam);
 			}
 		}
 		else if (msg.m_uMsg == WM_KEYUP)
@@ -97,11 +96,11 @@ bool cMPongView::VOnMsgProc( const Graphics::AppMsg & msg )
 			}
 			if (m_P1PaddleHandler)
 			{
-				m_P1PaddleHandler->VOnKeyUp(msg);
+				m_P1PaddleHandler->VOnKeyUp(msg.m_wParam);
 			}
 			if (m_P2PaddleHandler)
 			{
-				m_P2PaddleHandler->VOnKeyUp(msg);
+				m_P2PaddleHandler->VOnKeyUp(msg.m_wParam);
 			}
 		}
 	}
