@@ -35,17 +35,65 @@ cObjModelLoader::~cObjModelLoader()
 // *************************************************************************
 void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Base::cString & strOutputFile)
 {
+
+	LoadObjFile(strObjFile);
+
+	shared_ptr<IFileOutput> pOutputFile = shared_ptr<IFileOutput>(IFileOutput::CreateOutputFile());
+
+	if(pOutputFile->Open(strOutputFile, std::ios_base::out))
+	{
+		pOutputFile->WriteLine(cString(100, "VertexCount %d\n\n", m_vVertexData.size()));
+		for (unsigned int i=0; i<m_vVertexData.size(); i++)
+		{
+			pOutputFile->WriteLine(cString(100, "v %0.2f %0.2f %0.2f %0.2f %0.2f %0.2f\n",
+				m_vVertexData[i].vPos.m_dX, m_vVertexData[i].vPos.m_dY, m_vVertexData[i].vPos.m_dZ,
+				m_vVertexData[i].vTex.m_dX, m_vVertexData[i].vTex.m_dY, m_vVertexData[i].vTex.m_dZ));
+		}
+		pOutputFile->WriteLine(cString(100, "\nTotalIndexCount %d\n\n", m_iTotalIndices));
+		for(unsigned int i=0; i< m_vSubsetData.size(); i++)
+		{
+			for(unsigned int j=0; j<m_vSubsetData[i].vIndexData.size();)
+			{
+				pOutputFile->WriteLine("t ");
+				pOutputFile->WriteLine(cString(100, "%d ", m_vSubsetData[i].vIndexData[j++]));
+				pOutputFile->WriteLine(cString(100, "%d ", m_vSubsetData[i].vIndexData[j++]));
+				pOutputFile->WriteLine(cString(100, "%d\n", m_vSubsetData[i].vIndexData[j++]));
+			}
+		}
+
+		for(unsigned int i=0; i< m_vSubsetData.size(); i++)
+		{
+			pOutputFile->WriteLine(cString(100, "\nSubset %d\n\n", i));
+
+			pOutputFile->WriteLine(cString(100, "startindex %d\n", m_vSubsetData[i].iStartIndexNo));
+			pOutputFile->WriteLine(cString(100, "indexcount %d\n\n", m_vSubsetData[i].vIndexData.size()));
+
+			pOutputFile->WriteLine(cString(100, "\ndiffusecolor %d %d %d %d\n",
+				m_vSubsetData[i].diffuseColor.m_iRed, m_vSubsetData[i].diffuseColor.m_iBlue,
+				m_vSubsetData[i].diffuseColor.m_iGreen, m_vSubsetData[i].diffuseColor.m_iAlpha));
+
+			pOutputFile->WriteLine("\n");
+			if (!m_vSubsetData[i].strDiffuseTextureFilename.IsEmpty())
+			{
+				pOutputFile->WriteLine("dTex " + m_vSubsetData[i].strDiffuseTextureFilename + "\n");
+			}
+		}
+		pOutputFile->Close();
+	}
+	m_MaterialsMap.clear();
+}
+
+// *************************************************************************
+void cObjModelLoader::LoadObjFile(const Base::cString & strObjFile)
+{
 	shared_ptr<IFileInput> pObjFile = shared_ptr<IFileInput>(IFileInput::CreateInputFile());
 
 	if(pObjFile->Open(strObjFile, std::ios_base::in))
 	{
 		cString strLine;
 		vector<cString> vtokens;
-		vector<cVector3> vVertexPositions;
-		vector<cVector3> vVertexTexCoordinates;
 		int iCurrentSubset = -1;
 		int iStartIndexNo = 0;
-		std::vector<stObjSubsetData>	vObjSubset;
 		do
 		{
 			strLine = pObjFile->ReadLine();
@@ -70,7 +118,7 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 						// invert z coordinate vertice
 						//z = z * -1.0f;
 
-						vVertexPositions.push_back(cVector3(x, y, z));
+						m_vVertexPositions.push_back(cVector3(x, y, z));
 					}
 					else if(vtokens[0] == "vt")
 					{
@@ -81,14 +129,14 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 						{
 							w = GetFloatValue(vtokens[3]);
 						}
-						vVertexTexCoordinates.push_back(cVector3(u, v, w));
+						m_vVertexTexCoordinates.push_back(cVector3(u, v, w));
 					}
 					// faces/triangles
 					else if (vtokens[0] == "f")
 					{
-						vObjSubset[iCurrentSubset].vFaces.push_back(ParseFaceInfo(vtokens[1]));
-						vObjSubset[iCurrentSubset].vFaces.push_back(ParseFaceInfo(vtokens[2]));
-						vObjSubset[iCurrentSubset].vFaces.push_back(ParseFaceInfo(vtokens[3]));
+						m_vObjSubset[iCurrentSubset].vFaces.push_back(ParseFaceInfo(vtokens[1]));
+						m_vObjSubset[iCurrentSubset].vFaces.push_back(ParseFaceInfo(vtokens[2]));
+						m_vObjSubset[iCurrentSubset].vFaces.push_back(ParseFaceInfo(vtokens[3]));
 						iStartIndexNo += 3;
 					}
 					else if (vtokens[0] == "mtllib")
@@ -105,7 +153,7 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 							subset.diffuseColor = curr->second.Diffuse;
 							subset.iStartIndexNo = iStartIndexNo;
 							subset.strDiffuseTextureFilename = curr->second.strDiffuseTextureFilename;
-							vObjSubset.push_back(subset);
+							m_vObjSubset.push_back(subset);
 						}
 					}
 				}
@@ -113,108 +161,6 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 		}
 		while(!pObjFile->IsEOF() || !strLine.IsEmpty());
 		pObjFile->Close();
-
-		vector<stSPDOSubsetData> vSubsetData;
-
-		vector<stObjFaceInfo> vVertexIndex;
-		vector<stSPDOVertexData> vVertexData;
-
-		int totalVerts = 0;
-		int totalIndices = 0;
-		for(int i=0; i< vObjSubset.size(); i++)
-		{
-			stObjSubsetData objSubset = vObjSubset[i];
-			stSPDOSubsetData subsetData;
-
-			subsetData.diffuseColor = objSubset.diffuseColor;
-			subsetData.iStartIndexNo = objSubset.iStartIndexNo;
-			subsetData.strDiffuseTextureFilename = objSubset.strDiffuseTextureFilename;
-
-			for(int j = 0; j< objSubset.vFaces.size(); j++)
-			{
-				stObjFaceInfo faceInfo = objSubset.vFaces[j];
-				bool vertAlreadyExists = false;
-				if(totalVerts >= 3)
-				{
-					for(int iCheck = 0; iCheck < totalVerts; iCheck++)
-					{
-						if(!vertAlreadyExists && faceInfo.iPosIndex == vVertexIndex[iCheck].iPosIndex
-							&& faceInfo.iTexCoordIndex == vVertexIndex[iCheck].iTexCoordIndex)
-						{
-							subsetData.vIndexData.push_back(iCheck);		//Set index for this vertex
-							vertAlreadyExists = true;		//If we've made it here, the vertex already exists
-							break;
-						}
-					}
-				}
-
-				//If this vertex is not already in our vertex arrays, put it there
-				if(!vertAlreadyExists)
-				{
-					vVertexIndex.push_back(faceInfo);
-					subsetData.vIndexData.push_back(totalVerts);		//Set index for this vertex
-					stSPDOVertexData spdoVertexData;
-					spdoVertexData.vPos = vVertexPositions[faceInfo.iPosIndex];
-					if (vVertexTexCoordinates.empty())
-					{
-						spdoVertexData.vTex = cVector3::Zero();
-					}
-					else
-					{
-						spdoVertexData.vTex = vVertexTexCoordinates[faceInfo.iTexCoordIndex];
-					}
-					vVertexData.push_back(spdoVertexData);
-					totalVerts++;	//We created a new vertex
-				}		
-				totalIndices++;
-			}
-			vSubsetData.push_back(subsetData);
-		}
-
-		shared_ptr<IFileOutput> pOutputFile = shared_ptr<IFileOutput>(IFileOutput::CreateOutputFile());
-
-		if(pOutputFile->Open(strOutputFile, std::ios_base::out))
-		{
-			pOutputFile->WriteLine(cString(100, "VertexCount %d\n\n", vVertexData.size()));
-			for (int i=0; i<vVertexData.size(); i++)
-			{
-				pOutputFile->WriteLine(cString(100, "v %0.2f %0.2f %0.2f %0.2f %0.2f %0.2f\n",
-					vVertexData[i].vPos.m_dX, vVertexData[i].vPos.m_dY, vVertexData[i].vPos.m_dZ,
-					vVertexData[i].vTex.m_dX, vVertexData[i].vTex.m_dY, vVertexData[i].vTex.m_dZ));
-			}
-			pOutputFile->WriteLine(cString(100, "\nTotalIndexCount %d\n\n", totalIndices));
-			for(int i=0; i< vSubsetData.size(); i++)
-			{
-				for(int j=0; j<vSubsetData[i].vIndexData.size();)
-				{
-					pOutputFile->WriteLine("t ");
-					pOutputFile->WriteLine(cString(100, "%d ", vSubsetData[i].vIndexData[j++]));
-					pOutputFile->WriteLine(cString(100, "%d ", vSubsetData[i].vIndexData[j++]));
-					pOutputFile->WriteLine(cString(100, "%d\n", vSubsetData[i].vIndexData[j++]));
-				}
-			}
-
-			for(int i=0; i< vSubsetData.size(); i++)
-			{
-				pOutputFile->WriteLine(cString(100, "\nSubset %d\n\n", i));
-				
-				pOutputFile->WriteLine(cString(100, "startindex %d\n", vSubsetData[i].iStartIndexNo));
-				pOutputFile->WriteLine(cString(100, "indexcount %d\n\n", vSubsetData[i].vIndexData.size()));
-
-				pOutputFile->WriteLine(cString(100, "\ndiffusecolor %d %d %d %d\n",
-					vSubsetData[i].diffuseColor.m_iRed, vSubsetData[i].diffuseColor.m_iBlue,
-					vSubsetData[i].diffuseColor.m_iGreen, vSubsetData[i].diffuseColor.m_iAlpha));
-
-				pOutputFile->WriteLine("\n");
-				if (!vSubsetData[i].strDiffuseTextureFilename.IsEmpty())
-				{
-					pOutputFile->WriteLine("dTex " + vSubsetData[i].strDiffuseTextureFilename + "\n");
-				}
-			}
-		}
-		pObjFile->Close();
-
-		m_MaterialsMap.clear();
 	}
 }
 
@@ -290,7 +236,7 @@ stObjFaceInfo cObjModelLoader::ParseFaceInfo(const Base::cString & strFaceVal)
 	vector<cString> vtokens;
 	strFaceVal.Tokenize('/', vtokens);
 
-	for (int i = 0; i<vtokens.size();i++)
+	for (unsigned int i = 0; i<vtokens.size();i++)
 	{
 		int iVal = GetIntValue(vtokens[i]) - 1;
 		if (i == 0)
@@ -303,6 +249,65 @@ stObjFaceInfo cObjModelLoader::ParseFaceInfo(const Base::cString & strFaceVal)
 		}
 	}
 	return faceInfo;
+}
+
+// *************************************************************************
+void cObjModelLoader::BuildVertexAndIndexData()
+{
+	m_iTotalIndices = 0;
+	int totalVerts = 0;
+
+	vector<stObjFaceInfo> vVertexIndex;
+
+	for(unsigned int i=0; i< m_vObjSubset.size(); i++)
+	{
+		stObjSubsetData objSubset = m_vObjSubset[i];
+		stSPDOSubsetData subsetData;
+
+		subsetData.diffuseColor = objSubset.diffuseColor;
+		subsetData.iStartIndexNo = objSubset.iStartIndexNo;
+		subsetData.strDiffuseTextureFilename = objSubset.strDiffuseTextureFilename;
+
+		for(unsigned int j = 0; j < objSubset.vFaces.size(); j++)
+		{
+			stObjFaceInfo faceInfo = objSubset.vFaces[j];
+			bool vertAlreadyExists = false;
+			if(totalVerts >= 3)
+			{
+				for(int iCheck = 0; iCheck < totalVerts; iCheck++)
+				{
+					if(!vertAlreadyExists && faceInfo.iPosIndex == vVertexIndex[iCheck].iPosIndex
+						&& faceInfo.iTexCoordIndex == vVertexIndex[iCheck].iTexCoordIndex)
+					{
+						subsetData.vIndexData.push_back(iCheck);		//Set index for this vertex
+						vertAlreadyExists = true;		//If we've made it here, the vertex already exists
+						break;
+					}
+				}
+			}
+
+			//If this vertex is not already in our vertex arrays, put it there
+			if(!vertAlreadyExists)
+			{
+				vVertexIndex.push_back(faceInfo);
+				subsetData.vIndexData.push_back(totalVerts);		//Set index for this vertex
+				stSPDOVertexData spdoVertexData;
+				spdoVertexData.vPos = m_vVertexPositions[faceInfo.iPosIndex];
+				if (m_vVertexTexCoordinates.empty())
+				{
+					spdoVertexData.vTex = cVector3::Zero();
+				}
+				else
+				{
+					spdoVertexData.vTex = m_vVertexTexCoordinates[faceInfo.iTexCoordIndex];
+				}
+				m_vVertexData.push_back(spdoVertexData);
+				totalVerts++;	//We created a new vertex
+			}		
+			m_iTotalIndices++;
+		}
+		m_vSubsetData.push_back(subsetData);
+	}
 }
 
 // *************************************************************************

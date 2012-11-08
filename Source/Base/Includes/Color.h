@@ -20,7 +20,7 @@ namespace Base
 		cColor();
 		cColor(const int iRed, const int iGreen, const int iBlue, const int iAlpha);
 		cColor(const float fRed, const float fGreen, const float fBlue, const float fAlpha);
-		DWORD GetColor() const;
+		unsigned long GetColor() const;
 		BASE_API void GetColorComponentsInFloat(float & fRed, float & fBlue, float & fGreen, float & fAlpha) const;
 		
 	private:
@@ -40,11 +40,11 @@ namespace Base
 			BASE_API static const cColor VIOLET;
 
 	public:
-		int m_iRed;
-		int m_iGreen;
-		int m_iBlue;
-		int m_iAlpha;
-		DWORD m_dwColor;
+		int				m_iRed;
+		int				m_iGreen;
+		int				m_iBlue;
+		int				m_iAlpha;
+		unsigned long	m_ulColor;
 	};
 #include "Color.inl"
 }

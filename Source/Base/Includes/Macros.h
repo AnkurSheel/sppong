@@ -109,7 +109,7 @@ const int KEYBOARD_KEYS = 256;
 #define DEBUG_NEW new
 #endif 
 
-typedef DWORD TICK;
+typedef unsigned long TICK;
 
 const unsigned int SCREEN_REFRESH_RATE(1000/60);
 const int     MaxInt    = (std::numeric_limits<int>::max)();
@@ -118,7 +118,7 @@ const double  MinDouble = (std::numeric_limits<double>::min)();
 const float   MaxFloat  = (std::numeric_limits<float>::max)();
 const float   MinFloat  = (std::numeric_limits<float>::min)();
 
-const float   Pi        = 3.14159;
+const float   Pi        = 3.14159f;
 const float   TwoPi     = Pi * 2;
 const float   HalfPi    = Pi / 2;
 const float   QuarterPi = Pi / 4;

@@ -65,23 +65,9 @@ namespace Graphics
 
 		// Surface's colors
 		Base::cColor Diffuse;       // Transparency (Alpha) stored in 4th component
-		//D3DXVECTOR3 Ambient;
-		//D3DXVECTOR4 Specular;      // Specular power stored in 4th component
 
 		// Textures
 		Base::cString strDiffuseTextureFilename;
-		//int AmbientTextureID;
-		//int SpecularTextureID;
-		//int AlphaTextureID;
-		//int NormMapTextureID;
-
-		// Booleans so we don't implement techniques we don't need
-		//bool HasDiffTexture;
-		//bool HasAmbientTexture;
-		//bool HasSpecularTexture;
-		//bool HasAlphaTexture;
-		//bool HasNormMap;
-		//bool IsTransparent;
 	};
 
 	class cObjModelLoader
@@ -94,13 +80,24 @@ namespace Graphics
 		void ConvertObjFile(const Base::cString & strObjFile, const Base::cString & strOutputFile);
 
 	private:
+		void LoadObjFile(const Base::cString & strObjFile);
+		stObjFaceInfo ParseFaceInfo(const Base::cString & strFaceVal);
 		void LoadMaterialFile(const Base::cString & strMaterialFile);
+		void BuildVertexAndIndexData();
 		float GetFloatValue(const Base::cString & strVal);
 		int GetIntValue(const Base::cString & strVal);
-		stObjFaceInfo ParseFaceInfo(const Base::cString & strFaceVal);
 
 	private:
 		MaterialMap						m_MaterialsMap;
-		//std::vector<stObjSubsetData>	m_vSubset;
+		std::vector<stObjSubsetData>	m_vObjSubset;
+		std::vector<Base::cVector3>		m_vVertexTexCoordinates;
+		std::vector<Base::cVector3>		m_vVertexPositions;
+		int								m_iTotalIndices;
+		std::vector<stSPDOVertexData>	m_vVertexData;
+		std::vector<stSPDOSubsetData>	m_vSubsetData;
+
+
+
+
 	};
 }

@@ -59,7 +59,7 @@ bool cFileInput::Close()
 	return false;
 }
 
-const BYTE * const cFileInput::ReadAll()
+const unsigned char * const cFileInput::ReadAll()
 {
 	if(!m_inputFile)
 	{
@@ -69,7 +69,7 @@ const BYTE * const cFileInput::ReadAll()
 	return Read(m_iFileSize);
 }
 
-const BYTE * const cFileInput::Read(std::streamoff size)
+const unsigned char * const cFileInput::Read(std::streamoff size)
 {
 	if(!m_inputFile)
 	{
@@ -77,7 +77,7 @@ const BYTE * const cFileInput::Read(std::streamoff size)
 		return NULL;
 	}
 
-	m_pBuffer = DEBUG_NEW BYTE[size];
+	m_pBuffer = DEBUG_NEW unsigned char[size];
 	m_inputFile.read((char *)m_pBuffer, size);
 	if(m_inputFile.bad() || (m_inputFile.fail() && !m_inputFile.eof()))
 	{
@@ -92,7 +92,7 @@ bool cFileInput::IsEOF()
 	return m_inputFile.eof();
 }
 
-const BYTE * const cFileInput::GetBuffer() const
+const unsigned char * const cFileInput::GetBuffer() const
 {
 	return m_pBuffer;
 }
