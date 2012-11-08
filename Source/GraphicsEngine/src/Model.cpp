@@ -25,7 +25,9 @@ using namespace Graphics;
 // ***************************************************************
 cModel::cModel()
 : m_pVertexBuffer(NULL)
+, m_pIndexBuffer(NULL)
 , m_iVertexCount(0)
+, m_iIndexCount(0)
 , m_iVertexSize(0)
 , m_fRotation(0.0f)
 {
@@ -42,22 +44,26 @@ cModel::~cModel()
 bool cModel::VOnInitialization(const stModelDef & def)
 {
 	m_iVertexCount = def.iNumberOfVertices;
+	m_iIndexCount = def.iNumberOfIndices;
 	m_iVertexSize = sizeof(stTexVertex);
 
 	if(!CreateVertexBuffer(def.pVertices))
 		return false;
 
+	if(!CreateIndexBuffer(def.pIndices))
+		return false;
+
 	for (int i=0; i<def.vSubsetsDef.size(); i++)
 	{
 		stObjectSubset subset;
-		subset.m_iIndexCount = def.vSubsetsDef[i].iNumberOfIndices;
+		subset.m_iIndexCountInSubset = def.vSubsetsDef[i].iNumberOfIndicesinSubset;
 		subset.m_diffuseColor = def.vSubsetsDef[i].diffuseColor;
+		subset.m_iStartIndexNo = def.vSubsetsDef[i].iStartIndexNo;
 		if(!def.vSubsetsDef[i].strDiffuseTextureFilename.IsEmpty())
 		{
 			subset.m_pTexture = ITextureManager::GetInstance()->VGetTexture(def.vSubsetsDef[i].strDiffuseTextureFilename);
 		}
-		if(!CreateIndexBuffer(def.vSubsetsDef[i].pIndices, subset))
-			return false;
+		
 		m_vSubsets.push_back(subset);
 	}
 
@@ -83,6 +89,8 @@ void cModel::VRender(const ICamera * const pCamera)
 	 IDXBase::GetInstance()->VGetDeviceContext()->IASetVertexBuffers(0, 1, 
 		 &m_pVertexBuffer, &stride, &offset);
 
+	 IDXBase::GetInstance()->VGetDeviceContext()->IASetIndexBuffer(m_pIndexBuffer,
+		 DXGI_FORMAT_R32_UINT, 0);
 
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOn();
@@ -93,9 +101,6 @@ void cModel::VRender(const ICamera * const pCamera)
 
 	for (int i=0; i<m_vSubsets.size(); i++)
 	{
-		IDXBase::GetInstance()->VGetDeviceContext()->IASetIndexBuffer(m_vSubsets[i].m_pIndexBuffer,
-			DXGI_FORMAT_R32_UINT, 0);
-
 		if (m_pShader)
 		{
 			m_pShader->SetTextColor(m_vSubsets[i].m_diffuseColor);
@@ -104,7 +109,8 @@ void cModel::VRender(const ICamera * const pCamera)
 				IDXBase::GetInstance()->VGetProjectionMatrix());
 		}
 
-		IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_vSubsets[i].m_iIndexCount, 0, 0);
+		IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_vSubsets[i].m_iIndexCountInSubset,
+			m_vSubsets[i].m_iStartIndexNo, 0);
 	}
 
 }
@@ -134,10 +140,7 @@ float cModel::VGetRotation() const
 void cModel::VCleanup()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
-	for (int i=0; i<m_vSubsets.size(); i++)
-	{
-		SAFE_RELEASE(m_vSubsets[i].m_pIndexBuffer);
-	}
+	SAFE_RELEASE(m_pIndexBuffer);
 	m_vSubsets.clear();
 }
 
@@ -168,11 +171,11 @@ bool cModel::CreateVertexBuffer( const stTexVertex * const pVertices )
 }
 
 // ***************************************************************
-bool cModel::CreateIndexBuffer(const unsigned long * const pIndices, stObjectSubset & subset)
+bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 {
 	D3D11_BUFFER_DESC indexBufferDesc;
 	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexBufferDesc.ByteWidth = sizeof(unsigned long) * subset.m_iIndexCount;
+	indexBufferDesc.ByteWidth = sizeof(unsigned long) * m_iIndexCount;
 	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	indexBufferDesc.CPUAccessFlags = 0;
 	indexBufferDesc.MiscFlags = 0;
@@ -185,7 +188,7 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices, stObjectSub
 
 	// Create the index buffer.
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateBuffer(&indexBufferDesc,
-		&indexData, &subset.m_pIndexBuffer);
+		&indexData, &m_pIndexBuffer);
 	if(FAILED(result))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Could not create Index Buffer ")

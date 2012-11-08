@@ -38,25 +38,29 @@ namespace Graphics
 		 ***********************************************/
 		struct stSubsetDef
 		{
-			unsigned long *		pIndices;					/*!< The index data of this model */ 
-			unsigned int		iNumberOfIndices;			/*!< The number of indices */ 	
+			unsigned int		iNumberOfIndicesinSubset;	/*!< The number of indices in the subset */ 	
+			unsigned int		iStartIndexNo;				/*!< The start index for this subset*/ 	
 			Base::cString		strDiffuseTextureFilename;	/*!< Optional.The diffuse texture file name */ 	
 			Base::cColor		diffuseColor;				/*!< Optional.The diffuse color */ 	
 
 			stSubsetDef()
-				: pIndices(NULL)
-				, iNumberOfIndices(0)
+				: iNumberOfIndicesinSubset(0)
+				, iStartIndexNo(0)
 			{
 			}
 
 		};
 		stTexVertex *				pVertices;			/*!< The vertex data of this model */ 
+		unsigned long *				pIndices;			/*!< The index data of this model */ 
+		unsigned int				iNumberOfIndices;	/*!< The total number of indices */ 	
 		unsigned int				iNumberOfVertices;	/*!< The number of vertices */ 
 		std::vector<stSubsetDef>	vSubsetsDef;		/*!< Vector of subset definitions */ 
 
 		stModelDef()
 			: pVertices(NULL)
+			, pIndices(NULL)
 			, iNumberOfVertices(0)
+			, iNumberOfIndices(0)
 		{
 		}
 	};

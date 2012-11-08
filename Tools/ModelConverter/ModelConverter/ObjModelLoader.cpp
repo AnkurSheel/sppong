@@ -120,6 +120,7 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 		vector<stSPDOVertexData> vVertexData;
 
 		int totalVerts = 0;
+		int totalIndices = 0;
 		for(int i=0; i< vObjSubset.size(); i++)
 		{
 			stObjSubsetData objSubset = vObjSubset[i];
@@ -164,7 +165,8 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 					}
 					vVertexData.push_back(spdoVertexData);
 					totalVerts++;	//We created a new vertex
-				}							
+				}		
+				totalIndices++;
 			}
 			vSubsetData.push_back(subsetData);
 		}
@@ -173,22 +175,16 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 
 		if(pOutputFile->Open(strOutputFile, std::ios_base::out))
 		{
-			pOutputFile->WriteLine(cString(100, "VC %d\n\n", vVertexData.size()));
+			pOutputFile->WriteLine(cString(100, "VertexCount %d\n\n", vVertexData.size()));
 			for (int i=0; i<vVertexData.size(); i++)
 			{
-				pOutputFile->WriteLine(cString(100, "v %0.2f %0.2f %0.2f %0.2f %0.2f\n",
+				pOutputFile->WriteLine(cString(100, "v %0.2f %0.2f %0.2f %0.2f %0.2f %0.2f\n",
 					vVertexData[i].vPos.m_dX, vVertexData[i].vPos.m_dY, vVertexData[i].vPos.m_dZ,
 					vVertexData[i].vTex.m_dX, vVertexData[i].vTex.m_dY, vVertexData[i].vTex.m_dZ));
 			}
-			pOutputFile->WriteLine(cString(100, "\nSC %d\n", vSubsetData.size()));
-
+			pOutputFile->WriteLine(cString(100, "\nTotalIndexCount %d\n\n", totalIndices));
 			for(int i=0; i< vSubsetData.size(); i++)
 			{
-				pOutputFile->WriteLine(cString(100, "\nS %d\n\n", i));
-				
-				pOutputFile->WriteLine(cString(100, "si %d\n", vSubsetData[i].iStartIndexNo));
-				pOutputFile->WriteLine(cString(100, "ic %d\n\n", vSubsetData[i].vIndexData.size()));
-
 				for(int j=0; j<vSubsetData[i].vIndexData.size();)
 				{
 					pOutputFile->WriteLine("t ");
@@ -196,7 +192,16 @@ void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Bas
 					pOutputFile->WriteLine(cString(100, "%d ", vSubsetData[i].vIndexData[j++]));
 					pOutputFile->WriteLine(cString(100, "%d\n", vSubsetData[i].vIndexData[j++]));
 				}
-				pOutputFile->WriteLine(cString(100, "\ndc %d %d %d %d\n",
+			}
+
+			for(int i=0; i< vSubsetData.size(); i++)
+			{
+				pOutputFile->WriteLine(cString(100, "\nSubset %d\n\n", i));
+				
+				pOutputFile->WriteLine(cString(100, "startindex %d\n", vSubsetData[i].iStartIndexNo));
+				pOutputFile->WriteLine(cString(100, "indexcount %d\n\n", vSubsetData[i].vIndexData.size()));
+
+				pOutputFile->WriteLine(cString(100, "\ndiffusecolor %d %d %d %d\n",
 					vSubsetData[i].diffuseColor.m_iRed, vSubsetData[i].diffuseColor.m_iBlue,
 					vSubsetData[i].diffuseColor.m_iGreen, vSubsetData[i].diffuseColor.m_iAlpha));
 

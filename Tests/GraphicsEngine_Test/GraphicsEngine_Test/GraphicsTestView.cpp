@@ -164,13 +164,13 @@ void cGraphicsTestView::TestModelColor()
 		m_pInfoLabelControl->VSetText("Testing Model with color. Press 'c' to go to next test");
 	}
 
-	Log_Write_L1(ILogger::LT_ERROR, "Testing Triangle");
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Model with color");
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pModel = IModel::CreateModel();
 
 	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
-	pObjModelLoader->VLoadModelFromFile("resources//sphere.obj", m_pModel);
+	pObjModelLoader->VLoadModelFromFile("resources//sphere.spdo", m_pModel);
 }
 
 // ***************************************************************
@@ -178,52 +178,16 @@ void cGraphicsTestView::TestModelTexture()
 {
 	if(m_pInfoLabelControl != NULL)
 	{
-		m_pInfoLabelControl->VSetText("Testing Triangle. Press 'c' to go to next test");
+		m_pInfoLabelControl->VSetText("Testing Model with Texture. Press 'c' to go to next test");
 	}
 
-	Log_Write_L1(ILogger::LT_ERROR, "Testing Triangle");
+	Log_Write_L1(ILogger::LT_ERROR, "Testing Model with Texture");
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pModel = IModel::CreateModel();
 
 	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
-	pObjModelLoader->VLoadModelFromFile("resources//cube.obj", m_pModel);
-	//if(m_pInfoLabelControl != NULL)
-	//{
-	//	m_pInfoLabelControl->VSetText("Testing Texture Triangle. Press 'c' to go to next test");
-	//}
-
-	//Log_Write_L1(ILogger::LT_ERROR, "Testing Texture Triangle");
-
-	//stTexVertex * pVertexData = DEBUG_NEW stTexVertex[7];
-
-	//pVertexData[0] = stTexVertex(-1.0f, -1.0f, 0.0f, 0.0f, 1.0f);
-	//pVertexData[1] = stTexVertex(0.0f, 1.0f, 0.0f, 0.5f, 0.0f);
-	//pVertexData[2] = stTexVertex(1.0f, -1.0f, 0.0f, 1.0f, 1.0f);
-	//pVertexData[3] = stTexVertex(3.0f, 3.0f, 0.0f, 0.0f, 1.0f);
-	//pVertexData[4] = stTexVertex(3.0f, 5.0f, 0.0f, 0.0f, 0.0f);
-	//pVertexData[5] = stTexVertex(5.0f, 3.0f, 0.0f, 1.0f, 1.0f);
-	//pVertexData[6] = stTexVertex(5.0f, 5.0f, 0.0f, 1.0f, 0.0f);
-
-	//unsigned long aIndices[] = {0,1,2,
-	//	3,4,5,
-	//	4,6,5};
-
-	//m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -15.0f));
-	//
-	//stModelDef modelDef;
-	//modelDef.pVertices = pVertexData;
-	//modelDef.iNumberOfVertices = 7;
-	//stModelDef::stSubsetDef subsetDef;
-	//subsetDef.pIndices = aIndices;
-	//subsetDef.iNumberOfIndices= 9;
-	//subsetDef.strDiffuseTextureFilename = "Test\\seafloor.dds";
-	//modelDef.vSubsetsDef.push_back(subsetDef);
-
-	//m_pModel = IModel::CreateModel();
-	//m_pModel->VOnInitialization(modelDef);
-	//
-	//SAFE_DELETE_ARRAY(pVertexData);
+	pObjModelLoader->VLoadModelFromFile("resources//cube.spdo", m_pModel);
 }
 
 // ***************************************************************
