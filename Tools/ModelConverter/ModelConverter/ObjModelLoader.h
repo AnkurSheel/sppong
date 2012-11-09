@@ -84,6 +84,7 @@ namespace Graphics
 		stObjFaceInfo ParseFaceInfo(const Base::cString & strFaceVal);
 		void LoadMaterialFile(const Base::cString & strMaterialFile);
 		void BuildVertexAndIndexData();
+		void WriteSPDOFile(const Base::cString & strOutputFile);
 		float GetFloatValue(const Base::cString & strVal);
 		int GetIntValue(const Base::cString & strVal);
 

@@ -51,8 +51,8 @@ namespace Graphics
 	private:
 		bool VOnInitialization(const stModelDef & def);
 		void VRender(const ICamera * const pCamera);
-		void VSetRotation(const float fRadians);
-		float VGetRotation() const;
+		void VSetRotation(const Base::cVector3 & vRadians);
+		Base::cVector3 VGetRotation() const;
 		void VCleanup();
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model
@@ -76,8 +76,9 @@ namespace Graphics
 		UINT								m_iIndexCount;		/*!< The number of indices in this model */
 		UINT								m_iVertexSize;		/*!< The size of the vertex structure */
 		shared_ptr<cTextureShader>			m_pShader;			/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
-		float								m_fRotation;		/*!< The rotation of the model.*/
+		Base::cVector3						m_vRotation;		/*!< The rotation of the model.*/
 		std::vector<stObjectSubset>			m_vSubsets;			/*!< Vector of subsets of the model. */
+		bool								m_bIsDirty;
 	};
 }
 #endif // Model_h__

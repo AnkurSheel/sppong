@@ -88,17 +88,17 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VRender(const ICamera * const pCamera) = 0;
 		/********************************************//**
- 		 * @param[in] fRadians The angle in radians
+ 		 * @param[in] vRadians The angle in radians along the X,Y,Z axis
 		 *
 		 * Sets the rotation of the model to fRadians
 		 ***********************************************/
-		virtual void VSetRotation(const float fRadians) = 0;
+		virtual void VSetRotation(const Base::cVector3 & vRadians) = 0;
 		/********************************************//**
- 		 * @return The current angle of the model
+ 		 * @return The current rotation of the model
 		 *
 		 * Returns the rotation of the model
 		 ***********************************************/
-		virtual float VGetRotation() const = 0;
+		virtual Base::cVector3 VGetRotation() const = 0;
 		/********************************************//**
 		 *
 		 * Releases and destroys all the resources 

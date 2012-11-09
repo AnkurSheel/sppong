@@ -29,7 +29,7 @@ cModel::cModel()
 , m_iVertexCount(0)
 , m_iIndexCount(0)
 , m_iVertexSize(0)
-, m_fRotation(0.0f)
+, m_bIsDirty(false)
 {
 
 }
@@ -96,7 +96,9 @@ void cModel::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VTurnZBufferOn();
 
 	D3DXMATRIX worldMatrix = IDXBase::GetInstance()->VGetWorldMatrix();
-	D3DXMatrixRotationY(&worldMatrix, m_fRotation);
+	D3DXMatrixRotationYawPitchRoll(&worldMatrix, m_vRotation.m_dY, m_vRotation.m_dX,
+		m_vRotation.m_dZ);
+	//scaling * rotation * transalation
 	const cCamera * pCam = static_cast<const cCamera *>(pCamera);
 
 	for (int i=0; i<m_vSubsets.size(); i++)
@@ -116,24 +118,26 @@ void cModel::VRender(const ICamera * const pCamera)
 }
 
 // *************************************************************************
-void cModel::VSetRotation(const float fRadians)
+void cModel::VSetRotation(const cVector3 & vRadians)
 {
 	/*if (fRadians>0)
 		m_fRotation = fmod(fRadians + Pi, TwoPi) - Pi;
 	else
 		m_fRotation = fmod(fRadians - Pi, TwoPi) + Pi;
 */
-	m_fRotation = fmod(fRadians, TwoPi);
-	if (m_fRotation < 0)
+	if(m_vRotation != vRadians)
 	{
-		m_fRotation = TwoPi - m_fRotation;
+		m_bIsDirty = true;
+		m_vRotation.m_dX = ClampToTwoPi(m_vRotation.m_dX);
+		m_vRotation.m_dY = ClampToTwoPi(m_vRotation.m_dY);
+		m_vRotation.m_dZ = ClampToTwoPi(m_vRotation.m_dZ);
 	}
 }
 
 // *************************************************************************
-float cModel::VGetRotation() const
+cVector3 cModel::VGetRotation() const
 {
-	return m_fRotation;
+	return m_vRotation;
 }
 
 // ***************************************************************

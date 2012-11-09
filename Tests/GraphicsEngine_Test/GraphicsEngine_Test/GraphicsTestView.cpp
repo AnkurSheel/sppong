@@ -114,7 +114,8 @@ void cGraphicsTestView::VRenderPrivate()
 		case TEST_MODELCOLOR:
 			if(m_pModel)
 			{
-				m_pModel->VSetRotation(m_pModel->VGetRotation() + DegtoRad(0.1f));
+				m_pModel->VSetRotation(cVector3(0.0f, 
+					m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
 				m_pModel->VRender(m_pCamera);
 			}
 			break;
@@ -122,7 +123,8 @@ void cGraphicsTestView::VRenderPrivate()
 		case TEST_MODELTEXTURE:
 			if(m_pModel)
 			{
-				m_pModel->VSetRotation(m_pModel->VGetRotation() + DegtoRad(0.1f));
+				m_pModel->VSetRotation(cVector3(0.0f, 
+					m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
 				m_pModel->VRender(m_pCamera);
 			}
 			break;

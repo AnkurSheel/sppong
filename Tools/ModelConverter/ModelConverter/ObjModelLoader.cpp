@@ -31,55 +31,15 @@ cObjModelLoader::~cObjModelLoader()
 {
 	m_MaterialsMap.clear();
 }
-
 // *************************************************************************
-void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile, const Base::cString & strOutputFile)
+void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile,
+									 const Base::cString & strOutputFile)
 {
 
 	LoadObjFile(strObjFile);
-
-	shared_ptr<IFileOutput> pOutputFile = shared_ptr<IFileOutput>(IFileOutput::CreateOutputFile());
-
-	if(pOutputFile->Open(strOutputFile, std::ios_base::out))
-	{
-		pOutputFile->WriteLine(cString(100, "VertexCount %d\n\n", m_vVertexData.size()));
-		for (unsigned int i=0; i<m_vVertexData.size(); i++)
-		{
-			pOutputFile->WriteLine(cString(100, "v %0.2f %0.2f %0.2f %0.2f %0.2f %0.2f\n",
-				m_vVertexData[i].vPos.m_dX, m_vVertexData[i].vPos.m_dY, m_vVertexData[i].vPos.m_dZ,
-				m_vVertexData[i].vTex.m_dX, m_vVertexData[i].vTex.m_dY, m_vVertexData[i].vTex.m_dZ));
-		}
-		pOutputFile->WriteLine(cString(100, "\nTotalIndexCount %d\n\n", m_iTotalIndices));
-		for(unsigned int i=0; i< m_vSubsetData.size(); i++)
-		{
-			for(unsigned int j=0; j<m_vSubsetData[i].vIndexData.size();)
-			{
-				pOutputFile->WriteLine("t ");
-				pOutputFile->WriteLine(cString(100, "%d ", m_vSubsetData[i].vIndexData[j++]));
-				pOutputFile->WriteLine(cString(100, "%d ", m_vSubsetData[i].vIndexData[j++]));
-				pOutputFile->WriteLine(cString(100, "%d\n", m_vSubsetData[i].vIndexData[j++]));
-			}
-		}
-
-		for(unsigned int i=0; i< m_vSubsetData.size(); i++)
-		{
-			pOutputFile->WriteLine(cString(100, "\nSubset %d\n\n", i));
-
-			pOutputFile->WriteLine(cString(100, "startindex %d\n", m_vSubsetData[i].iStartIndexNo));
-			pOutputFile->WriteLine(cString(100, "indexcount %d\n\n", m_vSubsetData[i].vIndexData.size()));
-
-			pOutputFile->WriteLine(cString(100, "\ndiffusecolor %d %d %d %d\n",
-				m_vSubsetData[i].diffuseColor.m_iRed, m_vSubsetData[i].diffuseColor.m_iBlue,
-				m_vSubsetData[i].diffuseColor.m_iGreen, m_vSubsetData[i].diffuseColor.m_iAlpha));
-
-			pOutputFile->WriteLine("\n");
-			if (!m_vSubsetData[i].strDiffuseTextureFilename.IsEmpty())
-			{
-				pOutputFile->WriteLine("dTex " + m_vSubsetData[i].strDiffuseTextureFilename + "\n");
-			}
-		}
-		pOutputFile->Close();
-	}
+	BuildVertexAndIndexData();
+	WriteSPDOFile(strOutputFile);
+	
 	m_MaterialsMap.clear();
 }
 
@@ -206,7 +166,6 @@ void cObjModelLoader::LoadMaterialFile(const Base::cString & strMaterialFile)
 							float g = GetFloatValue(vtokens[2]);
 							float b = GetFloatValue(vtokens[3]);
 							(curr->second).Diffuse = cColor(r, g, b, 1.0f);
-
 						}
 
 					}
@@ -311,6 +270,53 @@ void cObjModelLoader::BuildVertexAndIndexData()
 }
 
 // *************************************************************************
+void cObjModelLoader::WriteSPDOFile(const cString & strOutputFile) 
+{
+	shared_ptr<IFileOutput> pOutputFile = shared_ptr<IFileOutput>(IFileOutput::CreateOutputFile());
+
+	if(pOutputFile->Open(strOutputFile, std::ios_base::out))
+	{
+		pOutputFile->WriteLine(cString(100, "VertexCount %d\n\n", m_vVertexData.size()));
+		for (unsigned int i=0; i<m_vVertexData.size(); i++)
+		{
+			pOutputFile->WriteLine(cString(100, "v %0.2f %0.2f %0.2f %0.2f %0.2f %0.2f\n",
+				m_vVertexData[i].vPos.m_dX, m_vVertexData[i].vPos.m_dY, m_vVertexData[i].vPos.m_dZ,
+				m_vVertexData[i].vTex.m_dX, m_vVertexData[i].vTex.m_dY, m_vVertexData[i].vTex.m_dZ));
+		}
+		pOutputFile->WriteLine(cString(100, "\nTotalIndexCount %d\n\n", m_iTotalIndices));
+		for(unsigned int i=0; i< m_vSubsetData.size(); i++)
+		{
+			for(unsigned int j=0; j<m_vSubsetData[i].vIndexData.size();)
+			{
+				pOutputFile->WriteLine("t ");
+				pOutputFile->WriteLine(cString(100, "%d ", m_vSubsetData[i].vIndexData[j++]));
+				pOutputFile->WriteLine(cString(100, "%d ", m_vSubsetData[i].vIndexData[j++]));
+				pOutputFile->WriteLine(cString(100, "%d\n", m_vSubsetData[i].vIndexData[j++]));
+			}
+		}
+
+		for(unsigned int i=0; i< m_vSubsetData.size(); i++)
+		{
+			pOutputFile->WriteLine(cString(100, "\nSubset %d\n\n", i));
+
+			pOutputFile->WriteLine(cString(100, "startindex %d\n", m_vSubsetData[i].iStartIndexNo));
+			pOutputFile->WriteLine(cString(100, "indexcount %d\n\n", m_vSubsetData[i].vIndexData.size()));
+
+			pOutputFile->WriteLine(cString(100, "\ndiffusecolor %d %d %d %d\n",
+				m_vSubsetData[i].diffuseColor.m_iRed, m_vSubsetData[i].diffuseColor.m_iBlue,
+				m_vSubsetData[i].diffuseColor.m_iGreen, m_vSubsetData[i].diffuseColor.m_iAlpha));
+
+			pOutputFile->WriteLine("\n");
+			if (!m_vSubsetData[i].strDiffuseTextureFilename.IsEmpty())
+			{
+				pOutputFile->WriteLine("dTex " + m_vSubsetData[i].strDiffuseTextureFilename + "\n");
+			}
+		}
+		pOutputFile->Close();
+	}
+}
+
+// *************************************************************************
 float cObjModelLoader::GetFloatValue(const cString & strVal)
 {
 	tOptional<float> val = strVal.ToFloat();
@@ -330,5 +336,4 @@ int cObjModelLoader::GetIntValue(const Base::cString & strVal)
 		return *val;
 	}
 	return 0;
-
 }

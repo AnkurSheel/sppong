@@ -143,6 +143,16 @@ inline double RadtoDeg(const double x)
 	return (x * 180 /Pi);
 }
 
+inline float ClampToTwoPi(const float x)
+{
+	float val = fmod(x, TwoPi);
+	if (val < 0)
+	{
+		val = TwoPi - val;
+	}
+	return val;
+}
+
 inline int roundUp(int numToRound, int multiple)  
 {  
 	if(multiple == 0)  
