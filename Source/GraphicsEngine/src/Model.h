@@ -33,10 +33,10 @@ namespace Graphics
 		 ***********************************************/
 		struct stObjectSubset
 		{
-			UINT							m_iIndexCountInSubset;		/*!< The number of indices in this model */
-			UINT							m_iStartIndexNo;
-			Base::cColor					m_diffuseColor;		/*!< The diffuse color of this model subset */
-			shared_ptr<Graphics::ITexture>	m_pTexture;			/*!< The Texture of the model */
+			UINT							m_iIndexCountInSubset;	/*!< The number of indices in this model */
+			UINT							m_iStartIndexNo;		/*!< The start index nuber of the subset in the index buffer */
+			Base::cColor					m_diffuseColor;			/*!< The diffuse color of this model subset */
+			shared_ptr<Graphics::ITexture>	m_pTexture;				/*!< The Texture of the model */
 
 			stObjectSubset()
 				: m_iIndexCountInSubset(0)
@@ -53,6 +53,10 @@ namespace Graphics
 		void VRender(const ICamera * const pCamera);
 		void VSetRotation(const Base::cVector3 & vRadians);
 		Base::cVector3 VGetRotation() const;
+		void VSetPosition(const Base::cVector3 & vPosition);
+		Base::cVector3 VGetPosition() const;
+		virtual void VSetScale(const Base::cVector3 & vScale);
+		virtual Base::cVector3 VGetScale() const;
 		void VCleanup();
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model
@@ -68,6 +72,7 @@ namespace Graphics
 		 * Creates the index buffer using the index data
 		 ***********************************************/
 		bool CreateIndexBuffer(const unsigned long * const pIndices);
+		void ReCalculateTransformMatrix();
 
 	private:
 		ID3D11Buffer * 						m_pVertexBuffer;	/*!< The vertex buffer */
@@ -76,9 +81,12 @@ namespace Graphics
 		UINT								m_iIndexCount;		/*!< The number of indices in this model */
 		UINT								m_iVertexSize;		/*!< The size of the vertex structure */
 		shared_ptr<cTextureShader>			m_pShader;			/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
-		Base::cVector3						m_vRotation;		/*!< The rotation of the model.*/
 		std::vector<stObjectSubset>			m_vSubsets;			/*!< Vector of subsets of the model. */
-		bool								m_bIsDirty;
+		bool								m_bIsDirty;			/*!< Set to true if the position,scale or rotation matrix is changed. */
+		Base::cVector3						m_vRotation;		/*!< The rotation of the model.*/
+		Base::cVector3						m_vPosition;		/*!< The position of the model.*/
+		Base::cVector3						m_vScale;			/*!< The scale of the model.*/
+		D3DXMATRIX							m_matTransform;		/*!< The transform Matrix of the model */
 	};
 }
 #endif // Model_h__

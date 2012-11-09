@@ -67,10 +67,6 @@ bool cModel::VOnInitialization(const stModelDef & def)
 		m_vSubsets.push_back(subset);
 	}
 
-
-
-	
-
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader, "resources\\Shaders\\Texture.vsho",
 		"resources\\Shaders\\Texture.psho");
@@ -95,10 +91,11 @@ void cModel::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOn();
 
-	D3DXMATRIX worldMatrix = IDXBase::GetInstance()->VGetWorldMatrix();
-	D3DXMatrixRotationYawPitchRoll(&worldMatrix, m_vRotation.m_dY, m_vRotation.m_dX,
-		m_vRotation.m_dZ);
-	//scaling * rotation * transalation
+	if(m_bIsDirty)
+	{
+		ReCalculateTransformMatrix();
+		m_bIsDirty = false;
+	}
 	const cCamera * pCam = static_cast<const cCamera *>(pCamera);
 
 	for (int i=0; i<m_vSubsets.size(); i++)
@@ -107,7 +104,7 @@ void cModel::VRender(const ICamera * const pCamera)
 		{
 			m_pShader->SetTextColor(m_vSubsets[i].m_diffuseColor);
 			m_pShader->VSetTexture(m_vSubsets[i].m_pTexture);
-			m_pShader->VRender(worldMatrix, pCam->GetViewMatrix(), 
+			m_pShader->VRender(m_matTransform, pCam->GetViewMatrix(), 
 				IDXBase::GetInstance()->VGetProjectionMatrix());
 		}
 
@@ -138,6 +135,38 @@ void cModel::VSetRotation(const cVector3 & vRadians)
 cVector3 cModel::VGetRotation() const
 {
 	return m_vRotation;
+}
+
+// *************************************************************************
+void cModel::VSetPosition(const Base::cVector3 & vPosition)
+{
+	if(m_vPosition != vPosition)
+	{
+		m_bIsDirty = true;
+		m_vPosition = vPosition;
+	}
+}
+
+// *************************************************************************
+cVector3 cModel::VGetPosition() const
+{
+	return m_vPosition;
+}
+
+// *************************************************************************
+void cModel::VSetScale(const Base::cVector3 & vScale)
+{
+	if(m_vScale!= vScale)
+	{
+		m_bIsDirty = true;
+		m_vScale= vScale;
+	}
+}
+
+// *************************************************************************
+cVector3 cModel::VGetPosition() const
+{
+	return m_vPosition;
 }
 
 // ***************************************************************
@@ -201,6 +230,16 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 	}
 	return true;
 }
+
+void cModel::ReCalculateTransformMatrix()
+{
+		D3DXMATRIX worldMatrix = IDXBase::GetInstance()->VGetWorldMatrix();
+	D3DXMatrixRotationYawPitchRoll(&worldMatrix, m_vRotation.m_dY, m_vRotation.m_dX,
+		m_vRotation.m_dZ);
+	//scaling * rotation * transalation
+
+}
+
 
 // ***************************************************************
 IModel * IModel::CreateModel()
