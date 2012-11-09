@@ -123,8 +123,8 @@ void cGraphicsTestView::VRenderPrivate()
 		case TEST_MODELTEXTURE:
 			if(m_pModel)
 			{
-				m_pModel->VSetRotation(cVector3(0.0f, 
-					m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
+				//m_pModel->VSetRotation(cVector3(0.0f, 
+				//	m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
 				m_pModel->VRender(m_pCamera);
 			}
 			break;
@@ -173,6 +173,9 @@ void cGraphicsTestView::TestModelColor()
 
 	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
 	pObjModelLoader->VLoadModelFromFile("resources//sphere.spdo", m_pModel);
+	m_pModel->VSetPosition(cVector3(6.0f, 5.0f, 1.0f));
+	m_pModel->VSetScale(cVector3(2.0f, 2.0f, 1.0f));
+
 }
 
 // ***************************************************************

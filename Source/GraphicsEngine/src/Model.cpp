@@ -67,12 +67,14 @@ bool cModel::VOnInitialization(const stModelDef & def)
 		m_vSubsets.push_back(subset);
 	}
 
+	VSetScale(cVector3(1.0f, 1.0f, 1.0f));
+
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader, "resources\\Shaders\\Texture.vsho",
 		"resources\\Shaders\\Texture.psho");
 	m_pShader = dynamic_pointer_cast<cTextureShader>(pShader);
-	return bSuccess;
 
+	return bSuccess;
 }
 
 // ***************************************************************
@@ -125,9 +127,9 @@ void cModel::VSetRotation(const cVector3 & vRadians)
 	if(m_vRotation != vRadians)
 	{
 		m_bIsDirty = true;
-		m_vRotation.m_dX = ClampToTwoPi(m_vRotation.m_dX);
-		m_vRotation.m_dY = ClampToTwoPi(m_vRotation.m_dY);
-		m_vRotation.m_dZ = ClampToTwoPi(m_vRotation.m_dZ);
+		m_vRotation.m_dX = ClampToTwoPi(vRadians.m_dX);
+		m_vRotation.m_dY = ClampToTwoPi(vRadians.m_dY);
+		m_vRotation.m_dZ = ClampToTwoPi(vRadians.m_dZ);
 	}
 }
 
@@ -164,9 +166,9 @@ void cModel::VSetScale(const Base::cVector3 & vScale)
 }
 
 // *************************************************************************
-cVector3 cModel::VGetPosition() const
+cVector3 cModel::VGetScale() const
 {
-	return m_vPosition;
+	return m_vScale;
 }
 
 // ***************************************************************
@@ -233,11 +235,18 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 
 void cModel::ReCalculateTransformMatrix()
 {
-		D3DXMATRIX worldMatrix = IDXBase::GetInstance()->VGetWorldMatrix();
-	D3DXMatrixRotationYawPitchRoll(&worldMatrix, m_vRotation.m_dY, m_vRotation.m_dX,
+	D3DXMATRIX matRotation;
+	D3DXMatrixRotationYawPitchRoll(&matRotation, m_vRotation.m_dY, m_vRotation.m_dX,
 		m_vRotation.m_dZ);
-	//scaling * rotation * transalation
 
+	D3DXMATRIX matScale;
+	D3DXMatrixScaling(&matScale, m_vScale.m_dX, m_vScale.m_dY, m_vScale.m_dZ);
+
+	D3DXMATRIX matPosition;
+	D3DXMatrixTranslation(&matPosition, m_vPosition.m_dX, m_vPosition.m_dY, m_vPosition.m_dZ);
+
+	D3DXMatrixIdentity(&m_matTransform);
+	m_matTransform = matScale * matRotation * matPosition;
 }
 
 
