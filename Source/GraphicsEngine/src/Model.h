@@ -15,6 +15,7 @@ namespace Graphics
 {
 	class cTextureShader;
 	class ITexture;
+	class IBoundingBox;
 }
 
 namespace Graphics
@@ -73,20 +74,24 @@ namespace Graphics
 		 ***********************************************/
 		bool CreateIndexBuffer(const unsigned long * const pIndices);
 		void ReCalculateTransformMatrix();
+		void CreateAABB(const stModelDef & def);
 
 	private:
-		ID3D11Buffer * 						m_pVertexBuffer;	/*!< The vertex buffer */
-		ID3D11Buffer *						m_pIndexBuffer;		/*!< The index buffer */
-		UINT								m_iVertexCount;		/*!< The number of vertices in this model */
-		UINT								m_iIndexCount;		/*!< The number of indices in this model */
-		UINT								m_iVertexSize;		/*!< The size of the vertex structure */
-		shared_ptr<cTextureShader>			m_pShader;			/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
-		std::vector<stObjectSubset>			m_vSubsets;			/*!< Vector of subsets of the model. */
-		bool								m_bIsDirty;			/*!< Set to true if the position,scale or rotation matrix is changed. */
-		Base::cVector3						m_vRotation;		/*!< The rotation of the model.*/
-		Base::cVector3						m_vPosition;		/*!< The position of the model.*/
-		Base::cVector3						m_vScale;			/*!< The scale of the model.*/
-		D3DXMATRIX							m_matTransform;		/*!< The transform Matrix of the model */
+		ID3D11Buffer * 					m_pVertexBuffer;			/*!< The vertex buffer */
+		ID3D11Buffer *					m_pIndexBuffer;				/*!< The index buffer */
+		UINT							m_iVertexCount;				/*!< The number of vertices in this model */
+		UINT							m_iIndexCount;				/*!< The number of indices in this model */
+		UINT							m_iVertexSize;				/*!< The size of the vertex structure */
+		shared_ptr<cTextureShader>		m_pShader;					/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
+		std::vector<stObjectSubset>		m_vSubsets;					/*!< Vector of subsets of the model. */
+		bool							m_bIsDirty;					/*!< Set to true if the position,scale or rotation matrix is changed. */
+		Base::cVector3					m_vRotation;				/*!< The rotation of the model.*/
+		Base::cVector3					m_vPosition;				/*!< The position of the model.*/
+		Base::cVector3					m_vScale;					/*!< The scale of the model.*/
+		D3DXMATRIX						m_matTransform;				/*!< The transform Matrix of the model */
+		IBoundingBox *					m_pAABB;					/*!< The AABB bounding volume of model */
+		Base::cVector3					m_vBoundingSphereCentre;	/*!< The centre for bounding sphere of model */
+		float							m_fBoundingSphereRadius;	/*!< The radius of the bounding sphere of model */
 	};
 }
 #endif // Model_h__

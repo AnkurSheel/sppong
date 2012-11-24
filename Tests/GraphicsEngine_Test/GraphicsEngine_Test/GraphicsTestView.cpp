@@ -193,6 +193,8 @@ void cGraphicsTestView::TestModelTexture()
 
 	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
 	pObjModelLoader->VLoadModelFromFile("resources//cube.spdo", m_pModel);
+	m_pModel->VSetScale(cVector3(2.0f, 2.0f, 2.0f));
+	m_pModel->VSetRotation(cVector3(0.7f, 0.0f, 0.7f));
 }
 
 // ***************************************************************

@@ -543,6 +543,18 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\src\BoundingBox.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\BoundingBox.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\BoundingBox.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\Includes\GraphicEngineDefines.h"
 			>
 		</File>

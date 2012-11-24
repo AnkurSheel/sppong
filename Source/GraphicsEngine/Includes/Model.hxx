@@ -50,10 +50,12 @@ namespace Graphics
 			}
 
 		};
+
 		stTexVertex *				pVertices;			/*!< The vertex data of this model */ 
 		unsigned long *				pIndices;			/*!< The index data of this model */ 
 		unsigned int				iNumberOfIndices;	/*!< The total number of indices */ 	
 		unsigned int				iNumberOfVertices;	/*!< The number of vertices */ 
+		bool						bIsCollidable;		/*!< True if the model should be collidable */ 
 		std::vector<stSubsetDef>	vSubsetsDef;		/*!< Vector of subset definitions */ 
 
 		stModelDef()
@@ -61,6 +63,7 @@ namespace Graphics
 			, pIndices(NULL)
 			, iNumberOfVertices(0)
 			, iNumberOfIndices(0)
+			, bIsCollidable(false)
 		{
 		}
 	};

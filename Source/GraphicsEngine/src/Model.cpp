@@ -17,6 +17,7 @@
 #include "ShaderManager.hxx"
 #include "TextureManager.hxx"
 #include "ObjModelLoader.h"
+#include "BoundingBox.hxx"
 
 using namespace Utilities;
 using namespace Base;
@@ -30,6 +31,8 @@ cModel::cModel()
 , m_iIndexCount(0)
 , m_iVertexSize(0)
 , m_bIsDirty(false)
+, m_fBoundingSphereRadius(0)
+, m_pAABB(NULL)
 {
 
 }
@@ -67,6 +70,14 @@ bool cModel::VOnInitialization(const stModelDef & def)
 		m_vSubsets.push_back(subset);
 	}
 
+	CreateAABB(def);
+	/*	float distX = (vMaxAABB.m_dX - m_vAABBMin.m_dX) / 2.0f;
+	float distY = (vMaxAABB.m_dY - m_vAABBMin.m_dY) / 2.0f;
+	float distZ = (vMaxAABB.m_dZ - m_vAABBMin.m_dZ) / 2.0f;
+
+	m_vBoundingSphereCentre = cVector3(vMaxAABB.m_dX - distX, m_vAABBMax.m_dY - distY, m_vAABBMax.m_dZ - distZ);
+	m_fBoundingSphereRadius = (distX * distX + distY * distY + distZ * distZ) / 2.0f;
+*/
 	VSetScale(cVector3(1.0f, 1.0f, 1.0f));
 
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
@@ -174,6 +185,7 @@ cVector3 cModel::VGetScale() const
 // ***************************************************************
 void cModel::VCleanup()
 {
+	SAFE_DELETE(m_pAABB);
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
 	m_vSubsets.clear();
@@ -247,6 +259,29 @@ void cModel::ReCalculateTransformMatrix()
 
 	D3DXMatrixIdentity(&m_matTransform);
 	m_matTransform = matScale * matRotation * matPosition;
+	
+	m_pAABB->VTransform(m_matTransform);
+}
+
+// *************************************************************************
+void cModel::CreateAABB(const stModelDef & def)
+{
+	cVector3 vMinAABB(MaxFloat, MaxFloat, MaxFloat);
+	cVector3 vMaxAABB(-MaxFloat, -MaxFloat, -MaxFloat);
+
+	for (int i=0; i<m_iVertexCount; i++)
+	{
+		vMinAABB.m_dX = min(vMinAABB.m_dX, def.pVertices[i].m_fX);
+		vMinAABB.m_dY = min(vMinAABB.m_dY, def.pVertices[i].m_fY);
+		vMinAABB.m_dZ = min(vMinAABB.m_dZ, def.pVertices[i].m_fZ);
+
+		//Get the largest vertex 
+		vMaxAABB.m_dX = max(vMaxAABB.m_dX, def.pVertices[i].m_fX);
+		vMaxAABB.m_dY = max(vMaxAABB.m_dY, def.pVertices[i].m_fY);
+		vMaxAABB.m_dZ = max(vMaxAABB.m_dZ, def.pVertices[i].m_fZ);
+	}
+
+	m_pAABB = IBoundingBox::CreateBoundingBox(vMinAABB, vMaxAABB);
 }
 
 
