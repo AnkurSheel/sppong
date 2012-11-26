@@ -25,27 +25,6 @@ cFontShader::cFontShader()
 // ***************************************************************
 cFontShader::~cFontShader()
 {
-	VCleanup();
-}
-
-// ***************************************************************
-bool cFontShader::VInitialize(const cString & strVertexShaderPath, 
-							 const cString & strPixelShaderPath)
-{
-	if(!cBaseShader::VInitialize(strVertexShaderPath, strPixelShaderPath))
-		return false;
-
-	if(!CreateSampleState())
-	{
-		return false;
-	}
-
-	if(!CreatePixelBuffer(sizeof(PixelBufferType)))
-	{
-		return false;
-	}
-
-	return true;
 }
 
 // ***************************************************************
@@ -75,7 +54,7 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 	PixelBufferType * pPixelData = (PixelBufferType*)mappedResource.pData;
 
 	// Copy the pixel color into the pixel constant buffer.
-	pPixelData->pixelColor = m_TextColor;
+	pPixelData->pixelColor = m_DiffuseColor;
 
 	// Unlock the pixel constant buffer.
 	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pPixelBuffer, 0);
@@ -85,21 +64,6 @@ void cFontShader::VSetShaderParameters(const D3DXMATRIX & inMatWorld,
 
 	// Now set the pixel constant buffer in the pixel shader with the updated value.
 	IDXBase::GetInstance()->VGetDeviceContext()->PSSetConstantBuffers(iBufferNumber, 1, &m_pPixelBuffer);
-}
-
-// ***************************************************************
-void Graphics::cFontShader::VCleanup()
-{
-	cTextureShader::VCleanup();
-	SAFE_RELEASE(m_pPixelBuffer);
-}
-
-// *************************************************************************
-void cFontShader::SetTextColor(const Base::cColor colorText)
-{
-	float fRed, fBlue, fGreen, fAlpha;
-	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
-	m_TextColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
 }
 
 // ***************************************************************

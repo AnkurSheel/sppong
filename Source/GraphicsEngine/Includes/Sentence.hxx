@@ -26,6 +26,10 @@ namespace Graphics
 
 namespace Graphics
 {
+	/********************************************//**
+	 * @brief Interface to encapsulate all the text 
+	 * related functionality
+	 ***********************************************/
 	class ISentence
 	{
 	public:

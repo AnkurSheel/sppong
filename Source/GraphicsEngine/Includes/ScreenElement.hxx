@@ -24,6 +24,10 @@ namespace Graphics
 
 namespace Graphics
 {
+	/********************************************//**
+	 * @brief Interface to be used by all 2D elements.
+	 *
+	 ***********************************************/
 	class IScreenElement
 	{
 	public:

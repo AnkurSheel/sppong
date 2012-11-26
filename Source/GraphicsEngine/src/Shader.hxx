@@ -1,5 +1,5 @@
 // ***************************************************************
-//  ColorShader   version:  1.0   Ankur Sheel  date: 2012/09/15
+//  Shader   version:  1.0   Ankur Sheel  date: 2012/09/15
 //  -------------------------------------------------------------
 //  
 //  -------------------------------------------------------------
@@ -10,7 +10,6 @@
 #ifndef Shader_hxx__
 #define Shader_hxx__
 
-
 namespace Graphics
 {
 	class ITexture;
@@ -18,11 +17,10 @@ namespace Graphics
 
 namespace Graphics
 {
-/********************************************//**
- * @brief Interface to invoke the HLSL shaders
- * for drawing the 3D models
- *
- ***********************************************/
+	/********************************************//**
+	 * @brief Interface to invoke the HLSL shaders
+	 * for drawing the 3D models
+	 ***********************************************/
 	class IShader
 	{
 	public:
@@ -65,7 +63,6 @@ namespace Graphics
 		 * Returns an object to use a texture shader
 		 ***********************************************/
 		static IShader * CreateTextureShader();
-
 		/********************************************//**
 		 * @return An object to use a font shader
 		 *

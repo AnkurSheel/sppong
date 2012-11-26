@@ -17,25 +17,25 @@ using namespace Utilities;
 using namespace Base;
 
 // ***************************************************************
-Graphics::cHScrollBar::cHScrollBar()
+cHScrollBar::cHScrollBar()
 {
 
 }
 
 // ***************************************************************
-Graphics::cHScrollBar::~cHScrollBar()
+cHScrollBar::~cHScrollBar()
 {
 
 }
 
 // ***************************************************************
-cHScrollBar* Graphics::cHScrollBar::Create()
+cHScrollBar* cHScrollBar::Create()
 {
 	return (DEBUG_NEW cHScrollBar());
 }
 
 // ***************************************************************
-bool Graphics::cHScrollBar::VOnMouseMove( const int X, const int Y )
+bool cHScrollBar::VOnMouseMove( const int X, const int Y )
 {
 	if (m_bDragMode)
 	{
@@ -68,7 +68,7 @@ bool Graphics::cHScrollBar::VOnMouseMove( const int X, const int Y )
 }
 
 // ***************************************************************
-void Graphics::cHScrollBar::VSetAbsolutePosition()
+void cHScrollBar::VSetAbsolutePosition()
 {
 	cScrollBarControl::VSetAbsolutePosition();
 	cVector2 pos = m_vControlAbsolutePosition;
@@ -76,10 +76,10 @@ void Graphics::cHScrollBar::VSetAbsolutePosition()
 	{
 		pos.m_dX += m_iMinPos;
 		m_pBtnDecrementArrow->VSetPosition(pos);
-		if (m_pCanvasSprite)
+		if (m_pBGSprite)
 		{
 			pos.m_dX += m_pBtnDecrementArrow->VGetWidth();
-			m_pCanvasSprite->VSetPosition(pos);
+			m_pBGSprite->VSetPosition(pos);
 		}
 	}
 	if (m_pBtnIncrementArrow)
@@ -91,7 +91,7 @@ void Graphics::cHScrollBar::VSetAbsolutePosition()
 }
 
 // ***************************************************************
-void Graphics::cHScrollBar::VSetSize(const cVector2 & vSize)
+void cHScrollBar::VSetSize(const cVector2 & vSize)
 {
 	cBaseControl::VSetSize(vSize);
 	float fBackGroundWidth = VGetWidth();
@@ -106,21 +106,21 @@ void Graphics::cHScrollBar::VSetSize(const cVector2 & vSize)
 		m_pBtnIncrementArrow->VSetSize(cVector2(fHeight, fHeight));
 		fBackGroundWidth -= fHeight;
 	}
-	if(m_pCanvasSprite)
+	if(m_pBGSprite)
 	{
-		m_pCanvasSprite->VSetSize(cVector2(fBackGroundWidth, VGetHeight()));
+		m_pBGSprite->VSetSize(cVector2(fBackGroundWidth, VGetHeight()));
 	}
 
 	if (m_pBtnThumb)
 	{
-		AutoSize();
+		AutoSizeThumb();
 	}
 	VSetAbsolutePosition();
 }
 
 
 // ***************************************************************
-void Graphics::cHScrollBar::VSetThumbPosition( const int iNewPosition )
+void cHScrollBar::VSetThumbPosition( const int iNewPosition )
 {
 	m_iThumbPos = iNewPosition;
 	if (m_iThumbPos < 0)
@@ -142,10 +142,10 @@ void Graphics::cHScrollBar::VSetThumbPosition( const int iNewPosition )
 }
 
 // ***************************************************************
-void Graphics::cHScrollBar::AutoSize()
+void cHScrollBar::AutoSizeThumb()
 {
-	m_fRange = VGetWidth() - m_pBtnIncrementArrow->VGetWidth() - m_pBtnDecrementArrow->VGetWidth();
-	float fNewWidth = m_fRange / m_iNoOfIncrements ;
+	float fRange = VGetWidth() - m_pBtnIncrementArrow->VGetWidth() - m_pBtnDecrementArrow->VGetWidth();
+	float fNewWidth = fRange / m_iNoOfIncrements ;
 	m_pBtnThumb->VSetSize(cVector2(fNewWidth, VGetHeight()));
 }
 
@@ -153,6 +153,6 @@ void Graphics::cHScrollBar::AutoSize()
 IBaseControl * IBaseControl::CreateHScrollBarControl(const stScrollBarControlDef & def)
 {
 	cScrollBarControl * pControl = cHScrollBar::Create();
-	pControl->Init(def);
+	pControl->Initialize(def);
 	return pControl;
 }

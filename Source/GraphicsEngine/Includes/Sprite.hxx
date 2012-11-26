@@ -26,10 +26,9 @@ namespace Graphics
 
 namespace Graphics
 {
-/********************************************//**
- * @brief Interface for 2D Sprites.
- *
- ***********************************************/	
+	/********************************************//**
+	 * @brief Interface for 2D Sprites.
+	 ***********************************************/	
 	class ISprite
 	{
 	public:

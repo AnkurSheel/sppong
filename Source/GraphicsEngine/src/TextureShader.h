@@ -25,7 +25,7 @@ namespace Graphics
 		struct stPixelBufferData
 		{
 			D3DXVECTOR4		pixelColor;		/*!< The color of the pixel that will be used to draw the font text. */
-			int				hasTexture;				/*!< True if rendering a texture. This should be int because HLSL packs things into 4 bytes. */
+			int				hasTexture;		/*!< True if rendering a texture. This should be int because HLSL packs things into 4 bytes. */
 		};
 
 		cTextureShader();
@@ -46,10 +46,10 @@ namespace Graphics
 
 	protected:
 		ID3D11Buffer *				m_pPixelBuffer;		/*!< The pixel shader constant buffer */
+		D3DXVECTOR4					m_DiffuseColor;		/*!< The diffuse color */
 
 	private:
 		ID3D11SamplerState *		m_pSampleState;		/*!< The sampler state pointer is used to interface with the texture shader */
-		D3DXVECTOR4					m_DiffuseColor;
 	};
 }
 #endif // TextureShader_h__

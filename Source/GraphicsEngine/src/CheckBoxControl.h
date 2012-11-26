@@ -14,23 +14,30 @@
 
 namespace Graphics
 {
+    /********************************************//**
+     * @brief Class Declaration for \c CheckBox UI Control
+     ***********************************************/
 	class cCheckBoxControl
 		: public cBaseControl
 	{
 	public:
 		cCheckBoxControl();
+		/********************************************//**
+		 * @param[in] def The parameter definition to create a checkbox control
+		 *
+		 * Initializes the checkbox control as per the parameters
+		 ***********************************************/
 		void Initialize(const stCheckBoxControlDef & def);
 
 	private:
 		~cCheckBoxControl();
-		
 		void VRender(const ICamera * const pCamera );
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		void VSetAbsolutePosition();
 
 	private:
-		bool						m_bChecked;
-		shared_ptr<IBaseControl>	m_pTickBox;
+		bool						m_bChecked;	/*!< True if The checkbox is checked. False otherwise. */ 
+		shared_ptr<IBaseControl>	m_pTickBox;	/*!< The check box. This is a button UI control. */ 
 	};
 }
 #endif // CheckBoxControl_h__

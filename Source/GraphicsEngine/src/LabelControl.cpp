@@ -28,7 +28,7 @@ cLabelControl::~cLabelControl()
 }
 
 // ***************************************************************
-void cLabelControl::Init(const stLabelControlDef & def)
+void cLabelControl::Initialize(const stLabelControlDef & def)
 {
 	m_pSentence = ISentence::CreateSentence();
 	m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
@@ -76,6 +76,6 @@ void cLabelControl::VCleanup()
 IBaseControl * IBaseControl::CreateLabelControl(const stLabelControlDef & def)
 {
 	cLabelControl * pControl = DEBUG_NEW cLabelControl();
-	pControl->Init(def);
+	pControl->Initialize(def);
 	return pControl;
 }

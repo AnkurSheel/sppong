@@ -22,14 +22,14 @@ namespace Graphics
 
 namespace Graphics
 {
-/********************************************//**
- * @brief Interface for DirectX.
- *
- * Singleton class.\n
- * Usage :
- * \li Call \c GetInstance() to use this class.
- * \li Call \c VOnDestroy() when the application quits
- ***********************************************/
+	/********************************************//**
+	 * @brief Interface for DirectX.
+	 *
+	 * Singleton class.\n
+	 * Usage :
+	 * \li Call \c GetInstance() to use this class.
+	 * \li Call \c VOnDestroy() when the application quits
+	 ***********************************************/
 	class IDXBase
 	{
 	public:

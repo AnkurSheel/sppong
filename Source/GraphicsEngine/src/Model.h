@@ -73,8 +73,18 @@ namespace Graphics
 		 * Creates the index buffer using the index data
 		 ***********************************************/
 		bool CreateIndexBuffer(const unsigned long * const pIndices);
+		/********************************************//**
+		 *
+		 * Recalculates the transformation matrix of this model if the scale,
+		 * rotation or the position of the model changes in the world
+		 ***********************************************/
 		void ReCalculateTransformMatrix();
-		void CreateAABB(const stModelDef & def);
+		/********************************************//**
+		 * @param[in] pVertices The vertex data of this model
+		 *
+		 * Creates the bounding box of the model
+		 ***********************************************/
+		void CreateBoundingBox(const stTexVertex * const pVertices);
 
 	private:
 		ID3D11Buffer * 					m_pVertexBuffer;			/*!< The vertex buffer */
@@ -89,7 +99,7 @@ namespace Graphics
 		Base::cVector3					m_vPosition;				/*!< The position of the model.*/
 		Base::cVector3					m_vScale;					/*!< The scale of the model.*/
 		D3DXMATRIX						m_matTransform;				/*!< The transform Matrix of the model */
-		IBoundingBox *					m_pAABB;					/*!< The AABB bounding volume of model */
+		IBoundingBox *					m_pBoundingBox;				/*!< The bounding box of the model */
 		Base::cVector3					m_vBoundingSphereCentre;	/*!< The centre for bounding sphere of model */
 		float							m_fBoundingSphereRadius;	/*!< The radius of the bounding sphere of model */
 	};

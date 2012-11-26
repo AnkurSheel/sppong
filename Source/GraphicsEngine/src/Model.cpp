@@ -32,7 +32,7 @@ cModel::cModel()
 , m_iVertexSize(0)
 , m_bIsDirty(false)
 , m_fBoundingSphereRadius(0)
-, m_pAABB(NULL)
+, m_pBoundingBox(NULL)
 {
 
 }
@@ -70,7 +70,7 @@ bool cModel::VOnInitialization(const stModelDef & def)
 		m_vSubsets.push_back(subset);
 	}
 
-	CreateAABB(def);
+	CreateBoundingBox(def.pVertices);
 	/*	float distX = (vMaxAABB.m_dX - m_vAABBMin.m_dX) / 2.0f;
 	float distY = (vMaxAABB.m_dY - m_vAABBMin.m_dY) / 2.0f;
 	float distZ = (vMaxAABB.m_dZ - m_vAABBMin.m_dZ) / 2.0f;
@@ -107,6 +107,7 @@ void cModel::VRender(const ICamera * const pCamera)
 	if(m_bIsDirty)
 	{
 		ReCalculateTransformMatrix();
+		m_pBoundingBox->VTransform(m_matTransform);
 		m_bIsDirty = false;
 	}
 	const cCamera * pCam = static_cast<const cCamera *>(pCamera);
@@ -130,11 +131,6 @@ void cModel::VRender(const ICamera * const pCamera)
 // *************************************************************************
 void cModel::VSetRotation(const cVector3 & vRadians)
 {
-	/*if (fRadians>0)
-		m_fRotation = fmod(fRadians + Pi, TwoPi) - Pi;
-	else
-		m_fRotation = fmod(fRadians - Pi, TwoPi) + Pi;
-*/
 	if(m_vRotation != vRadians)
 	{
 		m_bIsDirty = true;
@@ -185,7 +181,7 @@ cVector3 cModel::VGetScale() const
 // ***************************************************************
 void cModel::VCleanup()
 {
-	SAFE_DELETE(m_pAABB);
+	SAFE_DELETE(m_pBoundingBox);
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
 	m_vSubsets.clear();
@@ -259,29 +255,27 @@ void cModel::ReCalculateTransformMatrix()
 
 	D3DXMatrixIdentity(&m_matTransform);
 	m_matTransform = matScale * matRotation * matPosition;
-	
-	m_pAABB->VTransform(m_matTransform);
 }
 
 // *************************************************************************
-void cModel::CreateAABB(const stModelDef & def)
+void cModel::CreateBoundingBox(const stTexVertex * const pVertices)
 {
 	cVector3 vMinAABB(MaxFloat, MaxFloat, MaxFloat);
 	cVector3 vMaxAABB(-MaxFloat, -MaxFloat, -MaxFloat);
 
 	for (int i=0; i<m_iVertexCount; i++)
 	{
-		vMinAABB.m_dX = min(vMinAABB.m_dX, def.pVertices[i].m_fX);
-		vMinAABB.m_dY = min(vMinAABB.m_dY, def.pVertices[i].m_fY);
-		vMinAABB.m_dZ = min(vMinAABB.m_dZ, def.pVertices[i].m_fZ);
+		vMinAABB.m_dX = min(vMinAABB.m_dX, pVertices[i].m_fX);
+		vMinAABB.m_dY = min(vMinAABB.m_dY, pVertices[i].m_fY);
+		vMinAABB.m_dZ = min(vMinAABB.m_dZ, pVertices[i].m_fZ);
 
 		//Get the largest vertex 
-		vMaxAABB.m_dX = max(vMaxAABB.m_dX, def.pVertices[i].m_fX);
-		vMaxAABB.m_dY = max(vMaxAABB.m_dY, def.pVertices[i].m_fY);
-		vMaxAABB.m_dZ = max(vMaxAABB.m_dZ, def.pVertices[i].m_fZ);
+		vMaxAABB.m_dX = max(vMaxAABB.m_dX, pVertices[i].m_fX);
+		vMaxAABB.m_dY = max(vMaxAABB.m_dY, pVertices[i].m_fY);
+		vMaxAABB.m_dZ = max(vMaxAABB.m_dZ, pVertices[i].m_fZ);
 	}
 
-	m_pAABB = IBoundingBox::CreateBoundingBox(vMinAABB, vMaxAABB);
+	m_pBoundingBox = IBoundingBox::CreateBoundingBox(vMinAABB, vMaxAABB);
 }
 
 

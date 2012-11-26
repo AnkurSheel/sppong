@@ -24,6 +24,7 @@ namespace Graphics
 	class cShaderManager
 		: public IShaderManager
 	{
+		/** Map of shaders. The key is the vertex shader path. Value is a shared_ptr to the actual shader*/
 		typedef std::map<Base::cString, shared_ptr <IShader> > ShaderMap;
 	
 	public:
@@ -50,10 +51,11 @@ namespace Graphics
 		 ***********************************************/
 		shared_ptr<IShader> Find(const Base::cString & strVertexShaderPath,
 			const Base::cString & strPixelShaderPath);
+	
 	private:
-		ShaderMap	m_pShaders;							/*!< map of the shaders that have already been loaded */
+		ShaderMap				m_pShaders;				/*!< map of the shaders that have already been loaded */
 	
 	public:
-		static IShaderManager * s_pShadermanager;		/*!< static object of this class */
+		static IShaderManager *	s_pShadermanager;		/*!< static object of this class */
 	};
 }

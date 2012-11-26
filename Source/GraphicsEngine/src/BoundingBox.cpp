@@ -40,9 +40,9 @@ void cBoundingBox::VTransform(const D3DXMATRIX & matWorld)
 	D3DXVECTOR3 objectBounds[8];
 	for( int i = 0; i < 8; i++ )
 	{
-		objectBounds[i] = Vector3ToD3DXVEC3(m_avObjectBounds[i]);
+		objectBounds[i] = cGraphicUtils::Vector3ToD3DXVEC3(m_avObjectBounds[i]);
 		D3DXVec3TransformCoord( &worldBounds[i], &objectBounds[i], &matWorld );
-		m_avOBBBounds[i] = D3DXVEC3ToVector3(worldBounds[i]);
+		m_avOBBBounds[i] = cGraphicUtils::D3DXVEC3ToVector3(worldBounds[i]);
 		RecalculateAABBFromOBB();
 	}
 }

@@ -16,11 +16,10 @@ namespace Base
 
 namespace Graphics
 {
-/********************************************//**
- * @brief Interface to keep track of where the camera is
- * and its current rotation
- *
- ***********************************************/
+	/********************************************//**
+	 * @brief Interface to keep track of where the camera is
+	 * and its current rotation
+	 ***********************************************/
 	class ICamera
 	{
 	public:

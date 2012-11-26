@@ -29,17 +29,10 @@ namespace Graphics
 
 	public:
 		cFontShader();
-		~cFontShader();
-		
-		void SetTextColor(const Base::cColor colorText);
-	private:
-		bool VInitialize(const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath);
-		void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
-			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
-		void VCleanup();
 
 	private:
-		D3DXVECTOR4		m_TextColor;	/*!< The color of the text. */
+		~cFontShader();
+		void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
+			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
 	};
 }

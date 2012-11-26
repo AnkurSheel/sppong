@@ -14,10 +14,10 @@ namespace Base
 {
 	struct AppMsg
 	{
-		HWND	m_hWnd;
-		UINT	m_uMsg;
-		WPARAM	m_wParam;
-		LPARAM	m_lParam;
+		HWND			m_hWnd;
+		UINT			m_uMsg;
+		unsigned int	m_wParam;
+		unsigned long	m_lParam;
 	};
 }
 

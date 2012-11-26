@@ -28,11 +28,10 @@ cButtonControl::cButtonControl()
 // ***************************************************************
 cButtonControl::~cButtonControl()
 {
-	VCleanup();
 }
 
 // ***************************************************************
-void cButtonControl::Init(const stButtonControlDef & def)
+void cButtonControl::Initialize(const stButtonControlDef & def)
 {
 	if (!def.strDefaultImage.IsEmpty())
 	{
@@ -50,10 +49,10 @@ void cButtonControl::Init(const stButtonControlDef & def)
 		}
 	}
 
-	m_pCanvasSprite = ISprite::CreateSprite();
+	m_pBGSprite = ISprite::CreateSprite();
 	if (m_pDefaultTexture)
 	{
-		m_pCanvasSprite->VInitialize(m_pDefaultTexture);
+		m_pBGSprite->VInitialize(m_pDefaultTexture);
 	}
 
 	if (!def.bAutoSize)
@@ -84,13 +83,13 @@ void cButtonControl::VRender(const ICamera * const pCamera)
 // ***************************************************************
 bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
-	if(m_bIsMouseDown)
+	if(m_bIsLeftMouseDown)
 	{
 		Log_Write_L3(ILogger::LT_COMMENT, "cButtonControl :Button Released");
 		m_bPressed = false;
 		if(m_pDefaultTexture)
 		{
-			m_pCanvasSprite->VSetTexture(m_pDefaultTexture);
+			m_pBGSprite->VSetTexture(m_pDefaultTexture);
 		}
 		if (m_pfnCallBack)
 		{
@@ -108,7 +107,7 @@ bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	m_bPressed = true;
 	if (m_pPressedTexture)
 	{
-		m_pCanvasSprite->VSetTexture(m_pPressedTexture);
+		m_pBGSprite->VSetTexture(m_pPressedTexture);
 	}
 	if (m_pfnCallBack)
 	{
@@ -133,6 +132,6 @@ void cButtonControl::VSetAbsolutePosition()
 IBaseControl * IBaseControl::CreateButtonControl(const stButtonControlDef & def)
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
-	pControl->Init(def);
+	pControl->Initialize(def);
 	return pControl;
 }

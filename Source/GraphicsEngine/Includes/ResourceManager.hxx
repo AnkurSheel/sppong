@@ -57,7 +57,7 @@ namespace Graphics
 		GRAPHIC_API static IResourceManager* GetInstance();
 		/********************************************//**
 		 *
-		 * Releases the DirectX object and deletes the singleton object
+		 * Releases the resource manager object and deletes the singleton object
 		 ***********************************************/
 		GRAPHIC_API static void Destroy();
 	};

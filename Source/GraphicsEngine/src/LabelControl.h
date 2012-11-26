@@ -20,12 +20,20 @@ namespace Graphics
 
 namespace Graphics
 {
+	/********************************************//**
+     * @brief Class Declaration for a Label UI Control
+     ***********************************************/
 	class cLabelControl
 		: public cBaseControl
 	{
 	public:
 		cLabelControl();
-		void Init(const stLabelControlDef & def);
+		/********************************************//**
+		 * @param[in] def The parameter definition to create a label control
+		 *
+		 * Initializes the label control as per the parameters
+		 ***********************************************/
+		void Initialize(const stLabelControlDef & def);
 	
 	private:
 		~cLabelControl();
@@ -35,7 +43,7 @@ namespace Graphics
 		void VCleanup();
 
 	private:
-		ISentence *		m_pSentence;
+		ISentence *		m_pSentence;	/*!< The text/sentence of the label. */ 
 	};
 }
 #endif // LabelControl_h__

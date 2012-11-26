@@ -36,7 +36,8 @@ namespace Graphics
 		 ***********************************************/
 		virtual ID3D11ShaderResourceView * VGetTexture() const = 0;
 		/********************************************//**
- 		 * @return An Object of this class
+ 		 * param[in] strTexturePath The path of the texture
+		 * @return An Object of this class
 		 *
 		 * Creates an object of this class and returns it
 		 ***********************************************/

@@ -27,8 +27,8 @@ namespace Graphics
      ***********************************************/
 	enum WINDOWTYPE
 	{
-		WT_DESKTOP,			/*!< This type contains the whole app screen. All other UI items will be a child of this */ 
-		WT_STANDARD,		/*!< This type is used to set a child window control. Can be used for grouping controls */ 
+		WT_DESKTOP,		/*!< This type contains the whole app screen. All other UI items will be a child of this */ 
+		WT_STANDARD,	/*!< This type is used to set a child window control. Can be used for grouping controls */ 
 	};
 
 	/********************************************//**
@@ -133,12 +133,12 @@ namespace Graphics
 	struct stScrollBarControlDef
 	{
 		Base::cString		strBGImage;					
-		stButtonControlDef	thumbBtnDef;				/*!< Params for The thumb button of the scrollbar */ 
-		stButtonControlDef	TopLeftArrowDef;			/*!< Params for The top or left arrow button of the scrollbar */ 
-		stButtonControlDef	BottomRightArrowDef;		/*!< Params for The bottom or right arrow button of the scrollbar */ 
-		int					iMinPos;					/*!< The maximum value that the scrollbar can go to */ 
-		int					iMaxPos;					/*!< The maximum value that the scrollbar can go to */ 
-		int					iInitialThumbPosition;		/*!< The initial position of the thumb */ 
+		stButtonControlDef	thumbBtnDef;			/*!< Params for The thumb button of the scrollbar */ 
+		stButtonControlDef	TopLeftArrowDef;		/*!< Params for The top or left arrow button of the scrollbar */ 
+		stButtonControlDef	BottomRightArrowDef;	/*!< Params for The bottom or right arrow button of the scrollbar */ 
+		int					iMinPos;				/*!< The minimum value that the scrollbar can go to */ 
+		int					iMaxPos;				/*!< The maximum value that the scrollbar can go to */ 
+		int					iInitialThumbPosition;	/*!< The initial position of the thumb */ 
 
 		stScrollBarControlDef()
 			: iMinPos(0)

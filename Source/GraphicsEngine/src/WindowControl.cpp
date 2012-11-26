@@ -68,9 +68,9 @@ bool Graphics::cWindowControl::VOnMouseMove( const int X, const int Y )
 void Graphics::cWindowControl::VSetAbsolutePosition()
 {
 	cBaseControl::VSetAbsolutePosition();
-	if (m_pCanvasSprite)
+	if (m_pBGSprite)
 	{
-		m_pCanvasSprite->VSetPosition(m_vControlAbsolutePosition);
+		m_pBGSprite->VSetPosition(m_vControlAbsolutePosition);
 	}
 }
 // ***************************************************************
@@ -78,10 +78,10 @@ void Graphics::cWindowControl::LoadCanvasFromFile( const Base::cString & strFile
 {
 	if(m_eWindowType != WT_DESKTOP)
 	{
-		m_pCanvasSprite = ISprite::CreateSprite();
-		m_pCanvasSprite->VInitialize(strFileName);
+		m_pBGSprite = ISprite::CreateSprite();
+		m_pBGSprite->VInitialize(strFileName);
 
-		m_vSize = m_pCanvasSprite->VGetSize();
+		m_vSize = m_pBGSprite->VGetSize();
 	}
 }
 

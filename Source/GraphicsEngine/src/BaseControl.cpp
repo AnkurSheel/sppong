@@ -25,7 +25,7 @@ cBaseControl::cBaseControl()
 , m_vPosition(cVector2::Zero())
 , m_bFocus(false)
 , m_pFocusControl(NULL)
-, m_bIsMouseDown(false)
+, m_bIsLeftMouseDown(false)
 , m_bAllowMovingControls(false)
 , m_vControlAbsolutePosition(cVector2::Zero())
 , m_pfnCallBack(NULL)
@@ -158,9 +158,9 @@ void cBaseControl::VSetSize( const cVector2 & vSize)
 {
 	m_vSize = vSize;
 
-	if(m_pCanvasSprite)
+	if(m_pBGSprite)
 	{
-		m_pCanvasSprite->VSetSize(m_vSize);
+		m_pBGSprite->VSetSize(m_vSize);
 	}
 }
 
@@ -185,10 +185,10 @@ void cBaseControl::VSetText(const Base::cString & strText)
 // ***************************************************************
 bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
-	if(AllowMovingControl() && m_bIsMouseDown)
+	if(AllowMovingControl() && m_bIsLeftMouseDown)
 		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.m_dX, m_vPosition.m_dY ));
 
-	m_bIsMouseDown = false;
+	m_bIsLeftMouseDown = false;
 	return true;
 }
 
@@ -197,7 +197,7 @@ bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	m_iMouseDownXPos = X - (int)m_vControlAbsolutePosition.m_dX;
 	m_iMouseDownYPos = Y - (int)m_vControlAbsolutePosition.m_dY;
-	m_bIsMouseDown = true;
+	m_bIsLeftMouseDown = true;
 	return true;
 }
 
@@ -209,9 +209,9 @@ void cBaseControl::VRender(const ICamera * const pCamera)
 		return;
 	}
 
-	if(m_pCanvasSprite)
+	if(m_pBGSprite)
 	{
-		m_pCanvasSprite->VRender(pCamera);
+		m_pBGSprite->VRender(pCamera);
 	}
 
 	ControlList::reverse_iterator iter;
@@ -242,7 +242,7 @@ bool cBaseControl::VOnCharPress(const unsigned int iCharID)
 // ***************************************************************
 bool cBaseControl::VOnMouseMove( const int X, const int Y )
 {
-	if (AllowMovingControl() && m_bIsMouseDown)
+	if (AllowMovingControl() && m_bIsLeftMouseDown)
 	{
 		double x = m_vPosition.m_dX + (X - (int)m_vControlAbsolutePosition.m_dX) - m_iMouseDownXPos;
 		double y = m_vPosition.m_dY + (Y - (int)m_vControlAbsolutePosition.m_dY) - m_iMouseDownYPos;
@@ -262,9 +262,9 @@ void cBaseControl::VSetAbsolutePosition()
 	{
 		m_vControlAbsolutePosition += m_pParentControl->m_vControlAbsolutePosition;
 	}
-	if (m_pCanvasSprite)
+	if (m_pBGSprite)
 	{
-		m_pCanvasSprite->VSetPosition(m_vControlAbsolutePosition);
+		m_pBGSprite->VSetPosition(m_vControlAbsolutePosition);
 	}
 
 	ControlList::const_iterator iter;

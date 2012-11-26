@@ -24,14 +24,18 @@ namespace Graphics
 
 namespace Graphics
 {
+	/********************************************//**
+	 * @brief Encapsulates all the text related functionality
+	 ***********************************************/
 	class cSentence
 		: public ISentence
+		, Base::cNonCopyable
 	{
 	public:
 		cSentence() ;
-		~cSentence() ;
 	
 	private:
+		~cSentence() ;
 		bool VInitialize(shared_ptr<IMyFont> pFont, 
 			const Base::cString & strText, const Base::cColor & textColor);
 		void VRender(const ICamera * const pCamera);

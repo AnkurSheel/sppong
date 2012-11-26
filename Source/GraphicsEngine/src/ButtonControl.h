@@ -29,7 +29,12 @@ namespace Graphics
 	{
 	public:
 		cButtonControl();
-		void Init(const stButtonControlDef & def);
+		/********************************************//**
+		 * @param[in] def The parameter definition to create a button control
+		 *
+		 * Initializes the button control as per the parameters
+		 ***********************************************/
+		void Initialize(const stButtonControlDef & def);
 
 	private:
 		~cButtonControl();
@@ -39,10 +44,10 @@ namespace Graphics
 		void VSetAbsolutePosition();
 
 	private:
-		shared_ptr<ITexture>		m_pDefaultTexture;
-		shared_ptr<ITexture>		m_pPressedTexture;
-		shared_ptr<IBaseControl>	m_pLabel;
-		bool						m_bPressed;
+		shared_ptr<ITexture>		m_pDefaultTexture;	/*!< The texture to be used when the button is in default state. */ 
+		shared_ptr<ITexture>		m_pPressedTexture;	/*!< The texture to be used when the button is in pressed state. */ 
+		shared_ptr<IBaseControl>	m_pLabel;			/*!< The label/text associated with this button. */ 
+		bool						m_bPressed;			/*!< True if the button is in pressed state. False otherwise. */ 
 	};
 }
 #endif // ButtonControl_h__

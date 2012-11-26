@@ -14,10 +14,19 @@
 
 namespace Graphics
 {
+	/********************************************//**
+     * @brief Class Declaration for a Vertical Scrollbar
+	 * UI Control
+     ***********************************************/
 	class cVScrollBar
 		: public cScrollBarControl
 	{
 	public:
+		/********************************************//**
+ 		 * @return An Object of this class
+		 *
+		 * Creates an object of this class and returns it
+		 ***********************************************/
 		static cVScrollBar* Create();
 
 	private:
@@ -27,7 +36,12 @@ namespace Graphics
 		void VSetAbsolutePosition();
 		void VSetSize(const Base::cVector2 & vSize);
 		void VSetThumbPosition(const int iNewPosition);
-		void AutoSize();
+		/********************************************//**
+		 *
+		 * Resizes the thumb depending on the number of increments
+		 * and the total size of the scrollbar
+		 ***********************************************/
+		void AutoSizeThumb();
 	};
 }
 #endif // VScrollBar_h__

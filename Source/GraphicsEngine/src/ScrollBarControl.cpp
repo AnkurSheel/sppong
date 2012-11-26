@@ -25,7 +25,6 @@ cScrollBarControl::cScrollBarControl()
 , m_iMaxPos(0)
 , m_iThumbPos(0)
 , m_iNoOfIncrements(0)
-, m_fRange(0)
 , m_bDragMode(false)
 , m_pBtnThumb(NULL)
 , m_pBtnDecrementArrow(NULL)
@@ -41,10 +40,10 @@ cScrollBarControl::~cScrollBarControl()
 }
 
 // ***************************************************************
-void cScrollBarControl::Init(const stScrollBarControlDef & def)
+void cScrollBarControl::Initialize(const stScrollBarControlDef & def)
 {
-	m_pCanvasSprite = ISprite::CreateSprite();
-	m_pCanvasSprite->VInitialize(def.strBGImage);
+	m_pBGSprite = ISprite::CreateSprite();
+	m_pBGSprite->VInitialize(def.strBGImage);
 
 	m_pBtnThumb = IBaseControl::CreateButtonControl(def.thumbBtnDef);
 	m_pBtnDecrementArrow = IBaseControl::CreateButtonControl(def.TopLeftArrowDef);

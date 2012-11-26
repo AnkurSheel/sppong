@@ -57,19 +57,17 @@ namespace Graphics
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear) = 0;
 		/********************************************//**
-		 * 
 		 *
 		 * Begins the rendering and clears the surface
 		 ***********************************************/
 		virtual void VBeginRender() = 0;
 		/********************************************//**
-		 * 
 		 *	
 		 * Ends the rendering and presents the contents
 		 ***********************************************/
 		virtual void VEndRender() = 0;
 		/********************************************//**
-		 * 
+		 * @param[in] bIsFullScreen True if fullscreen. False otherwise
 		 *	
 		 * Sets the fullscreen/windowed mode for the
 		 * graphics engine

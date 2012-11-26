@@ -18,7 +18,7 @@ using namespace Utilities;
 using namespace Base;
 
 // ***************************************************************
-Graphics::cTextureShader::cTextureShader()
+cTextureShader::cTextureShader()
 : m_pSampleState(NULL)
 , m_pPixelBuffer(NULL)
 {
@@ -26,13 +26,13 @@ Graphics::cTextureShader::cTextureShader()
 }
 
 // ***************************************************************
-Graphics::cTextureShader::~cTextureShader()
+cTextureShader::~cTextureShader()
 {
 	VCleanup();
 }
 
 // ***************************************************************
-bool Graphics::cTextureShader::VCreateLayout(const IFileInput * const pVertexShaderFile )
+bool cTextureShader::VCreateLayout(const IFileInput * const pVertexShaderFile )
 {
 	int iNumberOfLayouts = 2;
 	D3D11_INPUT_ELEMENT_DESC * pPolygonLayout = DEBUG_NEW D3D11_INPUT_ELEMENT_DESC[iNumberOfLayouts];
@@ -68,7 +68,7 @@ bool Graphics::cTextureShader::VCreateLayout(const IFileInput * const pVertexSha
 }
 
 // ***************************************************************
-bool Graphics::cTextureShader::VInitialize( const Base::cString & strVertexShaderPath,
+bool cTextureShader::VInitialize( const Base::cString & strVertexShaderPath,
 										   const Base::cString & strPixelShaderPath)
 {
 	if(!cBaseShader::VInitialize(strVertexShaderPath, strPixelShaderPath))
@@ -87,7 +87,7 @@ bool Graphics::cTextureShader::VInitialize( const Base::cString & strVertexShade
 }
 
 // ***************************************************************
-void Graphics::cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
+void cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 													const D3DXMATRIX & inMatView,
 													const D3DXMATRIX & inMatProjection)
 {
@@ -127,7 +127,7 @@ void Graphics::cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWor
 }
 
 // ***************************************************************
-void Graphics::cTextureShader::VRenderShader()
+void cTextureShader::VRenderShader()
 {
 	cBaseShader::VRenderShader();
 	IDXBase::GetInstance()->VGetDeviceContext()->PSSetSamplers(0, 1, &m_pSampleState);
@@ -135,14 +135,14 @@ void Graphics::cTextureShader::VRenderShader()
 }
 
 // ***************************************************************
-void Graphics::cTextureShader::VCleanup()
+void cTextureShader::VCleanup()
 {
 	SAFE_RELEASE(m_pSampleState);
 	SAFE_RELEASE(m_pPixelBuffer);
 	cBaseShader::VCleanup();
 }
 // *************************************************************************
-bool Graphics::cTextureShader::CreateSampleState()
+bool cTextureShader::CreateSampleState()
 {
 	D3D11_SAMPLER_DESC samplerDesc;
 	ZeroMemory( &samplerDesc, sizeof( samplerDesc ) );
@@ -165,7 +165,7 @@ bool Graphics::cTextureShader::CreateSampleState()
 	return true;
 }
 // *************************************************************************
-bool Graphics::cTextureShader::CreatePixelBuffer(const unsigned int ibufferSize)
+bool cTextureShader::CreatePixelBuffer(const unsigned int ibufferSize)
 {
 	D3D11_BUFFER_DESC pixelBufferDesc;
 	pixelBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -188,7 +188,7 @@ bool Graphics::cTextureShader::CreatePixelBuffer(const unsigned int ibufferSize)
 }
 
 // *************************************************************************
-void Graphics::cTextureShader::SetTextColor(const Base::cColor colorText)
+void cTextureShader::SetTextColor(const Base::cColor colorText)
 {
 	float fRed, fBlue, fGreen, fAlpha;
 	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
@@ -196,7 +196,7 @@ void Graphics::cTextureShader::SetTextColor(const Base::cColor colorText)
 }
 
 // ***************************************************************
-Graphics::IShader * Graphics::IShader::CreateTextureShader()
+IShader * IShader::CreateTextureShader()
 {
 	IShader * pShader= DEBUG_NEW cTextureShader();
 	return pShader;
