@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "LabelControl.h"
 #include "Sentence.hxx"
+#include "Sprite.hxx"
 
 using namespace Base;
 using namespace Utilities;
@@ -34,6 +35,12 @@ void cLabelControl::Initialize(const stLabelControlDef & def)
 	m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
 	m_pSentence->VSetHeight(def.fTextHeight);
 	VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
+	if(!def.strBGImageFile.IsEmpty())
+	{
+		m_pBGSprite = ISprite::CreateSprite();
+		m_pBGSprite->VInitialize(def.strBGImageFile);
+		m_pBGSprite->VSetSize(m_vSize);
+	}
 }
 
 // ***************************************************************

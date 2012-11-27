@@ -252,7 +252,9 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VSetSize(cVector2(400, 400));
 
 	stLabelControlDef labelDef;
+
 	labelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
+	labelDef.strBGImageFile = "Test\\ScrollBar_BG.png";
 	labelDef.textColor = cColor::GREEN;
 	labelDef.strText = "Label";
 	labelDef.fTextHeight = 30;
