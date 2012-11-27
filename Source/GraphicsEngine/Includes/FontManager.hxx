@@ -1,5 +1,5 @@
 // *************************************************************************
-//  ShaderManager   version:  1.0   Ankur Sheel  date: 2012/10/26
+//  FontManager   version:  1.0   Ankur Sheel  date: 2012/11/27
 //  ------------------------------------------------------------------------
 //  
 //  ------------------------------------------------------------------------
@@ -11,40 +11,36 @@
 
 namespace Graphics
 {
-	class IShader;
+	class IMyFont;
 }
 
 namespace Graphics
 {
 	/********************************************//**
-	 * @brief Interface for shader manager.
+	 * @brief Interface for font manager.
 	 *
-	 * Use this class to create and use Shaders
+	 * Use this class to create and use Fonts
 	 * 
 	 * Singleton class.\n
 	 * Usage :
 	 * \li Call \c GetInstance() to use this class.
 	 * \li Call \c VOnDestroy() when the application quits
 	 ***********************************************/
-	class IShaderManager
+	class IFontManager
 	{
 	public:
-		virtual ~IShaderManager(){}
+		virtual ~IFontManager(){}
 		/********************************************//**
-		 * @param[out] pShader The pointer to the existing shader
- 		 * @param[in] strVertexShaderPath The path for the vertex shader file
-		 * @param[in] strPixelShaderPath The path for the pixel shader file
-		 * @return True if the shader was found or created. False otherwise
+ 		 * @param[in] strFontDescFilename The file name of the font description file
+		 * @return Pointer to the font
 		 *
-		 * Loads and creates the shader if it has not been created already.
-		 * Adds the texture to the shader list
-		 * Returns true if the shader was found or created. False otherwise
+		 * Loads and creates the font if it has not been created already.
+		 * Adds the font to the font list
+		 * Returns a pointer to the existing font otherwise
 		 ***********************************************/
-		virtual bool VGetShader(shared_ptr<IShader> & pShader, 
-			const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath) = 0;
+		virtual shared_ptr<IMyFont> VGetFont(const Base::cString & strFontDescFilename) = 0;
 
-		static IShaderManager * GetInstance();
-		static void Destroy();
+		GRAPHIC_API static IFontManager * GetInstance();
+		GRAPHIC_API static void Destroy();
 	};
 }

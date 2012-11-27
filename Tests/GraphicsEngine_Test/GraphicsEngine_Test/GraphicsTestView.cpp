@@ -19,7 +19,7 @@
 #include "Model.hxx"
 #include "Camera.hxx"
 #include "Sprite.hxx"
-#include "Font.hxx"
+#include "FontManager.hxx"
 #include "Sentence.hxx"
 #include "ObjModelLoader.hxx"
 
@@ -50,11 +50,8 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
-	m_pFont = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
-	m_pFont->VInitialize("Font\\", "arial.fnt");
-
 	stLabelControlDef def;
-	def.pFont = m_pFont;
+	def.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	def.textColor = cColor::GRAY;
 	def.strText = "Press 'c' to start test";
 	def.fTextHeight = 20;
@@ -227,11 +224,11 @@ void cGraphicsTestView::TestFont()
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 
 	ISentence * pSentence = ISentence::CreateSentence();
-	pSentence->VInitialize(m_pFont, "Ankur is awesome", cColor::RED);
+	pSentence->VInitialize(IFontManager::GetInstance()->VGetFont("arial.fnt"), "Ankur is awesome", cColor::RED);
 	pSentence->VSetPosition(cVector2(100.0f, 100.0f));
 	m_vSentences.push_back(pSentence);
 	pSentence = ISentence::CreateSentence();
-	pSentence->VInitialize(m_pFont, "Yes he is", cColor::VIOLET);
+	pSentence->VInitialize(IFontManager::GetInstance()->VGetFont("arial.fnt"), "Yes he is", cColor::VIOLET);
 	pSentence->VSetPosition(cVector2(400.0f, 200.0f));
 	m_vSentences.push_back(pSentence);
 }
@@ -255,7 +252,7 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VSetSize(cVector2(400, 400));
 
 	stLabelControlDef labelDef;
-	labelDef.pFont = m_pFont;
+	labelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	labelDef.textColor = cColor::GREEN;
 	labelDef.strText = "Label";
 	labelDef.fTextHeight = 30;
@@ -268,7 +265,7 @@ void cGraphicsTestView::TestUIControls()
 	buttonDef.iHeight = 100;
 	buttonDef.strDefaultImage = "Test\\buttonDefault.png";
 	buttonDef.strPressedImage = "Test\\buttonPressed.png";
-	buttonDef.labelControlDef.pFont = m_pFont;
+	buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	buttonDef.labelControlDef.strText = "Button";
 	buttonDef.labelControlDef.textColor = cColor::ORANGE;
 	buttonDef.labelControlDef.fTextHeight = 30;
@@ -294,7 +291,7 @@ void cGraphicsTestView::TestUIControls()
 	
 	stTextBoxControlDef textControlDef;
 	textControlDef.strBGImage = "Test\\TextBox.png";
-	textControlDef.pFont = m_pFont;
+	textControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	textControlDef.fTextHeight = 30;
 	textControlDef.textColor = cColor::VIOLET;
 	textControlDef.strCaretImage = "Test\\caret.png";
@@ -310,7 +307,7 @@ void cGraphicsTestView::TestUIControls()
 	checkboxControlDef.buttonControlDef.strDefaultImage = "Test\\Unchecked.png";
 	checkboxControlDef.buttonControlDef.strPressedImage = "Test\\Checked.png";
 	checkboxControlDef.labelControlDef.strText = "CheckBox";
-	checkboxControlDef.labelControlDef.pFont = m_pFont;
+	checkboxControlDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	checkboxControlDef.labelControlDef.fTextHeight = 20;
 	checkboxControlDef.labelControlDef.textColor = cColor::WHITE;
 	checkboxControlDef.buttonControlDef.iHeight= 50;
@@ -368,6 +365,7 @@ void cGraphicsTestView::Cleanup()
 	}
 	m_vSentences.clear();
 	SAFE_DELETE(m_pAppWindowControl);
+	IFontManager::Destroy();
 }
 
 // ***************************************************************

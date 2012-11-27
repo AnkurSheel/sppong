@@ -55,7 +55,6 @@ private:
 	const int							m_iVertexListCount;
 	Graphics::IModel *					m_pModel;
 	shared_ptr<Graphics::ISprite>		m_pSprite;
-	shared_ptr<Graphics::IMyFont>		m_pFont;
 	std::vector<Graphics::ISentence *>	m_vSentences;
 };
 #endif // GraphicsTestView_h__
