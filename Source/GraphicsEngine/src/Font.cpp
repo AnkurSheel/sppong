@@ -140,7 +140,7 @@ void cMyFont::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView
 {
 	if (m_pShader)
 	{
-		m_pShader->SetTextColor(textColor);
+		m_pShader->SetDiffuseColor(textColor);
 		m_pShader->VSetTexture(m_pTexture);
 		m_pShader->VRender(inMatWorld, inMatView, inMatProjection);
 	}

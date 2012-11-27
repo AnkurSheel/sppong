@@ -36,7 +36,7 @@ namespace GameBase
 		GAMEBASE_API virtual void SetBoundingRectangle();
 		//GAMEBASE_API virtual Graphics::IPolygon& GetBoundingRectangle();
 		GAMEBASE_API virtual void OnRestart(const Base::cVector3& vInitialPos);
-		GAMEBASE_API virtual const Base::cVector3& GetPosition();
+		GAMEBASE_API virtual const Base::cVector3& GetPosition() const;
 		//GAMEBASE_API virtual void SetSprite(shared_ptr<Graphics::ISprite> const pSprite );
 		//GAMEBASE_API virtual const shared_ptr<Graphics::ISprite> GetSprite() const;
 		GAMEBASE_API virtual void Cleanup();
@@ -57,6 +57,6 @@ namespace GameBase
 	private:
 		Base::cString						m_strFileName;
 	};
-#include "GameElement.inl"
+//#include "GameElement.inl"
 }
 #endif

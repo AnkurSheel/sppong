@@ -116,7 +116,7 @@ void cModel::VRender(const ICamera * const pCamera)
 	{
 		if (m_pShader)
 		{
-			m_pShader->SetTextColor(m_vSubsets[i].m_diffuseColor);
+			m_pShader->SetDiffuseColor(m_vSubsets[i].m_diffuseColor);
 			m_pShader->VSetTexture(m_vSubsets[i].m_pTexture);
 			m_pShader->VRender(m_matTransform, pCam->GetViewMatrix(), 
 				IDXBase::GetInstance()->VGetProjectionMatrix());

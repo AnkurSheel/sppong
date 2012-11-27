@@ -79,7 +79,7 @@ bool cTextureShader::VInitialize( const Base::cString & strVertexShaderPath,
 		return false;
 	}
 
-	if(!CreatePixelBuffer(sizeof(stPixelBufferData)))
+	if(!CreatePixelBuffer())
 	{
 		return false;
 	}
@@ -165,11 +165,11 @@ bool cTextureShader::CreateSampleState()
 	return true;
 }
 // *************************************************************************
-bool cTextureShader::CreatePixelBuffer(const unsigned int ibufferSize)
+bool cTextureShader::CreatePixelBuffer()
 {
 	D3D11_BUFFER_DESC pixelBufferDesc;
 	pixelBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	pixelBufferDesc.ByteWidth = roundUp(ibufferSize, 16);
+	pixelBufferDesc.ByteWidth = roundUp(sizeof(stPixelBufferData), 16);
 	pixelBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	pixelBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	pixelBufferDesc.MiscFlags = 0;
@@ -188,10 +188,10 @@ bool cTextureShader::CreatePixelBuffer(const unsigned int ibufferSize)
 }
 
 // *************************************************************************
-void cTextureShader::SetTextColor(const Base::cColor colorText)
+void cTextureShader::SetDiffuseColor(const Base::cColor colorDiffuse)
 {
 	float fRed, fBlue, fGreen, fAlpha;
-	colorText.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
+	colorDiffuse.GetColorComponentsInFloat(fRed, fBlue, fGreen, fAlpha);
 	m_DiffuseColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
 }
 

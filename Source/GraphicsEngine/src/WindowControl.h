@@ -14,30 +14,31 @@
 
 namespace Graphics
 {
+	/********************************************//**
+     * @brief Class Declaration for a Window UI Control
+     ***********************************************/
 	class cWindowControl
 		: public cBaseControl
 	{
 	public:
-		cWindowControl(WINDOWTYPE wType, bool bAllowMovingControls);
-		void LoadCanvasFromFile(const Base::cString & strFileName);
+		cWindowControl();
+		/********************************************//**
+		 * @param[in] def The parameter definition to create a window control
+		 *
+		 * Initializes the window control as per the parameters
+		 ***********************************************/
+		void Initialize(const stWindowControlDef & def);
 
 	private:
 		~cWindowControl();
-
+	
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);
 		bool VOnMouseMove(const int X, const int Y);
 		void VSetAbsolutePosition();
-		void Minimize(const int iWidth, const int iHeight, const int iX, const int iY);
-		void Restore();
 
 	private:
-		int					m_iLastNormalPosX;
-		int					m_iLastNormalPosY;
-		int					m_iLastNormalWidth;
-		int					m_iLastNormalHeight;
-		bool				m_bIsMinimized;
-		WINDOWTYPE			m_eWindowType;
+		WINDOWTYPE			m_eWindowType;	/*!< The window type. */
 	};
 }
 

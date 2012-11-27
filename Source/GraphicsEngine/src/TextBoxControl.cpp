@@ -21,7 +21,7 @@ using namespace Utilities;
 
 // ***************************************************************
 cTextBoxControl::cTextBoxControl()
-: m_fCaretPos(0.0f)
+: m_fCaretPosInTextBox(0.0f)
 , m_fLastCaretUpdateTime(0.0f)
 , m_fCaretUpdateTime(0.0f)
 , m_iCaretPosInText(0)
@@ -239,7 +239,7 @@ bool cTextBoxControl::SetCaratPosition(const unsigned int iPos )
 	if (iPos >= 0 && iPos <= strText.GetLength())
 	{
 		cString subStr = strText.GetSubString(0, iPos);
-		m_fCaretPos = GetStringWidth(subStr);
+		m_fCaretPosInTextBox = GetStringWidth(subStr);
 		m_iCaretPosInText = iPos;
 		SetCaratAbsolutePosition();
 		return true;
@@ -254,7 +254,7 @@ void cTextBoxControl::SetCaratAbsolutePosition()
 	if (m_pCaretSprite)
 	{
 		cVector2 vec = m_vControlAbsolutePosition;
-		vec.m_dX += m_fCaretPos;
+		vec.m_dX += m_fCaretPosInTextBox;
 		m_pCaretSprite->VSetPosition(vec);
 	}
 }

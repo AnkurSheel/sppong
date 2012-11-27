@@ -24,6 +24,7 @@ namespace Graphics
 	class cTextureManager
 		: public ITextureManager
 	{
+		/** Map of textures. The key is the texture path. Value is a shared_ptr to the actual texture */
 		typedef std::map<Base::cString, shared_ptr <ITexture> > TextureMap;
 
 	public:

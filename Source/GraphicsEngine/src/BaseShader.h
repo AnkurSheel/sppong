@@ -52,7 +52,7 @@ namespace Graphics
 		 * @param[in] inMatView The View Matrix
 		 * @param[in] inMatProjection The projection Matrix
 		 *
-		 * Sets the shader parameters
+		 * Sets the world, view and projection matrix to be passed to the shader
 		 ***********************************************/
 		virtual void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);

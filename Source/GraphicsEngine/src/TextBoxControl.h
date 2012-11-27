@@ -101,15 +101,15 @@ namespace Graphics
 		void SetCaratAbsolutePosition();
 
 	private:
-		ISentence *				m_pSentence;			/*!< The text in the textbox */
-		shared_ptr<ISprite>		m_pCaretSprite;			/*!< The sprite of the caret line */
-		float 					m_fCaretPos;			
-		float					m_fLastCaretUpdateTime;	
-		unsigned int			m_iCaretPosInText;
-		bool					m_bTextBoxFull;
-		float					m_fCaretUpdateTime;
-		Utilities::ITimer *		m_pTimer;
-		bool					m_bIsCaretVisible;
+		ISentence *				m_pSentence;			/*!< The text in the textbox. */
+		shared_ptr<ISprite>		m_pCaretSprite;			/*!< The sprite of the caret line. */
+		float 					m_fCaretPosInTextBox;	/*!< The position (in pixles) of the caret in the textbox. */
+		float					m_fLastCaretUpdateTime;	/*!< The time at which the caret visibility was last updated. */
+		unsigned int			m_iCaretPosInText;		/*!< The position of the carat in the text. */
+		bool					m_bTextBoxFull;			/*!< True if textbox cannot contain any more characters. False otherwise. */
+		float					m_fCaretUpdateTime;		/*!< The time after which the caret visibility should be updated. */
+		Utilities::ITimer *		m_pTimer;				/*!< The timer for updating the caret visibility. */
+		bool					m_bIsCaretVisible;		/*!< True if the caret is currently visible. False otherwise. */
 	};
 }
 #endif // TextBoxControl_h__s

@@ -107,3 +107,7 @@ void cGameElement::UpdatePosition()
 	}
 }
 // ***************************************************************
+const Base::cVector3& cGameElement::GetPosition() const
+{
+	return m_vPosition;
+}

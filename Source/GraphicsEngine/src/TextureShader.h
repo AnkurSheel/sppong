@@ -30,7 +30,12 @@ namespace Graphics
 
 		cTextureShader();
 		~cTextureShader();
-		void SetTextColor(const Base::cColor colorText);
+		/********************************************//**
+		 * @param[in] colorDiffuse The diffuse color for the shader
+		 *
+		 * Sets the diffuse color
+		 ***********************************************/
+		void SetDiffuseColor(const Base::cColor colorDiffuse);
 
 	protected:
 		virtual bool VInitialize(const Base::cString & strVertexShaderPath,
@@ -40,16 +45,25 @@ namespace Graphics
 			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
 		virtual void VRenderShader();
 		virtual void VCleanup();
-
-		bool CreatePixelBuffer(const unsigned int bufferSize);
+		/********************************************//**
+		 * @return True if the pixel buffer was set. False otherwise
+		 *
+		 * Sets the pixel buffer to be passed to the shader
+		 ***********************************************/
+		bool CreatePixelBuffer();
+		/********************************************//**
+		 * @return True if the pixel buffer was set. False otherwise
+		 *
+		 * Creates the texture sampler state
+		 ***********************************************/
 		bool CreateSampleState();
 
 	protected:
-		ID3D11Buffer *				m_pPixelBuffer;		/*!< The pixel shader constant buffer */
+		ID3D11Buffer *				m_pPixelBuffer;		/*!< The shaders pixel constant buffer */
 		D3DXVECTOR4					m_DiffuseColor;		/*!< The diffuse color */
 
 	private:
-		ID3D11SamplerState *		m_pSampleState;		/*!< The sampler state pointer is used to interface with the texture shader */
+		ID3D11SamplerState *		m_pSampleState;		/*!< The sampler state pointer is used to interface with the texture shader. Itallows us to modify how the pixels are written to the polygon face when shaded. */
 	};
 }
 #endif // TextureShader_h__
