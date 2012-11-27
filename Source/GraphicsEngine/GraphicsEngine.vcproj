@@ -543,6 +543,14 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\src\AABB.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\AABB.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\BoundingBox.cpp"
 			>
 		</File>

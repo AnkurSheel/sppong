@@ -96,7 +96,14 @@ inline Base::cVector2 cVector2::GetReverse() const
 	return cVector2(-m_dX, -m_dY);
 }
 
-// ***************************************************************
+// ****************************************************************
+inline void cVector2::AbsTo() 
+{
+	m_dX = abs(m_dX);
+	m_dY = abs(m_dY);
+}
+
+// ****************************************************************
 inline const cVector2 & cVector2::operator+=( const cVector2 & inVec )
 {
 	m_dX += inVec.m_dX;

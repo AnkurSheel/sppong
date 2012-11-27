@@ -11,12 +11,14 @@
 #include "BoundingBox.h"
 #include "Vector2.h"
 #include "GraphicUtils.h"
+#include "AABB.h"
 
 using namespace Graphics;
 using namespace Base;
 
 // *************************************************************************
 cBoundingBox::cBoundingBox( const cVector3 & vMinBound, const cVector3 & vMaxBound)
+: m_pAABB(NULL)
 {
 	m_avObjectBounds[0] = cVector3(vMinBound.m_dX, vMinBound.m_dY, vMinBound.m_dZ); 
 	m_avObjectBounds[1] = cVector3(vMaxBound.m_dX, vMinBound.m_dY, vMinBound.m_dZ); 
@@ -26,11 +28,14 @@ cBoundingBox::cBoundingBox( const cVector3 & vMinBound, const cVector3 & vMaxBou
 	m_avObjectBounds[5] = cVector3(vMaxBound.m_dX, vMinBound.m_dY, vMaxBound.m_dZ); 
 	m_avObjectBounds[6] = cVector3(vMinBound.m_dX, vMaxBound.m_dY, vMaxBound.m_dZ); 
 	m_avObjectBounds[7] = cVector3(vMaxBound.m_dX, vMaxBound.m_dY, vMaxBound.m_dZ); 
+
+	m_pAABB = DEBUG_NEW cAABB();
 }
 
 // *************************************************************************
 cBoundingBox::~cBoundingBox()
 {
+	SAFE_DELETE(m_pAABB);
 }
 
 // *************************************************************************
@@ -43,8 +48,8 @@ void cBoundingBox::VTransform(const D3DXMATRIX & matWorld)
 		objectBounds[i] = cGraphicUtils::Vector3ToD3DXVEC3(m_avObjectBounds[i]);
 		D3DXVec3TransformCoord( &worldBounds[i], &objectBounds[i], &matWorld );
 		m_avOBBBounds[i] = cGraphicUtils::D3DXVEC3ToVector3(worldBounds[i]);
-		RecalculateAABBFromOBB();
 	}
+	RecalculateAABBFromOBB();
 }
 
 // *************************************************************************
@@ -65,15 +70,8 @@ void cBoundingBox::RecalculateAABBFromOBB()
 		vMax.m_dZ = max(vMax.m_dZ, m_avOBBBounds[i].m_dZ);
 	}
 
-	m_avAABBBounds[0] = cVector3(vMin.m_dX, vMin.m_dY, vMin.m_dZ); 
-	m_avAABBBounds[1] = cVector3(vMax.m_dX, vMin.m_dY, vMin.m_dZ); 
-	m_avAABBBounds[2] = cVector3(vMin.m_dX, vMax.m_dY, vMin.m_dZ); 
-	m_avAABBBounds[3] = cVector3(vMax.m_dX, vMax.m_dY, vMin.m_dZ); 
-	m_avAABBBounds[4] = cVector3(vMin.m_dX, vMin.m_dY, vMax.m_dZ); 
-	m_avAABBBounds[5] = cVector3(vMax.m_dX, vMin.m_dY, vMax.m_dZ); 
-	m_avAABBBounds[6] = cVector3(vMin.m_dX, vMax.m_dY, vMax.m_dZ); 
-	m_avAABBBounds[7] = cVector3(vMax.m_dX, vMax.m_dY, vMax.m_dZ); 
-
+	m_pAABB->SetCenter((vMin + vMax) * 0.5f);
+	m_pAABB->SetHalfExtents((vMax - vMin) * 0.5f);
 }
 
 // *************************************************************************

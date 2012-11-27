@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Vector3   version:  1.0   Ankur Sheel  date: 2012/08/28
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************#
+// *****************************************************************************#
 #ifndef Vector3_h__
 #define Vector3_h__
 
@@ -80,6 +80,11 @@ class cVector3
 		  * returns the squared distance between this vector and the one passed as a parameter
 		 ***********************************************/
 		double DistanceSquared(const cVector3 & inVec) const;
+		/********************************************//**
+		  *
+		  * Sets the components to their absolute values
+		 ***********************************************/
+		void AbsTo();
 
 		const cVector3 & operator+=(const cVector3 & inVec);
 		const cVector3 & operator-=(const cVector3 & inVec);
@@ -89,6 +94,7 @@ class cVector3
 		bool operator!=(const cVector3 & inVec) const;
 		
 		static cVector3 Zero();
+
 	public:
 		double	m_dX;	/*!< X component of Vector3 */
 		double	m_dY;	/*!< Y component of Vector3 */

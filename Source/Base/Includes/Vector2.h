@@ -98,6 +98,11 @@ class cVector2
 		 * returns the vector that is the reverse of this vector
 		 ***********************************************/
 		cVector2  GetReverse() const;
+		/********************************************//**
+		  *
+		  * Sets the components to their absolute values
+		 ***********************************************/
+		void AbsTo();
 
 		const cVector2 & operator+=(const cVector2 & inVec);
 		const cVector2 & operator-=(const cVector2 & inVec);

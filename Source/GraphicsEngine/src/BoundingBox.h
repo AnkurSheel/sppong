@@ -11,6 +11,12 @@
 #define BoundingBox_h__
 
 #include "BoundingBox.hxx"
+
+namespace Graphics
+{
+	class cAABB;
+}
+
 namespace Graphics
 {
 	class cBoundingBox 
@@ -25,7 +31,7 @@ namespace Graphics
 	public:
 		Base::cVector3	m_avObjectBounds[8];
 		Base::cVector3	m_avOBBBounds[8];
-		Base::cVector3	m_avAABBBounds[8];
+		cAABB *			m_pAABB;
 	};
 }
 #endif // BoundingBox_h__
