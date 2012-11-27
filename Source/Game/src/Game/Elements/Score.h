@@ -10,15 +10,11 @@
 #ifndef Score_h__
 #define Score_h__
 
-namespace Base
-{
-	class cString;
-}
-
 namespace Graphics
 {
-	class IMyFont;
+	class IBaseControl;
 }
+
 class cScore
 {
 private:
@@ -30,10 +26,10 @@ public:
 	void Init(const D3DXVECTOR3& vInitialPos);
 	void Cleanup();
 	void IncrementScore();
-	shared_ptr<Graphics::IMyFont> GetFont();
+	shared_ptr<Graphics::IBaseControl> GetLabel();
 
 private:
-	shared_ptr<Graphics::IMyFont>	m_pFont;
-	UINT							m_iValue;
+	shared_ptr<Graphics::IBaseControl>	m_pLabel;
+	UINT								m_iValue;
 };
 #endif // Score_h__

@@ -9,9 +9,9 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Score.h"
-#include "font.hxx"
-//#include "DxBase.hxx"
-#include "Color.h"
+#include "FontManager.hxx"
+#include "ControlStructures.h"
+#include "BaseControl.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -40,29 +40,21 @@ cScore::~cScore()
 // ***************************************************************
 void cScore::Init( const D3DXVECTOR3& vInitialPos )
 {
-	m_pFont = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
-	m_pFont->VInitialize(40, 30, 500, false, DEFAULT_CHARSET, "Forte");
-
-	RECT boundingRect;
-	if (vInitialPos.x > 0 )
+	stLabelControlDef def;
+	def.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); // forte
+	def.textColor = cColor::TURQUOISE;
+	def.strText = "Press 'c' to start test";
+	def.fTextHeight = 40;
+	m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def));
+	m_pLabel->VSetText(cString(20, "%02d", m_iValue));
+/*	if (vInitialPos.x > 0 )
 	{
-		boundingRect.left = (long)vInitialPos.x - 80;
-		boundingRect.right = (long)vInitialPos.x;
 		m_pFont->SetFormat(DT_RIGHT | DT_TOP);
 	}
 	else
 	{
-		boundingRect.left = (long)vInitialPos.x;
-		boundingRect.right = 90;
 		m_pFont->SetFormat(DT_LEFT | DT_TOP);
-	}
-	boundingRect.top  = (long)vInitialPos.y;
-	boundingRect.bottom = 50;
-
-	m_pFont->SetRect(boundingRect);
-	m_pFont->SetText(cString(20, "%02d", m_iValue));
-	m_pFont->SetTextColor(cColor::TURQUOISE.GetColor());
-
+	}*/
 }
 // ***************************************************************
 
@@ -80,12 +72,12 @@ void cScore::Cleanup()
 void cScore::IncrementScore()
 {
 	m_iValue++;
-	m_pFont->SetText(cString(20, "%02d", m_iValue));
+	m_pLabel->VSetText(cString(20, "%02d", m_iValue));
 }
 // ***************************************************************
 
-shared_ptr<IMyFont> cScore::GetFont()
+shared_ptr<IBaseControl> cScore::GetLabel()
 {
-	return m_pFont;
+	return m_pLabel;
 }
 // ***************************************************************
