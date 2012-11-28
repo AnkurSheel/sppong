@@ -119,7 +119,7 @@ void cSentence::VSetTextColor(const Base::cColor & colorText)
 // *************************************************************************
 float cSentence::VGetWidth() const
 {
-	return m_fWidth;
+	return m_fScale * m_fWidth;
 }
 
 // *************************************************************************
@@ -195,7 +195,7 @@ bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 		pVertices[i*4+3] = stTexVertex(right, top, z, vertexData.fTexU1, vertexData.fTexV);
 
 		curX += m_fScale *  vertexData.ch.XAdvance;
-		m_fWidth += m_fScale *  vertexData.ch.XAdvance;
+		m_fWidth += vertexData.ch.XAdvance;
 	}
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

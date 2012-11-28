@@ -342,10 +342,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Includes\Font.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\src\FontShader.cpp"
 				>
 			</File>
@@ -560,6 +556,22 @@
 		</File>
 		<File
 			RelativePath=".\src\BoundingBox.hxx"
+			>
+		</File>
+		<File
+			RelativePath=".\src\Font.hxx"
+			>
+		</File>
+		<File
+			RelativePath=".\src\FontManager.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\FontManager.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\FontManager.hxx"
 			>
 		</File>
 		<File

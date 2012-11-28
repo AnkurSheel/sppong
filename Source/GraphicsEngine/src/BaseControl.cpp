@@ -22,7 +22,7 @@ cBaseControl::cBaseControl()
 : m_vSize(cVector2::Zero())
 , m_bVisible(true)
 , m_pParentControl(NULL) 
-, m_vPosition(cVector2::Zero())
+, m_vPosition(cVector2(-1.0f, -1.0f))
 , m_bFocus(false)
 , m_pFocusControl(NULL)
 , m_bIsLeftMouseDown(false)
@@ -148,19 +148,25 @@ void cBaseControl::VRemoveChildControl(shared_ptr<IBaseControl> pChildControl)
 // ***************************************************************
 void cBaseControl::VSetPosition( const cVector2 & vPosition )
 {
-	m_vPosition = vPosition;
-	ConstrainChildControl(m_vPosition.m_dX, m_vPosition.m_dY);
-	VSetAbsolutePosition();
+	if(m_vPosition != vPosition)
+	{
+		m_vPosition = vPosition;
+		ConstrainChildControl(m_vPosition.m_dX, m_vPosition.m_dY);
+		VSetAbsolutePosition();
+	}
 }
 
 // ***************************************************************
 void cBaseControl::VSetSize( const cVector2 & vSize)
 {
-	m_vSize = vSize;
-
-	if(m_pBGSprite)
+	if (m_vSize != vSize)
 	{
-		m_pBGSprite->VSetSize(m_vSize);
+		m_vSize = vSize;
+
+		if(m_pBGSprite)
+		{
+			m_pBGSprite->VSetSize(m_vSize);
+		}
 	}
 }
 
