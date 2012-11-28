@@ -19,6 +19,7 @@
 #include "Color.h"
 #include "Camera.hxx"
 #include "ParamLoaders.hxx"
+#include "FontManager.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -63,18 +64,14 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
-	//m_pFont = IFont::CreateMyFont();
-	//m_pFont->InitFont(14, 14, 20, false, DEFAULT_CHARSET, "Arial") ;
-
-	//RECT boundingRect;
-	//boundingRect.left = iClientWidth/2- 75;
-	//boundingRect.right = boundingRect.left + 150;
-	//boundingRect.top  = 10;
-	//boundingRect.bottom = boundingRect.top + 30;
-	//m_pFont->SetRect(boundingRect);
-
-	//m_pFont->SetFormat(DT_LEFT | DT_TOP);
-	//m_pFont->SetTextColor(cColor::WHITE.GetColor());
+	stLabelControlDef fpsLabelDef;
+	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
+	fpsLabelDef.textColor = cColor::WHITE;
+	fpsLabelDef.fTextHeight = 30;
+	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
+	m_pAppWindowControl->VAddChildControl(m_pFpsLabel);
+	m_pFpsLabel->VSetPosition(cVector2(iClientWidth/2- 75, 0.0f));
+	m_pFpsLabel->VSetSize(cVector2(150, 30));
 }
 
 // ***************************************************************
@@ -142,6 +139,7 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 			// lock the F2 key
 			LockKey(VK_F2);
 			m_bDisplayFPS = !m_bDisplayFPS;
+			m_pFpsLabel->VSetVisible(m_bDisplayFPS);
 		}
 		break;
 	}
@@ -190,9 +188,7 @@ void GameBase::cHumanView::VRenderPrivate()
 // 		}
 		if (m_bDisplayFPS && m_pGame)
 		{
-			//AppMsg msg;
-			//m_pFont->SetText(cString(20, "%0.2f", m_pGame->GetFPS()));
-			//m_pFont->VOnRender(msg);
+			m_pFpsLabel->VSetText(cString(20, "%0.2f", m_pGame->VGetFPS()));
 		}
 }
 

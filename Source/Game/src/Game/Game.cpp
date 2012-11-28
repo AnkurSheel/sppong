@@ -113,20 +113,20 @@ void cGame::Restart()
 // ***************************************************************
 void cGame::CheckForWin()
 {
-	cVector3 vBallPosition = m_pGameElements[PGE_BALL]->GetPosition();
+	//cVector3 vBallPosition = m_pGameElements[PGE_BALL]->GetPosition();
 
-	if(vBallPosition.m_dX <= 0)
-	{
-		m_pSound->PlaySound(GS_WIN);
-		m_pScore[1].IncrementScore();
-		Restart();
-	}
-	/*if (vBallPosition.m_dX >= (m_iDisplayWidth - m_pGameElements[PGE_BALL]->GetSprite()->GetScaledWidth()))
-	{
-		m_pSound->PlaySound(GS_WIN);
-		m_pScore[0].IncrementScore();
-		Restart();
-	}*/
+	//if(vBallPosition.m_dX <= 0)
+	//{
+	//	m_pSound->PlaySound(GS_WIN);
+	//	m_pScore[1].IncrementScore();
+	//	Restart();
+	//}
+	//if (vBallPosition.m_dX >= (m_iDisplayWidth - m_pGameElements[PGE_BALL]->GetSprite()->GetScaledWidth()))
+	//{
+	//	m_pSound->PlaySound(GS_WIN);
+	//	m_pScore[0].IncrementScore();
+	//	Restart();
+	//}
 }
 
 // ***************************************************************

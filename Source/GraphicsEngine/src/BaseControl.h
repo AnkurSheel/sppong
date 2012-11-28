@@ -45,6 +45,7 @@ namespace Graphics
 		bool VOnKeyDown(const unsigned int iCharID);
 		bool VOnCharPress(const unsigned int iCharID);
 		void VAddChildControl(shared_ptr<IBaseControl> pChildControl);
+		const Base::cVector2 VGetSize() const;
 		void VSetSize(const Base::cVector2 & vSize);
 		float VGetWidth() const;
 		float VGetHeight() const;
@@ -89,6 +90,7 @@ namespace Graphics
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VRegisterCallBack(function <void (bool)> callback);;
 		void VUnregisterCallBack();
+		void VMoveToFront(const IBaseControl * const pControl);
 		/********************************************//**
 		 * @return True if the user can move the controls using the mouse.
 		 * False otherwise
@@ -118,12 +120,6 @@ namespace Graphics
 		 ***********************************************/
 		bool PostToAll(const Base::AppMsg & msg);
 		/********************************************//**
-		 * @param[in] pControl The control to be moved to the front
-		 *
-		 * Moves the child control to the front.
-		 ***********************************************/
-		void MoveToFront(const cBaseControl * const pControl);
-		/********************************************//**
 		 * @param[in] fx The X position of the mouse
 		 * @param[in] fy The Y position of the mouse
 		 * @return True if the mouse intersects this control. False otherwise
@@ -138,7 +134,7 @@ namespace Graphics
 		 * Returns a const_iterator if the child control is found in the list. 
 		 * If the child control is not found, the const_iterator will be equal list.end();
 		 ***********************************************/
-		ControlList::const_iterator GetChildControlIterator(const cBaseControl * const pChildControl);
+		ControlList::const_iterator GetChildControlIterator(const IBaseControl * const pChildControl);
 		
 	protected:
 		shared_ptr<ISprite>		m_pBGSprite;				/*!< The background sprite associated with this control. */
@@ -150,10 +146,10 @@ namespace Graphics
 		bool					m_bIsLeftMouseDown;			/*!< True if the left mouse button is pressed. */
 		function<void (bool)>	m_pfnCallBack;				/*!< Callback function which takes a bool as a parameter and returns void. */
 		ControlList				m_pChildControl;			/*!< List of child controls. */
+		bool					m_bVisible;					/*!< True if the control is visible. False otherwise. */
 	
 	private:
 		cBaseControl *			m_pFocusControl;			/*!< The control which has the focus. */
-		bool					m_bVisible;					/*!< True if the control is visible. False otherwise. */
 		cBaseControl *			m_pParentControl;			/*!< The parent control. */
 		int						m_iMouseDownXPos;			/*!< The X position of the mouse relative to the absolute control position. */
 		int						m_iMouseDownYPos;			/*!< The Y position of the mouse relative to the absolute control position. */

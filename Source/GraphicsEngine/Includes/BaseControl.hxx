@@ -77,7 +77,13 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetPosition(const Base::cVector2 & vPosition) = 0;
 		/********************************************//**
- 		 * @param[in] vSize The new size of the sprite
+ 		 * @return vSize The size of the control
+		 *
+		 * Returns the size of the control
+		 ***********************************************/
+		virtual const Base::cVector2 VGetSize() const = 0;
+		/********************************************//**
+ 		 * @param[in] vSize The new size of the control
 		 *
 		 * Sets the size of the control
 		 ***********************************************/
@@ -93,6 +99,12 @@ namespace Graphics
 		 * UnRgisters the callback function
 		 ***********************************************/
 		virtual void VUnregisterCallBack() = 0;
+		/********************************************//**
+		 * @param[in] pControl The control to be moved to the front
+		 *
+		 * Moves the child control to the front.
+		 ***********************************************/
+		virtual void VMoveToFront(const IBaseControl * const pControl) = 0;
 		/********************************************//**
  		 * @return The width of the control
 		 *

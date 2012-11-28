@@ -67,19 +67,22 @@ void cScrollBarControl::Initialize(const stScrollBarControlDef & def)
 // ***************************************************************
 void cScrollBarControl::VRender(const ICamera * const pCamera)
 {
-	cBaseControl::VRender(pCamera);
+	if(m_bVisible)
+	{
+		cBaseControl::VRender(pCamera);
 	
-	if (m_pBtnThumb)
-	{
-		m_pBtnThumb->VRender(pCamera);
-	}
-	if (m_pBtnDecrementArrow)
-	{
-		m_pBtnDecrementArrow->VRender(pCamera);
-	}
-	if (m_pBtnIncrementArrow)
-	{
-		m_pBtnIncrementArrow->VRender(pCamera);
+		if (m_pBtnThumb)
+		{
+			m_pBtnThumb->VRender(pCamera);
+		}
+		if (m_pBtnDecrementArrow)
+		{
+			m_pBtnDecrementArrow->VRender(pCamera);
+		}
+		if (m_pBtnIncrementArrow)
+		{
+			m_pBtnIncrementArrow->VRender(pCamera);
+		}
 	}
 }
 

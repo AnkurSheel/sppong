@@ -212,15 +212,22 @@ cStatePlayGame* cStatePlayGame::Instance()
 
 void cStatePlayGame::VOnEnter(cGame *pGame)
 {
-	//shared_ptr<ISprite> pTableSprite = ISprite::CreateSprite();
+	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
+	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
 
-	//pTableSprite->VInitialize("Sprites\\Table.jpg");
-	//pTableSprite->VSetSize(cVector2((float)pGame->m_iDisplayWidth, (float)pGame->m_iDisplayHeight));
-	//pTableSprite->VSetPosition(cVector2(0.0f, 0.0f));
-	//pGame->m_pHumanView->PushElement(pTableSprite);
-
-	//cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
-	//cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
+	stWindowControlDef HUDDef;
+	HUDDef.wType = WT_STANDARD;
+	IBaseControl * pHUDScreen = IBaseControl::CreateWindowControl(HUDDef);
+	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHUDScreen));
+	pHUDScreen->VSetSize(pGame->m_pHumanView->m_pAppWindowControl->VGetSize());
+	pHUDScreen->VSetPosition(cVector2(0.0f, 0.0f));
+	
+	stLabelControlDef tableDef;
+	tableDef.strBGImageFile = "Sprites\\Table.jpg";
+	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
+	pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
+	pLabelControl->VSetPosition(cVector2(0.0f, 0.0f));
+	pLabelControl->VSetSize(pHUDScreen->VGetSize());
 
 	//shared_ptr<ISprite> pSprite;
 
@@ -249,14 +256,16 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
 	//pGame->m_pHumanView->PushElement(pSprite);
 
-	//pGame->m_pScore = DEBUG_NEW cScore[2]();
-	//
-	//pGame->m_pScore[0].Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	//pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(pGame->m_pScore[0].GetLabel());
-	//
-	//pGame->m_pScore[1].Init(D3DXVECTOR3((float)pGame->m_iDisplayWidth, 0.0f, 0.0f));
-	//pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(pGame->m_pScore[1].GetLabel());
-	//
+	pGame->m_pScore = DEBUG_NEW cScore[2]();
+	
+	pGame->m_pScore[0].Init(cVector2(0.0f, 0.0f));
+	pHUDScreen->VAddChildControl(pGame->m_pScore[0].GetLabel());
+	pHUDScreen->VMoveToFront(pGame->m_pScore[0].GetLabel().get());
+
+	pGame->m_pScore[1].Init(cVector2((float)pGame->m_iDisplayWidth, 0.0f));
+	pHUDScreen->VAddChildControl(pGame->m_pScore[1].GetLabel());
+	pHUDScreen->VMoveToFront(pGame->m_pScore[1].GetLabel().get());
+	
 	//pGame->m_pSound->CreateSound(pGame->GS_BALL_WALL_COLLISION, "resources\\Sounds\\SFX\\collision1.wav");
 	//pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
 	//pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");
@@ -272,7 +281,10 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 {
 	for(int i=0; i<pGame->PGE_TOTAL; i++)
 	{
-		pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
+		if(pGame->m_pGameElements[i])
+		{
+			pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
+		}
 	}
 	pGame->m_pHumanView->VOnUpdate(pGame->m_pGameTimer->VGetRunningTicks(), pGame->m_pGameTimer->VGetDeltaTime());
 

@@ -31,10 +31,13 @@ cLabelControl::~cLabelControl()
 // ***************************************************************
 void cLabelControl::Initialize(const stLabelControlDef & def)
 {
-	m_pSentence = ISentence::CreateSentence();
-	m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
-	m_pSentence->VSetHeight(def.fTextHeight);
-	VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
+	if(def.pFont)
+	{
+		m_pSentence = ISentence::CreateSentence();
+		m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
+		m_pSentence->VSetHeight(def.fTextHeight);
+		VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
+	}
 	if(!def.strBGImageFile.IsEmpty())
 	{
 		m_pBGSprite = ISprite::CreateSprite();
@@ -46,10 +49,13 @@ void cLabelControl::Initialize(const stLabelControlDef & def)
 // ***************************************************************
 void cLabelControl::VRender(const ICamera * const pCamera)
 {
-	cBaseControl::VRender(pCamera);
-	if (m_pSentence)
+	if(m_bVisible)
 	{
-		m_pSentence->VRender(pCamera);
+		cBaseControl::VRender(pCamera);
+		if (m_pSentence)
+		{
+			m_pSentence->VRender(pCamera);
+		}
 	}
 }
 

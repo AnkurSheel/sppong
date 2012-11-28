@@ -149,7 +149,7 @@ TICK GameBase::cBaseApp::GetRunningTicks()
 // ***************************************************************
 // Display the FPS
 // ***************************************************************
-float GameBase::cBaseApp::GetFPS()
+float GameBase::cBaseApp::VGetFPS()
 {
 	return m_pGameTimer->VGetFPS();
 }

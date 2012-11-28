@@ -34,6 +34,8 @@ namespace GameBase
 		virtual Base::cString VGetGameTitle() const = 0; 
 		virtual bool VOnMsgProc(const Base::AppMsg & msg) = 0;
 		virtual void VRun() = 0;
+		virtual float VGetFPS() = 0;
+
 		static Utilities::IParamLoader * VGetParamLoader();
 	};
 }

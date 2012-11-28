@@ -32,7 +32,6 @@ namespace GameBase
 	{
 	public:
 		virtual ~cBaseApp(){}
-		GAMEBASE_API float GetFPS();
 		static Utilities::IParamLoader * VGetParamLoader();
 
 	protected:
@@ -44,9 +43,11 @@ namespace GameBase
 		GAMEBASE_API virtual void VOnUpdate();
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
+		GAMEBASE_API float VGetFPS();
 		GAMEBASE_API virtual void VCleanup();
-		GAMEBASE_API TICK GetRunningTicks();
-		GAMEBASE_API float GetRunningTime();
+		
+		TICK GetRunningTicks();
+		float GetRunningTime();
 
 	protected:
 		Utilities::ITimer *					m_pGameTimer;

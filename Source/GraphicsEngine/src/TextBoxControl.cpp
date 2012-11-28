@@ -63,6 +63,11 @@ void cTextBoxControl::Initialize(const stTextBoxControlDef & def)
 // ***************************************************************
 void cTextBoxControl::VRender(const ICamera * const pCamera )
 {
+	if(!m_bVisible)
+	{
+		return;
+	}
+
 	cBaseControl::VRender(pCamera);
 	if (m_pSentence)
 	{

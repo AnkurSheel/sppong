@@ -10,20 +10,23 @@
 #ifndef Score_h__
 #define Score_h__
 
+namespace Base
+{
+	class cVector2;
+}
+
 namespace Graphics
 {
 	class IBaseControl;
 }
 
 class cScore
+	: public Base::cNonCopyable
 {
-private:
-	cScore(const cScore&){}
-	cScore operator = (const cScore&){}
 public:
 	cScore();
 	~cScore();
-	void Init(const D3DXVECTOR3& vInitialPos);
+	void Init(const Base::cVector2 & vInitialPos);
 	void Cleanup();
 	void IncrementScore();
 	shared_ptr<Graphics::IBaseControl> GetLabel();

@@ -31,12 +31,8 @@ namespace GameBase
 
 namespace Graphics
 {
-	class IScreenElement;
-	class IInput;
-	class IMyFont;
 	class ISprite;
 	class IBaseControl;
-	struct stVertex;
 	class ICamera;
 }
 
@@ -72,8 +68,8 @@ namespace GameBase
 		GAMEBASE_API bool CheckZones(Base::cString & strHitZoneName );
 
 	protected:
-		Graphics::ICamera *				m_pCamera;
-		//shared_ptr<Graphics::IFont>		m_pFont;
+		Graphics::ICamera *					m_pCamera;
+		shared_ptr<Graphics::IBaseControl>	m_pFpsLabel;
 
 	private:
 		GameViewId						m_idView;

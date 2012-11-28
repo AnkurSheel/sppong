@@ -52,7 +52,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 				VOnLeftMouseButtonDown(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
 				if (m_pParentControl)
 				{
-					m_pParentControl->MoveToFront(this);
+					m_pParentControl->VMoveToFront(this);
 				}
 				SetFocusControl(this);
 			}
@@ -157,6 +157,12 @@ void cBaseControl::VSetPosition( const cVector2 & vPosition )
 }
 
 // ***************************************************************
+const cVector2 cBaseControl::VGetSize() const
+{
+	return m_vSize;
+}
+
+// ***************************************************************
 void cBaseControl::VSetSize( const cVector2 & vSize)
 {
 	if (m_vSize != vSize)
@@ -180,6 +186,16 @@ void cBaseControl::VRegisterCallBack(function <void (bool)> callback)
 void cBaseControl::VUnregisterCallBack()
 {
 	m_pfnCallBack = NULL;
+}
+
+// ***************************************************************
+void cBaseControl::VMoveToFront(const IBaseControl * const pControl )
+{
+	ControlList::const_iterator iter = GetChildControlIterator(pControl);
+	if(iter != m_pChildControl.end() && iter != m_pChildControl.begin())
+	{
+		m_pChildControl.splice(m_pChildControl.begin(), m_pChildControl, iter);
+	}
 }
 
 // ***************************************************************
@@ -370,16 +386,6 @@ void cBaseControl::SetFocus(const bool bFocus)
 }
 
 // ***************************************************************
-void cBaseControl::MoveToFront(const cBaseControl * const pControl )
-{
-	ControlList::const_iterator iter = GetChildControlIterator(pControl);
-	if(iter != m_pChildControl.end() && iter != m_pChildControl.begin())
-	{
-		m_pChildControl.splice(m_pChildControl.begin(), m_pChildControl, iter);
-	}
-}
-
-// ***************************************************************
 void cBaseControl::ConstrainChildControl( double & dx, double & dy )
 {
 	// constrain child control in parent control
@@ -421,7 +427,7 @@ bool cBaseControl::AllowMovingControl()
 }
 
 // ***************************************************************
-cBaseControl::ControlList::const_iterator cBaseControl::GetChildControlIterator(const cBaseControl * const pChildControl)
+cBaseControl::ControlList::const_iterator cBaseControl::GetChildControlIterator(const IBaseControl * const pChildControl)
 {
 	ControlList::const_iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)

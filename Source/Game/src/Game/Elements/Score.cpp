@@ -38,15 +38,15 @@ cScore::~cScore()
 // ***************************************************************
 // Initializes the font
 // ***************************************************************
-void cScore::Init( const D3DXVECTOR3& vInitialPos )
+void cScore::Init(const cVector2 & vInitialPos)
 {
 	stLabelControlDef def;
 	def.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); // forte
 	def.textColor = cColor::TURQUOISE;
-	def.strText = "Press 'c' to start test";
+	def.strText = cString(20, "%02d", m_iValue);
 	def.fTextHeight = 40;
 	m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def));
-	m_pLabel->VSetText(cString(20, "%02d", m_iValue));
+	m_pLabel->VSetPosition(vInitialPos);
 /*	if (vInitialPos.x > 0 )
 	{
 		m_pFont->SetFormat(DT_RIGHT | DT_TOP);

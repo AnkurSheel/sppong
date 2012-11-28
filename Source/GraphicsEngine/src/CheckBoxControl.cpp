@@ -45,10 +45,13 @@ void cCheckBoxControl::Initialize(const stCheckBoxControlDef & def)
 // *************************************************************************
 void cCheckBoxControl::VRender(const ICamera * const pCamera)
 {
-	cBaseControl::VRender(pCamera);
-	if (m_pTickBox)
+	if(m_bVisible)
 	{
-		m_pTickBox->VRender(pCamera);
+		cBaseControl::VRender(pCamera);
+		if (m_pTickBox)
+		{
+			m_pTickBox->VRender(pCamera);
+		}
 	}
 }
 

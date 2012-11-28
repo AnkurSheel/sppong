@@ -73,10 +73,13 @@ void cButtonControl::Initialize(const stButtonControlDef & def)
 // *************************************************************************
 void cButtonControl::VRender(const ICamera * const pCamera)
 {
-	cBaseControl::VRender(pCamera);
-	if (m_pLabel)
+	if(m_bVisible)
 	{
-		m_pLabel->VRender(pCamera);
+		cBaseControl::VRender(pCamera);
+		if (m_pLabel)
+		{
+			m_pLabel->VRender(pCamera);
+		}
 	}
 }
 
