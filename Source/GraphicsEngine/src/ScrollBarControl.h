@@ -22,7 +22,7 @@ namespace Graphics
 		: public cBaseControl
 	{
 	public:
-		void Initialize(const stScrollBarControlDef & def);
+		void Initialize(const cScrollBarControlDef & def);
 
 	protected:
 		cScrollBarControl();

@@ -10,38 +10,50 @@
 #ifndef ControlStructures_h__
 #define ControlStructures_h__
 
-namespace Base
-{
-	class cColor;
-}
+#include "Vector2.h"
+#include "Color.h"
 
 namespace Graphics
 {
 	class IMyFont;
+	class IBaseControl;
 }
+
 namespace Graphics
 {
 	/********************************************//**
-     * @brief Enum for setting the window type for window
-	 * controls
+     * @brief Common parameters for creating a UI control
      ***********************************************/
-	enum WINDOWTYPE
+	class cBaseControlDef
 	{
-		WT_DESKTOP,		/*!< This type contains the whole app screen. All other UI items will be a child of this */ 
-		WT_STANDARD,	/*!< This type is used to set a child window control. Can be used for grouping controls */ 
+	public:
+		Base::cVector2	vPosition;	/*!< The position of the control */ 
+		Base::cVector2  vSize;		/*!< The scale in pixels of the control */ 
 	};
 
 	/********************************************//**
-     * @brief Structure Definition for creating a window
-     * control
+     * @brief Params for creating a window control
      ***********************************************/
-	struct stWindowControlDef
+	class cWindowControlDef
+		: public cBaseControlDef
 	{
+	public:
+		/********************************************//**
+		 * @brief Enum for setting the window type for window
+		 * controls
+		 ***********************************************/
+		enum WINDOWTYPE
+		{
+			WT_DESKTOP,		/*!< This type contains the whole app screen. All other UI items will be a child of this */ 
+			WT_STANDARD,	/*!< This type is used to set a child window control. Can be used for grouping controls */ 
+		};
+
+	public:
 		WINDOWTYPE		wType;					/*!< The window type. Can be DESKTOP or STANDARD */ 
 		Base::cString	strBGImageFile;			/*!< The path for the background image. Can be Empty */
 		bool			bAllowMovingControls;	/*!< True if we want to allow the users to change the position of the control */
 
-		stWindowControlDef()
+		cWindowControlDef()
 			: wType(WT_DESKTOP)
 			, bAllowMovingControls(false)
 		{
@@ -49,68 +61,69 @@ namespace Graphics
 	};
 
 	/********************************************//**
-     * @brief Structure Definition for creating a label
-     * control
+     * @brief Definition for creating a label control
      ***********************************************/
-	struct stLabelControlDef
+	class cLabelControlDef
+		: public cBaseControlDef
 	{
+	public:
 		shared_ptr<IMyFont> pFont;			/*!< The font that will be used to display the text */ 
 		Base::cColor		textColor;		/*!< The text color */ 
 		Base::cString		strText;		/*!< The text that should be displayed initially */ 
 		Base::cString		strBGImageFile;	/*!< The path for the background image. Can be Empty */
 		float				fTextHeight;	/*!< The text height */ 
+		bool				bAutoSize;		/*!< If true, autosizes the label based on the text width and height */ 
 
-		stLabelControlDef()
+		cLabelControlDef()
 			: fTextHeight(0.0f)
+			, bAutoSize(true)
 		{
 		}
 	};
 
 	/********************************************//**
-     * @brief Structure Definition for creating a button
-     * control
+     * @brief Definition for creating a button control
      ***********************************************/
-	struct stButtonControlDef
+	struct cButtonControlDef
+		: public cBaseControlDef
 	{
+	public:
 		Base::cString		strDefaultImage;	/*!< The filename of the default texture for the button */ 
 		Base::cString		strPressedImage;	/*!< The filename of the pressed texture for the button */ 
-		stLabelControlDef	labelControlDef;	/*!< Optional. Params for The label/text associated with this button */ 
+		cLabelControlDef	labelControlDef;	/*!< Optional. Params for The label/text associated with this button */ 
 		bool				bAutoSize;			/*!< If true, autosizes the button based on the text width and height */ 
-		int					iWidth;				/*!< The width of the button. Not required if autosize is true */ 
-		int					iHeight;			/*!< The height of the button. Not required if autosize is true */ 
 
-		stButtonControlDef()
+		cButtonControlDef()
 			: bAutoSize(false)
-			, iWidth(0)
-			, iHeight(0)
-
 		{
 		}
 	};
 	
 	/********************************************//**
-     * @brief Structure Definition for creating a check box
-     * control
+     * @brief Definition for creating a check box control
      ***********************************************/
-	struct stCheckBoxControlDef
+	class cCheckBoxControlDef
+		: public cBaseControlDef
 	{
-		stButtonControlDef	buttonControlDef;	/*!< Params for The button of the checkbox */ 
-		stLabelControlDef	labelControlDef;	/*!< Params for The label of the checkbox */ 
+	public:
+		cButtonControlDef	buttonControlDef;	/*!< Params for The button of the checkbox */ 
+		cLabelControlDef	labelControlDef;	/*!< Params for The label of the checkbox */ 
 		int					iSpaceCaption;		/*!< The space between the button and the label */ 
 		bool				bChecked;			/*!< True, if the the checkbox is set by default*/ 
 
-		stCheckBoxControlDef()
+		cCheckBoxControlDef()
 			: iSpaceCaption(0)
 		{
 		}
 	};
 
 	/********************************************//**
-     * @brief Structure Definition for creating a text box
-     * control
+     * @brief Definition for creating a text box control
      ***********************************************/
-	struct stTextBoxControlDef
+	class cTextBoxControlDef
+		: public cBaseControlDef
 	{
+	public:
 		Base::cString			strBGImage;			/*!< Optional. The background image of the textbox */ 
 		shared_ptr<IMyFont>		pFont;				/*!< The font that will be used to display the text */ 
 		Base::cColor			textColor;			/*!< The text color */ 
@@ -119,7 +132,7 @@ namespace Graphics
 		int						iCaretWidth;		/*!< The width of the caret */ 
 		float					fCaretUpdateTime;	/*!< The time after which the caret is toggled between being visible/invisible */ 
 
-		stTextBoxControlDef()
+		cTextBoxControlDef()
 			: fTextHeight(0.0f)
 			, iCaretWidth(0)
 			, fCaretUpdateTime(0.0f)
@@ -128,20 +141,22 @@ namespace Graphics
 	};
 
 	/********************************************//**
-     * @brief Structure Definition for creating a vertical
-     * or a horizontal scrollbar control
+     * @brief Definition for creating a vertical or a 
+	 * horizontal scrollbar control
      ***********************************************/
-	struct stScrollBarControlDef
+	class cScrollBarControlDef
+		: public cBaseControlDef
 	{
-		Base::cString		strBGImage;					
-		stButtonControlDef	thumbBtnDef;			/*!< Params for The thumb button of the scrollbar */ 
-		stButtonControlDef	TopLeftArrowDef;		/*!< Params for The top or left arrow button of the scrollbar */ 
-		stButtonControlDef	BottomRightArrowDef;	/*!< Params for The bottom or right arrow button of the scrollbar */ 
+	public:
+		Base::cString		strBGImage;				/*!< The background image of the textbox */ 	
+		cButtonControlDef	thumbBtnDef;			/*!< Params for The thumb button of the scrollbar */ 
+		cButtonControlDef	TopLeftArrowDef;		/*!< Params for The top or left arrow button of the scrollbar */ 
+		cButtonControlDef	BottomRightArrowDef;	/*!< Params for The bottom or right arrow button of the scrollbar */ 
 		int					iMinPos;				/*!< The minimum value that the scrollbar can go to */ 
 		int					iMaxPos;				/*!< The maximum value that the scrollbar can go to */ 
 		int					iInitialThumbPosition;	/*!< The initial position of the thumb */ 
 
-		stScrollBarControlDef()
+		cScrollBarControlDef()
 			: iMinPos(0)
 			, iMaxPos(0)
 			, iInitialThumbPosition(0)

@@ -19,7 +19,7 @@ using namespace std;
 
 // ***************************************************************
 cWindowControl::cWindowControl()
-: m_eWindowType(WT_DESKTOP)
+	: m_eWindowType(cWindowControlDef::WT_DESKTOP)
 {
 	
 }
@@ -30,22 +30,22 @@ cWindowControl::~cWindowControl()
 }
 
 // ***************************************************************
-void cWindowControl::Initialize(const stWindowControlDef & def)
+void cWindowControl::Initialize(const cWindowControlDef & def)
 {
 	m_bAllowMovingControls = def.bAllowMovingControls;
 	m_eWindowType = def.wType;
-	if(m_eWindowType != WT_DESKTOP && !def.strBGImageFile.IsEmpty())
+	if(m_eWindowType != cWindowControlDef::WT_DESKTOP && !def.strBGImageFile.IsEmpty())
 	{
 		m_pBGSprite = ISprite::CreateSprite();
 		m_pBGSprite->VInitialize(def.strBGImageFile);
-		m_vSize = m_pBGSprite->VGetSize();
 	}
+	cBaseControl::Initialize(def);
 }
 
 // ***************************************************************
 bool cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
-	if (m_eWindowType != WT_DESKTOP)
+	if (m_eWindowType != cWindowControlDef::WT_DESKTOP)
 	{
 		return	cBaseControl::VOnLeftMouseButtonUp(X, Y);
 	}
@@ -55,7 +55,7 @@ bool cWindowControl::VOnLeftMouseButtonUp( const int X, const int Y )
 // ***************************************************************
 bool cWindowControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
-	if (m_eWindowType != WT_DESKTOP)
+	if (m_eWindowType != cWindowControlDef::WT_DESKTOP)
 	{
 		return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 	}
@@ -65,7 +65,7 @@ bool cWindowControl::VOnLeftMouseButtonDown( const int X, const int Y )
 // ***************************************************************
 bool cWindowControl::VOnMouseMove( const int X, const int Y )
 {
-	if (m_eWindowType != WT_DESKTOP)
+	if (m_eWindowType != cWindowControlDef::WT_DESKTOP)
 	{
 		return cBaseControl::VOnMouseMove(X, Y);
 	}
@@ -83,7 +83,7 @@ void cWindowControl::VSetAbsolutePosition()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateWindowControl(const stWindowControlDef & def)
+IBaseControl * IBaseControl::CreateWindowControl(const cWindowControlDef & def)
 {
 	cWindowControl * pControl = DEBUG_NEW cWindowControl();
 	pControl->Initialize(def);

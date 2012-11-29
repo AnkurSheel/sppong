@@ -54,15 +54,14 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 {
 	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
 	{
-		stLabelControlDef def;
+		cLabelControlDef def;
 		def.pFont = IFontManager::GetInstance()->VGetFont("JokerMan.fnt"); 
 		def.textColor = cColor::RED;
 		def.strText = "MPONG";
 		def.fTextHeight = 200;
-
+		def.vPosition = cVector2(pGame->m_iDisplayWidth/4, 0);
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
 		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
-		pLabelControl->VSetPosition(cVector2(pGame->m_iDisplayWidth/4, 0));
 	}
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }
@@ -110,15 +109,16 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 {
 	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
 	{
-		stWindowControlDef menuDef;
-		menuDef.wType = WT_STANDARD;
+		cWindowControlDef menuDef;
+		menuDef.wType = cWindowControlDef::WT_STANDARD;
+		menuDef.vPosition = cVector2(310.f, 310.f);
+		menuDef.vSize = cVector2(400, 400);
 		IBaseControl * pMenuScreen = IBaseControl::CreateWindowControl(menuDef);
 		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pMenuScreen));
-		pMenuScreen->VSetPosition(cVector2(311.f, 310.f));
-		pMenuScreen->VSetSize(cVector2(400,400));
 
-		stButtonControlDef buttonDef;
+		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
+		buttonDef.vPosition = cVector2(0.0f, 0.0f);
 		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
 		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
 		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("JokerMan.fnt");
@@ -128,28 +128,26 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl(buttonDef);
 		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pSinglePlayerButton));
-		pSinglePlayerButton->VSetPosition(cVector2(0.0f, 0.0f));
 		function<void (bool)> callbackSinglePlayerBtn;
 		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
 		pSinglePlayerButton->VRegisterCallBack(callbackSinglePlayerBtn);
 
 		buttonDef.bAutoSize = false;
-		buttonDef.iWidth = pSinglePlayerButton->VGetWidth();
-		buttonDef.iHeight = pSinglePlayerButton->VGetHeight();
+		buttonDef.vSize = pSinglePlayerButton->VGetSize();
+		buttonDef.vPosition = cVector2(0.f, 80);
 		buttonDef.labelControlDef.strText = "MultiPlayer";
 		
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl(buttonDef);
 		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pMultiPlayerButton));
-		pMultiPlayerButton->VSetPosition(cVector2(0.f, 80));
 		function<void (bool)> callbackMultiPlayerBtn;
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
 		buttonDef.labelControlDef.strText = "Quit";
-		
+		buttonDef.vPosition = cVector2(0, 160);
+
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
 		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
-		pQuitButton->VSetPosition(cVector2(0, 160));
 		function<void (bool)> callbackQuitBtn;
 		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
 		pQuitButton->VRegisterCallBack(callbackQuitBtn);
@@ -215,19 +213,20 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
 	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
 
-	stWindowControlDef HUDDef;
-	HUDDef.wType = WT_STANDARD;
+	cWindowControlDef HUDDef;
+	HUDDef.wType = cWindowControlDef::WT_STANDARD;
+	HUDDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
+	HUDDef.vPosition = cVector2(0.0f, 0.0f);
 	IBaseControl * pHUDScreen = IBaseControl::CreateWindowControl(HUDDef);
 	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHUDScreen));
-	pHUDScreen->VSetSize(pGame->m_pHumanView->m_pAppWindowControl->VGetSize());
-	pHUDScreen->VSetPosition(cVector2(0.0f, 0.0f));
 	
-	stLabelControlDef tableDef;
+	cLabelControlDef tableDef;
 	tableDef.strBGImageFile = "Sprites\\Table.jpg";
+	tableDef.vPosition = cVector2(0.0f, 0.0f);
+	tableDef.vSize = pHUDScreen->VGetSize();
+	tableDef.bAutoSize = false;
 	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
 	pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
-	pLabelControl->VSetPosition(cVector2(0.0f, 0.0f));
-	pLabelControl->VSetSize(pHUDScreen->VGetSize());
 
 	//shared_ptr<ISprite> pSprite;
 

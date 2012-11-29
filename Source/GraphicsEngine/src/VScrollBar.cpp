@@ -147,7 +147,7 @@ void cVScrollBar::AutoSizeThumb()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateVScrollBarControl(const stScrollBarControlDef & def)
+IBaseControl * IBaseControl::CreateVScrollBarControl(const cScrollBarControlDef & def)
 {
 	cScrollBarControl * pControl = cVScrollBar::Create();
 	pControl->Initialize(def);

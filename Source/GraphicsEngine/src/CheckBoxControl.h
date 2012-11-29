@@ -27,7 +27,7 @@ namespace Graphics
 		 *
 		 * Initializes the checkbox control as per the parameters
 		 ***********************************************/
-		void Initialize(const stCheckBoxControlDef & def);
+		void Initialize(const cCheckBoxControlDef & def);
 
 	private:
 		~cCheckBoxControl();

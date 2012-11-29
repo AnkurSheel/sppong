@@ -150,7 +150,7 @@ void cHScrollBar::AutoSizeThumb()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateHScrollBarControl(const stScrollBarControlDef & def)
+IBaseControl * IBaseControl::CreateHScrollBarControl(const cScrollBarControlDef & def)
 {
 	cScrollBarControl * pControl = cHScrollBar::Create();
 	pControl->Initialize(def);

@@ -31,7 +31,7 @@ cButtonControl::~cButtonControl()
 }
 
 // ***************************************************************
-void cButtonControl::Initialize(const stButtonControlDef & def)
+void cButtonControl::Initialize(const cButtonControlDef & def)
 {
 	if (!def.strDefaultImage.IsEmpty())
 	{
@@ -54,20 +54,18 @@ void cButtonControl::Initialize(const stButtonControlDef & def)
 	{
 		m_pBGSprite->VInitialize(m_pDefaultTexture);
 	}
-
-	if (!def.bAutoSize)
-	{
-		VSetSize(cVector2(def.iWidth, def.iHeight));
-	}
-
 	if (def.labelControlDef.pFont && !def.labelControlDef.strText.IsEmpty())
 	{
 		m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def.labelControlDef));
-		if(def.bAutoSize)
-		{
-			VSetSize(cVector2(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));
-		}
 	}
+
+	cBaseControl::Initialize(def);
+
+	if(def.bAutoSize)
+	{
+		VSetSize(cVector2(m_pLabel->VGetWidth(), m_pLabel->VGetHeight()));
+	}
+
 }
 
 // *************************************************************************
@@ -132,7 +130,7 @@ void cButtonControl::VSetAbsolutePosition()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateButtonControl(const stButtonControlDef & def)
+IBaseControl * IBaseControl::CreateButtonControl(const cButtonControlDef & def)
 {
 	cButtonControl * pControl = DEBUG_NEW cButtonControl();
 	pControl->Initialize(def);

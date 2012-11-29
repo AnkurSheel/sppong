@@ -14,6 +14,8 @@
 #include "Game/Elements/Score.h"
 #include "P1PaddleHandler.h"
 #include "P2PaddleHandler.h"
+#include "Camera.hxx"
+#include "Vector3.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -35,6 +37,7 @@ void cMPongView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const 
 								 int iClientWidth, int iClientHeight)
 {
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
+	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pGame = dynamic_cast<cGame *>(pGame);
 }
 

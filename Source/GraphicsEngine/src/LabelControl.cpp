@@ -29,20 +29,24 @@ cLabelControl::~cLabelControl()
 }
 
 // ***************************************************************
-void cLabelControl::Initialize(const stLabelControlDef & def)
+void cLabelControl::Initialize(const cLabelControlDef & def)
 {
 	if(def.pFont)
 	{
 		m_pSentence = ISentence::CreateSentence();
 		m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
 		m_pSentence->VSetHeight(def.fTextHeight);
-		VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
 	}
 	if(!def.strBGImageFile.IsEmpty())
 	{
 		m_pBGSprite = ISprite::CreateSprite();
 		m_pBGSprite->VInitialize(def.strBGImageFile);
-		m_pBGSprite->VSetSize(m_vSize);
+	}
+
+	cBaseControl::Initialize(def);
+	if(def.bAutoSize)
+	{
+		VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
 	}
 }
 
@@ -86,7 +90,7 @@ void cLabelControl::VCleanup()
 }
 
 // *************************************************************************
-IBaseControl * IBaseControl::CreateLabelControl(const stLabelControlDef & def)
+IBaseControl * IBaseControl::CreateLabelControl(const cLabelControlDef & def)
 {
 	cLabelControl * pControl = DEBUG_NEW cLabelControl();
 	pControl->Initialize(def);

@@ -27,7 +27,7 @@ namespace Graphics
 		 *
 		 * Initializes the window control as per the parameters
 		 ***********************************************/
-		void Initialize(const stWindowControlDef & def);
+		void Initialize(const cWindowControlDef & def);
 
 	private:
 		~cWindowControl();
@@ -38,7 +38,7 @@ namespace Graphics
 		void VSetAbsolutePosition();
 
 	private:
-		WINDOWTYPE			m_eWindowType;	/*!< The window type. */
+		cWindowControlDef::WINDOWTYPE	m_eWindowType;	/*!< The window type. */
 	};
 }
 

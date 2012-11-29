@@ -34,7 +34,7 @@ namespace Graphics
 		 *
 		 * Initializes the button control as per the parameters
 		 ***********************************************/
-		void Initialize(const stButtonControlDef & def);
+		void Initialize(const cButtonControlDef & def);
 
 	private:
 		~cButtonControl();

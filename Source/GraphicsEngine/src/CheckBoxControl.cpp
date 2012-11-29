@@ -28,13 +28,13 @@ cCheckBoxControl::~cCheckBoxControl()
 }		
 
 // ***************************************************************
-void cCheckBoxControl::Initialize(const stCheckBoxControlDef & def)
+void cCheckBoxControl::Initialize(const cCheckBoxControlDef & def)
 {
 	m_pTickBox = shared_ptr<IBaseControl>(IBaseControl::CreateButtonControl(def.buttonControlDef));
+	cBaseControl::Initialize(def);
 	
 	IBaseControl * pLabel = IBaseControl::CreateLabelControl(def.labelControlDef);
 	VAddChildControl(shared_ptr<IBaseControl>(pLabel));
-
 	VSetSize(cVector2(m_pTickBox->VGetWidth() + def.iSpaceCaption + pLabel->VGetWidth(),
 		max(m_pTickBox->VGetHeight(), pLabel->VGetHeight())));
 	float fX = m_pTickBox->VGetWidth() + def.iSpaceCaption;
@@ -93,7 +93,7 @@ void cCheckBoxControl::VSetAbsolutePosition()
 }
 
 // ***************************************************************
-GRAPHIC_API  IBaseControl * IBaseControl::CreateCheckBoxControl(const stCheckBoxControlDef & def)
+GRAPHIC_API  IBaseControl * IBaseControl::CreateCheckBoxControl(const cCheckBoxControlDef & def)
 {
 	cCheckBoxControl * pControl = DEBUG_NEW cCheckBoxControl();
 	pControl->Initialize(def);

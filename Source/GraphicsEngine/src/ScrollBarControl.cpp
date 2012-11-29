@@ -40,7 +40,7 @@ cScrollBarControl::~cScrollBarControl()
 }
 
 // ***************************************************************
-void cScrollBarControl::Initialize(const stScrollBarControlDef & def)
+void cScrollBarControl::Initialize(const cScrollBarControlDef & def)
 {
 	m_pBGSprite = ISprite::CreateSprite();
 	m_pBGSprite->VInitialize(def.strBGImage);
@@ -62,7 +62,9 @@ void cScrollBarControl::Initialize(const stScrollBarControlDef & def)
 
 	m_callbackThumbPressed = bind(&cScrollBarControl::ThumbPressed, this, _1);
 	m_pBtnThumb->VRegisterCallBack(m_callbackThumbPressed);
+	cBaseControl::Initialize(def);
 }
+
 
 // ***************************************************************
 void cScrollBarControl::VRender(const ICamera * const pCamera)

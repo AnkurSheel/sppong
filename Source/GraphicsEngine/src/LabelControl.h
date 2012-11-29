@@ -33,7 +33,7 @@ namespace Graphics
 		 *
 		 * Initializes the label control as per the parameters
 		 ***********************************************/
-		void Initialize(const stLabelControlDef & def);
+		void Initialize(const cLabelControlDef & def);
 	
 	private:
 		~cLabelControl();

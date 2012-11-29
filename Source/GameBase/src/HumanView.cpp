@@ -48,14 +48,14 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const int iClientHeight)
 {
 	m_pGame = pGame;
-	stWindowControlDef def;
-	def.wType = WT_DESKTOP;
+	cWindowControlDef def;
+	def.wType = cWindowControlDef::WT_DESKTOP;
+	def.vSize = cVector2(iClientWidth, iClientHeight);
 	if(IBaseApp::VGetParamLoader() != NULL)
 	{
 		def.bAllowMovingControls = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);
 	}
 	m_pAppWindowControl = IBaseControl::CreateWindowControl(def);
-	m_pAppWindowControl->VSetSize(cVector2(iClientWidth, iClientHeight));
 	m_pCamera = ICamera::CreateCamera();
 
 // 	m_pCursorSprite = ISprite::CreateSprite();
@@ -64,14 +64,15 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
-	stLabelControlDef fpsLabelDef;
+	cLabelControlDef fpsLabelDef;
 	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
+	fpsLabelDef.vPosition = cVector2(iClientWidth/2- 75, 0.0f);
+	fpsLabelDef.bAutoSize = false;
+	fpsLabelDef.vSize = cVector2(150, 30);
 	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
 	m_pAppWindowControl->VAddChildControl(m_pFpsLabel);
-	m_pFpsLabel->VSetPosition(cVector2(iClientWidth/2- 75, 0.0f));
-	m_pFpsLabel->VSetSize(cVector2(150, 30));
 }
 
 // ***************************************************************

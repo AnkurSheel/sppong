@@ -51,7 +51,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
-	stLabelControlDef def;
+	cLabelControlDef def;
 	def.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	def.textColor = cColor::GRAY;
 	def.strText = "Press 'c' to start test";
@@ -245,30 +245,29 @@ void cGraphicsTestView::TestUIControls()
 		m_pInfoLabelControl->VSetText("Testing UI Controls. Press 'c' to go to next test");
 	}
 
-	stWindowControlDef wcDef;
-	wcDef.wType = WT_STANDARD;
+	cWindowControlDef wcDef;
+	wcDef.wType = cWindowControlDef::WT_STANDARD;
 	wcDef.strBGImageFile = "Test\\window.png";
 	wcDef.bAllowMovingControls = false;
-
+	wcDef.vPosition =  cVector2(300.f, 200.f);
+	wcDef.vSize = cVector2(400, 400);
 	IBaseControl * pWindowControl = IBaseControl::CreateWindowControl(wcDef);
 	m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pWindowControl));
-	pWindowControl->VSetPosition(cVector2(300.f, 300.f));
-	pWindowControl->VSetSize(cVector2(400, 400));
 
-	stLabelControlDef labelDef;
+	cLabelControlDef labelDef;
 
 	labelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	labelDef.strBGImageFile = "Test\\ScrollBar_BG.png";
 	labelDef.textColor = cColor::GREEN;
 	labelDef.strText = "Label";
 	labelDef.fTextHeight = 30;
+	labelDef.vPosition = cVector2(0.f, 70.f);
 	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(labelDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
-	pLabelControl->VSetPosition(cVector2(0.f, 70.f));
 
-	stButtonControlDef buttonDef;
-	buttonDef.iWidth = 100;
-	buttonDef.iHeight = 100;
+	cButtonControlDef buttonDef;
+	buttonDef.vSize = cVector2(100, 100);
+	buttonDef.vPosition = cVector2(0.f, 130.f);
 	buttonDef.strDefaultImage = "Test\\buttonDefault.png";
 	buttonDef.strPressedImage = "Test\\buttonPressed.png";
 	buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
@@ -278,24 +277,22 @@ void cGraphicsTestView::TestUIControls()
 	
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl));
-	pButtonControl->VSetPosition(cVector2(0.f, 130.f));
 	function<void (bool)> btnCallback;
 	btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
 	pButtonControl->VRegisterCallBack(btnCallback);
 
-	stButtonControlDef buttonDef1;
+	cButtonControlDef buttonDef1;
 	buttonDef1.strDefaultImage = "Test\\buttonDefault.png";
 	buttonDef1.strPressedImage = "Test\\buttonPressed.png";
-	buttonDef1.iWidth = 15;
-	buttonDef1.iHeight = 30;
+	buttonDef1.vSize = cVector2(15, 30);
+	buttonDef1.vPosition = cVector2(150.f, 90.f);
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl(buttonDef1);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl1));
-	pButtonControl1->VSetPosition(cVector2(150.f, 90.f));
 	function<void (bool)> btn1Callback;
 	btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
 	pButtonControl1->VRegisterCallBack(btn1Callback);
 	
-	stTextBoxControlDef textControlDef;
+	cTextBoxControlDef textControlDef;
 	textControlDef.strBGImage = "Test\\TextBox.png";
 	textControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	textControlDef.fTextHeight = 30;
@@ -303,31 +300,29 @@ void cGraphicsTestView::TestUIControls()
 	textControlDef.strCaretImage = "Test\\caret.png";
 	textControlDef.iCaretWidth = 3;
 	textControlDef.fCaretUpdateTime =0.25f;
-
+	textControlDef.vSize = cVector2(200, 45);
+	textControlDef.vPosition = cVector2(110.0f, 200.f);
 	IBaseControl * pTextBoxControl = IBaseControl::CreateTextBoxControl(textControlDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pTextBoxControl));
-	pTextBoxControl->VSetSize(cVector2(200, 45));
-	pTextBoxControl->VSetPosition(cVector2(110.0f, 200.f));
 	
-	stCheckBoxControlDef checkboxControlDef;
+	cCheckBoxControlDef checkboxControlDef;
 	checkboxControlDef.buttonControlDef.strDefaultImage = "Test\\Unchecked.png";
 	checkboxControlDef.buttonControlDef.strPressedImage = "Test\\Checked.png";
 	checkboxControlDef.labelControlDef.strText = "CheckBox";
 	checkboxControlDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	checkboxControlDef.labelControlDef.fTextHeight = 20;
 	checkboxControlDef.labelControlDef.textColor = cColor::WHITE;
-	checkboxControlDef.buttonControlDef.iHeight= 50;
-	checkboxControlDef.buttonControlDef.iWidth = 30;
+	checkboxControlDef.buttonControlDef.vSize = cVector2(50, 30);
 	checkboxControlDef.iSpaceCaption = 10;
+	checkboxControlDef.vPosition = cVector2(0.f, 250.f);
 
 	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pCheckBoxControl));
-	pCheckBoxControl->VSetPosition(cVector2(0.f, 250.f));
 	function<void (bool)> checkBoxCallback;
 	checkBoxCallback = bind(&cGame::CheckBoxPressed, m_pGame, _1);
 	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
 
-	stScrollBarControlDef vScrollBarDef;
+	cScrollBarControlDef vScrollBarDef;
 	vScrollBarDef.strBGImage = "Test\\ScrollBar_BG.png";
 	vScrollBarDef.iMinPos = 10;
 	vScrollBarDef.iMaxPos = 50;
@@ -338,13 +333,12 @@ void cGraphicsTestView::TestUIControls()
 	vScrollBarDef.TopLeftArrowDef.strPressedImage = "Test\\ScrollBar_Up.png";
 	vScrollBarDef.BottomRightArrowDef.strDefaultImage = "Test\\ScrollBar_Down.png";
 	vScrollBarDef.BottomRightArrowDef.strPressedImage = "Test\\ScrollBar_Down.png";
-	
+	vScrollBarDef.vPosition = cVector2(326.f, 56.f);
+	vScrollBarDef.vSize = cVector2(30, 300);
 	IBaseControl * pVScrollBarControl = IBaseControl::CreateVScrollBarControl(vScrollBarDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pVScrollBarControl));
-	pVScrollBarControl->VSetPosition(cVector2(326.f, 56.f));
-	pVScrollBarControl->VSetSize(cVector2(30, 300));	
 
-	stScrollBarControlDef hScrollBarDef;
+	cScrollBarControlDef hScrollBarDef;
 	hScrollBarDef.strBGImage = "Test\\ScrollBar_BG.png";
 	hScrollBarDef.iMinPos = 0;
 	hScrollBarDef.iMaxPos = 10;
@@ -354,11 +348,11 @@ void cGraphicsTestView::TestUIControls()
 	hScrollBarDef.TopLeftArrowDef.strPressedImage = "Test\\ScrollBar_Left.png";
 	hScrollBarDef.BottomRightArrowDef.strDefaultImage = "Test\\ScrollBar_Right.png";
 	hScrollBarDef.BottomRightArrowDef.strPressedImage = "Test\\ScrollBar_Right.png";
+	hScrollBarDef.vPosition = cVector2(20.f, 330.f);
+	hScrollBarDef.vSize = cVector2(200, 30);
 
 	IBaseControl * pHScrollBarControl = IBaseControl::CreateHScrollBarControl(hScrollBarDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHScrollBarControl));
-	pHScrollBarControl->VSetPosition(cVector2(20.f, 330.f));
-	pHScrollBarControl->VSetSize(cVector2(200, 30));
 }
 // ***************************************************************
 void cGraphicsTestView::Cleanup()

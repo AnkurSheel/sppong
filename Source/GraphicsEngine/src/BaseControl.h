@@ -33,11 +33,12 @@ namespace Graphics
 		, public Base::cNonCopyable
 	{
 	public:
+		virtual ~cBaseControl();
 		void VSetVisible(bool bIsVisible);
 
 	protected:
 		cBaseControl();
-		virtual ~cBaseControl();
+		void Initialize(const cBaseControlDef & def);
 		void VRender(const ICamera * const pCamera );
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
 		bool VOnLeftMouseButtonDown(const int X, const int Y);

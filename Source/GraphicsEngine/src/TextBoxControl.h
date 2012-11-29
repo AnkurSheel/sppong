@@ -43,7 +43,7 @@ namespace Graphics
 		 *
 		 * Initializes the textbox control as per the parameters
 		 ***********************************************/
-		void Initialize(const stTextBoxControlDef & def);
+		void Initialize(const cTextBoxControlDef & def);
 	
 	private:
 		~cTextBoxControl();

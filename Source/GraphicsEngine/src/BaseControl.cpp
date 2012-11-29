@@ -39,6 +39,12 @@ cBaseControl::~cBaseControl()
 	VCleanup();
 }
 
+void cBaseControl::Initialize(const cBaseControlDef & def)
+{
+	VSetPosition(def.vPosition);
+	VSetSize(def.vSize);
+}
+
 // ***************************************************************
 bool cBaseControl::VPostMsg( const AppMsg & msg )
 {
@@ -120,6 +126,7 @@ void cBaseControl::VAddChildControl(shared_ptr<IBaseControl> pChildControl)
 	if (pControl)
 	{
 		pControl->SetParentControl(this);
+		pControl->VSetAbsolutePosition();
 		m_pChildControl.push_back(pControl);
 	}
 }
@@ -151,7 +158,6 @@ void cBaseControl::VSetPosition( const cVector2 & vPosition )
 	if(m_vPosition != vPosition)
 	{
 		m_vPosition = vPosition;
-		ConstrainChildControl(m_vPosition.m_dX, m_vPosition.m_dY);
 		VSetAbsolutePosition();
 	}
 }
@@ -279,6 +285,7 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 // ***************************************************************
 void cBaseControl::VSetAbsolutePosition()
 {
+	ConstrainChildControl(m_vPosition.m_dX, m_vPosition.m_dY);
 	m_vControlAbsolutePosition = m_vPosition;
 	if (m_pParentControl)
 	{

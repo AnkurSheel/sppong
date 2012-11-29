@@ -38,7 +38,7 @@ cTextBoxControl::~cTextBoxControl()
 }
 
 // ***************************************************************
-void cTextBoxControl::Initialize(const stTextBoxControlDef & def)
+void cTextBoxControl::Initialize(const cTextBoxControlDef & def)
 {
 	m_pSentence = ISentence::CreateSentence();
 	m_pSentence->VInitialize(def.pFont, "", def.textColor);
@@ -48,7 +48,6 @@ void cTextBoxControl::Initialize(const stTextBoxControlDef & def)
 		m_pBGSprite = ISprite::CreateSprite();
 		m_pBGSprite->VInitialize(def.strBGImage);
 	}
-
 	if (!def.strCaretImage.IsEmpty())
 	{
 		m_pCaretSprite = ISprite::CreateSprite();
@@ -56,8 +55,8 @@ void cTextBoxControl::Initialize(const stTextBoxControlDef & def)
 		m_pCaretSprite->VSetSize(cVector2(def.iCaretWidth, def.fTextHeight));
 	}
 	m_fCaretUpdateTime = def.fCaretUpdateTime;
-
 	m_pTimer = ITimer::CreateTimer();
+	cBaseControl::Initialize(def);
 }
 
 // ***************************************************************
@@ -265,7 +264,7 @@ void cTextBoxControl::SetCaratAbsolutePosition()
 }
 
 // ***************************************************************
-IBaseControl * IBaseControl::CreateTextBoxControl(const stTextBoxControlDef & def)
+IBaseControl * IBaseControl::CreateTextBoxControl(const cTextBoxControlDef & def)
 {
 	cTextBoxControl * pControl = DEBUG_NEW cTextBoxControl();
 	pControl->Initialize(def);
