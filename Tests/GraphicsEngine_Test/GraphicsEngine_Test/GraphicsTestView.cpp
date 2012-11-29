@@ -112,8 +112,8 @@ void cGraphicsTestView::VRenderPrivate()
 		case TEST_MODELCOLOR:
 			if(m_pGameElement)
 			{
-				//m_pModel->VSetRotation(cVector3(0.0f, 
-				//	m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
+				m_pGameElement->SetRotation(cVector3(0.0f, 
+					m_pGameElement->GetRotation().m_dY + DegtoRad(0.1f), 0.0f));
 				m_pGameElement->Render(m_pCamera);
 			}
 			break;
@@ -194,10 +194,8 @@ void cGraphicsTestView::TestModelTexture()
 	cGameElementDef def;
 	def.strModelPath = "resources//cube.spdo";
 	def.vPosition = cVector3(2.0f, 2.0f, 2.0f);
-	def.vScale = cVector3(1.0f, 1.0f, 1.0f);
+	def.vRotation = cVector3(0.7f, 0.0f, 0.7f);
 	m_pGameElement->Initialize(def);
-
-	//m_pModel->VSetRotation(cVector3(0.7f, 0.0f, 0.7f));
 }
 
 // ***************************************************************

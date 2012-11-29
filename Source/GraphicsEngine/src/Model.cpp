@@ -30,7 +30,6 @@ cModel::cModel()
 , m_iVertexCount(0)
 , m_iIndexCount(0)
 , m_iVertexSize(0)
-, m_bIsDirty(false)
 , m_fBoundingSphereRadius(0)
 , m_pBoundingBox(NULL)
 {
@@ -78,8 +77,6 @@ bool cModel::VOnInitialization(const stModelDef & def)
 	m_vBoundingSphereCentre = cVector3(vMaxAABB.m_dX - distX, m_vAABBMax.m_dY - distY, m_vAABBMax.m_dZ - distZ);
 	m_fBoundingSphereRadius = (distX * distX + distY * distY + distZ * distZ) / 2.0f;
 */
-	VSetScale(cVector3(1.0f, 1.0f, 1.0f));
-
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader, "resources\\Shaders\\Texture.vsho",
 		"resources\\Shaders\\Texture.psho");
@@ -104,12 +101,6 @@ void cModel::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOn();
 
-	if(m_bIsDirty)
-	{
-		ReCalculateTransformMatrix();
-		m_pBoundingBox->VTransform(m_matTransform);
-		m_bIsDirty = false;
-	}
 	const cCamera * pCam = static_cast<const cCamera *>(pCamera);
 
 	for (int i=0; i<m_vSubsets.size(); i++)
@@ -128,54 +119,21 @@ void cModel::VRender(const ICamera * const pCamera)
 
 }
 
-// *************************************************************************
-void cModel::VSetRotation(const cVector3 & vRadians)
+void cModel::VReCalculateTransformMatrix(const cVector3 vPosition, const cVector3 vRotation,
+										const cVector3 vScale)
 {
-	if(m_vRotation != vRadians)
-	{
-		m_bIsDirty = true;
-		m_vRotation.m_dX = ClampToTwoPi(vRadians.m_dX);
-		m_vRotation.m_dY = ClampToTwoPi(vRadians.m_dY);
-		m_vRotation.m_dZ = ClampToTwoPi(vRadians.m_dZ);
-	}
-}
+	D3DXMATRIX matRotation;
+	D3DXMatrixRotationYawPitchRoll(&matRotation, vRotation.m_dY, vRotation.m_dX,
+		vRotation.m_dZ);
 
-// *************************************************************************
-cVector3 cModel::VGetRotation() const
-{
-	return m_vRotation;
-}
+	D3DXMATRIX matScale;
+	D3DXMatrixScaling(&matScale, vScale.m_dX, vScale.m_dY, vScale.m_dZ);
 
-// *************************************************************************
-void cModel::VSetPosition(const Base::cVector3 & vPosition)
-{
-	if(m_vPosition != vPosition)
-	{
-		m_bIsDirty = true;
-		m_vPosition = vPosition;
-	}
-}
+	D3DXMATRIX matPosition;
+	D3DXMatrixTranslation(&matPosition, vPosition.m_dX, vPosition.m_dY, vPosition.m_dZ);
 
-// *************************************************************************
-cVector3 cModel::VGetPosition() const
-{
-	return m_vPosition;
-}
-
-// *************************************************************************
-void cModel::VSetScale(const Base::cVector3 & vScale)
-{
-	if(m_vScale!= vScale)
-	{
-		m_bIsDirty = true;
-		m_vScale= vScale;
-	}
-}
-
-// *************************************************************************
-cVector3 cModel::VGetScale() const
-{
-	return m_vScale;
+	D3DXMatrixIdentity(&m_matTransform);
+	m_matTransform = matScale * matRotation * matPosition;
 }
 
 // ***************************************************************
@@ -239,22 +197,6 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 		return false;
 	}
 	return true;
-}
-
-void cModel::ReCalculateTransformMatrix()
-{
-	D3DXMATRIX matRotation;
-	D3DXMatrixRotationYawPitchRoll(&matRotation, m_vRotation.m_dY, m_vRotation.m_dX,
-		m_vRotation.m_dZ);
-
-	D3DXMATRIX matScale;
-	D3DXMatrixScaling(&matScale, m_vScale.m_dX, m_vScale.m_dY, m_vScale.m_dZ);
-
-	D3DXMATRIX matPosition;
-	D3DXMatrixTranslation(&matPosition, m_vPosition.m_dX, m_vPosition.m_dY, m_vPosition.m_dZ);
-
-	D3DXMatrixIdentity(&m_matTransform);
-	m_matTransform = matScale * matRotation * matPosition;
 }
 
 // *************************************************************************

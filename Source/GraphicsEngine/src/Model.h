@@ -52,12 +52,8 @@ namespace Graphics
 	private:
 		bool VOnInitialization(const stModelDef & def);
 		void VRender(const ICamera * const pCamera);
-		void VSetRotation(const Base::cVector3 & vRadians);
-		Base::cVector3 VGetRotation() const;
-		void VSetPosition(const Base::cVector3 & vPosition);
-		Base::cVector3 VGetPosition() const;
-		virtual void VSetScale(const Base::cVector3 & vScale);
-		virtual Base::cVector3 VGetScale() const;
+		void VReCalculateTransformMatrix(const Base::cVector3 vPosition,
+			const Base::cVector3 vRotation, const Base::cVector3 vScale);
 		void VCleanup();
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model
@@ -74,12 +70,6 @@ namespace Graphics
 		 ***********************************************/
 		bool CreateIndexBuffer(const unsigned long * const pIndices);
 		/********************************************//**
-		 *
-		 * Recalculates the transformation matrix of this model if the scale,
-		 * rotation or the position of the model changes in the world
-		 ***********************************************/
-		void ReCalculateTransformMatrix();
-		/********************************************//**
 		 * @param[in] pVertices The vertex data of this model
 		 *
 		 * Creates the bounding box of the model
@@ -94,10 +84,6 @@ namespace Graphics
 		UINT							m_iVertexSize;				/*!< The size of the vertex structure */
 		shared_ptr<cTextureShader>		m_pShader;					/*!< The shader responsible for rendering the model depending on the model vertex data type.*/
 		std::vector<stObjectSubset>		m_vSubsets;					/*!< Vector of subsets of the model. */
-		bool							m_bIsDirty;					/*!< Set to true if the position,scale or rotation matrix is changed. */
-		Base::cVector3					m_vRotation;				/*!< The rotation of the model.*/
-		Base::cVector3					m_vPosition;				/*!< The position of the model.*/
-		Base::cVector3					m_vScale;					/*!< The scale of the model.*/
 		D3DXMATRIX						m_matTransform;				/*!< The transform Matrix of the model */
 		IBoundingBox *					m_pBoundingBox;				/*!< The bounding box of the model */
 		Base::cVector3					m_vBoundingSphereCentre;	/*!< The centre for bounding sphere of model */

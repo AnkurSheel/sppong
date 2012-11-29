@@ -91,41 +91,15 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VRender(const ICamera * const pCamera) = 0;
 		/********************************************//**
- 		 * @param[in] vRadians The angle in radians along the X,Y,Z axis
+		 * @param[in] vPosition The position of the model
+		 * @param[in] vRotation The rotation of the model
+		 * @param[in] vScale The scale of the model
 		 *
-		 * Sets the rotation of the model
+		 * Recalculates the transformation matrix of this model if the scale,
+		 * rotation or the position of the model changes in the world
 		 ***********************************************/
-		virtual void VSetRotation(const Base::cVector3 & vRadians) = 0;
-		/********************************************//**
- 		 * @return The current rotation of the model
-		 *
-		 * Returns the rotation of the model
-		 ***********************************************/
-		virtual Base::cVector3 VGetRotation() const = 0;
-		/********************************************//**
- 		 * @param[in] vPosition The position of the model
-		 *
-		 * Sets the position of the model.
-		 ***********************************************/
-		virtual void VSetPosition(const Base::cVector3 & vPosition) = 0;
-		/********************************************//**
- 		 * @return The current position of the model
-		 *
-		 * Returns the position of the model
-		 ***********************************************/
-		virtual Base::cVector3 VGetPosition() const = 0;
-		/********************************************//**
- 		 * @param[in] vScale The scale of the model
-		 *
-		 * Sets the scale of the model.
-		 ***********************************************/
-		virtual void VSetScale(const Base::cVector3 & vScale) = 0;
-		/********************************************//**
- 		 * @return The current scale of the model
-		 *
-		 * Returns the scale of the model
-		 ***********************************************/
-		virtual Base::cVector3 VGetScale() const = 0;
+		virtual void VReCalculateTransformMatrix(const Base::cVector3 vPosition,
+			const Base::cVector3 vRotation, const Base::cVector3 vScale) = 0;
 		/********************************************//**
 		 *
 		 * Releases and destroys all the resources 

@@ -32,7 +32,13 @@ namespace GameBase
 	public:
 		Base::cString	strModelPath;
 		Base::cVector3	vPosition;
+		Base::cVector3	vRotation;
 		Base::cVector3	vScale;
+
+		cGameElementDef()
+			: vScale(1.0f, 1.0f, 1.0f)
+		{
+		}
 	};
 
 	class cGameElement
@@ -43,11 +49,51 @@ namespace GameBase
 		GAMEBASE_API virtual  ~cGameElement();
 		GAMEBASE_API void Initialize(const cGameElementDef & def);
 		GAMEBASE_API void Render(const Graphics::ICamera * const pCamera);
+		/********************************************//**
+ 		 * @param[in] vRadians The angle in radians along the X,Y,Z axis
+		 *
+		 * Sets the rotation of the model
+		 ***********************************************/
+		GAMEBASE_API void SetRotation(const Base::cVector3 & vRadians);
+		/********************************************//**
+ 		 * @return The current rotation of the model
+		 *
+		 * Returns the rotation of the model
+		 ***********************************************/
+		GAMEBASE_API Base::cVector3 GetRotation() const;
+		/********************************************//**
+ 		 * @param[in] vPosition The position of the model
+		 *
+		 * Sets the position of the model.
+		 ***********************************************/
+		GAMEBASE_API void SetPosition(const Base::cVector3 & vPosition);
+		/********************************************//**
+ 		 * @return The current position of the model
+		 *
+		 * Returns the position of the model
+		 ***********************************************/
+		GAMEBASE_API Base::cVector3 GetPosition() const;
+		/********************************************//**
+ 		 * @param[in] vScale The scale of the model
+		 *
+		 * Sets the scale of the model.
+		 ***********************************************/
+		GAMEBASE_API void SetScale(const Base::cVector3 & vScale);
+		/********************************************//**
+ 		 * @return The current scale of the model
+		 *
+		 * Returns the scale of the model
+		 ***********************************************/
+		GAMEBASE_API Base::cVector3 GetScale() const;
 		GAMEBASE_API void Cleanup();
 
 	private:
 		Base::cString		m_strFileName;
 		Graphics::IModel *	m_pModel;	
+		Base::cVector3		m_vRotation;	/*!< The rotation of the game element.*/
+		Base::cVector3		m_vPosition;	/*!< The position of the game element.*/
+		Base::cVector3		m_vScale;		/*!< The scale of the game element. */
+		bool				m_bIsDirty;		/*!< Set to true if the position, scale or rotation is changed. */
 	};
 }
 #endif

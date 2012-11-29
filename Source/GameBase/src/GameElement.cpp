@@ -16,69 +16,10 @@
 using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
-//// ***************************************************************
-//
-//// ***************************************************************
-//
-//void cGameElement::OnEndInit(const cVector3 & vInitialPos)
-//{
-//	m_vPosition = vInitialPos;
-//	//m_pSprite->SetPosition(vInitialPos);
-//	SetBoundingRectangle();
-//}
-//
-//// ***************************************************************
-//// Sets the bounding rectangle for the Game Element
-//// ***************************************************************
-//void cGameElement::SetBoundingRectangle()
-//{
-//	cVector2 v1[] = {
-//		cVector2(m_vPosition.m_dX, m_vPosition.m_dY),
-//		cVector2(m_vPosition.m_dX + m_pSprite->VGetSize().m_dX, m_vPosition.m_dY),
-//		cVector2(m_vPosition.m_dX + m_pSprite->VGetSize().m_dX, m_vPosition.m_dY 
-//		+ m_pSprite->VGetSize().m_dY),
-//		cVector2(m_vPosition.m_dX, m_vPosition.m_dY + m_pSprite->VGetSize().m_dY)
-//	};
-//
-//	//m_pBoundingPolygon = IPolygon::CreatePolygon(v1, 4);
-//	
-//}
-//// ***************************************************************
-//
-//// ***************************************************************
-//// Called when the game restarts
-//// ***************************************************************
-//void cGameElement::OnRestart( const cVector3 & vInitialPos )
-//{
-//	m_vPosition = vInitialPos;
-//}
-//// ***************************************************************
-//
-//void cGameElement::Cleanup()
-//{
-//	//SAFE_DELETE(m_pBoundingPolygon);
-//}
-//// ***************************************************************
-//
-//void cGameElement::UpdatePosition()
-//{
-//	//if(m_vPrevPosition != m_vPosition)
-//	//{
-//	//	m_pSprite->VSetPosition(cVector2(m_vPosition.m_dX, m_vPosition.m_dY));
-//	//	cVector2 trans(m_vPosition.m_dX - m_vPrevPosition.m_dX, m_vPosition.m_dY - m_vPrevPosition.m_dY);
-//	//	//m_pBoundingPolygon->Translate(trans);
-//	//	m_vPrevPosition = m_vPosition;
-//	//}
-//}
-//// ***************************************************************
-//const Base::cVector3& cGameElement::GetPosition() const
-//{
-//	return m_vPosition;
-//}
-
 // *****************************************************************************
 cGameElement::cGameElement()
 : m_pModel(NULL)
+, m_bIsDirty(false)
 {
 
 }
@@ -96,21 +37,79 @@ void cGameElement::Initialize(const cGameElementDef & def)
 	{
 		m_pModel = IModel::CreateModel();
 		IObjModelLoader::GetInstance()->VLoadModelFromFile(def.strModelPath, m_pModel);
-		m_pModel->VSetPosition(def.vPosition);
-		m_pModel->VSetScale(def.vScale);
+		SetPosition(def.vPosition);
+		SetScale(def.vScale);
+		SetRotation(def.vRotation);
 	}
+}
+
+// *****************************************************************************
+void cGameElement::Render(const ICamera * const pCamera)
+{
+	if (m_pModel)
+	{
+		if(m_bIsDirty)
+		{
+			m_pModel->VReCalculateTransformMatrix(m_vPosition, m_vRotation, m_vScale);
+			//m_pBoundingBox->VTransform(m_matTransform);
+			m_bIsDirty = false;
+		}
+		m_pModel->VRender(pCamera);
+	}
+}
+
+// *****************************************************************************
+cVector3 cGameElement::GetRotation() const
+{
+	return m_vRotation;
+}
+
+// *****************************************************************************
+void cGameElement::SetRotation(const Base::cVector3 & vRadians)
+{
+	if(m_vRotation != vRadians)
+	{
+		m_bIsDirty = true;
+		m_vRotation.m_dX = ClampToTwoPi(vRadians.m_dX);
+		m_vRotation.m_dY = ClampToTwoPi(vRadians.m_dY);
+		m_vRotation.m_dZ = ClampToTwoPi(vRadians.m_dZ);
+	}
+}
+
+// *************************************************************************
+void cGameElement::SetPosition(const Base::cVector3 & vPosition)
+{
+	if(m_vPosition != vPosition)
+	{
+		m_bIsDirty = true;
+		m_vPosition = vPosition;
+	}
+}
+
+// *************************************************************************
+cVector3 cGameElement::GetPosition() const
+{
+	return m_vPosition;
+}
+
+// *************************************************************************
+void cGameElement::SetScale(const Base::cVector3 & vScale)
+{
+	if(m_vScale!= vScale)
+	{
+		m_bIsDirty = true;
+		m_vScale= vScale;
+	}
+}
+
+// *************************************************************************
+cVector3 cGameElement::GetScale() const
+{
+	return m_vScale;
 }
 
 // *****************************************************************************
 void cGameElement::Cleanup()
 {
 	SAFE_DELETE(m_pModel);
-}
-// *****************************************************************************
-void cGameElement::Render(const ICamera * const pCamera)
-{
-	if (m_pModel)
-	{
-		m_pModel->VRender(pCamera);
-	}
 }
