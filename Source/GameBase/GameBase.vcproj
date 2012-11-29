@@ -191,11 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\GameElement.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\GameElement.inl"
+				RelativePath=".\Includes\GameElement.h"
 				>
 			</File>
 		</Filter>

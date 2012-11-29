@@ -103,9 +103,9 @@ void cGame::VOnUpdate()
 void cGame::Restart()
 {
 	Sleep(100);
-	m_pGameElements[PGE_PADDLE_LEFT]->OnRestart(cVector3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
-	m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(cVector3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
-	m_pGameElements[PGE_BALL]->OnRestart(cVector3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
+	//m_pGameElements[PGE_PADDLE_LEFT]->OnRestart(cVector3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
+	//m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(cVector3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
+	//m_pGameElements[PGE_BALL]->OnRestart(cVector3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
 }
 
 // ***************************************************************
@@ -168,7 +168,7 @@ void cGame::VCleanup()
 	{
 		if (m_pGameElements[i])
 		{
-			m_pGameElements[i]->Cleanup();
+			//m_pGameElements[i]->Cleanup();
 			SAFE_DELETE(m_pGameElements[i]);
 		}
 	}

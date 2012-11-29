@@ -37,5 +37,8 @@ namespace Graphics
 		 * If the value is invalid returns 0.
 		 ***********************************************/
 		int GetIntValue(const Base::cString & strVal);
+
+	public:
+		static IObjModelLoader * s_pModelLoader;	/*!< static object of this class */
 	};
 }

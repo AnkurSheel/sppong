@@ -17,6 +17,7 @@ class cGame;
 namespace GameBase
 {
 	class IBaseApp;
+	class cGameElement;
 }
 
 namespace Graphics
@@ -53,7 +54,7 @@ private:
 	shared_ptr<Graphics::IBaseControl>	m_pInfoLabelControl;
 	bool								m_bFinished;
 	const int							m_iVertexListCount;
-	Graphics::IModel *					m_pModel;
+	GameBase::cGameElement *			m_pGameElement;
 	shared_ptr<Graphics::ISprite>		m_pSprite;
 	std::vector<Graphics::ISentence *>	m_vSentences;
 };

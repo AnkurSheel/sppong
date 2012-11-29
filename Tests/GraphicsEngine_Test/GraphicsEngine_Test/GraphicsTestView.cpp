@@ -22,6 +22,7 @@
 #include "FontManager.hxx"
 #include "Sentence.hxx"
 #include "ObjModelLoader.hxx"
+#include "GameElement.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -33,7 +34,7 @@ cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
 , m_bFinished(false)
 , m_iVertexListCount(1000)
-, m_pModel(NULL)
+, m_pGameElement(NULL)
 {
 }
 
@@ -109,20 +110,20 @@ void cGraphicsTestView::VRenderPrivate()
 		switch(m_pGame->GetCurrentTest())
 		{
 		case TEST_MODELCOLOR:
-			if(m_pModel)
+			if(m_pGameElement)
 			{
-				m_pModel->VSetRotation(cVector3(0.0f, 
-					m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
-				m_pModel->VRender(m_pCamera);
+				//m_pModel->VSetRotation(cVector3(0.0f, 
+				//	m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
+				m_pGameElement->Render(m_pCamera);
 			}
 			break;
 
 		case TEST_MODELTEXTURE:
-			if(m_pModel)
+			if(m_pGameElement)
 			{
 				//m_pModel->VSetRotation(cVector3(0.0f, 
 				//	m_pModel->VGetRotation().m_dY + DegtoRad(0.1f), 0.0f));
-				m_pModel->VRender(m_pCamera);
+				m_pGameElement->Render(m_pCamera);
 			}
 			break;
 
@@ -166,13 +167,14 @@ void cGraphicsTestView::TestModelColor()
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Model with color");
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
-	m_pModel = IModel::CreateModel();
-
-	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
-	pObjModelLoader->VLoadModelFromFile("resources//sphere.spdo", m_pModel);
-	m_pModel->VSetPosition(cVector3(6.0f, 5.0f, 1.0f));
-	m_pModel->VSetScale(cVector3(2.0f, 2.0f, 1.0f));
-
+	
+	m_pGameElement = DEBUG_NEW cGameElement();
+	
+	cGameElementDef def;
+	def.strModelPath = "resources//sphere.spdo";
+	def.vPosition = cVector3(6.0f, 5.0f, 1.0f);
+	def.vScale = cVector3(2.0f, 2.0f, 1.0f);
+	m_pGameElement->Initialize(def);
 }
 
 // ***************************************************************
@@ -186,12 +188,16 @@ void cGraphicsTestView::TestModelTexture()
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Model with Texture");
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
-	m_pModel = IModel::CreateModel();
 
-	shared_ptr<IObjModelLoader> pObjModelLoader = shared_ptr<IObjModelLoader>(IObjModelLoader::GetObjModelLoader());
-	pObjModelLoader->VLoadModelFromFile("resources//cube.spdo", m_pModel);
-	m_pModel->VSetScale(cVector3(2.0f, 2.0f, 2.0f));
-	m_pModel->VSetRotation(cVector3(0.7f, 0.0f, 0.7f));
+	m_pGameElement = DEBUG_NEW cGameElement();
+
+	cGameElementDef def;
+	def.strModelPath = "resources//cube.spdo";
+	def.vPosition = cVector3(2.0f, 2.0f, 2.0f);
+	def.vScale = cVector3(1.0f, 1.0f, 1.0f);
+	m_pGameElement->Initialize(def);
+
+	//m_pModel->VSetRotation(cVector3(0.7f, 0.0f, 0.7f));
 }
 
 // ***************************************************************
@@ -359,7 +365,8 @@ void cGraphicsTestView::TestUIControls()
 // ***************************************************************
 void cGraphicsTestView::Cleanup()
 {
-	SAFE_DELETE(m_pModel);
+	SAFE_DELETE(m_pGameElement);
+
 	std::vector<ISentence*>::iterator iter;
 	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
 	{
@@ -368,12 +375,14 @@ void cGraphicsTestView::Cleanup()
 	m_vSentences.clear();
 	SAFE_DELETE(m_pAppWindowControl);
 	IFontManager::Destroy();
+	IObjModelLoader::Destroy();
 }
 
 // ***************************************************************
 void cGraphicsTestView::TestFinished()
 {
-	SAFE_DELETE(m_pModel);
+	SAFE_DELETE(m_pGameElement);
+
 	std::vector<ISentence*>::iterator iter;
 	for (iter = m_vSentences.begin(); iter != m_vSentences.end(); iter++)
 	{

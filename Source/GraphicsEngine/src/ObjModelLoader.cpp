@@ -20,6 +20,8 @@ using namespace Base;
 using namespace Utilities;
 using namespace std;
 
+IObjModelLoader * cObjModelLoader::s_pModelLoader = NULL;
+
 // *************************************************************************
 cObjModelLoader::cObjModelLoader()
 {
@@ -148,7 +150,15 @@ int cObjModelLoader::GetIntValue(const Base::cString & strVal)
 
 }
 // *************************************************************************
-IObjModelLoader * IObjModelLoader::GetObjModelLoader()
+IObjModelLoader * IObjModelLoader::GetInstance()
 {
-	return DEBUG_NEW cObjModelLoader();
+	if(cObjModelLoader::s_pModelLoader == NULL)
+		cObjModelLoader::s_pModelLoader = DEBUG_NEW cObjModelLoader();
+	return cObjModelLoader::s_pModelLoader;
+}
+
+// *****************************************************************************
+void IObjModelLoader::Destroy()
+{
+	SAFE_DELETE(cObjModelLoader::s_pModelLoader);
 }

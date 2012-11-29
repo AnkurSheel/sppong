@@ -36,6 +36,7 @@ namespace Graphics
 		 *
 		 * Returns an object to use this interface
 		 ***********************************************/
-		GRAPHIC_API static IObjModelLoader * GetObjModelLoader();
+		GRAPHIC_API static IObjModelLoader * GetInstance();
+		GRAPHIC_API static void Destroy();
 	};
 }

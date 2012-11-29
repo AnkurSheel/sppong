@@ -20,7 +20,6 @@ using namespace Base;
 // Constructor
 // ***************************************************************
 cScore::cScore()
-//: m_pFont(NULL)
 : m_iValue(0)
 {
 }

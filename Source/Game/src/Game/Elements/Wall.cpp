@@ -33,12 +33,12 @@ cWall::~cWall()
 // *************************************************************** 	
 void cWall::Init( const cVector3& vPosition, const cString & strFilename )
 {
-	cPongGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableWidth, (float)m_siTableHeight/25));
-	cVector3 vPos(vPosition);
-	if (vPos.m_dY > m_siTableHeight /2)
-	{
-		vPos.m_dY = (float)(m_siTableHeight - m_pSprite->VGetSize().m_dY);
-	}
-	cPongGameElement::OnEndInit(vPos);
+	//cPongGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableWidth, (float)m_siTableHeight/25));
+	//cVector3 vPos(vPosition);
+	//if (vPos.m_dY > m_siTableHeight /2)
+	//{
+	//	vPos.m_dY = (float)(m_siTableHeight - m_pSprite->VGetSize().m_dY);
+	//}
+	//cPongGameElement::OnEndInit(vPos);
 }
 // ***************************************************************

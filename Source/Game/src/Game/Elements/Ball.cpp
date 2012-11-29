@@ -36,14 +36,14 @@ cBall::~cBall()
 // ***************************************************************
 void cBall::Init( const cVector3& vInitialPos, const cString & strFilename)
 {
-	cPongGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableHeight/30, (float)m_siTableHeight/25));
-	m_pRandomGenerator = IRandomGenerator::CreateRandomGenerator();
-	if (m_pRandomGenerator)
-	{
-		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
-	}
-	m_vSpeed = cVector3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
-	cPongGameElement::OnEndInit(vInitialPos);
+	//cPongGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableHeight/30, (float)m_siTableHeight/25));
+	//m_pRandomGenerator = IRandomGenerator::CreateRandomGenerator();
+	//if (m_pRandomGenerator)
+	//{
+	//	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
+	//}
+	//m_vSpeed = cVector3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
+	//cPongGameElement::OnEndInit(vInitialPos);
 }
 // ***************************************************************
 
@@ -67,34 +67,32 @@ void cBall::ChangeSpeedY()
 
 void cBall::OnRestart( const cVector3& vInitialPos )
 {
-	cPongGameElement::OnRestart(vInitialPos);
-	int iSpeedDirection = m_pRandomGenerator->Random(2);
-	if (iSpeedDirection == 1)
-	{
-		m_vSpeed.m_dX = -m_vSpeed.m_dX;
-	}
+	//cPongGameElement::OnRestart(vInitialPos);
+	//int iSpeedDirection = m_pRandomGenerator->Random(2);
+	//if (iSpeedDirection == 1)
+	//{
+	//	m_vSpeed.m_dX = -m_vSpeed.m_dX;
+	//}
 
-	iSpeedDirection = m_pRandomGenerator->Random(2);
-	if (iSpeedDirection == 1)
-	{
-		m_vSpeed.m_dY = -m_vSpeed.m_dY;
-	}
-
-
+	//iSpeedDirection = m_pRandomGenerator->Random(2);
+	//if (iSpeedDirection == 1)
+	//{
+	//	m_vSpeed.m_dY = -m_vSpeed.m_dY;
+	//}
 }
 // ***************************************************************
 
 void cBall::OnUpdate(float fElapsedTime)
 {
-	m_vPosition += (m_vSpeed * fElapsedTime);
-	UpdatePosition();
+	//m_vPosition += (m_vSpeed * fElapsedTime);
+	//UpdatePosition();
 }
 // ***************************************************************
 
 void cBall::Cleanup()
 {
-	SAFE_DELETE(m_pRandomGenerator);
-	cGameElement::Cleanup();
+	//SAFE_DELETE(m_pRandomGenerator);
+	//cGameElement::Cleanup();
 }
 // ***************************************************************
 
