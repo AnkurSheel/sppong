@@ -54,6 +54,13 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 {
 	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
 	{
+		cWindowControlDef titleDef;
+		titleDef.strControlName = "TitleScreen";
+		titleDef.wType = cWindowControlDef::WT_STANDARD;
+		titleDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
+		IBaseControl * pTitleScreen = IBaseControl::CreateWindowControl(titleDef);
+		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pTitleScreen));
+		
 		cLabelControlDef def;
 		def.pFont = IFontManager::GetInstance()->VGetFont("JokerMan.fnt"); 
 		def.textColor = cColor::RED;
@@ -61,7 +68,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		def.fTextHeight = 200;
 		def.vPosition = cVector2(pGame->m_iDisplayWidth/4, 0);
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
-		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
+		pTitleScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 	}
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }
@@ -110,11 +117,13 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
 	{
 		cWindowControlDef menuDef;
+		menuDef.strControlName = "MenuScreen";
 		menuDef.wType = cWindowControlDef::WT_STANDARD;
 		menuDef.vPosition = cVector2(310.f, 310.f);
 		menuDef.vSize = cVector2(400, 400);
 		IBaseControl * pMenuScreen = IBaseControl::CreateWindowControl(menuDef);
 		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pMenuScreen));
+		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pMenuScreen);
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
@@ -178,7 +187,8 @@ void cStateMenuScreen::VOnExit(cGame *pGame)
 {
 	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
 	{
-		pGame->m_pHumanView->m_pAppWindowControl->VRemoveAllChildren();
+		pGame->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("TitleScreen");
+		pGame->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("MenuScreen");
 	}
 
 	pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);

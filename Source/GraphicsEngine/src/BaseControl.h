@@ -86,7 +86,7 @@ namespace Graphics
 		bool VOnKeyUp(const unsigned int iCharID);
 		bool VPostMsg(const Base::AppMsg & msg);
 		void VRemoveAllChildren();
-		void VRemoveChildControl(shared_ptr<IBaseControl> pChildControl);
+		void VRemoveChildControl(const Base::cString & strControlName);
 		void VSetText(const Base::cString & strText);
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VRegisterCallBack(function <void (bool)> callback);;
@@ -154,6 +154,7 @@ namespace Graphics
 		cBaseControl *			m_pParentControl;			/*!< The parent control. */
 		int						m_iMouseDownXPos;			/*!< The X position of the mouse relative to the absolute control position. */
 		int						m_iMouseDownYPos;			/*!< The Y position of the mouse relative to the absolute control position. */
+		Base::cString			m_strControlName;			/*!< The name of the control. */
 	};
 }
 #endif // BaseControl_h__

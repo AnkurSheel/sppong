@@ -247,6 +247,7 @@ void cGraphicsTestView::TestUIControls()
 
 	cWindowControlDef wcDef;
 	wcDef.wType = cWindowControlDef::WT_STANDARD;
+	wcDef.strControlName = "TestWindow";
 	wcDef.strBGImageFile = "Test\\window.png";
 	wcDef.bAllowMovingControls = false;
 	wcDef.vPosition =  cVector2(300.f, 200.f);
@@ -255,7 +256,6 @@ void cGraphicsTestView::TestUIControls()
 	m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pWindowControl));
 
 	cLabelControlDef labelDef;
-
 	labelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
 	labelDef.strBGImageFile = "Test\\ScrollBar_BG.png";
 	labelDef.textColor = cColor::GREEN;
@@ -381,9 +381,5 @@ void cGraphicsTestView::TestFinished()
 		SAFE_DELETE(*iter)
 	}
 	m_vSentences.clear();
-	m_pAppWindowControl->VRemoveAllChildren();
-	if(m_pInfoLabelControl)
-	{
-		m_pAppWindowControl->VAddChildControl(m_pInfoLabelControl);
-	}
+	m_pAppWindowControl->VRemoveChildControl("TestWindow");
 }

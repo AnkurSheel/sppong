@@ -41,6 +41,7 @@ cBaseControl::~cBaseControl()
 
 void cBaseControl::Initialize(const cBaseControlDef & def)
 {
+	m_strControlName = def.strControlName;
 	VSetPosition(def.vPosition);
 	VSetSize(def.vSize);
 }
@@ -56,7 +57,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 			if(!PostToAll(msg))
 			{
 				VOnLeftMouseButtonDown(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam));
-				if (m_pParentControl)
+				if (AllowMovingControl() && m_pParentControl)
 				{
 					m_pParentControl->VMoveToFront(this);
 				}
@@ -142,12 +143,26 @@ void cBaseControl::VRemoveAllChildren()
 }
 
 // ***************************************************************
-void cBaseControl::VRemoveChildControl(shared_ptr<IBaseControl> pChildControl)
+void cBaseControl::VRemoveChildControl(const cString & strControlName)
 {
-	cBaseControl * const pControl = static_cast<cBaseControl * const>(pChildControl.get());
-	ControlList::const_iterator iter = GetChildControlIterator(pControl);
-	if(iter != m_pChildControl.end())
+	ControlList::iterator iter;
+	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
+		if((*iter).get()->m_strControlName == strControlName)
+		{
+			break;
+		}
+	}
+	if(iter == m_pChildControl.end())
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control " + strControlName + " in Base Control");
+	}
+	else
+	{
+		if ((*iter).get()->m_bFocus)
+		{
+			m_pFocusControl = this;
+		}
 		m_pChildControl.erase(iter);
 	}
 }
@@ -371,18 +386,13 @@ void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 		}
 		else
 		{
-			m_bFocus = true;
 			if(m_pFocusControl)
 			{
 				m_pFocusControl->SetFocus(false);
 			}
-			
 			m_pFocusControl = const_cast<cBaseControl *>(pControl);
-			if (m_pFocusControl)
-			{
-				m_pFocusControl->SetFocus(true);
-			}
 		}
+		SetFocus(true);
 	}
 }
 // *************************************************************************

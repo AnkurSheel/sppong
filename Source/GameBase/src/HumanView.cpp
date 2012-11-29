@@ -31,6 +31,7 @@ GameBase::cHumanView::cHumanView()
 , m_pProcessManager(NULL)
 , m_pAppWindowControl(NULL) 
 , m_pCamera(NULL)
+, m_bDisplayFPS(true)
 {
 	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
 }
@@ -50,6 +51,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	m_pGame = pGame;
 	cWindowControlDef def;
 	def.wType = cWindowControlDef::WT_DESKTOP;
+	def.strControlName = "App";
 	def.vSize = cVector2(iClientWidth, iClientHeight);
 	if(IBaseApp::VGetParamLoader() != NULL)
 	{
@@ -65,6 +67,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
 	cLabelControlDef fpsLabelDef;
+	fpsLabelDef.strControlName = "FPSLabel";
 	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;

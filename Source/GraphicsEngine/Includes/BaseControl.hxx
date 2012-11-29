@@ -65,11 +65,11 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VRemoveAllChildren() = 0;
 		/********************************************//**
- 		 * @param[in] pChildControl The control that needs to be removed
+ 		 * @param[in] strControlName The name of the control that needs to be removed
 		 *
 		 * Removes and deletes the child control
 		 ***********************************************/
-		virtual void VRemoveChildControl(shared_ptr<IBaseControl> pChildControl) = 0;
+		virtual void VRemoveChildControl(const Base::cString & strControlName) = 0;
 		/********************************************//**
  		 * @param[in] vPosition The position of the control
 		 *

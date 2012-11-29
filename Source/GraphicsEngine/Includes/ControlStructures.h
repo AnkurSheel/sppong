@@ -27,8 +27,9 @@ namespace Graphics
 	class cBaseControlDef
 	{
 	public:
-		Base::cVector2	vPosition;	/*!< The position of the control */ 
-		Base::cVector2  vSize;		/*!< The scale in pixels of the control */ 
+		Base::cVector2	vPosition;		/*!< The position of the control */ 
+		Base::cVector2  vSize;			/*!< The scale in pixels of the control */ 
+		Base::cString	strControlName;	/*!< The name of the control */ 
 	};
 
 	/********************************************//**
