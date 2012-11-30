@@ -185,15 +185,15 @@ void GameBase::cHumanView::VRenderPrivate()
 		m_pAppWindowControl->VRender(m_pCamera);
 	}
 
-// 		if (m_pCursorSprite->IsVisible())
-// 		{
-// 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
-// 			m_pCursorSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
-// 		}
-		if (m_bDisplayFPS && m_pGame)
-		{
-			m_pFpsLabel->VSetText(cString(20, "%0.2f", m_pGame->VGetFPS()));
-		}
+// 	if (m_pCursorSprite->IsVisible())
+// 	{
+// 		m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
+// 		m_pCursorSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
+// 	}
+	if (m_bDisplayFPS && m_pGame)
+	{
+		m_pFpsLabel->VSetText(cString(20, "%0.2f", m_pGame->VGetFPS()));
+	}
 }
 
 // ***************************************************************

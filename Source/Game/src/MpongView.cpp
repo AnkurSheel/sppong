@@ -12,6 +12,7 @@
 #include "Sprite.hxx"
 #include "Game/Game.h"
 #include "Game/Elements/Score.h"
+#include "Game/Elements/PongGameElement.h"
 #include "P1PaddleHandler.h"
 #include "P2PaddleHandler.h"
 #include "Camera.hxx"
@@ -33,8 +34,10 @@ cMPongView::~cMPongView()
 {
 }
 
-void cMPongView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, 
-								 int iClientWidth, int iClientHeight)
+void cMPongView::VOnCreateDevice(IBaseApp * pGame,
+								 const HINSTANCE & hInst,
+								 const HWND & hWnd, const int iClientWidth,
+								 const int iClientHeight)
 {
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
@@ -128,4 +131,17 @@ void cMPongView::OnMultiPlayerSelected( cGame * pGame )
 	function<void (bool)> callbackP2Paddle;
 	callbackP2Paddle = bind(&cGame::MoveRightPaddle, pGame, _1);
 	m_P2PaddleHandler->RegisterCallBack(callbackP2Paddle);
+}
+
+// *****************************************************************************
+void cMPongView::VRenderPrivate()
+{
+	for (int i=0; i<m_pGame->PGE_TOTAL; i++)
+	{
+		if(m_pGame->GetGameElements() && m_pGame->GetGameElements()[i])
+		{
+			m_pGame->GetGameElements()[i]->Render(m_pCamera);
+		}
+	}
+	cHumanView::VRenderPrivate();
 }

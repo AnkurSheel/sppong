@@ -130,7 +130,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.vPosition = cVector2(0.0f, 0.0f);
 		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
 		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
-		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("JokerMan.fnt");
+		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
 		buttonDef.labelControlDef.strText = "Single Player";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
 		buttonDef.labelControlDef.fTextHeight = 70;
@@ -216,8 +216,8 @@ cStatePlayGame* cStatePlayGame::Instance()
 	static cStatePlayGame instance;
 	return &instance;
 }
-// ***************************************************************
 
+// ***************************************************************
 void cStatePlayGame::VOnEnter(cGame *pGame)
 {
 	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
@@ -229,14 +229,19 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	HUDDef.vPosition = cVector2(0.0f, 0.0f);
 	IBaseControl * pHUDScreen = IBaseControl::CreateWindowControl(HUDDef);
 	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHUDScreen));
-	
-	cLabelControlDef tableDef;
-	tableDef.strBGImageFile = "Sprites\\Table.jpg";
-	tableDef.vPosition = cVector2(0.0f, 0.0f);
-	tableDef.vSize = pHUDScreen->VGetSize();
-	tableDef.bAutoSize = false;
-	IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
-	pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
+
+	pGame->m_ppGameElements = DEBUG_NEW cPongGameElement*[pGame->PGE_TOTAL];
+	for (int i=0; i<pGame->PGE_TOTAL; i++)
+	{
+		pGame->m_ppGameElements[i] = NULL;
+	}
+	//cLabelControlDef tableDef;
+	//tableDef.strBGImageFile = "Sprites\\Table.jpg";
+	//tableDef.vPosition = cVector2(0.0f, 0.0f);
+	//tableDef.vSize = pHUDScreen->VGetSize();
+	//tableDef.bAutoSize = false;
+	//IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
+	//pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 
 	//shared_ptr<ISprite> pSprite;
 
@@ -250,15 +255,17 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
 	//pGame->m_pHumanView->PushElement(pSprite);
 
-	//pGame->m_pGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
-	//pGame->m_pGameElements[pGame->PGE_WALL_UP]->Init(cVector3(0.0f, 0.0f, 0.0f), "Sprites\\wall.png");
-	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_UP]->GetSprite());
-	//pGame->m_pHumanView->PushElement(pSprite);
+	cGameElementDef wallDef;
+	wallDef.strModelPath = "resources//cube.spdo";
+	wallDef.vPosition= cVector3(0.0f, 7.5f, 0.0f);
+	wallDef.vScale = cVector3(11.0f, 0.2f, 0.0f);
+	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
+	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->Initialize(wallDef);
 
-	//pGame->m_pGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
-	//pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->Init(cVector3(0.0f, (float)pGame->m_iDisplayHeight, 0.0f), "Sprites\\wall.png");
-	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_WALL_DOWN]->GetSprite());
-	//pGame->m_pHumanView->PushElement(pSprite);
+	wallDef.vPosition= cVector3(0.0f, -7.5f, 0.0f);
+	wallDef.vScale = cVector3(11.0f, 0.2f, 0.0f);
+	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
+	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->Initialize(wallDef);
 
 	//pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	//pGame->m_pGameElements[pGame->PGE_BALL]->Init(cVector3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");
@@ -290,9 +297,9 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 {
 	for(int i=0; i<pGame->PGE_TOTAL; i++)
 	{
-		if(pGame->m_pGameElements[i])
+		if(pGame->m_ppGameElements[i])
 		{
-			pGame->m_pGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
+			pGame->m_ppGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
 		}
 	}
 	pGame->m_pHumanView->VOnUpdate(pGame->m_pGameTimer->VGetRunningTicks(), pGame->m_pGameTimer->VGetDeltaTime());
@@ -306,10 +313,10 @@ void cStatePlayGame::VOnExit(cGame *pGame)
 {
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
 	//pGame->m_pHumanView->RemoveElements();
-	for(int i=0;i<pGame->PGE_TOTAL;i++)
-	{
-		SAFE_DELETE(pGame->m_pGameElements[i]);
-	}
+	//for(int i=0;i<pGame->PGE_TOTAL;i++)
+	//{
+	//	SAFE_DELETE(pGame->m_pGameElements[i]);
+	//}
 	//ICollisionChecker::Destroy();
 
 	pGame->VCleanup();

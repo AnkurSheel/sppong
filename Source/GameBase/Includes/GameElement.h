@@ -34,9 +34,12 @@ namespace GameBase
 		Base::cVector3	vPosition;
 		Base::cVector3	vRotation;
 		Base::cVector3	vScale;
+		bool			bIsCollidable;		/*!< True if the game element is collidable */ 
 
 		cGameElementDef()
 			: vScale(1.0f, 1.0f, 1.0f)
+			, bIsCollidable(false)
+
 		{
 		}
 	};

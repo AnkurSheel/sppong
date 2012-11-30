@@ -36,7 +36,7 @@ class cGame
 	: public IGame
 	, public GameBase::cBaseApp
 {
-private:
+public:
 	enum PONGGAMEELEMENTS
 	{
 		PGE_UNKNOWN = -1,
@@ -47,7 +47,7 @@ private:
 		PGE_WALL_DOWN,
 		PGE_TOTAL
 	};
-
+private:
 	enum GAMESOUNDS
 	{
 		GS_UNKNOWN = -1,
@@ -73,6 +73,8 @@ public:
 	void HandlePaddleAI(const float fElapsedTime);
 	bool IsSinglePlayer();
 	bool VOnHandleMessage(const AI::Telegram & telegram);
+	cPongGameElement ** const GetGameElements() const;
+
 private:
 	void VOnUpdate();
 	void SinglePlayerButtonPressed(bool bPressed);
@@ -83,7 +85,7 @@ private:
 private:
 	int							m_iDisplayHeight ;		// the display height of the window
 	int							m_iDisplayWidth ;		// the display width of the window
-	cPongGameElement *			m_pGameElements[PGE_TOTAL]; // ptr to the gameelements
+	cPongGameElement **			m_ppGameElements; // ptr to the gameelements
 	MySound::ISound *			m_pSound;
 	bool						m_bSinglePlayer;
 	bool						m_bMultiPlayer;

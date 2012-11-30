@@ -43,11 +43,8 @@ cGame::cGame(const cString strName)
 , m_bSinglePlayer(false)
 , m_bMultiPlayer(false)
 , m_pSound(NULL)
+, m_ppGameElements(NULL)
 {
-	for(int i=0;i<PGE_TOTAL;i++)
-	{
-		m_pGameElements[i] = NULL;
-	}
 }
 
 // ***************************************************************
@@ -164,14 +161,16 @@ void cGame::CheckForCollisions()
 // ***************************************************************
 void cGame::VCleanup()
 {
-	for(int i=0;i<PGE_TOTAL;i++)
-	{
-		if (m_pGameElements[i])
-		{
-			//m_pGameElements[i]->Cleanup();
-			SAFE_DELETE(m_pGameElements[i]);
-		}
-	}
+	SAFE_DELETE_ARRAY(*m_ppGameElements);
+	//for(int i=0;i<PGE_TOTAL;i++)
+	//{
+	//	if ((*m_ppGameElements)[i])
+	//	{
+	//		//m_pGameElements[i]->Cleanup();
+	//		SAFE_DELETE((*m_ppGameElements)[i]);
+	//	}
+	//}
+	SAFE_DELETE(m_ppGameElements);
 
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
@@ -259,11 +258,11 @@ void cGame::MoveLeftPaddle(bool bMoveDown)
 		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
 		//	&(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
 		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
-			}
+			//cPaddle * pPaddle = *m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
+			//if(pPaddle)
+			//{
+			//	pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
+			//}
 		}
 	}
 	else
@@ -271,11 +270,11 @@ void cGame::MoveLeftPaddle(bool bMoveDown)
 		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
 		//	&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
 		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
-			}
+			//cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
+			//if(pPaddle)
+			//{
+			//	pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
+			//}
 		}
 
 	}
@@ -288,22 +287,22 @@ void cGame::MoveRightPaddle( bool bMoveDown )
 	{
 		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
 		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
-			}
+			//cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
+			//if(pPaddle)
+			//{
+			//	pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
+			//}
 		}
 	}
 	else
 	{
 		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
 		{
-			cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
-			}
+			//cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
+			//if(pPaddle)
+			//{
+			//	pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
+			//}
 		}
 	}
 }
@@ -318,6 +317,11 @@ bool cGame::IsSinglePlayer()
 bool cGame::VOnHandleMessage(const AI::Telegram & telegram)
 {
 	return m_pStateMachine->HandleMessage(telegram);
+}
+// *****************************************************************************
+cPongGameElement ** const cGame::GetGameElements() const
+{
+	return m_ppGameElements; 
 }
 
 // ***************************************************************

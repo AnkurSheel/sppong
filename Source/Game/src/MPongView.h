@@ -27,8 +27,11 @@ class cMPongView
 public:
 	cMPongView();
 	~cMPongView();
-	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE hInst, const HWND hWnd, int iClientWidth, int iClientHeight );
+	void VOnCreateDevice(GameBase::IBaseApp * pGame,
+		const HINSTANCE & hInst, const HWND & hWnd, const int iClientWidth,
+		const int iClientHeight );
 	void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
+	void VRenderPrivate();
 	bool VOnMsgProc( const Base::AppMsg & msg );	
 	void OnSinglePlayerSelected(cGame * pGame);
 	void OnMultiPlayerSelected(cGame * pGame);
