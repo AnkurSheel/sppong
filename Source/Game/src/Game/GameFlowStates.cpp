@@ -257,15 +257,17 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	
 	cGameElementDef wallDef;
 	wallDef.strModelPath = "resources//cube.spdo";
-	wallDef.vPosition= IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth/2, 0.0f), pGame->m_pHumanView->VGetCamera());
-	wallDef.vScale = cVector3(11.0f, 0.2f, 0.0f);
+	cVector3 vscreenTopPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
+	wallDef.vPosition= cVector3(0, vscreenTopPos.m_dY, 0.0f);
+	wallDef.vScale = cVector3(abs(vscreenTopPos.m_dX), 0.5f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->Initialize(wallDef);
 
-	//wallDef.vPosition= cVector3(0.0f, -7.5f, 0.0f);
-	//wallDef.vScale = cVector3(11.0f, 0.2f, 0.0f);
-	//pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
-	//pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->Initialize(wallDef);
+	cVector3 vscreenBottomPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
+		pGame->m_pHumanView->VGetCamera());
+	wallDef.vPosition= cVector3(0, vscreenBottomPos.m_dY, 0.0f);
+	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
+	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->Initialize(wallDef);
 
 	//pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	//pGame->m_pGameElements[pGame->PGE_BALL]->Init(cVector3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");

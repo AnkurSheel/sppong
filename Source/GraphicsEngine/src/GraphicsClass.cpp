@@ -106,7 +106,7 @@ cVector3 cGraphicsClass::ScreenToWorldSpace(const cVector2 & vScreenPos,
 	cVector3 vViewSpace;
 
 	vViewSpace.m_dX = ((2.0f * vScreenPos.m_dX) / IDXBase::GetInstance()->VGetScreenWidth()) - 1.0f;
-	vViewSpace.m_dY = ((2.0f * vScreenPos.m_dY) / IDXBase::GetInstance()->VGetScreenHeight()) - 1.0f;
+	vViewSpace.m_dY = -((2.0f * vScreenPos.m_dY) / IDXBase::GetInstance()->VGetScreenHeight() - 1.0f);
 	vViewSpace.m_dZ = 1.0f;
 	
 	D3DXMATRIX matProjection = IDXBase::GetInstance()->VGetProjectionMatrix();
@@ -130,7 +130,11 @@ cVector3 cGraphicsClass::ScreenToWorldSpace(const cVector2 & vScreenPos,
 	float fPlaneDistanceFromOrigin = 0;
 
 	float fIncidentAngle = D3DXVec3Dot(&direction, &vPlaneNormal);
-	float t = (-(fPlaneDistanceFromOrigin + D3DXVec3Dot(&vOrigin, &vPlaneNormal))) / fIncidentAngle;
-	vOrigin = vOrigin + (direction * t);
-	return  cGraphicUtils::D3DXVEC3ToVector3(vOrigin);
+	if (fIncidentAngle != 0)
+	{
+		float t = (-(fPlaneDistanceFromOrigin + D3DXVec3Dot(&vOrigin, &vPlaneNormal))) / fIncidentAngle;
+		vOrigin = vOrigin + (direction * t);
+		return  cGraphicUtils::D3DXVEC3ToVector3(vOrigin);
+	}
+	return cVector3::Zero();
 }
