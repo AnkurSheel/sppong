@@ -15,18 +15,25 @@
 namespace Base
 {
 	class cColor;
+	class cVector2;
+	class cVector3;
 }
 
 namespace Graphics
 {
-/********************************************//**
- * @brief Interface to encapsulate all the graphics functionality
- *
- * Singleton class.\n
- * Usage :
- * \li Call \c GetInstance() to use this class.
- * \li Call \c VOnDestroy() when the application quits
- ***********************************************/
+	class ICamera;
+}
+
+namespace Graphics
+{
+	/********************************************//**
+	 * @brief Interface to encapsulate all the graphics functionality
+	 *
+	 * Singleton class.\n
+	 * Usage :
+	 * \li Call \c GetInstance() to use this class.
+	 * \li Call \c VOnDestroy() when the application quits
+	 ***********************************************/
 	class IGraphicsClass
 	{
 	public:
@@ -73,7 +80,9 @@ namespace Graphics
 		 * graphics engine
 		 ***********************************************/
 		virtual void VSetFullScreenMode(const bool bIsFullScreen) = 0;
-	
+		virtual Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
+			const Graphics::ICamera * const pCamera) = 0;
+
 	protected:
 		virtual ~IGraphicsClass(){}
 	};

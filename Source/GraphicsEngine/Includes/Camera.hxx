@@ -9,6 +9,10 @@
 // ***************************************************************
 
 #include "GraphicEngineDefines.h"
+//#include <d3dx10math.h>
+
+struct D3DXMATRIX;
+
 namespace Base
 {
 	class cVector3;
@@ -36,6 +40,13 @@ namespace Graphics
 		 * Gets the position of the camera 
 		 ***********************************************/
 		virtual Base::cVector3 VGetPosition() const = 0;
+		/********************************************//**
+ 		 * @return The view matrix
+		 *
+		 * Returns the view matrix based on the current position
+		 * and rotation
+		 ***********************************************/
+		virtual const D3DXMATRIX & VGetViewMatrix() const = 0;
 		/********************************************//**
 		 * @return An object to use this interface
 		 *

@@ -54,7 +54,7 @@ void cCamera::SetRotation( const cVector3 & vRotation )
 	}	
 }
 
-const D3DXMATRIX & cCamera::GetViewMatrix() const 
+const D3DXMATRIX & cCamera::VGetViewMatrix() const 
 { 
 	return m_matView; 
 }

@@ -14,7 +14,7 @@
 #include "Texture.hxx"
 #include "TextureShader.h"
 #include "vertexstruct.h"
-#include "Camera.h"
+#include "Camera.hxx"
 #include "ShaderManager.hxx"
 #include "TextureManager.hxx"
 
@@ -111,9 +111,8 @@ void cSprite::VRender(const ICamera * const pCamera)
 	if (m_pShader)
 	{
 		m_pShader->VSetTexture(m_pTexture);
-		const cCamera * pCam = static_cast<const cCamera *>(pCamera);
 		m_pShader->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
-			pCam->GetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix());
+			pCamera->VGetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix());
 	}
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
 }

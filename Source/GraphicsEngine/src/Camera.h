@@ -9,13 +9,7 @@
 // ***************************************************************
 #ifndef Camera_h__
 #define Camera_h__
-#include <d3dx10math.h>
 #include "Camera.hxx"
-
-namespace Base
-{
-	class cVector3;
-}
 
 namespace Graphics
 {
@@ -29,28 +23,12 @@ namespace Graphics
 	{
 	public:
 		cCamera();
-		/********************************************//**
- 		 * @return The view matrix
-		 *
-		 * Returns the view matrix based on the current position
-		 * and rotation
-		 ***********************************************/
-		const D3DXMATRIX & GetViewMatrix() const;
 	
 	private:
 		~cCamera();
-		/********************************************//**
- 		 * @return The position of the camera
-		 *
-		 * Gets the rotation of the camera 
-		 ***********************************************/
 		Base::cVector3 VGetPosition() const;
-		/********************************************//**
- 		 * @param[in] vPosition The position of the camera
-		 *
-		 * Sets the position of the camera 
-		 ***********************************************/
 		void VSetPosition(const Base::cVector3 & vPosition);
+		const D3DXMATRIX & VGetViewMatrix() const;
 		/********************************************//**
  		 * @param[in] vRotation The rotation of the camera
 		 *

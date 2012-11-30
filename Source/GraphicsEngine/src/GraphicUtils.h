@@ -18,6 +18,11 @@ namespace Base
 
 namespace Graphics
 {
+	class ICamera;
+}
+
+namespace Graphics
+{
 	/********************************************//**
 	 * @brief Class to convert between Base classes and 
 	 * DirectX classes

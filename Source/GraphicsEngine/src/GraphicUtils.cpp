@@ -10,6 +10,8 @@
 #include "stdafx.h"
 #include "GraphicUtils.h"
 #include "Vector2.h"
+#include "DxBase.hxx"
+#include "Camera.hxx"
 
 using namespace Base;
 using namespace Graphics;

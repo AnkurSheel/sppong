@@ -24,9 +24,10 @@
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
+using namespace GameBase;
 
 // ***************************************************************
-GameBase::cHumanView::cHumanView()
+cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
 , m_pProcessManager(NULL)
 , m_pAppWindowControl(NULL) 
@@ -37,13 +38,13 @@ GameBase::cHumanView::cHumanView()
 }
 
 // ***************************************************************
-GameBase::cHumanView::~cHumanView()
+cHumanView::~cHumanView()
 {
 	VOnDestroyDevice();
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
+void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const HINSTANCE & hInst,
 										   const HWND & hWnd, const int iClientWidth,
 										   const int iClientHeight)
@@ -79,7 +80,7 @@ void GameBase::cHumanView::VOnCreateDevice(IBaseApp * pGame,
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
+void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
 	if(m_pProcessManager)
 	{
@@ -88,7 +89,7 @@ void GameBase::cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapse
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
+void cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
 {
 	HRESULT hr;
 	hr = OnBeginRender(tickCurrent);
@@ -100,7 +101,7 @@ void GameBase::cHumanView::VOnRender(const TICK tickCurrent, const float fElapse
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VOnDestroyDevice()
+void cHumanView::VOnDestroyDevice()
 {
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
@@ -109,7 +110,7 @@ void GameBase::cHumanView::VOnDestroyDevice()
 }
 
 // ***************************************************************
-bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
+bool cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 {
 	bool bHandled = false;
 	switch(msg.m_uMsg)
@@ -143,7 +144,10 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 			// lock the F2 key
 			LockKey(VK_F2);
 			m_bDisplayFPS = !m_bDisplayFPS;
-			m_pFpsLabel->VSetVisible(m_bDisplayFPS);
+			if(m_pFpsLabel)
+			{
+				m_pFpsLabel->VSetVisible(m_bDisplayFPS);
+			}
 		}
 		break;
 	}
@@ -151,25 +155,30 @@ bool GameBase::cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 }
 
 // ***************************************************************
-GameBase::IGameView::GAMEVIEWTYPE GameBase::cHumanView::VGetType()
+IGameView::GAMEVIEWTYPE cHumanView::VGetType()
 {
 	return GV_HUMAN;
 }
 
 // ***************************************************************
-GameBase::GameViewId GameBase::cHumanView::VGetId() const
+GameViewId cHumanView::VGetId() const
 {
 	return -1;
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VOnAttach(GameViewId id)
+void cHumanView::VOnAttach(GameViewId id)
 {
 	m_idView = id;
 }
 
+const ICamera * const cHumanView::VGetCamera() const
+{
+	return m_pCamera;
+}
+
 // ***************************************************************
-HRESULT GameBase::cHumanView::OnBeginRender(TICK tickCurrent)
+HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 {
 	m_tickCurrent = tickCurrent; 
 	HRESULT hr = S_OK;
@@ -178,32 +187,32 @@ HRESULT GameBase::cHumanView::OnBeginRender(TICK tickCurrent)
 }
 
 // ***************************************************************
-void GameBase::cHumanView::VRenderPrivate()
+void cHumanView::VRenderPrivate()
 {
 	if (m_pAppWindowControl)
 	{
 		m_pAppWindowControl->VRender(m_pCamera);
 	}
 
-// 	if (m_pCursorSprite->IsVisible())
-// 	{
-// 		m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
-// 		m_pCursorSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
-// 	}
-	if (m_bDisplayFPS && m_pGame)
+// 		if (m_pCursorSprite->IsVisible())
+// 		{
+// 			m_pCursorSprite->SetPosition(D3DXVECTOR3((float)m_pInput->GetX(), (float)m_pInput->GetY(), 0.0f));
+// 			m_pCursorSprite->OnRender(IDXBase::GetInstance()->VGetDevice());
+// 		}
+	if (m_bDisplayFPS && m_pFpsLabel && m_pGame)
 	{
 		m_pFpsLabel->VSetText(cString(20, "%0.2f", m_pGame->VGetFPS()));
 	}
 }
 
 // ***************************************************************
-void GameBase::cHumanView::OnEndRender(const HRESULT hr)
+void cHumanView::OnEndRender(const HRESULT hr)
 {
 	m_tickLastDraw = m_tickCurrent; 
 	IGraphicsClass::GetInstance()->VEndRender();
 }
 
-bool GameBase::cHumanView::IsKeyLocked( const DWORD dwKey )  const
+bool cHumanView::IsKeyLocked( const DWORD dwKey )  const
 {
 	return m_bLockedKeys[dwKey];
 }
@@ -211,18 +220,18 @@ bool GameBase::cHumanView::IsKeyLocked( const DWORD dwKey )  const
 // ***************************************************************
 // Locks the key on the keyboard
 // ***************************************************************
-void GameBase::cHumanView::LockKey( const DWORD dwKey ) 
+void cHumanView::LockKey( const DWORD dwKey ) 
 {
 	m_bLockedKeys[dwKey] = true;
 }
 
-void GameBase::cHumanView::UnlockKey( const DWORD dwKey ) 
+void cHumanView::UnlockKey( const DWORD dwKey ) 
 {
 	m_bLockedKeys[dwKey] = false;
 }
 
 // ***************************************************************
-void GameBase::cHumanView::SetCursorVisible( bool bVisible )
+void cHumanView::SetCursorVisible( bool bVisible )
 {
 // 	if (m_pCursorSprite)
 // 	{

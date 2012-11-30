@@ -12,7 +12,7 @@
 #include "vertexstruct.h"
 #include "DxBase.hxx"
 #include "TextureShader.h"
-#include "Camera.h"
+#include "Camera.hxx"
 #include "Texture.hxx"
 #include "ShaderManager.hxx"
 #include "TextureManager.hxx"
@@ -101,15 +101,13 @@ void cModel::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOn();
 
-	const cCamera * pCam = static_cast<const cCamera *>(pCamera);
-
 	for (int i=0; i<m_vSubsets.size(); i++)
 	{
 		if (m_pShader)
 		{
 			m_pShader->SetDiffuseColor(m_vSubsets[i].m_diffuseColor);
 			m_pShader->VSetTexture(m_vSubsets[i].m_pTexture);
-			m_pShader->VRender(m_matTransform, pCam->GetViewMatrix(), 
+			m_pShader->VRender(m_matTransform, pCamera->VGetViewMatrix(), 
 				IDXBase::GetInstance()->VGetProjectionMatrix());
 		}
 

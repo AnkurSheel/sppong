@@ -19,13 +19,12 @@
 //#include "CollisionChecker.hxx"
 #include "Sound.hxx"
 #include "MPongView.h"
-#include "myString.h"
 #include "Timer.hxx"
 #include "BaseControl.hxx"
 #include "MessageDispatchManager.hxx"
 #include "FSM\Telegram.h"
-#include "Color.h"
 #include "FontManager.hxx"
+#include "GraphicsClass.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -255,17 +254,18 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
 	//pGame->m_pHumanView->PushElement(pSprite);
 
+	
 	cGameElementDef wallDef;
 	wallDef.strModelPath = "resources//cube.spdo";
-	wallDef.vPosition= cVector3(0.0f, 7.5f, 0.0f);
+	wallDef.vPosition= IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth/2, 0.0f), pGame->m_pHumanView->VGetCamera());
 	wallDef.vScale = cVector3(11.0f, 0.2f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->Initialize(wallDef);
 
-	wallDef.vPosition= cVector3(0.0f, -7.5f, 0.0f);
-	wallDef.vScale = cVector3(11.0f, 0.2f, 0.0f);
-	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
-	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->Initialize(wallDef);
+	//wallDef.vPosition= cVector3(0.0f, -7.5f, 0.0f);
+	//wallDef.vScale = cVector3(11.0f, 0.2f, 0.0f);
+	//pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
+	//pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->Initialize(wallDef);
 
 	//pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	//pGame->m_pGameElements[pGame->PGE_BALL]->Init(cVector3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");
