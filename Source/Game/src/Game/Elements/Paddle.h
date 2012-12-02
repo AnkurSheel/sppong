@@ -26,7 +26,7 @@ private:
 public:
 	cPaddle();
 	~cPaddle();
-	void Init(const Base::cVector3& vInitialPos, const Base::cString & strFilename);
+	void VInitialize(const GameBase::cGameElementDef & def );
 	void MoveDown(const float fElapsedTime);
 	void MoveUp(const float fElapsedTime);
 	void OnRestart(const Base::cVector3& vInitialPos);

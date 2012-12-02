@@ -242,37 +242,37 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
 	//pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 
-	//shared_ptr<ISprite> pSprite;
+	cVector3 vScreenTopLeftPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
+	cVector3 vscreenBottomRightPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
+		pGame->m_pHumanView->VGetCamera());
 
-	//pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
-	//pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->Init(cVector3(10.0f, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
-	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_LEFT]->GetSprite());
-	//pGame->m_pHumanView->PushElement(pSprite);
+	cGameElementDef paddleDef;
+	paddleDef.strModelPath = "resources//cube.spdo";
+	paddleDef.vPosition= cVector3(vScreenTopLeftPos.m_dX, 0.0f, 0.0f);
+	paddleDef.vScale = cVector3(0.5f, 1.5f, 0.0f);
+	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
+	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT]->VInitialize(paddleDef);
 
-	//pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
-	//pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->Init(cVector3((float)(pGame->m_iDisplayWidth), (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\paddle.jpg");
-	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_PADDLE_RIGHT]->GetSprite());
-	//pGame->m_pHumanView->PushElement(pSprite);
+	paddleDef.vPosition= cVector3(vscreenBottomRightPos.m_dX, 0.0f, 0.0f);
+	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
+	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT]->VInitialize(paddleDef);
 
-	
 	cGameElementDef wallDef;
 	wallDef.strModelPath = "resources//cube.spdo";
-	cVector3 vscreenTopPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
-	wallDef.vPosition= cVector3(0, vscreenTopPos.m_dY, 0.0f);
-	wallDef.vScale = cVector3(abs(vscreenTopPos.m_dX), 0.5f, 0.0f);
+	wallDef.vPosition= cVector3(0, vScreenTopLeftPos.m_dY, 0.0f);
+	wallDef.vScale = cVector3(abs(vScreenTopLeftPos.m_dX), 0.5f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
-	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->Initialize(wallDef);
+	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->VInitialize(wallDef);
 
-	cVector3 vscreenBottomPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
-		pGame->m_pHumanView->VGetCamera());
-	wallDef.vPosition= cVector3(0, vscreenBottomPos.m_dY, 0.0f);
+	wallDef.vPosition= cVector3(0, vscreenBottomRightPos.m_dY, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
-	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->Initialize(wallDef);
+	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->VInitialize(wallDef);
 
-	//pGame->m_pGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
-	//pGame->m_pGameElements[pGame->PGE_BALL]->Init(cVector3((float)pGame->m_iDisplayWidth/2, (float)pGame->m_iDisplayHeight/2, 0.0f), "Sprites\\ball.png");
-	//pSprite = const_pointer_cast<ISprite>(pGame->m_pGameElements[pGame->PGE_BALL]->GetSprite());
-	//pGame->m_pHumanView->PushElement(pSprite);
+	cGameElementDef ballDef;
+	ballDef.strModelPath = "resources//sphere.spdo";
+	ballDef.vScale = cVector3(0.5f, 0.5f, 0.5f);
+	pGame->m_ppGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
+	pGame->m_ppGameElements[pGame->PGE_BALL]->VInitialize(ballDef);
 
 	pGame->m_pScore = DEBUG_NEW cScore[2]();
 	
@@ -314,11 +314,6 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 void cStatePlayGame::VOnExit(cGame *pGame)
 {
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
-	//pGame->m_pHumanView->RemoveElements();
-	//for(int i=0;i<pGame->PGE_TOTAL;i++)
-	//{
-	//	SAFE_DELETE(pGame->m_pGameElements[i]);
-	//}
 	//ICollisionChecker::Destroy();
 
 	pGame->VCleanup();

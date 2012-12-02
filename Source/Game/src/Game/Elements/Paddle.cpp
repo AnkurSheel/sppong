@@ -12,10 +12,12 @@
 #include "Sprite.hxx"
 
 using namespace Base;
+using namespace GameBase;
 // ***************************************************************
 // Constructor
 // ***************************************************************
 cPaddle::cPaddle()
+: m_iMoveFactor(0)
 {
 }
 // ***************************************************************
@@ -31,18 +33,10 @@ cPaddle::~cPaddle()
 // ***************************************************************
 // Initializes the paddle
 // ***************************************************************
-void cPaddle::Init( const cVector3& vInitialPos, const cString & strFilename )
+void cPaddle::VInitialize(const cGameElementDef & def )
 {
-	//cGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableWidth/40, (float)m_siTableHeight/5));
-	//// align the paddle at the other end
-
-	//cVector3 vPos(vInitialPos);
-	//if (vPos.m_dX > m_siTableWidth /2)
-	//{
-	//	vPos.m_dX = m_siTableWidth - m_pSprite->VGetSize().m_dX - 10.0f ;
-	//}
-	//m_iMoveFactor = m_siTableHeight/3;
-	//cGameElement::OnEndInit(vPos);
+	cPongGameElement::VInitialize(def);
+	m_iMoveFactor = 5;
 }
 // ***************************************************************
 
@@ -51,8 +45,9 @@ void cPaddle::Init( const cVector3& vInitialPos, const cString & strFilename )
 // ***************************************************************
 void cPaddle::MoveDown( const float fElapsedTime )
 {
-	//m_vPosition.m_dY += (m_iMoveFactor * fElapsedTime) ;
-	//UpdatePosition();
+	cVector3 vPos = GetPosition();
+	vPos.m_dY -= m_iMoveFactor * fElapsedTime;
+	SetPosition(vPos);
 }
 // ***************************************************************
 
@@ -61,8 +56,9 @@ void cPaddle::MoveDown( const float fElapsedTime )
 // ***************************************************************
 void cPaddle::MoveUp( const float fElapsedTime )
 {
-	//m_vPosition.m_dY -= (m_iMoveFactor * fElapsedTime);
-	//UpdatePosition();
+	cVector3 vPos = GetPosition();
+	vPos.m_dY += m_iMoveFactor * fElapsedTime;
+	SetPosition(vPos);
 }
 // ***************************************************************
 

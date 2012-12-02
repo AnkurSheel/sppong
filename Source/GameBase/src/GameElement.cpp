@@ -31,7 +31,7 @@ cGameElement::~cGameElement()
 }
 
 // *****************************************************************************
-void cGameElement::Initialize(const cGameElementDef & def)
+void cGameElement::VInitialize(const cGameElementDef & def)
 {
 	if (!def.strModelPath.IsEmpty())
 	{

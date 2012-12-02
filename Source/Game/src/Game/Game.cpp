@@ -162,14 +162,6 @@ void cGame::CheckForCollisions()
 void cGame::VCleanup()
 {
 	SAFE_DELETE_ARRAY(*m_ppGameElements);
-	//for(int i=0;i<PGE_TOTAL;i++)
-	//{
-	//	if ((*m_ppGameElements)[i])
-	//	{
-	//		//m_pGameElements[i]->Cleanup();
-	//		SAFE_DELETE((*m_ppGameElements)[i]);
-	//	}
-	//}
 	SAFE_DELETE(m_ppGameElements);
 
 	SAFE_DELETE_ARRAY(m_pScore);
@@ -258,11 +250,11 @@ void cGame::MoveLeftPaddle(bool bMoveDown)
 		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
 		//	&(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
 		{
-			//cPaddle * pPaddle = *m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			//if(pPaddle)
-			//{
-			//	pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
-			//}
+			cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
+			if(pPaddle)
+			{
+				pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
+			}
 		}
 	}
 	else
@@ -270,11 +262,11 @@ void cGame::MoveLeftPaddle(bool bMoveDown)
 		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
 		//	&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
 		{
-			//cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			//if(pPaddle)
-			//{
-			//	pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
-			//}
+			cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
+			if(pPaddle)
+			{
+				pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
+			}
 		}
 
 	}
