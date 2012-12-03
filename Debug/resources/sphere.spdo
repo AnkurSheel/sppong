@@ -1350,20 +1350,21 @@ t 448 381 449
 t 449 381 123
 t 449 123 212
 
+BBMin -0.92 -0.89 -0.91
+BBMax 0.90 0.94 0.90
+
 Subset 0
 
 startindex 0
 indexcount 1344
-
-
+SBBMin -0.92 -0.89 -0.91
+SBBMax 0.90 0.94 0.90
 diffusecolor 204 0 204 255
-
 
 Subset 1
 
 startindex 1344
 indexcount 1344
-
-
+SBBMin -0.90 -0.83 -0.89
+SBBMax 0.88 0.88 0.88
 diffusecolor 0 0 204 255
-

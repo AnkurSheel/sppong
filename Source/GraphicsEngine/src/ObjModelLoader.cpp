@@ -87,6 +87,20 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 						def.pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[2]);
 						def.pIndices[iCurrentIndexNo++] = GetIntValue(vtokens[3]);
 					}
+					// min pos of Bounding Box
+					else if(vtokens[0] == "BBMin")
+					{
+						def.vBoundingBoxMinPos.m_dX = GetFloatValue(vtokens[1]);
+						def.vBoundingBoxMinPos.m_dY = GetFloatValue(vtokens[2]);
+						def.vBoundingBoxMinPos.m_dZ = GetFloatValue(vtokens[3]);
+					}
+					// max pos of Bounding Box
+					else if(vtokens[0] == "BBMax")
+					{
+						def.vBoundingBoxMaxPos.m_dX = GetFloatValue(vtokens[1]);
+						def.vBoundingBoxMaxPos.m_dY = GetFloatValue(vtokens[2]);
+						def.vBoundingBoxMaxPos.m_dZ = GetFloatValue(vtokens[3]);
+					}
 					// new subset
 					else if(vtokens[0] == "Subset")
 					{
@@ -101,6 +115,20 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 					else if(vtokens[0] == "indexcount")
 					{
 						def.vSubsetsDef[iCurrentSubsetNumber].iNumberOfIndicesinSubset = GetIntValue(vtokens[1]);
+					}
+					// min pos of subset Bounding Box
+					else if(vtokens[0] == "SBBMin")
+					{
+						def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.m_dX = GetFloatValue(vtokens[1]);
+						def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.m_dY = GetFloatValue(vtokens[2]);
+						def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMinPos.m_dZ = GetFloatValue(vtokens[3]);
+					}
+					// max pos of subset Bounding Box
+					else if(vtokens[0] == "SBBMax")
+					{
+						def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.m_dX = GetFloatValue(vtokens[1]);
+						def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.m_dY = GetFloatValue(vtokens[2]);
+						def.vSubsetsDef[iCurrentSubsetNumber].vBoundingBoxMaxPos.m_dZ = GetFloatValue(vtokens[3]);
 					}
 					else if(vtokens[0] == "diffusecolor")
 					{

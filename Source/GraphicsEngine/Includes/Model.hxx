@@ -42,6 +42,8 @@ namespace Graphics
 			unsigned int		iStartIndexNo;				/*!< The start index for this subset*/ 	
 			Base::cString		strDiffuseTextureFilename;	/*!< Optional.The diffuse texture file name */ 	
 			Base::cColor		diffuseColor;				/*!< Optional.The diffuse color */ 	
+			Base::cVector3		vBoundingBoxMinPos;
+			Base::cVector3		vBoundingBoxMaxPos;
 
 			stSubsetDef()
 				: iNumberOfIndicesinSubset(0)
@@ -56,6 +58,8 @@ namespace Graphics
 		unsigned int				iNumberOfIndices;	/*!< The total number of indices */ 	
 		unsigned int				iNumberOfVertices;	/*!< The number of vertices */ 
 		std::vector<stSubsetDef>	vSubsetsDef;		/*!< Vector of subset definitions */ 
+		Base::cVector3				vBoundingBoxMinPos;
+		Base::cVector3				vBoundingBoxMaxPos;
 
 		stModelDef()
 			: pVertices(NULL)

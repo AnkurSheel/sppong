@@ -69,7 +69,7 @@ bool cModel::VOnInitialization(const stModelDef & def)
 		m_vSubsets.push_back(subset);
 	}
 
-	CreateBoundingBox(def.pVertices);
+	m_pBoundingBox = IBoundingBox::CreateBoundingBox(def.vBoundingBoxMinPos, def.vBoundingBoxMaxPos);
 	/*	float distX = (vMaxAABB.m_dX - m_vAABBMin.m_dX) / 2.0f;
 	float distY = (vMaxAABB.m_dY - m_vAABBMin.m_dY) / 2.0f;
 	float distZ = (vMaxAABB.m_dZ - m_vAABBMin.m_dZ) / 2.0f;
@@ -196,28 +196,6 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 	}
 	return true;
 }
-
-// *************************************************************************
-void cModel::CreateBoundingBox(const stTexVertex * const pVertices)
-{
-	cVector3 vMinAABB(MaxFloat, MaxFloat, MaxFloat);
-	cVector3 vMaxAABB(-MaxFloat, -MaxFloat, -MaxFloat);
-
-	for (int i=0; i<m_iVertexCount; i++)
-	{
-		vMinAABB.m_dX = min(vMinAABB.m_dX, pVertices[i].m_fX);
-		vMinAABB.m_dY = min(vMinAABB.m_dY, pVertices[i].m_fY);
-		vMinAABB.m_dZ = min(vMinAABB.m_dZ, pVertices[i].m_fZ);
-
-		//Get the largest vertex 
-		vMaxAABB.m_dX = max(vMaxAABB.m_dX, pVertices[i].m_fX);
-		vMaxAABB.m_dY = max(vMaxAABB.m_dY, pVertices[i].m_fY);
-		vMaxAABB.m_dZ = max(vMaxAABB.m_dZ, pVertices[i].m_fZ);
-	}
-
-	m_pBoundingBox = IBoundingBox::CreateBoundingBox(vMinAABB, vMaxAABB);
-}
-
 
 // ***************************************************************
 IModel * IModel::CreateModel()

@@ -22,6 +22,8 @@ using namespace std;
 
 // *************************************************************************
 cObjModelLoader::cObjModelLoader()
+: m_vBoundingBoxMaxPos(-MaxFloat, -MaxFloat, -MaxFloat)
+, m_vBoundingBoxMinPos(MaxFloat, MaxFloat, MaxFloat)
 {
 
 }
@@ -35,7 +37,6 @@ cObjModelLoader::~cObjModelLoader()
 void cObjModelLoader::ConvertObjFile(const Base::cString & strObjFile,
 									 const Base::cString & strOutputFile)
 {
-
 	LoadObjFile(strObjFile);
 	BuildVertexAndIndexData();
 	WriteSPDOFile(strOutputFile);
@@ -262,10 +263,33 @@ void cObjModelLoader::BuildVertexAndIndexData()
 				}
 				m_vVertexData.push_back(spdoVertexData);
 				totalVerts++;	//We created a new vertex
+
+				// get the bounding box min pos
+				subsetData.vBoundingBoxMinPos.m_dX = min(subsetData.vBoundingBoxMinPos.m_dX, spdoVertexData.vPos.m_dX);
+				subsetData.vBoundingBoxMinPos.m_dY = min(subsetData.vBoundingBoxMinPos.m_dY, spdoVertexData.vPos.m_dY);
+				subsetData.vBoundingBoxMinPos.m_dZ = min(subsetData.vBoundingBoxMinPos.m_dZ, spdoVertexData.vPos.m_dZ);
+
+				// get the bounding box max pos
+				subsetData.vBoundingBoxMaxPos.m_dX = max(subsetData.vBoundingBoxMaxPos.m_dX, spdoVertexData.vPos.m_dX);
+				subsetData.vBoundingBoxMaxPos.m_dY = max(subsetData.vBoundingBoxMaxPos.m_dY, spdoVertexData.vPos.m_dY);
+				subsetData.vBoundingBoxMaxPos.m_dZ = max(subsetData.vBoundingBoxMaxPos.m_dZ, spdoVertexData.vPos.m_dZ);
 			}		
 			m_iTotalIndices++;
 		}
 		m_vSubsetData.push_back(subsetData);
+	}
+	
+	for(unsigned int i=0; i< m_vSubsetData.size(); i++)
+	{
+		m_vBoundingBoxMinPos.m_dX = min(m_vBoundingBoxMinPos.m_dX, m_vSubsetData[i].vBoundingBoxMinPos.m_dX);
+		m_vBoundingBoxMinPos.m_dY = min(m_vBoundingBoxMinPos.m_dY, m_vSubsetData[i].vBoundingBoxMinPos.m_dY);
+		m_vBoundingBoxMinPos.m_dZ = min(m_vBoundingBoxMinPos.m_dZ, m_vSubsetData[i].vBoundingBoxMinPos.m_dZ);
+
+		// get the bounding box max pos
+		m_vBoundingBoxMaxPos.m_dX = max(m_vBoundingBoxMaxPos.m_dX, m_vSubsetData[i].vBoundingBoxMaxPos.m_dX);
+		m_vBoundingBoxMaxPos.m_dY = max(m_vBoundingBoxMaxPos.m_dY, m_vSubsetData[i].vBoundingBoxMaxPos.m_dY);
+		m_vBoundingBoxMaxPos.m_dZ = max(m_vBoundingBoxMaxPos.m_dZ, m_vSubsetData[i].vBoundingBoxMaxPos.m_dZ);
+		
 	}
 }
 
@@ -295,18 +319,35 @@ void cObjModelLoader::WriteSPDOFile(const cString & strOutputFile)
 			}
 		}
 
+		pOutputFile->WriteLine(cString(100, "\nBBMin %0.2f %0.2f %0.2f\n",
+			m_vBoundingBoxMinPos.m_dX, m_vBoundingBoxMinPos.m_dY,
+			m_vBoundingBoxMinPos.m_dZ));
+
+		pOutputFile->WriteLine(cString(100, "BBMax %0.2f %0.2f %0.2f\n",
+			m_vBoundingBoxMaxPos.m_dX, m_vBoundingBoxMaxPos.m_dY,
+			m_vBoundingBoxMaxPos.m_dZ));
+
 		for(unsigned int i=0; i< m_vSubsetData.size(); i++)
 		{
 			pOutputFile->WriteLine(cString(100, "\nSubset %d\n\n", i));
 
 			pOutputFile->WriteLine(cString(100, "startindex %d\n", m_vSubsetData[i].iStartIndexNo));
-			pOutputFile->WriteLine(cString(100, "indexcount %d\n\n", m_vSubsetData[i].vIndexData.size()));
+			pOutputFile->WriteLine(cString(100, "indexcount %d\n", m_vSubsetData[i].vIndexData.size()));
 
-			pOutputFile->WriteLine(cString(100, "\ndiffusecolor %d %d %d %d\n",
+			pOutputFile->WriteLine(cString(100, "SBBMin %0.2f %0.2f %0.2f\n",
+				m_vSubsetData[i].vBoundingBoxMinPos.m_dX,
+				m_vSubsetData[i].vBoundingBoxMinPos.m_dY,
+				m_vSubsetData[i].vBoundingBoxMinPos.m_dZ));
+
+			pOutputFile->WriteLine(cString(100, "SBBMax %0.2f %0.2f %0.2f\n",
+				m_vSubsetData[i].vBoundingBoxMaxPos.m_dX,
+				m_vSubsetData[i].vBoundingBoxMaxPos.m_dY,
+				m_vSubsetData[i].vBoundingBoxMaxPos.m_dZ));
+
+			pOutputFile->WriteLine(cString(100, "diffusecolor %d %d %d %d\n",
 				m_vSubsetData[i].diffuseColor.m_iRed, m_vSubsetData[i].diffuseColor.m_iBlue,
 				m_vSubsetData[i].diffuseColor.m_iGreen, m_vSubsetData[i].diffuseColor.m_iAlpha));
 
-			pOutputFile->WriteLine("\n");
 			if (!m_vSubsetData[i].strDiffuseTextureFilename.IsEmpty())
 			{
 				pOutputFile->WriteLine("dTex " + m_vSubsetData[i].strDiffuseTextureFilename + "\n");

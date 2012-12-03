@@ -52,9 +52,13 @@ namespace Graphics
 		Base::cColor diffuseColor;
 		Base::cString strDiffuseTextureFilename;
 		int iStartIndexNo;
+		Base::cVector3 vBoundingBoxMinPos;
+		Base::cVector3 vBoundingBoxMaxPos;
 
 		stSPDOSubsetData()
 			: iStartIndexNo(0)
+			, vBoundingBoxMaxPos(-MaxFloat, -MaxFloat, -MaxFloat)
+			, vBoundingBoxMinPos(MaxFloat, MaxFloat, MaxFloat)
 		{
 		}
 	};
@@ -96,9 +100,7 @@ namespace Graphics
 		int								m_iTotalIndices;
 		std::vector<stSPDOVertexData>	m_vVertexData;
 		std::vector<stSPDOSubsetData>	m_vSubsetData;
-
-
-
-
+		Base::cVector3					m_vBoundingBoxMinPos;
+		Base::cVector3					m_vBoundingBoxMaxPos;
 	};
 }
