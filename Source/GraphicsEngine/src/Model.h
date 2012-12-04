@@ -69,12 +69,6 @@ namespace Graphics
 		 * Creates the index buffer using the index data
 		 ***********************************************/
 		bool CreateIndexBuffer(const unsigned long * const pIndices);
-		/********************************************//**
-		 * @param[in] pVertices The vertex data of this model
-		 *
-		 * Creates the bounding box of the model
-		 ***********************************************/
-		void CreateBoundingBox(const stTexVertex * const pVertices);
 
 	private:
 		ID3D11Buffer * 					m_pVertexBuffer;			/*!< The vertex buffer */
