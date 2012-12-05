@@ -63,8 +63,8 @@ bool cSprite::VInitialize( shared_ptr<ITexture> const pTexture )
 	texResource = reinterpret_cast<ID3D11Texture2D*>(resource);
 	texResource->GetDesc(&desc);
 	
-	m_vSize.m_dX = desc.Width;
-	m_vSize.m_dY = desc.Height;
+	m_vSize.x = static_cast<float>(desc.Width);
+	m_vSize.y = static_cast<float>(desc.Height);
 	m_bIsDirty = true;
 	SAFE_RELEASE(resource);
 	return true;
@@ -221,10 +221,10 @@ bool cSprite::CreateIndexBuffer()
 bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 {
 	//center of the screen is 0,0
-	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
-	float right = left + m_vSize.m_dX;
-	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
-	float bottom = top - m_vSize.m_dY;
+	float left = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.x;
+	float right = left + m_vSize.x;
+	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.y;
+	float bottom = top - m_vSize.y;
 
 	float z = 1.0f;
 	// Create the vertex array.

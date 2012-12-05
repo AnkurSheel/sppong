@@ -229,7 +229,7 @@ void cBaseControl::VSetText(const Base::cString & strText)
 bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if(AllowMovingControl() && m_bIsLeftMouseDown)
-		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.m_dX, m_vPosition.m_dY ));
+		Log_Write_L3(ILogger::LT_ERROR, cString(100, "New Position - X : %f , Y : %f", m_vPosition.x, m_vPosition.y ));
 
 	m_bIsLeftMouseDown = false;
 	return true;
@@ -238,8 +238,8 @@ bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 // ***************************************************************
 bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
-	m_iMouseDownXPos = X - (int)m_vControlAbsolutePosition.m_dX;
-	m_iMouseDownYPos = Y - (int)m_vControlAbsolutePosition.m_dY;
+	m_iMouseDownXPos = X - static_cast<int>(m_vControlAbsolutePosition.x);
+	m_iMouseDownYPos = Y - static_cast<int>(m_vControlAbsolutePosition.y);
 	m_bIsLeftMouseDown = true;
 	return true;
 }
@@ -287,8 +287,8 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 {
 	if (AllowMovingControl() && m_bIsLeftMouseDown)
 	{
-		double x = m_vPosition.m_dX + (X - (int)m_vControlAbsolutePosition.m_dX) - m_iMouseDownXPos;
-		double y = m_vPosition.m_dY + (Y - (int)m_vControlAbsolutePosition.m_dY) - m_iMouseDownYPos;
+		float x = m_vPosition.x + (X - (int)m_vControlAbsolutePosition.x) - m_iMouseDownXPos;
+		float y = m_vPosition.y + (Y - (int)m_vControlAbsolutePosition.y) - m_iMouseDownYPos;
 
 		ConstrainChildControl(x, y);
 		VSetPosition(cVector2(x, y));
@@ -300,7 +300,7 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 // ***************************************************************
 void cBaseControl::VSetAbsolutePosition()
 {
-	ConstrainChildControl(m_vPosition.m_dX, m_vPosition.m_dY);
+	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
 	m_vControlAbsolutePosition = m_vPosition;
 	if (m_pParentControl)
 	{
@@ -339,22 +339,22 @@ void cBaseControl::VCleanup()
 // ***************************************************************
 float cBaseControl::VGetHeight() const
 {
-	return (float)m_vSize.m_dY;
+	return m_vSize.y;
 }
 
 // ***************************************************************
 float cBaseControl::VGetWidth() const
 {
-	return (float)m_vSize.m_dX;
+	return m_vSize.x;
 }
 
 // ***************************************************************
 bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 {
-	if((fX >= m_vControlAbsolutePosition.m_dX) 
-		&& (fX <= m_vControlAbsolutePosition.m_dX + VGetWidth())
-		&& (fY >= m_vControlAbsolutePosition.m_dY)
-		&& (fY <= m_vControlAbsolutePosition.m_dY + VGetHeight()))
+	if((fX >= m_vControlAbsolutePosition.x) 
+		&& (fX <= m_vControlAbsolutePosition.x + VGetWidth())
+		&& (fY >= m_vControlAbsolutePosition.y)
+		&& (fY <= m_vControlAbsolutePosition.y + VGetHeight()))
 		{
 			return true;
 		}
@@ -403,26 +403,26 @@ void cBaseControl::SetFocus(const bool bFocus)
 }
 
 // ***************************************************************
-void cBaseControl::ConstrainChildControl( double & dx, double & dy )
+void cBaseControl::ConstrainChildControl(float & fX, float & fY)
 {
 	// constrain child control in parent control
 	if (m_pParentControl)
 	{
-		if (dx < 0)
+		if (fX < 0)
 		{
-			dx = 0; 
+			fX = 0; 
 		}
-		if ((dx + m_vSize.m_dX) > m_pParentControl->VGetWidth())
+		if ((fX + m_vSize.x) > m_pParentControl->VGetWidth())
 		{
-			dx = m_pParentControl->VGetWidth() - m_vSize.m_dX; 
+			fX = m_pParentControl->VGetWidth() - m_vSize.x; 
 		}
-		if (dy < 0)
+		if (fY < 0)
 		{
-			dy = 0; 
+			fY = 0; 
 		}
-		if ((dy + m_vSize.m_dY) > m_pParentControl->VGetHeight())
+		if ((fY + m_vSize.y) > m_pParentControl->VGetHeight())
 		{
-			dy = m_pParentControl->VGetHeight() - m_vSize.m_dY; 
+			fY = m_pParentControl->VGetHeight() - m_vSize.y; 
 		}
 	}
 }

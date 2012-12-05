@@ -54,7 +54,7 @@ bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
 }
 
 // *************************************************************************
-float cMyFont::GetFontHeight() const
+int cMyFont::GetFontHeight() const
 {
 	return m_iFontHeight;
 }

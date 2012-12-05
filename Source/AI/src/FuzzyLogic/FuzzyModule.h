@@ -25,7 +25,7 @@ protected:
 	{
 		bool operator () (const Base::cString & str1, const Base::cString & str2) const
 		{
-			return str1.Compare(str2) < 0;	
+			return str1.Compare(str2);	
 		}
 	};
 

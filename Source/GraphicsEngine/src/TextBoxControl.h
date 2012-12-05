@@ -70,15 +70,15 @@ namespace Graphics
 		 *
 		 * Returns the width in pixels of the text in the textbox.
 		 ***********************************************/
-		int	GetStringWidth();
+		float GetStringWidth();
 		 /********************************************//**
 		 * @param[in] strText The text for which the width is needed
 		 * @return The width of the text that has been passed
 		 *
-		 * Gets the width of the sentence thats has been passed
+		 * Returns the width of the sentence thats has been passed
 		 * in strText
 		 ***********************************************/
-		int	GetStringWidth(const Base::cString & strText);
+		float GetStringWidth(const Base::cString & strText);
 		/********************************************//**
 		 * @param[in] strText The text to be set
 		 *

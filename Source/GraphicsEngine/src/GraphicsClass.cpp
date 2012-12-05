@@ -105,41 +105,42 @@ cVector3 cGraphicsClass::ScreenToWorldSpace(const cVector2 & vScreenPos,
 {
 	cVector3 vViewSpace;
 
-	vViewSpace.m_dX = ((2.0f * vScreenPos.m_dX) / IDXBase::GetInstance()->VGetScreenWidth()) - 1.0f;
-	vViewSpace.m_dY = -((2.0f * vScreenPos.m_dY) / IDXBase::GetInstance()->VGetScreenHeight() - 1.0f);
+	vViewSpace.m_dX = ((2.0f * vScreenPos.x) / IDXBase::GetInstance()->VGetScreenWidth()) - 1.0f;
+	vViewSpace.m_dY =  1 - ((2.0f * vScreenPos.y) / IDXBase::GetInstance()->VGetScreenHeight());
 	vViewSpace.m_dZ = 1.0f;
 	
 	D3DXMATRIX matProjection = IDXBase::GetInstance()->VGetProjectionMatrix();
 	vViewSpace.m_dX = vViewSpace.m_dX / matProjection._11;
 	vViewSpace.m_dY = vViewSpace.m_dY / matProjection._22;
+	vViewSpace.m_dZ = vViewSpace.m_dZ / matProjection._33;
 
-	// Get the inverse of the view matrix.
+	// Get the inverse of the view matrix to get the world matrix.
 	D3DXMATRIX matView = pCamera->VGetViewMatrix();
-	D3DXMATRIX matInverseView;
-	D3DXMatrixInverse(&matInverseView, NULL, &matView);
+	D3DXMATRIX matWorld;
+	D3DXMatrixInverse(&matWorld, NULL, &matView);
 
-	D3DXVECTOR3 vOrigin(matInverseView._41, matInverseView._42, matInverseView._43);
+	cVector3 vOrigin(matWorld._41, matWorld._42, matWorld._43);
 	
-	D3DXVECTOR3 direction;
-	direction.x = (vViewSpace.m_dX * matInverseView._11) + (vViewSpace.m_dY * matInverseView._21) + (vViewSpace.m_dZ * matInverseView._31);
-	direction.y = (vViewSpace.m_dX * matInverseView._12) + (vViewSpace.m_dY * matInverseView._22) + (vViewSpace.m_dZ * matInverseView._32);
-	direction.z = (vViewSpace.m_dX * matInverseView._13) + (vViewSpace.m_dY * matInverseView._23) + (vViewSpace.m_dZ * matInverseView._33);
-	D3DXVec3Normalize(&direction, &direction);
+	cVector3 direction;
+	direction.m_dX = (vViewSpace.m_dX * matWorld._11) + (vViewSpace.m_dY * matWorld._21) + (vViewSpace.m_dZ * matWorld._31);
+	direction.m_dY = (vViewSpace.m_dX * matWorld._12) + (vViewSpace.m_dY * matWorld._22) + (vViewSpace.m_dZ * matWorld._32);
+	direction.m_dZ = (vViewSpace.m_dX * matWorld._13) + (vViewSpace.m_dY * matWorld._23) + (vViewSpace.m_dZ * matWorld._33);
+	direction.Normalize();
 	
 	D3DXMATRIX matViewProjection;
 	D3DXMatrixMultiply(&matViewProjection, &matView, &matProjection);
 	
-	D3DXVECTOR3 vPlaneNormal(matViewProjection._13, matViewProjection._23, matViewProjection._33);
-	D3DXVec3Normalize(&vPlaneNormal, &vPlaneNormal);
+	cVector3 vPlaneNormal(matViewProjection._13, matViewProjection._23, matViewProjection._33);
+	vPlaneNormal.Normalize();
 
 	float fPlaneDistanceFromOrigin = 0;
 
-	float fIncidentAngle = D3DXVec3Dot(&direction, &vPlaneNormal);
+	float fIncidentAngle = direction.Dot(vPlaneNormal);
 	if (fIncidentAngle != 0)
 	{
-		float t = (-(fPlaneDistanceFromOrigin + D3DXVec3Dot(&vOrigin, &vPlaneNormal))) / fIncidentAngle;
+		float t = (-(fPlaneDistanceFromOrigin + vOrigin.Dot(vPlaneNormal))) / fIncidentAngle;
 		vOrigin = vOrigin + (direction * t);
-		return  cGraphicUtils::D3DXVEC3ToVector3(vOrigin);
+		return  vOrigin;
 	}
 	return cVector3::Zero();
 }

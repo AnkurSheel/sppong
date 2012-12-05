@@ -101,12 +101,12 @@ namespace Graphics
 		 ***********************************************/
 		bool AllowMovingControl();
 		/********************************************//**
-		 * @param[in] dx The X position of the control
-		 * @param[in] dy The Y position of the control
+		 * @param[in] fX The X position of the control
+		 * @param[in] fY The Y position of the control
 		 *
 		 * Constrain child control in parent control
 		 ***********************************************/
-		void ConstrainChildControl( double & dx, double & dy );
+		void ConstrainChildControl(float & fX, float & fY);
 		/********************************************//**
 		 * @param[in] pParentControl Pointer to the parent control
 		 *

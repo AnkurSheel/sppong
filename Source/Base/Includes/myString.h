@@ -39,11 +39,11 @@ namespace Base
 		BASE_API bool operator < (const cString & str) const;
 		BASE_API bool operator == (const char * szRight) const;
 		BASE_API bool operator == (const cString & strRight) const;
-		BASE_API const char operator[](const int index) const;
-		BASE_API char operator[](const int index);
+		BASE_API const char operator[](const unsigned int index) const;
+		BASE_API char operator[](const unsigned int index);
 		BASE_API const char * const GetData()const;
 		BASE_API bool IsEmpty() const ;
-		BASE_API int GetLength() const;
+		BASE_API unsigned int GetLength() const;
 		BASE_API cString GetSubString(const size_t iStartIndex, const size_t iEndIndex) const;
 		BASE_API Base::tOptional<int> FindIndex(const char chChar, const int iOffset) const;
 		BASE_API Base::tOptional<int> FindFirstNotOf(const cString & strDelims, const int iOffset) const;

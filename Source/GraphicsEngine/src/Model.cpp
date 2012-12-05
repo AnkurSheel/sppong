@@ -55,7 +55,7 @@ bool cModel::VOnInitialization(const stModelDef & def)
 	if(!CreateIndexBuffer(def.pIndices))
 		return false;
 
-	for (int i=0; i<def.vSubsetsDef.size(); i++)
+	for (unsigned int i=0; i<def.vSubsetsDef.size(); i++)
 	{
 		stObjectSubset subset;
 		subset.m_iIndexCountInSubset = def.vSubsetsDef[i].iNumberOfIndicesinSubset;
@@ -101,7 +101,7 @@ void cModel::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOn();
 
-	for (int i=0; i<m_vSubsets.size(); i++)
+	for (unsigned int i=0; i<m_vSubsets.size(); i++)
 	{
 		if (m_pShader)
 		{

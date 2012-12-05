@@ -41,7 +41,6 @@ void cMPongView::VOnCreateDevice(IBaseApp * pGame,
 {
 	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
-	//m_pCamera->VSetRotation(cVector3(20, 0.0f, 0.0f));
 	m_pGame = dynamic_cast<cGame *>(pGame);
 }
 

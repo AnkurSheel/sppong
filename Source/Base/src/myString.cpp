@@ -87,7 +87,7 @@ bool Base::cString::operator == (const cString & strRight) const
 	return m_str.compare(strRight.m_str) == 0;
 }
 
-const char Base::cString::operator[](const int index) const
+const char Base::cString::operator[](const unsigned int index) const
 {
 	if(index < GetLength())
 	{
@@ -96,7 +96,7 @@ const char Base::cString::operator[](const int index) const
 	return '\0';
 }
 
-char Base::cString::operator[](const int index)
+char Base::cString::operator[](const unsigned int index)
 {
 	if(index < GetLength())
 	{
@@ -134,7 +134,7 @@ Base::cString Base::cString::TimeToString(time_t time)
 }
 // ***************************************************************
 
-int Base::cString::GetLength() const
+unsigned int Base::cString::GetLength() const
 {
 	return m_str.length();
 }

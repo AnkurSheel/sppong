@@ -20,10 +20,10 @@ inline cColor::cColor( const int iRed, const int iGreen, const int iBlue, const 
 
 // *************************************************************************
 inline cColor::cColor(const float fRed, const float fGreen, const float fBlue, const float fAlpha)
-: m_iRed(fRed * 255)
-, m_iGreen(fGreen * 255)
-, m_iBlue(fBlue * 255)
-, m_iAlpha(fAlpha * 255)
+: m_iRed(static_cast<int>(fRed * 255))
+, m_iGreen(static_cast<int>(fGreen * 255))
+, m_iBlue(static_cast<int>(fBlue * 255))
+, m_iAlpha(static_cast<int>(fAlpha * 255))
 {
 	CalculateColorFromComponents();
 }

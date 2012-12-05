@@ -59,6 +59,7 @@ bool Graphics::cTexture::Initialize( const Base::cString & strTexturePath )
 		}
 		return true;
 	}
+	return false;
 }
 
 // ***************************************************************

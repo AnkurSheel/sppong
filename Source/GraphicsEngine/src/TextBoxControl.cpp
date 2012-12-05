@@ -180,7 +180,7 @@ void cTextBoxControl::VCleanup()
 bool cTextBoxControl::InsertText( const Base::cString & strText )
 {
 	if(!m_bTextBoxFull 
-		&& (GetStringWidth() + GetStringWidth(strText)) <= m_vSize.m_dX)
+		&& (GetStringWidth() + GetStringWidth(strText)) <= m_vSize.x)
 	{
 		cString strExistingText;
 		m_pSentence->VGetText(strExistingText);
@@ -207,7 +207,7 @@ void cTextBoxControl::RemoveText(const unsigned int uiQuantity)
 }
 
 // ***************************************************************
-int cTextBoxControl::GetStringWidth()
+float cTextBoxControl::GetStringWidth()
 {
 	if (m_pSentence)
 	{
@@ -217,7 +217,7 @@ int cTextBoxControl::GetStringWidth()
 }
 
 // ***************************************************************
-int cTextBoxControl::GetStringWidth( const Base::cString & strText )
+float cTextBoxControl::GetStringWidth( const Base::cString & strText )
 {
 	if (m_pSentence)
 	{
@@ -258,7 +258,7 @@ void cTextBoxControl::SetCaratAbsolutePosition()
 	if (m_pCaretSprite)
 	{
 		cVector2 vec = m_vControlAbsolutePosition;
-		vec.m_dX += m_fCaretPosInTextBox;
+		vec.x += m_fCaretPosInTextBox;
 		m_pCaretSprite->VSetPosition(vec);
 	}
 }

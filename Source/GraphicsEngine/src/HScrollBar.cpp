@@ -40,24 +40,30 @@ bool cHScrollBar::VOnMouseMove( const int X, const int Y )
 	if (m_bDragMode)
 	{
  		int iThumbPos = m_iThumbPos;
-		float fVal = m_pBtnDecrementArrow->VGetWidth() + X 
-			- (m_vControlAbsolutePosition.m_dX + m_pBtnIncrementArrow->VGetWidth());
+		// get the position of the mouse in the scrollbar
+		float fPosRelativeToScrollbar = m_pBtnDecrementArrow->VGetWidth() + X 
+			- (m_vControlAbsolutePosition.x + m_pBtnIncrementArrow->VGetWidth());
 
-		if(fVal >= m_pBtnIncrementArrow->VGetWidth())
+		//check if the mouse position is still within the scrollbar
+		if(fPosRelativeToScrollbar >= m_pBtnIncrementArrow->VGetWidth() 
+			&& fPosRelativeToScrollbar < (VGetWidth() - m_pBtnDecrementArrow->VGetWidth()))
 		{
-			if(fVal < (VGetWidth() - m_pBtnDecrementArrow->VGetWidth()))
+			// get the area in which the thumb can move
+			float fThumbRange = (VGetWidth() - m_pBtnIncrementArrow->VGetWidth()) -
+				m_pBtnDecrementArrow->VGetWidth();
+			
+			float fPixelsMovedPerIncrement = fThumbRange / m_iNoOfIncrements;
+			
+			// get the cuurent pos of the thum
+			for(int counter = 0; counter < m_iNoOfIncrements; counter++)
 			{
-				float fRange = (VGetWidth() - m_pBtnIncrementArrow->VGetWidth()) -
-					m_pBtnDecrementArrow->VGetWidth();
-				float fIncrement = fRange / m_iNoOfIncrements;
-				for(int counter = 0; counter < m_iNoOfIncrements; counter++)
+				// get the current pos for this counter
+				float fPosForCounter = m_pBtnDecrementArrow->VGetWidth() + (fPixelsMovedPerIncrement * counter);
+				if(((fPosRelativeToScrollbar >= fPosForCounter))
+					&& (fPosRelativeToScrollbar<= (fPosForCounter + fPixelsMovedPerIncrement)))
 				{
-					float fItem = m_pBtnDecrementArrow->VGetWidth() + (fIncrement * counter);
-					if(((fVal >= fItem)) && (fVal<= (fItem + fIncrement)))
-					{
-						iThumbPos = counter;
-						break;
-					}
+					iThumbPos = counter;
+					break;
 				}
 			}
 		}
@@ -74,17 +80,17 @@ void cHScrollBar::VSetAbsolutePosition()
 	cVector2 pos = m_vControlAbsolutePosition;
 	if (m_pBtnDecrementArrow)
 	{
-		pos.m_dX += m_iMinPos;
+		pos.x += m_iMinPos;
 		m_pBtnDecrementArrow->VSetPosition(pos);
 		if (m_pBGSprite)
 		{
-			pos.m_dX += m_pBtnDecrementArrow->VGetWidth();
+			pos.x += m_pBtnDecrementArrow->VGetWidth();
 			m_pBGSprite->VSetPosition(pos);
 		}
 	}
 	if (m_pBtnIncrementArrow)
 	{
-		pos.m_dX = m_vControlAbsolutePosition.m_dX + VGetWidth()- m_pBtnIncrementArrow->VGetWidth();
+		pos.x = m_vControlAbsolutePosition.x + VGetWidth()- m_pBtnIncrementArrow->VGetWidth();
 		m_pBtnIncrementArrow->VSetPosition(pos);
 	}	
 	VSetThumbPosition(m_iThumbPos);
@@ -135,7 +141,7 @@ void cHScrollBar::VSetThumbPosition( const int iNewPosition )
 	cVector2 pos = m_vControlAbsolutePosition;
 	if (m_pBtnThumb)
 	{
-		pos.m_dX += m_pBtnDecrementArrow->VGetWidth() + (m_pBtnThumb->VGetWidth() * m_iThumbPos);
+		pos.x += m_pBtnDecrementArrow->VGetWidth() + (m_pBtnThumb->VGetWidth() * m_iThumbPos);
 		m_pBtnThumb->VSetPosition(pos);
 	}
 	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "ThumbPos % d" , (m_iThumbPos + m_iMinPos)));
@@ -144,9 +150,9 @@ void cHScrollBar::VSetThumbPosition( const int iNewPosition )
 // ***************************************************************
 void cHScrollBar::AutoSizeThumb()
 {
-	float fRange = VGetWidth() - m_pBtnIncrementArrow->VGetWidth() - m_pBtnDecrementArrow->VGetWidth();
-	float fNewWidth = fRange / m_iNoOfIncrements ;
-	m_pBtnThumb->VSetSize(cVector2(fNewWidth, VGetHeight()));
+	float fThumbRange = VGetWidth() - m_pBtnIncrementArrow->VGetWidth() - m_pBtnDecrementArrow->VGetWidth();
+	float fNewThumbWidth = fThumbRange / m_iNoOfIncrements ;
+	m_pBtnThumb->VSetSize(cVector2(fNewThumbWidth, VGetHeight()));
 }
 
 // ***************************************************************

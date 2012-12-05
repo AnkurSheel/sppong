@@ -141,10 +141,9 @@ float cSentence::VGetWidth(const Base::cString & strText) const
 		int val = (int)strText[i];
 		vertexData = m_pFont->GetCharVertexData(val);
 
-		fWidth += m_fScale * vertexData.ch.XAdvance;
+		fWidth += vertexData.ch.XAdvance;
 	}
-
-	return fWidth;
+	return m_fScale * fWidth;
 }
 
 // *************************************************************************
@@ -164,8 +163,8 @@ bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 	m_iVertexCount = istrLength * 4;
 	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
 
-	float curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.m_dX;
-	float curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
+	float curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.x;
+	float curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.y;
 	float left;
 	float right;
 	float top;

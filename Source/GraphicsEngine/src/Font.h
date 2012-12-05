@@ -107,7 +107,7 @@ namespace Graphics
 		 *
 		 * Returns the height of the a line using this font
 		 ***********************************************/
-		float GetFontHeight() const ;
+		int GetFontHeight() const ;
 
 	private:
 		bool VInitialize(const Base::cString & strFontDirPath,

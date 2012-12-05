@@ -40,8 +40,8 @@ Base::cVector3 cGraphicUtils::D3DXVEC3ToVector3(const D3DXVECTOR3& inVec)
 D3DXVECTOR2 cGraphicUtils::Vector2ToD3DXVEC2(const Base::cVector2& inVec)
 {
 	D3DXVECTOR2 vec;
-	vec.x = inVec.m_dX;
-	vec.y = inVec.m_dY;
+	vec.x = inVec.x;
+	vec.y = inVec.y;
 	return vec;
 }
 
@@ -49,7 +49,7 @@ D3DXVECTOR2 cGraphicUtils::Vector2ToD3DXVEC2(const Base::cVector2& inVec)
 Base::cVector2 cGraphicUtils::D3DXVEC2ToVector2(const D3DXVECTOR2& inVec)
 {
 	cVector2 vec;
-	vec.m_dX = inVec.x;
-	vec.m_dY = inVec.y;
+	vec.x = inVec.x;
+	vec.y = inVec.y;
 	return vec;
 }

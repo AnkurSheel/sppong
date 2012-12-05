@@ -1,14 +1,14 @@
 // ***************************************************************
 inline cVector2::cVector2()
-: m_dX(0)
-, m_dY(0)
+: x(0)
+, y(0)
 {
 }
 
 // ***************************************************************
-inline cVector2::cVector2( const double dX, const double dY )
-: m_dX(dX)
-, m_dY(dY)
+inline cVector2::cVector2( const float fX, const float fY )
+: x(fX)
+, y(fY)
 {
 }
 
@@ -21,65 +21,62 @@ inline Base::cVector2 cVector2::Zero()
 // ***************************************************************
 inline bool cVector2::IsZero() const
 {
-	return (m_dX * m_dX + m_dY * m_dY) < MinDouble;
+	return (x * x + y * y) < MinFloat;
 }
 
 // ***************************************************************
-inline double cVector2::Length() const
+inline float cVector2::Length() const
 {
-	return sqrt(m_dX * m_dX + m_dY * m_dY);
+	return sqrt(LengthSquared());
 }
 
 // ***************************************************************
-inline double cVector2::LengthSquared() const
+inline float cVector2::LengthSquared() const
 {
-	return (m_dX * m_dX + m_dY * m_dY);
+	return (x * x + y * y);
 }
 
 // ***************************************************************
 inline void cVector2::Normalize()
 {
-	double dLength = Length();
+	float fLength = Length();
 
-	if (dLength > std::numeric_limits<double>::epsilon())
+	if (fLength > std::numeric_limits<float>::epsilon())
 	{
-		m_dX /= dLength;
-		m_dY /= dLength;
+		x /= fLength;
+		y /= fLength;
 	}
 }
 
 // ***************************************************************
-inline double cVector2::Dot( const cVector2 & inVec ) const
+inline float cVector2::Dot( const cVector2 & inVec ) const
 {
-	return m_dX * inVec.m_dX + m_dY * inVec.m_dY;
+	return x * inVec.x + y * inVec.y;
 }
 
 // ***************************************************************
 inline Base::cVector2 cVector2::PerpendicularAboutXAxis() const
 {
-	return cVector2(m_dY, -m_dX);
+	return cVector2(y, -x);
 }
 
 // ***************************************************************
 inline Base::cVector2 cVector2::PerpendicularAboutYAxis() const
 {
-	return cVector2(-m_dY, m_dX);
+	return cVector2(-y, x);
 }
 
 // ***************************************************************
-inline double cVector2::Distance( const cVector2 & inVec ) const
+inline float cVector2::Distance( const cVector2 & inVec ) const
 {
-	double ySeparation = inVec.m_dY - m_dY;
-	double xSeparation = inVec.m_dX - m_dX;
-
-	return sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
+	return sqrt(DistanceSquared(inVec));
 }
 
 // ***************************************************************
-inline double cVector2::SquareDistance( const cVector2 & inVec ) const
+inline float cVector2::DistanceSquared( const cVector2 & inVec ) const
 {
-	double ySeparation = inVec.m_dY - m_dY;
-	double xSeparation = inVec.m_dX - m_dX;
+	float ySeparation = inVec.y - y;
+	float xSeparation = inVec.x - x;
 
 	return (ySeparation * ySeparation + xSeparation * xSeparation);
 }
@@ -87,27 +84,27 @@ inline double cVector2::SquareDistance( const cVector2 & inVec ) const
 // ***************************************************************
 inline void cVector2::Reflect( const cVector2 & norm )
 {
-	*this += 2.0 * this->Dot(norm) * norm.GetReverse();
+	*this += 2.0f * this->Dot(norm) * norm.GetReverse();
 }
 
 // ***************************************************************
 inline Base::cVector2 cVector2::GetReverse() const
 {
-	return cVector2(-m_dX, -m_dY);
+	return cVector2(-x, -y);
 }
 
 // ****************************************************************
 inline void cVector2::AbsTo() 
 {
-	m_dX = abs(m_dX);
-	m_dY = abs(m_dY);
+	x = abs(x);
+	y = abs(y);
 }
 
 // ****************************************************************
 inline const cVector2 & cVector2::operator+=( const cVector2 & inVec )
 {
-	m_dX += inVec.m_dX;
-	m_dY += inVec.m_dY;
+	x += inVec.x;
+	y += inVec.y;
 
 	return *this;
 }
@@ -115,26 +112,26 @@ inline const cVector2 & cVector2::operator+=( const cVector2 & inVec )
 // ***************************************************************
 inline const cVector2 & cVector2::operator-=( const cVector2 & inVec )
 {
-	m_dX -= inVec.m_dX;
-	m_dY -= inVec.m_dY;
+	x -= inVec.x;
+	y -= inVec.y;
 
 	return *this;
 }
 
 // ***************************************************************
-inline const cVector2 & cVector2::operator*=( const double & dVal )
+inline const cVector2 & cVector2::operator*=( const float fVal )
 {
-	m_dX *= dVal;
-	m_dY *= dVal;
+	x *= fVal;
+	y *= fVal;
 
 	return *this;
 }
 
 // ***************************************************************
-inline const cVector2 & cVector2::operator/=( const double & dVal )
+inline const cVector2 & cVector2::operator/=( const float fVal )
 {
-	m_dX /= dVal;
-	m_dY /= dVal;
+	x /= fVal;
+	y /= fVal;
 
 	return *this;
 }
@@ -142,28 +139,28 @@ inline const cVector2 & cVector2::operator/=( const double & dVal )
 // ***************************************************************
 inline bool cVector2::operator==( const cVector2 & inVec ) const
 {
-	return (isEqual(m_dX, inVec.m_dX) && isEqual(m_dY,inVec.m_dY) );
+	return (isEqual(x, inVec.x) && isEqual(y,inVec.y) );
 }
 
 // ***************************************************************
 inline bool cVector2::operator!=( const cVector2 & inVec ) const
 {
-	return (!isEqual(m_dX, inVec.m_dX) || !isEqual(m_dY,inVec.m_dY) );
+	return (!isEqual(x, inVec.x) || !isEqual(y,inVec.y) );
 }
 
 // ***************************************************************
-Base::cVector2 operator*( const cVector2 & inVec1, const double dVal )
+Base::cVector2 operator*( const cVector2 & inVec1, const float fVal )
 {
 	cVector2 result(inVec1);
-	result *= dVal;
+	result *= fVal;
 	return result;
 }
 
 // ***************************************************************
-Base::cVector2 operator*( const double dVal, const cVector2 & inVec1 )
+Base::cVector2 operator*( const float fVal, const cVector2 & inVec1 )
 {
 	cVector2 result(inVec1);
-	result *= dVal;
+	result *= fVal;
 	return result;
 }
 
@@ -184,9 +181,9 @@ Base::cVector2 operator+( const cVector2 & inVec1, const cVector2 & inVec2 )
 }
 
 // ***************************************************************
-Base::cVector2 operator/( const cVector2 & inVec1, const double dVal )
+Base::cVector2 operator/( const cVector2 & inVec1, const float fVal )
 {
 	cVector2 result(inVec1);
-	result /= dVal;
+	result /= fVal;
 	return result;
 }

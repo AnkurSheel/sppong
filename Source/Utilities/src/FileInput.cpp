@@ -42,7 +42,7 @@ bool cFileInput::Open(const cString & strFileName, const std::ios_base::openmode
 	}
 	Log_Write_L2(ILogger::LT_COMMENT, "Opened file: " + m_strFileName);
 	m_inputFile.seekg(0, std::ios::end);
-	m_iFileSize = m_inputFile.tellg();
+	m_iFileSize = static_cast<unsigned long>(m_inputFile.tellg());
 	m_inputFile.seekg(0, std::ios::beg);
 	Log_Write_L2(ILogger::LT_DEBUG, "Size of File " + m_strFileName + cString(20, " : %d bytes", m_iFileSize));
 	return true;
@@ -69,7 +69,7 @@ const unsigned char * const cFileInput::ReadAll()
 	return Read(m_iFileSize);
 }
 
-const unsigned char * const cFileInput::Read(std::streamoff size)
+const unsigned char * const cFileInput::Read(unsigned long ulSize)
 {
 	if(!m_inputFile)
 	{
@@ -77,8 +77,8 @@ const unsigned char * const cFileInput::Read(std::streamoff size)
 		return NULL;
 	}
 
-	m_pBuffer = DEBUG_NEW unsigned char[size];
-	m_inputFile.read((char *)m_pBuffer, size);
+	m_pBuffer = DEBUG_NEW unsigned char[ulSize];
+	m_inputFile.read((char *)m_pBuffer, ulSize);
 	if(m_inputFile.bad() || (m_inputFile.fail() && !m_inputFile.eof()))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Error in reading file: " + m_strFileName);
@@ -112,7 +112,7 @@ IFileInput * IFileInput::CreateInputFile()
 }
 
 // ***************************************************************
-std::streamoff Utilities::cFileInput::VGetFileSize() const
+unsigned long Utilities::cFileInput::VGetFileSize() const
 {
 	return m_iFileSize;
 }
