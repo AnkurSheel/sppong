@@ -52,7 +52,7 @@ void cBall::Init( const cVector3& vInitialPos, const cString & strFilename)
 // ***************************************************************
 void cBall::ChangeSpeedX()
 {
-	m_vSpeed.m_dX = -m_vSpeed.m_dX;
+	m_vSpeed.x = -m_vSpeed.x;
 }
 // ***************************************************************
 
@@ -61,7 +61,7 @@ void cBall::ChangeSpeedX()
 // ***************************************************************
 void cBall::ChangeSpeedY()
 {
-	m_vSpeed.m_dY = - m_vSpeed.m_dY;
+	m_vSpeed.y = - m_vSpeed.y;
 }
 // ***************************************************************
 

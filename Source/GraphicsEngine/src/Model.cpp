@@ -121,14 +121,14 @@ void cModel::VReCalculateTransformMatrix(const cVector3 vPosition, const cVector
 										const cVector3 vScale)
 {
 	D3DXMATRIX matRotation;
-	D3DXMatrixRotationYawPitchRoll(&matRotation, vRotation.m_dY, vRotation.m_dX,
-		vRotation.m_dZ);
+	D3DXMatrixRotationYawPitchRoll(&matRotation, vRotation.y, vRotation.x,
+		vRotation.x);
 
 	D3DXMATRIX matScale;
-	D3DXMatrixScaling(&matScale, vScale.m_dX, vScale.m_dY, vScale.m_dZ);
+	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 
 	D3DXMATRIX matPosition;
-	D3DXMatrixTranslation(&matPosition, vPosition.m_dX, vPosition.m_dY, vPosition.m_dZ);
+	D3DXMatrixTranslation(&matPosition, vPosition.x, vPosition.y, vPosition.z);
 
 	D3DXMatrixIdentity(&m_matTransform);
 	m_matTransform = matScale * matRotation * matPosition;

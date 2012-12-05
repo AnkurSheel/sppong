@@ -113,7 +113,7 @@ void cGraphicsTestView::VRenderPrivate()
 			if(m_pGameElement)
 			{
 				m_pGameElement->SetRotation(cVector3(0.0f, 
-					m_pGameElement->GetRotation().m_dY + DegtoRad(0.1f), 0.0f));
+					m_pGameElement->GetRotation().y + DegtoRad(0.1f), 0.0f));
 				m_pGameElement->Render(m_pCamera);
 			}
 			break;

@@ -58,5 +58,5 @@ bool cAABB::Overlaps(const cAABB & other)
 	cVector3 vHalfExtentSum = other.m_vHalfExtents + m_vHalfExtents;
 	vCenterDelta = vCenterDelta - vHalfExtentSum;
 
-	return vCenterDelta.m_dX < 0 && vCenterDelta.m_dY < 0 && vCenterDelta.m_dZ < 0;
+	return vCenterDelta.x < 0 && vCenterDelta.y < 0 && vCenterDelta.z < 0;
 }

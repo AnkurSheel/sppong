@@ -20,9 +20,9 @@ using namespace Graphics;
 D3DXVECTOR3 cGraphicUtils::Vector3ToD3DXVEC3(const cVector3& inVec)
 {
 	D3DXVECTOR3 vec;
-	vec.x = inVec.m_dX;
-	vec.y = inVec.m_dY;
-	vec.z = inVec.m_dZ;
+	vec.x = inVec.x;
+	vec.y = inVec.y;
+	vec.z = inVec.z;
 	return vec;
 }
 
@@ -30,9 +30,9 @@ D3DXVECTOR3 cGraphicUtils::Vector3ToD3DXVEC3(const cVector3& inVec)
 Base::cVector3 cGraphicUtils::D3DXVEC3ToVector3(const D3DXVECTOR3& inVec)
 {
 	cVector3 vec;
-	vec.m_dX = inVec.x;
-	vec.m_dY = inVec.y;
-	vec.m_dZ = inVec.z;
+	vec.x = inVec.x;
+	vec.y = inVec.y;
+	vec.z = inVec.z;
 	return vec;
 }
 

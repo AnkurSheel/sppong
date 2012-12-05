@@ -248,23 +248,23 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 
 	cGameElementDef paddleDef;
 	paddleDef.strModelPath = "resources//cube.spdo";
-	paddleDef.vPosition= cVector3(vScreenTopLeftPos.m_dX, 0.0f, 0.0f);
+	paddleDef.vPosition= cVector3(vScreenTopLeftPos.x, 0.0f, 0.0f);
 	paddleDef.vScale = cVector3(0.5f, 1.5f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT]->VInitialize(paddleDef);
 
-	paddleDef.vPosition= cVector3(vscreenBottomRightPos.m_dX, 0.0f, 0.0f);
+	paddleDef.vPosition= cVector3(vscreenBottomRightPos.x, 0.0f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT]->VInitialize(paddleDef);
 
 	cGameElementDef wallDef;
 	wallDef.strModelPath = "resources//cube.spdo";
-	wallDef.vPosition= cVector3(0, vScreenTopLeftPos.m_dY, 0.0f);
-	wallDef.vScale = cVector3(abs(vScreenTopLeftPos.m_dX), 0.5f, 0.0f);
+	wallDef.vPosition= cVector3(0, vScreenTopLeftPos.y, 0.0f);
+	wallDef.vScale = cVector3(abs(vScreenTopLeftPos.x), 0.5f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->VInitialize(wallDef);
 
-	wallDef.vPosition= cVector3(0, vscreenBottomRightPos.m_dY, 0.0f);
+	wallDef.vPosition= cVector3(0, vscreenBottomRightPos.y, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
 	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->VInitialize(wallDef);
 

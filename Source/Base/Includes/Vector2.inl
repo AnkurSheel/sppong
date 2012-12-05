@@ -21,7 +21,7 @@ inline Base::cVector2 cVector2::Zero()
 // ***************************************************************
 inline bool cVector2::IsZero() const
 {
-	return (x * x + y * y) < MinFloat;
+	return LengthSquared() < EpsilonFloat;
 }
 
 // ***************************************************************
@@ -41,7 +41,7 @@ inline void cVector2::Normalize()
 {
 	float fLength = Length();
 
-	if (fLength > std::numeric_limits<float>::epsilon())
+	if (fLength > EpsilonFloat)
 	{
 		x /= fLength;
 		y /= fLength;

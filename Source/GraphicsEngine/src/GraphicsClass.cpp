@@ -105,14 +105,14 @@ cVector3 cGraphicsClass::ScreenToWorldSpace(const cVector2 & vScreenPos,
 {
 	cVector3 vViewSpace;
 
-	vViewSpace.m_dX = ((2.0f * vScreenPos.x) / IDXBase::GetInstance()->VGetScreenWidth()) - 1.0f;
-	vViewSpace.m_dY =  1 - ((2.0f * vScreenPos.y) / IDXBase::GetInstance()->VGetScreenHeight());
-	vViewSpace.m_dZ = 1.0f;
+	vViewSpace.x = ((2.0f * vScreenPos.x) / IDXBase::GetInstance()->VGetScreenWidth()) - 1.0f;
+	vViewSpace.y =  1 - ((2.0f * vScreenPos.y) / IDXBase::GetInstance()->VGetScreenHeight());
+	vViewSpace.z = 1.0f;
 	
 	D3DXMATRIX matProjection = IDXBase::GetInstance()->VGetProjectionMatrix();
-	vViewSpace.m_dX = vViewSpace.m_dX / matProjection._11;
-	vViewSpace.m_dY = vViewSpace.m_dY / matProjection._22;
-	vViewSpace.m_dZ = vViewSpace.m_dZ / matProjection._33;
+	vViewSpace.x = vViewSpace.x / matProjection._11;
+	vViewSpace.y = vViewSpace.y / matProjection._22;
+	vViewSpace.z = vViewSpace.z / matProjection._33;
 
 	// Get the inverse of the view matrix to get the world matrix.
 	D3DXMATRIX matView = pCamera->VGetViewMatrix();
@@ -122,9 +122,9 @@ cVector3 cGraphicsClass::ScreenToWorldSpace(const cVector2 & vScreenPos,
 	cVector3 vOrigin(matWorld._41, matWorld._42, matWorld._43);
 	
 	cVector3 direction;
-	direction.m_dX = (vViewSpace.m_dX * matWorld._11) + (vViewSpace.m_dY * matWorld._21) + (vViewSpace.m_dZ * matWorld._31);
-	direction.m_dY = (vViewSpace.m_dX * matWorld._12) + (vViewSpace.m_dY * matWorld._22) + (vViewSpace.m_dZ * matWorld._32);
-	direction.m_dZ = (vViewSpace.m_dX * matWorld._13) + (vViewSpace.m_dY * matWorld._23) + (vViewSpace.m_dZ * matWorld._33);
+	direction.x = (vViewSpace.x * matWorld._11) + (vViewSpace.y * matWorld._21) + (vViewSpace.z * matWorld._31);
+	direction.y = (vViewSpace.x * matWorld._12) + (vViewSpace.y * matWorld._22) + (vViewSpace.z * matWorld._32);
+	direction.z = (vViewSpace.x * matWorld._13) + (vViewSpace.y * matWorld._23) + (vViewSpace.z * matWorld._33);
 	direction.Normalize();
 	
 	D3DXMATRIX matViewProjection;

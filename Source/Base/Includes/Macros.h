@@ -113,19 +113,22 @@ typedef unsigned long TICK;
 
 const unsigned int SCREEN_REFRESH_RATE(1000/60);
 const int     MaxInt    = (std::numeric_limits<int>::max)();
+const int     MinInt    = (std::numeric_limits<int>::min)();
 const double  MaxDouble = (std::numeric_limits<double>::max)();
 const double  MinDouble = (std::numeric_limits<double>::min)();
+const double  EpsilonDouble = (std::numeric_limits<double>::epsilon)();
 const float   MaxFloat  = (std::numeric_limits<float>::max)();
 const float   MinFloat  = (std::numeric_limits<float>::min)();
+const float   EpsilonFloat = (std::numeric_limits<float>::epsilon)();
 
 const float   Pi        = 3.14159f;
 const float   TwoPi     = Pi * 2;
 const float   HalfPi    = Pi / 2;
 const float   QuarterPi = Pi / 4;
 
-inline bool isEqual(const double a, const double b)
+inline bool isEqual(const float a, const float b)
 {
-	if (fabs(a-b) < 1E-12)
+	if (fabs(a-b) < EpsilonFloat)
 	{
 		return true;
 	}

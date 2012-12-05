@@ -20,14 +20,14 @@ using namespace Base;
 cBoundingBox::cBoundingBox( const cVector3 & vMinBound, const cVector3 & vMaxBound)
 : m_pAABB(NULL)
 {
-	m_avObjectBounds[0] = cVector3(vMinBound.m_dX, vMinBound.m_dY, vMinBound.m_dZ); 
-	m_avObjectBounds[1] = cVector3(vMaxBound.m_dX, vMinBound.m_dY, vMinBound.m_dZ); 
-	m_avObjectBounds[2] = cVector3(vMinBound.m_dX, vMaxBound.m_dY, vMinBound.m_dZ); 
-	m_avObjectBounds[3] = cVector3(vMaxBound.m_dX, vMaxBound.m_dY, vMinBound.m_dZ); 
-	m_avObjectBounds[4] = cVector3(vMinBound.m_dX, vMinBound.m_dY, vMaxBound.m_dZ); 
-	m_avObjectBounds[5] = cVector3(vMaxBound.m_dX, vMinBound.m_dY, vMaxBound.m_dZ); 
-	m_avObjectBounds[6] = cVector3(vMinBound.m_dX, vMaxBound.m_dY, vMaxBound.m_dZ); 
-	m_avObjectBounds[7] = cVector3(vMaxBound.m_dX, vMaxBound.m_dY, vMaxBound.m_dZ); 
+	m_avObjectBounds[0] = cVector3(vMinBound.x, vMinBound.y, vMinBound.z); 
+	m_avObjectBounds[1] = cVector3(vMaxBound.x, vMinBound.y, vMinBound.z); 
+	m_avObjectBounds[2] = cVector3(vMinBound.x, vMaxBound.y, vMinBound.z); 
+	m_avObjectBounds[3] = cVector3(vMaxBound.x, vMaxBound.y, vMinBound.z); 
+	m_avObjectBounds[4] = cVector3(vMinBound.x, vMinBound.y, vMaxBound.z); 
+	m_avObjectBounds[5] = cVector3(vMaxBound.x, vMinBound.y, vMaxBound.z); 
+	m_avObjectBounds[6] = cVector3(vMinBound.x, vMaxBound.y, vMaxBound.z); 
+	m_avObjectBounds[7] = cVector3(vMaxBound.x, vMaxBound.y, vMaxBound.z); 
 
 	m_pAABB = DEBUG_NEW cAABB();
 }
@@ -60,14 +60,14 @@ void cBoundingBox::RecalculateAABBFromOBB()
 
 	for (int i=0; i<8; i++)
 	{
-		vMin.m_dX = min(vMin.m_dX, m_avOBBBounds[i].m_dX);
-		vMin.m_dY = min(vMin.m_dY, m_avOBBBounds[i].m_dY);
-		vMin.m_dZ = min(vMin.m_dZ, m_avOBBBounds[i].m_dZ);
+		vMin.x = min(vMin.x, m_avOBBBounds[i].x);
+		vMin.y = min(vMin.y, m_avOBBBounds[i].y);
+		vMin.z = min(vMin.z, m_avOBBBounds[i].z);
 
 		//Get the largest vertex 
-		vMax.m_dX = max(vMax.m_dX, m_avOBBBounds[i].m_dX);
-		vMax.m_dY = max(vMax.m_dY, m_avOBBBounds[i].m_dY);
-		vMax.m_dZ = max(vMax.m_dZ, m_avOBBBounds[i].m_dZ);
+		vMax.x = max(vMax.x, m_avOBBBounds[i].x);
+		vMax.y = max(vMax.y, m_avOBBBounds[i].y);
+		vMax.z = max(vMax.z, m_avOBBBounds[i].z);
 	}
 
 	m_pAABB->SetCenter((vMin + vMax) * 0.5f);

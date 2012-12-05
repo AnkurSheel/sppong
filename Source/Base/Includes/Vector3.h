@@ -20,7 +20,7 @@ class cVector3
 	{
 	public:
 		cVector3();
-		cVector3(const double dX, const double dY, const double dZ);
+		cVector3(const float fX, const float fY, const float fZ);
 		
 		/********************************************//**
 		 * @return True if the vector is 0
@@ -33,13 +33,13 @@ class cVector3
 		 *
 		 * Returns the length of the vector
 		 ***********************************************/
-		double Length() const;
+		float Length() const;
 		/********************************************//**
 		 * @return Squared length of the vector 
 		 *
 		 * returns the squared length of the vector
 		 ***********************************************/
-		double LengthSquared() const;
+		float LengthSquared() const;
 		/********************************************//**
 		 * 
 		 *
@@ -52,7 +52,7 @@ class cVector3
 		 *
 		 * Calculates and returns the dot product
 		 ***********************************************/
-		double Dot(const cVector3 & inVec) const;
+		float Dot(const cVector3 & inVec) const;
 		/********************************************//**
 		 * @param[in] inVec the vector with which the cross product needs to be calculated
 		 * @return the cross product between these 2 vectors
@@ -65,21 +65,21 @@ class cVector3
 		 *
 		 * Adjusts x and y so that the length of the vector does not exceed dMax
 		 ***********************************************/
-		void Truncate(const double dMax);
+		void Truncate(const float fMax);
 		/********************************************//**
 		 * @param[in] inVec The vector with which the distance needs to be calculated
 		 * @return Euclidean distance 
 		 *
 		 * returns the distance between this vector and the one passed as a parameter
 		 ***********************************************/
-		double Distance(const cVector3 & inVec) const;
+		float Distance(const cVector3 & inVec) const;
 		/********************************************//**
 		  * @param[in] inVec The vector with which the distance needs to be calculated
 		  * @return Squared euclidean distance 
 		  *
 		  * returns the squared distance between this vector and the one passed as a parameter
 		 ***********************************************/
-		double DistanceSquared(const cVector3 & inVec) const;
+		float DistanceSquared(const cVector3 & inVec) const;
 		/********************************************//**
 		  *
 		  * Sets the components to their absolute values
@@ -88,24 +88,24 @@ class cVector3
 
 		const cVector3 & operator+=(const cVector3 & inVec);
 		const cVector3 & operator-=(const cVector3 & inVec);
-		const cVector3 & operator*=(const double & dVal);
-		const cVector3 & operator/=(const double & dVal);
+		const cVector3 & operator*=(const float & fVal);
+		const cVector3 & operator/=(const float & fVal);
 		bool operator==(const cVector3 & inVec) const;
 		bool operator!=(const cVector3 & inVec) const;
 		
 		static cVector3 Zero();
 
 	public:
-		double	m_dX;	/*!< X component of Vector3 */
-		double	m_dY;	/*!< Y component of Vector3 */
-		double	m_dZ;	/*!< Z component of Vector3 */
+		float	x;	/*!< X component of Vector3 */
+		float	y;	/*!< Y component of Vector3 */
+		float	z;	/*!< Z component of Vector3 */
 	};
 
-inline cVector3 operator*(const cVector3 & inVec1, const double dVal);
-inline cVector3 operator*(const double dVal, const cVector3 & inVec1);
+inline cVector3 operator*(const cVector3 & inVec1, const float fVal);
+inline cVector3 operator*(const float fVal, const cVector3 & inVec1);
 inline cVector3 operator-(const cVector3 & inVec1, const cVector3 & inVec2);
 inline cVector3 operator+(const cVector3 & inVec1, const cVector3 & inVec2);
-inline cVector3 operator/(const cVector3 & inVec1, const double dVal);
+inline cVector3 operator/(const cVector3 & inVec1, const float fVal);
 
 #include "Vector3.inl"
 }

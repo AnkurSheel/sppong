@@ -46,7 +46,7 @@ void cPaddle::VInitialize(const cGameElementDef & def )
 void cPaddle::MoveDown( const float fElapsedTime )
 {
 	cVector3 vPos = GetPosition();
-	vPos.m_dY -= m_iMoveFactor * fElapsedTime;
+	vPos.y -= m_iMoveFactor * fElapsedTime;
 	SetPosition(vPos);
 }
 // ***************************************************************
@@ -57,7 +57,7 @@ void cPaddle::MoveDown( const float fElapsedTime )
 void cPaddle::MoveUp( const float fElapsedTime )
 {
 	cVector3 vPos = GetPosition();
-	vPos.m_dY += m_iMoveFactor * fElapsedTime;
+	vPos.y += m_iMoveFactor * fElapsedTime;
 	SetPosition(vPos);
 }
 // ***************************************************************

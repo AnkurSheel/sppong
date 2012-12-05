@@ -1,16 +1,16 @@
 // *****************************************************************************
 inline cVector3::cVector3()
-: m_dX(0)
-, m_dY(0)
-, m_dZ(0)
+: x(0)
+, y(0)
+, z(0)
 {
 }
 
 // *****************************************************************************
-inline cVector3::cVector3( const double dX, const double dY, const double dZ )
-: m_dX(dX)
-, m_dY(dY)
-, m_dZ(dZ)
+inline cVector3::cVector3( const float fX, const float fY, const float fZ )
+: x(fX)
+, y(fY)
+, z(fZ)
 {
 }
 
@@ -23,64 +23,60 @@ inline Base::cVector3 cVector3::Zero()
 // *****************************************************************************
 inline bool cVector3::IsZero() const
 {
-	return (m_dX * m_dX + m_dY * m_dY + m_dZ * m_dZ) < MinDouble;
+	return LengthSquared() < EpsilonFloat;
 }
 
 // *****************************************************************************
-inline double cVector3::Length() const
+inline float cVector3::Length() const
 {
-	return sqrt(m_dX * m_dX + m_dY * m_dY + m_dZ * m_dZ);
+	return sqrt(LengthSquared());
 }
 
 // *****************************************************************************
-inline double cVector3::LengthSquared() const
+inline float cVector3::LengthSquared() const
 {
-	return (m_dX * m_dX + m_dY * m_dY + m_dZ * m_dZ);
+	return (x * x + y * y + z * z);
 }
 
 // *****************************************************************************
 inline void cVector3::Normalize()
 {
-	double dLength = Length();
+	float dLength = Length();
 
-	if (dLength > std::numeric_limits<double>::epsilon())
+	if (dLength > EpsilonFloat)
 	{
-		m_dX /= dLength;
-		m_dY /= dLength;
-		m_dZ /= dLength;
+		x /= dLength;
+		y /= dLength;
+		z /= dLength;
 	}
 }
 
 // *****************************************************************************
-inline double cVector3::Dot( const cVector3 & inVec ) const
+inline float cVector3::Dot( const cVector3 & inVec ) const
 {
-	return m_dX * inVec.m_dX + m_dY * inVec.m_dY + m_dZ * inVec.m_dZ;
+	return x * inVec.x + y * inVec.y + y * inVec.y;
 }
 
 // *****************************************************************************
 inline Base::cVector3 cVector3::Cross( const cVector3 & inVec) const
 {
-	return cVector3(m_dY * inVec.m_dZ - m_dZ * inVec.m_dY,
-					m_dZ * inVec.m_dX - m_dX * inVec.m_dZ,
-					m_dX * inVec.m_dY - m_dY * inVec.m_dX);
+	return cVector3(y * inVec.z - z * inVec.y,
+					z * inVec.x - x * inVec.z,
+					x * inVec.y - y * inVec.x);
 }
 
 // *****************************************************************************
-inline double cVector3::Distance( const cVector3 & inVec ) const
+inline float cVector3::Distance( const cVector3 & inVec ) const
 {
-	double xSeparation = inVec.m_dX - m_dX;
-	double ySeparation = inVec.m_dY - m_dY;
-	double zSeparation = inVec.m_dZ - m_dZ;
-
-	return sqrt(xSeparation * xSeparation + ySeparation * ySeparation + zSeparation * zSeparation);
+	return sqrt(DistanceSquared(inVec));
 }
 
 // *****************************************************************************
-inline double cVector3::DistanceSquared( const cVector3 & inVec ) const
+inline float cVector3::DistanceSquared( const cVector3 & inVec ) const
 {
-	double xSeparation = inVec.m_dX - m_dX;
-	double ySeparation = inVec.m_dY - m_dY;
-	double zSeparation = inVec.m_dZ - m_dZ;
+	float xSeparation = inVec.x - x;
+	float ySeparation = inVec.y - y;
+	float zSeparation = inVec.z - z;
 
 	return xSeparation * xSeparation + ySeparation * ySeparation + zSeparation * zSeparation;
 }
@@ -88,17 +84,17 @@ inline double cVector3::DistanceSquared( const cVector3 & inVec ) const
 // *****************************************************************************
 inline void cVector3::AbsTo() 
 {
-	m_dX = abs(m_dX);
-	m_dY = abs(m_dY);
-	m_dZ = abs(m_dZ);
+	x = abs(x);
+	y = abs(y);
+	z = abs(z);
 }
 
 // *****************************************************************************
 inline const cVector3 & cVector3::operator+=( const cVector3 & inVec )
 {
-	m_dX += inVec.m_dX;
-	m_dY += inVec.m_dY;
-	m_dZ += inVec.m_dZ;
+	x += inVec.x;
+	y += inVec.y;
+	z += inVec.z;
 
 	return *this;
 }
@@ -106,55 +102,55 @@ inline const cVector3 & cVector3::operator+=( const cVector3 & inVec )
 // *****************************************************************************
 inline const cVector3 & cVector3::operator-=( const cVector3 & inVec )
 {
-	m_dX -= inVec.m_dX;
-	m_dY -= inVec.m_dY;
-	m_dZ -= inVec.m_dZ;
+	x -= inVec.x;
+	y -= inVec.y;
+	z -= inVec.z;
 	return *this;
 }
 
 // *****************************************************************************
-inline const cVector3 & cVector3::operator*=( const double & dVal )
+inline const cVector3 & cVector3::operator*=( const float & fVal )
 {
-	m_dX *= dVal;
-	m_dY *= dVal;
-	m_dZ *= dVal;
+	x *= fVal;
+	x *= fVal;
+	z *= fVal;
 	return *this;
 }
 
 // *****************************************************************************
-inline const cVector3 & cVector3::operator/=( const double & dVal )
+inline const cVector3 & cVector3::operator/=( const float & fVal )
 {
-	m_dX /= dVal;
-	m_dY /= dVal;
-	m_dZ /= dVal;
+	x /= fVal;
+	y /= fVal;
+	z /= fVal;
 	return *this;
 }
 
 // *****************************************************************************
 inline bool cVector3::operator==( const cVector3 & inVec ) const
 {
-	return (isEqual(m_dX, inVec.m_dX) && isEqual(m_dY, inVec.m_dY) && isEqual(m_dZ, inVec.m_dZ));
+	return (isEqual(x, inVec.x) && isEqual(y, inVec.y) && isEqual(z, inVec.z));
 }
 
 // *****************************************************************************
 inline bool cVector3::operator!=( const cVector3 & inVec ) const
 {
-	return (!isEqual(m_dX, inVec.m_dX) || !isEqual(m_dY, inVec.m_dY) || !isEqual(m_dZ, inVec.m_dZ));
+	return (!isEqual(x, inVec.x) || !isEqual(y, inVec.y) || !isEqual(z, inVec.z));
 }
 
 // *****************************************************************************
-Base::cVector3 operator*( const cVector3 & inVec1, const double dVal )
+Base::cVector3 operator*( const cVector3 & inVec1, const float fVal )
 {
 	cVector3 result(inVec1);
-	result *= dVal;
+	result *= fVal;
 	return result;
 }
 
 // *****************************************************************************
-Base::cVector3 operator*( const double dVal, const cVector3 & inVec1 )
+Base::cVector3 operator*( const float fVal, const cVector3 & inVec1 )
 {
 	cVector3 result(inVec1);
-	result *= dVal;
+	result *= fVal;
 	return result;
 }
 
@@ -175,9 +171,9 @@ Base::cVector3 operator+( const cVector3 & inVec1, const cVector3 & inVec2 )
 }
 
 // *****************************************************************************
-Base::cVector3 operator/( const cVector3 & inVec1, const double dVal )
+Base::cVector3 operator/( const cVector3 & inVec1, const float fVal )
 {
 	cVector3 result(inVec1);
-	result /= dVal;
+	result /= fVal;
 	return result;
 }
