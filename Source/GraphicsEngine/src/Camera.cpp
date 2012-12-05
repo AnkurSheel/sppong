@@ -28,6 +28,16 @@ cCamera::~cCamera()
 
 }
 
+// *****************************************************************************
+void cCamera::VUpdate()
+{
+	if (m_bIsDirty)
+	{
+		m_bIsDirty = false;
+		CalculateViewMatrix();
+	}
+}
+
 // *************************************************************************
 cVector3 cCamera::VGetPosition() const
 {
@@ -40,17 +50,17 @@ void cCamera::VSetPosition( const cVector3 & vPosition )
 	if (m_vPosition != vPosition)
 	{
 		m_vPosition = vPosition;
-		CalculateViewMatrix();
+		m_bIsDirty = true;
 	}	
 }
 
 // ***************************************************************
-void cCamera::SetRotation( const cVector3 & vRotation )
+void cCamera::VSetRotation( const cVector3 & vRotation )
 {
 	if (m_vRotation != vRotation)
 	{
 		m_vRotation = vRotation;
-		CalculateViewMatrix();
+		m_bIsDirty = true;
 	}	
 }
 
@@ -58,6 +68,7 @@ const D3DXMATRIX & cCamera::VGetViewMatrix() const
 { 
 	return m_matView; 
 }
+
 // ***************************************************************
 void cCamera::CalculateViewMatrix()
 {

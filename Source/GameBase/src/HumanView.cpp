@@ -86,6 +86,10 @@ void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 	{
 		m_pProcessManager->UpdateProcesses(tickCurrent);
 	}
+	if (m_pCamera)
+	{
+		m_pCamera->VUpdate();
+	}
 }
 
 // ***************************************************************

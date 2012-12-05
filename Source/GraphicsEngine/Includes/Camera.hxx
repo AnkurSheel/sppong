@@ -29,6 +29,11 @@ namespace Graphics
 	public:
 		virtual ~ICamera(){}
 		/********************************************//**
+		 *
+		 * Updates the view matrix of the camera if required
+		 ***********************************************/
+		virtual void VUpdate() = 0;
+		 /********************************************//**
  		 * @param[in] vPosition The position of the camera
 		 *
 		 * Sets the position of the camera 
@@ -40,6 +45,12 @@ namespace Graphics
 		 * Gets the position of the camera 
 		 ***********************************************/
 		virtual Base::cVector3 VGetPosition() const = 0;
+		/********************************************//**
+ 		 * @param[in] vRotation The rotation of the camera
+		 *
+		 * Sets the rotation of the camera 
+		 ***********************************************/
+		virtual void VSetRotation(const Base::cVector3 & vRotation) = 0;
 		/********************************************//**
  		 * @return The view matrix
 		 *

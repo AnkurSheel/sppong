@@ -110,9 +110,11 @@ void cSprite::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VTurnZBufferOff();
 	if (m_pShader)
 	{
+		D3DXMATRIX matView;
+		D3DXMatrixIdentity(&matView);
 		m_pShader->VSetTexture(m_pTexture);
 		m_pShader->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
-			pCamera->VGetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix());
+			matView, IDXBase::GetInstance()->VGetOrthoMatrix());
 	}
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
 }
@@ -224,7 +226,7 @@ bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 	float top = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.m_dY;
 	float bottom = top - m_vSize.m_dY;
 
-	float z = pCamera->VGetPosition().m_dZ + 1.0f;
+	float z = 1.0f;
 	// Create the vertex array.
 	stTexVertex * pVertices = DEBUG_NEW stTexVertex [4];
 	pVertices[0] = stTexVertex(left, bottom, z, 0.0f, 1.0f);

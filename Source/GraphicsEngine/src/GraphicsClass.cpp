@@ -126,7 +126,12 @@ cVector3 cGraphicsClass::ScreenToWorldSpace(const cVector2 & vScreenPos,
 	direction.z = (vViewSpace.m_dX * matInverseView._13) + (vViewSpace.m_dY * matInverseView._23) + (vViewSpace.m_dZ * matInverseView._33);
 	D3DXVec3Normalize(&direction, &direction);
 	
-	D3DXVECTOR3 vPlaneNormal(0,0,-1);
+	D3DXMATRIX matViewProjection;
+	D3DXMatrixMultiply(&matViewProjection, &matView, &matProjection);
+	
+	D3DXVECTOR3 vPlaneNormal(matViewProjection._13, matViewProjection._23, matViewProjection._33);
+	D3DXVec3Normalize(&vPlaneNormal, &vPlaneNormal);
+
 	float fPlaneDistanceFromOrigin = 0;
 
 	float fIncidentAngle = D3DXVec3Dot(&direction, &vPlaneNormal);

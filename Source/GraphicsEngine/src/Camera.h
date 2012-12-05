@@ -26,15 +26,11 @@ namespace Graphics
 	
 	private:
 		~cCamera();
+		void VUpdate();
 		Base::cVector3 VGetPosition() const;
 		void VSetPosition(const Base::cVector3 & vPosition);
 		const D3DXMATRIX & VGetViewMatrix() const;
-		/********************************************//**
- 		 * @param[in] vRotation The rotation of the camera
-		 *
-		 * Sets the rotation of the camera 
-		 ***********************************************/
-		void SetRotation(const Base::cVector3 & vRotation);
+		void VSetRotation(const Base::cVector3 & vRotation);
 
 	private:
 		/********************************************//**
@@ -48,6 +44,7 @@ namespace Graphics
 		Base::cVector3		m_vPosition;	/*!< The position of the camera */
 		Base::cVector3		m_vRotation;	/*!< The rotation of the camera */
 		D3DXMATRIX			m_matView;		/*!< The current view matrix */
+		bool				m_bIsDirty;		/*!< True if the view matrix needs to be recalculated because of change in position or rotation*/
 	};
 }
 #endif // Camera_h__

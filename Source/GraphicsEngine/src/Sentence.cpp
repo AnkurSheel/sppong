@@ -83,8 +83,10 @@ void cSentence::VRender(const ICamera * const pCamera)
 
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	IDXBase::GetInstance()->VTurnZBufferOff();
+	D3DXMATRIX matView;
+	D3DXMatrixIdentity(&matView);
 	m_pFont->Render(IDXBase::GetInstance()->VGetWorldMatrix(),
-		pCamera->VGetViewMatrix(), IDXBase::GetInstance()->VGetOrthoMatrix(), m_TextColor);
+		matView, IDXBase::GetInstance()->VGetOrthoMatrix(), m_TextColor);
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
 	//IDXBase::GetInstance()->VTurnOffAlphaBlending();
 }
@@ -181,11 +183,7 @@ bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
 		top = curY + m_fScale * vertexData.ch.YOffset;
 		bottom = top - m_fScale * vertexData.ch.Height;
 
-		float z = 0.f;
-		if (pCamera)
-		{
-			z = pCamera->VGetPosition().m_dZ + 1.0f;
-		}
+		float z = 1.f;
 
 		// Create the vertex array.
 		pVertices[i*4] = stTexVertex(left, bottom, z, vertexData.fTexU, vertexData.fTexV1);

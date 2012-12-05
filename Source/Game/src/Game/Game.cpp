@@ -161,8 +161,11 @@ void cGame::CheckForCollisions()
 // ***************************************************************
 void cGame::VCleanup()
 {
-	SAFE_DELETE_ARRAY(*m_ppGameElements);
-	SAFE_DELETE(m_ppGameElements);
+	if(m_ppGameElements)
+	{
+		SAFE_DELETE_ARRAY(*m_ppGameElements);
+		SAFE_DELETE(m_ppGameElements);
+	}
 
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);

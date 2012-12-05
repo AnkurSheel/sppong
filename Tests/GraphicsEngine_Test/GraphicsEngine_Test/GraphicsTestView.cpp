@@ -174,7 +174,7 @@ void cGraphicsTestView::TestModelColor()
 	def.strModelPath = "resources//sphere.spdo";
 	def.vPosition = cVector3(6.0f, 5.0f, 1.0f);
 	def.vScale = cVector3(2.0f, 2.0f, 1.0f);
-	m_pGameElement->Initialize(def);
+	m_pGameElement->VInitialize(def);
 }
 
 // ***************************************************************
@@ -195,7 +195,7 @@ void cGraphicsTestView::TestModelTexture()
 	def.strModelPath = "resources//cube.spdo";
 	def.vPosition = cVector3(2.0f, 2.0f, 2.0f);
 	def.vRotation = cVector3(0.7f, 0.0f, 0.7f);
-	m_pGameElement->Initialize(def);
+	m_pGameElement->VInitialize(def);
 }
 
 // ***************************************************************
@@ -209,6 +209,7 @@ void cGraphicsTestView::TestSprite()
 	Log_Write_L1(ILogger::LT_ERROR, "Testing Sprite");
 
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
+	m_pCamera->VSetRotation(cVector3(45.0f, 0.0f, 0));
 	m_pSprite = ISprite::CreateSprite();
 	m_pSprite->VInitialize("Test\\seafloor.dds");
 	m_pSprite->VSetPosition(cVector2(100.0f, 100.0f));
@@ -382,4 +383,6 @@ void cGraphicsTestView::TestFinished()
 	}
 	m_vSentences.clear();
 	m_pAppWindowControl->VRemoveChildControl("TestWindow");
+	m_pCamera->VSetRotation(cVector3::Zero());
+
 }
