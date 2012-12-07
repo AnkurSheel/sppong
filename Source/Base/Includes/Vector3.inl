@@ -54,7 +54,7 @@ inline void cVector3::Normalize()
 // *****************************************************************************
 inline float cVector3::Dot( const cVector3 & inVec ) const
 {
-	return x * inVec.x + y * inVec.y + y * inVec.y;
+	return x * inVec.x + y * inVec.y + z * inVec.z;
 }
 
 // *****************************************************************************
@@ -112,7 +112,7 @@ inline const cVector3 & cVector3::operator-=( const cVector3 & inVec )
 inline const cVector3 & cVector3::operator*=( const float & fVal )
 {
 	x *= fVal;
-	x *= fVal;
+	y *= fVal;
 	z *= fVal;
 	return *this;
 }

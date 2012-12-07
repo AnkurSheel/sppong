@@ -80,8 +80,6 @@ namespace Graphics
 		 * graphics engine
 		 ***********************************************/
 		virtual void VSetFullScreenMode(const bool bIsFullScreen) = 0;
-		virtual Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
-			const Graphics::ICamera * const pCamera) = 0;
 
 	protected:
 		virtual ~IGraphicsClass(){}

@@ -107,17 +107,16 @@ void cModel::VRender(const ICamera * const pCamera)
 		{
 			m_pShader->SetDiffuseColor(m_vSubsets[i].m_diffuseColor);
 			m_pShader->VSetTexture(m_vSubsets[i].m_pTexture);
-			m_pShader->VRender(m_matTransform, pCamera->VGetViewMatrix(), 
+			m_pShader->VRender(m_matWorld, pCamera->VGetViewMatrix(), 
 				IDXBase::GetInstance()->VGetProjectionMatrix());
 		}
 
 		IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_vSubsets[i].m_iIndexCountInSubset,
 			m_vSubsets[i].m_iStartIndexNo, 0);
 	}
-
 }
 
-void cModel::VReCalculateTransformMatrix(const cVector3 vPosition, const cVector3 vRotation,
+void cModel::VRecalculateWorldMatrix(const cVector3 vPosition, const cVector3 vRotation,
 										const cVector3 vScale)
 {
 	D3DXMATRIX matRotation;
@@ -130,8 +129,11 @@ void cModel::VReCalculateTransformMatrix(const cVector3 vPosition, const cVector
 	D3DXMATRIX matPosition;
 	D3DXMatrixTranslation(&matPosition, vPosition.x, vPosition.y, vPosition.z);
 
-	D3DXMatrixIdentity(&m_matTransform);
-	m_matTransform = matScale * matRotation * matPosition;
+	D3DXMatrixIdentity(&m_matWorld);
+	m_matWorld = matScale * matRotation * matPosition;
+
+	if(m_pBoundingBox)
+		m_pBoundingBox->VTransform(m_matWorld);
 }
 
 // ***************************************************************

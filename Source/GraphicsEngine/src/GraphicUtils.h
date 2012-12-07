@@ -10,6 +10,8 @@
 #ifndef GraphicUtils_h__
 #define GraphicUtils_h__
 
+#include "GraphicUtils.hxx"
+
 namespace Base
 {
 	class cVector2;
@@ -23,37 +25,27 @@ namespace Graphics
 
 namespace Graphics
 {
-	/********************************************//**
-	 * @brief Class to convert between Base classes and 
-	 * DirectX classes
-	 ***********************************************/
 	class cGraphicUtils
+		: public IGraphicUtils
+		, public Base::cNonCopyable
 	{
 	public:
 		/********************************************//**
- 		 * @param[in] inVec The vector to be converted
+ 		 * @return An Object of this class
 		 *
-		 * Converts cVector3 to D3DXVector3
+		 * Creates an object of this class and returns it
 		 ***********************************************/
-		static D3DXVECTOR3 Vector3ToD3DXVEC3(const Base::cVector3 & inVec);
-		/********************************************//**
- 		 * @param[in] inVec The vector to be converted
-		 *
-		 * Converts D3DXVector3 to cVector3
-		 ***********************************************/
-		static Base::cVector3 D3DXVEC3ToVector3(const D3DXVECTOR3 & inVec);
-		/********************************************//**
- 		 * @param[in] inVec The vector to be converted
-		 *
-		 * Converts cVector2 to D3DXVector2
-		 ***********************************************/
-		static D3DXVECTOR2 Vector2ToD3DXVEC2(const Base::cVector2 & inVec);
-		/********************************************//**
- 		 * @param[in] inVec The vector to be converted
-		 *
-		 * Converts D3DXVector2 to cVector2
-		 ***********************************************/
-		static Base::cVector2 D3DXVEC2ToVector2(const D3DXVECTOR2 & inVec);
+		static IGraphicUtils * Create();
+
+	private:
+		Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
+			const Graphics::ICamera * const pCamera);
+		cGraphicUtils();
+		~cGraphicUtils();
+
+	public:
+		static IGraphicUtils* s_pGraphicUtils;		/*!< static object of this class */
+
 	};
 }
 

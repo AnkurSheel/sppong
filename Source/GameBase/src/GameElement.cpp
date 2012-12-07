@@ -50,8 +50,7 @@ void cGameElement::Render(const ICamera * const pCamera)
 	{
 		if(m_bIsDirty)
 		{
-			m_pModel->VReCalculateTransformMatrix(m_vPosition, m_vRotation, m_vScale);
-			//m_pBoundingBox->VTransform(m_matTransform);
+			m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
 			m_bIsDirty = false;
 		}
 		m_pModel->VRender(pCamera);

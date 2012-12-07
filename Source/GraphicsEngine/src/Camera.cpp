@@ -94,7 +94,7 @@ void cCamera::CalculateViewMatrix()
 	up.z = 0.0f;
 	D3DXVec3TransformCoord(&up, &up, &matRotation);
 
-	D3DXVECTOR3 vPosition = cGraphicUtils::Vector3ToD3DXVEC3(m_vPosition);
+	D3DXVECTOR3 vPosition(m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	vLookAt = vPosition + vLookAt;
 
 	// Finally create the view matrix from the three updated vectors.

@@ -587,6 +587,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Includes\GraphicUtils.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\stdafx.cpp"
 			>
 		</File>

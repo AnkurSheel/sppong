@@ -24,7 +24,7 @@
 #include "MessageDispatchManager.hxx"
 #include "FSM\Telegram.h"
 #include "FontManager.hxx"
-#include "GraphicsClass.hxx"
+#include "GraphicUtils.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -242,8 +242,8 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
 	//pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 
-	cVector3 vScreenTopLeftPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
-	cVector3 vscreenBottomRightPos = IGraphicsClass::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
+	cVector3 vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
+	cVector3 vscreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
 		pGame->m_pHumanView->VGetCamera());
 
 	cGameElementDef paddleDef;

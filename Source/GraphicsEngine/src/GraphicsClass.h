@@ -45,8 +45,7 @@ namespace Graphics
 		 * Releases all the resources
 		 ***********************************************/
 		void Cleanup();
-		Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
-			const Graphics::ICamera * const pCamera);
+
 	private:
 		cGraphicsClass();
 		~cGraphicsClass();

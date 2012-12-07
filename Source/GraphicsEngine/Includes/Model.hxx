@@ -100,7 +100,7 @@ namespace Graphics
 		 * Recalculates the transformation matrix of this model if the scale,
 		 * rotation or the position of the model changes in the world
 		 ***********************************************/
-		virtual void VReCalculateTransformMatrix(const Base::cVector3 vPosition,
+		virtual void VRecalculateWorldMatrix(const Base::cVector3 vPosition,
 			const Base::cVector3 vRotation, const Base::cVector3 vScale) = 0;
 		/********************************************//**
 		 *
