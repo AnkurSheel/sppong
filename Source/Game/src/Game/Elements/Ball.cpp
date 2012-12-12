@@ -40,7 +40,7 @@ void cBall::VInitialize(const cGameElementDef & def )
 		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
 	}
 	
-	m_vSpeed = cVector3(m_pRandomGenerator->Random(3) + 0.5f, m_pRandomGenerator->Random(6) + 0.5f, 0.0f);
+	m_vSpeed = cVector3(m_pRandomGenerator->Random(3) + 1.0f, m_pRandomGenerator->Random(6) + 1.0f, 0.0f);
 }
 
 // *****************************************************************************
@@ -71,13 +71,15 @@ void cBall::OnUpdate(float fElapsedTime)
 	{
 		m_vSpeed.y = -m_vSpeed.y;
 	}
-	else
+	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB()))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_RIGHT]->GetAABB())))
 	{
-		cVector3 vPredictedPos = GetPosition();
-		vPredictedPos += vDeltaPos;
-		SetPosition(vPredictedPos);
+		m_vSpeed.x = -m_vSpeed.x;
 	}
 
+	cVector3 vPredictedPos = GetPosition();
+	vPredictedPos += m_vSpeed * fElapsedTime;
+	SetPosition(vPredictedPos);
 }
 
 // *****************************************************************************
