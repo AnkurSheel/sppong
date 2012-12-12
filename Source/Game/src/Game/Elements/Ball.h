@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Ball   version:  1.0   Ankur Sheel  date: 05/13/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef Ball_h__
 #define Ball_h__
 
@@ -24,14 +24,10 @@ namespace Utilities
 class cBall  
 	: public cPongGameElement
 {
-	cBall(const cBall&){}
-	cBall operator = (const cBall&) {}
 public:
 	cBall();
 	~cBall();
-	void Init(const Base::cVector3& vInitialPos, const Base::cString & strFilename);
-	void ChangeSpeedX();
-	void ChangeSpeedY();
+	void VInitialize(const GameBase::cGameElementDef & def);
 	void OnRestart(const Base::cVector3& vInitialPos);
 	void Cleanup();
 	void OnUpdate(float fElapsedTime);

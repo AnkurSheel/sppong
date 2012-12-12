@@ -9,7 +9,6 @@
 // *****************************************************************************
 #include "stdafx.h"
 #include "Paddle.h"
-#include "Sprite.hxx"
 #include "AABB.hxx"
 #include "Game\Game.hxx"
 #include "CollisionChecker.hxx"

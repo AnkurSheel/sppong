@@ -1,70 +1,49 @@
-// ***************************************************************
+// *****************************************************************************
 //  Ball   version:  1.0   Ankur Sheel  date: 05/13/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Ball.h"
 #include "RandomGenerator.hxx"
+#include "AABB.hxx"
+#include "Game\Game.hxx"
+#include "CollisionChecker.hxx"
 
 using namespace Graphics;
 using namespace Base;
 using namespace Utilities;
-// ***************************************************************
-// Constructor
-// ***************************************************************
+using namespace GameBase;
+
+// *****************************************************************************
 cBall::cBall()
 : m_pRandomGenerator(NULL)
 {
 }
-// ***************************************************************
 
-// ***************************************************************
-// Destructor
-// ***************************************************************
+// *****************************************************************************
 cBall::~cBall()
 {
 }
-// ***************************************************************
 
-// ***************************************************************
-// Initialize the ball
-// ***************************************************************
-void cBall::Init( const cVector3& vInitialPos, const cString & strFilename)
+// *****************************************************************************
+void cBall::VInitialize(const cGameElementDef & def )
 {
-	//cPongGameElement::OnBeginInit(strFilename, cVector2((float)m_siTableHeight/30, (float)m_siTableHeight/25));
-	//m_pRandomGenerator = IRandomGenerator::CreateRandomGenerator();
-	//if (m_pRandomGenerator)
-	//{
-	//	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
-	//}
-	//m_vSpeed = cVector3((float)m_siTableWidth/4, (float)m_siTableHeight/6, 0.0f);
-	//cPongGameElement::OnEndInit(vInitialPos);
+	cPongGameElement::VInitialize(def);
+	m_pRandomGenerator = IRandomGenerator::CreateRandomGenerator();
+	if (m_pRandomGenerator)
+	{
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
+	}
+	
+	m_vSpeed = cVector3(m_pRandomGenerator->Random(3) + 0.5f, m_pRandomGenerator->Random(6) + 0.5f, 0.0f);
 }
-// ***************************************************************
 
-// ***************************************************************
-// Changes the speed in the X direction
-// ***************************************************************
-void cBall::ChangeSpeedX()
-{
-	m_vSpeed.x = -m_vSpeed.x;
-}
-// ***************************************************************
-
-// ***************************************************************
-// Changes the speed in the Y direction
-// ***************************************************************
-void cBall::ChangeSpeedY()
-{
-	m_vSpeed.y = - m_vSpeed.y;
-}
-// ***************************************************************
-
+// *****************************************************************************
 void cBall::OnRestart( const cVector3& vInitialPos )
 {
 	//cPongGameElement::OnRestart(vInitialPos);
@@ -80,24 +59,36 @@ void cBall::OnRestart( const cVector3& vInitialPos )
 	//	m_vSpeed.m_dY = -m_vSpeed.m_dY;
 	//}
 }
-// ***************************************************************
 
+// *****************************************************************************
 void cBall::OnUpdate(float fElapsedTime)
 {
-	//m_vPosition += (m_vSpeed * fElapsedTime);
-	//UpdatePosition();
-}
-// ***************************************************************
+	cVector3 vDeltaPos = m_vSpeed * fElapsedTime;
+	IAABB * const pAABB = IAABB::DuplicateAABB(GetAABB());
+	pAABB->VTransalate(vDeltaPos);
+	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB()))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB())))
+	{
+		m_vSpeed.y = -m_vSpeed.y;
+	}
+	else
+	{
+		cVector3 vPredictedPos = GetPosition();
+		vPredictedPos += vDeltaPos;
+		SetPosition(vPredictedPos);
+	}
 
+}
+
+// *****************************************************************************
 void cBall::Cleanup()
 {
-	//SAFE_DELETE(m_pRandomGenerator);
-	//cGameElement::Cleanup();
+	SAFE_DELETE(m_pRandomGenerator);
+	cGameElement::Cleanup();
 }
-// ***************************************************************
 
+// *****************************************************************************
 cBall * cBall::CastToBall()
 {
 	return this;
 }
-// ***************************************************************

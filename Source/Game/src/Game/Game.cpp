@@ -12,7 +12,6 @@
 #include "Sprite.hxx"
 #include "Elements/Paddle.h"
 #include "Elements/Ball.h"
-//#include "CollisionChecker.hxx"
 #include "Elements/Wall.h"
 #include "Elements/Score.h"
 #include "GameFlowStateMachine.h"

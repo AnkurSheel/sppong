@@ -20,9 +20,6 @@ namespace Base
 class cPaddle 
 	: public cPongGameElement
 {
-private:
-	cPaddle(const cPaddle&){}
-	cPaddle operator = (const cPaddle&) {}
 public:
 	cPaddle();
 	~cPaddle();
