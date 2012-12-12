@@ -38,6 +38,16 @@ cBoundingBox::~cBoundingBox()
 	SAFE_DELETE(m_pAABB);
 }
 
+// *****************************************************************************
+const IAABB * const cBoundingBox::VGetAABB() const
+{
+	if(m_pAABB)
+	{
+		return m_pAABB;
+	}
+	return NULL;
+}
+
 // *************************************************************************
 void cBoundingBox::VTransform(const D3DXMATRIX & matWorld)
 {

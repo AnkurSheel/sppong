@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Game   version:  1.0   ·  date: 04/30/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef Game_h__
 #define Game_h__
 
@@ -36,17 +36,6 @@ class cGame
 	: public IGame
 	, public GameBase::cBaseApp
 {
-public:
-	enum PONGGAMEELEMENTS
-	{
-		PGE_UNKNOWN = -1,
-		PGE_BALL,
-		PGE_PADDLE_LEFT,
-		PGE_PADDLE_RIGHT,
-		PGE_WALL_UP,
-		PGE_WALL_DOWN,
-		PGE_TOTAL
-	};
 private:
 	enum GAMESOUNDS
 	{
@@ -60,23 +49,23 @@ private:
 
 public:
 	cGame(const Base::cString strName);
+	cPongGameElement ** const VGetGameElements() const;
+	void HandlePaddleAI(const float fElapsedTime);
+	bool IsSinglePlayer();
+	void MoveLeftPaddle(bool bMoveDown);
+	void MoveRightPaddle(bool bMoveDown);
+
+private:
 	~cGame();
 	void VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 		const Base::cString & strOptionsFileName);
 	Base::cString VGetGameTitle() const;
+	void VOnUpdate();
 	void VCleanup();
 	void Restart();
 	void CheckForWin();
 	void CheckForCollisions();
-	void MoveLeftPaddle(bool bMoveDown);
-	void MoveRightPaddle(bool bMoveDown);
-	void HandlePaddleAI(const float fElapsedTime);
-	bool IsSinglePlayer();
 	bool VOnHandleMessage(const AI::Telegram & telegram);
-	cPongGameElement ** const GetGameElements() const;
-
-private:
-	void VOnUpdate();
 	void SinglePlayerButtonPressed(bool bPressed);
 	void MultiPlayerButtonPressed(bool bPressed);
 	void QuitButtonPressed(bool bPressed);

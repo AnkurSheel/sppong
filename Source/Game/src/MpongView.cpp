@@ -138,9 +138,9 @@ void cMPongView::VRenderPrivate()
 {
 	for (int i=0; i<m_pGame->PGE_TOTAL; i++)
 	{
-		if(m_pGame->GetGameElements() && m_pGame->GetGameElements()[i])
+		if(m_pGame->VGetGameElements() && m_pGame->VGetGameElements()[i])
 		{
-			m_pGame->GetGameElements()[i]->Render(m_pCamera);
+			m_pGame->VGetGameElements()[i]->Render(m_pCamera);
 		}
 	}
 	cHumanView::VRenderPrivate();

@@ -9,7 +9,6 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "VScrollBar.h"
-#include "Logger.hxx"
 #include "Sprite.hxx"
 
 using namespace Graphics;

@@ -1,91 +1,88 @@
-// ***************************************************************
+// *****************************************************************************
 //  Paddle   version:  1.0   Ankur Sheel  date: 05/12/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Paddle.h"
 #include "Sprite.hxx"
+#include "AABB.hxx"
+#include "Game\Game.hxx"
+#include "CollisionChecker.hxx"
 
 using namespace Base;
 using namespace GameBase;
-// ***************************************************************
-// Constructor
-// ***************************************************************
+using namespace Graphics;
+using namespace Utilities;
+
+// *****************************************************************************
 cPaddle::cPaddle()
 : m_iMoveFactor(0)
 {
 }
-// ***************************************************************
 
-// ***************************************************************
-// Destructor
-// ***************************************************************
+// *****************************************************************************
 cPaddle::~cPaddle()
 {
 }
-// ***************************************************************
 
-// ***************************************************************
-// Initializes the paddle
-// ***************************************************************
+// *****************************************************************************
 void cPaddle::VInitialize(const cGameElementDef & def )
 {
 	cPongGameElement::VInitialize(def);
 	m_iMoveFactor = 5;
 }
-// ***************************************************************
 
-// ***************************************************************
-// Move paddle down
-// ***************************************************************
+// *****************************************************************************
 void cPaddle::MoveDown( const float fElapsedTime )
 {
-	cVector3 vPos = GetPosition();
-	vPos.y -= m_iMoveFactor * fElapsedTime;
-	SetPosition(vPos);
+	float fDeltaMovement = m_iMoveFactor * fElapsedTime;
+	IAABB * const pAABB = IAABB::DuplicateAABB(GetAABB());
+	pAABB->VTransalate(cVector3(0, -fDeltaMovement, 0));
+	if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB,
+		m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB())))
+	{
+		cVector3 vPredictedPos = GetPosition();
+		vPredictedPos.y -= fDeltaMovement;
+		SetPosition(vPredictedPos);
+	}
 }
-// ***************************************************************
 
-// ***************************************************************
-// move paddle up
-// ***************************************************************
+// *****************************************************************************
 void cPaddle::MoveUp( const float fElapsedTime )
 {
-	cVector3 vPos = GetPosition();
-	vPos.y += m_iMoveFactor * fElapsedTime;
-	SetPosition(vPos);
+	float fDeltaMovement = m_iMoveFactor * fElapsedTime;
+	IAABB * const pAABB = IAABB::DuplicateAABB(GetAABB());
+	pAABB->VTransalate(cVector3(0, fDeltaMovement, 0));
+	if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB,
+		m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB())))
+	{
+		cVector3 vPredictedPos = GetPosition();
+		vPredictedPos.y += fDeltaMovement;
+		SetPosition(vPredictedPos);
+	}
 }
-// ***************************************************************
 
-// ***************************************************************
-// move paddle left
-// ***************************************************************
+// *****************************************************************************
 void cPaddle::MoveLeft( const float fElapsedTime )
 {
 	//m_vPosition.m_dX -= (m_iMoveFactor * fElapsedTime) ;
 	//UpdatePosition();
 }
-// ***************************************************************
 
-// ***************************************************************
-// move paddle left
-// ***************************************************************
+// *****************************************************************************
 void cPaddle::MoveRight( const float fElapsedTime )
 {
 	//m_vPosition.m_dX += (m_iMoveFactor * fElapsedTime) ;
 
 	//UpdatePosition();
 }
-// ***************************************************************
 
-// ***************************************************************
-// called when the game is restarted
-// ***************************************************************
+// *****************************************************************************
 void cPaddle::OnRestart( const Base::cVector3& vInitialPos )
 {
 	//cGameElement::OnRestart(vInitialPos);
@@ -95,10 +92,9 @@ void cPaddle::OnRestart( const Base::cVector3& vInitialPos )
 	//	UpdatePosition();
 	//}
 }
-// ***************************************************************
 
+// *****************************************************************************
 cPaddle * cPaddle::CastToPaddle()
 {
 	return this;
 }
-// ***************************************************************

@@ -11,7 +11,6 @@
 #include "MainWindow.h"
 #include "GraphicsClass.hxx"
 #include "BaseApp.hxx"
-#include "Logger.hxx"
 #include "ResourceManager.hxx"
 #include "Color.h"
 #include "Structures.h"

@@ -54,6 +54,7 @@ namespace Graphics
 		void VRender(const ICamera * const pCamera);
 		void VRecalculateWorldMatrix(const Base::cVector3 vPosition,
 			const Base::cVector3 vRotation, const Base::cVector3 vScale);
+		const Graphics::IAABB * const VGetAABB() const;
 		void VCleanup();
 		/********************************************//**
  		 * @param[in] pVertices The vertex data of this model

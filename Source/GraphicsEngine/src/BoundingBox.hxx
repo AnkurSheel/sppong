@@ -10,15 +10,25 @@
 #ifndef BoundingBox_hxx__
 #define BoundingBox_hxx__
 
-#include "GraphicEngineDefines.h"
+namespace Graphics
+{
+	class IAABB;
+}
+
 namespace Graphics
 {
 	class IBoundingBox
 	{
 	public:
 		virtual ~IBoundingBox() {}
-		GRAPHIC_API virtual void VTransform(const D3DXMATRIX & matWorld) = 0;
-		GRAPHIC_API static IBoundingBox * CreateBoundingBox(const Base::cVector3 & vMinBound,
+		/********************************************//**
+		 * @return The AABB bounding volume of the model
+		 *
+		 * Returns The AABB bounding volume of the model
+		 ***********************************************/
+		virtual const Graphics::IAABB * const VGetAABB() const = 0;
+		virtual void VTransform(const D3DXMATRIX & matWorld) = 0;
+		static IBoundingBox * CreateBoundingBox(const Base::cVector3 & vMinBound,
 			const Base::cVector3 & vMaxBound);
 	};
 }

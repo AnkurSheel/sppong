@@ -219,8 +219,7 @@ cStatePlayGame* cStatePlayGame::Instance()
 // ***************************************************************
 void cStatePlayGame::VOnEnter(cGame *pGame)
 {
-	cPongGameElement::SetTableHeight(pGame->m_iDisplayHeight);
-	cPongGameElement::SetTableWidth(pGame->m_iDisplayWidth);
+	cPongGameElement::SetGame(pGame);
 
 	cWindowControlDef HUDDef;
 	HUDDef.wType = cWindowControlDef::WT_STANDARD;

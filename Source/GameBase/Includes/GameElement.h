@@ -23,6 +23,7 @@ namespace Graphics
 {
 	class IModel;
 	class ICamera;
+	class IAABB;
 }
 
 namespace GameBase
@@ -89,6 +90,7 @@ namespace GameBase
 		 ***********************************************/
 		GAMEBASE_API Base::cVector3 GetScale() const;
 		GAMEBASE_API void Cleanup();
+		GAMEBASE_API const Graphics::IAABB * const GetAABB() const;
 
 	private:
 		Base::cString		m_strFileName;

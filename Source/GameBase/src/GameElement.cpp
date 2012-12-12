@@ -108,6 +108,16 @@ cVector3 cGameElement::GetScale() const
 }
 
 // *****************************************************************************
+const IAABB * const cGameElement::GetAABB() const
+{
+	if(m_pModel)
+	{
+		return m_pModel->VGetAABB();
+	}
+	return NULL;
+}
+
+// *****************************************************************************
 void cGameElement::Cleanup()
 {
 	SAFE_DELETE(m_pModel);

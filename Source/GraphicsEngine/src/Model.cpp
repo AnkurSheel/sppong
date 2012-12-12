@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Model   version:  1.0   Ankur Sheel  date: 2012/09/12
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Model.h"
 #include "vertexstruct.h"
@@ -23,7 +23,7 @@ using namespace Utilities;
 using namespace Base;
 using namespace Graphics;
 
-// ***************************************************************
+// *****************************************************************************
 cModel::cModel()
 : m_pVertexBuffer(NULL)
 , m_pIndexBuffer(NULL)
@@ -36,13 +36,13 @@ cModel::cModel()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 cModel::~cModel()
 {
 	VCleanup();
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cModel::VOnInitialization(const stModelDef & def)
 {
 	m_iVertexCount = def.iNumberOfVertices;
@@ -85,7 +85,7 @@ bool cModel::VOnInitialization(const stModelDef & def)
 	return bSuccess;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cModel::VRender(const ICamera * const pCamera)
 {
 	unsigned int stride = m_iVertexSize;
@@ -136,7 +136,17 @@ void cModel::VRecalculateWorldMatrix(const cVector3 vPosition, const cVector3 vR
 		m_pBoundingBox->VTransform(m_matWorld);
 }
 
-// ***************************************************************
+// *****************************************************************************
+const IAABB * const cModel::VGetAABB() const
+{
+	if(m_pBoundingBox)
+	{
+		return m_pBoundingBox->VGetAABB();
+	}
+	return NULL;
+}
+
+// *****************************************************************************
 void cModel::VCleanup()
 {
 	SAFE_DELETE(m_pBoundingBox);
@@ -145,7 +155,7 @@ void cModel::VCleanup()
 	m_vSubsets.clear();
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cModel::CreateVertexBuffer( const stTexVertex * const pVertices )
 {
 	D3D11_BUFFER_DESC vertexBufferDesc;
@@ -171,7 +181,7 @@ bool cModel::CreateVertexBuffer( const stTexVertex * const pVertices )
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 {
 	D3D11_BUFFER_DESC indexBufferDesc;
@@ -199,7 +209,7 @@ bool cModel::CreateIndexBuffer(const unsigned long * const pIndices)
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 IModel * IModel::CreateModel()
 {
 	IModel * pModel= DEBUG_NEW cModel();

@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Game   version:  1.0   Ankur Sheel  date: 04/30/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Game.h"
 #include "Sprite.hxx"
@@ -33,9 +33,7 @@ using namespace Base;
 using namespace GameBase;
 using namespace Utilities;
 
-// ***************************************************************
-// Constructor
-// ***************************************************************
+// *****************************************************************************
 cGame::cGame(const cString strName)
 : cBaseApp(strName)
 , m_pScore(NULL)
@@ -47,17 +45,13 @@ cGame::cGame(const cString strName)
 {
 }
 
-// ***************************************************************
-// Destructor
-// ***************************************************************
+// *****************************************************************************
 cGame::~cGame()
 {
 	VCleanup();
 }
 
-// ***************************************************************
-// Function called when the window is created
-// ***************************************************************
+// *****************************************************************************
 void cGame::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 							  const cString & strOptionsFileName)
 {
@@ -79,13 +73,13 @@ void cGame::VCreateHumanView()
 	m_pHumanView = DEBUG_NEW cMPongView();
 }
 
-// ***************************************************************
+// *****************************************************************************
 cString cGame::VGetGameTitle() const
 {
 	return VGetName();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGame::VOnUpdate()
 {
 	cBaseApp::VOnUpdate();
@@ -94,9 +88,7 @@ void cGame::VOnUpdate()
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
 }
 
-// ***************************************************************
-// Restarts the game
-// ***************************************************************
+// *****************************************************************************
 void cGame::Restart()
 {
 	Sleep(100);
@@ -105,9 +97,7 @@ void cGame::Restart()
 	//m_pGameElements[PGE_BALL]->OnRestart(cVector3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
 }
 
-// ***************************************************************
-// Checks if either player has won
-// ***************************************************************
+// *****************************************************************************
 void cGame::CheckForWin()
 {
 	//cVector3 vBallPosition = m_pGameElements[PGE_BALL]->GetPosition();
@@ -126,9 +116,7 @@ void cGame::CheckForWin()
 	//}
 }
 
-// ***************************************************************
-// Checks for collisions
-// ***************************************************************
+// *****************************************************************************
 void cGame::CheckForCollisions()
 {
 	// check for collisions between paddle and ball
@@ -156,9 +144,7 @@ void cGame::CheckForCollisions()
 	//}
 }
 
-// ***************************************************************
-// Deletes the memory
-// ***************************************************************
+// *****************************************************************************
 void cGame::VCleanup()
 {
 	if(m_ppGameElements)
@@ -176,9 +162,7 @@ void cGame::VCleanup()
 	cBaseApp::VCleanup();
 }
 
-// ***************************************************************
-// the AI for the paddle
-// ***************************************************************
+// *****************************************************************************
 void cGame::HandlePaddleAI( const float fElapsedTime )
 {
 	//// if the ball is in the players half, there is no need to do anything
@@ -248,78 +232,56 @@ void cGame::QuitButtonPressed( bool bPressed )
 
 void cGame::MoveLeftPaddle(bool bMoveDown)
 {
-	if (bMoveDown)
+	cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
+	if(pPaddle)
 	{
-		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
-		//	&(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
+		if (bMoveDown)
 		{
-			cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
-			}
+			pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
 		}
-	}
-	else
-	{
-		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()), 
-		//	&(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
+		else
 		{
-			cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();
-			if(pPaddle)
-			{
-				pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
-			}
+			pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
 		}
-
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGame::MoveRightPaddle( bool bMoveDown )
 {
-	if (bMoveDown)
+	cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
+	if(pPaddle)
 	{
-		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
+		if (bMoveDown)
 		{
-			//cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-			//if(pPaddle)
-			//{
-			//	pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
-			//}
+			pPaddle->MoveDown(m_pGameTimer->VGetDeltaTime());
 		}
-	}
-	else
-	{
-		//if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
+		else
 		{
-			//cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-			//if(pPaddle)
-			//{
-			//	pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
-			//}
+			pPaddle->MoveUp(m_pGameTimer->VGetDeltaTime());
 		}
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cGame::IsSinglePlayer()
 {
 	return m_bSinglePlayer;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cGame::VOnHandleMessage(const AI::Telegram & telegram)
 {
 	return m_pStateMachine->HandleMessage(telegram);
 }
+
 // *****************************************************************************
-cPongGameElement ** const cGame::GetGameElements() const
+cPongGameElement ** const cGame::VGetGameElements() const
 {
 	return m_ppGameElements; 
 }
 
-// ***************************************************************
+// *****************************************************************************
 IBaseApp * IGame::CreateGame(const cString strName)
 {
 	return DEBUG_NEW cGame(strName);

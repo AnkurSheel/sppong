@@ -14,6 +14,7 @@
 
 namespace Graphics
 {
+	class IAABB;
 	class cAABB;
 }
 
@@ -25,6 +26,7 @@ namespace Graphics
 	public:
 		cBoundingBox(const Base::cVector3 & vMinBound, const Base::cVector3 & vMaxBound);
 		~cBoundingBox();
+		const Graphics::IAABB * const VGetAABB() const;
 		void VTransform(const D3DXMATRIX & matWorld);
 		void RecalculateAABBFromOBB();
 

@@ -25,6 +25,25 @@ cAABB::~cAABB()
 
 }
 
+cAABB::cAABB(const cAABB & other)
+{
+	m_vCenter = other.m_vCenter;
+	m_vHalfExtents = other.m_vHalfExtents;
+}
+
+cAABB & cAABB::operator =(const cAABB & other)
+{
+	m_vCenter = other.m_vCenter;
+	m_vHalfExtents = other.m_vHalfExtents;
+	return *this;
+}
+
+// *******************************************************************************************
+void cAABB::VTransalate(const Base::cVector3 & vDeltaPos)
+{
+	m_vCenter += vDeltaPos;
+}
+
 // *******************************************************************************************
 cVector3 cAABB::GetCenter() const
 {
@@ -50,7 +69,7 @@ void cAABB::SetHalfExtents(const cVector3 vHalfExtents)
 }
 
 // *******************************************************************************************
-bool cAABB::Overlaps(const cAABB & other)
+bool cAABB::Overlaps(const cAABB & other) const
 {
 	cVector3 vCenterDelta = other.m_vCenter - m_vCenter;
 	vCenterDelta.AbsTo();
@@ -58,5 +77,18 @@ bool cAABB::Overlaps(const cAABB & other)
 	cVector3 vHalfExtentSum = other.m_vHalfExtents + m_vHalfExtents;
 	vCenterDelta = vCenterDelta - vHalfExtentSum;
 
-	return vCenterDelta.x < 0 && vCenterDelta.y < 0 && vCenterDelta.z < 0;
+	bool val = vCenterDelta.x <= 0 && vCenterDelta.y <= 0 && vCenterDelta.z <= 0;
+	if(val)
+	{
+		int a = 5;
+	}
+	return vCenterDelta.x <= 0 && vCenterDelta.y <= 0 && vCenterDelta.z <= 0;
+}
+
+// *******************************************************************************************
+IAABB * const IAABB::DuplicateAABB(const IAABB * const pAABB)
+{
+	const cAABB * ptr = dynamic_cast<const cAABB *>(pAABB);
+	IAABB * dupAABB = DEBUG_NEW cAABB(*ptr);
+	return dupAABB;
 }

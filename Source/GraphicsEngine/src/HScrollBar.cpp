@@ -10,7 +10,6 @@
 #include "stdafx.h"
 #include "HScrollBar.h"
 #include "Sprite.hxx"
-#include "Logger.hxx"
 
 using namespace Graphics;
 using namespace Utilities;

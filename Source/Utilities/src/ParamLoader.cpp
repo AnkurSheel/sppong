@@ -9,7 +9,6 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "ParamLoader.h"
-#include "logger.hxx"
 
 using namespace Base;
 

@@ -12,7 +12,6 @@
 #include "ButtonControl.h"
 #include "DxBase.hxx"
 #include "Sprite.hxx"
-#include "Logger.hxx"
 #include "Structures.h"
 
 using namespace Base;
