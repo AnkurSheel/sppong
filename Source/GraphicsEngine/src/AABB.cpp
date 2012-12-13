@@ -86,9 +86,9 @@ bool cAABB::Overlaps(const cAABB & other) const
 }
 
 // *******************************************************************************************
-IAABB * const IAABB::DuplicateAABB(const IAABB * const pAABB)
+shared_ptr<IAABB> const IAABB::DuplicateAABB(const IAABB * const pAABB)
 {
 	const cAABB * ptr = dynamic_cast<const cAABB *>(pAABB);
 	IAABB * dupAABB = DEBUG_NEW cAABB(*ptr);
-	return dupAABB;
+	return shared_ptr<IAABB>(dupAABB);
 }

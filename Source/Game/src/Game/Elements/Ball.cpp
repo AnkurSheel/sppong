@@ -28,6 +28,7 @@ cBall::cBall()
 // *****************************************************************************
 cBall::~cBall()
 {
+	Cleanup();
 }
 
 // *****************************************************************************
@@ -65,15 +66,15 @@ void cBall::OnRestart( const cVector3& vInitialPos )
 void cBall::OnUpdate(float fElapsedTime)
 {
 	cVector3 vDeltaPos = m_vSpeed * fElapsedTime;
-	IAABB * const pAABB = IAABB::DuplicateAABB(GetAABB());
+	shared_ptr< IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
 	pAABB->VTransalate(vDeltaPos);
-	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB()))
-		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB())))
+	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB()))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB())))
 	{
 		m_vSpeed.y = -m_vSpeed.y;
 	}
-	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB()))
-		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB, m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_RIGHT]->GetAABB())))
+	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB()))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_RIGHT]->GetAABB())))
 	{
 		m_vSpeed.x = -m_vSpeed.x;
 	}

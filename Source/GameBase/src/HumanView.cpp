@@ -20,6 +20,9 @@
 #include "Camera.hxx"
 #include "ParamLoaders.hxx"
 #include "FontManager.hxx"
+#include "ObjModelLoader.hxx"
+#include "CollisionChecker.hxx"
+#include "GraphicUtils.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -109,7 +112,10 @@ void cHumanView::VOnDestroyDevice()
 {
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
-
+	IFontManager::Destroy();
+	IObjModelLoader::Destroy();
+	ICollisionChecker::Destroy();
+	IGraphicUtils::Destroy();
 	//SAFE_DELETE(m_pCursorSprite);
 }
 

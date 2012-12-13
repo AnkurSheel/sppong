@@ -120,8 +120,11 @@ void cGame::VCleanup()
 {
 	if(m_ppGameElements)
 	{
-		SAFE_DELETE_ARRAY(*m_ppGameElements);
-		SAFE_DELETE(m_ppGameElements);
+		for (int i=0; i<PGE_TOTAL; i++)
+		{
+			SAFE_DELETE(m_ppGameElements[i]);
+		}
+		SAFE_DELETE_ARRAY(m_ppGameElements);
 	}
 
 	SAFE_DELETE_ARRAY(m_pScore);

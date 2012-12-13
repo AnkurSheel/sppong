@@ -309,7 +309,6 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 void cStatePlayGame::VOnExit(cGame *pGame)
 {
 	SAFE_DELETE_ARRAY(pGame->m_pScore);
-	//ICollisionChecker::Destroy();
 
 	pGame->VCleanup();
 }

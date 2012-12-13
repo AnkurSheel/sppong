@@ -15,6 +15,8 @@
 #include "ParamLoaders.hxx"
 #include "Optional.h"
 #include "Checks.hxx"
+#include "EntityManager.hxx"
+#include "MessageDispatchManager.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -124,6 +126,8 @@ void GameBase::cBaseApp::VCleanup()
 	m_pHumanView->VOnDestroyDevice();
 	SAFE_DELETE(m_pHumanView);
 
+	IEntityManager::Destroy();
+	IMessageDispatchManager::Destroy();
 
 	IMainWindow::Destroy();
 }

@@ -12,8 +12,6 @@
 #include "Checks.hxx"
 #include "BaseApp.hxx"
 #include "Game/Game.hxx"
-#include "EntityManager.hxx"
-#include "MessageDispatchManager.hxx"
 
 using namespace Utilities;
 using namespace GameBase;
@@ -84,7 +82,5 @@ void Cleanup()
 	SAFE_DELETE(pGame);
 
 	IResourceChecker::Destroy();
-	IEntityManager::Destroy();
-	IMessageDispatchManager::Destroy();
 	ILogger::Destroy();
 }
