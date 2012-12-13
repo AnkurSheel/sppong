@@ -116,34 +116,6 @@ void cGame::CheckForWin()
 }
 
 // *****************************************************************************
-void cGame::CheckForCollisions()
-{
-	// check for collisions between paddle and ball
-	//if (ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_BALL]->GetBoundingRectangle()), &(m_pGameElements[PGE_PADDLE_LEFT]->GetBoundingRectangle()))
-	//	|| ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_BALL]->GetBoundingRectangle()), &(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle())))
-	//{
-	//	cBall * pBall = m_pGameElements[PGE_BALL]->CastToBall();
-	//	if(pBall)
-	//	{
-	//		pBall->ChangeSpeedX();
-	//	}
-	//	m_pSound->PlaySound(GS_BALL_PADDLE_COLLISION);
-	//}
-
-	//// check for collision between ball and walls
-	//if (ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_BALL]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))
-	//	|| ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_BALL]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle())))
-	//{
-	//	cBall * pBall = m_pGameElements[PGE_BALL]->CastToBall();
-	//	if(pBall)
-	//	{
-	//		pBall->ChangeSpeedY();
-	//	}
-	//	m_pSound->PlaySound(GS_BALL_WALL_COLLISION);
-	//}
-}
-
-// *****************************************************************************
 void cGame::VCleanup()
 {
 	if(m_ppGameElements)

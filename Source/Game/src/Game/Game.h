@@ -64,7 +64,6 @@ private:
 	void VCleanup();
 	void Restart();
 	void CheckForWin();
-	void CheckForCollisions();
 	bool VOnHandleMessage(const AI::Telegram & telegram);
 	void SinglePlayerButtonPressed(bool bPressed);
 	void MultiPlayerButtonPressed(bool bPressed);

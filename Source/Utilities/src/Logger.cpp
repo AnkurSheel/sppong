@@ -11,7 +11,6 @@
 #include "Logger.h"
 #include <time.h>
 #include "XMLFileIO.hxx"
-#include <stdlib.h>
 #include "Checks.hxx"
 
 using namespace Utilities;

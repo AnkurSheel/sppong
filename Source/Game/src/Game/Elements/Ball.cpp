@@ -40,7 +40,8 @@ void cBall::VInitialize(const cGameElementDef & def )
 		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created for Ball with seed %u", m_pRandomGenerator->GetRandomSeed()));
 	}
 	
-	m_vSpeed = cVector3(m_pRandomGenerator->Random(3) + 1.0f, m_pRandomGenerator->Random(6) + 1.0f, 0.0f);
+	m_vSpeed = cVector3(m_pRandomGenerator->Random(5,10), m_pRandomGenerator->Random(5,10), 0.0f);
+
 }
 
 // *****************************************************************************

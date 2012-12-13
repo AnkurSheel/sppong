@@ -34,7 +34,7 @@ public:
 	};
 
 public:
-	GAME_API virtual ~IGame(){}
+	virtual ~IGame(){}
 	GAME_API static GameBase::IBaseApp * CreateGame(const Base::cString strName);
 	virtual cPongGameElement ** const VGetGameElements() const = 0;
 };

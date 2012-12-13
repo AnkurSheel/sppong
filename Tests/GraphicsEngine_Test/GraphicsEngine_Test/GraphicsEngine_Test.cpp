@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "Logger.hxx"
 #include "BaseApp.hxx"
 #include "Game.h"
 
@@ -33,6 +32,8 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	CheckForMemoryLeaks() ;
 	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
 
+	int * p = DEBUG_NEW int;
+
 	bool bFullScreen = false;
 #ifndef _DEBUG
 	bFullScreen = true;
@@ -43,7 +44,7 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 #else
 	strOptionsFileName = "GraphicsTestRelease.ini";
 #endif
-	IBaseApp * pGame = new cGame("Graphic Engine Test");
+	IBaseApp * pGame = DEBUG_NEW cGame("Graphic Engine Test");
 
 	pGame->VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
 	pGame->VRun();

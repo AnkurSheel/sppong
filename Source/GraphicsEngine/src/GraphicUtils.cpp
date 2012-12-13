@@ -56,13 +56,15 @@ cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
 	cVector3 vOrigin(matWorld._41, matWorld._42, matWorld._43);
 
 	cVector3 direction;
-	direction.x = (vViewSpace.x * matWorld._11) + (vViewSpace.y * matWorld._21) + (vViewSpace.z * matWorld._31);
-	direction.y = (vViewSpace.x * matWorld._12) + (vViewSpace.y * matWorld._22) + (vViewSpace.z * matWorld._32);
-	direction.z = (vViewSpace.x * matWorld._13) + (vViewSpace.y * matWorld._23) + (vViewSpace.z * matWorld._33);
+	direction.x = (vViewSpace.x * matWorld._11) + (vViewSpace.y * matWorld._21)
+		+ (vViewSpace.z * matWorld._31);
+	direction.y = (vViewSpace.x * matWorld._12) + (vViewSpace.y * matWorld._22)
+		+ (vViewSpace.z * matWorld._32);
+	direction.z = (vViewSpace.x * matWorld._13) + (vViewSpace.y * matWorld._23)
+		+ (vViewSpace.z * matWorld._33);
 	direction.Normalize();
 
-	D3DXMATRIX matViewProjection;
-	D3DXMatrixMultiply(&matViewProjection, &matView, &matProjection);
+	D3DXMATRIX matViewProjection = matView * matProjection;
 
 	cVector3 vPlaneNormal(matViewProjection._13, matViewProjection._23, matViewProjection._33);
 	vPlaneNormal.Normalize();

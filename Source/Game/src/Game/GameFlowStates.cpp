@@ -16,7 +16,6 @@
 #include "Elements/Score.h"
 #include "Elements/Ball.h"
 #include "Sprite.hxx"
-//#include "CollisionChecker.hxx"
 #include "Sound.hxx"
 #include "MPongView.h"
 #include "Timer.hxx"
@@ -305,7 +304,6 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 	}
 	pGame->m_pHumanView->VOnUpdate(pGame->m_pGameTimer->VGetRunningTicks(), pGame->m_pGameTimer->VGetDeltaTime());
 
-	pGame->CheckForCollisions();
 	pGame->CheckForWin();
 }
 // ***************************************************************

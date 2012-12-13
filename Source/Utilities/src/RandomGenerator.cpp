@@ -1,26 +1,38 @@
-// ***************************************************************
+// *****************************************************************************
 //  Random   version:  1.0   Ankur Sheel  date: 2011/04/16
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "RandomGenerator.h"
 #include <time.h>
 
 using namespace Utilities;
 
+// *****************************************************************************
 cRandomGenerator::cRandomGenerator()
 : uSeed(1)
 , iMt(CMATH_N+1)
 {
 }
 
+// Returns a random float between 0.0f-1.0f
+// *****************************************************************************
+float cRandomGenerator::Random()
+{
+	int r = Random(0xffffffff);
+	float divisor = (float)0xffffffff;
+	return (r / divisor) + 0.5f;
+}
+
+
 // Returns a number from 0 to n (excluding n)
-unsigned int Utilities::cRandomGenerator::Random( unsigned int nMax )
+// *****************************************************************************
+unsigned int cRandomGenerator::Random(const unsigned int nMax )
 {
 	unsigned long y;
 	static unsigned long mag01[2]={0x0, CMATH_MATRIX_A};
@@ -63,17 +75,15 @@ unsigned int Utilities::cRandomGenerator::Random( unsigned int nMax )
 
 	return (y%nMax);
 }
-
-// Returns a random float between 0.0f-1.0f
-float cRandomGenerator::Random()
+// *****************************************************************************
+unsigned int cRandomGenerator::Random(const unsigned int nMin, const unsigned int nMax)
 {
-	int r = Random(0xffffffff);
-	float divisor = (float)0xffffffff;
-	return (r / divisor) + 0.5f;
+	return Random(nMax - nMin) + nMin;
+
 }
 
-
-void cRandomGenerator::SetRandomSeed( unsigned int nSeed )
+// *****************************************************************************
+void cRandomGenerator::SetRandomSeed(const unsigned int nSeed)
 {
 	alMt[0]= nSeed & 0xffffffff;
 	for (iMt = 1; iMt < CMATH_N; iMt++)
@@ -84,17 +94,19 @@ void cRandomGenerator::SetRandomSeed( unsigned int nSeed )
 	uSeed = nSeed;
 }
 
+// *****************************************************************************
 unsigned int cRandomGenerator::GetRandomSeed()
 {
 	return uSeed;
 }
 
-
+// *****************************************************************************
 void cRandomGenerator::Randomize()
 {
 	SetRandomSeed((unsigned int)time(NULL));
 }
 
+// *****************************************************************************
 IRandomGenerator * IRandomGenerator::CreateRandomGenerator()
 {
 	cRandomGenerator * pRandomGenerator = DEBUG_NEW cRandomGenerator();

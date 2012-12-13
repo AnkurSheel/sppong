@@ -547,6 +547,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Includes\AABB.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\BoundingBox.cpp"
 			>
 		</File>
@@ -556,6 +560,18 @@
 		</File>
 		<File
 			RelativePath=".\src\BoundingBox.hxx"
+			>
+		</File>
+		<File
+			RelativePath=".\src\CollisionChecker.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\CollisionChecker.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\CollisionChecker.hxx"
 			>
 		</File>
 		<File

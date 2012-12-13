@@ -41,14 +41,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;;&quot;$(SolutionDir)GameBase\Includes&quot;;&quot;$(SolutionDir)Game\src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories="..\..\Source\Base\Includes;..\..\Source\Utilities\Includes;..\..\Source\GameBase\Includes;..\..\Source\Game\src"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="1"
 				PrecompiledHeaderFile="$(IntDir) $(ProjectName)$(ConfigurationName).pch"
-				AssemblerListingLocation="$(IntDir)\"
+				AssemblerListingLocation=""
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Common\src&quot;;&quot;$(SolutionDir)Base\Includes&quot;;&quot;$(SolutionDir)Utilities\Includes&quot;;&quot;$(SolutionDir)GameBase\Includes&quot;;&quot;$(SolutionDir)Game\src&quot;"
+				AdditionalIncludeDirectories="..\..\Source\Base\Includes;..\..\Source\Utilities\Includes;..\..\Source\GameBase\Includes;..\..\Source\Game\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

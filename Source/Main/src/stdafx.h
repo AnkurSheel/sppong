@@ -25,20 +25,5 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
-
-// TODO: reference additional headers your program requires here
-#pragma once
-
-#define STRSAFE_NO_CB_FUNCTIONS
-#define NULLCHAR '\0'
-
-#ifdef _DEBUG
-    #define D3D_DEBUG_INFO
-#endif
-
-#define DIRECTINPUT_VERSION 0x0800
-
 #include "Logger.hxx"
-#include "myString.h"
-
 #include "Includes.h"

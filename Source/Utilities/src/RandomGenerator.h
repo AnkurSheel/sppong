@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Random   version:  1.0   Ankur Sheel  date: 2011/04/16
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // adapted from Game Coding Complete 
-// ***************************************************************
+// *****************************************************************************
 #ifndef RandomGenerator_h__
 #define RandomGenerator_h__
 
@@ -34,9 +34,10 @@ namespace Utilities
 	{
 	public:
 		cRandomGenerator();	
-		unsigned int Random(unsigned int nMax);
+		unsigned int Random(const unsigned int nMax);
+		unsigned int Random(const unsigned int nMin, const unsigned int nMax);
 		float Random();
-		void SetRandomSeed(unsigned int nSeed);
+		void SetRandomSeed(const unsigned int nSeed);
 		unsigned int GetRandomSeed();
 		void Randomize();
 
