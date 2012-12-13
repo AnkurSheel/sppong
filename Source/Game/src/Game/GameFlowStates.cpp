@@ -16,7 +16,6 @@
 #include "Elements/Score.h"
 #include "Elements/Ball.h"
 #include "Sprite.hxx"
-#include "Sound.hxx"
 #include "MPongView.h"
 #include "Timer.hxx"
 #include "BaseControl.hxx"
@@ -25,7 +24,6 @@
 #include "FontManager.hxx"
 #include "GraphicUtils.hxx"
 
-using namespace MySound;
 using namespace Graphics;
 using namespace Base;
 using namespace AI;
@@ -189,7 +187,7 @@ void cStateMenuScreen::VOnExit(cGame *pGame)
 		pGame->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("MenuScreen");
 	}
 
-	pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);
+	//pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);
 }
 // ***************************************************************
 

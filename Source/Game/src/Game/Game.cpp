@@ -60,7 +60,7 @@ void cGame::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 	m_iDisplayWidth = static_cast<int>(m_pHumanView->m_pAppWindowControl->VGetWidth());
 
 	m_pSound = ISound::CreateSound();
-	m_pSound->Init();
+	//m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 
 	IEntityManager::GetInstance()->VRegisterEntity(this);
@@ -83,7 +83,7 @@ void cGame::VOnUpdate()
 {
 	cBaseApp::VOnUpdate();
 	m_pStateMachine->Update();
-	m_pSound->Update();
+	//m_pSound->Update();
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
 }
 
