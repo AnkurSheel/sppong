@@ -70,7 +70,7 @@ void cGameElement::SetRotation(const Base::cVector3 & vRadians)
 	{
 		m_bIsDirty = true;
 		m_vRotation.x = ClampToTwoPi(vRadians.x);
-		m_vRotation.x = ClampToTwoPi(vRadians.y);
+		m_vRotation.y = ClampToTwoPi(vRadians.y);
 		m_vRotation.z = ClampToTwoPi(vRadians.z);
 	}
 }
