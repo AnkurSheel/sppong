@@ -32,8 +32,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	CheckForMemoryLeaks() ;
 	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
 
-	int * p = DEBUG_NEW int;
-
 	bool bFullScreen = false;
 #ifndef _DEBUG
 	bFullScreen = true;

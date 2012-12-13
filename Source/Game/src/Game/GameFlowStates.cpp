@@ -238,29 +238,29 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
 	//pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 
-	cVector3 vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
-	cVector3 vscreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
+	pGame->m_vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
+	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
 		pGame->m_pHumanView->VGetCamera());
 
 	cGameElementDef paddleDef;
 	paddleDef.strModelPath = "resources//cube.spdo";
-	paddleDef.vPosition= cVector3(vScreenTopLeftPos.x, 0.0f, 0.0f);
+	paddleDef.vPosition= cVector3(pGame->m_vScreenTopLeftPos.x, 0.0f, 0.0f);
 	paddleDef.vScale = cVector3(0.5f, 1.5f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT]->VInitialize(paddleDef);
 
-	paddleDef.vPosition= cVector3(vscreenBottomRightPos.x, 0.0f, 0.0f);
+	paddleDef.vPosition= cVector3(pGame->m_vScreenBottomRightPos.x, 0.0f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT] = DEBUG_NEW cPaddle();
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT]->VInitialize(paddleDef);
 
 	cGameElementDef wallDef;
 	wallDef.strModelPath = "resources//cube.spdo";
-	wallDef.vPosition= cVector3(0, vScreenTopLeftPos.y, 0.0f);
-	wallDef.vScale = cVector3(abs(vScreenTopLeftPos.x), 0.5f, 0.0f);
+	wallDef.vPosition= cVector3(0, pGame->m_vScreenTopLeftPos.y, 0.0f);
+	wallDef.vScale = cVector3(abs(pGame->m_vScreenTopLeftPos.x), 0.5f, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->VInitialize(wallDef);
 
-	wallDef.vPosition= cVector3(0, vscreenBottomRightPos.y, 0.0f);
+	wallDef.vPosition= cVector3(0, pGame->m_vScreenBottomRightPos.y, 0.0f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
 	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->VInitialize(wallDef);
 
@@ -301,8 +301,6 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 		}
 	}
 	pGame->m_pHumanView->VOnUpdate(pGame->m_pGameTimer->VGetRunningTicks(), pGame->m_pGameTimer->VGetDeltaTime());
-
-	pGame->CheckForWin();
 }
 // ***************************************************************
 

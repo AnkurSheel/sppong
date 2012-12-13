@@ -42,24 +42,25 @@ void cBall::VInitialize(const cGameElementDef & def )
 	}
 	
 	m_vSpeed = cVector3(m_pRandomGenerator->Random(5,10), m_pRandomGenerator->Random(5,10), 0.0f);
-
 }
 
 // *****************************************************************************
-void cBall::OnRestart( const cVector3& vInitialPos )
+void cBall::OnRestart()
 {
-	//cPongGameElement::OnRestart(vInitialPos);
-	//int iSpeedDirection = m_pRandomGenerator->Random(2);
-	//if (iSpeedDirection == 1)
-	//{
-	//	m_vSpeed.m_dX = -m_vSpeed.m_dX;
-	//}
+	cPongGameElement::OnRestart();
+	m_vSpeed = cVector3(m_pRandomGenerator->Random(5,10), m_pRandomGenerator->Random(5,10), 0.0f);
+	
+	int iSpeedDirection = m_pRandomGenerator->Random(2);
+	if (iSpeedDirection == 1)
+	{
+		m_vSpeed.x = -m_vSpeed.x;
+	}
 
-	//iSpeedDirection = m_pRandomGenerator->Random(2);
-	//if (iSpeedDirection == 1)
-	//{
-	//	m_vSpeed.m_dY = -m_vSpeed.m_dY;
-	//}
+	iSpeedDirection = m_pRandomGenerator->Random(2);
+	if (iSpeedDirection == 1)
+	{
+		m_vSpeed.y = -m_vSpeed.y;
+	}
 }
 
 // *****************************************************************************
@@ -82,6 +83,18 @@ void cBall::OnUpdate(float fElapsedTime)
 	cVector3 vPredictedPos = GetPosition();
 	vPredictedPos += m_vSpeed * fElapsedTime;
 	SetPosition(vPredictedPos);
+
+	if (GetPosition().x < m_pGame->VGetScreenTopLeftPos().x)
+	{
+		IGame * pGame = const_cast<IGame *>(m_pGame);
+		pGame->VRoundOver(true);
+	}
+	else if (GetPosition().x > m_pGame->VGetScreenBottomRightPos().x)
+	{
+		IGame * pGame = const_cast<IGame *>(m_pGame);
+		pGame->VRoundOver(false);
+	}
+
 }
 
 // *****************************************************************************

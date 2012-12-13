@@ -11,6 +11,8 @@
 #include "PongGameElement.h"
 #include "Game\Game.hxx"
 
+using namespace GameBase;
+
 const IGame * cPongGameElement::m_pGame = NULL;
 
 // *****************************************************************************
@@ -24,9 +26,16 @@ cPongGameElement::~cPongGameElement()
 }
 
 // *****************************************************************************
-void cPongGameElement::SetGame(const IGame * const pGame)
+void cPongGameElement::VInitialize(const cGameElementDef & def)
 {
-	m_pGame = pGame;
+	cGameElement::VInitialize(def);
+	m_vInitialPos = GetPosition();
+}
+
+// *****************************************************************************
+void cPongGameElement::OnRestart()
+{
+	SetPosition(m_vInitialPos);
 }
 
 // *****************************************************************************
@@ -39,4 +48,10 @@ cPaddle * cPongGameElement::CastToPaddle()
 cBall * cPongGameElement::CastToBall()
 {
 	return NULL;
+}
+
+// *****************************************************************************
+void cPongGameElement::SetGame(const IGame * const pGame)
+{
+	m_pGame = pGame;
 }

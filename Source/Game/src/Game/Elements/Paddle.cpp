@@ -82,17 +82,6 @@ void cPaddle::MoveRight( const float fElapsedTime )
 }
 
 // *****************************************************************************
-void cPaddle::OnRestart( const Base::cVector3& vInitialPos )
-{
-	//cGameElement::OnRestart(vInitialPos);
-	//if (m_vPosition.m_dX > m_siTableWidth /2)
-	//{
-	//	m_vPosition.m_dX = m_siTableWidth - m_pSprite->VGetSize().m_dX - 10.0f ;
-	//	UpdatePosition();
-	//}
-}
-
-// *****************************************************************************
 cPaddle * cPaddle::CastToPaddle()
 {
 	return this;

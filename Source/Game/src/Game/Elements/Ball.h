@@ -28,7 +28,7 @@ public:
 	cBall();
 	~cBall();
 	void VInitialize(const GameBase::cGameElementDef & def);
-	void OnRestart(const Base::cVector3& vInitialPos);
+	void OnRestart();
 	void Cleanup();
 	void OnUpdate(float fElapsedTime);
 	cBall * CastToBall();

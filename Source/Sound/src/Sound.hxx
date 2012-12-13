@@ -23,15 +23,15 @@ namespace MySound
 	{
 	public:
 		virtual ~ISound(){};
-		SOUND_API virtual void Init() = 0;
+		virtual void Init() = 0;
+		virtual void CreateSound( int index, const Base::cString & strFilename ) = 0;
+		virtual void PlaySound(int iSoundIndex) = 0;
+		virtual void Update() = 0;
+		virtual void CreateStream( int index, const Base::cString & strFilename ) = 0;
+		virtual void StopSound(int iSoundIndex) = 0;
+		virtual void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex) = 0;
+		virtual void RemoveSound(int iSoundIndex) = 0;
 		SOUND_API static ISound * CreateSound();
-		SOUND_API virtual void CreateSound( int index, const Base::cString & strFilename ) = 0;
-		SOUND_API virtual void PlaySound(int iSoundIndex) = 0;
-		SOUND_API virtual void Update() = 0;
-		SOUND_API virtual void CreateStream( int index, const Base::cString & strFilename ) = 0;
-		SOUND_API virtual void StopSound(int iSoundIndex) = 0;
-		SOUND_API virtual void ChangeMusicVolume(bool bIncreaseVolume, int iSoundIndex) = 0;
-		SOUND_API virtual void RemoveSound(int iSoundIndex) = 0;
 	};
 }
 #endif // Sound_h__

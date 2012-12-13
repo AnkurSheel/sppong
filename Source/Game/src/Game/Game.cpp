@@ -91,28 +91,26 @@ void cGame::VOnUpdate()
 void cGame::Restart()
 {
 	Sleep(100);
-	//m_pGameElements[PGE_PADDLE_LEFT]->OnRestart(cVector3(10.0f, (float)m_iDisplayHeight/2, 0.0f));
-	//m_pGameElements[PGE_PADDLE_RIGHT]->OnRestart(cVector3((float)(m_iDisplayWidth), (float)m_iDisplayHeight/2, 0.0f));
-	//m_pGameElements[PGE_BALL]->OnRestart(cVector3((float)m_iDisplayWidth/2, (float)m_iDisplayHeight/2, 0.0f));
+	m_ppGameElements[PGE_PADDLE_LEFT]->OnRestart();
+	m_ppGameElements[PGE_PADDLE_RIGHT]->OnRestart();
+	m_ppGameElements[PGE_BALL]->OnRestart();
 }
 
 // *****************************************************************************
-void cGame::CheckForWin()
+void cGame::VRoundOver(const bool bPlayer1Won)
 {
-	//cVector3 vBallPosition = m_pGameElements[PGE_BALL]->GetPosition();
-
-	//if(vBallPosition.m_dX <= 0)
-	//{
+	if (bPlayer1Won)
+	{
 	//	m_pSound->PlaySound(GS_WIN);
-	//	m_pScore[1].IncrementScore();
-	//	Restart();
-	//}
-	//if (vBallPosition.m_dX >= (m_iDisplayWidth - m_pGameElements[PGE_BALL]->GetSprite()->GetScaledWidth()))
-	//{
+		m_pScore[1].IncrementScore();
+		Restart();
+	}
+	else
+	{
 	//	m_pSound->PlaySound(GS_WIN);
-	//	m_pScore[0].IncrementScore();
-	//	Restart();
-	//}
+		m_pScore[0].IncrementScore();
+		Restart();
+	}
 }
 
 // *****************************************************************************
@@ -253,6 +251,18 @@ bool cGame::VOnHandleMessage(const AI::Telegram & telegram)
 cPongGameElement ** const cGame::VGetGameElements() const
 {
 	return m_ppGameElements; 
+}
+
+// *****************************************************************************
+cVector3 cGame::VGetScreenTopLeftPos() const
+{
+	return m_vScreenTopLeftPos;
+}
+
+// *****************************************************************************
+cVector3 cGame::VGetScreenBottomRightPos() const
+{
+	return m_vScreenBottomRightPos;
 }
 
 // *****************************************************************************

@@ -22,12 +22,15 @@ class cPongGameElement
 public:
 	cPongGameElement();
 	virtual ~cPongGameElement();
-	static void SetGame(const IGame * const pGame);
+	void VInitialize(const GameBase::cGameElementDef & def);
+	void OnRestart();
 	virtual cPaddle * CastToPaddle();
 	virtual cBall * CastToBall();
 	virtual void OnUpdate(float fElapsedTime){};
+	static void SetGame(const IGame * const pGame);
 
 protected:
+	Base::cVector3			m_vInitialPos;
 	static const IGame *	m_pGame;
 };
 

@@ -13,11 +13,6 @@
 #include "Game.hxx"
 #include "BaseApp.h"
 
-namespace Base
-{
-	class cString;
-}
-
 namespace GameBase
 {
 	class cHumanView;
@@ -63,12 +58,14 @@ private:
 	void VOnUpdate();
 	void VCleanup();
 	void Restart();
-	void CheckForWin();
+	void VRoundOver(const bool bPlayer1Won);
 	bool VOnHandleMessage(const AI::Telegram & telegram);
 	void SinglePlayerButtonPressed(bool bPressed);
 	void MultiPlayerButtonPressed(bool bPressed);
 	void QuitButtonPressed(bool bPressed);
 	void VCreateHumanView();
+	Base::cVector3 VGetScreenTopLeftPos() const;
+	Base::cVector3 VGetScreenBottomRightPos() const;
 
 private:
 	int							m_iDisplayHeight ;		// the display height of the window
@@ -79,7 +76,9 @@ private:
 	bool						m_bMultiPlayer;
 	cGameFlowStateMachine *		m_pStateMachine;
 	cScore*						m_pScore;				// ptr to Scoreboard
-
+	Base::cVector3				m_vScreenTopLeftPos;
+	Base::cVector3				m_vScreenBottomRightPos;
+	
 private:
 	friend class cStateTitleScreen;
 	friend class cStateMenuScreen;
