@@ -52,16 +52,9 @@ void cMPongView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 	{
 		m_P1PaddleHandler->OnUpdate();
 	}
-	if (m_pGame)
+	if (m_P2PaddleHandler)
 	{
-		if(m_pGame->IsSinglePlayer())
-		{
-			m_pGame->HandlePaddleAI(fElapsedTime);
-		}
-		else if (m_P2PaddleHandler)
-		{
-			m_P2PaddleHandler->OnUpdate();
-		}
+		m_P2PaddleHandler->OnUpdate();
 	}
 }
 

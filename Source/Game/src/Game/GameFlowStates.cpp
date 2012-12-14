@@ -301,6 +301,10 @@ void cStatePlayGame::VOnUpdate(cGame *pGame)
 		}
 	}
 	pGame->m_pHumanView->VOnUpdate(pGame->m_pGameTimer->VGetRunningTicks(), pGame->m_pGameTimer->VGetDeltaTime());
+	if(pGame->IsSinglePlayer())
+	{
+		pGame->HandlePaddleAI(pGame->m_pGameTimer->VGetDeltaTime());
+	}
 }
 // ***************************************************************
 

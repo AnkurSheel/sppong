@@ -33,7 +33,7 @@ cPaddle::~cPaddle()
 void cPaddle::VInitialize(const cGameElementDef & def )
 {
 	cPongGameElement::VInitialize(def);
-	m_iMoveFactor = 5;
+	m_iMoveFactor = 8;
 }
 
 // *****************************************************************************

@@ -130,46 +130,38 @@ void cGame::VCleanup()
 
 	SAFE_DELETE(m_pSound);
 
-	//ICollisionChecker::Destroy();
 	cBaseApp::VCleanup();
 }
 
 // *****************************************************************************
 void cGame::HandlePaddleAI( const float fElapsedTime )
 {
-	//// if the ball is in the players half, there is no need to do anything
-	//if (m_pGameElements[PGE_BALL]->GetPosition().m_dX < m_iDisplayWidth/2)
-	//{
-	//	return;
-	//}
-	//float	fCentreOfPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->GetPosition().m_dY + m_pGameElements[PGE_PADDLE_RIGHT]->GetSprite()->GetScaledHeight()/2;
-	//float	fCentreOfBall = m_pGameElements[PGE_BALL]->GetPosition().m_dY + m_pGameElements[PGE_BALL]->GetSprite()->GetScaledHeight()/2;
+	cVector3 vBallPos = m_ppGameElements[PGE_BALL]->GetPosition();
+	// if the ball is in the players half, there is no need to do anything
+	if (vBallPos.x < 0)
+	{
+		return;
+	}
+	cVector3 vPaddlePos = m_ppGameElements[PGE_PADDLE_RIGHT]->GetPosition();
 
-	//if (fCentreOfPaddle - fCentreOfBall > 10)
-	//{
-	//	if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_UP]->GetBoundingRectangle()))))
-	//	{
-	//		cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-	//		if(pPaddle)
-	//		{
-	//			pPaddle->MoveUp(fElapsedTime);
-	//		}
-	//		return;
-	//	}
-	//}
-
-	//if (fCentreOfBall - fCentreOfPaddle > 10)
-	//{
-	//	if (!(ICollisionChecker::GetInstance()->CheckFor2DCollisions(&(m_pGameElements[PGE_PADDLE_RIGHT]->GetBoundingRectangle()), &(m_pGameElements[PGE_WALL_DOWN]->GetBoundingRectangle()))))
-	//	{
-	//		cPaddle * pPaddle = m_pGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
-	//		if(pPaddle)
-	//		{
-	//			pPaddle->MoveDown(fElapsedTime);
-	//		}
-	//		return;
-	//	}
-	//}
+	if (vPaddlePos.y - vBallPos.y < 1)
+	{
+		cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
+		if(pPaddle)
+		{
+			pPaddle->MoveUp(fElapsedTime);
+		}
+		return;
+	}
+	else if (vBallPos.y - vPaddlePos.y < 1)
+	{
+		cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_RIGHT]->CastToPaddle();
+		if(pPaddle)
+		{
+			pPaddle->MoveDown(fElapsedTime);
+		}
+		return;
+	}
 }
 
 void cGame::SinglePlayerButtonPressed(bool bPressed)
