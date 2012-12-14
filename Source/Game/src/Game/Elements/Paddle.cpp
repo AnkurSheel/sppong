@@ -39,11 +39,12 @@ void cPaddle::VInitialize(const cGameElementDef & def )
 // *****************************************************************************
 void cPaddle::MoveDown( const float fElapsedTime )
 {
+	cContact contact;
 	float fDeltaMovement = m_iMoveFactor * fElapsedTime;
 	shared_ptr<IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
 	pAABB->VTransalate(cVector3(0, -fDeltaMovement, 0));
 	if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(),
-		m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB())))
+		m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB(), contact)))
 	{
 		cVector3 vPredictedPos = GetPosition();
 		vPredictedPos.y -= fDeltaMovement;
@@ -54,11 +55,12 @@ void cPaddle::MoveDown( const float fElapsedTime )
 // *****************************************************************************
 void cPaddle::MoveUp( const float fElapsedTime )
 {
+	cContact contact;
 	float fDeltaMovement = m_iMoveFactor * fElapsedTime;
 	shared_ptr<IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
 	pAABB->VTransalate(cVector3(0, fDeltaMovement, 0));
 	if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(),
-		m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB())))
+		m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB(), contact)))
 	{
 		cVector3 vPredictedPos = GetPosition();
 		vPredictedPos.y += fDeltaMovement;

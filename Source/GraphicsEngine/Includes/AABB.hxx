@@ -19,6 +19,9 @@ namespace Graphics
 	public:
 		virtual ~IAABB(){};
 		virtual void VTransalate(const Base::cVector3 & vDeltaPos) = 0;
+		virtual Base::cVector3 VGetCenter() const = 0; 
+		virtual Base::cVector3 VGetHalfExtents() const = 0;
+
 		GRAPHIC_API static shared_ptr<IAABB> const DuplicateAABB(const IAABB * const pAABB);
 	};
 }

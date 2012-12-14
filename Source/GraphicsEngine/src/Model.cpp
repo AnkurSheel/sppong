@@ -129,7 +129,6 @@ void cModel::VRecalculateWorldMatrix(const cVector3 vPosition, const cVector3 vR
 	D3DXMATRIX matPosition;
 	D3DXMatrixTranslation(&matPosition, vPosition.x, vPosition.y, vPosition.z);
 
-	D3DXMatrixIdentity(&m_matWorld);
 	m_matWorld = matScale * matRotation * matPosition;
 
 	if(m_pBoundingBox)

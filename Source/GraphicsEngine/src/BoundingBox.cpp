@@ -29,7 +29,7 @@ cBoundingBox::cBoundingBox( const cVector3 & vMinBound, const cVector3 & vMaxBou
 	m_avObjectBounds[6] = cVector3(vMinBound.x, vMaxBound.y, vMaxBound.z); 
 	m_avObjectBounds[7] = cVector3(vMaxBound.x, vMaxBound.y, vMaxBound.z); 
 
-	m_pAABB = DEBUG_NEW cAABB();
+	m_pAABB = DEBUG_NEW cAABB(vMinBound, vMaxBound);
 }
 
 // *************************************************************************
@@ -60,7 +60,7 @@ void cBoundingBox::VTransform(const D3DXMATRIX & matWorld)
 		D3DXVec3TransformCoord( &worldBounds[i], &objectBounds[i], &matWorld );
 		m_avOBBBounds[i] = cVector3(worldBounds[i].x, worldBounds[i].y,
 			worldBounds[i].z);
-	}
+			}
 	RecalculateAABBFromOBB();
 }
 
@@ -82,8 +82,7 @@ void cBoundingBox::RecalculateAABBFromOBB()
 		vMax.z = max(vMax.z, m_avOBBBounds[i].z);
 	}
 
-	m_pAABB->SetCenter((vMin + vMax) * 0.5f);
-	m_pAABB->SetHalfExtents((vMax - vMin) * 0.5f);
+	m_pAABB->Calculate(vMin, vMax);
 }
 
 // *************************************************************************

@@ -18,16 +18,14 @@ namespace Graphics
 		: public IAABB
 	{
 	public:
-		cAABB();
+		cAABB(const Base::cVector3 & vMin, const Base::cVector3 & vMax);
 		~cAABB();
 		cAABB(const cAABB & other);
 		cAABB & operator =(const cAABB & other);
 		
-		Base::cVector3 GetCenter() const;
-		void SetCenter(const Base::cVector3 vCenter);
-		Base::cVector3 GetHalfExtents() const;
-		void SetHalfExtents(const Base::cVector3 vHalfExtents);
-		bool Overlaps(const cAABB & other) const;
+		Base::cVector3 VGetCenter() const;
+		Base::cVector3 VGetHalfExtents() const;
+		void Calculate(const Base::cVector3 & vMin, const Base::cVector3 & vMax);
 
 	private:
 		void VTransalate(const Base::cVector3 & vDeltaPos);

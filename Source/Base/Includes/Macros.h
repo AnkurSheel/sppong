@@ -173,6 +173,12 @@ inline int roundUp(int numToRound, int multiple)
 }  
 
 template <class T>
+inline int Sign(const T a)
+{
+	return a >=0 ? 1 : -1;
+}
+
+template <class T>
 class ArrayDeleter
 {
 public:

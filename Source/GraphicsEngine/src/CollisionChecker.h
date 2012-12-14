@@ -27,7 +27,7 @@ namespace Graphics
 		cCollisionChecker();
 		~cCollisionChecker();
 //		bool CheckFor2DCollisions(const IPolygon * pPolygon1, const IPolygon * pPolygon2);		
-		bool VCheckForCollisions(const IAABB * const pAABB1, const IAABB * pAABB2);
+		bool VCheckForCollisions(const IAABB * const pAABB1, const IAABB * pAABB2, cContact & contact);
 //		bool NoOverlap(const D3DXVECTOR2 & axis, const cPolygon & polygon1, const cPolygon & polygon2, float & fLengthSquared);
 
 	public:

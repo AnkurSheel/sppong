@@ -20,12 +20,24 @@ namespace Graphics
 
 namespace Graphics
 {
+	class cContact
+	{
+	public:
+		Base::cVector3	vNormal;
+		float			fDistance;
+
+		cContact()
+			: fDistance(0.0)
+		{
+		}
+	};
+
 	class ICollisionChecker
 	{
 	public:
 		virtual ~ICollisionChecker(){}
 		//GRAPHIC_API virtual bool CheckFor2DCollisions(const Graphics::IPolygon * polygonA, const Graphics::IPolygon * polygonB) = 0;
-		virtual bool VCheckForCollisions(const IAABB * const pAABB1, const IAABB * pAABB2) = 0;
+		virtual bool VCheckForCollisions(const IAABB * const pAABB1, const IAABB * pAABB2, cContact & contact) = 0;
 		GRAPHIC_API static ICollisionChecker * GetInstance();
 		GRAPHIC_API static void Destroy();
 	};

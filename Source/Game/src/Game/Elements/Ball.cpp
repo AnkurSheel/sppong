@@ -66,18 +66,17 @@ void cBall::OnRestart()
 // *****************************************************************************
 void cBall::OnUpdate(float fElapsedTime)
 {
+	cContact contact;
 	cVector3 vDeltaPos = m_vSpeed * fElapsedTime;
 	shared_ptr< IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
 	pAABB->VTransalate(vDeltaPos);
-	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB()))
-		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB())))
+	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB(), contact))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB(), contact))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB(), contact))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_RIGHT]->GetAABB(), contact)))
 	{
-		m_vSpeed.y = -m_vSpeed.y;
-	}
-	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB()))
-		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_RIGHT]->GetAABB())))
-	{
-		m_vSpeed.x = -m_vSpeed.x;
+		float nv = m_vSpeed.Dot(contact.vNormal);
+		m_vSpeed -= contact.vNormal * 2 * nv;
 	}
 
 	cVector3 vPredictedPos = GetPosition();

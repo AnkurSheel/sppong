@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Vector2D   version:  1.0   Ankur Sheel  date: 2012/08/28
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef Vector2_h__
 #define Vector2_h__
 
@@ -103,13 +103,28 @@ class cVector2
 		  * Sets the components to their absolute values
 		 ***********************************************/
 		void AbsTo();
+		/********************************************//**
+		  * @return The largest coordinate and return a signed, unit vector containing only the largest coordinate
+		  *
+		  * Get the largest coordinate and return a signed, unit vector
+		  * containing only that coordinate
+		 ***********************************************/
+		cVector2 MajorAxis() const;
+		/********************************************//**
+		  *
+		  * Changes the sign of the components
+		 ***********************************************/
+		void NegTo();
 
 		const cVector2 & operator+=(const cVector2 & inVec);
 		const cVector2 & operator-=(const cVector2 & inVec);
+		const cVector2 & operator*=(const cVector2 & inVec);
 		const cVector2 & operator*=(const float fVal);
 		const cVector2 & operator/=(const float fVal);
 		bool operator==(const cVector2 & inVec) const;
 		bool operator!=(const cVector2 & inVec) const;
+		float & operator[](const unsigned int i);
+		const float operator[](const unsigned int i) const;
 
 		static cVector2 Zero();
 	public:
@@ -119,9 +134,10 @@ class cVector2
 
 inline cVector2 operator*(const cVector2 & inVec1, const float fVal);
 inline cVector2 operator*(const float fVal, const cVector2 & inVec1);
+inline cVector2 operator/(const cVector2 & inVec1, const float fVal);
 inline cVector2 operator-(const cVector2 & inVec1, const cVector2 & inVec2);
 inline cVector2 operator+(const cVector2 & inVec1, const cVector2 & inVec2);
-inline cVector2 operator/(const cVector2 & inVec1, const float fVal);
+inline cVector2 operator*(const cVector2 & inVec1, const cVector2 & inVec2);
 
 #include "Vector2.inl"
 }

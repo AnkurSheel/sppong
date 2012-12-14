@@ -14,9 +14,9 @@ using namespace Graphics;
 using namespace Base;
 
 // *******************************************************************************************
-cAABB::cAABB()
+cAABB::cAABB(const cVector3 & vMin, const cVector3 & vMax)
 {
-
+	Calculate(vMin, vMax);
 }
 
 // *******************************************************************************************
@@ -45,44 +45,22 @@ void cAABB::VTransalate(const Base::cVector3 & vDeltaPos)
 }
 
 // *******************************************************************************************
-cVector3 cAABB::GetCenter() const
+void cAABB::Calculate(const cVector3 & vMin, const cVector3 & vMax)
+{
+	m_vCenter = ((vMin + vMax) * 0.5f);
+	m_vHalfExtents = ((vMax - vMin) * 0.5f);
+}
+
+// *******************************************************************************************
+cVector3 cAABB::VGetCenter() const
 {
 	return m_vCenter;
 }
 
 // *******************************************************************************************
-void cAABB::SetCenter(const cVector3 vCenter)
-{
-	m_vCenter = vCenter;
-}
-
-// *******************************************************************************************
-Base::cVector3 cAABB::GetHalfExtents() const
+Base::cVector3 cAABB::VGetHalfExtents() const
 {
 	return m_vHalfExtents;
-}
-
-// *******************************************************************************************
-void cAABB::SetHalfExtents(const cVector3 vHalfExtents)
-{
-	m_vHalfExtents = vHalfExtents;
-}
-
-// *******************************************************************************************
-bool cAABB::Overlaps(const cAABB & other) const
-{
-	cVector3 vCenterDelta = other.m_vCenter - m_vCenter;
-	vCenterDelta.AbsTo();
-
-	cVector3 vHalfExtentSum = other.m_vHalfExtents + m_vHalfExtents;
-	vCenterDelta = vCenterDelta - vHalfExtentSum;
-
-	bool val = vCenterDelta.x <= 0 && vCenterDelta.y <= 0 && vCenterDelta.z <= 0;
-	if(val)
-	{
-		int a = 5;
-	}
-	return vCenterDelta.x <= 0 && vCenterDelta.y <= 0 && vCenterDelta.z <= 0;
 }
 
 // *******************************************************************************************
