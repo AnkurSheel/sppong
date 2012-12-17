@@ -31,6 +31,6 @@ public:
 	cPaddle * CastToPaddle();
 
 private:
-	UINT			m_iMoveFactor;
+	float			m_fMoveFactor;
 };
 #endif // Paddle_h__

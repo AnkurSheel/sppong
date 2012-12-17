@@ -46,12 +46,11 @@ bool cCollisionChecker::VCheckForCollisions(const IAABB * const pAABB1, const IA
 		cVector3 vPlaneDelta = pAABB2->VGetCenter() - vPlaneCenter;
 		float dist = vPlaneDelta.Dot(vPlaneNormal);
 
-		/*float separation = max( dist, 0 );
-		float penetration = min( dist, 0 );
-		cVector3 vel(5,-10,0);	
-		float nv = vel.Dot( vPlaneNormal ) + separation/0.01;
-		vel -= vPlaneNormal * nv;
-		int a = 5;*/
+		//float separation = max( dist, 0 );
+		//float penetration = min( dist, 0 );
+		//cVector3 vel(5,-10,0);	
+		//float nv = vel.Dot( vPlaneNormal ) + separation/0.01;
+		//vel -= vPlaneNormal * nv;
 		contact.vNormal = vPlaneNormal;
 		contact.fDistance = dist;
 	}

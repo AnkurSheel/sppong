@@ -20,7 +20,7 @@ using namespace Utilities;
 
 // *****************************************************************************
 cPaddle::cPaddle()
-: m_iMoveFactor(0)
+: m_fMoveFactor(0)
 {
 }
 
@@ -33,14 +33,14 @@ cPaddle::~cPaddle()
 void cPaddle::VInitialize(const cGameElementDef & def )
 {
 	cPongGameElement::VInitialize(def);
-	m_iMoveFactor = 8;
+	m_fMoveFactor = 6.f;
 }
 
 // *****************************************************************************
 void cPaddle::MoveDown( const float fElapsedTime )
 {
 	cContact contact;
-	float fDeltaMovement = m_iMoveFactor * fElapsedTime;
+	float fDeltaMovement = m_fMoveFactor * fElapsedTime;
 	shared_ptr<IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
 	pAABB->VTransalate(cVector3(0, -fDeltaMovement, 0));
 	if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(),
@@ -56,7 +56,7 @@ void cPaddle::MoveDown( const float fElapsedTime )
 void cPaddle::MoveUp( const float fElapsedTime )
 {
 	cContact contact;
-	float fDeltaMovement = m_iMoveFactor * fElapsedTime;
+	float fDeltaMovement = m_fMoveFactor * fElapsedTime;
 	shared_ptr<IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
 	pAABB->VTransalate(cVector3(0, fDeltaMovement, 0));
 	if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(),

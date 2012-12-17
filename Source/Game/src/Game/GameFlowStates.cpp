@@ -115,15 +115,15 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		cWindowControlDef menuDef;
 		menuDef.strControlName = "MenuScreen";
 		menuDef.wType = cWindowControlDef::WT_STANDARD;
-		menuDef.vPosition = cVector2(310.f, 310.f);
-		menuDef.vSize = cVector2(400, 400);
+		menuDef.vPosition = cVector2(0, 0);
+		menuDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
 		IBaseControl * pMenuScreen = IBaseControl::CreateWindowControl(menuDef);
 		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pMenuScreen));
 		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pMenuScreen);
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
-		buttonDef.vPosition = cVector2(0.0f, 0.0f);
+		buttonDef.vPosition = cVector2(412.0f, 330.0f);
 		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
 		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
 		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
@@ -139,7 +139,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		buttonDef.bAutoSize = false;
 		buttonDef.vSize = pSinglePlayerButton->VGetSize();
-		buttonDef.vPosition = cVector2(0.f, 80);
+		buttonDef.vPosition = cVector2(412.f, 450);
 		buttonDef.labelControlDef.strText = "MultiPlayer";
 		
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl(buttonDef);
@@ -149,7 +149,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
 		buttonDef.labelControlDef.strText = "Quit";
-		buttonDef.vPosition = cVector2(0, 160);
+		buttonDef.vPosition = cVector2(412, 570);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
 		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
