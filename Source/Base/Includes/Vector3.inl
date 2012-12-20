@@ -92,26 +92,30 @@ inline void cVector3::AbsTo()
 // *******************************************************************************************
 inline cVector3 cVector3::MajorAxis() const
 {
+	float signX = static_cast<float>(Sign(x));
+	float signY = static_cast<float>(Sign(y));
+	float signZ = static_cast<float>(Sign(z));
+
 	if(x > y)
 	{
 		if(x > z)
 		{
-			return cVector3(Sign(x), 0, 0);
+			return cVector3(signX, 0, 0);
 		}
 		else
 		{
-			return cVector3(0,0,Sign(z));
+			return cVector3(0,0,signZ);
 		}
 	}
 	else
 	{
 		if(y > z)
 		{
-			return cVector3(0, Sign(y), 0);
+			return cVector3(0, signY, 0);
 		}
 		else
 		{
-			return cVector3(0,0,Sign(z));
+			return cVector3(0, 0, signZ);
 		}
 	}
 }

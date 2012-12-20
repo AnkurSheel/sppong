@@ -62,7 +62,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		def.textColor = cColor::RED;
 		def.strText = "MPONG";
 		def.fTextHeight = 200;
-		def.vPosition = cVector2(pGame->m_iDisplayWidth/4, 0);
+		def.vPosition = cVector2(static_cast<float>(pGame->m_iDisplayWidth/4), 0.0f);
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
 		pTitleScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 	}
@@ -239,7 +239,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 
 	pGame->m_vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
-	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(pGame->m_iDisplayWidth, pGame->m_iDisplayHeight),
+	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(static_cast<float>(pGame->m_iDisplayWidth), static_cast<float>(pGame->m_iDisplayHeight)),
 		pGame->m_pHumanView->VGetCamera());
 
 	cGameElementDef paddleDef;

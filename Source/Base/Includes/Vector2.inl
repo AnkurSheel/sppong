@@ -103,13 +103,16 @@ inline void cVector2::AbsTo()
 // *******************************************************************************************
 inline cVector2 cVector2::MajorAxis() const
 {
+	float signX = static_cast<float>(Sign(x));
+	float signY = static_cast<float>(Sign(y));
+
 	if(x > y)
 	{
-		return cVector2(Sign(x), 0);
+		return cVector2(signX, 0);
 	}
 	else
 	{
-		return cVector2(0, Sign(y));
+		return cVector2(0, signY);
 	}
 }
 

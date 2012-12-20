@@ -52,7 +52,7 @@ void cTextBoxControl::Initialize(const cTextBoxControlDef & def)
 	{
 		m_pCaretSprite = ISprite::CreateSprite();
 		m_pCaretSprite->VInitialize(def.strCaretImage);
-		m_pCaretSprite->VSetSize(cVector2(def.iCaretWidth, def.fTextHeight));
+		m_pCaretSprite->VSetSize(cVector2(static_cast<float>(def.iCaretWidth), def.fTextHeight));
 	}
 	m_fCaretUpdateTime = def.fCaretUpdateTime;
 	m_pTimer = ITimer::CreateTimer();

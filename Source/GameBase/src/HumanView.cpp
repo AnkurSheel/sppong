@@ -60,7 +60,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	cWindowControlDef def;
 	def.wType = cWindowControlDef::WT_DESKTOP;
 	def.strControlName = "App";
-	def.vSize = cVector2(iClientWidth, iClientHeight);
+	def.vSize = cVector2(static_cast<float>(iClientWidth), static_cast<float>(iClientHeight));
 	if(IBaseApp::VGetParamLoader() != NULL)
 	{
 		def.bAllowMovingControls = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);
@@ -79,7 +79,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
-	fpsLabelDef.vPosition = cVector2(iClientWidth/2- 75, 0.0f);
+	fpsLabelDef.vPosition = cVector2(static_cast<float>(iClientWidth/2- 75), 0.0f);
 	fpsLabelDef.bAutoSize = false;
 	fpsLabelDef.vSize = cVector2(150, 30);
 	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
