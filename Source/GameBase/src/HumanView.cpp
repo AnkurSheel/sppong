@@ -35,7 +35,7 @@ cHumanView::cHumanView()
 , m_pProcessManager(NULL)
 , m_pAppWindowControl(NULL) 
 , m_pCamera(NULL)
-, m_bDisplayFPS(true)
+, m_bDisplayFPS(false)
 {
 	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
 }
@@ -53,6 +53,10 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const int iClientHeight)
 {
 	m_pGame = pGame;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		m_bDisplayFPS = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-DisplayFPS", false);
+	}
 	cWindowControlDef def;
 	def.wType = cWindowControlDef::WT_DESKTOP;
 	def.strControlName = "App";

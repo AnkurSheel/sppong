@@ -7,9 +7,9 @@
 !define APP_NAME "MyPong"
 !define COMP_NAME "BGI"
 !define WEB_SITE "http://www.gamedev.net/blog/1369-speedruns-journal/"
-!define PRODUCT_VERSION "0.7"
-!define VERSION "00.00.00.07"
-!define COPYRIGHT "AnkurSheel© 2011"
+!define PRODUCT_VERSION "0.8"
+!define VERSION "00.00.00.08"
+!define COPYRIGHT "AnkurSheel© 2012"
 !define DESCRIPTION "Application"
 !define INSTALLER_NAME "C:\Users\SpeedRun\Projects\sppong\Setup\setup.exe"
 !define MAIN_APP_EXE "Main.exe"
@@ -40,7 +40,7 @@ OutFile "${INSTALLER_NAME}"
 BrandingText "${APP_NAME}"
 XPStyle on
 InstallDirRegKey "${REG_ROOT}" "${REG_APP_PATH}" ""
-InstallDir "$PROGRAMFILES\MyPong"
+InstallDir "C:\Games\MyPong"
 
 ######################################################################
 
@@ -92,23 +92,10 @@ Section "Main (Required)" SEC01
   SetOutPath "$INSTDIR"
   File "..\Retail\*.dll"
   File "..\Retail\*.exe"
+  File "..\Retail\*.ini"
   SetOutPath "$INSTDIR\resources"
-  File /r /x .svn "..\Retail\resources\*.*"
-SectionEnd
-
-######################################################################
-
-!define NEVER_UNINSTALL
-!include FontRegAdv.nsh
-!include FontName.nsh
-#!include ZipDll.nsh
-
-#!define FontBackup Reg\key\To\Backup\Fonts\entries\To
-
-Section - "Fonts"
-StrCpy $FONT_DIR $FONTS
-!insertmacro InstallTTF "C:\Users\SpeedRun\Projects\sppong\Media\Fonts\VLADIMIR.TTF"
-SendMessage ${HWND_BROADCAST} ${WM_FONTCHANGE} 0 0 /TIMEOUT=5000
+# File /r /x .svn "..\Retail\resources\*.*"
+  File /r "..\Retail\resources\*.*"
 SectionEnd
 
 ######################################################################
@@ -160,9 +147,9 @@ Var DirectXSetupError
 Section "DirectX (Recommended)" SEC02
   ${INSTALL_TYPE}
   ; SectionIn RO
-NSISdl::download http://download.microsoft.com/download/1/7/1/1718CCC4-6315-4D8E-9543-8E28A4E18C4C/dxwebsetup.exe $TEMP\dxwebsetup.exe
-# SetOutPath "$TEMP"
-# File "dxwebsetup.exe"
+# NSISdl::download http://download.microsoft.com/download/1/7/1/1718CCC4-6315-4D8E-9543-8E28A4E18C4C/dxwebsetup.exe $TEMP\dxwebsetup.exe
+ SetOutPath "$TEMP"
+ File "dxwebsetup.exe"
  DetailPrint "Running DirectX Setup..."
  ExecWait '"$TEMP\dxwebsetup.exe" /Q' $DirectXSetupError
  DetailPrint "Finished DirectX Setup"
@@ -180,8 +167,8 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Main"
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "Checks And Installs the latest Directx runtime.\
-Please make sure you have internet access."\
-(Do not uncheck unless you are sure you have DirectX installed)\
+Please make sure you have internet access.\
+(Do not uncheck unless you are sure you have the latest DirectX installed)\"
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
@@ -196,10 +183,6 @@ ${INSTALL_TYPE}
   !endif
 
   RmDir "$INSTDIR"
-
-  !ifndef NEVER_UNINSTALL
-  Delete "$FONTS\VLADIMIR.TTF"
-  !endif
 
   !ifdef REG_START_MENU
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $SM_Folder
