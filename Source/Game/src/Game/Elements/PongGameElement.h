@@ -23,7 +23,7 @@ public:
 	cPongGameElement();
 	virtual ~cPongGameElement();
 	void VInitialize(const GameBase::cGameElementDef & def);
-	void OnRestart();
+	virtual void OnRestart();
 	virtual cPaddle * CastToPaddle();
 	virtual cBall * CastToBall();
 	virtual void OnUpdate(float fElapsedTime){};

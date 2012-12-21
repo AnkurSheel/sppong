@@ -92,30 +92,69 @@ inline void cVector3::AbsTo()
 // *******************************************************************************************
 inline cVector3 cVector3::MajorAxis() const
 {
-	float signX = static_cast<float>(Sign(x));
-	float signY = static_cast<float>(Sign(y));
-	float signZ = static_cast<float>(Sign(z));
-
-	if(x > y)
+	float absX = abs(x);
+	float absY = abs(y);
+	float absZ = abs(z);
+	
+	if(absX > absY)
 	{
-		if(x > z)
+		if(absX > absZ)
 		{
+			float signX = static_cast<float>(Sign(x));
 			return cVector3(signX, 0, 0);
 		}
 		else
 		{
+			float signZ = static_cast<float>(Sign(z));
 			return cVector3(0,0,signZ);
 		}
 	}
 	else
 	{
-		if(y > z)
+		if(absY > absZ)
 		{
+			float signY = static_cast<float>(Sign(y));
 			return cVector3(0, signY, 0);
 		}
 		else
 		{
-			return cVector3(0, 0, signZ);
+				float signZ = static_cast<float>(Sign(z));
+				return cVector3(0, 0, signZ);
+		}
+	}
+}
+
+// *******************************************************************************************
+inline cVector3 cVector3::MinorAxis() const
+{
+	float absX = abs(x);
+	float absY = abs(y);
+	float absZ = abs(z);
+	
+	if(absX < absY)
+	{
+		if(absX < absZ)
+		{
+			float signX = static_cast<float>(Sign(x));
+			return cVector3(signX, 0, 0);
+		}
+		else
+		{
+			float signZ = static_cast<float>(Sign(z));
+			return cVector3(0,0,signZ);
+		}
+	}
+	else
+	{
+		if(absY < absZ)
+		{
+			float signY = static_cast<float>(Sign(y));
+			return cVector3(0, signY, 0);
+		}
+		else
+		{
+				float signZ = static_cast<float>(Sign(z));
+				return cVector3(0, 0, signZ);
 		}
 	}
 }

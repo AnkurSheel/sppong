@@ -103,15 +103,35 @@ inline void cVector2::AbsTo()
 // *******************************************************************************************
 inline cVector2 cVector2::MajorAxis() const
 {
-	float signX = static_cast<float>(Sign(x));
-	float signY = static_cast<float>(Sign(y));
-
-	if(x > y)
+	float absX = abs(x);
+	float absY = abs(y);
+	
+	if(absX > absY)
 	{
+		float signX = static_cast<float>(Sign(x));
 		return cVector2(signX, 0);
 	}
 	else
 	{
+		float signY = static_cast<float>(Sign(y));
+		return cVector2(0, signY);
+	}
+}
+
+// *******************************************************************************************
+inline cVector2 cVector2::MinorAxis() const
+{
+	float absX = abs(x);
+	float absY = abs(y);
+	
+	if(absX < absY)
+	{
+		float signX = static_cast<float>(Sign(x));
+		return cVector2(signX, 0);
+	}
+	else
+	{
+		float signY = static_cast<float>(Sign(y));
 		return cVector2(0, signY);
 	}
 }

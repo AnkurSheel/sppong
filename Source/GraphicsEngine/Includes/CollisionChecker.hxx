@@ -24,12 +24,7 @@ namespace Graphics
 	{
 	public:
 		Base::cVector3	vNormal;
-		float			fDistance;
-
-		cContact()
-			: fDistance(0.0)
-		{
-		}
+		Base::cVector3	vDistance;
 	};
 
 	class ICollisionChecker

@@ -87,12 +87,19 @@ class cVector3
 		 ***********************************************/
 		void AbsTo();
 		/********************************************//**
-		  * @return The largest coordinate and return a signed, unit vector containing only the largest coordinate
+		  * @return A signed, unit vector containing only the largest coordinate
 		  *
 		  * Get the largest coordinate and return a signed, unit vector
 		  * containing only that coordinate
 		 ***********************************************/
 		cVector3 MajorAxis() const;
+		/********************************************//**
+		  * @return A signed, unit vector containing only the smallest coordinate
+		  *
+		  * Get the smallest coordinate and return a signed, unit vector
+		  * containing only that coordinate
+		 ***********************************************/
+		cVector3 MinorAxis() const;
 		/********************************************//**
 		  *
 		  * Changes the sign of the components

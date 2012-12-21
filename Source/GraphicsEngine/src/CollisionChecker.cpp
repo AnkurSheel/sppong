@@ -29,30 +29,26 @@ cCollisionChecker::~cCollisionChecker()
 // *****************************************************************************
 bool cCollisionChecker::VCheckForCollisions(const IAABB * const pAABB1, const IAABB * pAABB2, cContact & contact)
 {
-	cVector3 vCenterDelta = pAABB2->VGetCenter() - pAABB1->VGetCenter();
-	vCenterDelta.AbsTo();
+	cVector3 vCenterDelta = pAABB1->VGetCenter() - pAABB2->VGetCenter();
+	cVector3 vOverlap = vCenterDelta;
+	vOverlap.AbsTo();
 
 	cVector3 vHalfExtentSum = pAABB2->VGetHalfExtents() +pAABB1->VGetHalfExtents();
-	vCenterDelta = vCenterDelta - vHalfExtentSum;
+	vOverlap = vHalfExtentSum - vOverlap;
 
-	bool bOverlap = vCenterDelta.x <= 0 && vCenterDelta.y <= 0 && vCenterDelta.z <= 0;
+	bool bOverlap = vOverlap.x > 0 && vOverlap.y > 0 && vOverlap.z > 0;
 	if(bOverlap)
 	{
-		cVector3 vPlaneNormal = vCenterDelta.MajorAxis();
-		vPlaneNormal.NegTo();
+		cVector3 vSmallestOverlap = vOverlap.MinorAxis();
+		cVector3 vPlaneNormal = (vCenterDelta * vSmallestOverlap).MajorAxis();
 
-		cVector3 vPlaneCenter = (vPlaneNormal * vHalfExtentSum) + pAABB2->VGetCenter();
+		//cVector3 vPlaneCenter = (vPlaneNormal * vHalfExtentSum) + pAABB2->VGetCenter();
 
-		cVector3 vPlaneDelta = pAABB2->VGetCenter() - vPlaneCenter;
-		float dist = vPlaneDelta.Dot(vPlaneNormal);
+		//cVector3 vPlaneDelta = pAABB2->VGetCenter() - vPlaneCenter;
+		//float dist = vPlaneDelta.Dot(vPlaneNormal);
 
-		//float separation = max( dist, 0 );
-		//float penetration = min( dist, 0 );
-		//cVector3 vel(5,-10,0);	
-		//float nv = vel.Dot( vPlaneNormal ) + separation/0.01;
-		//vel -= vPlaneNormal * nv;
 		contact.vNormal = vPlaneNormal;
-		contact.fDistance = dist;
+		contact.vDistance = vOverlap * vPlaneNormal;
 	}
 	return bOverlap;
 }

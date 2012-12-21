@@ -70,6 +70,7 @@ void cBall::OnUpdate(float fElapsedTime)
 	cVector3 vDeltaPos = m_vSpeed * fElapsedTime;
 	shared_ptr< IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
 	pAABB->VTransalate(vDeltaPos);
+	cVector3 vPredictedPos = GetPosition();
 	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB(), contact))
 		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB(), contact))
 		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB(), contact))
@@ -78,9 +79,7 @@ void cBall::OnUpdate(float fElapsedTime)
 		float nv = m_vSpeed.Dot(contact.vNormal);
 		m_vSpeed -= contact.vNormal * 2 * nv;
 	}
-
-	cVector3 vPredictedPos = GetPosition();
-	vPredictedPos += m_vSpeed * fElapsedTime;
+	vPredictedPos = vPredictedPos + vDeltaPos + contact.vDistance;
 	SetPosition(vPredictedPos);
 
 	if (GetPosition().x < m_pGame->VGetScreenTopLeftPos().x)
