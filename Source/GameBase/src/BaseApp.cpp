@@ -49,7 +49,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
 
 	cString strOptionsFileName;
 #ifdef _DEBUG
-	strOptionsFileName = "OptionsDebug.ini";
+	strOptionsFileName = "..\\Debug\\OptionsDebug.ini";
 #else
 	strOptionsFileName = "OptionsRetail.ini";
 #endif
