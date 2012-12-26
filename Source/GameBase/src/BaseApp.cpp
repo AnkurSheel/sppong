@@ -31,20 +31,33 @@ cBaseApp::cBaseApp(const cString strName)
 }
 
 // ***************************************************************
-void GameBase::cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
-										   const int nCmdShow,
-										   const cString & strOptionsFileName)
+void cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
+										   const int nCmdShow)
 {
+	ILogger::GetInstance()->StartConsoleWin(80,60, "");
+	
+	if(!IResourceChecker::GetInstance()->CheckMemory(32, 64) 
+		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
+		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
+	{
+		PostQuitMessage(0);
+	}
+	
+	ILogger::GetInstance()->CreateHeader();
+
+	IResourceChecker::Destroy();
+
+	cString strOptionsFileName;
+#ifdef _DEBUG
+	strOptionsFileName = "OptionsDebug.ini";
+#else
+	strOptionsFileName = "OptionsRetail.ini";
+#endif
+
 	if(m_spParamLoader == NULL)
 	{
 		m_spParamLoader = IParamLoader::CreateParamLoader();
-	}
-	if(!strOptionsFileName.IsEmpty())
-	{
-		if(m_spParamLoader != NULL)
-		{
-			m_spParamLoader->VLoadParametersFromFile(strOptionsFileName);
-		}
+		m_spParamLoader->VLoadParametersFromFile(strOptionsFileName);
 	}
 	bool bMultipleInstances = m_spParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
 	cString strTitle = m_spParamLoader->VGetParameterValueAsString("-title", "Game");
@@ -73,7 +86,7 @@ void GameBase::cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
 	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, iWindowWidth, iWindowHeight);
 }
 
-void GameBase::cBaseApp::VCreateHumanView()
+void cBaseApp::VCreateHumanView()
 {
 	m_pHumanView = DEBUG_NEW cHumanView();
 }
@@ -81,7 +94,7 @@ void GameBase::cBaseApp::VCreateHumanView()
 // ***************************************************************
 // the message loop
 // ***************************************************************
-void GameBase::cBaseApp::VRun()
+void cBaseApp::VRun()
 {
 	MSG Msg ;
 
@@ -109,7 +122,7 @@ void GameBase::cBaseApp::VRun()
 	}
 }
 
-void GameBase::cBaseApp::VOnUpdate()
+void cBaseApp::VOnUpdate()
 {
 	m_pGameTimer->VOnUpdate();
 	m_pHumanView->VOnUpdate(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
@@ -118,7 +131,7 @@ void GameBase::cBaseApp::VOnUpdate()
 // ***************************************************************
 // Deletes the memory
 // ***************************************************************
-void GameBase::cBaseApp::VCleanup()
+void cBaseApp::VCleanup()
 {
 	SAFE_DELETE(m_pGameTimer);
 	SAFE_DELETE(m_spParamLoader);
@@ -130,10 +143,12 @@ void GameBase::cBaseApp::VCleanup()
 	IMessageDispatchManager::Destroy();
 
 	IMainWindow::Destroy();
+	
+	ILogger::Destroy();
 }
 
 // ***************************************************************
-float GameBase::cBaseApp::GetRunningTime()
+float cBaseApp::GetRunningTime()
 {
 	if(m_pGameTimer)
 		return m_pGameTimer->VGetRunningTime();
@@ -142,7 +157,7 @@ float GameBase::cBaseApp::GetRunningTime()
 }
 
 // ***************************************************************
-TICK GameBase::cBaseApp::GetRunningTicks()
+TICK cBaseApp::GetRunningTicks()
 {
 	if(m_pGameTimer)
 		return m_pGameTimer->VGetRunningTicks();
@@ -153,13 +168,13 @@ TICK GameBase::cBaseApp::GetRunningTicks()
 // ***************************************************************
 // Display the FPS
 // ***************************************************************
-float GameBase::cBaseApp::VGetFPS()
+float cBaseApp::VGetFPS()
 {
 	return m_pGameTimer->VGetFPS();
 }
 
 // ***************************************************************
-bool GameBase::cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
+bool cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
 {
 	return m_pHumanView->VOnMsgProc(msg);
 }
@@ -167,19 +182,19 @@ bool GameBase::cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
 // ***************************************************************
 // Display the Graphics
 // ***************************************************************
-void GameBase::cBaseApp::VRender(TICK tickCurrent, float fElapsedTime)
+void cBaseApp::VRender(TICK tickCurrent, float fElapsedTime)
 {
 	m_pHumanView->VOnRender(tickCurrent, fElapsedTime);
 }
 
 // ***************************************************************
-Utilities::IParamLoader * GameBase::cBaseApp::VGetParamLoader()
+Utilities::IParamLoader * cBaseApp::VGetParamLoader()
 {
 	return m_spParamLoader;
 }
 
 // ***************************************************************
-Utilities::IParamLoader * GameBase::IBaseApp::VGetParamLoader()
+Utilities::IParamLoader * IBaseApp::VGetParamLoader()
 {
 	return cBaseApp::VGetParamLoader();
 }

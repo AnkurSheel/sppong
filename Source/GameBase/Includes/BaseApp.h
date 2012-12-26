@@ -37,7 +37,7 @@ namespace GameBase
 	protected:
 		GAMEBASE_API cBaseApp(const Base::cString strName);
 		GAMEBASE_API virtual void VOnInitialization(const HINSTANCE & hInstance,
-			const int nCmdShow, const Base::cString & strOptionsFileName);
+			const int nCmdShow);
 		GAMEBASE_API virtual void VCreateHumanView();
 		GAMEBASE_API virtual void VRun();
 		GAMEBASE_API virtual void VOnUpdate();

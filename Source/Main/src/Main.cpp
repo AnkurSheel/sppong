@@ -9,13 +9,10 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "Main.h"
-#include "Checks.hxx"
 #include "BaseApp.hxx"
 #include "Game/Game.hxx"
 
-using namespace Utilities;
 using namespace GameBase;
-using namespace Base;
 
 static IBaseApp * pGame = NULL;
 
@@ -30,27 +27,8 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 
 	CheckForMemoryLeaks() ;
 
-	ILogger::GetInstance()->StartConsoleWin(80,60, "");
-
-	if(!IResourceChecker::GetInstance()->CheckMemory(32, 64) 
-		|| !IResourceChecker::GetInstance()->CheckHardDisk(6) 
-		|| !IResourceChecker::GetInstance()->CheckCPUSpeedinMhz(266))
-	{
-		PostQuitMessage(0);
-		return -1;
-	}
-
-	ILogger::GetInstance()->CreateHeader();
-
-	cString strOptionsFileName;
-#ifdef _DEBUG
-	strOptionsFileName = "OptionsDebug.ini";
-#else
-	strOptionsFileName = "OptionsRetail.ini";
-#endif
-
 	pGame = IGame::CreateGame("Game");
-	pGame->VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
+	pGame->VOnInitialization(hInstance, nCmdShow);
 	pGame->VRun();
 	Cleanup() ;
 
@@ -80,7 +58,4 @@ void CheckForMemoryLeaks()
 void Cleanup() 
 {
 	SAFE_DELETE(pGame);
-
-	IResourceChecker::Destroy();
-	ILogger::Destroy();
 }

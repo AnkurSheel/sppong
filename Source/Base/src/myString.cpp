@@ -1,12 +1,12 @@
-// ***************************************************************
+// ****************************************************************************
 //  myString   version:  1.0   Ankur Sheel  date: 2011/03/08
-//  -------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// ****************************************************************************
 // 
-// ***************************************************************
+// ****************************************************************************
 #include "stdafx.h"
 #include "myString.h"
 #include <time.h>
@@ -132,13 +132,13 @@ Base::cString Base::cString::TimeToString(time_t time)
 	str[24] = ' '; // remove the '/n' from the time string
 	return str;
 }
-// ***************************************************************
+// ****************************************************************************
 
 unsigned int Base::cString::GetLength() const
 {
 	return m_str.length();
 }
-// ***************************************************************
+// ****************************************************************************
 
 Base::cString Base::cString::GetSubString( const size_t iStartIndex, const size_t iEndIndex ) const
 {
@@ -305,7 +305,7 @@ Base::tOptional<int> Base::cString::FindFirstOf(const cString & strDelims, const
 	return val;
 }
 
-// ***************************************************************
+// ****************************************************************************
 Base::tOptional<int> Base::cString::FindLastNotOf( const cString & strDelims, const int iOffset ) const
 {
 	tOptional<int> val;
@@ -323,7 +323,7 @@ Base::tOptional<int> Base::cString::FindLastNotOf( const cString & strDelims, co
 	return val;
 }
 
-// ***************************************************************
+// ****************************************************************************
 Base::tOptional<int> Base::cString::FindLastOf( const cString & strDelims, const int iOffset ) const
 {
 	tOptional<int> val;
@@ -341,7 +341,7 @@ Base::tOptional<int> Base::cString::FindLastOf( const cString & strDelims, const
 	return val;
 }
 
-// ***************************************************************
+// ****************************************************************************
 Base::tOptional<int> Base::cString::FindIndex(const char chChar, const int iOffset) const
 {
 	tOptional<int> val;
@@ -364,14 +364,14 @@ void Base::cString::Insert( const int iIndex, const cString & strText )
 {
 	m_str.insert(iIndex, strText.GetData());
 }
-// ***************************************************************
+// ****************************************************************************
 
 void Base::cString::Remove( const int iIndex, const int iQuantity )
 {
 	m_str.erase(iIndex, iQuantity);
 }
 
-// ***************************************************************
+// ****************************************************************************
 void Base::cString::TrimLeft()
 {
 	const cString delims(" \t");
@@ -394,7 +394,7 @@ void Base::cString::TrimLeft()
 	}
 }
 
-// ***************************************************************
+// ****************************************************************************
 void Base::cString::TrimRight()
 {
 	const cString delims(" \t");
@@ -411,14 +411,14 @@ void Base::cString::TrimRight()
 	}
 }
 
-// ***************************************************************
+// ****************************************************************************
 void Base::cString::TrimBoth()
 {
 	TrimLeft();
 	TrimRight();
 }
 
-// ***************************************************************
+// ****************************************************************************
 void Base::cString::Tokenize(char cToken, std::vector<Base::cString> & vValue) const
 {
 	int n = GetLength();

@@ -52,8 +52,7 @@ public:
 
 private:
 	~cGame();
-	void VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
-		const Base::cString & strOptionsFileName);
+	void VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow);
 	Base::cString VGetGameTitle() const;
 	void VOnUpdate();
 	void VCleanup();
