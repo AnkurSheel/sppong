@@ -17,10 +17,14 @@
 #include "Checks.hxx"
 #include "EntityManager.hxx"
 #include "MessageDispatchManager.hxx"
+#include "ResourceManager.hxx"
+#include "GraphicsClass.hxx"
 
 using namespace GameBase;
 using namespace Base;
 using namespace Utilities;
+using namespace Graphics;
+using namespace std;
 
 IParamLoader * cBaseApp::m_spParamLoader = NULL;
 cBaseApp::cBaseApp(const cString strName)
@@ -49,7 +53,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
 
 	cString strOptionsFileName;
 #ifdef _DEBUG
-	strOptionsFileName = "..\\Debug\\OptionsDebug.ini";
+	strOptionsFileName = "Debug\\OptionsDebug.ini";
 #else
 	strOptionsFileName = "OptionsRetail.ini";
 #endif
@@ -82,6 +86,41 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
 		PostQuitMessage(0) ;
 		return;
 	}
+
+	vector<int> vBGColor;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		IBaseApp::VGetParamLoader()->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
+	}
+	cColor bgColor = cColor::BLACK;
+	if(!vBGColor.empty() && vBGColor.size() == 4)
+	{
+		bgColor = cColor(vBGColor[0], vBGColor[1], vBGColor[2], vBGColor[3]);
+	}
+	bool bVSyncEnabled = false;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		bVSyncEnabled = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-VSyncEnabled", false);
+	}
+
+	float fScreenFar = 1000.0f;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		fScreenFar = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
+	}
+
+	float fScreenNear = 0.1f;
+	if(IBaseApp::VGetParamLoader() != NULL)
+	{
+		fScreenNear = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
+	}
+
+	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor, bFullScreen, 
+		bVSyncEnabled, iWindowWidth, iWindowHeight, fScreenFar, fScreenNear );
+
+	// initialize resource manager
+	IResourceManager::GetInstance()->VInitialize("Media\\resources.zip ");
+
 	VCreateHumanView();
 	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, iWindowWidth, iWindowHeight);
 }
@@ -141,7 +180,8 @@ void cBaseApp::VCleanup()
 
 	IEntityManager::Destroy();
 	IMessageDispatchManager::Destroy();
-
+	IGraphicsClass::Destroy();
+	IResourceManager::Destroy();
 	IMainWindow::Destroy();
 	
 	ILogger::Destroy();

@@ -117,6 +117,7 @@ bool cZipFile::Init(const Base::cString & resFileName)
 
 	if(!Open(resFileName, std::ios_base::in | std::ios_base::binary))
 	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not open:" + resFileName)
 		return false;
 	}
 

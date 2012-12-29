@@ -24,7 +24,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 				   LPSTR lpCmdLine, 
 				   int nCmdShow)
 {
-
 	CheckForMemoryLeaks() ;
 
 	pGame = IGame::CreateGame("Game");

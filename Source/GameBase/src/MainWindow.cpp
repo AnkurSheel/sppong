@@ -11,16 +11,12 @@
 #include "MainWindow.h"
 #include "GraphicsClass.hxx"
 #include "BaseApp.hxx"
-#include "ResourceManager.hxx"
-#include "Color.h"
 #include "Structures.h"
-#include "ParamLoaders.hxx"
 
 using namespace Utilities;
-using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
-using namespace std;
+using namespace Graphics;
 
 IMainWindow * cMainWindow::s_pWindow = NULL;
 
@@ -87,7 +83,10 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 
 	CreateMyWindow(nCmdShow, strGameTitle) ;
 
-	OnWindowCreated();
+	//Bring the window into the foreground and activates the window
+	SetForegroundWindow(m_Hwnd);
+	//Set the keyboard focus
+	SetFocus(m_Hwnd);
 
 	return m_Hwnd;
 }
@@ -302,51 +301,6 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 }
 
 // ***************************************************************
-// Function called when the device is created
-// ***************************************************************
-void cMainWindow::OnWindowCreated()
-{
-    //Bring the window into the foreground and activates the window
-	SetForegroundWindow(m_Hwnd);
-	//Set the keyboard focus
-	SetFocus(m_Hwnd);
-
-	vector<int> vBGColor;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		IBaseApp::VGetParamLoader()->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
-	}
-	cColor bgColor = cColor::BLACK;
-	if(!vBGColor.empty() && vBGColor.size() == 4)
-	{
-		bgColor = cColor(vBGColor[0], vBGColor[1], vBGColor[2], vBGColor[3]);
-	}
-	bool bVSyncEnabled = false;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		bVSyncEnabled = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-VSyncEnabled", false);
-	}
-
-	float fScreenFar = 1000.0f;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		fScreenFar = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
-	}
-
-	float fScreenNear = 0.1f;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		fScreenNear = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
-	}
-
-	IGraphicsClass::GetInstance()->VInitialize(m_Hwnd, bgColor, m_bFullScreen, 
-		bVSyncEnabled, m_iFullScreenWidth, m_iFullScreenHeight, fScreenFar, fScreenNear );
-
-	// initialize resource manager
-	IResourceManager::GetInstance()->VInitialize("resources.zip");
-}
-
-// ***************************************************************
 // Function called when the application quits
 // ***************************************************************
 void cMainWindow::OnWindowDestroyed()
@@ -355,10 +309,6 @@ void cMainWindow::OnWindowDestroyed()
 	ChangeDisplaySettings(NULL, 0);
 
 	// release the graphic object
-	IGraphicsClass::Destroy();
-
-	IResourceManager::Destroy();
-
 	ReleaseCapture() ;
 	UnregisterClass("Window", m_hInstance);
 	PostQuitMessage(0);

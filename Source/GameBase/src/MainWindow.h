@@ -78,11 +78,6 @@ namespace GameBase
 								LPARAM lParam );
 		/********************************************//**
 		 *
-		 * Function called when the window is created
-		 ***********************************************/
-		void OnWindowCreated();
-		/********************************************//**
-		 *
 		 * Function called when the application is closed
 		 ***********************************************/
 		void OnWindowDestroyed();

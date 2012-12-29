@@ -243,7 +243,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 		pGame->m_pHumanView->VGetCamera());
 
 	cGameElementDef paddleDef;
-	paddleDef.strModelPath = "cube.spdo";
+	paddleDef.strModelPath = "Media\\cube.spdo";
 	paddleDef.vPosition= cVector3(pGame->m_vScreenTopLeftPos.x, 0.0f, 0.0f);
 	paddleDef.vScale = cVector3(0.5f, 1.5f, 0.5f);
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
@@ -254,7 +254,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT]->VInitialize(paddleDef);
 
 	cGameElementDef wallDef;
-	wallDef.strModelPath = "cube.spdo";
+	wallDef.strModelPath = "Media\\cube.spdo";
 	wallDef.vPosition= cVector3(0, pGame->m_vScreenTopLeftPos.y, 0.0f);
 	wallDef.vScale = cVector3(abs(pGame->m_vScreenTopLeftPos.x), 0.5f, 0.5f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
@@ -265,7 +265,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->VInitialize(wallDef);
 
 	cGameElementDef ballDef;
-	ballDef.strModelPath = "sphere.spdo";
+	ballDef.strModelPath = "Media\\sphere.spdo";
 	ballDef.vScale = cVector3(0.5f, 0.5f, 0.5f);
 	pGame->m_ppGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	pGame->m_ppGameElements[pGame->PGE_BALL]->VInitialize(ballDef);

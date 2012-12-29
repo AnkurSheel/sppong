@@ -108,7 +108,7 @@ bool cMyFont::InitializeShader()
 {
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateFontShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,
-		"Shaders\\Font.vsho", "Shaders\\Font.psho");
+		"Media\\Shaders\\Font.vsho", "Media\\Shaders\\Font.psho");
 	m_pShader = dynamic_pointer_cast<cFontShader>(pShader);
 	return bSuccess;
 }
