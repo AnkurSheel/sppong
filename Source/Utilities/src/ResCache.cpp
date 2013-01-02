@@ -15,61 +15,6 @@
 using namespace Utilities;
 using namespace Base;
 	
-cResource::cResource(const cString & strFileName)
-: m_strFileName(strFileName)
-{
-}
-
-IResHandle * cResource::CreateHandle(const char * pBuffer, unsigned int size, IResCache *pResCache)
-{
-	return DEBUG_NEW cResHandle((*this), (char *)pBuffer, size, pResCache);
-}
-
-Base::cString cResource::GetFileName() const
-{
-	return m_strFileName;
-}
-
-IResource * IResource::CreateResource(const Base::cString & strFileName)
-{
-	cResource * pResource = DEBUG_NEW cResource(strFileName);
-	return pResource;
-}
-
-cResHandle::cResHandle(cResource & resource, char * pBuffer, unsigned int iSize, IResCache * pResCache)
-: m_Resource(resource)
-, m_pBuffer(pBuffer)
-, m_iSize(iSize)
-, m_pResCache(pResCache)
-{
-}
-
-cResHandle::~cResHandle()
-{
-	SAFE_DELETE(m_pBuffer);
-	m_pResCache->MemoryHasBeenFreed(m_iSize);
-}
-
-void cResHandle::Load(IResourceFile * pFile)
-{
-	return pFile->GetResource(m_Resource, m_pBuffer);
-}
-
-unsigned int cResHandle::GetSize() const
-{
-	return m_iSize;
-}
-
-char * cResHandle::GetBuffer() const
-{
-	return m_pBuffer;
-}
-
-const IResource * cResHandle::GetResource() const
-{
-	return &m_Resource;
-}
-
 cResCache::cResCache(unsigned int iCacheSizeInMB, const IResourceFile * pResFile)
 : m_iCacheSize(iCacheSizeInMB * MEGABYTE)
 , m_iTotalMemoryAllocated(0)
@@ -118,13 +63,13 @@ void cResCache::Flush()
 
 shared_ptr<IResHandle> cResCache::Find(const IResource & r)
 {
-	ResHandleMap::const_iterator itr = m_Resources.find(r.GetFileName());
+	ResHandleMap::const_iterator itr = m_Resources.find(r.VGetFileName());
 	if(itr == m_Resources.end())
 	{
-		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Could not find %s in cache", r.GetFileName().GetData()));
+		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Could not find %s in cache", r.VGetFileName().GetData()));
 		return shared_ptr<IResHandle>(); 
 	}
-	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Found %s in cache", r.GetFileName().GetData()));
+	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Found %s in cache", r.VGetFileName().GetData()));
 
 	return (*itr).second;
 }
@@ -144,12 +89,12 @@ shared_ptr<IResHandle> cResCache::Load(IResource & r)
 		return shared_ptr<IResHandle>();
 	}
 
-	shared_ptr<IResHandle> handle(r.CreateHandle(pBuffer, iSize, this));
+	shared_ptr<IResHandle> handle(r.VCreateHandle(pBuffer, iSize, this));
 
 	handle->Load(m_pFile);
 
 	m_lru.push_front(handle);
-	m_Resources[r.GetFileName()] = handle;
+	m_Resources[r.VGetFileName()] = handle;
 
 	return handle;
 }
@@ -157,7 +102,7 @@ shared_ptr<IResHandle> cResCache::Load(IResource & r)
 void cResCache::Free(shared_ptr<IResHandle> handle)
 {
 	m_lru.remove(handle);
-	m_Resources.erase(handle->GetResource()->GetFileName());
+	m_Resources.erase(handle->GetResource()->VGetFileName());
 }
 
 bool cResCache::MakeRoom(unsigned int iSize)
@@ -205,8 +150,8 @@ void cResCache::FreeOneResource()
 	itr--;
 	shared_ptr<IResHandle> handle = *itr;
 	m_lru.pop_back();
-	m_Resources.erase(handle->GetResource()->GetFileName());
-	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Removed file %s from cache", handle->GetResource()->GetFileName().GetData()));
+	m_Resources.erase(handle->GetResource()->VGetFileName());
+	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Removed file %s from cache", handle->GetResource()->VGetFileName().GetData()));
 }
 
 void cResCache::MemoryHasBeenFreed(unsigned int iSize)
@@ -245,7 +190,7 @@ bool cResourceZipFile::Open()
 int cResourceZipFile::GetResourceSize(const IResource &r)
 {
 	int iSize = 0;
-	tOptional<int> resNum = m_pZipFile->Find(r.GetFileName());
+	tOptional<int> resNum = m_pZipFile->Find(r.VGetFileName());
 	if(resNum.IsValid())
 	{
 		iSize = m_pZipFile->GetFileLen(*resNum);
@@ -256,7 +201,7 @@ int cResourceZipFile::GetResourceSize(const IResource &r)
 void cResourceZipFile::GetResource(const IResource &r, char *buffer)
 {
 	int iSize = 0;
-	tOptional<int> resNum = m_pZipFile->Find(r.GetFileName());
+	tOptional<int> resNum = m_pZipFile->Find(r.VGetFileName());
 	if(resNum.IsValid())
 	{
 		iSize = m_pZipFile->GetFileLen(*resNum);

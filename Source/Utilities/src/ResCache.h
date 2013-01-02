@@ -19,42 +19,6 @@ namespace Base
 
 namespace Utilities
 {
-
-	class cResHandle;
-	class cResCache;
-
-	class cResource 
-		: public IResource
-	{
-	public:
-		cResource(const Base::cString & strFileName);
-		IResHandle * CreateHandle(const char * pBuffer, unsigned int size, IResCache * pResCache);
-		Base::cString GetFileName() const;
-	public:
-		Base::cString m_strFileName;
-	};
-
-	class cResHandle
-		: public IResHandle
-	{
-	public:
-		cResHandle(cResource & resource, char * pBuffer, unsigned int iSize, IResCache * pResCache);
-		virtual~ cResHandle();
-		void Load(IResourceFile * pFile);
-		unsigned int GetSize() const;
-		char * GetBuffer() const;
-		const IResource * GetResource() const;
-
-	protected:
-		cResource 		m_Resource;
-		char *			m_pBuffer;
-		unsigned int	m_iSize;
-		IResCache *		m_pResCache;
-
-	private:
-		friend class cResCache;
-	};
-
 	//LRU
 	typedef std::list<shared_ptr <IResHandle> > ResHandleList;
 	typedef std::map<Base::cString, shared_ptr <IResHandle> > ResHandleMap;

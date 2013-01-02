@@ -70,7 +70,7 @@ private:
 	int							m_iDisplayHeight ;		// the display height of the window
 	int							m_iDisplayWidth ;		// the display width of the window
 	cPongGameElement **			m_ppGameElements; // ptr to the gameelements
-	MySound::ISound *			m_pSound;
+	//MySound::ISound *			m_pSound;
 	bool						m_bSinglePlayer;
 	bool						m_bMultiPlayer;
 	cGameFlowStateMachine *		m_pStateMachine;

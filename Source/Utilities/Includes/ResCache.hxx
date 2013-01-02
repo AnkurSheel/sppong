@@ -26,8 +26,8 @@ namespace Utilities
 	{
 	public:
 		virtual ~IResource() {}
-		virtual Base::cString GetFileName() const = 0;
-		virtual IResHandle * CreateHandle(const char * pBuffer, unsigned int size, IResCache * pResCache) = 0;
+		virtual Base::cString VGetFileName() const = 0;
+		virtual IResHandle * VCreateHandle(const char * pBuffer, unsigned int uiSize, IResCache * pResCache) = 0;
 		UTILITIES_API static IResource * CreateResource(const Base::cString & strFileName);
 	};
 

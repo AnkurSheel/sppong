@@ -39,7 +39,7 @@ cGame::cGame(const cString strName)
 , m_pStateMachine(NULL)
 , m_bSinglePlayer(false)
 , m_bMultiPlayer(false)
-, m_pSound(NULL)
+//, m_pSound(NULL)
 , m_ppGameElements(NULL)
 {
 }
@@ -58,7 +58,7 @@ void cGame::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow)
 	m_iDisplayHeight = static_cast<int>(m_pHumanView->m_pAppWindowControl->VGetHeight());
 	m_iDisplayWidth = static_cast<int>(m_pHumanView->m_pAppWindowControl->VGetWidth());
 
-	m_pSound = ISound::CreateSound();
+	//m_pSound = ISound::CreateSound();
 	//m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 
@@ -127,7 +127,7 @@ void cGame::VCleanup()
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
 
-	SAFE_DELETE(m_pSound);
+	//SAFE_DELETE(m_pSound);
 
 	cBaseApp::VCleanup();
 }

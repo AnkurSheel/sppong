@@ -264,18 +264,6 @@
 				Name="Managers"
 				>
 				<File
-					RelativePath=".\src\ResourceManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ResourceManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Includes\ResourceManager.hxx"
-					>
-				</File>
-				<File
 					RelativePath=".\src\ShaderManager.cpp"
 					>
 				</File>
