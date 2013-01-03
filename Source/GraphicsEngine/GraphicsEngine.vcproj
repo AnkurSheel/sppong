@@ -50,7 +50,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
+				AdditionalIncludeDirectories="Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS;WINDOWED"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -139,7 +139,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="Includes;..\Common\src;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
+				AdditionalIncludeDirectories="Includes;&quot;$(DXSDK_DIR)\Include&quot;;..\Base\Includes;..\Utilities\Includes"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

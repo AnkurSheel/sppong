@@ -1,5 +1,5 @@
 // *****************************************************************************
-//  Sound   version:  1.0   Ankur Sheel  date: 2012/12/29
+//  Audio   version:  1.0   Ankur Sheel  date: 2013/01/03
 //  ----------------------------------------------------------------------------
 //  
 //  ----------------------------------------------------------------------------
@@ -7,19 +7,15 @@
 // *****************************************************************************
 // 
 // *****************************************************************************
+#ifndef Audio_hxx__
+#define Audio_hxx__
 
-#ifndef Sound_hxx__
-#define Sound_hxx__
-
-#include "SoundDefines.h"
-
-namespace MySound
+namespace Sound
 {
-	class ISound
+	class IAudio
 	{
 	public:
-		virtual ~ISound(){};
-		SOUND_API static ISound * CreateSound();
+		virtual ~IAudio(){}
 	};
 }
-#endif // Sound_h__
+#endif // Audio_hxx__

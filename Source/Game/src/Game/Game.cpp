@@ -16,7 +16,6 @@
 #include "Elements/Score.h"
 #include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
-#include "Sound.hxx"
 #include "MPongView.h"
 #include "Timer.hxx"
 #include "ProcessManager.hxx"
@@ -42,6 +41,10 @@ cGame::cGame(const cString strName)
 //, m_pSound(NULL)
 , m_ppGameElements(NULL)
 {
+	// making sure our memory leak checker is working
+#if _DEBUG
+	int * p = DEBUG_NEW int();
+#endif
 }
 
 // *****************************************************************************

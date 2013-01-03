@@ -12,6 +12,11 @@
 
 namespace Sound
 {
+	/********************************************//**
+	 * @brief Encapsulates sound data 
+	 *
+	 * Use this class to manage sound resources
+	 ***********************************************/
 	class cSoundResource
 		: public Utilities::cResource
 	{
@@ -20,9 +25,6 @@ namespace Sound
 		~cSoundResource();
 		Utilities::IResHandle * VCreateHandle(const char * pBuffer,
 			unsigned int uiSize, Utilities::IResCache * pResCache) = 0;
-	
-	private:
-		Base::cString m_strFileName;
 	};
 
 	class cSoundResHandle
@@ -38,11 +40,11 @@ namespace Sound
 		bool ParseWave(const char * const pWavStream, const unsigned int uiBufferLength);
 
 	private:
-		bool					m_bInitialized;
-		char *					m_pPCMBuffer;
-		int						m_iPCMBufferSize;
-		WAVEFORMATEX			m_WaveFormatEx;
-		int						m_iLengthMS;
-		const Base::cString		m_strSoundFileName;
+		bool					m_bInitialized;		/*!< True if the sound has been initialized. */
+		char *					m_pPCMBuffer;		/*!< The destination PCM buffer of the sound. */
+		int						m_iPCMBufferSize;	/*!< The length of the PCM buffer. */
+		WAVEFORMATEX			m_WaveFormatEx;		/*!< Description of the PCM format. */
+		int						m_iLengthMS;		/*!< Length of the sound in milliseconds. */
+		const Base::cString		m_strSoundFileName;	/*!< The name of the file resource. */
 	};
 }
