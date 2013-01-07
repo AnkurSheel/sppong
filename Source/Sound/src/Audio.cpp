@@ -22,7 +22,7 @@ cAudio::cAudio()
 // *****************************************************************************
 cAudio::~cAudio()
 {
-	Cleanup();
+	VCleanup();
 }
 
 // *****************************************************************************
@@ -65,7 +65,7 @@ void cAudio::StopAllSounds()
 }
 
 // *****************************************************************************
-void cAudio::Cleanup()
+void cAudio::VCleanup()
 {
 	IAudioBuffer * pAudioBuffer = NULL;
 	AudioBufferList::iterator iter;
@@ -75,10 +75,4 @@ void cAudio::Cleanup()
 		pAudioBuffer->VStop();
 		m_ActiveSoundList.pop_front();
 	}
-}
-
-// *****************************************************************************
-bool cAudio::HasSoundCard()
-{
-
 }

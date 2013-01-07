@@ -15,15 +15,27 @@
 
 namespace Sound
 {
+	class cSoundResHandle;
+}
+
+namespace Sound
+{
 	class cDirectSoundAudio
 		: public cAudio
 	{
 	public:
 		cDirectSoundAudio();
 		~cDirectSoundAudio();
+		bool Initialize(const HWND & hwnd);
+		void VCleanup();
+		IAudioBuffer * InitAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource);
 
+	private:
+		bool SetPrimaryBufferFormat(const unsigned short usPrimaryChannels,
+			const unsigned long ulPrimaryFreq, const unsigned short usPrimaryBitRate);
+		
 	protected:
-		IDirectSound *	m_pDS;
+		IDirectSound8 *	m_pDS;
 	};
 }
 #endif // DirectSoundAudio_h__

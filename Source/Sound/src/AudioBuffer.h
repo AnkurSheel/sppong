@@ -26,7 +26,7 @@ namespace Sound
 		~cAudioBuffer();
 
 	protected:
-		cAudioBuffer(shared_ptr<cSoundResHandle> pResource);
+		SOUND_API cAudioBuffer(shared_ptr<cSoundResHandle> pResource);
 
 	protected:
 		shared_ptr<cSoundResHandle>		m_pResource;

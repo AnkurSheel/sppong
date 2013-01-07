@@ -67,7 +67,8 @@ bool cSoundResHandle::Initialize()
 }
 
 // *****************************************************************************
-bool cSoundResHandle::ParseWave(const char * const pWavStream, const unsigned int uiBufferLength)
+bool cSoundResHandle::ParseWave(const char * const pWavStream,
+	const unsigned int uiBufferLength)
 {
 	unsigned long uiFile = 0;
 	unsigned long uiFileEnd = 0;
@@ -138,4 +139,16 @@ bool cSoundResHandle::ParseWave(const char * const pWavStream, const unsigned in
 	}
 	Log_Write_L1(ILogger::LT_ERROR, "This wav file didnt contain all the right pieces");
 	return false;
+}
+
+// *****************************************************************************
+int cSoundResHandle::GetPCMBufferSize() const
+{
+	return m_iPCMBufferSize;
+}
+
+// *****************************************************************************
+WAVEFORMATEX const * cSoundResHandle::GetFormat() const
+{
+	return &m_WaveFormatEx; 
 }

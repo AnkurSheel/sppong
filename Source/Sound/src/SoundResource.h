@@ -35,6 +35,8 @@ namespace Sound
 			unsigned int uiSize, Utilities::IResCache * pResCache);
 		~cSoundResHandle();
 		bool Initialize();
+		int GetPCMBufferSize() const;
+		WAVEFORMATEX const * GetFormat() const;
 		
 	private:
 		bool ParseWave(const char * const pWavStream, const unsigned int uiBufferLength);

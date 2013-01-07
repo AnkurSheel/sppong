@@ -31,9 +31,7 @@ namespace Sound
 		void StopAllSounds();
 		void PauseAllSounds();
 		void ResumeAllSounds();
-		void Cleanup();
-
-		static bool HasSoundCard();
+		void VCleanup();
 
 	protected:
 		AudioBufferList		m_ActiveSoundList;
