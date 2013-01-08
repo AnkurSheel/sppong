@@ -1,20 +1,19 @@
-// ***************************************************************
-//  Process   version:  1.0   Ankur Sheel  date: 2011/04/12
-//  -------------------------------------------------------------
+// *****************************************************************************
+//  Process   version:  1.0   Ankur Sheel  date: 2013/01/08
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Process.h"
 
 using namespace Utilities;
 
-cProcess::cProcess(int iType, unsigned int uOrder)
-: m_iType(iType)
-, m_bKill(false)
+cProcess::cProcess()
+: m_bKill(false)
 , m_bActive(true)
 , m_uProcessFlags(0)
 , m_bPaused(false)
@@ -38,16 +37,64 @@ void cProcess::SetAttached(const bool bAttached)
 	}
 }
 
-void cProcess::OnUpdate(const int iDeltaMilliSeconds)
+void cProcess::VUpdate(const int iDeltaMilliSeconds)
 {
 	if ( m_bInitialUpdate ) 
 	{ 
-		OnInitialize(); 
+		VInitialize(); 
 		m_bInitialUpdate = false; 
 	}
 }
 
-void cProcess::onKill()
+void cProcess::VKill()
 {
 	m_bKill = true;
+}
+
+bool cProcess::IsDead() const
+{
+	return m_bKill;
+}
+
+bool cProcess::IsActive() const
+{
+	return m_bActive;
+}
+
+void cProcess::SetActive(const bool bActive)
+{
+	m_bActive = bActive;
+}
+
+bool cProcess::IsPaused() const
+{
+	return m_bPaused;
+}
+
+bool cProcess::IsInitialized() const
+{
+	return !m_bInitialUpdate;
+}
+
+shared_ptr<cProcess> const cProcess::GetNext() const
+{
+	return m_pNext;
+}
+
+void cProcess::SetNext(shared_ptr<cProcess> pNext)
+{
+	m_pNext = pNext;
+}
+
+void cProcess::TogglePause()
+{
+	m_bPaused = !m_bPaused;
+}
+
+bool cProcess::IsAttached() const
+{
+	if(m_uProcessFlags & PROCESS_FLAG_ATTACHED) 
+		return true;
+
+	return false;
 }

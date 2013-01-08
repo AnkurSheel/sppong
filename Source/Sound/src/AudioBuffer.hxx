@@ -10,17 +10,21 @@
 #ifndef AudioBuffer_hxx__
 #define AudioBuffer_hxx__
 
-#include "SoundDefines.h"
-
 namespace Sound
 {
 	class IAudioBuffer
 	{
 	public:
 		virtual ~IAudioBuffer(){};
+		virtual bool VPlay(const unsigned int uiVolume, const bool bLooping) = 0;
 		virtual bool VStop() = 0;
 		virtual bool VResume() = 0;
 		virtual bool VPause() = 0;
+		virtual bool VTogglePause() = 0;
+		virtual bool VIsPlaying() = 0;
+		virtual bool VRestore() = 0;
+		virtual void VSetVolume(const unsigned int uiVolume) = 0;
+		virtual float VGetProgress() = 0;
 	};
 }
 #endif // AudioBuffer_hxx__

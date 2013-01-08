@@ -25,7 +25,7 @@ namespace Utilities
 
 		void Attach(shared_ptr<cProcess> pProcess);
 		bool HasProcesses() const;
-		bool IsProcessActive(const int iType);
+		bool IsProcessActive();
 		void UpdateProcesses(const int iDeltaMilliSeconds);
 
 	private:

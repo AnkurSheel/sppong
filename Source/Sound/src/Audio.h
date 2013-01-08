@@ -27,16 +27,20 @@ namespace Sound
 
 	public:
 		cAudio();
-		~cAudio();
+		virtual ~cAudio();
 		void StopAllSounds();
 		void PauseAllSounds();
 		void ResumeAllSounds();
-		void VCleanup();
+		static IAudio * Create();
+		virtual void VCleanup();
 
 	protected:
 		AudioBufferList		m_ActiveSoundList;
 		bool				m_bIsPaused;
 		bool				m_bInitialized;
+
+	public:
+		static IAudio * s_pAudio;	/*!< static object of this class */
 	};
 }
 #endif // Audio_h__

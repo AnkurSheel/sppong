@@ -11,6 +11,8 @@
 #include "DirectSoundAudio.h"
 #include <DxErr.h>
 #include "SoundResource.h"
+#include "AudioBuffer.hxx"
+#include "DirectSoundAudioBuffer.h"
 
 #pragma comment(lib, "Dsound.lib")
 #pragma comment(lib, "dxerr.lib")
@@ -125,7 +127,7 @@ void cDirectSoundAudio::VCleanup()
 }
 
 // *****************************************************************************
-IAudioBuffer * cDirectSoundAudio::InitAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource)
+IAudioBuffer * cDirectSoundAudio::VInitializeAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource)
 {
 	if(m_pDS == NULL)
 		return NULL;
@@ -148,4 +150,21 @@ IAudioBuffer * cDirectSoundAudio::InitAudioBuffer(shared_ptr<cSoundResHandle> pS
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return NULL;
 	}
+
+	IAudioBuffer * pAudioBuffer = static_cast<IAudioBuffer *>(DEBUG_NEW cDirectSoundAudioBuffer(pDSBuffer, pSoundResource));
+	m_ActiveSoundList.push_front(pAudioBuffer);
+	return pAudioBuffer;
+}
+
+// *****************************************************************************
+void cDirectSoundAudio::VReleaseAudioBuffer(IAudioBuffer * pAudioBuffer)
+{
+	pAudioBuffer->VStop();
+	m_ActiveSoundList.remove(pAudioBuffer);
+}
+
+// *****************************************************************************
+IAudio * cAudio::Create()
+{
+	return DEBUG_NEW cDirectSoundAudio();
 }

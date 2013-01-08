@@ -26,10 +26,11 @@ namespace Sound
 		~cAudioBuffer();
 
 	protected:
-		SOUND_API cAudioBuffer(shared_ptr<cSoundResHandle> pResource);
+		cAudioBuffer(shared_ptr<cSoundResHandle> pResource);
 
 	protected:
 		shared_ptr<cSoundResHandle>		m_pResource;
+
 		bool							m_bIsPaused;
 		bool							m_bIsLooping;
 		unsigned int					m_uiVolume;

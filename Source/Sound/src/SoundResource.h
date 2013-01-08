@@ -37,7 +37,8 @@ namespace Sound
 		bool Initialize();
 		int GetPCMBufferSize() const;
 		WAVEFORMATEX const * GetFormat() const;
-		
+		char const * GetPCMBuffer() const;
+
 	private:
 		bool ParseWave(const char * const pWavStream, const unsigned int uiBufferLength);
 

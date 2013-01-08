@@ -354,11 +354,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Process.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Process.inl"
+				RelativePath=".\Includes\Process.h"
 				>
 			</File>
 			<File

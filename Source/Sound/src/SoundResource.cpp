@@ -152,3 +152,9 @@ WAVEFORMATEX const * cSoundResHandle::GetFormat() const
 {
 	return &m_WaveFormatEx; 
 }
+
+// *****************************************************************************
+char const * Sound::cSoundResHandle::GetPCMBuffer() const
+{
+	return m_pPCMBuffer;
+}

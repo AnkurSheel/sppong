@@ -1,14 +1,16 @@
-// ***************************************************************
-//  Process   version:  1.0   Ankur Sheel  date: 2011/04/12
-//  -------------------------------------------------------------
+// *****************************************************************************
+//  Process   version:  1.0   Ankur Sheel  date: 2013/01/08
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef Process_h__
 #define Process_h__
+
+#include "UtilitiesDefines.h"
 
 namespace Utilities
 {
@@ -18,14 +20,12 @@ namespace Utilities
 		: public Base::cNonCopyable
 	{
 	public:
-		cProcess(int iType, unsigned int uOrder = 0);
-		virtual ~cProcess();
+		UTILITIES_API cProcess();
+		UTILITIES_API virtual ~cProcess();
 		
-		bool IsDead() const;
-		int GetType() const;
-		void SetType(const int iType);
+		UTILITIES_API bool IsDead() const;
 		bool IsActive() const;
-		bool SetActive(const bool bActive);
+		void SetActive(const bool bActive);
 		bool IsAttached() const;
 		void SetAttached(const bool bAttached);
 		bool IsPaused() const;
@@ -34,12 +34,11 @@ namespace Utilities
 		void SetNext(shared_ptr<cProcess> pNext);
 		void TogglePause();
 		
-		virtual void OnInitialize(){}
-		virtual void OnUpdate(const int iDeltaMilliSeconds);
-		virtual void onKill();
+		virtual void VInitialize(){}
+		UTILITIES_API virtual void VUpdate(const int iDeltaMilliSeconds);
+		UTILITIES_API virtual void VKill();
 		
 	protected:
-		int						m_iType;
 		bool					m_bKill;
 		bool					m_bActive;
 		bool					m_bPaused;
@@ -52,7 +51,5 @@ namespace Utilities
 	private:
 		friend class cProcessManager;
 	};
-	#include "Process.inl"
-
 }
 #endif // Process_h__

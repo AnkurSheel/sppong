@@ -32,12 +32,11 @@ bool cProcessManager::HasProcesses() const
 	return !(m_pProcessList.empty());
 }
 
-bool cProcessManager::IsProcessActive(const int iType) 
+bool cProcessManager::IsProcessActive() 
 {
 	for(ProcessList::const_iterator i = m_pProcessList.begin(); i != m_pProcessList.end(); i++)
 	{
-		if((*i)->GetType() == iType 
-			&& ((*i)->IsDead() == false || ( *i )->GetNext()))
+		if(((*i)->IsDead() == false || ( *i )->GetNext()))
 		{
 			return true;
 		}
@@ -66,7 +65,7 @@ void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 		}
 		else if(p->IsActive() && !p->IsPaused())
 		{
-			p->OnUpdate(iDeltaMilliSeconds);
+			p->VUpdate(iDeltaMilliSeconds);
 		}
 	}
 }

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src;..\Base\Includes;..\Utilities\Includes;&quot;$(DXSDK_DIR)\Include&quot;"
+				AdditionalIncludeDirectories="Includes;..\Base\Includes;..\Utilities\Includes;&quot;$(DXSDK_DIR)\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;SOUND_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -67,7 +67,7 @@
 				AdditionalDependencies="Utilities_D.lib Base_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Debug\"
+				AdditionalLibraryDirectories="..\..\Debug\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="src;..\Base\Includes;..\Utilities\Includes;&quot;$(DXSDK_DIR)\Include&quot;"
+				AdditionalIncludeDirectories="Includes;..\Base\Includes;..\Utilities\Includes;&quot;$(DXSDK_DIR)\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SOUND_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -148,7 +148,7 @@
 				AdditionalDependencies="Utilities.lib Base.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\bin\"
+				AdditionalLibraryDirectories="..\..\bin\;&quot;$(DXSDK_DIR)\Lib\x86&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)$(TargetName).pdb"
 				GenerateMapFile="true"
@@ -195,7 +195,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\src\Audio.hxx"
+			RelativePath=".\Includes\Audio.hxx"
 			>
 		</File>
 		<File
@@ -219,7 +219,23 @@
 			>
 		</File>
 		<File
-			RelativePath=".\src\SoundDefines.h"
+			RelativePath=".\src\DirectSoundAudioBuffer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\DirectSoundAudioBuffer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\SoundDefines.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\SoundProcess.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\src\SoundProcess.h"
 			>
 		</File>
 		<File

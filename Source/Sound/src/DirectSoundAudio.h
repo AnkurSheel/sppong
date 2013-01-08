@@ -28,7 +28,8 @@ namespace Sound
 		~cDirectSoundAudio();
 		bool Initialize(const HWND & hwnd);
 		void VCleanup();
-		IAudioBuffer * InitAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource);
+		IAudioBuffer * VInitializeAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource);
+		void VReleaseAudioBuffer(IAudioBuffer * pAudioBuffer);
 
 	private:
 		bool SetPrimaryBufferFormat(const unsigned short usPrimaryChannels,

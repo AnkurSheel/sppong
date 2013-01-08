@@ -14,6 +14,8 @@
 
 using namespace Sound;
 
+IAudio * cAudio::s_pAudio = NULL;
+
 // *****************************************************************************
 cAudio::cAudio()
 {
@@ -75,4 +77,18 @@ void cAudio::VCleanup()
 		pAudioBuffer->VStop();
 		m_ActiveSoundList.pop_front();
 	}
+}
+// *****************************************************************************
+IAudio * IAudio::GetInstance()
+{
+	if (cAudio::s_pAudio == NULL)
+	{
+		cAudio::s_pAudio = cAudio::Create();
+	}
+	return cAudio::s_pAudio;
+}
+// *****************************************************************************
+void IAudio::Destroy()
+{
+	SAFE_DELETE(cAudio::s_pAudio);
 }
