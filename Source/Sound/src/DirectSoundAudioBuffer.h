@@ -15,7 +15,7 @@
 
 namespace Sound
 {	
-	class cSoundResHandle;
+	class ISoundResHandle;
 }
 
 namespace Sound
@@ -24,7 +24,7 @@ namespace Sound
 		: public cAudioBuffer
 	{
 	public:
-		cDirectSoundAudioBuffer(LPDIRECTSOUNDBUFFER pSound, shared_ptr<cSoundResHandle> pResource);
+		cDirectSoundAudioBuffer(LPDIRECTSOUNDBUFFER pSound, shared_ptr<ISoundResHandle> pResource);
 
 	private:
 		bool VPlay(const unsigned int uiVolume, const bool bLooping);
@@ -42,8 +42,6 @@ namespace Sound
 
 	private:
 		LPDIRECTSOUNDBUFFER		m_pSample;
-
-
 	};
 }
 #endif // DirectSoundAudioBuffer_h__

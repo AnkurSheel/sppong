@@ -10,7 +10,7 @@
 #include "stdafx.h"
 #include "Paddle.h"
 #include "AABB.hxx"
-#include "Game\Game.hxx"
+#include "Game\Game.h"
 #include "CollisionChecker.hxx"
 
 using namespace Base;

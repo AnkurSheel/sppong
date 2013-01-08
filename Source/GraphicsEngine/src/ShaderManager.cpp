@@ -1,12 +1,12 @@
-// *************************************************************************
+// ****************************************************************************
 //  ShaderManager   version:  1.0   Ankur Sheel  date: 2012/10/26
-//  ------------------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  
-//  ------------------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// *************************************************************************
+// ****************************************************************************
 // 
-// *************************************************************************
+// ****************************************************************************
 
 #include "stdafx.h"
 #include "ShaderManager.h"
@@ -14,31 +14,32 @@
 
 using namespace Graphics;
 using namespace Utilities;
+using namespace Base;
 
 IShaderManager * cShaderManager::s_pShadermanager = NULL;
 
-// *************************************************************************
+// ****************************************************************************
 cShaderManager::cShaderManager()
 {
 
 }
 
-// *************************************************************************
+// ****************************************************************************
 cShaderManager::~cShaderManager()
 {
 	m_pShaders.clear();
 }
 
-// *************************************************************************
+// ****************************************************************************
 IShaderManager * cShaderManager::Create()
 {
 	return DEBUG_NEW cShaderManager();
 }
 
-// *************************************************************************
+// ****************************************************************************
 bool cShaderManager::VGetShader(shared_ptr<IShader> & pShader,
-							   const Base::cString & strVertexShaderPath,
-							   const Base::cString & strPixelShaderPath)
+							   const cString & strVertexShaderPath,
+							   const cString & strPixelShaderPath)
 {
 	bool bSuccess = true;
 	shared_ptr<IShader> ptr = Find(strVertexShaderPath, strPixelShaderPath);
@@ -46,6 +47,7 @@ bool cShaderManager::VGetShader(shared_ptr<IShader> & pShader,
 	if(ptr == NULL)
 	{
 		bSuccess = pShader->VInitialize(strVertexShaderPath, strPixelShaderPath);
+		cHashedString hashedString(strVertexShaderPath);
 		m_pShaders[strVertexShaderPath] = pShader;
 	}
 	else
@@ -55,8 +57,8 @@ bool cShaderManager::VGetShader(shared_ptr<IShader> & pShader,
 	return bSuccess;
 }
 
-shared_ptr<IShader> cShaderManager::Find(const Base::cString & strVertexShaderPath,
-										 const Base::cString & strPixelShaderPath)
+shared_ptr<IShader> cShaderManager::Find(const cString & strVertexShaderPath,
+										 const cString & strPixelShaderPath)
 {
 
 	ShaderMap::const_iterator itr = m_pShaders.find(strVertexShaderPath);
@@ -70,7 +72,7 @@ shared_ptr<IShader> cShaderManager::Find(const Base::cString & strVertexShaderPa
 	return (*itr).second;
 }
 
-// *************************************************************************
+// ****************************************************************************
 IShaderManager * IShaderManager::GetInstance()
 {
 	if(cShaderManager::s_pShadermanager == NULL)
@@ -78,7 +80,7 @@ IShaderManager * IShaderManager::GetInstance()
 	return cShaderManager::s_pShadermanager ;
 }
 
-// *************************************************************************
+// ****************************************************************************
 void IShaderManager::Destroy()
 {
 	SAFE_DELETE(cShaderManager::s_pShadermanager);

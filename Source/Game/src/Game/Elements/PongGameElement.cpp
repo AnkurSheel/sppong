@@ -13,7 +13,7 @@
 
 using namespace GameBase;
 
-const IGame * cPongGameElement::m_pGame = NULL;
+const cGame * cPongGameElement::m_pGame = NULL;
 
 // *****************************************************************************
 cPongGameElement::cPongGameElement()
@@ -51,7 +51,7 @@ cBall * cPongGameElement::CastToBall()
 }
 
 // *****************************************************************************
-void cPongGameElement::SetGame(const IGame * const pGame)
+void cPongGameElement::SetGame(const cGame * const pGame)
 {
 	m_pGame = pGame;
 }

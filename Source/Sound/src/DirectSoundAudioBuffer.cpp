@@ -20,7 +20,7 @@ using namespace Base;
 
 // *****************************************************************************
 cDirectSoundAudioBuffer::cDirectSoundAudioBuffer(LPDIRECTSOUNDBUFFER pSound,
-												 shared_ptr<cSoundResHandle> pResource)
+												 shared_ptr<ISoundResHandle> pResource)
 : cAudioBuffer(pResource)
 {
 	m_pSample = pSound;
@@ -43,7 +43,7 @@ bool cDirectSoundAudioBuffer::VPlay(const unsigned int uiVolume, const bool bLoo
 	float fRange = (DSBVOLUME_MAX -DSBVOLUME_MIN);
 	float fVolume = (fRange * fCoeff) + DSBVOLUME_MIN;
 
-	pDSBuffer->SetVolume(uiVolume);
+	pDSBuffer->SetVolume(fVolume);
 	unsigned long ulFlags = m_bIsLooping ? DSBPLAY_LOOPING : 0L;
 
 	return (S_OK == pDSBuffer->Play(0, 0, ulFlags));
@@ -145,7 +145,7 @@ float cDirectSoundAudioBuffer::VGetProgress()
 	}
 	unsigned long ulProgress = 0L;
 	pDSBuffer->GetCurrentPosition(&ulProgress, NULL);
-	float fLength = (float)m_pResource->GetPCMBufferSize();
+	float fLength = (float)m_pResource->VGetPCMBufferSize();
 	return (float)ulProgress / fLength;
 }
 
@@ -201,7 +201,7 @@ bool cDirectSoundAudioBuffer::FillBufferWithSound()
 	void * pDSLockedBuffer = NULL;
 	unsigned long ulLockedBufferSize = 0L;
 
-	int iPCMBufferSize = m_pResource->GetPCMBufferSize();
+	int iPCMBufferSize = m_pResource->VGetPCMBufferSize();
 	result = m_pSample->Lock(0, iPCMBufferSize, &pDSLockedBuffer, &ulLockedBufferSize,
 		NULL, NULL, NULL);
 	if (FAILED(result))
@@ -210,19 +210,22 @@ bool cDirectSoundAudioBuffer::FillBufferWithSound()
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 		return false;
 	}
+	
+	shared_ptr<cSoundResHandle> pHandle = dynamic_pointer_cast<cSoundResHandle>(m_pResource);
+
 	if (iPCMBufferSize == 0)
 	{
 		FillMemory((unsigned char *) pDSLockedBuffer, ulLockedBufferSize,
-			(unsigned char)m_pResource->GetFormat()->wBitsPerSample == 8 ? 128 : 0);
+			(unsigned char)pHandle->GetFormat()->wBitsPerSample == 8 ? 128 : 0);
 	}
 	else
 	{
-		CopyMemory(pDSLockedBuffer, m_pResource->GetPCMBuffer(), iPCMBufferSize);
+		CopyMemory(pDSLockedBuffer, m_pResource->VGetPCMBuffer(), iPCMBufferSize);
 		if (iPCMBufferSize < (int)ulLockedBufferSize)
 		{
 			FillMemory((unsigned char *) pDSLockedBuffer + iPCMBufferSize,
 				ulLockedBufferSize - iPCMBufferSize, 
-				(unsigned char)m_pResource->GetFormat()->wBitsPerSample == 8 ? 128 : 0);
+				(unsigned char)pHandle->GetFormat()->wBitsPerSample == 8 ? 128 : 0);
 		}
 	}
 	m_pSample->Unlock(pDSLockedBuffer, ulLockedBufferSize, NULL, 0);

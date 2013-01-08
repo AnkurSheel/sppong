@@ -15,7 +15,7 @@
 namespace Sound
 {
 	class IAudioBuffer;
-	class cSoundResHandle;
+	class ISoundResHandle;
 }
 
 namespace Sound
@@ -24,7 +24,8 @@ namespace Sound
 	{
 	public:
 		virtual ~IAudio(){}
-		virtual IAudioBuffer * VInitializeAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource) = 0;
+		virtual bool VInitialize(const HWND & hwnd) = 0;
+		virtual IAudioBuffer * VInitializeAudioBuffer(shared_ptr<ISoundResHandle> pSoundResource) = 0;
 		virtual void VReleaseAudioBuffer(IAudioBuffer * pAudioBuffer) = 0;
 		/********************************************//**
 		 * @return Returns a pointer to the singleton object

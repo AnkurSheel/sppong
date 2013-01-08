@@ -228,6 +228,12 @@ void cBaseApp::VRender(TICK tickCurrent, float fElapsedTime)
 }
 
 // ***************************************************************
+cHumanView * const cBaseApp::VGetHumanView() const
+{
+	return m_pHumanView;
+}
+
+// ***************************************************************
 Utilities::IParamLoader * cBaseApp::VGetParamLoader()
 {
 	return m_spParamLoader;

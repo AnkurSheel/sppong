@@ -23,11 +23,17 @@
 #include "ObjModelLoader.hxx"
 #include "CollisionChecker.hxx"
 #include "GraphicUtils.hxx"
+#include "Audio.hxx"
+#include "SoundResource.hxx"
+#include "SoundProcess.hxx"
+#include "ResourceManager.hxx"
+#include "ResCache.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
 using namespace Base;
 using namespace GameBase;
+using namespace Sound;
 
 // ***************************************************************
 cHumanView::cHumanView()
@@ -53,6 +59,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const int iClientHeight)
 {
 	m_pGame = pGame;
+	m_pProcessManager = IProcessManager::CreateProcessManager();
 	if(IBaseApp::VGetParamLoader() != NULL)
 	{
 		m_bDisplayFPS = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-DisplayFPS", false);
@@ -84,6 +91,8 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	fpsLabelDef.vSize = cVector2(150, 30);
 	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
 	m_pAppWindowControl->VAddChildControl(m_pFpsLabel);
+
+	IAudio::GetInstance()->VInitialize(hWnd);
 }
 
 // ***************************************************************
@@ -116,10 +125,12 @@ void cHumanView::VOnDestroyDevice()
 {
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pProcessManager);
 	IFontManager::Destroy();
 	IObjModelLoader::Destroy();
 	ICollisionChecker::Destroy();
 	IGraphicUtils::Destroy();
+	IAudio::Destroy();
 	//SAFE_DELETE(m_pCursorSprite);
 }
 
@@ -186,7 +197,7 @@ void cHumanView::VOnAttach(GameViewId id)
 	m_idView = id;
 }
 
-const ICamera * const cHumanView::VGetCamera() const
+const ICamera * const cHumanView::GetCamera() const
 {
 	return m_pCamera;
 }
@@ -251,4 +262,13 @@ void cHumanView::SetCursorVisible( bool bVisible )
 // 	{
 // 		m_pCursorSprite->SetVisible(bVisible);
 // 	}
+}
+
+// *****************************************************************************
+void cHumanView::PlaySFX(const Base::cString & strSoundFile)
+{
+	shared_ptr<cSoundResource> pResource(DEBUG_NEW cSoundResource(strSoundFile));
+	shared_ptr<ISoundResHandle> pHandle = static_pointer_cast<ISoundResHandle>(IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource));
+	shared_ptr<ISoundProcess> sfx(ISoundProcess::CreateSoundProcess(pHandle, 100, false));
+	m_pProcessManager->VAttachProcess(sfx);
 }

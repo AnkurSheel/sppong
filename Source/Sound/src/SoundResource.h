@@ -8,36 +8,21 @@
 // 
 // *****************************************************************************
 
-#include "Resource.h"
+#include "SoundResource.hxx"
 
 namespace Sound
 {
-	/********************************************//**
-	 * @brief Encapsulates sound data 
-	 *
-	 * Use this class to manage sound resources
-	 ***********************************************/
-	class cSoundResource
-		: public Utilities::cResource
-	{
-	public:
-		cSoundResource(const Base::cString & strName);
-		~cSoundResource();
-		Utilities::IResHandle * VCreateHandle(const char * pBuffer,
-			unsigned int uiSize, Utilities::IResCache * pResCache) = 0;
-	};
-
 	class cSoundResHandle
-		: public Utilities::cResHandle
+		: public ISoundResHandle
 	{
 	public:
 		cSoundResHandle(Utilities::cResource & resource, unsigned char * pBuffer,
 			unsigned int uiSize, Utilities::IResCache * pResCache);
 		~cSoundResHandle();
-		bool Initialize();
-		int GetPCMBufferSize() const;
+		bool VInitialize();
+		int VGetPCMBufferSize() const;
 		WAVEFORMATEX const * GetFormat() const;
-		char const * GetPCMBuffer() const;
+		char const * VGetPCMBuffer() const;
 
 	private:
 		bool ParseWave(const char * const pWavStream, const unsigned int uiBufferLength);

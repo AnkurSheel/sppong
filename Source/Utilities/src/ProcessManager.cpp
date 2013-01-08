@@ -15,13 +15,17 @@ using namespace Utilities;
 
 cProcessManager::~cProcessManager()
 {	
-	for(ProcessList::const_iterator i = m_pProcessList.begin(); i != m_pProcessList.end(); i++)
+	ProcessList::const_iterator curProcess = m_pProcessList.begin();
+
+	while(curProcess != m_pProcessList.end())
 	{
-		Detach(*(i));
+		shared_ptr<cProcess> p(*curProcess);
+		curProcess++;
+		Detach(p);
 	}
 }
 
-void cProcessManager::Attach(shared_ptr<cProcess> pProcess)
+void cProcessManager::VAttachProcess(shared_ptr<cProcess> pProcess)
 {
 	m_pProcessList.push_back(pProcess);
 	pProcess->SetAttached(true);
@@ -32,34 +36,24 @@ bool cProcessManager::HasProcesses() const
 	return !(m_pProcessList.empty());
 }
 
-bool cProcessManager::IsProcessActive() 
-{
-	for(ProcessList::const_iterator i = m_pProcessList.begin(); i != m_pProcessList.end(); i++)
-	{
-		if(((*i)->IsDead() == false || ( *i )->GetNext()))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
 void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 {
 	shared_ptr<cProcess> pNext;
 
 	ProcessList::const_iterator curProcess = m_pProcessList.begin();
 
-	for(curProcess; curProcess != m_pProcessList.end(); curProcess++)
+	while(curProcess != m_pProcessList.end())
 	{
 		shared_ptr<cProcess> p(*curProcess);
+		curProcess++;
+
 		if(p->IsDead())
 		{
 			pNext = p->GetNext();
 			if(pNext)
 			{
 				p->SetNext(shared_ptr<cProcess>((cProcess*)NULL));
-				Attach(pNext);
+				VAttachProcess(pNext);
 			}
 			Detach(p);
 		}
@@ -74,4 +68,9 @@ void cProcessManager::Detach(shared_ptr<cProcess> pProcess)
 {
 	m_pProcessList.remove(pProcess);
 	pProcess->SetAttached(false);
+}
+
+IProcessManager * IProcessManager::CreateProcessManager()
+{
+	return DEBUG_NEW cProcessManager();
 }

@@ -14,16 +14,19 @@
 
 namespace Utilities
 {
+	class cProcess;
+}
+namespace Utilities
+{
 	class IProcessManager
 	{
 	public:
 		UTILITIES_API virtual ~IProcessManager() {}
 
-		//UTILITIES_API virtual void Attach(std::tr1::shared_ptr<cProcess> pProcess);
+		UTILITIES_API virtual void VAttachProcess(shared_ptr<cProcess> pProcess) = 0;
 		UTILITIES_API virtual bool HasProcesses() const = 0;
-		UTILITIES_API virtual bool IsProcessActive(const int iType) = 0;
 		UTILITIES_API virtual void UpdateProcesses(const int iDeltaMilliSeconds) = 0;
-
+		UTILITIES_API static IProcessManager * CreateProcessManager();
 	};
 }
 #endif // ProcessManager_h__

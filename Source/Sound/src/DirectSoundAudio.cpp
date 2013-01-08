@@ -35,7 +35,7 @@ cDirectSoundAudio::~cDirectSoundAudio()
 }
 
 // *****************************************************************************
-bool cDirectSoundAudio::Initialize(const HWND & hwnd)
+bool cDirectSoundAudio::VInitialize(const HWND & hwnd)
 {
 	if(m_bInitialized)
 		return true;
@@ -127,7 +127,7 @@ void cDirectSoundAudio::VCleanup()
 }
 
 // *****************************************************************************
-IAudioBuffer * cDirectSoundAudio::VInitializeAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource)
+IAudioBuffer * cDirectSoundAudio::VInitializeAudioBuffer(shared_ptr<ISoundResHandle> pSoundResource)
 {
 	if(m_pDS == NULL)
 		return NULL;
@@ -136,9 +136,10 @@ IAudioBuffer * cDirectSoundAudio::VInitializeAudioBuffer(shared_ptr<cSoundResHan
 	ZeroMemory(&bufferDesc, sizeof(DSBUFFERDESC));
 	bufferDesc.dwSize = sizeof(DSBUFFERDESC);
 	bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME;
-	bufferDesc.dwBufferBytes = pSoundResource->GetPCMBufferSize();
+	bufferDesc.dwBufferBytes = pSoundResource->VGetPCMBufferSize();
 	bufferDesc.guid3DAlgorithm = GUID_NULL;
-	bufferDesc.lpwfxFormat = const_cast<WAVEFORMATEX *>(pSoundResource->GetFormat());
+	shared_ptr<cSoundResHandle> pHandle = dynamic_pointer_cast<cSoundResHandle>(pSoundResource);
+	bufferDesc.lpwfxFormat = const_cast<WAVEFORMATEX *>(pHandle->GetFormat());
 
 	HRESULT result;
 	LPDIRECTSOUNDBUFFER pDSBuffer;

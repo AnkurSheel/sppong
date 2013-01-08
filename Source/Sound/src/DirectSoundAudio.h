@@ -15,7 +15,7 @@
 
 namespace Sound
 {
-	class cSoundResHandle;
+	class ISoundResHandle;
 }
 
 namespace Sound
@@ -26,9 +26,9 @@ namespace Sound
 	public:
 		cDirectSoundAudio();
 		~cDirectSoundAudio();
-		bool Initialize(const HWND & hwnd);
+		bool VInitialize(const HWND & hwnd);
 		void VCleanup();
-		IAudioBuffer * VInitializeAudioBuffer(shared_ptr<cSoundResHandle> pSoundResource);
+		IAudioBuffer * VInitializeAudioBuffer(shared_ptr<ISoundResHandle> pSoundResource);
 		void VReleaseAudioBuffer(IAudioBuffer * pAudioBuffer);
 
 	private:

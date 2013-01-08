@@ -8,7 +8,7 @@
 // 
 // *****************************************************************************
 #include "stdafx.h"
-#include "Resource.h"
+#include "Resources.h"
 
 using namespace Utilities;
 using namespace Base;

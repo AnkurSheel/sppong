@@ -14,7 +14,7 @@
 
 namespace Sound
 {
-	class cSoundResHandle;
+	class ISoundResHandle;
 }
 
 namespace Sound
@@ -26,10 +26,10 @@ namespace Sound
 		~cAudioBuffer();
 
 	protected:
-		cAudioBuffer(shared_ptr<cSoundResHandle> pResource);
+		cAudioBuffer(shared_ptr<ISoundResHandle> pResource);
 
 	protected:
-		shared_ptr<cSoundResHandle>		m_pResource;
+		shared_ptr<ISoundResHandle>		m_pResource;
 
 		bool							m_bIsPaused;
 		bool							m_bIsLooping;

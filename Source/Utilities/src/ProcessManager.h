@@ -10,6 +10,8 @@
 #ifndef ProcessManager_h__
 #define ProcessManager_h__
 
+#include "ProcessManager.hxx"
+
 namespace Utilities
 {
 	class cProcess;
@@ -19,13 +21,13 @@ namespace Utilities
 	typedef std::list<shared_ptr<cProcess>> ProcessList;
 
 	class cProcessManager
+		: public IProcessManager
 	{
 	public:
 		~cProcessManager();
 
-		void Attach(shared_ptr<cProcess> pProcess);
+		void VAttachProcess(shared_ptr<cProcess> pProcess);
 		bool HasProcesses() const;
-		bool IsProcessActive();
 		void UpdateProcesses(const int iDeltaMilliSeconds);
 
 	private:

@@ -18,6 +18,8 @@ IAudio * cAudio::s_pAudio = NULL;
 
 // *****************************************************************************
 cAudio::cAudio()
+: m_bIsPaused(false)
+, m_bInitialized(false)
 {
 
 }

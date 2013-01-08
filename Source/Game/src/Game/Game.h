@@ -45,6 +45,9 @@ private:
 public:
 	cGame(const Base::cString strName);
 	cPongGameElement ** const VGetGameElements() const;
+	Base::cVector3 VGetScreenTopLeftPos() const;
+	Base::cVector3 VGetScreenBottomRightPos() const;
+	void VRoundOver(const bool bPlayer1Won);
 	void HandlePaddleAI(const float fElapsedTime);
 	bool IsSinglePlayer();
 	void MoveLeftPaddle(bool bMoveDown);
@@ -57,14 +60,11 @@ private:
 	void VOnUpdate();
 	void VCleanup();
 	void Restart();
-	void VRoundOver(const bool bPlayer1Won);
 	bool VOnHandleMessage(const AI::Telegram & telegram);
 	void SinglePlayerButtonPressed(bool bPressed);
 	void MultiPlayerButtonPressed(bool bPressed);
 	void QuitButtonPressed(bool bPressed);
 	void VCreateHumanView();
-	Base::cVector3 VGetScreenTopLeftPos() const;
-	Base::cVector3 VGetScreenBottomRightPos() const;
 
 private:
 	int							m_iDisplayHeight ;		// the display height of the window

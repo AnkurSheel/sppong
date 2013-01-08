@@ -33,6 +33,7 @@ namespace GameBase
 	public:
 		virtual ~cBaseApp(){}
 		static Utilities::IParamLoader * VGetParamLoader();
+		GAMEBASE_API virtual cHumanView * const VGetHumanView() const;
 
 	protected:
 		GAMEBASE_API cBaseApp(const Base::cString strName);

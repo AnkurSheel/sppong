@@ -238,9 +238,9 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	//IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(tableDef);
 	//pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 
-	pGame->m_vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->VGetCamera());
+	pGame->m_vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->GetCamera());
 	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(static_cast<float>(pGame->m_iDisplayWidth), static_cast<float>(pGame->m_iDisplayHeight)),
-		pGame->m_pHumanView->VGetCamera());
+		pGame->m_pHumanView->GetCamera());
 
 	cGameElementDef paddleDef;
 	paddleDef.strModelPath = "Media\\cube.spdo";

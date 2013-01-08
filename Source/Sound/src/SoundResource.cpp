@@ -37,10 +37,18 @@ IResHandle * cSoundResource::VCreateHandle(const char * pBuffer,
 }
 
 // *****************************************************************************
-cSoundResHandle::cSoundResHandle(Utilities::cResource & resource,
+ISoundResHandle::ISoundResHandle(Utilities::cResource & resource,
 								 unsigned char * pBuffer, unsigned int uiSize,
 								 IResCache * pResCache)
 : cResHandle(resource, (char *)pBuffer, uiSize, pResCache)
+{
+
+}
+// *****************************************************************************
+cSoundResHandle::cSoundResHandle(Utilities::cResource & resource,
+								 unsigned char * pBuffer, unsigned int uiSize,
+								 IResCache * pResCache)
+: ISoundResHandle(resource, pBuffer, uiSize, pResCache)
 , m_bInitialized(false)
 , m_pPCMBuffer(NULL)
 , m_iPCMBufferSize(0)
@@ -55,7 +63,7 @@ cSoundResHandle::~cSoundResHandle()
 	SAFE_DELETE_ARRAY(m_pPCMBuffer);
 }
 // *****************************************************************************
-bool cSoundResHandle::Initialize()
+bool cSoundResHandle::VInitialize()
 {
 	if (!m_bInitialized)
 	{
@@ -142,7 +150,7 @@ bool cSoundResHandle::ParseWave(const char * const pWavStream,
 }
 
 // *****************************************************************************
-int cSoundResHandle::GetPCMBufferSize() const
+int cSoundResHandle::VGetPCMBufferSize() const
 {
 	return m_iPCMBufferSize;
 }
@@ -154,7 +162,7 @@ WAVEFORMATEX const * cSoundResHandle::GetFormat() const
 }
 
 // *****************************************************************************
-char const * Sound::cSoundResHandle::GetPCMBuffer() const
+char const * Sound::cSoundResHandle::VGetPCMBuffer() const
 {
 	return m_pPCMBuffer;
 }

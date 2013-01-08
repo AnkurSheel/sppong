@@ -13,7 +13,7 @@
 using namespace Sound;
 
 // *****************************************************************************
-cAudioBuffer::cAudioBuffer(shared_ptr<cSoundResHandle> pResource)
+cAudioBuffer::cAudioBuffer(shared_ptr<ISoundResHandle> pResource)
 : m_pResource(pResource)
 , m_bIsPaused(false)
 , m_bIsLooping(false)

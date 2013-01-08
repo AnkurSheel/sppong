@@ -7,37 +7,26 @@
 // *****************************************************************************
 // 
 // *****************************************************************************
-#ifndef SoundProcess_h__
-#define SoundProcess_h__
+#ifndef SoundProcess_hxx__
+#define SoundProcess_hxx__
 
-#include "SoundProcess.hxx"
+#include "SoundDefines.h"
+#include "Process.h"
 
 namespace Sound
 {
-	class cSoundResHandle;
+	class ISoundResHandle;
 	class IAudioBuffer;
 }
 namespace Sound
 {
-	class cSoundProcess
-		: public ISoundProcess
+	class ISoundProcess
+		: public Utilities::cProcess
 	{
 	public:
-		cSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
+		virtual ~ISoundProcess(){};
+		SOUND_API static shared_ptr<ISoundProcess> CreateSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
 			const int iVolume, const bool bLooping);
-		~cSoundProcess();
-		void VInitialize();
-		void VUpdate(const int iDeltaMilliSeconds);
-		void VKill();
-		void Play(const int iVolume, const bool bLooping);
-		void Stop();
-		bool IsPlaying();
-
-	private:
-		shared_ptr<ISoundResHandle>		m_pSoundHandle;
-		shared_ptr<IAudioBuffer>		m_pAudioBuffer;
-		int								m_iVolume;
-		bool							m_bLooping;
 	};
 }
-#endif // SoundProcess_h__
+#endif // SoundProcess_hxx__

@@ -56,7 +56,8 @@ namespace GameBase
 		GAMEBASE_API void SetCursorVisible(bool bVisible);
 		GAMEBASE_API GAMEVIEWTYPE VGetType();
 		GAMEBASE_API GameViewId VGetId() const;
-		GAMEBASE_API const Graphics::ICamera * const VGetCamera() const;
+		GAMEBASE_API const Graphics::ICamera * const GetCamera() const;
+		GAMEBASE_API void PlaySFX(const Base::cString & strSoundFile);
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();

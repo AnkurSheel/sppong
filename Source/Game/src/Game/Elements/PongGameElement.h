@@ -14,7 +14,7 @@
 
 class cPaddle;
 class cBall;
-class IGame;
+class cGame;
 
 class cPongGameElement
 	: public GameBase::cGameElement
@@ -27,11 +27,11 @@ public:
 	virtual cPaddle * CastToPaddle();
 	virtual cBall * CastToBall();
 	virtual void OnUpdate(float fElapsedTime){};
-	static void SetGame(const IGame * const pGame);
+	static void SetGame(const cGame * const pGame);
 
 protected:
 	Base::cVector3			m_vInitialPos;
-	static const IGame *	m_pGame;
+	static const cGame *	m_pGame;
 };
 
 #endif // PongGameElement_h__

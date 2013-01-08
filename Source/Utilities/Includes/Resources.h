@@ -19,7 +19,7 @@ namespace Utilities
 	{
 	public:
 		UTILITIES_API cResource(const Base::cString & strFileName);
-		UTILITIES_API IResHandle * VCreateHandle(const char * pBuffer, unsigned int size, IResCache * pResCache);
+		IResHandle * VCreateHandle(const char * pBuffer, unsigned int size, IResCache * pResCache);
 		UTILITIES_API Base::cString VGetFileName() const;
 
 	private:

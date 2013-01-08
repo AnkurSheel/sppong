@@ -16,7 +16,7 @@
 using namespace Sound;
 
 // *****************************************************************************
-cSoundProcess::cSoundProcess(shared_ptr<cSoundResHandle> pSoundResource,
+cSoundProcess::cSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
 							 const int iVolume, const bool bLooping)
 : m_pSoundHandle(pSoundResource)
 , m_iVolume(iVolume)
@@ -37,11 +37,11 @@ cSoundProcess::~cSoundProcess()
 void cSoundProcess::VInitialize()
 {
 	cProcess::VInitialize();
-	if (m_pSoundHandle)
+	if (m_pSoundHandle == NULL)
 	{
 		return;
 	}
-	m_pSoundHandle->Initialize();
+	m_pSoundHandle->VInitialize();
 	IAudioBuffer * pAudioBuffer = IAudio::GetInstance()->VInitializeAudioBuffer(m_pSoundHandle);
 	if (pAudioBuffer == NULL)
 	{
@@ -79,7 +79,7 @@ void cSoundProcess::VKill()
 // *****************************************************************************
 void cSoundProcess::Play(const int iVolume, const bool bLooping)
 {
-	if (m_pAudioBuffer)
+	if (m_pAudioBuffer == NULL)
 	{
 		return;
 	}
@@ -103,4 +103,11 @@ bool cSoundProcess::IsPlaying()
 		return false;
 	}
 	return m_pAudioBuffer->VIsPlaying();
+}
+
+// *****************************************************************************
+shared_ptr<ISoundProcess> ISoundProcess::CreateSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
+			const int iVolume, const bool bLooping)
+{
+	return shared_ptr<ISoundProcess>(DEBUG_NEW cSoundProcess(pSoundResource, iVolume, bLooping));
 }

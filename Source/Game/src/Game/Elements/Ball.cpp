@@ -11,8 +11,9 @@
 #include "Ball.h"
 #include "RandomGenerator.hxx"
 #include "AABB.hxx"
-#include "Game\Game.hxx"
+#include "Game\Game.h"
 #include "CollisionChecker.hxx"
+#include "HumanView.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -72,27 +73,34 @@ void cBall::OnUpdate(float fElapsedTime)
 	pAABB->VTransalate(vDeltaPos);
 	cVector3 vPredictedPos = GetPosition();
 	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB(), contact))
-		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB(), contact))
-		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB(), contact))
+		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB(), contact)))
+	{
+		float nv = m_vSpeed.Dot(contact.vNormal);
+		m_vSpeed -= contact.vNormal * 2 * nv;
+		m_pGame->VGetHumanView()->PlaySFX("Sounds\\SFX\\collision1.wav");
+
+	}
+	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB(), contact))
 		|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_RIGHT]->GetAABB(), contact)))
 	{
 		float nv = m_vSpeed.Dot(contact.vNormal);
 		m_vSpeed -= contact.vNormal * 2 * nv;
+		m_pGame->VGetHumanView()->PlaySFX("Sounds\\SFX\\collision2.wav");
+
 	}
 	vPredictedPos = vPredictedPos + vDeltaPos + contact.vDistance;
 	SetPosition(vPredictedPos);
 
 	if (GetPosition().x < m_pGame->VGetScreenTopLeftPos().x)
 	{
-		IGame * pGame = const_cast<IGame *>(m_pGame);
+		cGame * pGame = const_cast<cGame *>(m_pGame);
 		pGame->VRoundOver(true);
 	}
 	else if (GetPosition().x > m_pGame->VGetScreenBottomRightPos().x)
 	{
-		IGame * pGame = const_cast<IGame *>(m_pGame);
+		cGame * pGame = const_cast<cGame *>(m_pGame);
 		pGame->VRoundOver(false);
 	}
-
 }
 
 // *****************************************************************************
