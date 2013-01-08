@@ -326,14 +326,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Resource.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Includes\Resource.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\ResourceManager.cpp"
 				>
 			</File>
@@ -343,6 +335,14 @@
 			</File>
 			<File
 				RelativePath=".\Includes\ResourceManager.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Resources.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\Resources.h"
 				>
 			</File>
 		</Filter>

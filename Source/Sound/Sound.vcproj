@@ -104,7 +104,7 @@
 			OutputDirectory="..\..\bin"
 			IntermediateDirectory="..\..\Obj\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -239,11 +239,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Includes\SoundProcess.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\SoundResource.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\src\SoundResource.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\SoundResource.hxx"
 			>
 		</File>
 		<File

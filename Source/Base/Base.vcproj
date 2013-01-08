@@ -197,6 +197,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\HashedString.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\HashedString.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Includes\Includes.h"
 			>
 		</File>
