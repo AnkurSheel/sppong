@@ -66,6 +66,8 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
 		pTitleScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 	}
+	pGame->m_pHumanView->PlayMusic("Sounds\\Music\\mainmenu.ogg", true);
+
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }
 // ***************************************************************
@@ -157,9 +159,6 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
 		pQuitButton->VRegisterCallBack(callbackQuitBtn);
 	}
-	
-	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
 }
 // ***************************************************************
 

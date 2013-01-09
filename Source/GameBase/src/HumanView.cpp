@@ -265,10 +265,19 @@ void cHumanView::SetCursorVisible( bool bVisible )
 }
 
 // *****************************************************************************
-void cHumanView::PlaySFX(const Base::cString & strSoundFile)
+void cHumanView::PlaySFX(const cString & strSoundFile)
 {
 	shared_ptr<cSoundResource> pResource(DEBUG_NEW cSoundResource(strSoundFile));
 	shared_ptr<ISoundResHandle> pHandle = static_pointer_cast<ISoundResHandle>(IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource));
 	shared_ptr<ISoundProcess> sfx(ISoundProcess::CreateSoundProcess(pHandle, 100, false));
+	m_pProcessManager->VAttachProcess(sfx);
+}
+
+// *****************************************************************************
+void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
+{
+	shared_ptr<cSoundResource> pResource(DEBUG_NEW cSoundResource(strMusicFile));
+	shared_ptr<ISoundResHandle> pHandle = static_pointer_cast<ISoundResHandle>(IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource));
+	shared_ptr<ISoundProcess> sfx(ISoundProcess::CreateSoundProcess(pHandle, 100, bLooping));
 	m_pProcessManager->VAttachProcess(sfx);
 }

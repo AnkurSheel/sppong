@@ -161,14 +161,14 @@ unsigned int cString::GetLength() const
 }
 
 // *****************************************************************************
-cString cString::GetSubString( const size_t iStartIndex, const size_t iEndIndex ) const
+cString cString::GetSubString(const unsigned int uiStartIndex, const unsigned int uiEndIndex) const
 {
-	if (iStartIndex < 0 || iEndIndex > m_str.length())
+	if (uiStartIndex < 0 || uiEndIndex > m_str.length())
 	{
 		return "";
 	}
 
-	return m_str.substr(iStartIndex, (iEndIndex-iStartIndex));
+	return m_str.substr(uiStartIndex, (uiEndIndex - uiStartIndex));
 }
 
 // *****************************************************************************

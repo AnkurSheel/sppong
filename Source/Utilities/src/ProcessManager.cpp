@@ -15,14 +15,7 @@ using namespace Utilities;
 
 cProcessManager::~cProcessManager()
 {	
-	ProcessList::const_iterator curProcess = m_pProcessList.begin();
-
-	while(curProcess != m_pProcessList.end())
-	{
-		shared_ptr<cProcess> p(*curProcess);
-		curProcess++;
-		Detach(p);
-	}
+	m_pProcessList.clear();
 }
 
 void cProcessManager::VAttachProcess(shared_ptr<cProcess> pProcess)

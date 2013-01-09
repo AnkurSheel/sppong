@@ -44,7 +44,7 @@ namespace Base
 		BASE_API const char * const GetData()const;
 		BASE_API bool IsEmpty() const ;
 		BASE_API unsigned int GetLength() const;
-		BASE_API cString GetSubString(const size_t iStartIndex, const size_t iEndIndex) const;
+		BASE_API cString GetSubString(const unsigned int uiStartIndex, const unsigned int uiEndIndex) const;
 		BASE_API Base::tOptional<int> FindIndex(const char chChar, const int iOffset) const;
 		BASE_API Base::tOptional<int> FindFirstNotOf(const cString & strDelims, const int iOffset) const;
 		BASE_API Base::tOptional<int> FindFirstOf(const cString & strDelims, const int iOffset) const;

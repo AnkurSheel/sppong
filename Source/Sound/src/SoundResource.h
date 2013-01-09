@@ -26,6 +26,7 @@ namespace Sound
 
 	private:
 		bool ParseWave(const char * const pWavStream, const unsigned int uiBufferLength);
+		bool ParseOgg(const char * const pOggStream, const unsigned int uiBufferLength);
 
 	private:
 		bool					m_bInitialized;		/*!< True if the sound has been initialized. */

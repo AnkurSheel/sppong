@@ -58,6 +58,7 @@ namespace GameBase
 		GAMEBASE_API GameViewId VGetId() const;
 		GAMEBASE_API const Graphics::ICamera * const GetCamera() const;
 		GAMEBASE_API void PlaySFX(const Base::cString & strSoundFile);
+		GAMEBASE_API void PlayMusic(const Base::cString & strMusicFile, const bool bLooping);
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();
@@ -86,8 +87,6 @@ namespace GameBase
 
 	public:
 		Graphics::IBaseControl *		m_pAppWindowControl;
-
-
 	};
 }
 #endif // HumanView_h__
