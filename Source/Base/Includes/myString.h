@@ -58,6 +58,7 @@ namespace Base
 		BASE_API void TrimRight();
 		BASE_API void TrimBoth();
 		BASE_API void Tokenize(char cToken, std::vector<Base::cString> & vValue) const;
+		BASE_API cString GetExtensionFromFileName() const;
 		BASE_API Base::tOptional<int> ToInt() const;
 		BASE_API Base::tOptional<float> ToFloat() const;
 		BASE_API Base::tOptional<bool> ToBool() const;

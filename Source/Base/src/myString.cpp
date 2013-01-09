@@ -1,22 +1,26 @@
-// ****************************************************************************
+// *****************************************************************************
 //  myString   version:  1.0   Ankur Sheel  date: 2011/03/08
-//  ---------------------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  ---------------------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ****************************************************************************
+// *****************************************************************************
 // 
-// ****************************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "myString.h"
 #include <time.h>
 #include "Optional.h"
 
-Base::cString::cString()
+using namespace Base;
+
+// *****************************************************************************
+cString::cString()
 {
 }
 
-Base::cString::cString(const char * s)
+// *****************************************************************************
+cString::cString(const char * s)
 {
 	if (s != NULL)
 	{
@@ -24,17 +28,20 @@ Base::cString::cString(const char * s)
 	}
 }
 
-Base::cString::cString(std::string const & s)
+// *****************************************************************************
+cString::cString(std::string const & s)
 : m_str(s)
 {
 }
 
-Base::cString::cString(const char * s, int n)
+// *****************************************************************************
+cString::cString(const char * s, int n)
 : m_str(s, n) 
 {
 }
 
-Base::cString::cString(int iMaxSize, const char * const lpFmt, ... )
+// *****************************************************************************
+cString::cString(int iMaxSize, const char * const lpFmt, ... )
 {
 	char * szBuffer = DEBUG_NEW char[iMaxSize+1];
 	va_list argptr;
@@ -48,18 +55,21 @@ Base::cString::cString(int iMaxSize, const char * const lpFmt, ... )
 	SAFE_DELETE_ARRAY(szBuffer);
 }
 
-Base::cString::cString( const cString & str)
+// *****************************************************************************
+cString::cString( const cString & str)
 : m_str(str.m_str)
 {
 }
 
-Base::cString Base::cString::operator=( const cString & str)
+// *****************************************************************************
+cString cString::operator=( const cString & str)
 {
 	m_str = str.m_str;
 	return *this;
 }
 
-void Base::cString::operator += (const char * const str)
+// *****************************************************************************
+void cString::operator += (const char * const str)
 {
 	if (str != NULL)
 	{
@@ -67,27 +77,32 @@ void Base::cString::operator += (const char * const str)
 	}
 }
 
-void Base::cString::operator += (const cString & str)
+// *****************************************************************************
+void cString::operator += (const cString & str)
 {
 	m_str += str.GetData();
 }
 
-bool Base::cString::operator < (const cString & str) const
+// *****************************************************************************
+bool cString::operator < (const cString & str) const
 {
 	return m_str < str.m_str;
 }
 
-bool Base::cString::operator == (const char * szRight) const
+// *****************************************************************************
+bool cString::operator == (const char * szRight) const
 {
 	return strcmp(m_str.c_str(), szRight) == 0;
 }
 
-bool Base::cString::operator == (const cString & strRight) const 
+// *****************************************************************************
+bool cString::operator == (const cString & strRight) const 
 {
 	return m_str.compare(strRight.m_str) == 0;
 }
 
-const char Base::cString::operator[](const unsigned int index) const
+// *****************************************************************************
+const char cString::operator[](const unsigned int index) const
 {
 	if(index < GetLength())
 	{
@@ -96,7 +111,8 @@ const char Base::cString::operator[](const unsigned int index) const
 	return '\0';
 }
 
-char Base::cString::operator[](const unsigned int index)
+// *****************************************************************************
+char cString::operator[](const unsigned int index)
 {
 	if(index < GetLength())
 	{
@@ -105,42 +121,47 @@ char Base::cString::operator[](const unsigned int index)
 	return '\0';
 }
 
-bool Base::cString::Compare (const cString & strRight) const
+// *****************************************************************************
+bool cString::Compare (const cString & strRight) const
 {
 	return m_str.compare(strRight.m_str) == 0;
 }
 
-bool Base::cString::CompareInsensitive (const cString & strRight) const
+// *****************************************************************************
+bool cString::CompareInsensitive (const cString & strRight) const
 {
 	return _stricmp(GetData(), strRight.GetData()) == 0;
 }
 
-const char * const Base::cString::GetData() const
+// *****************************************************************************
+const char * const cString::GetData() const
 { 
 	return m_str.c_str(); 
 }
 
-bool Base::cString::IsEmpty() const
+// *****************************************************************************
+bool cString::IsEmpty() const
 {
 	return m_str.empty();
 }
 
-Base::cString Base::cString::TimeToString(time_t time)
+// *****************************************************************************
+cString cString::TimeToString(time_t time)
 {
 	char str[26];
 	ctime_s(str, 26, &time);
 	str[24] = ' '; // remove the '/n' from the time string
 	return str;
 }
-// ****************************************************************************
 
-unsigned int Base::cString::GetLength() const
+// *****************************************************************************
+unsigned int cString::GetLength() const
 {
 	return m_str.length();
 }
-// ****************************************************************************
 
-Base::cString Base::cString::GetSubString( const size_t iStartIndex, const size_t iEndIndex ) const
+// *****************************************************************************
+cString cString::GetSubString( const size_t iStartIndex, const size_t iEndIndex ) const
 {
 	if (iStartIndex < 0 || iEndIndex > m_str.length())
 	{
@@ -150,7 +171,8 @@ Base::cString Base::cString::GetSubString( const size_t iStartIndex, const size_
 	return m_str.substr(iStartIndex, (iEndIndex-iStartIndex));
 }
 
- Base::tOptional<int> Base::cString::ToInt() const
+// *****************************************************************************
+tOptional<int> cString::ToInt() const
 {
 	tOptional<int> value = 0;
 	int len = m_str.length();
@@ -188,7 +210,8 @@ Base::cString Base::cString::GetSubString( const size_t iStartIndex, const size_
 	return value;
 }
 
-Base::tOptional<float> Base::cString::ToFloat() const
+// *****************************************************************************
+tOptional<float> cString::ToFloat() const
 {
 	tOptional<float> value = 0;
 	int len = m_str.length();
@@ -251,7 +274,8 @@ Base::tOptional<float> Base::cString::ToFloat() const
 	return value;
 }
 
-Base::tOptional<bool> Base::cString::ToBool() const
+// *****************************************************************************
+tOptional<bool> cString::ToBool() const
 {
 	tOptional<bool> val;
 	std::string str;
@@ -271,7 +295,8 @@ Base::tOptional<bool> Base::cString::ToBool() const
 	return val;
 }
 
-Base::tOptional<int> Base::cString::FindFirstNotOf(const cString & strDelims, const int iOffset) const
+// *****************************************************************************
+tOptional<int> cString::FindFirstNotOf(const cString & strDelims, const int iOffset) const
 {
 	tOptional<int> val;
 	
@@ -288,7 +313,8 @@ Base::tOptional<int> Base::cString::FindFirstNotOf(const cString & strDelims, co
 	return val;
 }
 
-Base::tOptional<int> Base::cString::FindFirstOf(const cString & strDelims, const int iOffset) const
+// *****************************************************************************
+tOptional<int> cString::FindFirstOf(const cString & strDelims, const int iOffset) const
 {
 	tOptional<int> val;
 	
@@ -305,8 +331,9 @@ Base::tOptional<int> Base::cString::FindFirstOf(const cString & strDelims, const
 	return val;
 }
 
-// ****************************************************************************
-Base::tOptional<int> Base::cString::FindLastNotOf( const cString & strDelims, const int iOffset ) const
+// *****************************************************************************
+tOptional<int> cString::FindLastNotOf(const cString & strDelims,
+									  const int iOffset) const
 {
 	tOptional<int> val;
 
@@ -323,8 +350,9 @@ Base::tOptional<int> Base::cString::FindLastNotOf( const cString & strDelims, co
 	return val;
 }
 
-// ****************************************************************************
-Base::tOptional<int> Base::cString::FindLastOf( const cString & strDelims, const int iOffset ) const
+// *****************************************************************************
+tOptional<int> cString::FindLastOf(const cString & strDelims,
+								   const int iOffset) const
 {
 	tOptional<int> val;
 
@@ -341,8 +369,8 @@ Base::tOptional<int> Base::cString::FindLastOf( const cString & strDelims, const
 	return val;
 }
 
-// ****************************************************************************
-Base::tOptional<int> Base::cString::FindIndex(const char chChar, const int iOffset) const
+// *****************************************************************************
+tOptional<int> cString::FindIndex(const char chChar, const int iOffset) const
 {
 	tOptional<int> val;
 
@@ -360,19 +388,20 @@ Base::tOptional<int> Base::cString::FindIndex(const char chChar, const int iOffs
 
 }
 
-void Base::cString::Insert( const int iIndex, const cString & strText )
+// *****************************************************************************
+void cString::Insert( const int iIndex, const cString & strText )
 {
 	m_str.insert(iIndex, strText.GetData());
 }
-// ****************************************************************************
 
-void Base::cString::Remove( const int iIndex, const int iQuantity )
+// *****************************************************************************
+void cString::Remove( const int iIndex, const int iQuantity )
 {
 	m_str.erase(iIndex, iQuantity);
 }
 
-// ****************************************************************************
-void Base::cString::TrimLeft()
+// *****************************************************************************
+void cString::TrimLeft()
 {
 	const cString delims(" \t");
 	tOptional<int> endIndex;
@@ -394,8 +423,8 @@ void Base::cString::TrimLeft()
 	}
 }
 
-// ****************************************************************************
-void Base::cString::TrimRight()
+// *****************************************************************************
+void cString::TrimRight()
 {
 	const cString delims(" \t");
 	tOptional<int> endIndex;
@@ -411,15 +440,15 @@ void Base::cString::TrimRight()
 	}
 }
 
-// ****************************************************************************
-void Base::cString::TrimBoth()
+// *****************************************************************************
+void cString::TrimBoth()
 {
 	TrimLeft();
 	TrimRight();
 }
 
-// ****************************************************************************
-void Base::cString::Tokenize(char cToken, std::vector<Base::cString> & vValue) const
+// *****************************************************************************
+void cString::Tokenize(char cToken, std::vector<cString> & vValue) const
 {
 	int n = GetLength();
 	int iStartIndex = 0;
@@ -440,27 +469,42 @@ void Base::cString::Tokenize(char cToken, std::vector<Base::cString> & vValue) c
 	}
 }
 
-Base::cString Base::operator + (const cString & lhs, const cString & rhs)
+// *****************************************************************************
+cString cString::GetExtensionFromFileName() const
+{
+	tOptional<int> index = FindLastOf(".", GetLength());
+	if (index.IsValid())
+	{
+		return GetSubString(*index + 1, GetLength());
+	}
+	return "";
+}
+
+// *****************************************************************************
+cString Base::operator + (const cString & lhs, const cString & rhs)
 {
 	cString str = lhs;
 	str += rhs;
 	return str;
 }
 
-Base::cString Base::operator + (const char * lhs, const cString & rhs)
+// *****************************************************************************
+cString Base::operator + (const char * lhs, const cString & rhs)
 {
 	cString str = lhs;
 	str += rhs;
 	return str;
 }
 
-Base::cString Base::operator + (const cString & lhs, const char* rhs)
+// *****************************************************************************
+cString Base::operator + (const cString & lhs, const char* rhs)
 {
 	cString str = lhs;
 	str += rhs;
 	return str;
 }
 
+// *****************************************************************************
 std::ostream& Base::operator << (std::ostream& os, const cString & str)
 {
 	os << str.GetData();

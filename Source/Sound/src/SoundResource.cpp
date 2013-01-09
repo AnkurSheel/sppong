@@ -67,8 +67,10 @@ bool cSoundResHandle::VInitialize()
 {
 	if (!m_bInitialized)
 	{
-		//TODO - find sound type
-		ParseWave(m_pBuffer, m_iBufferSize);
+		if ((m_strSoundFileName.GetExtensionFromFileName()).CompareInsensitive("wav"))
+		{
+			ParseWave(m_pBuffer, m_iBufferSize);
+		}
 		m_bInitialized = true;
 	}
 	return true;
