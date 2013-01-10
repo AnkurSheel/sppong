@@ -30,9 +30,7 @@ namespace Sound
 
 	protected:
 		shared_ptr<ISoundResHandle>		m_pResource;
-
 		bool							m_bIsPaused;
-		bool							m_bIsLooping;
 		unsigned int					m_uiVolume;
 	};
 }

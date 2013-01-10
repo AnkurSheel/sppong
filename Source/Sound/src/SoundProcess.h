@@ -29,7 +29,7 @@ namespace Sound
 		void VInitialize();
 		void VUpdate(const int iDeltaMilliSeconds);
 		void VKill();
-		void Play(const int iVolume, const bool bLooping);
+		void Play();
 		void Stop();
 		bool IsPlaying();
 

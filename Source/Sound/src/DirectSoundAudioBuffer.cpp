@@ -28,25 +28,17 @@ cDirectSoundAudioBuffer::cDirectSoundAudioBuffer(LPDIRECTSOUNDBUFFER pSound,
 }
 
 // *****************************************************************************
-bool cDirectSoundAudioBuffer::VPlay(const unsigned int uiVolume, const bool bLooping)
+bool cDirectSoundAudioBuffer::VPlay()
 {
 	VStop();
-	m_uiVolume = uiVolume;
-	m_bIsLooping = bLooping;
 
 	LPDIRECTSOUNDBUFFER pDSBuffer = GetSoundBuffer();
 	if (pDSBuffer == NULL)
 	{
 		return false;
 	}
-	float fCoeff = (float)uiVolume / 100.0f;
-	float fRange = (DSBVOLUME_MAX -DSBVOLUME_MIN);
-	float fVolume = (fRange * fCoeff) + DSBVOLUME_MIN;
 
-	pDSBuffer->SetVolume(fVolume);
-	unsigned long ulFlags = m_bIsLooping ? DSBPLAY_LOOPING : 0L;
-
-	return (S_OK == pDSBuffer->Play(0, 0, ulFlags));
+	return (S_OK == pDSBuffer->Play(0, 0, 0));
 }
 
 // *****************************************************************************
@@ -66,7 +58,7 @@ bool cDirectSoundAudioBuffer::VStop()
 bool cDirectSoundAudioBuffer::VResume()
 {
 	m_bIsPaused = false;
-	return VPlay(m_uiVolume, m_bIsLooping);
+	return VPlay();
 }
 
 // *****************************************************************************

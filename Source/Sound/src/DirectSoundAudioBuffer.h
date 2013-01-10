@@ -27,7 +27,7 @@ namespace Sound
 		cDirectSoundAudioBuffer(LPDIRECTSOUNDBUFFER pSound, shared_ptr<ISoundResHandle> pResource);
 
 	private:
-		bool VPlay(const unsigned int uiVolume, const bool bLooping);
+		bool VPlay();
 		bool VStop();
 		bool VResume();
 		bool VTogglePause();

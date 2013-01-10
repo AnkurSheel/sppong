@@ -49,20 +49,24 @@ void cSoundProcess::VInitialize()
 		return;
 	}
 	m_pAudioBuffer.reset(pAudioBuffer);
-	Play(m_iVolume, m_bLooping);
+	m_pAudioBuffer->VSetVolume(m_iVolume);
+	Play();
 }
 
 // *****************************************************************************
 void cSoundProcess::VUpdate(const int iDeltaMilliSeconds)
 {
 	cProcess::VUpdate(iDeltaMilliSeconds);
-	if (!m_bInitialUpdate && !IsPlaying())
+	if (!IsPlaying())
 	{
-		VKill();
-	}
-	if (IsDead() && m_bLooping)
-	{
-		Play(m_iVolume, m_bLooping);
+		if(m_bLooping)
+		{
+			Play();
+		}
+		else
+		{
+			VKill();
+		}
 	}
 }
 
@@ -77,13 +81,13 @@ void cSoundProcess::VKill()
 }
 
 // *****************************************************************************
-void cSoundProcess::Play(const int iVolume, const bool bLooping)
+void cSoundProcess::Play()
 {
 	if (m_pAudioBuffer == NULL)
 	{
 		return;
 	}
-	m_pAudioBuffer->VPlay(iVolume, bLooping);
+	m_pAudioBuffer->VPlay();
 }
 
 // *****************************************************************************

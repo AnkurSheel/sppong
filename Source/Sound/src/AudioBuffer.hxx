@@ -16,7 +16,7 @@ namespace Sound
 	{
 	public:
 		virtual ~IAudioBuffer(){};
-		virtual bool VPlay(const unsigned int uiVolume, const bool bLooping) = 0;
+		virtual bool VPlay() = 0;
 		virtual bool VStop() = 0;
 		virtual bool VResume() = 0;
 		virtual bool VPause() = 0;

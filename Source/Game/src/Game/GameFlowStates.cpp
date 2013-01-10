@@ -125,7 +125,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
-		buttonDef.vPosition = cVector2(412.0f, 330.0f);
+		buttonDef.vPosition = cVector2(412, 170);
 		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
 		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
 		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
@@ -141,7 +141,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		buttonDef.bAutoSize = false;
 		buttonDef.vSize = pSinglePlayerButton->VGetSize();
-		buttonDef.vPosition = cVector2(412.f, 450);
+		buttonDef.vPosition = cVector2(412, 270);
 		buttonDef.labelControlDef.strText = "MultiPlayer";
 		
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl(buttonDef);
@@ -150,8 +150,32 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
-		buttonDef.labelControlDef.strText = "Quit";
+		buttonDef.labelControlDef.strText = "Options";
+		buttonDef.vPosition = cVector2(412, 370);
+
+		IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
+		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
+
+		buttonDef.labelControlDef.strText = "Help";
+		buttonDef.vPosition = cVector2(412, 470);
+
+		IBaseControl * pHelpButton = IBaseControl::CreateButtonControl(buttonDef);
+		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pHelpButton));
+		function<void (bool)> callbackHelpBtn;
+		//callbackHelpBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
+		//pHelpButton->VRegisterCallBack(callbackHelpBtn);
+
+		buttonDef.labelControlDef.strText = "Credits";
 		buttonDef.vPosition = cVector2(412, 570);
+
+		IBaseControl * pCreditsButton = IBaseControl::CreateButtonControl(buttonDef);
+		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pCreditsButton));
+		//function<void (bool)> callbackCreditsBtn;
+		//callbackCreditsBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
+		//pCreditsButton->VRegisterCallBack(callbackCreditsBtn);
+
+		buttonDef.labelControlDef.strText = "Quit";
+		buttonDef.vPosition = cVector2(412, 670);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
 		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
