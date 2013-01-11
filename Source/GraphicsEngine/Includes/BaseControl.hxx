@@ -1,17 +1,16 @@
-// ***************************************************************
+// *****************************************************************************
 //  BaseControl   version:  1.0   Ankur Sheel  date: 2011/11/22
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef BaseControl_hxx__
 #define BaseControl_hxx__
 
 #include "GraphicEngineDefines.h"
-#include "ScreenElement.hxx"
 #include "MouseHandler.hxx"
 #include "KeyboardHandler.hxx"
 #include "ControlStructures.h"
@@ -21,6 +20,7 @@ namespace Base
 	class cString;
 	class cVector2;
 	class cColor;
+	struct AppMsg;
 }
 
 namespace Graphics
@@ -38,8 +38,7 @@ namespace Graphics
 	 * Button, CheckBox, TextBox and ScrollBars
 	 ***********************************************/
 	class IBaseControl
-		: public IScreenElement
-		, public IMouseHandler
+		: public IMouseHandler
 		, public IKeyboardHandler
 	{
 	public:
@@ -70,6 +69,24 @@ namespace Graphics
 		 * Removes and deletes the child control
 		 ***********************************************/
 		virtual void VRemoveChildControl(const Base::cString & strControlName) = 0;
+		/********************************************//**
+ 		 * @param[in] pCamera The camera which contains the current view matrix
+		 *
+		 * Draws the control
+		 ***********************************************/
+		virtual void VRender(const ICamera * const pCamera) = 0;
+		/********************************************//**
+ 		 * @param[in] bIsVisible True if the control should be visible, false otherwise
+		 *
+		 * Sets the visibility of the 2D element
+		 ***********************************************/
+		virtual void VSetVisible(bool bIsVisible) = 0;
+		/********************************************//**
+ 		 * @param[in] strControlName The name of the control that needs to be retrieved
+		 *
+		 * Returns the child control
+		 ***********************************************/
+		virtual shared_ptr<IBaseControl> VGetChildControl(const Base::cString & strControlName) = 0;
 		/********************************************//**
  		 * @param[in] vPosition The position of the control
 		 *

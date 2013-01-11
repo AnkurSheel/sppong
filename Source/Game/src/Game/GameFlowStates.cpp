@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  GameFlowStates   version:  1.0   Ankur Sheel  date: 05/24/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "GameFlowStates.h"
 #include "Game.h"
@@ -32,22 +32,23 @@ using namespace GameBase;
 cStateTitleScreen::cStateTitleScreen()
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
 cStateTitleScreen::~cStateTitleScreen()
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
 cStateTitleScreen* cStateTitleScreen::Instance()
 {
 	static cStateTitleScreen instance;
 	return &instance;
 }
-// ***************************************************************
+// *****************************************************************************
 
 void cStateTitleScreen::VOnEnter(cGame *pGame)
 {
+	IGameFlowStates::VOnEnter(pGame);
 	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
 	{
 		cWindowControlDef titleDef;
@@ -70,48 +71,50 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }
-// ***************************************************************
+// *****************************************************************************
 
-void cStateTitleScreen::VOnUpdate(cGame *pGame)
+void cStateTitleScreen::VOnUpdate()
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
-void cStateTitleScreen::VOnExit(cGame *pGame)
+void cStateTitleScreen::VOnExit()
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
-bool cStateTitleScreen::VOnMessage(cGame *pGame, const Telegram &msg)
+bool cStateTitleScreen::VOnMessage(const Telegram &msg)
 {
 	if(msg.Msg == MSG_SHOWMENU)
 	{
-		pGame->m_pStateMachine->RequestChangeState(cStateMenuScreen::Instance());
+		m_pOwner->m_pStateMachine->RequestChangeState(cStateMenuScreen::Instance());
 		return true;
 	}
 	return false;
 }
-// ***************************************************************
+// *****************************************************************************
 
 cStateMenuScreen::cStateMenuScreen()
+: m_pMenuScreen(NULL)
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
 cStateMenuScreen::~cStateMenuScreen()
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
 cStateMenuScreen* cStateMenuScreen::Instance()
 {
 	static cStateMenuScreen instance;
 	return &instance;
 }
-// ***************************************************************
+// *****************************************************************************
 
 void cStateMenuScreen::VOnEnter(cGame *pGame)
 {
+	IGameFlowStates::VOnEnter(pGame);
 	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
 	{
 		cWindowControlDef menuDef;
@@ -119,9 +122,9 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		menuDef.wType = cWindowControlDef::WT_STANDARD;
 		menuDef.vPosition = cVector2(0, 0);
 		menuDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
-		IBaseControl * pMenuScreen = IBaseControl::CreateWindowControl(menuDef);
-		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pMenuScreen));
-		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pMenuScreen);
+		m_pMenuScreen = IBaseControl::CreateWindowControl(menuDef);
+		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(m_pMenuScreen));
+		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(m_pMenuScreen);
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
@@ -134,7 +137,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.labelControlDef.fTextHeight = 70;
 
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl(buttonDef);
-		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pSinglePlayerButton));
+		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pSinglePlayerButton));
 		function<void (bool)> callbackSinglePlayerBtn;
 		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
 		pSinglePlayerButton->VRegisterCallBack(callbackSinglePlayerBtn);
@@ -145,7 +148,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.labelControlDef.strText = "MultiPlayer";
 		
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl(buttonDef);
-		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pMultiPlayerButton));
+		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pMultiPlayerButton));
 		function<void (bool)> callbackMultiPlayerBtn;
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
@@ -154,22 +157,22 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.vPosition = cVector2(412, 370);
 
 		IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
-		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
+		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
 
 		buttonDef.labelControlDef.strText = "Help";
 		buttonDef.vPosition = cVector2(412, 470);
 
 		IBaseControl * pHelpButton = IBaseControl::CreateButtonControl(buttonDef);
-		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pHelpButton));
+		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pHelpButton));
 		function<void (bool)> callbackHelpBtn;
-		//callbackHelpBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
-		//pHelpButton->VRegisterCallBack(callbackHelpBtn);
+		callbackHelpBtn = bind(&cStateMenuScreen::HelpButtonPressed, this, _1);
+		pHelpButton->VRegisterCallBack(callbackHelpBtn);
 
 		buttonDef.labelControlDef.strText = "Credits";
 		buttonDef.vPosition = cVector2(412, 570);
 
 		IBaseControl * pCreditsButton = IBaseControl::CreateButtonControl(buttonDef);
-		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pCreditsButton));
+		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pCreditsButton));
 		//function<void (bool)> callbackCreditsBtn;
 		//callbackCreditsBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
 		//pCreditsButton->VRegisterCallBack(callbackCreditsBtn);
@@ -178,57 +181,84 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.vPosition = cVector2(412, 670);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
-		pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
+		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
 		function<void (bool)> callbackQuitBtn;
 		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
 		pQuitButton->VRegisterCallBack(callbackQuitBtn);
 	}
 }
-// ***************************************************************
+// *****************************************************************************
 
-void cStateMenuScreen::VOnUpdate(cGame *pGame)
+void cStateMenuScreen::VOnUpdate()
 {
-	if (pGame->m_pStateMachine)
+	if (m_pOwner && m_pOwner->m_pStateMachine)
 	{
-		if (pGame->m_bSinglePlayer)
+		if (m_pOwner->m_bSinglePlayer)
 		{
-			pGame->m_pStateMachine->RequestChangeState(cStatePlayGame::Instance());
+			m_pOwner->m_pStateMachine->RequestChangeState(cStatePlayGame::Instance());
 		}
-		if (pGame->m_bMultiPlayer)
+		if (m_pOwner->m_bMultiPlayer)
 		{
-			pGame->m_pStateMachine->RequestChangeState(cStatePlayGame::Instance());
+			m_pOwner->m_pStateMachine->RequestChangeState(cStatePlayGame::Instance());
 		}
 	}
 }
-// ***************************************************************
+// *****************************************************************************
 
-void cStateMenuScreen::VOnExit(cGame *pGame)
+void cStateMenuScreen::VOnExit()
 {
-	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
+	if (m_pOwner->m_pHumanView->m_pAppWindowControl != NULL)
 	{
-		pGame->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("TitleScreen");
-		pGame->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("MenuScreen");
+		m_pOwner->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("TitleScreen");
+		m_pOwner->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("MenuScreen");
 	}
-
-	//pGame->m_pSound->RemoveSound(pGame->GS_MAIN_MENU_MUSIC);
 }
-// ***************************************************************
+// *****************************************************************************
 
-bool cStateMenuScreen::VOnMessage(cGame *pGame, const Telegram &msg)
+bool cStateMenuScreen::VOnMessage(const Telegram &msg)
 {
 	return false;
 }
-// ***************************************************************
 
+// *****************************************************************************
+void cStateMenuScreen::VOnPause()
+{
+	IGameFlowStates::VOnPause();
+	if (m_pMenuScreen != NULL)
+	{
+		m_pMenuScreen->VSetVisible(false);
+	}
+}
+
+// *****************************************************************************
+void cStateMenuScreen::VOnResume()
+{
+	IGameFlowStates::VOnResume();
+	if (m_pMenuScreen != NULL)
+	{
+		m_pMenuScreen->VSetVisible(true);
+	}
+}
+
+// *****************************************************************************
+void cStateMenuScreen::HelpButtonPressed(bool bPressed)
+{
+	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	{
+		m_pOwner->m_pStateMachine->RequestPushState(cStateHelpScreen::Instance());
+	}
+}
+
+// *****************************************************************************
 cStatePlayGame::cStatePlayGame()
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
 cStatePlayGame::~cStatePlayGame()
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
 cStatePlayGame* cStatePlayGame::Instance()
 {
@@ -236,9 +266,10 @@ cStatePlayGame* cStatePlayGame::Instance()
 	return &instance;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cStatePlayGame::VOnEnter(cGame *pGame)
 {
+	IGameFlowStates::VOnEnter(pGame);
 	cPongGameElement::SetGame(pGame);
 
 	cWindowControlDef HUDDef;
@@ -303,44 +334,124 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pHUDScreen->VAddChildControl(pGame->m_pScore[1].GetLabel());
 	pHUDScreen->VMoveToFront(pGame->m_pScore[1].GetLabel().get());
 	
-	//pGame->m_pSound->CreateSound(pGame->GS_BALL_WALL_COLLISION, "resources\\Sounds\\SFX\\collision1.wav");
-	//pGame->m_pSound->CreateSound(pGame->GS_BALL_PADDLE_COLLISION, "resources\\Sounds\\SFX\\collision2.wav");
-	//pGame->m_pSound->CreateSound(pGame->GS_WIN, "resources\\Sounds\\SFX\\win.wav");
-
-	//pGame->m_pSound->CreateStream(pGame->GS_MAIN_MENU_MUSIC, "resources\\Sounds\\Music\\MainMenu.mid");
-	//pGame->m_pSound->PlaySound(pGame->GS_MAIN_MENU_MUSIC);
-
 	//pGame->m_pHumanView->SetCursorVisible(false);
 }
-// ***************************************************************
+// *****************************************************************************
 
-void cStatePlayGame::VOnUpdate(cGame *pGame)
+void cStatePlayGame::VOnUpdate()
 {
-	for(int i=0; i<pGame->PGE_TOTAL; i++)
+	for(int i=0; i<m_pOwner->PGE_TOTAL; i++)
 	{
-		if(pGame->m_ppGameElements[i])
+		if(m_pOwner->m_ppGameElements[i])
 		{
-			pGame->m_ppGameElements[i]->OnUpdate(pGame->m_pGameTimer->VGetDeltaTime());
+			m_pOwner->m_ppGameElements[i]->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
 		}
 	}
-	pGame->m_pHumanView->VOnUpdate(pGame->m_pGameTimer->VGetRunningTicks(), pGame->m_pGameTimer->VGetDeltaTime());
-	if(pGame->IsSinglePlayer())
+	m_pOwner->m_pHumanView->VOnUpdate(m_pOwner->m_pGameTimer->VGetRunningTicks(), m_pOwner->m_pGameTimer->VGetDeltaTime());
+	if(m_pOwner->IsSinglePlayer())
 	{
-		pGame->HandlePaddleAI(pGame->m_pGameTimer->VGetDeltaTime());
+		m_pOwner->HandlePaddleAI(m_pOwner->m_pGameTimer->VGetDeltaTime());
 	}
 }
-// ***************************************************************
+// *****************************************************************************
 
-void cStatePlayGame::VOnExit(cGame *pGame)
+void cStatePlayGame::VOnExit()
 {
-	SAFE_DELETE_ARRAY(pGame->m_pScore);
+	SAFE_DELETE_ARRAY(m_pOwner->m_pScore);
 
-	pGame->VCleanup();
+	m_pOwner->VCleanup();
 }
-// ***************************************************************
+// *****************************************************************************
 
-bool cStatePlayGame::VOnMessage(cGame *pGame, const Telegram &msg)
+bool cStatePlayGame::VOnMessage(const Telegram &msg)
 {
 	return false;
 }
-// ***************************************************************
+
+// *****************************************************************************
+cStateHelpScreen::cStateHelpScreen()
+{
+}
+
+// *****************************************************************************
+cStateHelpScreen::~cStateHelpScreen()
+{
+}
+
+// *****************************************************************************
+cStateHelpScreen* cStateHelpScreen::Instance()
+{
+	static cStateHelpScreen instance;
+	return &instance;
+}
+
+// *****************************************************************************
+void cStateHelpScreen::VOnEnter(cGame *pGame)
+{
+	IGameFlowStates::VOnEnter(pGame);
+	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
+	{
+		cWindowControlDef helpDef;
+		helpDef.strControlName = "HelpScreen";
+		helpDef.wType = cWindowControlDef::WT_STANDARD;
+		helpDef.vPosition = cVector2(0, 0);
+		helpDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
+		IBaseControl * pHelpScreen = IBaseControl::CreateWindowControl(helpDef);
+		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHelpScreen));
+		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pHelpScreen);
+
+		cLabelControlDef def;
+		def.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt"); 
+		def.textColor = cColor::BLUE;
+		def.strText = "Help";
+		def.fTextHeight = 50;
+		def.vPosition = cVector2(0, 170);
+		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
+		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
+
+		cButtonControlDef buttonDef;
+		buttonDef.bAutoSize = true;
+		buttonDef.vPosition = cVector2(0, 480);
+		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
+		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
+		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		buttonDef.labelControlDef.strText = "Back";
+		buttonDef.labelControlDef.textColor = cColor::BLUE;
+		buttonDef.labelControlDef.fTextHeight = 50;
+
+		IBaseControl * pBackButton = IBaseControl::CreateButtonControl(buttonDef);
+		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pBackButton));
+		function<void (bool)> callBackBtn;
+		callBackBtn = bind(&cStateHelpScreen::BackButtonPressed, this, _1);
+		pBackButton->VRegisterCallBack(callBackBtn);
+	}
+}
+
+// *****************************************************************************
+void cStateHelpScreen::VOnUpdate()
+{
+
+}
+
+// *****************************************************************************
+void cStateHelpScreen::VOnExit()
+{
+	if (m_pOwner->m_pHumanView->m_pAppWindowControl != NULL)
+	{
+		m_pOwner->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("HelpScreen");
+	}
+}
+
+// *****************************************************************************
+bool cStateHelpScreen::VOnMessage(const Telegram &msg)
+{
+	return false;
+}
+
+void cStateHelpScreen::BackButtonPressed(bool bPressed)
+{
+	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	{
+		m_pOwner->m_pStateMachine->RequestPopState();
+	}
+}

@@ -29,7 +29,7 @@ inline void cStateMachine<entity_type>::SetCurrentState(cState<entity_type>* sta
 	// if there is an existing state, then call the current state exists and set it to the previous state 
 	if (m_pCurrentState)
 	{
-		m_pCurrentState->VOnExit(m_pOwner);
+		m_pCurrentState->VOnExit();
 	}
 	
 	m_pCurrentState = state;
@@ -58,7 +58,7 @@ inline void cStateMachine<entity_type>::Update()
 	}
 	else if(m_pCurrentState && !m_pCurrentState->IsPaused())
 	{
-		m_pCurrentState->VOnUpdate(m_pOwner);
+		m_pCurrentState->VOnUpdate();
 	}
 }
 // ***************************************************************
@@ -83,7 +83,7 @@ inline void cStateMachine<entity_type>::ChangeState()
 
 	m_bRequestedStateChange = false;
 
-	m_pCurrentState->VOnExit(m_pOwner);
+	m_pCurrentState->VOnExit();
 	m_pCurrentState = m_pNextState;
 	m_pCurrentState->VOnEnter(m_pOwner);
 }
@@ -115,7 +115,7 @@ inline bool cStateMachine<entity_type>::IsInState(const cState<entity_type>& sta
 template<typename entity_type>
 inline bool cStateMachine<entity_type>::HandleMessage(const Telegram &msg)
 {
-	if(m_pCurrentState && m_pCurrentState->VOnMessage(m_pOwner, msg))
+	if(m_pCurrentState && m_pCurrentState->VOnMessage(msg))
 	{
 		return true;
 	}
@@ -147,7 +147,7 @@ void AI::cStateMachine<entity_type>::PushState()
 		return;
 	}
 
-	m_pCurrentState->VOnPause(m_pOwner);
+	m_pCurrentState->VOnPause();
 	m_vPushedStates.push_back(m_pCurrentState);
 	Log_Write_L1(ILogger::LT_DEBUG, "Pushed State : " + m_pCurrentState->GetName() + " New State : " + m_pNextState->GetName()); 
 	m_pCurrentState = m_pNextState;
@@ -184,8 +184,8 @@ void AI::cStateMachine<entity_type>::PopState()
 	Log_Write_L1(ILogger::LT_DEBUG, "Old State : " + m_pCurrentState->GetName() + " State : " + pNewState->GetName());
 	if (m_pCurrentState != NULL)
 	{
-		m_pCurrentState->VOnExit(m_pOwner);
+		m_pCurrentState->VOnExit();
 	}
 	m_pCurrentState = pNewState;
-	m_pCurrentState->VOnResume(m_pOwner);
+	m_pCurrentState->VOnResume();
 }

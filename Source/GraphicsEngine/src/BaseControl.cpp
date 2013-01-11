@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  BaseControl   version:  1.0   Ankur Sheel  date: 2011/07/21
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "BaseControl.h"
 #include "Sprite.hxx"
@@ -17,7 +17,7 @@ using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 using namespace std;
-// ***************************************************************
+// *****************************************************************************
 cBaseControl::cBaseControl()
 : m_vSize(cVector2::Zero())
 , m_bVisible(true)
@@ -33,7 +33,7 @@ cBaseControl::cBaseControl()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 cBaseControl::~cBaseControl()
 {
 	VCleanup();
@@ -46,7 +46,7 @@ void cBaseControl::Initialize(const cBaseControlDef & def)
 	VSetSize(def.vSize);
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::VPostMsg( const AppMsg & msg )
 {
 	switch(msg.m_uMsg)
@@ -120,7 +120,7 @@ bool cBaseControl::VPostMsg( const AppMsg & msg )
 	return false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VAddChildControl(shared_ptr<IBaseControl> pChildControl)
 {
 	shared_ptr<cBaseControl> pControl = static_pointer_cast<cBaseControl>(pChildControl);
@@ -132,7 +132,7 @@ void cBaseControl::VAddChildControl(shared_ptr<IBaseControl> pChildControl)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VRemoveAllChildren()
 {
 	if (m_bFocus)
@@ -142,7 +142,7 @@ void cBaseControl::VRemoveAllChildren()
 	m_pChildControl.clear();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VRemoveChildControl(const cString & strControlName)
 {
 	ControlList::iterator iter;
@@ -167,7 +167,7 @@ void cBaseControl::VRemoveChildControl(const cString & strControlName)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VSetPosition( const cVector2 & vPosition )
 {
 	if(m_vPosition != vPosition)
@@ -177,13 +177,13 @@ void cBaseControl::VSetPosition( const cVector2 & vPosition )
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 const cVector2 cBaseControl::VGetSize() const
 {
 	return m_vSize;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VSetSize( const cVector2 & vSize)
 {
 	if (m_vSize != vSize)
@@ -197,19 +197,19 @@ void cBaseControl::VSetSize( const cVector2 & vSize)
 	}
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cBaseControl::VRegisterCallBack(function <void (bool)> callback)
 {
 	m_pfnCallBack = callback;
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cBaseControl::VUnregisterCallBack()
 {
 	m_pfnCallBack = NULL;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VMoveToFront(const IBaseControl * const pControl )
 {
 	ControlList::const_iterator iter = GetChildControlIterator(pControl);
@@ -219,13 +219,13 @@ void cBaseControl::VMoveToFront(const IBaseControl * const pControl )
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VSetText(const Base::cString & strText)
 {
 	Log_Write_L1(ILogger::LT_ERROR, "This function should be implemented in a child class.")
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 {
 	if(AllowMovingControl() && m_bIsLeftMouseDown)
@@ -235,7 +235,7 @@ bool cBaseControl::VOnLeftMouseButtonUp( const int X, const int Y )
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
 {
 	m_iMouseDownXPos = X - static_cast<int>(m_vControlAbsolutePosition.x);
@@ -244,7 +244,7 @@ bool cBaseControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VRender(const ICamera * const pCamera)
 {
 	if (!m_bVisible)
@@ -264,25 +264,25 @@ void cBaseControl::VRender(const ICamera * const pCamera)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::VOnKeyDown(const unsigned int iCharID)
 {
 	return false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::VOnKeyUp(const unsigned int iCharID)
 {
 	return false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::VOnCharPress(const unsigned int iCharID)
 {
 	return false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::VOnMouseMove( const int X, const int Y )
 {
 	if (AllowMovingControl() && m_bIsLeftMouseDown)
@@ -297,7 +297,7 @@ bool cBaseControl::VOnMouseMove( const int X, const int Y )
 	return false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VSetAbsolutePosition()
 {
 	ConstrainChildControl(m_vPosition.x, m_vPosition.y);
@@ -318,37 +318,37 @@ void cBaseControl::VSetAbsolutePosition()
 	}
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cBaseControl::VOnFocusChanged() 
 {
 	
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::VSetVisible( bool bIsVisible )
 {
 	m_bVisible = bIsVisible;
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cBaseControl::VCleanup()
 {
 	VRemoveAllChildren();
 }
 
-// ***************************************************************
+// *****************************************************************************
 float cBaseControl::VGetHeight() const
 {
 	return m_vSize.y;
 }
 
-// ***************************************************************
+// *****************************************************************************
 float cBaseControl::VGetWidth() const
 {
 	return m_vSize.x;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 {
 	if((fX >= m_vControlAbsolutePosition.x) 
@@ -361,7 +361,7 @@ bool cBaseControl::IsCursorIntersect( const float fX, const float fY )
 	return false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::PostToAll( const AppMsg & msg )
 {
 	ControlList::const_iterator iter;
@@ -375,7 +375,7 @@ bool cBaseControl::PostToAll( const AppMsg & msg )
 	return false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 {
 	if (!m_bFocus || m_pFocusControl != pControl)
@@ -395,14 +395,14 @@ void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 		SetFocus(true);
 	}
 }
-// *************************************************************************
+// ***************************************************************************************
 void cBaseControl::SetFocus(const bool bFocus)
 {
 	m_bFocus = bFocus;
 	VOnFocusChanged();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::ConstrainChildControl(float & fX, float & fY)
 {
 	// constrain child control in parent control
@@ -427,13 +427,13 @@ void cBaseControl::ConstrainChildControl(float & fX, float & fY)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseControl::SetParentControl( cBaseControl * pParentControl )
 {
 	m_pParentControl = pParentControl;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseControl::AllowMovingControl()
 {
 	if (m_pParentControl)
@@ -443,7 +443,7 @@ bool cBaseControl::AllowMovingControl()
 	return m_bAllowMovingControls;
 }
 
-// ***************************************************************
+// *****************************************************************************
 cBaseControl::ControlList::const_iterator cBaseControl::GetChildControlIterator(const IBaseControl * const pChildControl)
 {
 	ControlList::const_iterator iter;
