@@ -82,12 +82,6 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetVisible(bool bIsVisible) = 0;
 		/********************************************//**
- 		 * @param[in] strControlName The name of the control that needs to be retrieved
-		 *
-		 * Returns the child control
-		 ***********************************************/
-		virtual shared_ptr<IBaseControl> VGetChildControl(const Base::cString & strControlName) = 0;
-		/********************************************//**
  		 * @param[in] vPosition The position of the control
 		 *
 		 * Sets the position of the control

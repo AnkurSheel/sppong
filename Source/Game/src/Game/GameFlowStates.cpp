@@ -128,7 +128,8 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
-		buttonDef.vPosition = cVector2(412, 170);
+		//buttonDef.vPosition = cVector2(412, 170);
+		buttonDef.vPosition = cVector2(412, 270);
 		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
 		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
 		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
@@ -144,7 +145,8 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		buttonDef.bAutoSize = false;
 		buttonDef.vSize = pSinglePlayerButton->VGetSize();
-		buttonDef.vPosition = cVector2(412, 270);
+		//buttonDef.vPosition = cVector2(412, 270);
+		buttonDef.vPosition = cVector2(412, 370);
 		buttonDef.labelControlDef.strText = "MultiPlayer";
 		
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl(buttonDef);
@@ -153,11 +155,11 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
-		buttonDef.labelControlDef.strText = "Options";
-		buttonDef.vPosition = cVector2(412, 370);
+		//buttonDef.labelControlDef.strText = "Options";
+		//buttonDef.vPosition = cVector2(412, 370);
 
-		IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
-		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
+		//IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
+		//m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
 
 		buttonDef.labelControlDef.strText = "Help";
 		buttonDef.vPosition = cVector2(412, 470);
@@ -168,17 +170,18 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		callbackHelpBtn = bind(&cStateMenuScreen::HelpButtonPressed, this, _1);
 		pHelpButton->VRegisterCallBack(callbackHelpBtn);
 
-		buttonDef.labelControlDef.strText = "Credits";
-		buttonDef.vPosition = cVector2(412, 570);
+		//buttonDef.labelControlDef.strText = "Credits";
+		//buttonDef.vPosition = cVector2(412, 570);
 
-		IBaseControl * pCreditsButton = IBaseControl::CreateButtonControl(buttonDef);
-		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pCreditsButton));
-		//function<void (bool)> callbackCreditsBtn;
-		//callbackCreditsBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
-		//pCreditsButton->VRegisterCallBack(callbackCreditsBtn);
+		//IBaseControl * pCreditsButton = IBaseControl::CreateButtonControl(buttonDef);
+		//m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pCreditsButton));
+		////function<void (bool)> callbackCreditsBtn;
+		////callbackCreditsBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
+		////pCreditsButton->VRegisterCallBack(callbackCreditsBtn);
 
 		buttonDef.labelControlDef.strText = "Quit";
-		buttonDef.vPosition = cVector2(412, 670);
+		//buttonDef.vPosition = cVector2(412, 670);
+		buttonDef.vPosition = cVector2(412, 570);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
@@ -402,9 +405,11 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 
 		cLabelControlDef def;
 		def.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt"); 
-		def.textColor = cColor::BLUE;
-		def.strText = "Help";
-		def.fTextHeight = 50;
+		def.textColor = cColor::VIOLET;
+		def.strText = "SinglePlayer\n Press W to Move up\n Press S to Move Down";
+		def.strText += "\n\n\nMultiplayer\n Press up arrow to Move up\n Press ";
+		def.strText += "down arrow to Move Down";
+		def.fTextHeight = 30;
 		def.vPosition = cVector2(0, 170);
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
 		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));

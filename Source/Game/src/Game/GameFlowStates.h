@@ -36,6 +36,9 @@ public:
 	bool VOnMessage(const AI::Telegram &msg);
 private:
 	cStateTitleScreen();
+
+private:
+	Graphics::IBaseControl * m_pTitleScreen; 
 };
 
 class cStateMenuScreen 

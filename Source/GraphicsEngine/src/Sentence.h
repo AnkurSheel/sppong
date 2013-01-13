@@ -1,12 +1,12 @@
-// *************************************************************************
+// *****************************************************************************
 //  Sentence   version:  1.0   Ankur Sheel  date: 2012/10/10
-//  ------------------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  
-//  ------------------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// *************************************************************************
+// *****************************************************************************
 // 
-// *************************************************************************
+// *****************************************************************************
 #ifndef Sentence_h__
 #define Sentence_h__
 
@@ -20,6 +20,7 @@ namespace Base
 namespace Graphics
 {
 	class cMyFont;
+	struct stTexVertex;
 }
 
 namespace Graphics
@@ -63,9 +64,23 @@ namespace Graphics
 		 * @param[in] pCamera The camera which contains the current view matrix
 		 * return True if the vertex buffer was updated successfully
 		 * 
-		 * Recalculates the coordinates and updates the vertex data if the position has changed
+		 * Recalculates the coordinates and updates the vertex data if the 
+		 * position has changed for each line in the sentence
 		 ***********************************************/
-		bool RecalculateVertexData(const ICamera * const pCamera);
+		bool ReInitializeVertexBuffer(const ICamera * const pCamera);
+		/********************************************//**
+		 * @param[out] pVertices The vertices data
+		 * @param[in] iLineLength The length of the line 
+		 * @param[in] iStartPos	The index at which this line starts in the whole text
+		 * @param[in] vPos The position of the line
+		 * @param[out] fWidth The length of the line in pixels
+		 * 
+		 * Recalculates the coordinates and updates the vertex data, if the 
+		 * position has changed
+		 ***********************************************/
+		void InitializesVertexData(stTexVertex * const pVertices,
+			const int iLineLength, const int iStartPos,
+			const Base::cVector2 & vPos, float & fWidth);
 		/********************************************//**
 		 *
 		 * Releases all the pointers/buffers
@@ -83,6 +98,7 @@ namespace Graphics
 		Base::cVector2						m_vPosition;		/*!< The current position of the sprite */
 		bool								m_bIsDirty;			/*!< True if the vertex data needs to be recalculated */
 		float								m_fWidth;			/*!< The length of the text in pixels */
+		float								m_fHeight;			/*!< The height of the text in pixels */
 		float								m_fScale;			/*!< The scale of each character in the sentence relative to the actual size of the font */
 	};
 }

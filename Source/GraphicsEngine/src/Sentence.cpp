@@ -1,18 +1,19 @@
-// *************************************************************************
+// *****************************************************************************
 //  Sentence   version:  1.0   Ankur Sheel  date: 2012/10/10
-//  ------------------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  
-//  ------------------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// *************************************************************************
+// *****************************************************************************
 // 
-// *************************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Sentence.h"
 #include "DxBase.hxx"
 #include "vertexstruct.h"
 #include "Font.h"
 #include "Camera.hxx"
+#include "Optional.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -28,6 +29,7 @@ cSentence::cSentence()
 , m_vPosition(cVector2::Zero())
 , m_bIsDirty(true)
 , m_fWidth(0.0f)
+, m_fHeight(0.0f)
 , m_fScale(1.0f)
 {
 }
@@ -38,7 +40,7 @@ cSentence::~cSentence()
 	Cleanup();
 }
 
-// *************************************************************************
+// *****************************************************************************
 bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
 							const Base::cString & strText,
 							const Base::cColor & textColor)
@@ -56,7 +58,7 @@ bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
 	m_vPosition = cVector2(-1.0f, -1.0f);
 	VSetText(strText);
 	VSetTextColor(textColor);
-	RecalculateVertexData(NULL);
+	ReInitializeVertexBuffer(NULL);
 	m_bIsDirty = true;
 	return true;
 }
@@ -67,7 +69,7 @@ void cSentence::VRender(const ICamera * const pCamera)
 	//IDXBase::GetInstance()->VTurnOnAlphaBlending();
 	if (m_bIsDirty)
 	{
-		RecalculateVertexData(pCamera);
+		ReInitializeVertexBuffer(pCamera);
 		m_bIsDirty = false;
 	}
 
@@ -98,7 +100,7 @@ void cSentence::VSetPosition(const Base::cVector2 & vPosition)
 	m_bIsDirty = true;
 }
 
-// *************************************************************************
+// *****************************************************************************
 void cSentence::VGetText(Base::cString & strText) const
 {
 	strText = m_strText;
@@ -117,19 +119,19 @@ void cSentence::VSetTextColor(const Base::cColor & colorText)
 	m_TextColor = colorText;
 }
 
-// *************************************************************************
+// *****************************************************************************
 float cSentence::VGetWidth() const
 {
 	return m_fScale * m_fWidth;
 }
 
-// *************************************************************************
+// *****************************************************************************
 float cSentence::VGetHeight() const
 {
-	return m_fScale * m_pFont->GetFontHeight();
+	return m_fScale * m_fHeight;
 }
 
-// *************************************************************************
+// *****************************************************************************
 float cSentence::VGetWidth(const Base::cString & strText) const
 {
 	float fWidth = 0.0f;
@@ -146,7 +148,7 @@ float cSentence::VGetWidth(const Base::cString & strText) const
 	return m_fScale * fWidth;
 }
 
-// *************************************************************************
+// *****************************************************************************
 void cSentence::VSetHeight(const float fTextHeight)
 {
 	m_fScale = fTextHeight/m_pFont->GetFontHeight();
@@ -154,73 +156,126 @@ void cSentence::VSetHeight(const float fTextHeight)
 }
 
 // ***************************************************************
-bool cSentence::RecalculateVertexData(const ICamera * const pCamera)
+bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 {
-	m_fWidth = 0.0f;
 	int istrLength = m_strText.GetLength();
+	if (istrLength == 0)
+	{
+		return true;
+	}
+
+	int iPos = 0;
+	float fWidth = 0;
+	float fHeight = m_fScale * m_pFont->GetFontHeight();
+	cVector2 vPos = m_vPosition;
+
+	m_fWidth = 0.0f;
+	m_fHeight = 0.0f;
 	m_iIndexCount = istrLength * 6;
-
 	m_iVertexCount = istrLength * 4;
-	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
 
-	float curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + m_vPosition.x;
-	float curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - m_vPosition.y;
+	stTexVertex * pVertices = NULL;
+	if (pCamera)
+	{
+		pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
+	}
+
+	tOptional<int> iLineLength = m_strText.FindFirstOf("\n", 0);
+	if (iLineLength.IsInvalid())
+	{
+		iLineLength = istrLength;
+	}
+
+	while(iPos < istrLength)
+	{
+		fWidth = 0.0f;
+		InitializesVertexData(pVertices, *iLineLength, iPos, vPos, fWidth);
+		if (m_fWidth < fWidth)
+		{
+			m_fWidth = fWidth;
+		}
+		iPos += *iLineLength + 1;
+		vPos.y += fHeight;
+		m_fHeight += fHeight;
+		tOptional<int> iEndPos = m_strText.FindFirstOf("\n", iPos);
+		if(iEndPos.IsValid())
+		{
+			*iLineLength = *iEndPos - iPos;
+		}
+		else
+		{
+			*iLineLength = istrLength - iPos;
+		}
+	}
+
+	if (pCamera)
+	{
+		D3D11_MAPPED_SUBRESOURCE mappedResource;
+		HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+		if(FAILED(result))
+		{
+			Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
+				+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
+
+			SAFE_DELETE_ARRAY(pVertices);
+			return false;
+		}
+
+		// Get a pointer to the data in the vertex buffer.
+		stTexVertex * verticesPtr = (stTexVertex*)mappedResource.pData;
+
+		// Copy the data into the vertex buffer.
+		memcpy(verticesPtr, (void*)pVertices, (sizeof(stTexVertex) * m_iVertexCount));
+
+		// Unlock the vertex buffer.
+		IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pVertexBuffer, 0);
+	}
+
+	SAFE_DELETE_ARRAY(pVertices);
+	return true;
+}
+
+// *********************************************************************************
+void cSentence::InitializesVertexData(stTexVertex * const pVertices,
+											const int iLineLength, const int iStartPos,
+											const cVector2 & vPos, float & fWidth)
+{
+	float curX = -(float)IDXBase::GetInstance()->VGetScreenWidth()/2.0f + vPos.x;
+	float curY = (float)IDXBase::GetInstance()->VGetScreenHeight()/2.0f - vPos.y;
 	float left;
 	float right;
 	float top;
 	float bottom;
 
 	stVertexData vertexData;
-	for (int i=0; i<istrLength; i++)
+	for (int i = 0; i < iLineLength; i++)
 	{
-		int val = (int)m_strText[i];
+		int iTextIndex = i + iStartPos;
+		int val = (int)m_strText[iTextIndex];
 		vertexData = m_pFont->GetCharVertexData(val);
-		//vertexData = m_pFont->GetCharVertexData(val, ch, u, v, u1, v1);
 
-		left = curX + m_fScale * vertexData.ch.XOffset;
-		right = left + m_fScale * vertexData.ch.Width;
-		top = curY + m_fScale * vertexData.ch.YOffset;
-		bottom = top - m_fScale * vertexData.ch.Height;
+		if (pVertices)
+		{
+			left = curX + m_fScale * vertexData.ch.XOffset;
+			right = left + m_fScale * vertexData.ch.Width;
+			top = curY + m_fScale * vertexData.ch.YOffset;
+			bottom = top - m_fScale * vertexData.ch.Height;
 
-		float z = 1.f;
+			float z = 1.f;
 
-		// Create the vertex array.
-		pVertices[i*4] = stTexVertex(left, bottom, z, vertexData.fTexU, vertexData.fTexV1);
-		pVertices[i*4+1] = stTexVertex(left, top, z, vertexData.fTexU, vertexData.fTexV);
-		pVertices[i*4+2] = stTexVertex(right, bottom, z, vertexData.fTexU1, vertexData.fTexV1);
-		pVertices[i*4+3] = stTexVertex(right, top, z, vertexData.fTexU1, vertexData.fTexV);
+			// Create the vertex array.
+			pVertices[iTextIndex*4] = stTexVertex(left, bottom, z, vertexData.fTexU, vertexData.fTexV1);
+			pVertices[iTextIndex*4+1] = stTexVertex(left, top, z, vertexData.fTexU, vertexData.fTexV);
+			pVertices[iTextIndex*4+2] = stTexVertex(right, bottom, z, vertexData.fTexU1, vertexData.fTexV1);
+			pVertices[iTextIndex*4+3] = stTexVertex(right, top, z, vertexData.fTexU1, vertexData.fTexV);
 
-		curX += m_fScale *  vertexData.ch.XAdvance;
-		m_fWidth += vertexData.ch.XAdvance;
+			curX += m_fScale *  vertexData.ch.XAdvance;
+		}
+		fWidth += vertexData.ch.XAdvance;
 	}
-
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	HRESULT result = IDXBase::GetInstance()->VGetDeviceContext()->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	if(FAILED(result))
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString("Could not lock the  vertex buffer to update with the vertex data: ") 
-			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result));
-
-		SAFE_DELETE_ARRAY(pVertices);
-		return false;
-	}
-
-	// Get a pointer to the data in the vertex buffer.
-	stTexVertex * verticesPtr = (stTexVertex*)mappedResource.pData;
-
-	// Copy the data into the vertex buffer.
-	memcpy(verticesPtr, (void*)pVertices, (sizeof(stTexVertex) * m_iVertexCount));
-
-	// Unlock the vertex buffer.
-	IDXBase::GetInstance()->VGetDeviceContext()->Unmap(m_pVertexBuffer, 0);
-	SAFE_DELETE_ARRAY(pVertices);
-	return true;
-
-	SAFE_DELETE_ARRAY(pVertices);
-	return true;
 }
 
-// *************************************************************************
+// *****************************************************************************
 bool cSentence::CreateVertexBuffer()
 {
 	stTexVertex * pVertices = DEBUG_NEW stTexVertex[m_iVertexCount];
