@@ -27,12 +27,14 @@ namespace Utilities
 	public:
 		~cProcessManager();
 
-		void VAttachProcess(shared_ptr<cProcess> pProcess);
 		bool HasProcesses() const;
 		void UpdateProcesses(const int iDeltaMilliSeconds);
 
 	private:
+		void VAttachProcess(shared_ptr<cProcess> pProcess);
 		void VDetachProcess(shared_ptr<cProcess> pProcess);
+		void VDetachProcesses(const unsigned long ulType);
+		void VTogglePauseProcesses(const unsigned long ulType);
 
 	protected:
 		ProcessList m_pProcessList;

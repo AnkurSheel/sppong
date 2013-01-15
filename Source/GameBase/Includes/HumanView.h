@@ -64,7 +64,8 @@ namespace GameBase
 		GAMEBASE_API const Graphics::ICamera * const GetCamera() const;
 		GAMEBASE_API void PlaySFX(const Base::cString & strSoundFile);
 		GAMEBASE_API void PlayMusic(const Base::cString & strMusicFile, const bool bLooping);
-		GAMEBASE_API void StopMusic();
+		GAMEBASE_API void MusicCheckBoxPressed(bool bPressed);
+		GAMEBASE_API void SfxCheckBoxPressed(bool bPressed);
 
 
 	protected:
@@ -91,7 +92,10 @@ namespace GameBase
 		bool								m_bDisplayFPS;
 		bool								m_bLockedKeys[KEYBOARD_KEYS];
 		GameBase::IBaseApp	*				m_pGame;
-		shared_ptr<Sound::ISoundProcess>	m_pMusicChannel;
+		bool								m_bPlayMusic;
+		bool								m_bPlaySFX;
+		const Base::cHashedString			m_hashSFXChannel;
+		const Base::cHashedString			m_hashMusicChannel;
 
 	public:
 		Graphics::IBaseControl *		m_pAppWindowControl;

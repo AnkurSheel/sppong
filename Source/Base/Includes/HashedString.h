@@ -19,6 +19,7 @@ namespace Base
 	{
 	public:
 		BASE_API explicit cHashedString(const cString & strIdent);
+		BASE_API unsigned long GetChecksum() const;
 
 	private:
 		unsigned long CalculateHash(const cString & strIdent);

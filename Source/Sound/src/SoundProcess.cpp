@@ -19,9 +19,11 @@ using namespace Base;
 using namespace Utilities;
 
 // *****************************************************************************
-cSoundProcess::cSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
+cSoundProcess::cSoundProcess(const unsigned long ulType, 
+							 shared_ptr<ISoundResHandle> pSoundResource,
 							 const int iVolume, const bool bLooping)
-: m_pSoundHandle(pSoundResource)
+: ISoundProcess(ulType)
+, m_pSoundHandle(pSoundResource)
 , m_iVolume(iVolume)
 , m_bLooping(bLooping)
 {
@@ -123,10 +125,12 @@ void cSoundProcess::VTogglePause()
 }
 
 // *****************************************************************************
-shared_ptr<ISoundProcess> ISoundProcess::CreateSoundProcess(const cString & strSoundFile,
-			const int iVolume, const bool bLooping)
+shared_ptr<ISoundProcess> ISoundProcess::CreateSoundProcess(const unsigned long ulType,
+															const cString & strSoundFile,
+															const int iVolume,
+															const bool bLooping)
 {
 	shared_ptr<cSoundResource> pResource(DEBUG_NEW cSoundResource(strSoundFile));
 	shared_ptr<ISoundResHandle> pHandle = static_pointer_cast<ISoundResHandle>(IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource));
-	return shared_ptr<ISoundProcess>(DEBUG_NEW cSoundProcess(pHandle, iVolume, bLooping));
+	return shared_ptr<ISoundProcess>(DEBUG_NEW cSoundProcess(ulType, pHandle, iVolume, bLooping));
 }

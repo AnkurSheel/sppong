@@ -517,12 +517,21 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		checkboxControlDef.iSpaceCaption = 10;
 		checkboxControlDef.vPosition = cVector2(0.f, 250.f);
 
-		IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
-		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pCheckBoxControl));
-		function<void (bool)> checkBoxCallback;
-		checkBoxCallback = bind(&cStateOptionsScreen::MusicCheckBoxPressed, this, _1);
-		pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
-		
+		IBaseControl * pMusicCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
+		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicCheckBoxControl));
+		function<void (bool)> musicCheckBoxCallback;
+		musicCheckBoxCallback = bind(&cHumanView::MusicCheckBoxPressed, m_pOwner->m_pHumanView, _1);
+		pMusicCheckBoxControl->VRegisterCallBack(musicCheckBoxCallback);
+
+		checkboxControlDef.labelControlDef.strText = "SFX";
+		checkboxControlDef.vPosition = cVector2(0.f, 300.f);
+
+		IBaseControl * pSfxCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
+		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSfxCheckBoxControl ));
+		function<void (bool)> sfxCheckBoxCallback;
+		sfxCheckBoxCallback = bind(&cHumanView::SfxCheckBoxPressed, m_pOwner->m_pHumanView, _1);
+		pSfxCheckBoxControl->VRegisterCallBack(sfxCheckBoxCallback);
+
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);
@@ -568,21 +577,5 @@ void cStateOptionsScreen::BackButtonPressed(bool bPressed)
 	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
 		m_pOwner->m_pStateMachine->RequestPopState();
-	}
-}
-
-// *****************************************************************************
-void cStateOptionsScreen::MusicCheckBoxPressed(bool bPressed)
-{
-	if(m_pOwner != NULL && m_pOwner->m_pHumanView != NULL)
-	{
-		if(bPressed )
-		{
-			m_pOwner->m_pHumanView->PlayMusic("Sounds\\Music\\mainmenu.ogg", true);
-		}
-		else
-		{
-			m_pOwner->m_pHumanView->StopMusic();
-		}
 	}
 }

@@ -1,34 +1,38 @@
-// ***************************************************************
-//  ProcessManager   version:  1.0   Ankur Sheel  date: 2011/04/12
-//  -------------------------------------------------------------
+// *****************************************************************************
+//  ProcessManager   version:  1.0   Ankur Sheel  date: 2013/01/15
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "ProcessManager.h"
 #include "Process.h"
 
 using namespace Utilities;
 
+// *****************************************************************************
 cProcessManager::~cProcessManager()
 {	
 	m_pProcessList.clear();
 }
 
+// *****************************************************************************
 void cProcessManager::VAttachProcess(shared_ptr<cProcess> pProcess)
 {
 	m_pProcessList.push_back(pProcess);
 	pProcess->SetAttached(true);
 }
 
+// *****************************************************************************
 bool cProcessManager::HasProcesses() const
 {
 	return !(m_pProcessList.empty());
 }
 
+// *****************************************************************************
 void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 {
 	shared_ptr<cProcess> pNext;
@@ -57,12 +61,43 @@ void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 	}
 }
 
+// *****************************************************************************
 void cProcessManager::VDetachProcess(shared_ptr<cProcess> pProcess)
 {
 	m_pProcessList.remove(pProcess);
 	pProcess->SetAttached(false);
 }
 
+// *****************************************************************************
+void cProcessManager::VDetachProcesses(const unsigned long ulType)
+{
+	ProcessList::iterator curProcess;
+	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
+	{
+		shared_ptr<cProcess> p(*curProcess);
+		if(p->m_ulType == ulType)
+		{
+			p->VKill();
+		}
+	}
+}
+
+// *****************************************************************************
+void cProcessManager::VTogglePauseProcesses(const unsigned long ulType)
+{
+	ProcessList::iterator curProcess;
+	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
+	{
+		shared_ptr<cProcess> p(*curProcess);
+		if(p->m_ulType == ulType)
+		{
+			p->VTogglePause();
+		}
+	}
+
+}
+
+// *****************************************************************************
 IProcessManager * IProcessManager::CreateProcessManager()
 {
 	return DEBUG_NEW cProcessManager();

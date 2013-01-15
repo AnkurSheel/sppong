@@ -20,7 +20,7 @@ namespace Utilities
 		: public Base::cNonCopyable
 	{
 	public:
-		UTILITIES_API cProcess();
+		UTILITIES_API cProcess(const unsigned long ulType);
 		UTILITIES_API virtual ~cProcess();
 		
 		bool IsDead() const;
@@ -48,6 +48,7 @@ namespace Utilities
 	
 	private:
 		unsigned int			m_uProcessFlags;
+		const unsigned long		m_ulType;
 
 	private:
 		friend class cProcessManager;

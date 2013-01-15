@@ -35,8 +35,8 @@ cBaseApp::cBaseApp(const cString strName)
 }
 
 // ***************************************************************
-void cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
-										   const int nCmdShow)
+void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
+								 const cString & strOptionsFile)
 {
 	ILogger::GetInstance()->StartConsoleWin(80,60, "");
 	
@@ -51,17 +51,10 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance,
 
 	IResourceChecker::Destroy();
 
-	cString strOptionsFileName;
-#ifdef _DEBUG
-	strOptionsFileName = "Debug\\OptionsDebug.ini";
-#else
-	strOptionsFileName = "OptionsRetail.ini";
-#endif
-
 	if(m_spParamLoader == NULL)
 	{
 		m_spParamLoader = IParamLoader::CreateParamLoader();
-		m_spParamLoader->VLoadParametersFromFile(strOptionsFileName);
+		m_spParamLoader->VLoadParametersFromFile(strOptionsFile);
 	}
 	bool bMultipleInstances = m_spParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
 	cString strTitle = m_spParamLoader->VGetParameterValueAsString("-title", "Game");

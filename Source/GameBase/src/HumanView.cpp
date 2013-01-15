@@ -42,6 +42,10 @@ cHumanView::cHumanView()
 , m_pAppWindowControl(NULL) 
 , m_pCamera(NULL)
 , m_bDisplayFPS(false)
+, m_bPlaySFX(false)
+, m_bPlayMusic(false)
+, m_hashSFXChannel("SFXChannelProcess")
+, m_hashMusicChannel("MusicChannelProcess")
 {
 	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
 }
@@ -92,6 +96,8 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
 	m_pAppWindowControl->VAddChildControl(m_pFpsLabel);
 
+	m_bPlaySFX = true;
+	m_bPlayMusic = true;
 	IAudio::GetInstance()->VInitialize(hWnd);
 }
 
@@ -126,7 +132,6 @@ void cHumanView::VOnDestroyDevice()
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pProcessManager);
-	m_pMusicChannel.reset();
 	IFontManager::Destroy();
 	IObjModelLoader::Destroy();
 	ICollisionChecker::Destroy();
@@ -268,47 +273,35 @@ void cHumanView::SetCursorVisible( bool bVisible )
 // *****************************************************************************
 void cHumanView::PlaySFX(const cString & strSoundFile)
 {
-	shared_ptr<ISoundProcess> sfx(ISoundProcess::CreateSoundProcess(strSoundFile, 100, false));
-	m_pProcessManager->VAttachProcess(sfx);
+	if(m_bPlaySFX)
+	{
+		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel.GetChecksum(),
+			strSoundFile, 100, false));
+		m_pProcessManager->VAttachProcess(pSFXChannelProcess);
+	}
 }
 
 // *****************************************************************************
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
-	if(m_pMusicChannel == NULL)
+	if(m_bPlayMusic)
 	{
-		m_pMusicChannel = ISoundProcess::CreateSoundProcess(strMusicFile, 100, bLooping);
-		m_pProcessManager->VAttachProcess(m_pMusicChannel);
-	}
-	else
-	{
-		if(m_pMusicChannel->VIsPaused())
-		{
-			m_pMusicChannel->VTogglePause();
-		}
-		else
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Music Channel already unpaused");
-		}
+		shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel.GetChecksum(),
+			strMusicFile, 100, bLooping);
+		m_pProcessManager->VAttachProcess(pMusicChannelProcess);
 	}
 }
 
 // *****************************************************************************
-void cHumanView::StopMusic()
+void cHumanView::MusicCheckBoxPressed(bool bPressed)
 {
-	if(m_pMusicChannel != NULL)
-	{
-		if(!m_pMusicChannel->VIsPaused())
-		{
-			m_pMusicChannel->VTogglePause();
-		}
-		else
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Music Channel already Paused");
-		}
-	}
-	else
-	{
-		Log_Write_L1(ILogger::LT_ERROR, "Trying to pause NULL Music Channel");
-	}
+	m_bPlayMusic = bPressed;
+	m_pProcessManager->VTogglePauseProcesses(m_hashMusicChannel.GetChecksum());
+}
+
+// *****************************************************************************
+void cHumanView::SfxCheckBoxPressed(bool bPressed)
+{
+	m_bPlaySFX = bPressed;
+	m_pProcessManager->VTogglePauseProcesses(m_hashSFXChannel.GetChecksum());
 }

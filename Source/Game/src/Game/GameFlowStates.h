@@ -108,6 +108,5 @@ public:
 private:
 	cStateOptionsScreen();
 	void BackButtonPressed(bool bPressed);
-	void MusicCheckBoxPressed(bool bPressed);
 };
 #endif // GameFlowStates_h__

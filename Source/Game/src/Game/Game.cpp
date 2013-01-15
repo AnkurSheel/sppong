@@ -54,15 +54,14 @@ cGame::~cGame()
 }
 
 // *****************************************************************************
-void cGame::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow)
+void cGame::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
+							  const cString & strOptionsFile)
 {
-	cBaseApp::VOnInitialization(hInstance, nCmdShow);
+	cBaseApp::VOnInitialization(hInstance, nCmdShow, strOptionsFile);
 
 	m_iDisplayHeight = static_cast<int>(m_pHumanView->m_pAppWindowControl->VGetHeight());
 	m_iDisplayWidth = static_cast<int>(m_pHumanView->m_pAppWindowControl->VGetWidth());
 
-	//m_pSound = ISound::CreateSound();
-	//m_pSound->Init();
 	m_pStateMachine = DEBUG_NEW cGameFlowStateMachine(this);
 
 	IEntityManager::GetInstance()->VRegisterEntity(this);

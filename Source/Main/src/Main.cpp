@@ -13,6 +13,7 @@
 #include "Game/Game.hxx"
 
 using namespace GameBase;
+using namespace Base;
 
 static IBaseApp * pGame = NULL;
 
@@ -27,7 +28,14 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	CheckForMemoryLeaks() ;
 
 	pGame = IGame::CreateGame("Game");
-	pGame->VOnInitialization(hInstance, nCmdShow);
+	cString strOptionsFileName;
+#ifdef _DEBUG
+	strOptionsFileName = "Debug\\OptionsDebug.ini";
+#else
+	strOptionsFileName = "Media\\OptionsRetail.ini";
+#endif
+
+	pGame->VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
 	pGame->VRun();
 	Cleanup() ;
 

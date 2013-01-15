@@ -47,3 +47,9 @@ unsigned long cHashedString::CalculateHash(const cString & strIdent)
 	}
 	return ((s2 << 16) | s1);
 }
+
+// *****************************************************************************
+unsigned long cHashedString::GetChecksum() const
+{
+	return m_lChecksum;
+}

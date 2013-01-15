@@ -23,8 +23,9 @@ namespace Sound
 		: public ISoundProcess
 	{
 	public:
-		cSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
-			const int iVolume, const bool bLooping);
+		cSoundProcess(const unsigned long ulType, 
+			shared_ptr<ISoundResHandle> pSoundResource, const int iVolume,
+			const bool bLooping);
 		~cSoundProcess();
 		void VInitialize();
 		void VUpdate(const int iDeltaMilliSeconds);
