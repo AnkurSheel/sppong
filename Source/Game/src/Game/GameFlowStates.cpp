@@ -28,6 +28,7 @@ using namespace Graphics;
 using namespace Base;
 using namespace AI;
 using namespace GameBase;
+using namespace Utilities;
 
 cStateTitleScreen::cStateTitleScreen()
 {
@@ -155,14 +156,17 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
 		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
 
-		//buttonDef.labelControlDef.strText = "Options";
-		//buttonDef.vPosition = cVector2(412, 370);
+		buttonDef.labelControlDef.strText = "Options";
+		buttonDef.vPosition = cVector2(412, 470);
 
-		//IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
-		//m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
+		IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
+		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
+		function<void (bool)> callbackOptionsBtn;
+		callbackOptionsBtn = bind(&cStateMenuScreen::OptionsButtonPressed, this, _1);
+		pOptionsButton->VRegisterCallBack(callbackOptionsBtn);
 
 		buttonDef.labelControlDef.strText = "Help";
-		buttonDef.vPosition = cVector2(412, 470);
+		buttonDef.vPosition = cVector2(412, 570);
 
 		IBaseControl * pHelpButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pHelpButton));
@@ -180,8 +184,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		////pCreditsButton->VRegisterCallBack(callbackCreditsBtn);
 
 		buttonDef.labelControlDef.strText = "Quit";
-		//buttonDef.vPosition = cVector2(412, 670);
-		buttonDef.vPosition = cVector2(412, 570);
+		buttonDef.vPosition = cVector2(412, 670);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
@@ -249,6 +252,15 @@ void cStateMenuScreen::HelpButtonPressed(bool bPressed)
 	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
 		m_pOwner->m_pStateMachine->RequestPushState(cStateHelpScreen::Instance());
+	}
+}
+
+// *****************************************************************************
+void cStateMenuScreen::OptionsButtonPressed(bool bPressed)
+{
+	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	{
+		m_pOwner->m_pStateMachine->RequestPushState(cStateOptionsScreen::Instance());
 	}
 }
 
@@ -458,5 +470,119 @@ void cStateHelpScreen::BackButtonPressed(bool bPressed)
 	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
 		m_pOwner->m_pStateMachine->RequestPopState();
+	}
+}
+
+// *****************************************************************************
+cStateOptionsScreen::cStateOptionsScreen()
+{
+}
+
+// *****************************************************************************
+cStateOptionsScreen::~cStateOptionsScreen()
+{
+}
+
+// *****************************************************************************
+cStateOptionsScreen* cStateOptionsScreen::Instance()
+{
+	static cStateOptionsScreen instance;
+	return &instance;
+}
+
+// *****************************************************************************
+void cStateOptionsScreen::VOnEnter(cGame *pGame)
+{
+	IGameFlowStates::VOnEnter(pGame);
+	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
+	{
+		cWindowControlDef optionsDef;
+		optionsDef.strControlName = "OptionsScreen";
+		optionsDef.wType = cWindowControlDef::WT_STANDARD;
+		optionsDef.vPosition = cVector2(0, 0);
+		optionsDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
+		IBaseControl * pOptionsScreen = IBaseControl::CreateWindowControl(optionsDef);
+		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pOptionsScreen));
+		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pOptionsScreen);
+
+		cCheckBoxControlDef checkboxControlDef;
+		checkboxControlDef.bChecked = true;
+		checkboxControlDef.buttonControlDef.strDefaultImage = "Sprites\\Unchecked.png";
+		checkboxControlDef.buttonControlDef.strPressedImage = "Sprites\\Checked.png";
+		checkboxControlDef.labelControlDef.strText = "Music";
+		checkboxControlDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		checkboxControlDef.labelControlDef.fTextHeight = 20;
+		checkboxControlDef.labelControlDef.textColor = cColor::WHITE;
+		checkboxControlDef.buttonControlDef.vSize = cVector2(50, 30);
+		checkboxControlDef.iSpaceCaption = 10;
+		checkboxControlDef.vPosition = cVector2(0.f, 250.f);
+
+		IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
+		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pCheckBoxControl));
+		function<void (bool)> checkBoxCallback;
+		checkBoxCallback = bind(&cStateOptionsScreen::MusicCheckBoxPressed, this, _1);
+		pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
+		
+		cButtonControlDef buttonDef;
+		buttonDef.bAutoSize = true;
+		buttonDef.vPosition = cVector2(0, 480);
+		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
+		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
+		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		buttonDef.labelControlDef.strText = "Back";
+		buttonDef.labelControlDef.textColor = cColor::BLUE;
+		buttonDef.labelControlDef.fTextHeight = 50;
+
+		IBaseControl * pBackButton = IBaseControl::CreateButtonControl(buttonDef);
+		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pBackButton));
+		function<void (bool)> callBackBtn;
+		callBackBtn = bind(&cStateOptionsScreen::BackButtonPressed, this, _1);
+		pBackButton->VRegisterCallBack(callBackBtn);
+	}
+}
+
+// *****************************************************************************
+void cStateOptionsScreen::VOnUpdate()
+{
+
+}
+
+// *****************************************************************************
+void cStateOptionsScreen::VOnExit()
+{
+	if (m_pOwner->m_pHumanView->m_pAppWindowControl != NULL)
+	{
+		m_pOwner->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("OptionsScreen");
+	}
+}
+
+// *****************************************************************************
+bool cStateOptionsScreen::VOnMessage(const Telegram &msg)
+{
+	return false;
+}
+
+// *****************************************************************************
+void cStateOptionsScreen::BackButtonPressed(bool bPressed)
+{
+	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	{
+		m_pOwner->m_pStateMachine->RequestPopState();
+	}
+}
+
+// *****************************************************************************
+void cStateOptionsScreen::MusicCheckBoxPressed(bool bPressed)
+{
+	if(m_pOwner != NULL && m_pOwner->m_pHumanView != NULL)
+	{
+		if(bPressed )
+		{
+			m_pOwner->m_pHumanView->PlayMusic("Sounds\\Music\\mainmenu.ogg", true);
+		}
+		else
+		{
+			m_pOwner->m_pHumanView->StopMusic();
+		}
 	}
 }

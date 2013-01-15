@@ -16,6 +16,7 @@ namespace Utilities
 {
 	class cProcess;
 }
+
 namespace Utilities
 {
 	typedef std::list<shared_ptr<cProcess>> ProcessList;
@@ -31,7 +32,8 @@ namespace Utilities
 		void UpdateProcesses(const int iDeltaMilliSeconds);
 
 	private:
-		void Detach(shared_ptr<cProcess> pProcess);
+		void VDetachProcess(shared_ptr<cProcess> pProcess);
+
 	protected:
 		ProcessList m_pProcessList;
 	};

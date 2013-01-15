@@ -126,6 +126,7 @@ void cHumanView::VOnDestroyDevice()
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pProcessManager);
+	m_pMusicChannel.reset();
 	IFontManager::Destroy();
 	IObjModelLoader::Destroy();
 	ICollisionChecker::Destroy();
@@ -267,17 +268,47 @@ void cHumanView::SetCursorVisible( bool bVisible )
 // *****************************************************************************
 void cHumanView::PlaySFX(const cString & strSoundFile)
 {
-	shared_ptr<cSoundResource> pResource(DEBUG_NEW cSoundResource(strSoundFile));
-	shared_ptr<ISoundResHandle> pHandle = static_pointer_cast<ISoundResHandle>(IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource));
-	shared_ptr<ISoundProcess> sfx(ISoundProcess::CreateSoundProcess(pHandle, 100, false));
+	shared_ptr<ISoundProcess> sfx(ISoundProcess::CreateSoundProcess(strSoundFile, 100, false));
 	m_pProcessManager->VAttachProcess(sfx);
 }
 
 // *****************************************************************************
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
-	shared_ptr<cSoundResource> pResource(DEBUG_NEW cSoundResource(strMusicFile));
-	shared_ptr<ISoundResHandle> pHandle = static_pointer_cast<ISoundResHandle>(IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource));
-	shared_ptr<ISoundProcess> sfx(ISoundProcess::CreateSoundProcess(pHandle, 100, bLooping));
-	m_pProcessManager->VAttachProcess(sfx);
+	if(m_pMusicChannel == NULL)
+	{
+		m_pMusicChannel = ISoundProcess::CreateSoundProcess(strMusicFile, 100, bLooping);
+		m_pProcessManager->VAttachProcess(m_pMusicChannel);
+	}
+	else
+	{
+		if(m_pMusicChannel->VIsPaused())
+		{
+			m_pMusicChannel->VTogglePause();
+		}
+		else
+		{
+			Log_Write_L1(ILogger::LT_ERROR, "Music Channel already unpaused");
+		}
+	}
+}
+
+// *****************************************************************************
+void cHumanView::StopMusic()
+{
+	if(m_pMusicChannel != NULL)
+	{
+		if(!m_pMusicChannel->VIsPaused())
+		{
+			m_pMusicChannel->VTogglePause();
+		}
+		else
+		{
+			Log_Write_L1(ILogger::LT_ERROR, "Music Channel already Paused");
+		}
+	}
+	else
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Trying to pause NULL Music Channel");
+	}
 }

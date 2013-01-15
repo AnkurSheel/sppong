@@ -72,14 +72,13 @@ void cAudio::StopAllSounds()
 void cAudio::VCleanup()
 {
 	IAudioBuffer * pAudioBuffer = NULL;
-	AudioBufferList::iterator iter;
-	for(iter = m_ActiveSoundList.begin(); iter != m_ActiveSoundList.end(); iter++)
+	while(!m_ActiveSoundList.empty())
 	{
-		pAudioBuffer = (*iter);
-		pAudioBuffer->VStop();
+		pAudioBuffer = *(m_ActiveSoundList.begin());
 		m_ActiveSoundList.pop_front();
 	}
 }
+
 // *****************************************************************************
 IAudio * IAudio::GetInstance()
 {

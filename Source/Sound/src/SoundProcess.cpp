@@ -12,8 +12,11 @@
 #include "Audio.hxx"
 #include "SoundResource.h"
 #include "AudioBuffer.hxx"
+#include "ResourceManager.hxx"
 
 using namespace Sound;
+using namespace Base;
+using namespace Utilities;
 
 // *****************************************************************************
 cSoundProcess::cSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
@@ -110,8 +113,20 @@ bool cSoundProcess::IsPlaying()
 }
 
 // *****************************************************************************
-shared_ptr<ISoundProcess> ISoundProcess::CreateSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
+void cSoundProcess::VTogglePause()
+{
+	if (m_pAudioBuffer)
+	{
+		m_pAudioBuffer->VTogglePause();
+	}
+	cProcess::VTogglePause();
+}
+
+// *****************************************************************************
+shared_ptr<ISoundProcess> ISoundProcess::CreateSoundProcess(const cString & strSoundFile,
 			const int iVolume, const bool bLooping)
 {
-	return shared_ptr<ISoundProcess>(DEBUG_NEW cSoundProcess(pSoundResource, iVolume, bLooping));
+	shared_ptr<cSoundResource> pResource(DEBUG_NEW cSoundResource(strSoundFile));
+	shared_ptr<ISoundResHandle> pHandle = static_pointer_cast<ISoundResHandle>(IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource));
+	return shared_ptr<ISoundProcess>(DEBUG_NEW cSoundProcess(pHandle, iVolume, bLooping));
 }

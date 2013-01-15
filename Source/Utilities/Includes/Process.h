@@ -23,16 +23,17 @@ namespace Utilities
 		UTILITIES_API cProcess();
 		UTILITIES_API virtual ~cProcess();
 		
-		UTILITIES_API bool IsDead() const;
+		bool IsDead() const;
+		UTILITIES_API bool VIsPaused() const;
+		UTILITIES_API virtual void VTogglePause();
+
 		bool IsActive() const;
 		void SetActive(const bool bActive);
 		bool IsAttached() const;
 		void SetAttached(const bool bAttached);
-		bool IsPaused() const;
 		bool IsInitialized() const;
 		shared_ptr<cProcess> const GetNext() const;
 		void SetNext(shared_ptr<cProcess> pNext);
-		void TogglePause();
 		
 		virtual void VInitialize(){}
 		UTILITIES_API virtual void VUpdate(const int iDeltaMilliSeconds);

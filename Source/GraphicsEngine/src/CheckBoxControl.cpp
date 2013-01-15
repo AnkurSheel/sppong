@@ -40,6 +40,16 @@ void cCheckBoxControl::Initialize(const cCheckBoxControlDef & def)
 	float fX = m_pTickBox->VGetWidth() + def.iSpaceCaption;
 	float fY = VGetHeight()/2.0f - pLabel->VGetHeight()/2.0f;
 	pLabel->VSetPosition(cVector2(fX, fY));
+
+	m_bChecked = def.bChecked;
+	if (m_bChecked)
+	{
+		m_pTickBox->VOnLeftMouseButtonDown(0, 0);
+	}
+	else
+	{
+		m_pTickBox->VOnLeftMouseButtonUp(0, 0);
+	}
 }
 
 // *************************************************************************

@@ -48,16 +48,16 @@ void cProcessManager::UpdateProcesses(const int iDeltaMilliSeconds)
 				p->SetNext(shared_ptr<cProcess>((cProcess*)NULL));
 				VAttachProcess(pNext);
 			}
-			Detach(p);
+			VDetachProcess(p);
 		}
-		else if(p->IsActive() && !p->IsPaused())
+		else if(p->IsActive() && !p->VIsPaused())
 		{
 			p->VUpdate(iDeltaMilliSeconds);
 		}
 	}
 }
 
-void cProcessManager::Detach(shared_ptr<cProcess> pProcess)
+void cProcessManager::VDetachProcess(shared_ptr<cProcess> pProcess)
 {
 	m_pProcessList.remove(pProcess);
 	pProcess->SetAttached(false);

@@ -38,7 +38,11 @@ bool cDirectSoundAudioBuffer::VPlay()
 		return false;
 	}
 
-	return (S_OK == pDSBuffer->Play(0, 0, 0));
+	if(S_OK == pDSBuffer->Play(0, 0, 0))
+	{
+		m_bIsPaused = false;
+	}
+	return m_bIsPaused;
 }
 
 // *****************************************************************************

@@ -83,5 +83,6 @@ private:
 	friend class cStateMenuScreen;
 	friend class cStatePlayGame;
 	friend class cStateHelpScreen;
+	friend class cStateOptionsScreen;
 };
 #endif // Game_h__

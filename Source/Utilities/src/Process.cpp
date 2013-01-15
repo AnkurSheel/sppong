@@ -66,7 +66,7 @@ void cProcess::SetActive(const bool bActive)
 	m_bActive = bActive;
 }
 
-bool cProcess::IsPaused() const
+bool cProcess::VIsPaused() const
 {
 	return m_bPaused;
 }
@@ -86,7 +86,7 @@ void cProcess::SetNext(shared_ptr<cProcess> pNext)
 	m_pNext = pNext;
 }
 
-void cProcess::TogglePause()
+void cProcess::VTogglePause()
 {
 	m_bPaused = !m_bPaused;
 }

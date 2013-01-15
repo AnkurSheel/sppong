@@ -25,7 +25,7 @@ namespace Sound
 	{
 	public:
 		virtual ~ISoundProcess(){};
-		SOUND_API static shared_ptr<ISoundProcess> CreateSoundProcess(shared_ptr<ISoundResHandle> pSoundResource,
+		SOUND_API static shared_ptr<ISoundProcess> CreateSoundProcess(const Base::cString & strSoundFile,
 			const int iVolume, const bool bLooping);
 	};
 }

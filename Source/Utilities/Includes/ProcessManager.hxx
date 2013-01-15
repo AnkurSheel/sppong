@@ -24,6 +24,7 @@ namespace Utilities
 		UTILITIES_API virtual ~IProcessManager() {}
 
 		UTILITIES_API virtual void VAttachProcess(shared_ptr<cProcess> pProcess) = 0;
+		UTILITIES_API virtual void VDetachProcess(shared_ptr<cProcess> pProcess) = 0;
 		UTILITIES_API virtual bool HasProcesses() const = 0;
 		UTILITIES_API virtual void UpdateProcesses(const int iDeltaMilliSeconds) = 0;
 		UTILITIES_API static IProcessManager * CreateProcessManager();

@@ -57,6 +57,7 @@ public:
 private:
 	cStateMenuScreen();
 	void HelpButtonPressed(bool bPressed);
+	void OptionsButtonPressed(bool bPressed);
 
 private:
 	Graphics::IBaseControl * m_pMenuScreen;
@@ -93,4 +94,20 @@ private:
 	void BackButtonPressed(bool bPressed);
 };
 
+class cStateOptionsScreen 
+	: public IGameFlowStates
+{
+public:
+	virtual ~cStateOptionsScreen();
+	static cStateOptionsScreen *Instance();
+	virtual void VOnEnter(cGame *pGame);
+	virtual void VOnUpdate();
+	virtual void VOnExit();
+	virtual bool VOnMessage(const AI::Telegram &msg);
+
+private:
+	cStateOptionsScreen();
+	void BackButtonPressed(bool bPressed);
+	void MusicCheckBoxPressed(bool bPressed);
+};
 #endif // GameFlowStates_h__

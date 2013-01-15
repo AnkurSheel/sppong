@@ -36,6 +36,11 @@ namespace Graphics
 	class ICamera;
 }
 
+namespace Sound
+{
+	class ISoundProcess;
+}
+
 namespace GameBase
 {
 	//typedef std::list<shared_ptr<Graphics::IScreenElement> > ScreenElementList;
@@ -59,6 +64,8 @@ namespace GameBase
 		GAMEBASE_API const Graphics::ICamera * const GetCamera() const;
 		GAMEBASE_API void PlaySFX(const Base::cString & strSoundFile);
 		GAMEBASE_API void PlayMusic(const Base::cString & strMusicFile, const bool bLooping);
+		GAMEBASE_API void StopMusic();
+
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();
@@ -75,15 +82,16 @@ namespace GameBase
 		shared_ptr<Graphics::IBaseControl>	m_pFpsLabel;
 
 	private:
-		GameViewId						m_idView;
-		Utilities::IProcessManager *	m_pProcessManager;
-		TICK							m_tickCurrent;
-		TICK							m_tickLastDraw;
-		bool							m_bRunFullSpeed;
-		//shared_ptr<Graphics::ISprite>	m_pCursorSprite;		// the sprite for the cursor
-		bool							m_bDisplayFPS;
-		bool							m_bLockedKeys[KEYBOARD_KEYS];
-		GameBase::IBaseApp	*			m_pGame;
+		GameViewId							m_idView;
+		Utilities::IProcessManager *		m_pProcessManager;
+		TICK								m_tickCurrent;
+		TICK								m_tickLastDraw;
+		bool								m_bRunFullSpeed;
+		//shared_ptr<Graphics::ISprite>		m_pCursorSprite;		// the sprite for the cursor
+		bool								m_bDisplayFPS;
+		bool								m_bLockedKeys[KEYBOARD_KEYS];
+		GameBase::IBaseApp	*				m_pGame;
+		shared_ptr<Sound::ISoundProcess>	m_pMusicChannel;
 
 	public:
 		Graphics::IBaseControl *		m_pAppWindowControl;
