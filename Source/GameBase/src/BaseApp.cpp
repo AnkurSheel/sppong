@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  BaseApp   version:  1.0   Ankur Sheel  date: 2011/10/19
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "BaseApp.h"
 #include "MainWindow.hxx"
@@ -19,6 +19,7 @@
 #include "MessageDispatchManager.hxx"
 #include "ResourceManager.hxx"
 #include "GraphicsClass.hxx"
+#include "GameOptions.h"
 
 using namespace GameBase;
 using namespace Base;
@@ -26,15 +27,17 @@ using namespace Utilities;
 using namespace Graphics;
 using namespace std;
 
-IParamLoader * cBaseApp::m_spParamLoader = NULL;
+// *****************************************************************************
 cBaseApp::cBaseApp(const cString strName)
 : cBaseEntity(strName)
 , m_pGameTimer(NULL)
 , m_pHumanView(NULL)
+, m_pGameOptions(NULL)
+, m_pParamLoader(NULL)
 {
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 								 const cString & strOptionsFile)
 {
@@ -51,13 +54,13 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 
 	IResourceChecker::Destroy();
 
-	if(m_spParamLoader == NULL)
+	if(m_pParamLoader == NULL)
 	{
-		m_spParamLoader = IParamLoader::CreateParamLoader();
-		m_spParamLoader->VLoadParametersFromFile(strOptionsFile);
+		m_pParamLoader = IParamLoader::CreateParamLoader();
+		m_pParamLoader->VLoadParametersFromFile(strOptionsFile);
 	}
-	bool bMultipleInstances = m_spParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
-	cString strTitle = m_spParamLoader->VGetParameterValueAsString("-title", "Game");
+	bool bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
+	cString strTitle = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
 	m_strName = strTitle;
 	if (bMultipleInstances)
 	{
@@ -67,12 +70,18 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 			return;
 		}
 	}
-	
-	bool bFullScreen = m_spParamLoader->VGetParameterValueAsBool("-fullscreen", false);
-	int iWindowWidth = m_spParamLoader->VGetParameterValueAsInt("-WindowWidth", 1024);
-	int iWindowHeight = m_spParamLoader->VGetParameterValueAsInt("-WindowHeight", 720);
 
-	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, bFullScreen, iWindowWidth, iWindowHeight);
+	if(m_pGameOptions == NULL)
+	{
+		m_pGameOptions = DEBUG_NEW cGameOptions();
+		m_pGameOptions->Init("Media//PlayerOptions.xml");
+#if _DEBUG
+		m_pGameOptions->m_bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", m_pGameOptions->m_bFullScreen);
+		m_pGameOptions->m_iWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", m_pGameOptions->m_iWidth);
+		m_pGameOptions->m_iHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", m_pGameOptions->m_iHeight);
+#endif
+	}
+	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, m_pGameOptions->m_bFullScreen, m_pGameOptions->m_iWidth, m_pGameOptions->m_iHeight);
 
 	if(hwnd == NULL)
 	{
@@ -81,41 +90,24 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	}
 
 	vector<int> vBGColor;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		IBaseApp::VGetParamLoader()->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
-	}
+	m_pParamLoader->VGetParameterValueAsIntList("-BackGroundColor", vBGColor);
 	cColor bgColor = cColor::BLACK;
 	if(!vBGColor.empty() && vBGColor.size() == 4)
 	{
 		bgColor = cColor(vBGColor[0], vBGColor[1], vBGColor[2], vBGColor[3]);
 	}
-	bool bVSyncEnabled = false;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		bVSyncEnabled = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-VSyncEnabled", false);
-	}
+	bool bVSyncEnabled = m_pParamLoader->VGetParameterValueAsBool("-VSyncEnabled", false);
+	float fScreenFar = m_pParamLoader->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
+	float fScreenNear = m_pParamLoader->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
 
-	float fScreenFar = 1000.0f;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		fScreenFar = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
-	}
-
-	float fScreenNear = 0.1f;
-	if(IBaseApp::VGetParamLoader() != NULL)
-	{
-		fScreenNear = IBaseApp::VGetParamLoader()->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
-	}
-
-	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor, bFullScreen, 
-		bVSyncEnabled, iWindowWidth, iWindowHeight, fScreenFar, fScreenNear );
+	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor, m_pGameOptions->m_bFullScreen,
+		bVSyncEnabled, m_pGameOptions->m_iWidth, m_pGameOptions->m_iHeight, fScreenFar, fScreenNear );
 
 	// initialize resource manager
 	IResourceManager::GetInstance()->VInitialize("Media\\resources.zip ");
 
 	VCreateHumanView();
-	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, iWindowWidth, iWindowHeight);
+	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, m_pGameOptions->m_iWidth, m_pGameOptions->m_iHeight);
 }
 
 void cBaseApp::VCreateHumanView()
@@ -123,9 +115,9 @@ void cBaseApp::VCreateHumanView()
 	m_pHumanView = DEBUG_NEW cHumanView();
 }
 
-// ***************************************************************
+// *****************************************************************************
 // the message loop
-// ***************************************************************
+// *****************************************************************************
 void cBaseApp::VRun()
 {
 	MSG Msg ;
@@ -160,13 +152,14 @@ void cBaseApp::VOnUpdate()
 	m_pHumanView->VOnUpdate(m_pGameTimer->VGetRunningTicks(), m_pGameTimer->VGetDeltaTime());
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Deletes the memory
-// ***************************************************************
+// *****************************************************************************
 void cBaseApp::VCleanup()
 {
 	SAFE_DELETE(m_pGameTimer);
-	SAFE_DELETE(m_spParamLoader);
+	SAFE_DELETE(m_pParamLoader);
+	SAFE_DELETE(m_pGameOptions);
 
 	m_pHumanView->VOnDestroyDevice();
 	SAFE_DELETE(m_pHumanView);
@@ -180,7 +173,7 @@ void cBaseApp::VCleanup()
 	ILogger::Destroy();
 }
 
-// ***************************************************************
+// *****************************************************************************
 float cBaseApp::GetRunningTime()
 {
 	if(m_pGameTimer)
@@ -189,7 +182,7 @@ float cBaseApp::GetRunningTime()
 	return 0.f;
 }
 
-// ***************************************************************
+// *****************************************************************************
 TICK cBaseApp::GetRunningTicks()
 {
 	if(m_pGameTimer)
@@ -198,42 +191,36 @@ TICK cBaseApp::GetRunningTicks()
 	return 0;
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Display the FPS
-// ***************************************************************
+// *****************************************************************************
 float cBaseApp::VGetFPS()
 {
 	return m_pGameTimer->VGetFPS();
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseApp::VOnMsgProc( const Base::AppMsg & msg )
 {
 	return m_pHumanView->VOnMsgProc(msg);
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Display the Graphics
-// ***************************************************************
+// *****************************************************************************
 void cBaseApp::VRender(TICK tickCurrent, float fElapsedTime)
 {
 	m_pHumanView->VOnRender(tickCurrent, fElapsedTime);
 }
 
-// ***************************************************************
+// *****************************************************************************
 cHumanView * const cBaseApp::VGetHumanView() const
 {
 	return m_pHumanView;
 }
 
-// ***************************************************************
-Utilities::IParamLoader * cBaseApp::VGetParamLoader()
+// *****************************************************************************
+Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
 {
-	return m_spParamLoader;
-}
-
-// ***************************************************************
-Utilities::IParamLoader * IBaseApp::VGetParamLoader()
-{
-	return cBaseApp::VGetParamLoader();
+	return m_pParamLoader;
 }

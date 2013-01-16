@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  BaseApp   version:  1.0   Ankur Sheel  date: 2011/10/19
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef BaseApp_h__
 #define BaseApp_h__
 
@@ -22,6 +22,7 @@ namespace Utilities
 namespace GameBase
 {
 	class cHumanView;
+	class cGameOptions;
 }
 
 namespace GameBase
@@ -32,7 +33,6 @@ namespace GameBase
 	{
 	public:
 		virtual ~cBaseApp(){}
-		static Utilities::IParamLoader * VGetParamLoader();
 		GAMEBASE_API virtual cHumanView * const VGetHumanView() const;
 
 	protected:
@@ -44,16 +44,20 @@ namespace GameBase
 		GAMEBASE_API virtual void VOnUpdate();
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
-		GAMEBASE_API float VGetFPS();
 		GAMEBASE_API virtual void VCleanup();
 		
 		TICK GetRunningTicks();
 		float GetRunningTime();
 
+	private:
+		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
+		GAMEBASE_API float VGetFPS();
+
 	protected:
 		Utilities::ITimer *					m_pGameTimer;
 		cHumanView *						m_pHumanView;
-		static Utilities::IParamLoader *	m_spParamLoader;
+		Utilities::IParamLoader *			m_pParamLoader;
+		cGameOptions *						m_pGameOptions;
 	};
 }
 

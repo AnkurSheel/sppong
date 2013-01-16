@@ -280,11 +280,11 @@ tOptional<bool> cString::ToBool() const
 	tOptional<bool> val;
 	std::string str;
 	
-	if(_stricmp(m_str.data(), "true") == 0)
+	if(_stricmp(m_str.data(), "true") == 0 || _stricmp(m_str.data(), "yes") == 0)
 	{
 		val = true;
 	}
-	else if(_stricmp(m_str.data(), "false") == 0)
+	else if(_stricmp(m_str.data(), "false") == 0 || _stricmp(m_str.data(), "no") == 0)
 	{
 		val = false;
 	}

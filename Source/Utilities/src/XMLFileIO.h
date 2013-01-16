@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  XMLFileIO   version:  1.0   Ankur Sheel  date: 2011/02/01
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef XMLFileIO_h__
 #define XMLFileIO_h__
 
@@ -40,7 +40,7 @@ namespace Utilities
 	private:
 		void VInitializeForSave(const Base::cString & strRootName,
 			const Base::cString & strStyleSheetPath);
-		void VLoad(const Base::cString & strFilePath);
+		bool VLoad(const Base::cString & strFilePath);
 		void VLoad(const Base::cString & strFilePath, Base::cString & strRootName);
 		void VParse(const Base::cString & strXML, const unsigned int size);
 		void VAddComment(const Base::cString & strParentElementID,
@@ -53,6 +53,8 @@ namespace Utilities
 		void VGetNodeAttribute(const Base::cString & strElementID,
 			const Base::cString & strAttributeName, Base::cString & strAttributeValue);
 		int VGetNodeAttributeAsInt(const Base::cString & strElementID,
+			const Base::cString & strAttributeName);
+		bool VGetNodeAttributeAsBool(const Base::cString & strElementID,
 			const Base::cString & strAttributeName);
 		/********************************************//**
 		 * @param[in] pParent The parent element

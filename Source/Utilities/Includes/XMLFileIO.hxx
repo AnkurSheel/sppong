@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  XMLFileIO   version:  1.0   Ankur Sheel  date: 2011/02/01
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef XMLFileIO_hxx__
 #define XMLFileIO_hxx__
 
@@ -31,10 +31,11 @@ namespace Utilities
 			const Base::cString & strStyleSheetPath) = 0;
 		/********************************************//**
 		 * @param[in] strFilePath The path for the XML file to be loaded
+		 * @return true if the load is successfull. False otherwise
 		 *
 		 * Loads the XML file
 		 ***********************************************/
-		virtual void VLoad(const Base::cString & strFilePath) = 0;
+		virtual bool VLoad(const Base::cString & strFilePath) = 0;
 		/********************************************//**
 		 * @param[in] strFilePath The path for the XML file to be loaded
 		 * @param[out] strRootName the name of the root in the xml
@@ -86,10 +87,21 @@ namespace Utilities
 		 * return The integer value of the attribute 
 		 *
 		 * Given an attribute name for an element with unique name strElementID,
-		 * this functions converts the value for the attribute of that name into an,
-		 * an and stores it in iAttributeValue
+		 * this functions converts the value for the attribute of that name into an
+		 * int and returns it
 		 ***********************************************/
 		virtual int VGetNodeAttributeAsInt(const Base::cString & strElementID,
+			const Base::cString & strAttributeName) = 0;
+		/********************************************//**
+		 * @param[in] strElementID The unique ID of the element
+		 * @param[in] strAttributeName The attribute name
+		 * return The bool value of the attribute 
+		 *
+		 * Given an attribute name for an element with unique name strElementID,
+		 * this functions converts the value for the attribute of that name into an,
+		 * bool and returns it
+		 ***********************************************/
+		virtual bool VGetNodeAttributeAsBool(const Base::cString & strElementID,
 			const Base::cString & strAttributeName) = 0;
 		/********************************************//**
 		 * @param[in] strParentID The unique id of the parent element

@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  XMLFileIO   version:  1.0   Ankur Sheel  date: 2011/02/01
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "XMLFileIO.h"
 #include "TinyXml\tinyxml2.h"
@@ -15,21 +15,21 @@ using namespace tinyxml2;
 using namespace Base;
 using namespace Utilities;
 
-// ***************************************************************
+// *****************************************************************************
 cXMLFileIO::cXMLFileIO()
 : m_pDoc(NULL)
 {
 }
-// ***************************************************************
+// *****************************************************************************
 
-// ***************************************************************
+// *****************************************************************************
 cXMLFileIO::~cXMLFileIO()
 {
 	SAFE_DELETE(m_pDoc);
 	m_ElementMap.clear();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::VInitializeForSave(const Base::cString & strRootName, 
 									const Base::cString & strStyleSheetPath)
 {
@@ -52,15 +52,15 @@ void cXMLFileIO::VInitializeForSave(const Base::cString & strRootName,
 }
 
 
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::VLoad( const cString & strFilePath, cString & strRootName )
 {
 	VLoad(strFilePath);
 	strRootName = m_pDoc->RootElement()->Value();
 }
 
-// ***************************************************************
-void cXMLFileIO::VLoad( const cString & strFilePath)
+// *****************************************************************************
+bool cXMLFileIO::VLoad( const cString & strFilePath)
 {
 	Log_Write_L1(ILogger::LT_DEBUG, "loading XML file " + strFilePath);
 	SAFE_DELETE(m_pDoc);
@@ -68,16 +68,17 @@ void cXMLFileIO::VLoad( const cString & strFilePath)
 	if (m_pDoc->LoadFile(strFilePath.GetData()) != XML_NO_ERROR)
 	{
 		Log_Write_L1(ILogger::LT_ERROR, "Could not load XML file " + strFilePath);
-		return;
+		return false;
 	}
 
 	XMLElement * pRoot = m_pDoc->FirstChildElement();
 	m_ElementMap.insert(std::make_pair(pRoot->Name(), pRoot));
 
 	AddChildElements(pRoot);
+	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
 {
 	Log_Write_L1(ILogger::LT_DEBUG, "Parsing XML file ");
@@ -96,7 +97,7 @@ void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
 	AddChildElements(pRoot);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::VAddComment( const cString & strParentElementID, 
 							 const cString & strComment )
 {
@@ -105,7 +106,7 @@ void cXMLFileIO::VAddComment( const cString & strParentElementID,
 	pElement->InsertEndChild(m_pDoc->NewComment(strComment.GetData()));
 }
 
-// ***************************************************************
+// *****************************************************************************
 cString cXMLFileIO::VAddElement( const cString & strParentName, const cString & strElementName,
 							 const cString & strElementAttribID, const cString & strElementValue )
 {
@@ -130,40 +131,40 @@ cString cXMLFileIO::VAddElement( const cString & strParentName, const cString & 
 	m_ElementMap.insert(std::make_pair(strID, pElement));
 	return strID;
 }
-// ***************************************************************
+// *****************************************************************************
 
-// ***************************************************************
+// *****************************************************************************
 // AddNode : Adds a node to the xml document
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::AddAttribute(const cString & strId, const cString & strAttributeNode, const int iValue )
 {
 	ElementMap::const_iterator  curr = m_ElementMap.find(strId);
 	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), iValue);
 }
-// ***************************************************************
+// *****************************************************************************
 
-// ***************************************************************
+// *****************************************************************************
 // AddNode : Adds a node to the xml document
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::AddAttribute( const cString & strId, const cString & strAttributeNode, const cString & strValue )
 {
 	ElementMap::const_iterator  curr = m_ElementMap.find(strId);
 	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), strValue.GetData());
 
 }
-// ***************************************************************
+// *****************************************************************************
 
-// ***************************************************************
+// *****************************************************************************
 // AddNode : Adds a node to the xml document
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::Save( const cString & strFilePath )
 {
 	m_pDoc->SaveFile(strFilePath.GetData());
 }
 
-// ***************************************************************
+// *****************************************************************************
 // AddNode : Adds a node to the xml document
-// ***************************************************************
+// *****************************************************************************
 cString cXMLFileIO::GetNodeName( const cString & strParent, const int iIndex )
 {
 	XMLElement *pElem;
@@ -177,11 +178,11 @@ cString cXMLFileIO::GetNodeName( const cString & strParent, const int iIndex )
 	}
 	return(pElem->Value());
 }
-// ***************************************************************
+// *****************************************************************************
 
-// ***************************************************************
+// *****************************************************************************
 // AddNode : Adds a node to the xml document
-// ***************************************************************
+// *****************************************************************************
 cString cXMLFileIO::GetNodeValue( const cString & strNode )
 {
 	XMLElement *pElem;
@@ -191,7 +192,7 @@ cString cXMLFileIO::GetNodeValue( const cString & strNode )
 	return(pElem->GetText());
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::AddChildElements(XMLElement * const pParent)
 {
 	XMLElement * pElement = pParent->FirstChildElement();
@@ -213,13 +214,13 @@ void cXMLFileIO::AddChildElements(XMLElement * const pParent)
 		pElement = pElement->NextSiblingElement();
 	}
 }
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::GetUniqueNameForMap( const XMLElement * const pElement, cString & strName )
 {
 	strName = cString(pElement->Value()) + pElement->Attribute("id");
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::VGetAllChildrenNames( const Base::cString & strParentID,
 									  std::vector<cString> & vElements )
 {
@@ -235,7 +236,7 @@ void cXMLFileIO::VGetAllChildrenNames( const Base::cString & strParentID,
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 								   const cString & strAttributeName,
 								   cString & strAttributeValue)
@@ -247,7 +248,7 @@ void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
 			const Base::cString & strAttributeName)
 {
@@ -262,11 +263,26 @@ int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
 	return *val;
 }
 
-// ***************************************************************
+// *****************************************************************************
+bool cXMLFileIO::VGetNodeAttributeAsBool(const Base::cString & strElementID,
+			const Base::cString & strAttributeName)
+{
+	cString strAttributeValue;
+	VGetNodeAttribute(strElementID, strAttributeName, strAttributeValue);
+	tOptional<bool> val = strAttributeValue.ToBool();
+	if(val.IsInvalid())
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Error in getting " + strAttributeName + " attribute as int in " + strElementID);
+		return false;
+	}
+	return *val;
+}
+
+// *****************************************************************************
 IXMLFileIO * IXMLFileIO::CreateXMLFile()
 {
 	cXMLFileIO* pXMLFile= DEBUG_NEW cXMLFileIO();
 	return pXMLFile;
 }
-// ***************************************************************
+// *****************************************************************************
 

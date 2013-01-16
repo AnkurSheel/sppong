@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  HumanView   version:  1.0   Ankur Sheel  date: 2011/05/02
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "HumanView.h"
 #include "GraphicsClass.hxx"
@@ -35,7 +35,7 @@ using namespace Base;
 using namespace GameBase;
 using namespace Sound;
 
-// ***************************************************************
+// *****************************************************************************
 cHumanView::cHumanView()
 : m_bRunFullSpeed(true)
 , m_pProcessManager(NULL)
@@ -50,13 +50,13 @@ cHumanView::cHumanView()
 	memset(m_bLockedKeys, 0, sizeof(m_bLockedKeys));
 }
 
-// ***************************************************************
+// *****************************************************************************
 cHumanView::~cHumanView()
 {
 	VOnDestroyDevice();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 										   const HINSTANCE & hInst,
 										   const HWND & hWnd, const int iClientWidth,
@@ -64,17 +64,17 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 {
 	m_pGame = pGame;
 	m_pProcessManager = IProcessManager::CreateProcessManager();
-	if(IBaseApp::VGetParamLoader() != NULL)
+	if(m_pGame->VGetParamLoader() != NULL)
 	{
-		m_bDisplayFPS = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-DisplayFPS", false);
+		m_bDisplayFPS = m_pGame->VGetParamLoader()->VGetParameterValueAsBool("-DisplayFPS", false);
 	}
 	cWindowControlDef def;
 	def.wType = cWindowControlDef::WT_DESKTOP;
 	def.strControlName = "App";
 	def.vSize = cVector2(static_cast<float>(iClientWidth), static_cast<float>(iClientHeight));
-	if(IBaseApp::VGetParamLoader() != NULL)
+	if(m_pGame->VGetParamLoader() != NULL)
 	{
-		def.bAllowMovingControls = IBaseApp::VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);
+		def.bAllowMovingControls = m_pGame->VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);
 	}
 	m_pAppWindowControl = IBaseControl::CreateWindowControl(def);
 	m_pCamera = ICamera::CreateCamera();
@@ -101,7 +101,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	IAudio::GetInstance()->VInitialize(hWnd);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
 	if(m_pProcessManager)
@@ -114,7 +114,7 @@ void cHumanView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
 {
 	HRESULT hr;
@@ -126,7 +126,7 @@ void cHumanView::VOnRender(const TICK tickCurrent, const float fElapsedTime)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::VOnDestroyDevice()
 {
 	SAFE_DELETE(m_pAppWindowControl);
@@ -140,7 +140,7 @@ void cHumanView::VOnDestroyDevice()
 	//SAFE_DELETE(m_pCursorSprite);
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 {
 	bool bHandled = false;
@@ -185,19 +185,19 @@ bool cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 	return bHandled;
 }
 
-// ***************************************************************
+// *****************************************************************************
 IGameView::GAMEVIEWTYPE cHumanView::VGetType()
 {
 	return GV_HUMAN;
 }
 
-// ***************************************************************
+// *****************************************************************************
 GameViewId cHumanView::VGetId() const
 {
 	return -1;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::VOnAttach(GameViewId id)
 {
 	m_idView = id;
@@ -208,7 +208,7 @@ const ICamera * const cHumanView::GetCamera() const
 	return m_pCamera;
 }
 
-// ***************************************************************
+// *****************************************************************************
 HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 {
 	m_tickCurrent = tickCurrent; 
@@ -217,7 +217,7 @@ HRESULT cHumanView::OnBeginRender(TICK tickCurrent)
 	return hr;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::VRenderPrivate()
 {
 	if (m_pAppWindowControl)
@@ -236,7 +236,7 @@ void cHumanView::VRenderPrivate()
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::OnEndRender(const HRESULT hr)
 {
 	m_tickLastDraw = m_tickCurrent; 
@@ -248,9 +248,9 @@ bool cHumanView::IsKeyLocked( const DWORD dwKey )  const
 	return m_bLockedKeys[dwKey];
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Locks the key on the keyboard
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::LockKey( const DWORD dwKey ) 
 {
 	m_bLockedKeys[dwKey] = true;
@@ -261,7 +261,7 @@ void cHumanView::UnlockKey( const DWORD dwKey )
 	m_bLockedKeys[dwKey] = false;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cHumanView::SetCursorVisible( bool bVisible )
 {
 // 	if (m_pCursorSprite)
@@ -270,7 +270,7 @@ void cHumanView::SetCursorVisible( bool bVisible )
 // 	}
 }
 
-// *****************************************************************************
+// *******************************************************************************************
 void cHumanView::PlaySFX(const cString & strSoundFile)
 {
 	if(m_bPlaySFX)
@@ -281,7 +281,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 	}
 }
 
-// *****************************************************************************
+// *******************************************************************************************
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
 	if(m_bPlayMusic)
@@ -292,21 +292,21 @@ void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 	}
 }
 
-// *****************************************************************************
+// *******************************************************************************************
 void cHumanView::MusicCheckBoxPressed(bool bPressed)
 {
 	m_bPlayMusic = bPressed;
 	m_pProcessManager->VTogglePauseProcesses(m_hashMusicChannel.GetChecksum());
 }
 
-// *****************************************************************************
+// *******************************************************************************************
 void cHumanView::SfxCheckBoxPressed(bool bPressed)
 {
 	m_bPlaySFX = bPressed;
 	m_pProcessManager->VTogglePauseProcesses(m_hashSFXChannel.GetChecksum());
 }
 
-// *****************************************************************************
+// *******************************************************************************************
 void cHumanView::FullScreenCheckBoxPressed(bool bPressed)
 {
 	IMainWindow::GetInstance()->VToggleFullScreen();
