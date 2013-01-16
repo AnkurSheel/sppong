@@ -125,6 +125,12 @@ void cMainWindow::VToggleFullScreen()
 	IGraphicsClass::GetInstance()->VSetFullScreenMode(m_bFullScreen);
 }
 
+// *****************************************************************************
+bool cMainWindow::VIsFullScreen() const
+{
+	return m_bFullScreen;
+}
+
 // ***************************************************************
 // Registers the window
 // ***************************************************************
@@ -405,4 +411,3 @@ void IMainWindow::Destroy()
 {
 	cMainWindow::Destroy();
 }
-

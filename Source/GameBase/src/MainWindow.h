@@ -41,6 +41,7 @@ namespace GameBase
 			IBaseApp * const pGame, const bool bFullScreen,
 			const int iFullScreenWidth, const int iFullScreenHeight);
 		void VToggleFullScreen();
+		bool VIsFullScreen() const;
 		void VCleanup();
 		/********************************************//**
 		 * @param[in] hWnd – Unique handle to the window.

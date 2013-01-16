@@ -66,7 +66,7 @@ namespace GameBase
 		GAMEBASE_API void PlayMusic(const Base::cString & strMusicFile, const bool bLooping);
 		GAMEBASE_API void MusicCheckBoxPressed(bool bPressed);
 		GAMEBASE_API void SfxCheckBoxPressed(bool bPressed);
-
+		GAMEBASE_API void FullScreenCheckBoxPressed(bool bPressed);
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();

@@ -43,18 +43,23 @@ namespace GameBase
 		 *
 		 * Initializes, Registers and creates the window
 		 ***********************************************/
-		GAMEBASE_API virtual HWND VOnInitialization( const HINSTANCE & hInstance,
+		virtual HWND VOnInitialization( const HINSTANCE & hInstance,
 										const int & nCmdShow,
 										IBaseApp* const pGame,
 										const bool bFullScreen,
 										const int iFullScreenWidth,
 										const int iFullScreenHeight) = 0;
-
 		/********************************************//**
 		 *
 		 * Toggles between full screen and windowed mode
 		 ***********************************************/
-		GAMEBASE_API virtual void VToggleFullScreen() = 0;
+		virtual void VToggleFullScreen() = 0;
+		/********************************************//**
+		 * @return True if full screen. False otherwise
+		 *
+		 * Returns true if full screen. False otherwise
+		 ***********************************************/
+		virtual bool VIsFullScreen() const = 0;
 		/********************************************//**
 		 *
 		 * Destroys the Window

@@ -151,15 +151,15 @@ bool cHumanView::VOnMsgProc( const Base::AppMsg & msg )
 		{
 			bHandled = m_pAppWindowControl->VPostMsg(msg);
 		}
-		if(!bHandled)
-		{
-			switch (msg.m_wParam)
-			{ 
-			case VK_SPACE:
-				IMainWindow::GetInstance()->VToggleFullScreen();
-				Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
-			}
-		}
+		//if(!bHandled)
+		//{
+		//	switch (msg.m_wParam)
+		//	{ 
+		//	case VK_SPACE:
+		//		IMainWindow::GetInstance()->VToggleFullScreen();
+		//		Log_Write_L3(ILogger::LT_DEBUG, "Toggled FullScreen");
+		//	}
+		//}
 		break;
 	case WM_MOUSEMOVE:
 	case WM_LBUTTONUP:
@@ -304,4 +304,10 @@ void cHumanView::SfxCheckBoxPressed(bool bPressed)
 {
 	m_bPlaySFX = bPressed;
 	m_pProcessManager->VTogglePauseProcesses(m_hashSFXChannel.GetChecksum());
+}
+
+// *****************************************************************************
+void cHumanView::FullScreenCheckBoxPressed(bool bPressed)
+{
+	IMainWindow::GetInstance()->VToggleFullScreen();
 }

@@ -23,6 +23,7 @@
 #include "FSM\Telegram.h"
 #include "FontManager.hxx"
 #include "GraphicUtils.hxx"
+#include "MainWindow.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -532,6 +533,17 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		sfxCheckBoxCallback = bind(&cHumanView::SfxCheckBoxPressed, m_pOwner->m_pHumanView, _1);
 		pSfxCheckBoxControl->VRegisterCallBack(sfxCheckBoxCallback);
 
+		checkboxControlDef.labelControlDef.strText = "FullScreen";
+		checkboxControlDef.vPosition = cVector2(0.f, 350.f);
+		checkboxControlDef.bChecked = IMainWindow::GetInstance()->VIsFullScreen();
+		
+		IBaseControl * pFullscreenCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
+		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pFullscreenCheckBoxControl));
+		function<void (bool)> fullScreenCheckBoxCallback;
+		fullScreenCheckBoxCallback = bind(&cHumanView::FullScreenCheckBoxPressed, m_pOwner->m_pHumanView, _1);
+		pFullscreenCheckBoxControl->VRegisterCallBack(fullScreenCheckBoxCallback);
+
+		
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);
