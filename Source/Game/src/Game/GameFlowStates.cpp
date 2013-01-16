@@ -24,6 +24,7 @@
 #include "FontManager.hxx"
 #include "GraphicUtils.hxx"
 #include "MainWindow.hxx"
+#include "GameOptions.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -535,7 +536,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		checkboxControlDef.labelControlDef.strText = "FullScreen";
 		checkboxControlDef.vPosition = cVector2(0.f, 350.f);
-		checkboxControlDef.bChecked = IMainWindow::GetInstance()->VIsFullScreen();
+		checkboxControlDef.bChecked = m_pOwner->VGetGameOptions().bFullScreen;
 		
 		IBaseControl * pFullscreenCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pFullscreenCheckBoxControl));

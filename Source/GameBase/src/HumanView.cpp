@@ -28,6 +28,7 @@
 #include "SoundProcess.hxx"
 #include "ResourceManager.hxx"
 #include "ResCache.hxx"
+#include "GameOptions.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -57,10 +58,8 @@ cHumanView::~cHumanView()
 }
 
 // *****************************************************************************
-void cHumanView::VOnCreateDevice(IBaseApp * pGame,
-										   const HINSTANCE & hInst,
-										   const HWND & hWnd, const int iClientWidth,
-										   const int iClientHeight)
+void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst, 
+								 const HWND & hWnd)
 {
 	m_pGame = pGame;
 	m_pProcessManager = IProcessManager::CreateProcessManager();
@@ -71,7 +70,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	cWindowControlDef def;
 	def.wType = cWindowControlDef::WT_DESKTOP;
 	def.strControlName = "App";
-	def.vSize = cVector2(static_cast<float>(iClientWidth), static_cast<float>(iClientHeight));
+	def.vSize = cVector2(static_cast<float>(pGame->VGetGameOptions().iWidth), static_cast<float>(pGame->VGetGameOptions().iHeight));
 	if(m_pGame->VGetParamLoader() != NULL)
 	{
 		def.bAllowMovingControls = m_pGame->VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);
@@ -90,7 +89,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame,
 	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
-	fpsLabelDef.vPosition = cVector2(static_cast<float>(iClientWidth/2- 75), 0.0f);
+	fpsLabelDef.vPosition = cVector2(static_cast<float>(pGame->VGetGameOptions().iWidth/2- 75), 0.0f);
 	fpsLabelDef.bAutoSize = false;
 	fpsLabelDef.vSize = cVector2(150, 30);
 	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));

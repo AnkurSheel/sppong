@@ -19,7 +19,7 @@
 #include "MessageDispatchManager.hxx"
 #include "ResourceManager.hxx"
 #include "GraphicsClass.hxx"
-#include "GameOptions.h"
+#include "XMLFileIO.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -32,7 +32,6 @@ cBaseApp::cBaseApp(const cString strName)
 : cBaseEntity(strName)
 , m_pGameTimer(NULL)
 , m_pHumanView(NULL)
-, m_pGameOptions(NULL)
 , m_pParamLoader(NULL)
 {
 }
@@ -60,28 +59,17 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		m_pParamLoader->VLoadParametersFromFile(strOptionsFile);
 	}
 	bool bMultipleInstances = m_pParamLoader->VGetParameterValueAsBool("-multipleinstances", false);
-	cString strTitle = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
-	m_strName = strTitle;
+	m_strName = m_pParamLoader->VGetParameterValueAsString("-title", "Game");
 	if (bMultipleInstances)
 	{
-		if (!IResourceChecker::GetInstance()->IsOnlyInstance(strTitle))
+		if (!IResourceChecker::GetInstance()->IsOnlyInstance(m_strName))
 		{
 			PostQuitMessage(0);
 			return;
 		}
 	}
-
-	if(m_pGameOptions == NULL)
-	{
-		m_pGameOptions = DEBUG_NEW cGameOptions();
-		m_pGameOptions->Init("Media//PlayerOptions.xml");
-#if _DEBUG
-		m_pGameOptions->m_bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", m_pGameOptions->m_bFullScreen);
-		m_pGameOptions->m_iWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", m_pGameOptions->m_iWidth);
-		m_pGameOptions->m_iHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", m_pGameOptions->m_iHeight);
-#endif
-	}
-	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this, m_pGameOptions->m_bFullScreen, m_pGameOptions->m_iWidth, m_pGameOptions->m_iHeight);
+	InitializeGameOptions("Media//PlayerOptions.xml");
+	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this);
 
 	if(hwnd == NULL)
 	{
@@ -100,14 +88,14 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	float fScreenFar = m_pParamLoader->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
 	float fScreenNear = m_pParamLoader->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
 
-	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor, m_pGameOptions->m_bFullScreen,
-		bVSyncEnabled, m_pGameOptions->m_iWidth, m_pGameOptions->m_iHeight, fScreenFar, fScreenNear );
+	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor, m_gameOptions.bFullScreen,
+		bVSyncEnabled, m_gameOptions.iWidth, m_gameOptions.iHeight, fScreenFar, fScreenNear );
 
 	// initialize resource manager
 	IResourceManager::GetInstance()->VInitialize("Media\\resources.zip ");
 
 	VCreateHumanView();
-	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd, m_pGameOptions->m_iWidth, m_pGameOptions->m_iHeight);
+	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd);
 }
 
 void cBaseApp::VCreateHumanView()
@@ -159,7 +147,6 @@ void cBaseApp::VCleanup()
 {
 	SAFE_DELETE(m_pGameTimer);
 	SAFE_DELETE(m_pParamLoader);
-	SAFE_DELETE(m_pGameOptions);
 
 	m_pHumanView->VOnDestroyDevice();
 	SAFE_DELETE(m_pHumanView);
@@ -194,7 +181,7 @@ TICK cBaseApp::GetRunningTicks()
 // *****************************************************************************
 // Display the FPS
 // *****************************************************************************
-float cBaseApp::VGetFPS()
+float cBaseApp::VGetFPS() const
 {
 	return m_pGameTimer->VGetFPS();
 }
@@ -223,4 +210,41 @@ cHumanView * const cBaseApp::VGetHumanView() const
 Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
 {
 	return m_pParamLoader;
+}
+
+stGameOptions & cBaseApp::VGetGameOptions()
+{
+	return m_gameOptions;
+}
+
+// *****************************************************************************
+void cBaseApp::InitializeGameOptions(const cString & strPlayerOptionsFile)
+{
+	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
+	if(pXml->VLoad(strPlayerOptionsFile))
+	{
+		m_gameOptions.bFullScreen = pXml->VGetNodeAttributeAsBool("Graphics", "fullscreen");
+		m_gameOptions.iWidth = pXml->VGetNodeAttributeAsInt("Graphics", "width");
+		if (m_gameOptions.iWidth < 800) 
+		{
+			m_gameOptions.iWidth = 800;
+			Log_Write_L1(ILogger::LT_ERROR, "Default width of 800 applied");
+		}
+		m_gameOptions.iHeight = pXml->VGetNodeAttributeAsInt("Graphics", "height");
+		if (m_gameOptions.iHeight < 600) 
+		{
+			m_gameOptions.iWidth = 600;
+			Log_Write_L1(ILogger::LT_ERROR, "Default height of 600 applied");
+		}
+		m_gameOptions.iSFXVolume = pXml->VGetNodeAttributeAsInt("Sound", "sfxVolume");
+		m_gameOptions.iMusicVolume = pXml->VGetNodeAttributeAsInt("Sound", "sfxVolume");
+	}
+	SAFE_DELETE(pXml);
+
+#if _DEBUG
+		m_gameOptions.bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", m_gameOptions.bFullScreen);
+		m_gameOptions.iWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", m_gameOptions.iWidth);
+		m_gameOptions.iHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", m_gameOptions.iHeight);
+#endif
+
 }

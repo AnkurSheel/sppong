@@ -1,17 +1,18 @@
-// ***************************************************************
+// *****************************************************************************
 //  MainWindow   version:  1.0   Ankur Sheel  date: 04/28/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 //
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "GraphicsClass.hxx"
 #include "BaseApp.hxx"
 #include "Structures.h"
+#include "GameOptions.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -20,56 +21,34 @@ using namespace Graphics;
 
 IMainWindow * cMainWindow::s_pWindow = NULL;
 
-// ***************************************************************
+// *****************************************************************************
 // Constructor
-// ***************************************************************
+// *****************************************************************************
 cMainWindow::cMainWindow()
-: m_bFullScreen(false)
-, m_Hwnd(NULL)
+: m_Hwnd(NULL)
 , m_hInstance(NULL)
-, m_iFullScreenHeight(0)
-, m_iFullScreenWidth(0)
 , m_pGame(NULL)
 , m_kdwFullScreenStyle(WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE)
 , m_kdwWindowedStyle(WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION)
 {
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Destructor
-// ***************************************************************
+// *****************************************************************************
 cMainWindow::~cMainWindow()
 {
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Initializes, Registers and creates the window.
 // Returns a handle to the created window.
-// ***************************************************************
+// *****************************************************************************
 HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 									const int & nCmdShow,
-									IBaseApp* const pGame,
-									const bool bFullScreen,
-									const int iFullScreenWidth,
-									const int iFullScreenHeight )
+									IBaseApp* const pGame)
 {
 	m_hInstance = hInstance;
-	m_bFullScreen = bFullScreen;
-	m_iFullScreenWidth = iFullScreenWidth;
-	m_iFullScreenHeight = iFullScreenHeight;
-
-	if (m_iFullScreenWidth <= 0)
-	{
-		m_iFullScreenWidth = 640;
-		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0. Default width of 640 applied");
-	}
-
-	if (m_iFullScreenHeight <= 0)
-	{
-		m_iFullScreenHeight = 480;
-		Log_Write_L2(ILogger::LT_ERROR, "Full Screen Width < =0. Default height of 480 applied");
-	}
-
 	RegisterWin();
 
 	m_pGame = pGame;
@@ -91,14 +70,14 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 	return m_Hwnd;
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Toggles between full screen and windowed mode
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::VToggleFullScreen()
 {
-	m_bFullScreen = !m_bFullScreen;
+	m_pGame->VGetGameOptions().bFullScreen = !(m_pGame->VGetGameOptions().bFullScreen);
 
-	if (m_bFullScreen)
+	if (m_pGame->VGetGameOptions().bFullScreen)
 	{
 		//Set style for Full Screen mode
 		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwFullScreenStyle);
@@ -122,18 +101,12 @@ void cMainWindow::VToggleFullScreen()
 	{
 		ShowWindow(m_Hwnd, SW_SHOW);
 	}
-	IGraphicsClass::GetInstance()->VSetFullScreenMode(m_bFullScreen);
+	IGraphicsClass::GetInstance()->VSetFullScreenMode(m_pGame->VGetGameOptions().bFullScreen);
 }
 
 // *****************************************************************************
-bool cMainWindow::VIsFullScreen() const
-{
-	return m_bFullScreen;
-}
-
-// ***************************************************************
 // Registers the window
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::RegisterWin()
 {
 	WNDCLASSEX	wc;
@@ -157,9 +130,9 @@ void cMainWindow::RegisterWin()
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Creates the window
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
 	DWORD dwStyle;
@@ -167,13 +140,13 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 	CalculateWindowRect();
 
 	int x, y, height, width;
-	if(m_bFullScreen)
+	if(m_pGame->VGetGameOptions().bFullScreen)
 	{
 		dwStyle = m_kdwFullScreenStyle;
 		x = 0;
 		y = 0;
-		width = m_iFullScreenWidth;
-		height = m_iFullScreenHeight;
+		width = m_pGame->VGetGameOptions().iWidth;
+		height = m_pGame->VGetGameOptions().iHeight;
 
 	}
 	else
@@ -209,9 +182,9 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 	ShowWindow(m_Hwnd, nCmdShow) ;
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Event handler. Routes messages to appropriate instance
-// ***************************************************************
+// *****************************************************************************
 LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	if ( msg == WM_CREATE )
@@ -233,9 +206,9 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Window procedure to handle the window messages
-// ***************************************************************
+// *****************************************************************************
 LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 	PAINTSTRUCT		ps ;
@@ -260,7 +233,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 	{
 		if (LOWORD(wParam) == WA_ACTIVE)
 		{
-			if(m_bFullScreen)
+			if(m_pGame->VGetGameOptions().bFullScreen)
 			{
 				SetDisplayResolution();
 			}
@@ -268,7 +241,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		}
 		else if (LOWORD(wParam) == WA_INACTIVE)
 		{
-			if(m_bFullScreen)
+			if(m_pGame->VGetGameOptions().bFullScreen)
 			{
 				SetDisplayResolution();
 			}
@@ -306,9 +279,9 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Function called when the application quits
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::OnWindowDestroyed()
 {
     // return to the default mode
@@ -320,12 +293,12 @@ void cMainWindow::OnWindowDestroyed()
 	PostQuitMessage(0);
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Sets the settings of the default display device to the specified graphics mode
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::SetDisplayResolution()
 {
-	if (m_bFullScreen)
+	if (m_pGame->VGetGameOptions().bFullScreen)
 	{
 		DEVMODE dmScreenSettings;
 		SecureZeroMemory(&dmScreenSettings, sizeof(dmScreenSettings));
@@ -336,8 +309,8 @@ void cMainWindow::SetDisplayResolution()
 		}
 
 		// set the full screen height and width
-		dmScreenSettings.dmPelsHeight = (unsigned long)m_iFullScreenHeight;
-		dmScreenSettings.dmPelsWidth = (unsigned long)m_iFullScreenWidth;
+		dmScreenSettings.dmPelsHeight = (unsigned long)m_pGame->VGetGameOptions().iHeight;
+		dmScreenSettings.dmPelsWidth = (unsigned long)m_pGame->VGetGameOptions().iWidth;
 		dmScreenSettings.dmFields = (DM_PELSWIDTH | DM_PELSHEIGHT);
 
         // Test if the requested graphics mode could be set.
@@ -346,11 +319,11 @@ void cMainWindow::SetDisplayResolution()
 		    // Set the requested graphics mode.
 			if(ChangeDisplaySettings(&dmScreenSettings, 0) == DISP_CHANGE_SUCCESSFUL)
 			{
-				Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Resolution set to width %d and height %d", m_iFullScreenWidth, m_iFullScreenHeight));
+				Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Resolution set to width %d and height %d", m_pGame->VGetGameOptions().iWidth, m_pGame->VGetGameOptions().iHeight));
 				return;
 			}
 		}
-		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Could not set resolution with width %d and height %d", m_iFullScreenWidth, m_iFullScreenHeight));
+		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Could not set resolution with width %d and height %d", m_pGame->VGetGameOptions().iWidth, m_pGame->VGetGameOptions().iHeight));
 	}
 
 	// return to the default mode
@@ -358,37 +331,37 @@ void cMainWindow::SetDisplayResolution()
 	return;
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cMainWindow::CalculateWindowRect()
 {
-	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - m_iFullScreenWidth)  / 2;
-	m_windowRect.top = (GetSystemMetrics(SM_CYSCREEN) - m_iFullScreenHeight) / 2;
-	m_windowRect.right =  m_windowRect.left + m_iFullScreenWidth;
-	m_windowRect.bottom = m_windowRect.top + m_iFullScreenHeight;
+	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - m_pGame->VGetGameOptions().iWidth)  / 2;
+	m_windowRect.top = (GetSystemMetrics(SM_CYSCREEN) - m_pGame->VGetGameOptions().iHeight) / 2;
+	m_windowRect.right =  m_windowRect.left + m_pGame->VGetGameOptions().iWidth;
+	m_windowRect.bottom = m_windowRect.top + m_pGame->VGetGameOptions().iHeight;
 
 	//get the required size of the window rectangle, based on the desired size of the client rectangle
 	AdjustWindowRectEx(&m_windowRect, m_kdwWindowedStyle, false, 0);
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Destroys the Window
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::VCleanup()
 {
 	DestroyWindow(m_Hwnd);
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Create and Returns an object of this class
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::Create()
 {
 	s_pWindow = DEBUG_NEW cMainWindow();
 }
 
-// ***************************************************************
+// *****************************************************************************
 // Destroys the window and the singleton object
-// ***************************************************************
+// *****************************************************************************
 void cMainWindow::Destroy()
 {
 	if(s_pWindow != NULL)
@@ -397,9 +370,9 @@ void cMainWindow::Destroy()
 	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
 }
 
-// ***************************************************************
+// *****************************************************************************
 // returns an instance of the class
-// ***************************************************************
+// *****************************************************************************
 IMainWindow * IMainWindow::GetInstance()
 {
 	if(cMainWindow::s_pWindow == NULL)

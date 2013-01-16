@@ -12,6 +12,7 @@
 
 #include "BaseApp.hxx"
 #include "BaseEntity.h"
+#include "GameOptions.h"
 
 namespace Utilities
 {
@@ -45,19 +46,21 @@ namespace GameBase
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void VCleanup();
+		GAMEBASE_API stGameOptions & VGetGameOptions();
 		
 		TICK GetRunningTicks();
 		float GetRunningTime();
 
 	private:
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
-		GAMEBASE_API float VGetFPS();
+		GAMEBASE_API float VGetFPS() const;
+		void InitializeGameOptions(const Base::cString & strPlayerOptionsFile);
 
 	protected:
 		Utilities::ITimer *					m_pGameTimer;
 		cHumanView *						m_pHumanView;
 		Utilities::IParamLoader *			m_pParamLoader;
-		cGameOptions *						m_pGameOptions;
+		stGameOptions 						m_gameOptions;
 	};
 }
 

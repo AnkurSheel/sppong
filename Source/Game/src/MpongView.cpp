@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  MpongView   version:  1.0   Ankur Sheel  date: 2011/05/02
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "MpongView.h"
 #include "Sprite.hxx"
@@ -23,28 +23,27 @@ using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
 
-// ***************************************************************
+// *****************************************************************************
 cMPongView::cMPongView()
 : m_pGame(NULL)
 {
 }
 
-// ***************************************************************
+// *****************************************************************************
 cMPongView::~cMPongView()
 {
 }
 
 void cMPongView::VOnCreateDevice(IBaseApp * pGame,
 								 const HINSTANCE & hInst,
-								 const HWND & hWnd, const int iClientWidth,
-								 const int iClientHeight)
+								 const HWND & hWnd)
 {
-	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
+	cHumanView::VOnCreateDevice(pGame, hInst, hWnd);
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pGame = dynamic_cast<cGame *>(pGame);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cMPongView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
 	cHumanView::VOnUpdate(tickCurrent, fElapsedTime);
@@ -58,7 +57,7 @@ void cMPongView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
 {
 	if(!cHumanView::VOnMsgProc(msg))
@@ -103,7 +102,7 @@ bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cMPongView::OnSinglePlayerSelected( cGame * pGame)
 {
 	m_P1PaddleHandler = shared_ptr<P1PaddleHandler>(DEBUG_NEW P1PaddleHandler());
@@ -112,7 +111,7 @@ void cMPongView::OnSinglePlayerSelected( cGame * pGame)
 	m_P1PaddleHandler->RegisterCallBack(callbackP1Paddle);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cMPongView::OnMultiPlayerSelected( cGame * pGame )
 {
 	m_P1PaddleHandler = shared_ptr<P1PaddleHandler>(DEBUG_NEW P1PaddleHandler());
@@ -126,7 +125,7 @@ void cMPongView::OnMultiPlayerSelected( cGame * pGame )
 	m_P2PaddleHandler->RegisterCallBack(callbackP2Paddle);
 }
 
-// *****************************************************************************
+// *******************************************************************************************
 void cMPongView::VRenderPrivate()
 {
 	for (int i=0; i<m_pGame->PGE_TOTAL; i++)

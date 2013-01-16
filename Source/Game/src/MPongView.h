@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  MPongView   version:  1.0   Ankur Sheel  date: 2011/05/02
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef MPongView_h__
 #define MPongView_h__
 
@@ -28,8 +28,7 @@ public:
 	cMPongView();
 	~cMPongView();
 	void VOnCreateDevice(GameBase::IBaseApp * pGame,
-		const HINSTANCE & hInst, const HWND & hWnd, const int iClientWidth,
-		const int iClientHeight );
+		const HINSTANCE & hInst, const HWND & hWnd);
 	void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
 	void VRenderPrivate();
 	bool VOnMsgProc( const Base::AppMsg & msg );	

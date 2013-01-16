@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  MainWindow   version:  1.0   Ankur Sheel  date: 04/28/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Window for that application
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 //
-// ***************************************************************
+// *****************************************************************************
 #ifndef MainWindow_h__
 #define MainWindow_h__
 
@@ -38,10 +38,8 @@ namespace GameBase
 		cMainWindow();
 		~cMainWindow();
 		HWND VOnInitialization(const HINSTANCE & hInstance, const int& nCmdShow,
-			IBaseApp * const pGame, const bool bFullScreen,
-			const int iFullScreenWidth, const int iFullScreenHeight);
+			IBaseApp * const pGame);
 		void VToggleFullScreen();
-		bool VIsFullScreen() const;
 		void VCleanup();
 		/********************************************//**
 		 * @param[in] hWnd – Unique handle to the window.
@@ -93,11 +91,8 @@ namespace GameBase
 	private:
 		const DWORD			m_kdwFullScreenStyle;   /*!< The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE */
 		const DWORD			m_kdwWindowedStyle;     /*!< The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION */
-		bool				m_bFullScreen;			/*!< True if in fullscreen mode */
 		HWND				m_Hwnd;					/*!< Window handle */
 		HINSTANCE			m_hInstance;			/*!< Application instance */
-		int					m_iFullScreenWidth;		/*!< Full screen width */
-		int					m_iFullScreenHeight;	/*!< Full screen height */
 		IBaseApp*			m_pGame;				/*!< Pointer to the App */
 		RECT				m_windowRect;			/*!< stores the window dimensions in windowed mode */
 	
