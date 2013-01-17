@@ -91,8 +91,6 @@ namespace GameBase
 		bool								m_bDisplayFPS;
 		bool								m_bLockedKeys[KEYBOARD_KEYS];
 		GameBase::IBaseApp	*				m_pGame;
-		bool								m_bPlayMusic;
-		bool								m_bPlaySFX;
 		const Base::cHashedString			m_hashSFXChannel;
 		const Base::cHashedString			m_hashMusicChannel;
 

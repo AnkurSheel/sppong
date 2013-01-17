@@ -236,8 +236,10 @@ void cBaseApp::InitializeGameOptions(const cString & strPlayerOptionsFile)
 			m_gameOptions.iWidth = 600;
 			Log_Write_L1(ILogger::LT_ERROR, "Default height of 600 applied");
 		}
+		m_gameOptions.bPlayMusic = pXml->VGetNodeAttributeAsBool("Sound", "PlayMusic");
+		m_gameOptions.iMusicVolume = pXml->VGetNodeAttributeAsInt("Sound", "musicVolume");
+		m_gameOptions.bPlaySfx = pXml->VGetNodeAttributeAsBool("Sound", "PlaySFX");
 		m_gameOptions.iSFXVolume = pXml->VGetNodeAttributeAsInt("Sound", "sfxVolume");
-		m_gameOptions.iMusicVolume = pXml->VGetNodeAttributeAsInt("Sound", "sfxVolume");
 	}
 	SAFE_DELETE(pXml);
 
@@ -246,5 +248,25 @@ void cBaseApp::InitializeGameOptions(const cString & strPlayerOptionsFile)
 		m_gameOptions.iWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", m_gameOptions.iWidth);
 		m_gameOptions.iHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", m_gameOptions.iHeight);
 #endif
+}
 
+// *****************************************************************************
+void cBaseApp::SaveGameOptions(const cString & strPlayerOptionsFile)
+{
+	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
+	pXml->VInitializeForSave("PlayerOptions", "");
+
+	pXml->VAddElement("PlayerOptions", "Graphics", "", "");
+	pXml->VAddAttribute("Graphics", "fullscreen", m_gameOptions.bFullScreen);
+	pXml->VAddAttribute("Graphics", "width", m_gameOptions.iWidth);
+	pXml->VAddAttribute("Graphics", "height", m_gameOptions.iHeight);
+	
+	pXml->VAddElement("PlayerOptions", "Sound", "", "");
+	pXml->VAddAttribute("Sound", "PlayMusic", m_gameOptions.bPlayMusic);
+	pXml->VAddAttribute("Sound", "musicVolume", m_gameOptions.iMusicVolume);
+	pXml->VAddAttribute("Sound", "PlaySFX", m_gameOptions.bPlaySfx);
+	pXml->VAddAttribute("Sound", "sfxVolume", m_gameOptions.iSFXVolume);
+
+	pXml->VSave(strPlayerOptionsFile);
+	SAFE_DELETE(pXml);
 }

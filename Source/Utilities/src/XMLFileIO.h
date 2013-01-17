@@ -31,9 +31,6 @@ namespace Utilities
 	public:
 		cXMLFileIO();
 		~cXMLFileIO();
-		void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const int iValue );
-		void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const Base::cString & strValue );
-		void Save(const Base::cString & strFilePath);
 		Base::cString GetNodeName(const Base::cString & strParent, const int iIndex) ;
 		Base::cString GetNodeValue(const Base::cString & strNode);
 
@@ -43,11 +40,19 @@ namespace Utilities
 		bool VLoad(const Base::cString & strFilePath);
 		void VLoad(const Base::cString & strFilePath, Base::cString & strRootName);
 		void VParse(const Base::cString & strXML, const unsigned int size);
-		void VAddComment(const Base::cString & strParentElementID,
-			const Base::cString & strComment);
+		void VSave(const Base::cString & strFilePath);
 		Base::cString VAddElement( const Base::cString & strParentName, 
 			const Base::cString & strElementName, const Base::cString & strElementAttribID,
 			const Base::cString & strElementValue );
+		void VAddAttribute(const Base::cString & strElementName,
+			const Base::cString & strAttributeName,
+			const Base::cString & strAttributeValue);
+		void VAddAttribute(const Base::cString & strElementName,
+			const Base::cString & strAttributeName, const int iAttributeValue);
+		void VAddAttribute(const Base::cString & strElementName,
+			const Base::cString & strAttributeName, const bool bAttributeValue);
+		void VAddComment(const Base::cString & strParentElementID,
+			const Base::cString & strComment);
 		void VGetAllChildrenNames(const Base::cString & strParentID,
 			std::vector<Base::cString> & vElements );
 		void VGetNodeAttribute(const Base::cString & strElementID,

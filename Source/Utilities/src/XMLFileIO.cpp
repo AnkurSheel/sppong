@@ -20,7 +20,6 @@ cXMLFileIO::cXMLFileIO()
 : m_pDoc(NULL)
 {
 }
-// *****************************************************************************
 
 // *****************************************************************************
 cXMLFileIO::~cXMLFileIO()
@@ -50,7 +49,6 @@ void cXMLFileIO::VInitializeForSave(const Base::cString & strRootName,
 
 	m_ElementMap.insert(std::make_pair(strRootName.GetData(), pRoot));
 }
-
 
 // *****************************************************************************
 void cXMLFileIO::VLoad( const cString & strFilePath, cString & strRootName )
@@ -98,12 +96,9 @@ void cXMLFileIO::VParse(const cString & strXML, const unsigned int size)
 }
 
 // *****************************************************************************
-void cXMLFileIO::VAddComment( const cString & strParentElementID, 
-							 const cString & strComment )
+void cXMLFileIO::VSave(const cString & strFilePath)
 {
-	ElementMap::const_iterator  curr = m_ElementMap.find(strParentElementID);
-	XMLElement * pElement = const_cast<XMLElement*> (curr->second);
-	pElement->InsertEndChild(m_pDoc->NewComment(strComment.GetData()));
+	m_pDoc->SaveFile(strFilePath.GetData());
 }
 
 // *****************************************************************************
@@ -132,92 +127,40 @@ cString cXMLFileIO::VAddElement( const cString & strParentName, const cString & 
 	return strID;
 }
 // *****************************************************************************
-
-// *****************************************************************************
-// AddNode : Adds a node to the xml document
-// *****************************************************************************
-void cXMLFileIO::AddAttribute(const cString & strId, const cString & strAttributeNode, const int iValue )
+void cXMLFileIO::VAddAttribute(const cString & strElementName,
+							   const cString & strAttributeName,
+							   const cString & strAttributeValue)
 {
-	ElementMap::const_iterator  curr = m_ElementMap.find(strId);
-	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), iValue);
-}
-// *****************************************************************************
+	ElementMap::const_iterator  curr = m_ElementMap.find(strElementName);
+	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeName.GetData(), strAttributeValue.GetData());
 
-// *****************************************************************************
-// AddNode : Adds a node to the xml document
-// *****************************************************************************
-void cXMLFileIO::AddAttribute( const cString & strId, const cString & strAttributeNode, const cString & strValue )
-{
-	ElementMap::const_iterator  curr = m_ElementMap.find(strId);
-	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeNode.GetData(), strValue.GetData());
-
-}
-// *****************************************************************************
-
-// *****************************************************************************
-// AddNode : Adds a node to the xml document
-// *****************************************************************************
-void cXMLFileIO::Save( const cString & strFilePath )
-{
-	m_pDoc->SaveFile(strFilePath.GetData());
 }
 
 // *****************************************************************************
-// AddNode : Adds a node to the xml document
-// *****************************************************************************
-cString cXMLFileIO::GetNodeName( const cString & strParent, const int iIndex )
+void cXMLFileIO::VAddAttribute(const cString & strElementName,
+							   const cString & strAttributeName,
+							   const int iAttributeValue)
 {
-	XMLElement *pElem;
-
-	ElementMap::const_iterator  curr = m_ElementMap.find(strParent);
-	XMLElement *pParent =const_cast<XMLElement*> (curr->second);
-	pElem = pParent->FirstChildElement();
-	for(int i=0;i<iIndex;i++)
-	{
-		pElem = pElem->NextSiblingElement();
-	}
-	return(pElem->Value());
-}
-// *****************************************************************************
-
-// *****************************************************************************
-// AddNode : Adds a node to the xml document
-// *****************************************************************************
-cString cXMLFileIO::GetNodeValue( const cString & strNode )
-{
-	XMLElement *pElem;
-
-	ElementMap::const_iterator  curr = m_ElementMap.find(strNode);
-	pElem =const_cast<XMLElement*> (curr->second);
-	return(pElem->GetText());
+	ElementMap::const_iterator  curr = m_ElementMap.find(strElementName);
+	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeName.GetData(), iAttributeValue);
 }
 
 // *****************************************************************************
-void cXMLFileIO::AddChildElements(XMLElement * const pParent)
+void cXMLFileIO::VAddAttribute(const cString & strElementName, 
+							   const cString & strAttributeName,
+							   const bool bAttributeValue)
 {
-	XMLElement * pElement = pParent->FirstChildElement();
-	if(pElement == NULL)
-		return;
-
-	cString strName;
-	ElementMap::const_iterator itr;
-	while(pElement)
-	{
-		strName = cString(pElement->Value()) + pElement->Attribute("id");
-		
-		itr = m_ElementMap.insert(std::make_pair(strName, pElement));
-		if(itr == m_ElementMap.end())
-		{
-			Log_Write_L1(ILogger::LT_ERROR, "Duplicate element name " + strName)
-		}
-		AddChildElements(pElement);
-		pElement = pElement->NextSiblingElement();
-	}
+	ElementMap::const_iterator  curr = m_ElementMap.find(strElementName);
+	const_cast<XMLElement*> (curr->second)->SetAttribute(strAttributeName.GetData(), bAttributeValue);
 }
+
 // *****************************************************************************
-void cXMLFileIO::GetUniqueNameForMap( const XMLElement * const pElement, cString & strName )
+void cXMLFileIO::VAddComment( const cString & strParentElementID, 
+							 const cString & strComment )
 {
-	strName = cString(pElement->Value()) + pElement->Attribute("id");
+	ElementMap::const_iterator  curr = m_ElementMap.find(strParentElementID);
+	XMLElement * pElement = const_cast<XMLElement*> (curr->second);
+	pElement->InsertEndChild(m_pDoc->NewComment(strComment.GetData()));
 }
 
 // *****************************************************************************
@@ -235,6 +178,8 @@ void cXMLFileIO::VGetAllChildrenNames( const Base::cString & strParentID,
 		pElement = pElement->NextSiblingElement();
 	}
 }
+
+// *****************************************************************************
 
 // *****************************************************************************
 void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
@@ -279,10 +224,62 @@ bool cXMLFileIO::VGetNodeAttributeAsBool(const Base::cString & strElementID,
 }
 
 // *****************************************************************************
+cString cXMLFileIO::GetNodeName( const cString & strParent, const int iIndex )
+{
+	XMLElement *pElem;
+
+	ElementMap::const_iterator  curr = m_ElementMap.find(strParent);
+	XMLElement *pParent =const_cast<XMLElement*> (curr->second);
+	pElem = pParent->FirstChildElement();
+	for(int i=0;i<iIndex;i++)
+	{
+		pElem = pElem->NextSiblingElement();
+	}
+	return(pElem->Value());
+}
+
+// *****************************************************************************
+cString cXMLFileIO::GetNodeValue( const cString & strNode )
+{
+	XMLElement *pElem;
+
+	ElementMap::const_iterator  curr = m_ElementMap.find(strNode);
+	pElem =const_cast<XMLElement*> (curr->second);
+	return(pElem->GetText());
+}
+
+// *****************************************************************************
+void cXMLFileIO::AddChildElements(XMLElement * const pParent)
+{
+	XMLElement * pElement = pParent->FirstChildElement();
+	if(pElement == NULL)
+		return;
+
+	cString strName;
+	ElementMap::const_iterator itr;
+	while(pElement)
+	{
+		strName = cString(pElement->Value()) + pElement->Attribute("id");
+		
+		itr = m_ElementMap.insert(std::make_pair(strName, pElement));
+		if(itr == m_ElementMap.end())
+		{
+			Log_Write_L1(ILogger::LT_ERROR, "Duplicate element name " + strName)
+		}
+		AddChildElements(pElement);
+		pElement = pElement->NextSiblingElement();
+	}
+}
+
+// *****************************************************************************
+void cXMLFileIO::GetUniqueNameForMap( const XMLElement * const pElement, cString & strName )
+{
+	strName = cString(pElement->Value()) + pElement->Attribute("id");
+}
+
+// *****************************************************************************
 IXMLFileIO * IXMLFileIO::CreateXMLFile()
 {
 	cXMLFileIO* pXMLFile= DEBUG_NEW cXMLFileIO();
 	return pXMLFile;
 }
-// *****************************************************************************
-

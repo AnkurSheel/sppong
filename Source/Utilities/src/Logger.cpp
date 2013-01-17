@@ -133,7 +133,7 @@ void cLogger::Log(const LogType eLogEntryType, const Base::cString & str)
 
 void cLogger::Close()
 {
-	m_fXml->Save("log.xml");
+	m_fXml->VSave("log.xml");
 	if (m_fStdOut)
 	{
 		fclose(m_fStdOut);

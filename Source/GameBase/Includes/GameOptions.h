@@ -14,6 +14,8 @@ namespace GameBase
 		int		iWidth;			/*!< Window/Fullscreen width */
 		int		iHeight;		/*!< Window/Fullscreen height */
 
+		bool	bPlaySfx;
+		bool	bPlayMusic;
 		int		iSFXVolume;
 		int		iMusicVolume;
 	};

@@ -508,7 +508,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pOptionsScreen);
 
 		cCheckBoxControlDef checkboxControlDef;
-		checkboxControlDef.bChecked = true;
+		checkboxControlDef.bChecked = m_pOwner->m_gameOptions.bPlayMusic;
 		checkboxControlDef.buttonControlDef.strDefaultImage = "Sprites\\Unchecked.png";
 		checkboxControlDef.buttonControlDef.strPressedImage = "Sprites\\Checked.png";
 		checkboxControlDef.labelControlDef.strText = "Music";
@@ -527,6 +527,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		checkboxControlDef.labelControlDef.strText = "SFX";
 		checkboxControlDef.vPosition = cVector2(0.f, 300.f);
+		checkboxControlDef.bChecked = m_pOwner->m_gameOptions.bPlaySfx;
 
 		IBaseControl * pSfxCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSfxCheckBoxControl ));
@@ -587,8 +588,12 @@ bool cStateOptionsScreen::VOnMessage(const Telegram &msg)
 // *****************************************************************************
 void cStateOptionsScreen::BackButtonPressed(bool bPressed)
 {
-	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	if(!bPressed && m_pOwner != NULL)
 	{
-		m_pOwner->m_pStateMachine->RequestPopState();
+		if(m_pOwner->m_pStateMachine != NULL)
+		{
+			m_pOwner->m_pStateMachine->RequestPopState();
+		}
+		m_pOwner->SaveGameOptions("Media//PlayerOptions.xml");
 	}
 }

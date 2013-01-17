@@ -256,6 +256,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Includes\GameOptions.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Includes\GameView.hxx"
 			>
 		</File>

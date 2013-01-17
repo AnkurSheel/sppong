@@ -50,6 +50,7 @@ namespace GameBase
 		
 		TICK GetRunningTicks();
 		float GetRunningTime();
+		GAMEBASE_API void SaveGameOptions(const Base::cString & strPlayerOptionsFile);
 
 	private:
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;

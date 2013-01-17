@@ -43,8 +43,6 @@ cHumanView::cHumanView()
 , m_pAppWindowControl(NULL) 
 , m_pCamera(NULL)
 , m_bDisplayFPS(false)
-, m_bPlaySFX(false)
-, m_bPlayMusic(false)
 , m_hashSFXChannel("SFXChannelProcess")
 , m_hashMusicChannel("MusicChannelProcess")
 {
@@ -95,8 +93,6 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
 	m_pAppWindowControl->VAddChildControl(m_pFpsLabel);
 
-	m_bPlaySFX = true;
-	m_bPlayMusic = true;
 	IAudio::GetInstance()->VInitialize(hWnd);
 }
 
@@ -272,7 +268,7 @@ void cHumanView::SetCursorVisible( bool bVisible )
 // *******************************************************************************************
 void cHumanView::PlaySFX(const cString & strSoundFile)
 {
-	if(m_bPlaySFX)
+	if(m_pGame->VGetGameOptions().bPlaySfx)
 	{
 		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel.GetChecksum(),
 			strSoundFile, 100, false));
@@ -283,7 +279,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 // *******************************************************************************************
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
-	if(m_bPlayMusic)
+	if(m_pGame->VGetGameOptions().bPlayMusic)
 	{
 		shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel.GetChecksum(),
 			strMusicFile, 100, bLooping);
@@ -294,14 +290,14 @@ void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 // *******************************************************************************************
 void cHumanView::MusicCheckBoxPressed(bool bPressed)
 {
-	m_bPlayMusic = bPressed;
+	m_pGame->VGetGameOptions().bPlayMusic = bPressed;
 	m_pProcessManager->VTogglePauseProcesses(m_hashMusicChannel.GetChecksum());
 }
 
 // *******************************************************************************************
 void cHumanView::SfxCheckBoxPressed(bool bPressed)
 {
-	m_bPlaySFX = bPressed;
+	m_pGame->VGetGameOptions().bPlaySfx = bPressed;
 	m_pProcessManager->VTogglePauseProcesses(m_hashSFXChannel.GetChecksum());
 }
 

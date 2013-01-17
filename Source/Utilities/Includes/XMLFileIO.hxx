@@ -30,6 +30,12 @@ namespace Utilities
 		virtual void VInitializeForSave(const Base::cString & strRootName,
 			const Base::cString & strStyleSheetPath) = 0;
 		/********************************************//**
+		 * @param[in] strFilePath The path for the XML file to be save
+		 *
+		 * Saves the XML file
+		 ***********************************************/
+		virtual void VSave(const Base::cString & strFilePath) = 0;
+		/********************************************//**
 		 * @param[in] strFilePath The path for the XML file to be loaded
 		 * @return true if the load is successfull. False otherwise
 		 *
@@ -70,6 +76,34 @@ namespace Utilities
 		virtual Base::cString VAddElement(const Base::cString & strParentName, 
 			const Base::cString & strElementName, const Base::cString & strElementAttribID,
 			const Base::cString & strElementValue) = 0;
+		/********************************************//**
+		 * @param[in] strElementName The name of the element
+		 * @param[in] strAttributeName The attribute name
+		 * @param[in] strAttributeValue The value of the attribute
+		 *
+		 * Adds a attribute for the element specified by the strElementName
+		 ***********************************************/
+		virtual void VAddAttribute(const Base::cString & strElementName,
+			const Base::cString & strAttributeName, 
+			const Base::cString & strAttributeValue) = 0;
+		/********************************************//**
+		 * @param[in] strElementName The name of the element
+		 * @param[in] strAttributeName The attribute name
+		 * @param[in] iAttributeValue The integer value of the attribute
+		 *
+		 * Adds a attribute for the element specified by the strElementName
+		 ***********************************************/
+		virtual void VAddAttribute(const Base::cString & strElementName,
+			const Base::cString & strAttributeName, const int iAttributeValue) = 0;
+		/********************************************//**
+		 * @param[in] strElementName The name of the element
+		 * @param[in] strAttributeName The attribute name
+		 * @param[in] bAttributeValue The boolean value of the attribute
+		 *
+		 * Adds a attribute for the element specified by the strElementName
+		 ***********************************************/
+		virtual void VAddAttribute(const Base::cString & strElementName,
+			const Base::cString & strAttributeName, const bool bAttributeValue) = 0;
 		/********************************************//**
 		 * @param[in] strElementID The unique ID of the element
 		 * @param[in] strAttributeName The attribute name
@@ -112,11 +146,9 @@ namespace Utilities
 		 ***********************************************/
 		virtual void VGetAllChildrenNames(const Base::cString & strParentID,
 			std::vector<Base::cString> & vElements ) = 0;
-		virtual void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const int iValue ) = 0;
-		virtual void AddAttribute(const Base::cString & strId, const Base::cString & strAttributeNode, const Base::cString & strValue ) = 0;
-		virtual void Save(const Base::cString & strFilePath) = 0;
-		virtual Base::cString GetNodeName(const Base::cString & strParent, const int iIndex) = 0;
-		virtual Base::cString GetNodeValue(const Base::cString & strNode) = 0;
+		
+		//virtual Base::cString GetNodeName(const Base::cString & strParent, const int iIndex) = 0;
+		//virtual Base::cString GetNodeValue(const Base::cString & strNode) = 0;
 		/********************************************//**
 		 * @return An object to use this interface
 		 *

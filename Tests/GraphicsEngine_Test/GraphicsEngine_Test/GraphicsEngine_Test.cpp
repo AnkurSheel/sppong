@@ -30,7 +30,6 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 				   int nCmdShow)
 {
 	CheckForMemoryLeaks() ;
-	ILogger::GetInstance()->StartConsoleWin(80,60, "Log.txt");
 
 	bool bFullScreen = false;
 #ifndef _DEBUG
@@ -48,6 +47,5 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	pGame->VRun();
 	
 	SAFE_DELETE(pGame);
-	ILogger::Destroy();
 }
 
