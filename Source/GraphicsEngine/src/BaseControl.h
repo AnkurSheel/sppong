@@ -82,6 +82,8 @@ namespace Graphics
 	private:
 		/** List of controls. */
 		typedef std::list<shared_ptr<cBaseControl> >  ControlList;
+		/** List of callback functions. */
+		typedef std::map<CALLBACKTYPE, function<void (bool)> >  CallbackMap;
 
 		bool VOnKeyUp(const unsigned int iCharID);
 		bool VPostMsg(const Base::AppMsg & msg);

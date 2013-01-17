@@ -150,7 +150,7 @@ void cHScrollBar::VSetThumbPosition( const int iNewPosition )
 void cHScrollBar::AutoSizeThumb()
 {
 	float fThumbRange = VGetWidth() - m_pBtnIncrementArrow->VGetWidth() - m_pBtnDecrementArrow->VGetWidth();
-	float fNewThumbWidth = fThumbRange / m_iNoOfIncrements ;
+	float fNewThumbWidth = fThumbRange / (m_iNoOfIncrements + 1) ;
 	m_pBtnThumb->VSetSize(cVector2(fNewThumbWidth, VGetHeight()));
 }
 

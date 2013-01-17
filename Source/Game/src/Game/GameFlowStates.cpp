@@ -545,7 +545,38 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		fullScreenCheckBoxCallback = bind(&cHumanView::FullScreenCheckBoxPressed, m_pOwner->m_pHumanView, _1);
 		pFullscreenCheckBoxControl->VRegisterCallBack(fullScreenCheckBoxCallback);
 
-		
+		cScrollBarControlDef hScrollBarDef;
+		hScrollBarDef.strBGImage = "Sprites\\ScrollBar_BG.png";
+		hScrollBarDef.iMinPos = 0;
+		hScrollBarDef.iMaxPos = 20;
+		hScrollBarDef.iInitialThumbPosition = (m_pOwner->m_gameOptions.iMusicVolume) / 5;
+		hScrollBarDef.thumbBtnDef.strDefaultImage= "Sprites\\ScrollBar_Thumb.png";
+		hScrollBarDef.thumbBtnDef.strPressedImage = "Sprites\\ScrollBar_Thumb.png";
+		hScrollBarDef.TopLeftArrowDef.strDefaultImage = "Sprites\\ScrollBar_Left.png";
+		hScrollBarDef.TopLeftArrowDef.strPressedImage = "Sprites\\ScrollBar_Left.png";
+		hScrollBarDef.BottomRightArrowDef.strDefaultImage = "Sprites\\ScrollBar_Right.png";
+		hScrollBarDef.BottomRightArrowDef.strPressedImage = "Sprites\\ScrollBar_Right.png";
+		hScrollBarDef.vPosition = cVector2(0.f, 400.f);
+		hScrollBarDef.vSize = cVector2(200, 30);
+
+		IBaseControl * pMusicScrollBarControl = IBaseControl::CreateHScrollBarControl(hScrollBarDef);
+		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicScrollBarControl));
+
+		cTextBoxControlDef textBoxControlDef;
+		textBoxControlDef.strBGImage = "Sprites\\TextBox.png";
+		textBoxControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		textBoxControlDef.strText = cString(30, "%d", m_pOwner->m_gameOptions.iMusicVolume);
+		textBoxControlDef.fTextHeight = 20;
+		textBoxControlDef.textColor = cColor::BLACK;
+		textBoxControlDef.strCaretImage = "Sprites\\caret.png";
+		textBoxControlDef.iCaretWidth = 3;
+		textBoxControlDef.fCaretUpdateTime = 0.25f;
+		textBoxControlDef.vSize = cVector2(50, 30);
+		textBoxControlDef.vPosition = cVector2(220, 400);
+
+		IBaseControl * pMusicVolumeTextBoxControl = IBaseControl::CreateTextBoxControl(textBoxControlDef);
+		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicVolumeTextBoxControl));
+
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);

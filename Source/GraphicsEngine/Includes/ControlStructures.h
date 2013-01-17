@@ -21,6 +21,11 @@ namespace Graphics
 
 namespace Graphics
 {
+	enum CALLBACKTYPE
+	{
+
+	};
+
 	/********************************************//**
      * @brief Common parameters for creating a UI control
      ***********************************************/
@@ -132,6 +137,7 @@ namespace Graphics
 		Base::cString			strCaretImage;		/*!< The image to be used for displaying the caret */ 
 		int						iCaretWidth;		/*!< The width of the caret */ 
 		float					fCaretUpdateTime;	/*!< The time after which the caret is toggled between being visible/invisible */ 
+		Base::cString			strText;			/*!< The text that should be displayed initially */ 
 
 		cTextBoxControlDef()
 			: fTextHeight(0.0f)

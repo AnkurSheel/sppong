@@ -41,7 +41,7 @@ cTextBoxControl::~cTextBoxControl()
 void cTextBoxControl::Initialize(const cTextBoxControlDef & def)
 {
 	m_pSentence = ISentence::CreateSentence();
-	m_pSentence->VInitialize(def.pFont, "", def.textColor);
+	m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
 	m_pSentence->VSetHeight(def.fTextHeight);
 	if (!def.strBGImage.IsEmpty())
 	{
