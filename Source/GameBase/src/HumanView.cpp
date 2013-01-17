@@ -279,26 +279,24 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 // *******************************************************************************************
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
-	if(m_pGame->VGetGameOptions().bPlayMusic)
-	{
-		shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel.GetChecksum(),
-			strMusicFile, 100, bLooping);
-		m_pProcessManager->VAttachProcess(pMusicChannelProcess);
-	}
+	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel.GetChecksum(),
+		strMusicFile, 100, bLooping);
+	m_pProcessManager->VAttachProcess(pMusicChannelProcess);
+	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel.GetChecksum(), m_pGame->VGetGameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::MusicCheckBoxPressed(bool bPressed)
 {
 	m_pGame->VGetGameOptions().bPlayMusic = bPressed;
-	m_pProcessManager->VTogglePauseProcesses(m_hashMusicChannel.GetChecksum());
+	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel.GetChecksum(), m_pGame->VGetGameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::SfxCheckBoxPressed(bool bPressed)
 {
 	m_pGame->VGetGameOptions().bPlaySfx = bPressed;
-	m_pProcessManager->VTogglePauseProcesses(m_hashSFXChannel.GetChecksum());
+	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel.GetChecksum(), m_pGame->VGetGameOptions().bPlaySfx);
 }
 
 // *******************************************************************************************

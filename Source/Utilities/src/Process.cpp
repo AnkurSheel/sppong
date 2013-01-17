@@ -62,7 +62,7 @@ bool cProcess::IsActive() const
 	return m_bActive;
 }
 
-void cProcess::SetActive(const bool bActive)
+void cProcess::VSetActive(const bool bActive)
 {
 	m_bActive = bActive;
 }

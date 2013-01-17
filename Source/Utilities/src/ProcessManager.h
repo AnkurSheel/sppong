@@ -34,7 +34,7 @@ namespace Utilities
 		void VAttachProcess(shared_ptr<cProcess> pProcess);
 		void VDetachProcess(shared_ptr<cProcess> pProcess);
 		void VDetachProcesses(const unsigned long ulType);
-		void VTogglePauseProcesses(const unsigned long ulType);
+		void VSetProcessesActive(const unsigned long ulType, const bool bActive);
 
 	protected:
 		ProcessList m_pProcessList;

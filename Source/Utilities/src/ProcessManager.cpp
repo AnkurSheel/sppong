@@ -83,7 +83,7 @@ void cProcessManager::VDetachProcesses(const unsigned long ulType)
 }
 
 // *****************************************************************************
-void cProcessManager::VTogglePauseProcesses(const unsigned long ulType)
+void cProcessManager::VSetProcessesActive(const unsigned long ulType, const bool bActive)
 {
 	ProcessList::iterator curProcess;
 	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
@@ -91,7 +91,7 @@ void cProcessManager::VTogglePauseProcesses(const unsigned long ulType)
 		shared_ptr<cProcess> p(*curProcess);
 		if(p->m_ulType == ulType)
 		{
-			p->VTogglePause();
+			p->VSetActive(bActive);
 		}
 	}
 

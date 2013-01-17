@@ -23,12 +23,14 @@ namespace Utilities
 		UTILITIES_API cProcess(const unsigned long ulType);
 		UTILITIES_API virtual ~cProcess();
 		
-		bool IsDead() const;
-		UTILITIES_API bool VIsPaused() const;
+		UTILITIES_API virtual void VUpdate(const int iDeltaMilliSeconds);
+		UTILITIES_API virtual void VKill();
 		UTILITIES_API virtual void VTogglePause();
+		UTILITIES_API void VSetActive(const bool bActive);
 
+		bool IsDead() const;
 		bool IsActive() const;
-		void SetActive(const bool bActive);
+		bool VIsPaused() const;
 		bool IsAttached() const;
 		void SetAttached(const bool bAttached);
 		bool IsInitialized() const;
@@ -36,8 +38,6 @@ namespace Utilities
 		void SetNext(shared_ptr<cProcess> pNext);
 		
 		virtual void VInitialize(){}
-		UTILITIES_API virtual void VUpdate(const int iDeltaMilliSeconds);
-		UTILITIES_API virtual void VKill();
 		
 	protected:
 		bool					m_bKill;

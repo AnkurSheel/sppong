@@ -125,6 +125,26 @@ void cSoundProcess::VTogglePause()
 }
 
 // *****************************************************************************
+void cSoundProcess::VSetActive(const bool bActive)
+{
+	if(m_bActive != bActive)
+	{
+		cProcess::VSetActive(bActive);
+		if (m_pAudioBuffer)
+		{
+			if(m_bActive)
+			{
+				m_pAudioBuffer->VResume();
+			}
+			else
+			{
+				m_pAudioBuffer->VPause();
+			}
+		}
+	}
+}
+
+// *****************************************************************************
 shared_ptr<ISoundProcess> ISoundProcess::CreateSoundProcess(const unsigned long ulType,
 															const cString & strSoundFile,
 															const int iVolume,
