@@ -20,7 +20,7 @@ namespace Utilities
 		: public Base::cNonCopyable
 	{
 	public:
-		UTILITIES_API cProcess(const unsigned long ulType);
+		UTILITIES_API cProcess(const Base::cString & strType);
 		UTILITIES_API virtual ~cProcess();
 		
 		UTILITIES_API virtual void VUpdate(const int iDeltaMilliSeconds);
@@ -47,8 +47,8 @@ namespace Utilities
 		shared_ptr<cProcess>	m_pNext;
 	
 	private:
-		unsigned int			m_uProcessFlags;
-		const unsigned long		m_ulType;
+		unsigned int				m_uProcessFlags;
+		const Base::cHashedString	m_strType;
 
 	private:
 		friend class cProcessManager;

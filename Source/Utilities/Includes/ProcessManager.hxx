@@ -27,8 +27,8 @@ namespace Utilities
 		UTILITIES_API virtual void VDetachProcess(shared_ptr<cProcess> pProcess) = 0;
 		UTILITIES_API virtual bool HasProcesses() const = 0;
 		UTILITIES_API virtual void UpdateProcesses(const int iDeltaMilliSeconds) = 0;
-		UTILITIES_API virtual void VDetachProcesses(const unsigned long ulType) = 0;
-		UTILITIES_API virtual void VSetProcessesActive(const unsigned long ulType, const bool bActive) = 0;
+		UTILITIES_API virtual void VDetachProcesses(const Base::cString & strType) = 0;
+		UTILITIES_API virtual void VSetProcessesActive(const Base::cString & strType, const bool bActive) = 0;
 		UTILITIES_API static IProcessManager * CreateProcessManager();
 	};
 }

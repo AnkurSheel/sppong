@@ -68,9 +68,9 @@ namespace Graphics
 		IBaseControl *			m_pBtnThumb;						/*!< The thumb button. */ 
 		IBaseControl *			m_pBtnDecrementArrow;				/*!< The up/left button. */ 
 		IBaseControl *			m_pBtnIncrementArrow;				/*!< The bottom/right button. */ 	
-		function<void (bool)>	m_callbackIncrementArrowPressed;	/*!< Callback function when the up/left button is pressed/released. */ 	
-		function<void (bool)>	m_callbackDecrementArrowPressed;	/*!< Callback function when the bottom/right button is pressed/released. */ 	
-		function<void (bool)>	m_callbackThumbPressed;				/*!< Callback function when the thumb button is pressed/released. */ 	
+		UIEventCallBackFn		m_callbackIncrementArrowPressed;	/*!< Callback function when the up/left button is pressed/released. */ 	
+		UIEventCallBackFn		m_callbackDecrementArrowPressed;	/*!< Callback function when the bottom/right button is pressed/released. */ 	
+		UIEventCallBackFn		m_callbackThumbPressed;				/*!< Callback function when the thumb button is pressed/released. */ 	
 	};
 }
 

@@ -15,6 +15,7 @@
 namespace Base
 {
 	struct AppMsg;
+	class cHashedString;
 }
 
 namespace Graphics
@@ -78,12 +79,20 @@ namespace Graphics
 		 * Sets the focus 
 		 ***********************************************/
 		void SetFocus(const bool bFocus);
+		/********************************************//**
+	 	 * @param[in] eventType The type of the event for the call back.
+		 * @return The callback function assoicated with this event
+		 *
+		 * Returns The callback function assoicated with this event. 
+		 * If the function is not found, it will return null
+		 ***********************************************/
+		UIEventCallBackFn * GetCallbackFromMap(const UIEVENTTYPE eventType);
 
 	private:
 		/** List of controls. */
 		typedef std::list<shared_ptr<cBaseControl> >  ControlList;
-		/** List of callback functions. */
-		typedef std::map<CALLBACKTYPE, function<void (bool)> >  CallbackMap;
+		/** Map of callback functions with the event ype as the key. */
+		typedef std::map<UIEVENTTYPE, UIEventCallBackFn >  UIEventCallBackMap;
 
 		bool VOnKeyUp(const unsigned int iCharID);
 		bool VPostMsg(const Base::AppMsg & msg);
@@ -91,8 +100,9 @@ namespace Graphics
 		void VRemoveChildControl(const Base::cString & strControlName);
 		void VSetText(const Base::cString & strText);
 		void VSetPosition(const Base::cVector2 & vPosition);
-		void VRegisterCallBack(function <void (bool)> callback);;
-		void VUnregisterCallBack();
+		void VRegisterCallBack(const UIEVENTTYPE eventType,
+			function <void (bool)> fnCallback);
+		void VUnregisterCallBack(const UIEVENTTYPE eventType);
 		void VMoveToFront(const IBaseControl * const pControl);
 		/********************************************//**
 		 * @return True if the user can move the controls using the mouse.
@@ -147,7 +157,7 @@ namespace Graphics
 		bool					m_bAllowMovingControls;		/*!< True if the user can move the controls using the mouse. False otherwise. */
 		Base::cVector2			m_vPosition;				/*!< The position of the control w.r.t to its parent control. */
 		bool					m_bIsLeftMouseDown;			/*!< True if the left mouse button is pressed. */
-		function<void (bool)>	m_pfnCallBack;				/*!< Callback function which takes a bool as a parameter and returns void. */
+		UIEventCallBackMap		m_CallbackMap;				/*!< The map containing all the callback functions with the event type as the key */
 		ControlList				m_pChildControl;			/*!< List of child controls. */
 		bool					m_bVisible;					/*!< True if the control is visible. False otherwise. */
 	
@@ -156,7 +166,7 @@ namespace Graphics
 		cBaseControl *			m_pParentControl;			/*!< The parent control. */
 		int						m_iMouseDownXPos;			/*!< The X position of the mouse relative to the absolute control position. */
 		int						m_iMouseDownYPos;			/*!< The Y position of the mouse relative to the absolute control position. */
-		Base::cString			m_strControlName;			/*!< The name of the control. */
+		Base::cHashedString 	m_strControlName;			/*!< The name of the control. */
 	};
 }
 #endif // BaseControl_h__

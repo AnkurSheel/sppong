@@ -270,7 +270,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 {
 	if(m_pGame->VGetGameOptions().bPlaySfx)
 	{
-		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel.GetChecksum(),
+		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel,
 			strSoundFile, 100, false));
 		m_pProcessManager->VAttachProcess(pSFXChannelProcess);
 	}
@@ -279,24 +279,24 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 // *******************************************************************************************
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
-	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel.GetChecksum(),
+	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel,
 		strMusicFile, 100, bLooping);
 	m_pProcessManager->VAttachProcess(pMusicChannelProcess);
-	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel.GetChecksum(), m_pGame->VGetGameOptions().bPlayMusic);
+	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, m_pGame->VGetGameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::MusicCheckBoxPressed(bool bPressed)
 {
 	m_pGame->VGetGameOptions().bPlayMusic = bPressed;
-	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel.GetChecksum(), m_pGame->VGetGameOptions().bPlayMusic);
+	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, m_pGame->VGetGameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::SfxCheckBoxPressed(bool bPressed)
 {
 	m_pGame->VGetGameOptions().bPlaySfx = bPressed;
-	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel.GetChecksum(), m_pGame->VGetGameOptions().bPlaySfx);
+	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel, m_pGame->VGetGameOptions().bPlaySfx);
 }
 
 // *******************************************************************************************

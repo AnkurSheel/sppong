@@ -62,6 +62,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pTitleScreen));
 		
 		cLabelControlDef def;
+		def.strControlName = "TitleLabel";
 		def.pFont = IFontManager::GetInstance()->VGetFont("JokerMan.fnt"); 
 		def.textColor = cColor::RED;
 		def.strText = "MPONG";
@@ -130,6 +131,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(m_pMenuScreen);
 
 		cButtonControlDef buttonDef;
+		buttonDef.strControlName = "btnSinglePlayer";
 		buttonDef.bAutoSize = true;
 		//buttonDef.vPosition = cVector2(412, 170);
 		buttonDef.vPosition = cVector2(412, 270);
@@ -142,10 +144,11 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pSinglePlayerButton));
-		function<void (bool)> callbackSinglePlayerBtn;
+		UIEventCallBackFn callbackSinglePlayerBtn;
 		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
-		pSinglePlayerButton->VRegisterCallBack(callbackSinglePlayerBtn);
+		pSinglePlayerButton->VRegisterCallBack(UIET_BTNRELEASED, callbackSinglePlayerBtn);
 
+		buttonDef.strControlName = "btnMultiPlayer";
 		buttonDef.bAutoSize = false;
 		buttonDef.vSize = pSinglePlayerButton->VGetSize();
 		//buttonDef.vPosition = cVector2(412, 270);
@@ -154,45 +157,49 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pMultiPlayerButton));
-		function<void (bool)> callbackMultiPlayerBtn;
+		UIEventCallBackFn callbackMultiPlayerBtn;
 		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
-		pMultiPlayerButton->VRegisterCallBack(callbackMultiPlayerBtn);
+		pMultiPlayerButton->VRegisterCallBack(UIET_BTNRELEASED, callbackMultiPlayerBtn);
 
+		buttonDef.strControlName = "btnOption";
 		buttonDef.labelControlDef.strText = "Options";
 		buttonDef.vPosition = cVector2(412, 470);
 
 		IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
-		function<void (bool)> callbackOptionsBtn;
+		UIEventCallBackFn callbackOptionsBtn;
 		callbackOptionsBtn = bind(&cStateMenuScreen::OptionsButtonPressed, this, _1);
-		pOptionsButton->VRegisterCallBack(callbackOptionsBtn);
+		pOptionsButton->VRegisterCallBack(UIET_BTNRELEASED, callbackOptionsBtn);
 
+		buttonDef.strControlName = "btnHelp";
 		buttonDef.labelControlDef.strText = "Help";
 		buttonDef.vPosition = cVector2(412, 570);
 
 		IBaseControl * pHelpButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pHelpButton));
-		function<void (bool)> callbackHelpBtn;
+		UIEventCallBackFn callbackHelpBtn;
 		callbackHelpBtn = bind(&cStateMenuScreen::HelpButtonPressed, this, _1);
-		pHelpButton->VRegisterCallBack(callbackHelpBtn);
+		pHelpButton->VRegisterCallBack(UIET_BTNRELEASED, callbackHelpBtn);
 
+		buttonDef.strControlName = "btnCredits";
 		//buttonDef.labelControlDef.strText = "Credits";
 		//buttonDef.vPosition = cVector2(412, 570);
 
 		//IBaseControl * pCreditsButton = IBaseControl::CreateButtonControl(buttonDef);
 		//m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pCreditsButton));
-		////function<void (bool)> callbackCreditsBtn;
+		////UIEventCallBackFn callbackCreditsBtn;
 		////callbackCreditsBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
 		////pCreditsButton->VRegisterCallBack(callbackCreditsBtn);
 
+		buttonDef.strControlName = "btnQuit";
 		buttonDef.labelControlDef.strText = "Quit";
 		buttonDef.vPosition = cVector2(412, 670);
 
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
-		function<void (bool)> callbackQuitBtn;
+		UIEventCallBackFn callbackQuitBtn;
 		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
-		pQuitButton->VRegisterCallBack(callbackQuitBtn);
+		pQuitButton->VRegisterCallBack(UIET_BTNRELEASED, callbackQuitBtn);
 	}
 }
 // *****************************************************************************
@@ -418,6 +425,7 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pHelpScreen);
 
 		cLabelControlDef def;
+		def.strControlName = "labelHelp";
 		def.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt"); 
 		def.textColor = cColor::VIOLET;
 		def.strText = "SinglePlayer\n Press W to Move up\n Press S to Move Down";
@@ -429,6 +437,7 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 
 		cButtonControlDef buttonDef;
+		buttonDef.strControlName = "btnBack";
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);
 		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
@@ -440,9 +449,9 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 
 		IBaseControl * pBackButton = IBaseControl::CreateButtonControl(buttonDef);
 		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pBackButton));
-		function<void (bool)> callBackBtn;
+		UIEventCallBackFn callBackBtn;
 		callBackBtn = bind(&cStateHelpScreen::BackButtonPressed, this, _1);
-		pBackButton->VRegisterCallBack(callBackBtn);
+		pBackButton->VRegisterCallBack(UIET_BTNRELEASED, callBackBtn);
 	}
 }
 
@@ -508,6 +517,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pOptionsScreen);
 
 		cCheckBoxControlDef checkboxControlDef;
+		checkboxControlDef.strControlName = "cbMusic";
 		checkboxControlDef.bChecked = m_pOwner->m_gameOptions.bPlayMusic;
 		checkboxControlDef.buttonControlDef.strDefaultImage = "Sprites\\Unchecked.png";
 		checkboxControlDef.buttonControlDef.strPressedImage = "Sprites\\Checked.png";
@@ -521,31 +531,34 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		IBaseControl * pMusicCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicCheckBoxControl));
-		function<void (bool)> musicCheckBoxCallback;
+		UIEventCallBackFn musicCheckBoxCallback;
 		musicCheckBoxCallback = bind(&cHumanView::MusicCheckBoxPressed, m_pOwner->m_pHumanView, _1);
-		pMusicCheckBoxControl->VRegisterCallBack(musicCheckBoxCallback);
+		pMusicCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, musicCheckBoxCallback);
 
+		checkboxControlDef.strControlName = "cbSFX";
 		checkboxControlDef.labelControlDef.strText = "SFX";
 		checkboxControlDef.vPosition = cVector2(0.f, 300.f);
 		checkboxControlDef.bChecked = m_pOwner->m_gameOptions.bPlaySfx;
 
 		IBaseControl * pSfxCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSfxCheckBoxControl ));
-		function<void (bool)> sfxCheckBoxCallback;
+		UIEventCallBackFn sfxCheckBoxCallback;
 		sfxCheckBoxCallback = bind(&cHumanView::SfxCheckBoxPressed, m_pOwner->m_pHumanView, _1);
-		pSfxCheckBoxControl->VRegisterCallBack(sfxCheckBoxCallback);
+		pSfxCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, sfxCheckBoxCallback);
 
+		checkboxControlDef.strControlName = "cbFullscreen";
 		checkboxControlDef.labelControlDef.strText = "FullScreen";
 		checkboxControlDef.vPosition = cVector2(0.f, 350.f);
 		checkboxControlDef.bChecked = m_pOwner->VGetGameOptions().bFullScreen;
 		
 		IBaseControl * pFullscreenCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pFullscreenCheckBoxControl));
-		function<void (bool)> fullScreenCheckBoxCallback;
+		UIEventCallBackFn fullScreenCheckBoxCallback;
 		fullScreenCheckBoxCallback = bind(&cHumanView::FullScreenCheckBoxPressed, m_pOwner->m_pHumanView, _1);
-		pFullscreenCheckBoxControl->VRegisterCallBack(fullScreenCheckBoxCallback);
+		pFullscreenCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, fullScreenCheckBoxCallback);
 
 		cScrollBarControlDef hScrollBarDef;
+		hScrollBarDef.strControlName = "hsbMusicVolume";
 		hScrollBarDef.strBGImage = "Sprites\\ScrollBar_BG.png";
 		hScrollBarDef.iMinPos = 0;
 		hScrollBarDef.iMaxPos = 20;
@@ -563,6 +576,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicScrollBarControl));
 
 		cTextBoxControlDef textBoxControlDef;
+		textBoxControlDef.strControlName = "tbMusicVolume";
 		textBoxControlDef.strBGImage = "Sprites\\TextBox.png";
 		textBoxControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
 		textBoxControlDef.strText = cString(30, "%d", m_pOwner->m_gameOptions.iMusicVolume);
@@ -589,9 +603,9 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		IBaseControl * pBackButton = IBaseControl::CreateButtonControl(buttonDef);
 		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pBackButton));
-		function<void (bool)> callBackBtn;
+		UIEventCallBackFn callBackBtn;
 		callBackBtn = bind(&cStateOptionsScreen::BackButtonPressed, this, _1);
-		pBackButton->VRegisterCallBack(callBackBtn);
+		pBackButton->VRegisterCallBack(UIET_BTNRELEASED, callBackBtn);
 	}
 }
 

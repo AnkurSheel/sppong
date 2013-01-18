@@ -24,12 +24,15 @@ namespace Sound
 		: public Utilities::cProcess
 	{
 	public:
-		ISoundProcess(const unsigned long ulType)
-			: Utilities::cProcess(ulType){}
 		virtual ~ISoundProcess(){};
-		SOUND_API static shared_ptr<ISoundProcess> CreateSoundProcess(const unsigned long ulType,
+		SOUND_API static shared_ptr<ISoundProcess> CreateSoundProcess(const Base::cString & strType,
 			const Base::cString & strSoundFile, const int iVolume, 
 			const bool bLooping);
+
+	protected:
+		ISoundProcess(const Base::cString & strType)
+			: Utilities::cProcess(strType){}
+
 	};
 }
 #endif // SoundProcess_hxx__

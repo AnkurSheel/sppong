@@ -82,17 +82,17 @@ namespace GameBase
 		shared_ptr<Graphics::IBaseControl>	m_pFpsLabel;
 
 	private:
-		GameViewId							m_idView;
-		Utilities::IProcessManager *		m_pProcessManager;
-		TICK								m_tickCurrent;
-		TICK								m_tickLastDraw;
-		bool								m_bRunFullSpeed;
-		//shared_ptr<Graphics::ISprite>		m_pCursorSprite;		// the sprite for the cursor
-		bool								m_bDisplayFPS;
-		bool								m_bLockedKeys[KEYBOARD_KEYS];
-		GameBase::IBaseApp	*				m_pGame;
-		const Base::cHashedString			m_hashSFXChannel;
-		const Base::cHashedString			m_hashMusicChannel;
+		GameViewId						m_idView;
+		Utilities::IProcessManager *	m_pProcessManager;
+		TICK							m_tickCurrent;
+		TICK							m_tickLastDraw;
+		bool							m_bRunFullSpeed;
+		//shared_ptr<Graphics::ISprite>	m_pCursorSprite;		// the sprite for the cursor
+		bool							m_bDisplayFPS;
+		bool							m_bLockedKeys[KEYBOARD_KEYS];
+		GameBase::IBaseApp	*			m_pGame;
+		const Base::cString				m_hashSFXChannel;
+		const Base::cString				m_hashMusicChannel;
 
 	public:
 		Graphics::IBaseControl *		m_pAppWindowControl;

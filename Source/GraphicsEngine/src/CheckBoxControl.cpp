@@ -84,9 +84,9 @@ bool cCheckBoxControl::VOnLeftMouseButtonDown( const int X, const int Y )
 			m_pTickBox->VOnLeftMouseButtonDown(X, Y);
 			m_bChecked = true;
 		}
-		if (m_pfnCallBack)
+		if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_BTNPRESSED))
 		{
-			m_pfnCallBack(m_bChecked);
+			(*pFn)(m_bChecked);
 		}
 	}
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);

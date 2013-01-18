@@ -31,6 +31,8 @@ namespace Graphics
 
 namespace Graphics
 {
+	typedef function<void (bool)> UIEventCallBackFn;
+
 	/********************************************//**
 	 * @brief Interface for All UI controls.
 	 *
@@ -100,16 +102,19 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VSetSize(const Base::cVector2 & vSize) = 0;
 		/********************************************//**
- 		 * @param[in] callback pointer to the callback funtion. The function takes in a bool and returns void
+		 * @param[in] eventType The type of the event for the call back.
+ 		 * @param[in] fnCallback Function pointer to the callback funtion. The function takes in a bool and returns void
 		 *
-		 * Sets the callback function to invoke when an event occurs
+		 * Sets the callback function to invoke when the eventType event occurs
 		 ***********************************************/
-		virtual void VRegisterCallBack(function <void (bool)> callback) = 0;
+		virtual void VRegisterCallBack(const UIEVENTTYPE eventType,
+			function <void (bool)> fnCallback) = 0;
 		/********************************************//**
+		 * @param[in] eventType The type of the event for the call back.
 		 *
-		 * UnRgisters the callback function
+		 * Unregisters the callback function for the eventtype event
 		 ***********************************************/
-		virtual void VUnregisterCallBack() = 0;
+		virtual void VUnregisterCallBack(const UIEVENTTYPE eventType) = 0;
 		/********************************************//**
 		 * @param[in] pControl The control to be moved to the front
 		 *

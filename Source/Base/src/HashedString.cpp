@@ -13,15 +13,40 @@
 using namespace Base;
 
 // ****************************************************************************
-cHashedString::cHashedString(const cString & strIdent)
-	: m_strIdent(strIdent)
-	, m_lChecksum(CalculateHash(strIdent))
+cHashedString::cHashedString()
+: m_lChecksum(0)
 {
+}
+
+// ****************************************************************************
+cHashedString::cHashedString(const cString & strIdent)
+: m_strIdent(strIdent)
+, m_lChecksum(CalculateHash(strIdent))
+{
+}
+
+// ****************************************************************************
+cHashedString::cHashedString(const cHashedString & other)
+: m_strIdent(other.m_strIdent)
+, m_lChecksum(other.m_lChecksum)
+{
+}
+
+// ****************************************************************************
+cHashedString & cHashedString::operator =(const cHashedString & other)
+{
+	m_strIdent = other.m_strIdent;
+	m_lChecksum = other.m_lChecksum;
+	return *this;
 }
 
 // ****************************************************************************
 unsigned long cHashedString::CalculateHash(const cString & strIdent)
 {
+	if(strIdent.IsEmpty())
+	{
+		return 0;
+	}
 	// largest prime smaller than 65536
 	unsigned long lBASE = 65521L;
 	
@@ -49,7 +74,17 @@ unsigned long cHashedString::CalculateHash(const cString & strIdent)
 }
 
 // *****************************************************************************
-unsigned long cHashedString::GetChecksum() const
+unsigned long cHashedString::GetHash() const
 {
 	return m_lChecksum;
+}
+
+bool cHashedString::operator==(cHashedString const & o) const
+{
+	if(m_lChecksum != 0)
+	{
+		bool r = (m_lChecksum == o.GetHash() );
+		return r;
+	}
+	return false;
 }

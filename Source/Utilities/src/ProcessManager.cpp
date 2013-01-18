@@ -12,6 +12,7 @@
 #include "Process.h"
 
 using namespace Utilities;
+using namespace Base;
 
 // *****************************************************************************
 cProcessManager::~cProcessManager()
@@ -69,13 +70,13 @@ void cProcessManager::VDetachProcess(shared_ptr<cProcess> pProcess)
 }
 
 // *****************************************************************************
-void cProcessManager::VDetachProcesses(const unsigned long ulType)
+void cProcessManager::VDetachProcesses(const cString & strType)
 {
 	ProcessList::iterator curProcess;
 	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
 	{
 		shared_ptr<cProcess> p(*curProcess);
-		if(p->m_ulType == ulType)
+		if(p->m_strType.GetHash() == cHashedString::CalculateHash(strType))
 		{
 			p->VKill();
 		}
@@ -83,13 +84,14 @@ void cProcessManager::VDetachProcesses(const unsigned long ulType)
 }
 
 // *****************************************************************************
-void cProcessManager::VSetProcessesActive(const unsigned long ulType, const bool bActive)
+void cProcessManager::VSetProcessesActive(const cString & strType,
+										  const bool bActive)
 {
 	ProcessList::iterator curProcess;
 	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
 	{
 		shared_ptr<cProcess> p(*curProcess);
-		if(p->m_ulType == ulType)
+		if(p->m_strType.GetHash() == cHashedString::CalculateHash(strType))
 		{
 			p->VSetActive(bActive);
 		}

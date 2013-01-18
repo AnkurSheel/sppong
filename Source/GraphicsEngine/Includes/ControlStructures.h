@@ -21,9 +21,14 @@ namespace Graphics
 
 namespace Graphics
 {
-	enum CALLBACKTYPE
+	/********************************************//**
+     * @brief Callback Event Types for UI controls
+     ***********************************************/
+	enum UIEVENTTYPE
 	{
-
+		UIET_BTNPRESSED,	/*!< Button was pressed */ 
+		UIET_BTNRELEASED,	/*!< Button was released */ 
+		UIET_SCBCHANGED,	/*!< The value of the Scrollbar was changed */ 
 	};
 
 	/********************************************//**

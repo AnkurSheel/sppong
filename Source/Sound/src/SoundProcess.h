@@ -23,7 +23,7 @@ namespace Sound
 		: public ISoundProcess
 	{
 	public:
-		cSoundProcess(const unsigned long ulType, 
+		cSoundProcess(const Base::cString & strType, 
 			shared_ptr<ISoundResHandle> pSoundResource, const int iVolume,
 			const bool bLooping);
 		~cSoundProcess();

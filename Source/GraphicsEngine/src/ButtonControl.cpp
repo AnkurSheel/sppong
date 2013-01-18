@@ -92,9 +92,9 @@ bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 		{
 			m_pBGSprite->VSetTexture(m_pDefaultTexture);
 		}
-		if (m_pfnCallBack)
+		if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_BTNRELEASED))
 		{
-			m_pfnCallBack(false);
+			(*pFn)(false);
 		}
 		return cBaseControl::VOnLeftMouseButtonUp(X, Y);
 	}
@@ -110,9 +110,9 @@ bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	{
 		m_pBGSprite->VSetTexture(m_pPressedTexture);
 	}
-	if (m_pfnCallBack)
+	if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_BTNPRESSED))
 	{
-		m_pfnCallBack(true);
+		(*pFn)(true);
 	}
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);
 }

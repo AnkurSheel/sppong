@@ -19,16 +19,13 @@ using namespace Base;
 using namespace std;
 // *****************************************************************************
 cBaseControl::cBaseControl()
-: m_vSize(cVector2::Zero())
-, m_bVisible(true)
+: m_bVisible(true)
 , m_pParentControl(NULL) 
 , m_vPosition(cVector2(-1.0f, -1.0f))
 , m_bFocus(false)
 , m_pFocusControl(NULL)
 , m_bIsLeftMouseDown(false)
 , m_bAllowMovingControls(false)
-, m_vControlAbsolutePosition(cVector2::Zero())
-, m_pfnCallBack(NULL)
 {
 
 }
@@ -41,7 +38,7 @@ cBaseControl::~cBaseControl()
 
 void cBaseControl::Initialize(const cBaseControlDef & def)
 {
-	m_strControlName = def.strControlName;
+	m_strControlName = cHashedString(def.strControlName);
 	VSetPosition(def.vPosition);
 	VSetSize(def.vSize);
 }
@@ -148,7 +145,7 @@ void cBaseControl::VRemoveChildControl(const cString & strControlName)
 	ControlList::iterator iter;
 	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
 	{
-		if((*iter).get()->m_strControlName == strControlName)
+		if((*iter).get()->m_strControlName.GetHash() == cHashedString::CalculateHash(strControlName))
 		{
 			break;
 		}
@@ -197,16 +194,17 @@ void cBaseControl::VSetSize( const cVector2 & vSize)
 	}
 }
 
-// ***************************************************************************************
-void cBaseControl::VRegisterCallBack(function <void (bool)> callback)
+// *****************************************************************************
+void cBaseControl::VRegisterCallBack(const UIEVENTTYPE eventType,
+									 function <void (bool)> fnCallback)
 {
-	m_pfnCallBack = callback;
+	m_CallbackMap.insert(std::make_pair(eventType, fnCallback));
 }
 
-// ***************************************************************************************
-void cBaseControl::VUnregisterCallBack()
+// *****************************************************************************
+void cBaseControl::VUnregisterCallBack(const UIEVENTTYPE eventType)
 {
-	m_pfnCallBack = NULL;
+	m_CallbackMap.erase(eventType);
 }
 
 // *****************************************************************************
@@ -318,7 +316,7 @@ void cBaseControl::VSetAbsolutePosition()
 	}
 }
 
-// ***************************************************************************************
+// *****************************************************************************
 void cBaseControl::VOnFocusChanged() 
 {
 	
@@ -330,7 +328,7 @@ void cBaseControl::VSetVisible( bool bIsVisible )
 	m_bVisible = bIsVisible;
 }
 
-// ***************************************************************************************
+// *****************************************************************************
 void cBaseControl::VCleanup()
 {
 	VRemoveAllChildren();
@@ -395,7 +393,7 @@ void cBaseControl::SetFocusControl( const cBaseControl * const pControl )
 		SetFocus(true);
 	}
 }
-// ***************************************************************************************
+// *****************************************************************************
 void cBaseControl::SetFocus(const bool bFocus)
 {
 	m_bFocus = bFocus;
@@ -459,4 +457,15 @@ cBaseControl::ControlList::const_iterator cBaseControl::GetChildControlIterator(
 		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control in Base Control");
 	}
 	return iter;
+}
+
+// *****************************************************************************
+UIEventCallBackFn * cBaseControl::GetCallbackFromMap(const UIEVENTTYPE eventType)
+{
+	UIEventCallBackMap::iterator iter = m_CallbackMap.find(eventType);
+	if(iter != m_CallbackMap.end())
+	{
+		return &(iter->second);
+	}
+	return NULL;
 }

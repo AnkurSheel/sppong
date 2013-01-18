@@ -12,13 +12,13 @@
 
 using namespace Utilities;
 
-cProcess::cProcess(const unsigned long ulType)
+cProcess::cProcess(const Base::cString & strType)
 : m_bKill(false)
 , m_bActive(true)
 , m_uProcessFlags(0)
 , m_bPaused(false)
 , m_bInitialUpdate(true)
-, m_ulType(ulType)
+, m_strType(strType)
 {
 }
 

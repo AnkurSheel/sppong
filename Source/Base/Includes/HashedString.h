@@ -15,14 +15,15 @@
 namespace Base
 {
 	class cHashedString
-		: public Base::cNonCopyable
 	{
 	public:
+		BASE_API cHashedString();
 		BASE_API explicit cHashedString(const cString & strIdent);
-		BASE_API unsigned long GetChecksum() const;
-
-	private:
-		unsigned long CalculateHash(const cString & strIdent);
+		BASE_API explicit cHashedString(const cHashedString & other);
+		BASE_API cHashedString & operator =(const cHashedString & other);
+		BASE_API unsigned long GetHash() const;
+		BASE_API bool operator==(cHashedString const & o) const;
+		BASE_API static unsigned long CalculateHash(const cString & strIdent);
 
 	private:
 		unsigned long	m_lChecksum;
