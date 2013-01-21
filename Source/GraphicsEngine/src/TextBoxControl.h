@@ -50,6 +50,7 @@ namespace Graphics
 		void VRender(const ICamera * const pCamera);
 		bool VOnKeyDown(const unsigned int iCharID);
 		bool VOnCharPress(const unsigned int iCharID);
+		void VSetText(const Base::cString & strText);
 		void VSetAbsolutePosition();
 		void VOnFocusChanged();
 		void VCleanup();

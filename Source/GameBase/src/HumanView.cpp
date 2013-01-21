@@ -286,21 +286,21 @@ void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 }
 
 // *******************************************************************************************
-void cHumanView::MusicCheckBoxPressed(bool bPressed)
+void cHumanView::MusicCheckBoxPressed(const unUIEventCallbackParam & params)
 {
-	m_pGame->VGetGameOptions().bPlayMusic = bPressed;
+	m_pGame->VGetGameOptions().bPlayMusic = params.bChecked;
 	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, m_pGame->VGetGameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
-void cHumanView::SfxCheckBoxPressed(bool bPressed)
+void cHumanView::SfxCheckBoxPressed(const unUIEventCallbackParam & params)
 {
-	m_pGame->VGetGameOptions().bPlaySfx = bPressed;
+	m_pGame->VGetGameOptions().bPlaySfx = params.bChecked;
 	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel, m_pGame->VGetGameOptions().bPlaySfx);
 }
 
 // *******************************************************************************************
-void cHumanView::FullScreenCheckBoxPressed(bool bPressed)
+void cHumanView::FullScreenCheckBoxPressed(const unUIEventCallbackParam & params)
 {
 	IMainWindow::GetInstance()->VToggleFullScreen();
 }

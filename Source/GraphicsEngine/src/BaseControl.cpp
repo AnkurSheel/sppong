@@ -165,6 +165,28 @@ void cBaseControl::VRemoveChildControl(const cString & strControlName)
 }
 
 // *****************************************************************************
+IBaseControl * const cBaseControl::VFindChildControl(const Base::cString & strControlName)
+{
+	ControlList::const_iterator iter;
+	for(iter = m_pChildControl.begin(); iter != m_pChildControl.end(); iter++)
+	{
+		if((*iter).get()->m_strControlName.GetHash() == cHashedString::CalculateHash(strControlName))
+		{
+			break;
+		}
+	}
+	if(iter == m_pChildControl.end())
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control " + strControlName + " in Base Control");
+		return NULL;
+	}
+	else
+	{
+		return (*iter).get();
+	}
+}
+
+// *****************************************************************************
 void cBaseControl::VSetPosition( const cVector2 & vPosition )
 {
 	if(m_vPosition != vPosition)
@@ -196,7 +218,7 @@ void cBaseControl::VSetSize( const cVector2 & vSize)
 
 // *****************************************************************************
 void cBaseControl::VRegisterCallBack(const UIEVENTTYPE eventType,
-									 function <void (bool)> fnCallback)
+									 function <void (const unUIEventCallbackParam &)> fnCallback)
 {
 	m_CallbackMap.insert(std::make_pair(eventType, fnCallback));
 }

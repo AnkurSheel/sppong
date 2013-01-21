@@ -32,6 +32,20 @@ namespace Graphics
 	};
 
 	/********************************************//**
+     * @brief Return structure for UI callback functions
+     ***********************************************/
+	union unUIEventCallbackParam
+	{
+		bool	bChecked;		/*!< Will be set/unset for checkboxes */ 
+		int		iThumbPos;		/*!< The position of the thumb for scrollbars */ 
+
+		unUIEventCallbackParam()
+			: bChecked(false)
+		{
+		}
+	};
+
+	/********************************************//**
      * @brief Common parameters for creating a UI control
      ***********************************************/
 	class cBaseControlDef

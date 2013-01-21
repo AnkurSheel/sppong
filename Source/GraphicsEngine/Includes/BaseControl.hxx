@@ -31,7 +31,7 @@ namespace Graphics
 
 namespace Graphics
 {
-	typedef function<void (bool)> UIEventCallBackFn;
+	typedef function<void (unUIEventCallbackParam)> UIEventCallBackFn;
 
 	/********************************************//**
 	 * @brief Interface for All UI controls.
@@ -72,6 +72,13 @@ namespace Graphics
 		 ***********************************************/
 		virtual void VRemoveChildControl(const Base::cString & strControlName) = 0;
 		/********************************************//**
+ 		 * @param[in] strControlName The name of the control that needs to be found
+		 * @return The child control with name equal to strControlName
+		 *
+		 * Returns the child control
+		 ***********************************************/
+		virtual Graphics::IBaseControl * const VFindChildControl(const Base::cString & strControlName) = 0;
+		/********************************************//**
  		 * @param[in] pCamera The camera which contains the current view matrix
 		 *
 		 * Draws the control
@@ -103,12 +110,12 @@ namespace Graphics
 		virtual void VSetSize(const Base::cVector2 & vSize) = 0;
 		/********************************************//**
 		 * @param[in] eventType The type of the event for the call back.
- 		 * @param[in] fnCallback Function pointer to the callback funtion. The function takes in a bool and returns void
+ 		 * @param[in] fnCallback Function pointer to the callback funtion. The function takes in a unUIEventCallbackParam and returns void
 		 *
 		 * Sets the callback function to invoke when the eventType event occurs
 		 ***********************************************/
 		virtual void VRegisterCallBack(const UIEVENTTYPE eventType,
-			function <void (bool)> fnCallback) = 0;
+			function <void (const unUIEventCallbackParam &)> fnCallback) = 0;
 		/********************************************//**
 		 * @param[in] eventType The type of the event for the call back.
 		 *

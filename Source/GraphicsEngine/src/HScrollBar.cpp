@@ -127,16 +127,8 @@ void cHScrollBar::VSetSize(const cVector2 & vSize)
 // ***************************************************************
 void cHScrollBar::VSetThumbPosition( const int iNewPosition )
 {
-	m_iThumbPos = iNewPosition;
-	if (m_iThumbPos < 0)
-	{
-		m_iThumbPos = 0;
-	}
-	else if (m_iThumbPos > m_iNoOfIncrements)
-	{
-		m_iThumbPos = m_iNoOfIncrements;
-	}
-
+	cScrollBarControl::VSetThumbPosition(iNewPosition);
+	
 	cVector2 pos = m_vControlAbsolutePosition;
 	if (m_pBtnThumb)
 	{

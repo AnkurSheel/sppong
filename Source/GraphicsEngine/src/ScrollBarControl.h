@@ -1,12 +1,12 @@
-// ***************************************************************
+// ****************************************************************************
 //  ScrollBarControl   version:  1.0   Ankur Sheel  date: 2012/04/24
-//  -------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ---------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// ****************************************************************************
 // 
-// ***************************************************************
+// ****************************************************************************
 #ifndef ScrollBarControl_h__
 #define ScrollBarControl_h__
 
@@ -27,6 +27,13 @@ namespace Graphics
 	protected:
 		cScrollBarControl();
 		virtual ~cScrollBarControl();
+		/********************************************//**
+		 * @param[in] iNewPosition The new position of the thumb
+		 *
+		 * Sets the position of the thumb to iNewPosition.
+		 * Constrains the position between 0 and the no of increments
+		 ***********************************************/
+		virtual void VSetThumbPosition(const int iNewPosition) ;
 
 	private:
 		bool VOnLeftMouseButtonUp(const int X, const int Y);
@@ -34,30 +41,29 @@ namespace Graphics
 		void VRender(const ICamera * const pCamera);
 		void VCleanup();
 		/********************************************//**
-		 * @param[in] iNewPosition The new position of the thumb
-		 *
-		 * Sets the position of the thumb to iNewPosition.
-		 * Constrains the position between 0 and the no of increments
-		 ***********************************************/
-		virtual void VSetThumbPosition(const int iNewPosition) = 0;
-		/********************************************//**
-		 * @param[in] bPressed True if the increment arrow button is pressed. False othwerise
+		 * @param[in] params Not Used
 		 *
 		 * Increments the thumb position by 1 when the down/right button is released
 		 ***********************************************/
-		void IncrementArrowPressed(bool bPressed);
+		void IncrementArrowPressed(const Graphics::unUIEventCallbackParam & params);
 		/********************************************//**
-		 * @param[in] bPressed True if the decrement arrow button is pressed. False othwerise
+		 * @param[in] params Not Used
 		 *
 		 * Decrements the thumb position by 1 when the up/left button is released
 		 ***********************************************/
-		void DecrementArrowPressed(bool bPressed);
+		void DecrementArrowPressed(const Graphics::unUIEventCallbackParam & params);
 		/********************************************//**
-		 * @param[in] bPressed True if the thumb button is pressed. False othwerise
+		 * @param[in] params Not Used
 		 *
-		 * Sets the drag mode for the thumb to bPressed
+		 * Sets the drag mode
 		 ***********************************************/
-		void ThumbPressed(bool bPressed);
+		void ThumbPressed(const Graphics::unUIEventCallbackParam & params);
+		/********************************************//**
+		 * @param[in] params Not Used
+		 *
+		 * Resets the drag mode
+		 ***********************************************/
+		void ThumbReleased(const Graphics::unUIEventCallbackParam & params);
 
 	protected:
 		int						m_iMinPos;							/*!< The minimum value that the scrollbar can go to. */ 
@@ -70,7 +76,8 @@ namespace Graphics
 		IBaseControl *			m_pBtnIncrementArrow;				/*!< The bottom/right button. */ 	
 		UIEventCallBackFn		m_callbackIncrementArrowPressed;	/*!< Callback function when the up/left button is pressed/released. */ 	
 		UIEventCallBackFn		m_callbackDecrementArrowPressed;	/*!< Callback function when the bottom/right button is pressed/released. */ 	
-		UIEventCallBackFn		m_callbackThumbPressed;				/*!< Callback function when the thumb button is pressed/released. */ 	
+		UIEventCallBackFn		m_callbackThumbPressed;				/*!< Callback function when the thumb button is pressed. */ 	
+		UIEventCallBackFn		m_callbackThumbReleased;			/*!< Callback function when the thumb button is released. */
 	};
 }
 

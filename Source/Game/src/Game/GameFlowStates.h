@@ -15,6 +15,7 @@
 namespace Graphics
 {
 	class IBaseControl;
+	union unUIEventCallbackParam;
 }
 
 class cGame;
@@ -56,8 +57,11 @@ public:
 
 private:
 	cStateMenuScreen();
-	void HelpButtonPressed(bool bPressed);
-	void OptionsButtonPressed(bool bPressed);
+	void SinglePlayerButtonPressed(const Graphics::unUIEventCallbackParam& params);
+	void MultiPlayerButtonPressed(const Graphics::unUIEventCallbackParam& params);
+	void HelpButtonPressed(const Graphics::unUIEventCallbackParam& params);
+	void OptionsButtonPressed(const Graphics::unUIEventCallbackParam& params);
+	void QuitButtonPressed(const Graphics::unUIEventCallbackParam& params);
 
 private:
 	Graphics::IBaseControl * m_pMenuScreen;
@@ -91,7 +95,7 @@ public:
 
 private:
 	cStateHelpScreen();
-	void BackButtonPressed(bool bPressed);
+	void BackButtonPressed(const Graphics::unUIEventCallbackParam& params);
 };
 
 class cStateOptionsScreen 
@@ -107,6 +111,10 @@ public:
 
 private:
 	cStateOptionsScreen();
-	void BackButtonPressed(bool bPressed);
+	void BackButtonPressed(const Graphics::unUIEventCallbackParam& params);
+	void MusicScrollbarChanged(const Graphics::unUIEventCallbackParam& params);
+
+private:
+	Graphics::IBaseControl * m_pOptionsScreen;
 };
 #endif // GameFlowStates_h__

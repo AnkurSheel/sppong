@@ -98,10 +98,11 @@ namespace Graphics
 		bool VPostMsg(const Base::AppMsg & msg);
 		void VRemoveAllChildren();
 		void VRemoveChildControl(const Base::cString & strControlName);
+		Graphics::IBaseControl * const VFindChildControl(const Base::cString & strControlName);
 		void VSetText(const Base::cString & strText);
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VRegisterCallBack(const UIEVENTTYPE eventType,
-			function <void (bool)> fnCallback);
+			function <void (const unUIEventCallbackParam &)> fnCallback);
 		void VUnregisterCallBack(const UIEVENTTYPE eventType);
 		void VMoveToFront(const IBaseControl * const pControl);
 		/********************************************//**

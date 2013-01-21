@@ -26,7 +26,7 @@ namespace Utilities
 		UTILITIES_API virtual void VUpdate(const int iDeltaMilliSeconds);
 		UTILITIES_API virtual void VKill();
 		UTILITIES_API virtual void VTogglePause();
-		UTILITIES_API void VSetActive(const bool bActive);
+		UTILITIES_API virtual void VSetActive(const bool bActive);
 
 		bool IsDead() const;
 		bool IsActive() const;

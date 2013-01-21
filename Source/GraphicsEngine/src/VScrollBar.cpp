@@ -126,23 +126,15 @@ void cVScrollBar::VSetSize(const cVector2 & vSize)
 // ***************************************************************
 void cVScrollBar::VSetThumbPosition( const int iNewPosition )
 {
-	m_iThumbPos = iNewPosition;
-	if (m_iThumbPos < 0)
-	{
-		m_iThumbPos = 0;
-	}
-	else if (m_iThumbPos > m_iNoOfIncrements)
-	{
-		m_iThumbPos = m_iNoOfIncrements;
-	}
-
+	cScrollBarControl::VSetThumbPosition(iNewPosition);
+	
 	cVector2 pos = m_vControlAbsolutePosition;
 	if (m_pBtnThumb)
 	{
 		pos.y += m_pBtnDecrementArrow->VGetHeight() + (m_pBtnThumb->VGetHeight() * m_iThumbPos);
 		m_pBtnThumb->VSetPosition(pos);
 	}
-	Log_Write_L1(ILogger::LT_DEBUG, cString(100, "ThumbPos % d" , (m_iThumbPos + m_iMinPos)));
+	Log_Write_L3(ILogger::LT_DEBUG, cString(100, "ThumbPos % d" , (m_iThumbPos + m_iMinPos)));
 }
 
 // ***************************************************************

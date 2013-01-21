@@ -34,8 +34,8 @@ namespace Graphics
 	class ISprite;
 	class IBaseControl;
 	class ICamera;
+	union unUIEventCallbackParam;
 }
-
 namespace Sound
 {
 	class ISoundProcess;
@@ -63,9 +63,9 @@ namespace GameBase
 		GAMEBASE_API const Graphics::ICamera * const GetCamera() const;
 		GAMEBASE_API void PlaySFX(const Base::cString & strSoundFile);
 		GAMEBASE_API void PlayMusic(const Base::cString & strMusicFile, const bool bLooping);
-		GAMEBASE_API void MusicCheckBoxPressed(bool bPressed);
-		GAMEBASE_API void SfxCheckBoxPressed(bool bPressed);
-		GAMEBASE_API void FullScreenCheckBoxPressed(bool bPressed);
+		GAMEBASE_API void MusicCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
+		GAMEBASE_API void SfxCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
+		GAMEBASE_API void FullScreenCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();

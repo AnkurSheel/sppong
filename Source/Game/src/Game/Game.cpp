@@ -164,36 +164,6 @@ void cGame::HandlePaddleAI( const float fElapsedTime )
 	}
 }
 
-void cGame::SinglePlayerButtonPressed(bool bPressed)
-{
-	if(!bPressed)
-	{
-		m_bSinglePlayer = true;
-		cMPongView * pView = dynamic_cast<cMPongView *>(m_pHumanView);
-		if(pView)
-			pView->OnSinglePlayerSelected(this);
-	}
-}
-
-void cGame::MultiPlayerButtonPressed(bool bPressed)
-{
-	if(!bPressed)
-	{
-		m_bMultiPlayer = true;
-		cMPongView * pView = dynamic_cast<cMPongView *>(m_pHumanView);
-		if(pView)
-			pView->OnMultiPlayerSelected(this);
-	}
-}
-
-void cGame::QuitButtonPressed( bool bPressed )
-{
-	if(!bPressed)
-	{
-		PostQuitMessage(0);
-	}
-}
-
 void cGame::MoveLeftPaddle(bool bMoveDown)
 {
 	cPaddle * pPaddle = m_ppGameElements[PGE_PADDLE_LEFT]->CastToPaddle();

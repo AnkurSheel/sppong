@@ -62,9 +62,6 @@ private:
 	void VCleanup();
 	void Restart();
 	bool VOnHandleMessage(const AI::Telegram & telegram);
-	void SinglePlayerButtonPressed(bool bPressed);
-	void MultiPlayerButtonPressed(bool bPressed);
-	void QuitButtonPressed(bool bPressed);
 	void VCreateHumanView();
 
 private:

@@ -141,6 +141,15 @@ bool cTextBoxControl::VOnKeyDown(const unsigned int iCharID)
 	return false;
 }
 
+// *****************************************************************************
+void cTextBoxControl::VSetText(const Base::cString & strText)
+{
+	if(m_pSentence != NULL)
+	{
+		m_pSentence->VSetText(strText);
+	}
+}
+
 // ***************************************************************
 void cTextBoxControl::VSetAbsolutePosition()
 {

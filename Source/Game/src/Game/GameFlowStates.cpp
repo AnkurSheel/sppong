@@ -145,7 +145,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pSinglePlayerButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pSinglePlayerButton));
 		UIEventCallBackFn callbackSinglePlayerBtn;
-		callbackSinglePlayerBtn = bind(&cGame::SinglePlayerButtonPressed, pGame, _1);
+		callbackSinglePlayerBtn = bind(&cStateMenuScreen::SinglePlayerButtonPressed, this, _1);
 		pSinglePlayerButton->VRegisterCallBack(UIET_BTNRELEASED, callbackSinglePlayerBtn);
 
 		buttonDef.strControlName = "btnMultiPlayer";
@@ -158,7 +158,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pMultiPlayerButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pMultiPlayerButton));
 		UIEventCallBackFn callbackMultiPlayerBtn;
-		callbackMultiPlayerBtn = bind(&cGame::MultiPlayerButtonPressed, pGame, _1);
+		callbackMultiPlayerBtn = bind(&cStateMenuScreen::MultiPlayerButtonPressed, this, _1);
 		pMultiPlayerButton->VRegisterCallBack(UIET_BTNRELEASED, callbackMultiPlayerBtn);
 
 		buttonDef.strControlName = "btnOption";
@@ -198,7 +198,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
 		m_pMenuScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
 		UIEventCallBackFn callbackQuitBtn;
-		callbackQuitBtn = bind(&cGame::QuitButtonPressed, pGame, _1);
+		callbackQuitBtn = bind(&cStateMenuScreen::QuitButtonPressed, this, _1);
 		pQuitButton->VRegisterCallBack(UIET_BTNRELEASED, callbackQuitBtn);
 	}
 }
@@ -256,21 +256,45 @@ void cStateMenuScreen::VOnResume()
 }
 
 // *****************************************************************************
-void cStateMenuScreen::HelpButtonPressed(bool bPressed)
+void cStateMenuScreen::SinglePlayerButtonPressed(const unUIEventCallbackParam & params)
 {
-	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	m_pOwner->m_bSinglePlayer = true;
+	cMPongView * pView = dynamic_cast<cMPongView *>(m_pOwner->m_pHumanView);
+	if(pView)
+		pView->OnSinglePlayerSelected(m_pOwner);
+}
+
+// *****************************************************************************
+void cStateMenuScreen::MultiPlayerButtonPressed(const unUIEventCallbackParam & params)
+{
+	m_pOwner->m_bMultiPlayer = true;
+	cMPongView * pView = dynamic_cast<cMPongView *>(m_pOwner->m_pHumanView);
+	if(pView)
+		pView->OnMultiPlayerSelected(m_pOwner);
+}
+
+// *****************************************************************************
+void cStateMenuScreen::HelpButtonPressed(const unUIEventCallbackParam & params)
+{
+	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
 		m_pOwner->m_pStateMachine->RequestPushState(cStateHelpScreen::Instance());
 	}
 }
 
 // *****************************************************************************
-void cStateMenuScreen::OptionsButtonPressed(bool bPressed)
+void cStateMenuScreen::OptionsButtonPressed(const unUIEventCallbackParam & params)
 {
-	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
 		m_pOwner->m_pStateMachine->RequestPushState(cStateOptionsScreen::Instance());
 	}
+}
+
+// *****************************************************************************
+void cStateMenuScreen::QuitButtonPressed(const unUIEventCallbackParam & params)
+{
+	PostQuitMessage(0);
 }
 
 // *****************************************************************************
@@ -476,9 +500,9 @@ bool cStateHelpScreen::VOnMessage(const Telegram &msg)
 	return false;
 }
 
-void cStateHelpScreen::BackButtonPressed(bool bPressed)
+void cStateHelpScreen::BackButtonPressed(const unUIEventCallbackParam & params)
 {
-	if(!bPressed && m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
 		m_pOwner->m_pStateMachine->RequestPopState();
 	}
@@ -486,6 +510,7 @@ void cStateHelpScreen::BackButtonPressed(bool bPressed)
 
 // *****************************************************************************
 cStateOptionsScreen::cStateOptionsScreen()
+: m_pOptionsScreen(NULL)
 {
 }
 
@@ -512,9 +537,9 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		optionsDef.wType = cWindowControlDef::WT_STANDARD;
 		optionsDef.vPosition = cVector2(0, 0);
 		optionsDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
-		IBaseControl * pOptionsScreen = IBaseControl::CreateWindowControl(optionsDef);
-		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pOptionsScreen));
-		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pOptionsScreen);
+		m_pOptionsScreen = IBaseControl::CreateWindowControl(optionsDef);
+		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(m_pOptionsScreen));
+		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(m_pOptionsScreen);
 
 		cCheckBoxControlDef checkboxControlDef;
 		checkboxControlDef.strControlName = "cbMusic";
@@ -530,7 +555,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		checkboxControlDef.vPosition = cVector2(0.f, 250.f);
 
 		IBaseControl * pMusicCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
-		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicCheckBoxControl));
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicCheckBoxControl));
 		UIEventCallBackFn musicCheckBoxCallback;
 		musicCheckBoxCallback = bind(&cHumanView::MusicCheckBoxPressed, m_pOwner->m_pHumanView, _1);
 		pMusicCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, musicCheckBoxCallback);
@@ -541,7 +566,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		checkboxControlDef.bChecked = m_pOwner->m_gameOptions.bPlaySfx;
 
 		IBaseControl * pSfxCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
-		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSfxCheckBoxControl ));
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSfxCheckBoxControl ));
 		UIEventCallBackFn sfxCheckBoxCallback;
 		sfxCheckBoxCallback = bind(&cHumanView::SfxCheckBoxPressed, m_pOwner->m_pHumanView, _1);
 		pSfxCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, sfxCheckBoxCallback);
@@ -552,7 +577,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		checkboxControlDef.bChecked = m_pOwner->VGetGameOptions().bFullScreen;
 		
 		IBaseControl * pFullscreenCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
-		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pFullscreenCheckBoxControl));
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pFullscreenCheckBoxControl));
 		UIEventCallBackFn fullScreenCheckBoxCallback;
 		fullScreenCheckBoxCallback = bind(&cHumanView::FullScreenCheckBoxPressed, m_pOwner->m_pHumanView, _1);
 		pFullscreenCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, fullScreenCheckBoxCallback);
@@ -573,7 +598,11 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		hScrollBarDef.vSize = cVector2(200, 30);
 
 		IBaseControl * pMusicScrollBarControl = IBaseControl::CreateHScrollBarControl(hScrollBarDef);
-		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicScrollBarControl));
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicScrollBarControl));
+
+		UIEventCallBackFn musicScrollbarcallback;
+		musicScrollbarcallback = bind(&cStateOptionsScreen::MusicScrollbarChanged, this, _1);
+		pMusicScrollBarControl->VRegisterCallBack(UIET_SCBCHANGED, musicScrollbarcallback);
 
 		cTextBoxControlDef textBoxControlDef;
 		textBoxControlDef.strControlName = "tbMusicVolume";
@@ -589,7 +618,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		textBoxControlDef.vPosition = cVector2(220, 400);
 
 		IBaseControl * pMusicVolumeTextBoxControl = IBaseControl::CreateTextBoxControl(textBoxControlDef);
-		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicVolumeTextBoxControl));
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicVolumeTextBoxControl));
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
@@ -602,7 +631,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		buttonDef.labelControlDef.fTextHeight = 50;
 
 		IBaseControl * pBackButton = IBaseControl::CreateButtonControl(buttonDef);
-		pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pBackButton));
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pBackButton));
 		UIEventCallBackFn callBackBtn;
 		callBackBtn = bind(&cStateOptionsScreen::BackButtonPressed, this, _1);
 		pBackButton->VRegisterCallBack(UIET_BTNRELEASED, callBackBtn);
@@ -631,9 +660,9 @@ bool cStateOptionsScreen::VOnMessage(const Telegram &msg)
 }
 
 // *****************************************************************************
-void cStateOptionsScreen::BackButtonPressed(bool bPressed)
+void cStateOptionsScreen::BackButtonPressed(const unUIEventCallbackParam & params)
 {
-	if(!bPressed && m_pOwner != NULL)
+	if(m_pOwner != NULL)
 	{
 		if(m_pOwner->m_pStateMachine != NULL)
 		{
@@ -641,4 +670,11 @@ void cStateOptionsScreen::BackButtonPressed(bool bPressed)
 		}
 		m_pOwner->SaveGameOptions("Media//PlayerOptions.xml");
 	}
+}
+
+// *****************************************************************************
+void cStateOptionsScreen::MusicScrollbarChanged(const unUIEventCallbackParam & params)
+{
+	IBaseControl * pMusicTextBox = m_pOptionsScreen->VFindChildControl("tbMusicVolume");
+	pMusicTextBox->VSetText(cString(20, "%d", params.iThumbPos * 5));
 }
