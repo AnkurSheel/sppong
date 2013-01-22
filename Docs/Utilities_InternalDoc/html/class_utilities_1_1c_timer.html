@@ -109,7 +109,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Utilities::cTimer Class Reference</div>  </div>
@@ -125,8 +126,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><a href="class_utilities_1_1c_timer-members.html">List of all members.</a></p>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a1c879a547718f11290412338a101b8d7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_utilities_1_1c_timer.html">cTimer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#a1c879a547718f11290412338a101b8d7">Create</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
 <tr class="memitem:a86eb9bab2c3c681f74ffecee65a8dc80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#a86eb9bab2c3c681f74ffecee65a8dc80">VStartTimer</a> ()</td></tr>
 <tr class="memitem:ab358f0173dc8b91f6b7ec62df03b27c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#ab358f0173dc8b91f6b7ec62df03b27c9">VStopTimer</a> ()</td></tr>
 <tr class="memitem:a1f697703799271667ccd227b5d2daa28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#a1f697703799271667ccd227b5d2daa28">VOnUpdate</a> ()</td></tr>
@@ -143,6 +147,7 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a8ed3cac3189a3b0cfe31041d3ca04c47"><td class="memItemLeft" align="right" valign="top">INT64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#a8ed3cac3189a3b0cfe31041d3ca04c47">m_iLastFPSUpdateTime</a></td></tr>
 <tr class="memitem:a6c91bf0678a9613888df15d0e0a7d30d"><td class="memItemLeft" align="right" valign="top">INT64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#a6c91bf0678a9613888df15d0e0a7d30d">m_iFPSUpdateInterval</a></td></tr>
 <tr class="memitem:afb2efba36211ba36f330aa82f95e2d7b"><td class="memItemLeft" align="right" valign="top">UINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#afb2efba36211ba36f330aa82f95e2d7b">m_iNumFrames</a></td></tr>
+<tr class="memitem:ad73cb61b09f349fc0a4b1700f405b428"><td class="memItemLeft" align="right" valign="top">UINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#ad73cb61b09f349fc0a4b1700f405b428">m_iTotalsFrames</a></td></tr>
 <tr class="memitem:abcc47da4ec0962753936756d3bee97e5"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#abcc47da4ec0962753936756d3bee97e5">m_fRunningTime</a></td></tr>
 <tr class="memitem:ac8358aab78960e6fbdfa16b968439b7d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#ac8358aab78960e6fbdfa16b968439b7d">m_fDeltaTime</a></td></tr>
 <tr class="memitem:a3a75fb13c2ad10b253690e4085656ecd"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utilities_1_1c_timer.html#a3a75fb13c2ad10b253690e4085656ecd">m_fFPS</a></td></tr>
@@ -151,6 +156,24 @@ Private Attributes</h2></td></tr>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Class Declaration for creating a timer. </p>
 </div><hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a1c879a547718f11290412338a101b8d7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_utilities_1_1c_timer.html">cTimer</a> * <a class="el" href="class_utilities_1_1c_timer.html#a1c879a547718f11290412338a101b8d7">Utilities::cTimer::Create</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>A Pointer to the the <a class="el" href="class_utilities_1_1c_timer.html" title="Class Declaration for creating a timer.">cTimer</a> object</dd></dl>
+<p>Create and Returns an object of this class </p>
+
+</div>
+</div>
 <a class="anchor" id="a0cfa007bbdbdbbef6ecf3f2b438b3054"></a>
 <div class="memitem">
 <div class="memproto">
@@ -159,7 +182,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">float <a class="el" href="class_utilities_1_1c_timer.html#a0cfa007bbdbdbbef6ecf3f2b438b3054">cTimer::VGetDeltaTime</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const<code> [inline, virtual]</code></td>
+          <td> const<code> [inline, private, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -179,7 +202,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">float <a class="el" href="class_utilities_1_1c_timer.html#aafd3b1719939841cb0d1ac1a57ab3316">cTimer::VGetFPS</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const<code> [inline, virtual]</code></td>
+          <td> const<code> [inline, private, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -199,12 +222,12 @@ Private Attributes</h2></td></tr>
           <td class="memname">TICK <a class="el" href="class_utilities_1_1c_timer.html#a00356aeb7b8ca8a0fe82faf8a7009a0a">cTimer::VGetRunningTicks</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const<code> [inline, virtual]</code></td>
+          <td> const<code> [inline, private, virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>The no. of ticks that have elapsed</dd></dl>
+<dl class="section return"><dt>Returns:</dt><dd>The no. of frames that have elapsed</dd></dl>
 <p>Get the ticks that have elapsed </p>
 
 <p>Implements <a class="el" href="class_utilities_1_1_i_timer.html#aa08f90081abebba3ad2bf437a69b8652">Utilities::ITimer</a>.</p>
@@ -219,7 +242,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">float <a class="el" href="class_utilities_1_1c_timer.html#a0ab040dee86474f1a936c399fb410e69">cTimer::VGetRunningTime</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const<code> [inline, virtual]</code></td>
+          <td> const<code> [inline, private, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -239,7 +262,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">bool <a class="el" href="class_utilities_1_1c_timer.html#a933f26b123462ce78ddac2f3d8789651">cTimer::VIsStopped</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const<code> [inline, virtual]</code></td>
+          <td> const<code> [inline, private, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -259,7 +282,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">void <a class="el" href="class_utilities_1_1c_timer.html#a1f697703799271667ccd227b5d2daa28">Utilities::cTimer::VOnUpdate</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td><code> [virtual]</code></td>
+          <td><code> [private, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -278,7 +301,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">void <a class="el" href="class_utilities_1_1c_timer.html#a86eb9bab2c3c681f74ffecee65a8dc80">Utilities::cTimer::VStartTimer</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td><code> [virtual]</code></td>
+          <td><code> [private, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -297,7 +320,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">void <a class="el" href="class_utilities_1_1c_timer.html#ab358f0173dc8b91f6b7ec62df03b27c9">Utilities::cTimer::VStopTimer</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td><code> [virtual]</code></td>
+          <td><code> [private, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -431,7 +454,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The numbers of frames that have been rendered </p>
+<p>The numbers of frames that have been rendered since last FPS Calculation </p>
 
 </div>
 </div>
@@ -449,6 +472,20 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad73cb61b09f349fc0a4b1700f405b428"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UINT <a class="el" href="class_utilities_1_1c_timer.html#ad73cb61b09f349fc0a4b1700f405b428">Utilities::cTimer::m_iTotalsFrames</a><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The total number of frames been rendered since this timer has been running </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div>
   <div id="nav-path" class="navpath">
@@ -456,7 +493,7 @@ Private Attributes</h2></td></tr>
       <li class="navelem"><b>Utilities</b>      </li>
       <li class="navelem"><a class="el" href="class_utilities_1_1c_timer.html">cTimer</a>      </li>
 
-    <li class="footer">Generated on Fri Apr 27 2012 20:44:45 for Utilities by
+    <li class="footer">Generated on Tue Jan 22 2013 22:41:37 for Utilities by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

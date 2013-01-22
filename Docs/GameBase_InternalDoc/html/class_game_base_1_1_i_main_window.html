@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -127,12 +127,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a008e0638dfd37d195f6887ef3d33059b"><td class="memItemLeft" align="right" valign="top">virtual GAMEBASE_API HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#a008e0638dfd37d195f6887ef3d33059b">VOnInitialization</a> (const HINSTANCE &amp;hInstance, const int &amp;nCmdShow, IBaseApp *const pGame, const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight)=0</td></tr>
-<tr class="memitem:afe7db58a887fbd1cb5740741f272dd9e"><td class="memItemLeft" align="right" valign="top">virtual GAMEBASE_API void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#afe7db58a887fbd1cb5740741f272dd9e">VOnDestroy</a> ()=0</td></tr>
-<tr class="memitem:af6afc37f85594dc960628b574b1c15da"><td class="memItemLeft" align="right" valign="top">virtual GAMEBASE_API void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#af6afc37f85594dc960628b574b1c15da">VToggleFullScreen</a> ()=0</td></tr>
+<tr class="memitem:a3bff4313b310197d86a1f656e7b7a45b"><td class="memItemLeft" align="right" valign="top">virtual HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#a3bff4313b310197d86a1f656e7b7a45b">VOnInitialization</a> (const HINSTANCE &amp;hInstance, const int &amp;nCmdShow, IBaseApp *const pGame)=0</td></tr>
+<tr class="memitem:a38c000af29a29328c6e27229999ef969"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#a38c000af29a29328c6e27229999ef969">VToggleFullScreen</a> ()=0</td></tr>
+<tr class="memitem:af3d6381dd99edc73fcfe42664f963d64"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#af3d6381dd99edc73fcfe42664f963d64">VCleanup</a> ()=0</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a4090ba165e3ba80a9a3d6949ba4fb3f3"><td class="memItemLeft" align="right" valign="top">static GAMEBASE_API <a class="el" href="class_game_base_1_1_i_main_window.html">IMainWindow</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#a4090ba165e3ba80a9a3d6949ba4fb3f3">GetInstance</a> ()</td></tr>
+<tr class="memitem:a4acfddfd9e75e82f461d28b50c5be201"><td class="memItemLeft" align="right" valign="top">static GAMEBASE_API void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#a4acfddfd9e75e82f461d28b50c5be201">Destroy</a> ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Interface to Create the Window. </p>
@@ -140,9 +141,28 @@ Static Public Member Functions</h2></td></tr>
  Usage : </p>
 <ul>
 <li>Call <code><a class="el" href="class_game_base_1_1_i_main_window.html#a4090ba165e3ba80a9a3d6949ba4fb3f3">GetInstance()</a></code> to use this class. </li>
-<li>Call <code><a class="el" href="class_game_base_1_1_i_main_window.html#afe7db58a887fbd1cb5740741f272dd9e">VOnDestroy()</a></code> when the application quits </li>
+<li>Call <code>VOnDestroy()</code> when the application quits </li>
 </ul>
 </div><hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a4acfddfd9e75e82f461d28b50c5be201"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_game_base_1_1_i_main_window.html#a4acfddfd9e75e82f461d28b50c5be201">IMainWindow::Destroy</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Destroys the window and the singleton object </p>
+
+<p>Reimplemented in <a class="el" href="class_game_base_1_1c_main_window.html#ab4d66880f8ae00d3b75d8816c4501f1c">GameBase::cMainWindow</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a4090ba165e3ba80a9a3d6949ba4fb3f3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -161,12 +181,12 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afe7db58a887fbd1cb5740741f272dd9e"></a>
+<a class="anchor" id="af3d6381dd99edc73fcfe42664f963d64"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual GAMEBASE_API void <a class="el" href="class_game_base_1_1_i_main_window.html#afe7db58a887fbd1cb5740741f272dd9e">GameBase::IMainWindow::VOnDestroy</a> </td>
+          <td class="memname">virtual void <a class="el" href="class_game_base_1_1_i_main_window.html#af3d6381dd99edc73fcfe42664f963d64">GameBase::IMainWindow::VCleanup</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [pure virtual]</code></td>
@@ -174,18 +194,18 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Destroys the window and the singleton object </p>
+<p>Destroys the Window </p>
 
-<p>Implemented in <a class="el" href="class_game_base_1_1c_main_window.html#a3eb0aff8ae2fecf8081a40dc31015352">GameBase::cMainWindow</a>.</p>
+<p>Implemented in <a class="el" href="class_game_base_1_1c_main_window.html#a163a373aff3de5e3365492add6ffcada">GameBase::cMainWindow</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a008e0638dfd37d195f6887ef3d33059b"></a>
+<a class="anchor" id="a3bff4313b310197d86a1f656e7b7a45b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual GAMEBASE_API HWND <a class="el" href="class_game_base_1_1_i_main_window.html#a008e0638dfd37d195f6887ef3d33059b">GameBase::IMainWindow::VOnInitialization</a> </td>
+          <td class="memname">virtual HWND <a class="el" href="class_game_base_1_1_i_main_window.html#a3bff4313b310197d86a1f656e7b7a45b">GameBase::IMainWindow::VOnInitialization</a> </td>
           <td>(</td>
           <td class="paramtype">const HINSTANCE &amp;&#160;</td>
           <td class="paramname"><em>hInstance</em>, </td>
@@ -200,25 +220,7 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">IBaseApp *const&#160;</td>
-          <td class="paramname"><em>pGame</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const bool&#160;</td>
-          <td class="paramname"><em>bFullScreen</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iFullScreenWidth</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iFullScreenHeight</em>&#160;</td>
+          <td class="paramname"><em>pGame</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -233,25 +235,22 @@ Static Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">hInstance</td><td>A handle to the current instance of the application </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nCmdShow</td><td>Controls how the window is to be shown </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">pGame</td><td>A pointer to the the IBaseApp object </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">bFullScreen</td><td>Indicates whether the window is created in fullscreen mode </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">iFullScreenWidth</td><td>The width when the window is full screen </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">iFullScreenHeight</td><td>The height when the window is full screen </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>Handle to the created window</dd></dl>
 <p>Initializes, Registers and creates the window </p>
 
-<p>Implemented in <a class="el" href="class_game_base_1_1c_main_window.html#a35bfba0963cb73fe59f6127d3ca16d45">GameBase::cMainWindow</a>.</p>
+<p>Implemented in <a class="el" href="class_game_base_1_1c_main_window.html#a55bc204edefba391591eb99687a7a83e">GameBase::cMainWindow</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af6afc37f85594dc960628b574b1c15da"></a>
+<a class="anchor" id="a38c000af29a29328c6e27229999ef969"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual GAMEBASE_API void <a class="el" href="class_game_base_1_1_i_main_window.html#af6afc37f85594dc960628b574b1c15da">GameBase::IMainWindow::VToggleFullScreen</a> </td>
+          <td class="memname">virtual void <a class="el" href="class_game_base_1_1_i_main_window.html#a38c000af29a29328c6e27229999ef969">GameBase::IMainWindow::VToggleFullScreen</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [pure virtual]</code></td>
@@ -272,7 +271,7 @@ Static Public Member Functions</h2></td></tr>
       <li class="navelem"><b>GameBase</b>      </li>
       <li class="navelem"><a class="el" href="class_game_base_1_1_i_main_window.html">IMainWindow</a>      </li>
 
-    <li class="footer">Generated on Fri Apr 27 2012 20:47:00 for GameBase by
+    <li class="footer">Generated on Tue Jan 22 2013 22:42:02 for GameBase by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

@@ -75,6 +75,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -97,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,14 +113,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock">Here are the classes, structs, unions and interfaces with brief descriptions:</div><table>
-  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_d_x_base.html">Graphics::IDXBase</a></td><td class="indexvalue">Interface for DirectX </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1c_base_control_def.html">Graphics::cBaseControlDef</a></td><td class="indexvalue">Common parameters for creating a UI control </td></tr>
+  <tr><td class="indexkey"><a class="el" href="struct_graphics_1_1c_button_control_def.html">Graphics::cButtonControlDef</a></td><td class="indexvalue">Definition for creating a button control </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1c_check_box_control_def.html">Graphics::cCheckBoxControlDef</a></td><td class="indexvalue">Definition for creating a check box control </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1c_label_control_def.html">Graphics::cLabelControlDef</a></td><td class="indexvalue">Definition for creating a label control </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1c_scroll_bar_control_def.html">Graphics::cScrollBarControlDef</a></td><td class="indexvalue">Definition for creating a vertical or a horizontal scrollbar control </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1c_text_box_control_def.html">Graphics::cTextBoxControlDef</a></td><td class="indexvalue">Definition for creating a text box control </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1c_window_control_def.html">Graphics::cWindowControlDef</a></td><td class="indexvalue">Params for creating a window control </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_base_control.html">Graphics::IBaseControl</a></td><td class="indexvalue">Interface for All UI controls </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_camera.html">Graphics::ICamera</a></td><td class="indexvalue">Interface to keep track of where the camera is and its current rotation </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_font_manager.html">Graphics::IFontManager</a></td><td class="indexvalue">Interface for font manager </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_graphics_class.html">Graphics::IGraphicsClass</a></td><td class="indexvalue">Interface to encapsulate all the graphics functionality </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_keyboard_handler.html">Graphics::IKeyboardHandler</a></td><td class="indexvalue">Interface for Handling key presses on the keyboard </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_model.html">Graphics::IModel</a></td><td class="indexvalue">Interface to encapsulate the geometry for 3D models </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_mouse_handler.html">Graphics::IMouseHandler</a></td><td class="indexvalue">Interface for Handling Mouse Clicks </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_obj_model_loader.html">Graphics::IObjModelLoader</a></td><td class="indexvalue">Interface for loading model files with extension .spdo </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_screen_element.html">Graphics::IScreenElement</a></td><td class="indexvalue">Interface to be used by all 2D elements </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_sentence.html">Graphics::ISentence</a></td><td class="indexvalue">Interface to encapsulate all the text related functionality </td></tr>
+  <tr><td class="indexkey"><a class="el" href="class_graphics_1_1_i_sprite.html">Graphics::ISprite</a></td><td class="indexvalue">Interface for 2D Sprites </td></tr>
+  <tr><td class="indexkey"><a class="el" href="struct_graphics_1_1st_model_def.html">Graphics::stModelDef</a></td><td class="indexvalue">Structure to hold the various parameters defining the model </td></tr>
+  <tr><td class="indexkey"><a class="el" href="struct_graphics_1_1st_model_def_1_1st_subset_def.html">Graphics::stModelDef::stSubsetDef</a></td><td class="indexvalue">Structure to hold the various parameters defining each subset of the model </td></tr>
+  <tr><td class="indexkey"><a class="el" href="struct_graphics_1_1st_tex_vertex.html">Graphics::stTexVertex</a></td><td class="indexvalue">Structure of vertex data having position and texture </td></tr>
+  <tr><td class="indexkey"><a class="el" href="union_graphics_1_1un_u_i_event_callback_param.html">Graphics::unUIEventCallbackParam</a></td><td class="indexvalue">Return structure for UI callback functions </td></tr>
 </table>
 </div><!-- contents -->
 </div>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Fri Apr 27 2012 20:37:09 for GraphicsEngine by
+    <li class="footer">Generated on Tue Jan 22 2013 22:42:44 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

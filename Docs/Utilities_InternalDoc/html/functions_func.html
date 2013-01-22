@@ -116,8 +116,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="contents">
 &#160;<ul>
+<li>Create()
+: <a class="el" href="class_utilities_1_1c_resource_manager.html#ad977aa284d8c6a61fff2841628536522">Utilities::cResourceManager</a>
+, <a class="el" href="class_utilities_1_1c_timer.html#a1c879a547718f11290412338a101b8d7">Utilities::cTimer</a>
+</li>
 <li>CreateTimer()
 : <a class="el" href="class_utilities_1_1_i_timer.html#a8f8818cf0672d7cd380ccd62274b33a0">Utilities::ITimer</a>
+</li>
+<li>Destroy()
+: <a class="el" href="class_utilities_1_1_i_resource_manager.html#a7683a0b6aba149c528627d23f07bd3c0">Utilities::IResourceManager</a>
+</li>
+<li>GetInstance()
+: <a class="el" href="class_utilities_1_1_i_resource_manager.html#ae82c3b538a24c623b4382d3f1ebd63bf">Utilities::IResourceManager</a>
 </li>
 <li>VGetDeltaTime()
 : <a class="el" href="class_utilities_1_1_i_timer.html#afb4bb03bfbbce443176d5ae605e700f5">Utilities::ITimer</a>
@@ -127,13 +137,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_utilities_1_1c_timer.html#aafd3b1719939841cb0d1ac1a57ab3316">Utilities::cTimer</a>
 , <a class="el" href="class_utilities_1_1_i_timer.html#a903acb1ed6feefce8e29a115ff303024">Utilities::ITimer</a>
 </li>
+<li>VGetResourceCache()
+: <a class="el" href="class_utilities_1_1_i_resource_manager.html#a4498cf0556cc9e700406df79f2ca3a61">Utilities::IResourceManager</a>
+, <a class="el" href="class_utilities_1_1c_resource_manager.html#ae3850659c131692da2b6688f04d1fb48">Utilities::cResourceManager</a>
+</li>
 <li>VGetRunningTicks()
-: <a class="el" href="class_utilities_1_1_i_timer.html#aa08f90081abebba3ad2bf437a69b8652">Utilities::ITimer</a>
-, <a class="el" href="class_utilities_1_1c_timer.html#a00356aeb7b8ca8a0fe82faf8a7009a0a">Utilities::cTimer</a>
+: <a class="el" href="class_utilities_1_1c_timer.html#a00356aeb7b8ca8a0fe82faf8a7009a0a">Utilities::cTimer</a>
+, <a class="el" href="class_utilities_1_1_i_timer.html#aa08f90081abebba3ad2bf437a69b8652">Utilities::ITimer</a>
 </li>
 <li>VGetRunningTime()
-: <a class="el" href="class_utilities_1_1c_timer.html#a0ab040dee86474f1a936c399fb410e69">Utilities::cTimer</a>
-, <a class="el" href="class_utilities_1_1_i_timer.html#a0788bee07fd5b6a6992ca85d323ead85">Utilities::ITimer</a>
+: <a class="el" href="class_utilities_1_1_i_timer.html#a0788bee07fd5b6a6992ca85d323ead85">Utilities::ITimer</a>
+, <a class="el" href="class_utilities_1_1c_timer.html#a0ab040dee86474f1a936c399fb410e69">Utilities::cTimer</a>
+</li>
+<li>VInitialize()
+: <a class="el" href="class_utilities_1_1_i_resource_manager.html#aa1840c989510f70c127b0ccba492e7b0">Utilities::IResourceManager</a>
+, <a class="el" href="class_utilities_1_1c_resource_manager.html#ae83a5c20622fadd71bf9e128159bc7b5">Utilities::cResourceManager</a>
 </li>
 <li>VIsStopped()
 : <a class="el" href="class_utilities_1_1_i_timer.html#a9a7dbbd218141d3fe48a9317e78c5598">Utilities::ITimer</a>
@@ -144,12 +162,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="class_utilities_1_1c_timer.html#a1f697703799271667ccd227b5d2daa28">Utilities::cTimer</a>
 </li>
 <li>VStartTimer()
-: <a class="el" href="class_utilities_1_1_i_timer.html#a64db005d9ea7a0344b21c6a2c28da2f9">Utilities::ITimer</a>
-, <a class="el" href="class_utilities_1_1c_timer.html#a86eb9bab2c3c681f74ffecee65a8dc80">Utilities::cTimer</a>
+: <a class="el" href="class_utilities_1_1c_timer.html#a86eb9bab2c3c681f74ffecee65a8dc80">Utilities::cTimer</a>
+, <a class="el" href="class_utilities_1_1_i_timer.html#a64db005d9ea7a0344b21c6a2c28da2f9">Utilities::ITimer</a>
 </li>
 <li>VStopTimer()
-: <a class="el" href="class_utilities_1_1_i_timer.html#ab03bd586cb22bdd2c2199d01b68848c6">Utilities::ITimer</a>
-, <a class="el" href="class_utilities_1_1c_timer.html#ab358f0173dc8b91f6b7ec62df03b27c9">Utilities::cTimer</a>
+: <a class="el" href="class_utilities_1_1c_timer.html#ab358f0173dc8b91f6b7ec62df03b27c9">Utilities::cTimer</a>
+, <a class="el" href="class_utilities_1_1_i_timer.html#ab03bd586cb22bdd2c2199d01b68848c6">Utilities::ITimer</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -157,7 +175,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Fri Apr 27 2012 20:44:46 for Utilities by
+    <li class="footer">Generated on Tue Jan 22 2013 22:41:37 for Utilities by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

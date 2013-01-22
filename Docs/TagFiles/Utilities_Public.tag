@@ -1,6 +1,38 @@
 <?xml version='1.0' encoding='ISO-8859-1' standalone='yes' ?>
 <tagfile>
   <compound kind="class">
+    <name>Utilities::IResourceManager</name>
+    <filename>class_utilities_1_1_i_resource_manager.html</filename>
+    <member kind="function" virtualness="pure">
+      <type>virtual void</type>
+      <name>VInitialize</name>
+      <anchorfile>class_utilities_1_1_i_resource_manager.html</anchorfile>
+      <anchor>aa1840c989510f70c127b0ccba492e7b0</anchor>
+      <arglist>(const Base::cString strPath)=0</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual Utilities::IResCache *</type>
+      <name>VGetResourceCache</name>
+      <anchorfile>class_utilities_1_1_i_resource_manager.html</anchorfile>
+      <anchor>a4498cf0556cc9e700406df79f2ca3a61</anchor>
+      <arglist>() const =0</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static UTILITIES_API IResourceManager *</type>
+      <name>GetInstance</name>
+      <anchorfile>class_utilities_1_1_i_resource_manager.html</anchorfile>
+      <anchor>a985a7e64f7f08bd288fe03e50da81f81</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static UTILITIES_API void</type>
+      <name>Destroy</name>
+      <anchorfile>class_utilities_1_1_i_resource_manager.html</anchorfile>
+      <anchor>a21ba7cb6cd2250c52f9d18e703b50b95</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>Utilities::ITimer</name>
     <filename>class_utilities_1_1_i_timer.html</filename>
     <member kind="function" virtualness="pure">

@@ -2,6 +2,7 @@ var class_utilities_1_1c_timer =
 [
     [ "cTimer", "class_utilities_1_1c_timer.html#a83845f5a4c64042edb728c793aa04833", null ],
     [ "~cTimer", "class_utilities_1_1c_timer.html#ab22bd3d5a9483edaa8c68b6e82fba47d", null ],
+    [ "Create", "class_utilities_1_1c_timer.html#a1c879a547718f11290412338a101b8d7", null ],
     [ "VGetDeltaTime", "class_utilities_1_1c_timer.html#a0cfa007bbdbdbbef6ecf3f2b438b3054", null ],
     [ "VGetFPS", "class_utilities_1_1c_timer.html#aafd3b1719939841cb0d1ac1a57ab3316", null ],
     [ "VGetRunningTicks", "class_utilities_1_1c_timer.html#a00356aeb7b8ca8a0fe82faf8a7009a0a", null ],
@@ -19,5 +20,6 @@ var class_utilities_1_1c_timer =
     [ "m_iLastFPSUpdateTime", "class_utilities_1_1c_timer.html#a8ed3cac3189a3b0cfe31041d3ca04c47", null ],
     [ "m_iLastUpdateTime", "class_utilities_1_1c_timer.html#af7cd3a3f8b3dc8eb6da16a985b8439ff", null ],
     [ "m_iNumFrames", "class_utilities_1_1c_timer.html#afb2efba36211ba36f330aa82f95e2d7b", null ],
-    [ "m_iTicksPerSecond", "class_utilities_1_1c_timer.html#a4f73d1285725ad5220b57260840d6d92", null ]
+    [ "m_iTicksPerSecond", "class_utilities_1_1c_timer.html#a4f73d1285725ad5220b57260840d6d92", null ],
+    [ "m_iTotalsFrames", "class_utilities_1_1c_timer.html#ad73cb61b09f349fc0a4b1700f405b428", null ]
 ];

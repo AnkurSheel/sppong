@@ -105,7 +105,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -117,16 +117,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 &#160;<ul>
 <li>Create()
-: <a class="el" href="class_game_base_1_1c_main_window.html#aaa858088a4c2203b36fa917d11798d4c">GameBase::cMainWindow</a>
+: <a class="el" href="class_game_base_1_1c_main_window.html#a846b01159cf52e8bc090d7d6680276ce">GameBase::cMainWindow</a>
 </li>
 <li>CreateMyWindow()
 : <a class="el" href="class_game_base_1_1c_main_window.html#a0957f015bad2322bb518c96bfb4968da">GameBase::cMainWindow</a>
 </li>
+<li>Destroy()
+: <a class="el" href="class_game_base_1_1_i_main_window.html#a4acfddfd9e75e82f461d28b50c5be201">GameBase::IMainWindow</a>
+, <a class="el" href="class_game_base_1_1c_main_window.html#ab4d66880f8ae00d3b75d8816c4501f1c">GameBase::cMainWindow</a>
+</li>
 <li>GetInstance()
 : <a class="el" href="class_game_base_1_1_i_main_window.html#a4090ba165e3ba80a9a3d6949ba4fb3f3">GameBase::IMainWindow</a>
-</li>
-<li>OnWindowCreated()
-: <a class="el" href="class_game_base_1_1c_main_window.html#a21c2d81624366c2264239b7550552b51">GameBase::cMainWindow</a>
 </li>
 <li>OnWindowDestroyed()
 : <a class="el" href="class_game_base_1_1c_main_window.html#a706622ac9bba08ed54be1c8afb0eac75">GameBase::cMainWindow</a>
@@ -140,17 +141,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>StaticWndProc()
 : <a class="el" href="class_game_base_1_1c_main_window.html#ae300f890e0792e50e0311d7f3b8e8614">GameBase::cMainWindow</a>
 </li>
-<li>VOnDestroy()
-: <a class="el" href="class_game_base_1_1_i_main_window.html#afe7db58a887fbd1cb5740741f272dd9e">GameBase::IMainWindow</a>
-, <a class="el" href="class_game_base_1_1c_main_window.html#a3eb0aff8ae2fecf8081a40dc31015352">GameBase::cMainWindow</a>
+<li>VCleanup()
+: <a class="el" href="class_game_base_1_1_i_main_window.html#af3d6381dd99edc73fcfe42664f963d64">GameBase::IMainWindow</a>
+, <a class="el" href="class_game_base_1_1c_main_window.html#a163a373aff3de5e3365492add6ffcada">GameBase::cMainWindow</a>
 </li>
 <li>VOnInitialization()
-: <a class="el" href="class_game_base_1_1c_main_window.html#a35bfba0963cb73fe59f6127d3ca16d45">GameBase::cMainWindow</a>
-, <a class="el" href="class_game_base_1_1_i_main_window.html#a008e0638dfd37d195f6887ef3d33059b">GameBase::IMainWindow</a>
+: <a class="el" href="class_game_base_1_1c_main_window.html#a55bc204edefba391591eb99687a7a83e">GameBase::cMainWindow</a>
+, <a class="el" href="class_game_base_1_1_i_main_window.html#a3bff4313b310197d86a1f656e7b7a45b">GameBase::IMainWindow</a>
 </li>
 <li>VToggleFullScreen()
 : <a class="el" href="class_game_base_1_1c_main_window.html#a332eb3c53a163519c8063d8ed920d0cf">GameBase::cMainWindow</a>
-, <a class="el" href="class_game_base_1_1_i_main_window.html#af6afc37f85594dc960628b574b1c15da">GameBase::IMainWindow</a>
+, <a class="el" href="class_game_base_1_1_i_main_window.html#a38c000af29a29328c6e27229999ef969">GameBase::IMainWindow</a>
 </li>
 <li>WndProc()
 : <a class="el" href="class_game_base_1_1c_main_window.html#a34c0302fa66b64a61aaf2830ad28b134">GameBase::cMainWindow</a>
@@ -161,7 +162,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Fri Apr 27 2012 20:47:00 for GameBase by
+    <li class="footer">Generated on Tue Jan 22 2013 22:42:02 for GameBase by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

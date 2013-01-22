@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,16 +113,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 This is the complete list of members for <a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a>, including all inherited members.<table>
+  <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#a4acfddfd9e75e82f461d28b50c5be201">Destroy</a>()</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#a4090ba165e3ba80a9a3d6949ba4fb3f3">GetInstance</a>()</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [static]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#afe7db58a887fbd1cb5740741f272dd9e">VOnDestroy</a>()=0</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [pure virtual]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#a008e0638dfd37d195f6887ef3d33059b">VOnInitialization</a>(const HINSTANCE &amp;hInstance, const int &amp;nCmdShow, IBaseApp *const pGame, const bool bFullScreen, const int iFullScreenWidth, const int iFullScreenHeight)=0</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [pure virtual]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#af6afc37f85594dc960628b574b1c15da">VToggleFullScreen</a>()=0</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#af3d6381dd99edc73fcfe42664f963d64">VCleanup</a>()=0</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#a3bff4313b310197d86a1f656e7b7a45b">VOnInitialization</a>(const HINSTANCE &amp;hInstance, const int &amp;nCmdShow, IBaseApp *const pGame)=0</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_game_base_1_1_i_main_window.html#a38c000af29a29328c6e27229999ef969">VToggleFullScreen</a>()=0</td><td><a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a></td><td><code> [pure virtual]</code></td></tr>
 </table></div><!-- contents -->
 </div>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Fri Apr 27 2012 20:47:00 for GameBase by
+    <li class="footer">Generated on Tue Jan 22 2013 22:42:02 for GameBase by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

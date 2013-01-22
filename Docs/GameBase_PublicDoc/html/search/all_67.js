@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['getdeltatime',['GetDeltaTime',['../../../Utilities_PublicDoc/html/class_utilities_1_1_i_timer.html#acd8ec8cf29a44272210b26a16e1ad31d',1,'Utilities::ITimer']]],
-  ['getfps',['GetFPS',['../../../Utilities_PublicDoc/html/class_utilities_1_1_i_timer.html#a8d4b97e1a8e574aa950aff6d3252bd46',1,'Utilities::ITimer']]],
-  ['getinstance',['GetInstance',['../../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_d_x_base.html#a8f1d263d792f01d43a17761958324239',1,'Graphics::IDXBase::GetInstance()'],['../class_game_base_1_1_i_main_window.html#a9eacc2d52dab47064e8df1269f7ec813',1,'GameBase::IMainWindow::GetInstance()']]],
-  ['getrunningticks',['GetRunningTicks',['../../../Utilities_PublicDoc/html/class_utilities_1_1_i_timer.html#ac17c1f28097df340dc7e407a6a855234',1,'Utilities::ITimer']]],
-  ['getrunningtime',['GetRunningTime',['../../../Utilities_PublicDoc/html/class_utilities_1_1_i_timer.html#aee01bb7fc4e6c9a6affbcf885d5815ac',1,'Utilities::ITimer']]]
+  ['getinstance',['GetInstance',['../../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_graphics_class.html#a8c2e68de7f25f335e91f195affd3fcf2',1,'Graphics::IGraphicsClass::GetInstance()'],['../../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_obj_model_loader.html#adf5aed04a2ce9a844a7eec2f224a11fb',1,'Graphics::IObjModelLoader::GetInstance()'],['../../../Utilities_PublicDoc/html/class_utilities_1_1_i_resource_manager.html#a985a7e64f7f08bd288fe03e50da81f81',1,'Utilities::IResourceManager::GetInstance()'],['../class_game_base_1_1_i_main_window.html#a9eacc2d52dab47064e8df1269f7ec813',1,'GameBase::IMainWindow::GetInstance()']]],
+  ['getreverse',['GetReverse',['../../../Base_PublicDoc/html/class_base_1_1c_vector2.html#aa29da7736e5c2c0b6f29bfac330dd824',1,'Base::cVector2']]]
 ];

@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -109,8 +109,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Graphics::IDXBase Class Reference</div>  </div>
 </div><!--header-->
@@ -127,51 +126,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2da57cda8fb47db3bd2d5fd3f70d205f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a2da57cda8fb47db3bd2d5fd3f70d205f">VOnInitialization</a> (const HWND hWnd, const D3DCOLOR &amp;bkColor, const bool bFullScreen, const int iWidth, const int iHeight)=0</td></tr>
-<tr class="memitem:a6ff1da721209a99c5956332f9c59efbb"><td class="memItemLeft" align="right" valign="top">virtual HRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a6ff1da721209a99c5956332f9c59efbb">VOnResetDevice</a> ()=0</td></tr>
-<tr class="memitem:a672e0f7da04c595fc30974dfe5339942"><td class="memItemLeft" align="right" valign="top">virtual HRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a672e0f7da04c595fc30974dfe5339942">VBeginRender</a> ()=0</td></tr>
-<tr class="memitem:a81490bbf871175e073965257b97cb6f8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a81490bbf871175e073965257b97cb6f8">VEndRender</a> (const HRESULT hr)=0</td></tr>
-<tr class="memitem:a19a65fa8f771cb0e49b93b2249c36d6c"><td class="memItemLeft" align="right" valign="top">virtual HRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a19a65fa8f771cb0e49b93b2249c36d6c">VIsAvailable</a> () const =0</td></tr>
-<tr class="memitem:a2fe4370e2db37eede8107c838c32527a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a2fe4370e2db37eede8107c838c32527a">VOnDestroy</a> ()=0</td></tr>
-<tr class="memitem:a9594b2ae572fa05cac77be940269c85f"><td class="memItemLeft" align="right" valign="top">virtual LPDIRECT3DDEVICE9&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a9594b2ae572fa05cac77be940269c85f">VGetDevice</a> () const =0</td></tr>
-<tr class="memitem:ac8ac1b35c6f5600e1c5940595653ad5d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#ac8ac1b35c6f5600e1c5940595653ad5d">VToggleFullScreen</a> ()=0</td></tr>
-<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa0c9bc1b1560d96df0e9d3e320295bc3"><td class="memItemLeft" align="right" valign="top">static GRAPHIC_API <a class="el" href="class_graphics_1_1_i_d_x_base.html">IDXBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#aa0c9bc1b1560d96df0e9d3e320295bc3">GetInstance</a> ()</td></tr>
+<tr class="memitem:af98e6eb2096764e985205a6798daf31f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#af98e6eb2096764e985205a6798daf31f">VInitialize</a> (const HWND &amp;hWnd, const Base::cColor &amp;bkColor, const bool bFullScreen, const bool bVsyncEnabled, const int iWidth, const int iHeight, const float fScreenDepth, const float fScreenNear)=0</td></tr>
+<tr class="memitem:a73b883af483302998f09894eb0ac65ba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a73b883af483302998f09894eb0ac65ba">VBeginRender</a> ()=0</td></tr>
+<tr class="memitem:ac45a3ada673523b0fb56a6036ffed48d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#ac45a3ada673523b0fb56a6036ffed48d">VEndRender</a> ()=0</td></tr>
+<tr class="memitem:a0e86320f8a6e14c9ec792790064d898a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a0e86320f8a6e14c9ec792790064d898a">VTurnZBufferOn</a> ()=0</td></tr>
+<tr class="memitem:a7820b17190bd62cfe59b89a7e015e463"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a7820b17190bd62cfe59b89a7e015e463">VTurnZBufferOff</a> ()=0</td></tr>
+<tr class="memitem:af54f1fc726c1faaac9c926d7ec09e33b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#af54f1fc726c1faaac9c926d7ec09e33b">VTurnOnAlphaBlending</a> ()=0</td></tr>
+<tr class="memitem:ab30df4ed21cde68581e53e68ad2d0824"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#ab30df4ed21cde68581e53e68ad2d0824">VTurnOffAlphaBlending</a> ()=0</td></tr>
+<tr class="memitem:af7747ce703fcdfc486b2700453620e49"><td class="memItemLeft" align="right" valign="top">virtual ID3D11Device *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#af7747ce703fcdfc486b2700453620e49">VGetDevice</a> () const =0</td></tr>
+<tr class="memitem:aba1c402572418f842b0381f1e52de2c8"><td class="memItemLeft" align="right" valign="top">virtual ID3D11DeviceContext *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#aba1c402572418f842b0381f1e52de2c8">VGetDeviceContext</a> () const =0</td></tr>
+<tr class="memitem:a9f77368af10ff99741853214a30bcfd4"><td class="memItemLeft" align="right" valign="top">virtual const D3DMATRIX &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a9f77368af10ff99741853214a30bcfd4">VGetWorldMatrix</a> () const =0</td></tr>
+<tr class="memitem:a2aa7505860dae2fb9c6ae8cb97f162dc"><td class="memItemLeft" align="right" valign="top">virtual const D3DMATRIX &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a2aa7505860dae2fb9c6ae8cb97f162dc">VGetProjectionMatrix</a> () const =0</td></tr>
+<tr class="memitem:a81bcc7dfae165e1d8b604146b81fcc77"><td class="memItemLeft" align="right" valign="top">virtual const D3DMATRIX &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a81bcc7dfae165e1d8b604146b81fcc77">VGetOrthoMatrix</a> () const =0</td></tr>
+<tr class="memitem:a5d4f711a00976ca9c4c4d0654f5b8f47"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a5d4f711a00976ca9c4c4d0654f5b8f47">VGetScreenWidth</a> () const =0</td></tr>
+<tr class="memitem:a7c0edd174ad2ddd736f0a7e0239e52d2"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#a7c0edd174ad2ddd736f0a7e0239e52d2">VGetScreenHeight</a> () const =0</td></tr>
+<tr class="memitem:af0451d22437c39e0cf292c465c7c3562"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_d_x_base.html#af0451d22437c39e0cf292c465c7c3562">VSetFullScreenMode</a> (const bool bIsFullScreen)=0</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Interface for DirectX. </p>
 <p>Singleton class.<br/>
  Usage : </p>
 <ul>
-<li>Call <code><a class="el" href="class_graphics_1_1_i_d_x_base.html#aa0c9bc1b1560d96df0e9d3e320295bc3">GetInstance()</a></code> to use this class. </li>
-<li>Call <code><a class="el" href="class_graphics_1_1_i_d_x_base.html#a2fe4370e2db37eede8107c838c32527a">VOnDestroy()</a></code> when the application quits </li>
+<li>Call <code>GetInstance()</code> to use this class. </li>
+<li>Call <code>VOnDestroy()</code> when the application quits </li>
 </ul>
 </div><hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aa0c9bc1b1560d96df0e9d3e320295bc3"></a>
+<a class="anchor" id="a73b883af483302998f09894eb0ac65ba"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_graphics_1_1_i_d_x_base.html">IDXBase</a> * <a class="el" href="class_graphics_1_1_i_d_x_base.html#aa0c9bc1b1560d96df0e9d3e320295bc3">IDXBase::GetInstance</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>Returns a pointer to the singleton object</dd></dl>
-<p>Creates and returns a pointer to a singleton object of this class </p>
-
-</div>
-</div>
-<a class="anchor" id="a672e0f7da04c595fc30974dfe5339942"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual HRESULT <a class="el" href="class_graphics_1_1_i_d_x_base.html#a672e0f7da04c595fc30974dfe5339942">Graphics::IDXBase::VBeginRender</a> </td>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#a73b883af483302998f09894eb0ac65ba">Graphics::IDXBase::VBeginRender</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [pure virtual]</code></td>
@@ -179,44 +164,37 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>D3D_OK if the method succeeds. D3DERR_INVALIDCALL otherwise</dd></dl>
 <p>Begins the rendering and clears the surface </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a92439bf851448b0bfdfc06be14aec3be">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a90d2de1d9eb9533b65e647d715205a05">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a81490bbf871175e073965257b97cb6f8"></a>
+<a class="anchor" id="ac45a3ada673523b0fb56a6036ffed48d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#a81490bbf871175e073965257b97cb6f8">Graphics::IDXBase::VEndRender</a> </td>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#ac45a3ada673523b0fb56a6036ffed48d">Graphics::IDXBase::VEndRender</a> </td>
           <td>(</td>
-          <td class="paramtype">const HRESULT&#160;</td>
-          <td class="paramname"><em>hr</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td><code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">hr</td><td>The result from previous calls to the device <div class="fragment"><pre class="fragment">            *Ends the rendering and presents the contents</pre></div> </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>*Ends the rendering and presents the contents </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#ae0b249eb178b17e6d0fc7eedebf52672">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#aff40cd5965d13b438c36b6eca7e5f92c">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9594b2ae572fa05cac77be940269c85f"></a>
+<a class="anchor" id="af7747ce703fcdfc486b2700453620e49"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual LPDIRECT3DDEVICE9 <a class="el" href="class_graphics_1_1_i_d_x_base.html#a9594b2ae572fa05cac77be940269c85f">Graphics::IDXBase::VGetDevice</a> </td>
+          <td class="memname">virtual ID3D11Device* <a class="el" href="class_graphics_1_1_i_d_x_base.html#af7747ce703fcdfc486b2700453620e49">Graphics::IDXBase::VGetDevice</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [pure virtual]</code></td>
@@ -224,19 +202,19 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>The pointer to IDirect3DDevice9 device</dd></dl>
-<p>Begins the rendering and clears the surface </p>
+<dl class="section return"><dt>Returns:</dt><dd>The pointer to DX11 device</dd></dl>
+<p>Returns a pointer to the DirectX11 device </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#aea913cd77db14df6bbbb4a5953f07ee4">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#ac581c75376545845119f9486ab69dbd1">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a19a65fa8f771cb0e49b93b2249c36d6c"></a>
+<a class="anchor" id="aba1c402572418f842b0381f1e52de2c8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual HRESULT <a class="el" href="class_graphics_1_1_i_d_x_base.html#a19a65fa8f771cb0e49b93b2249c36d6c">Graphics::IDXBase::VIsAvailable</a> </td>
+          <td class="memname">virtual ID3D11DeviceContext* <a class="el" href="class_graphics_1_1_i_d_x_base.html#aba1c402572418f842b0381f1e52de2c8">Graphics::IDXBase::VGetDeviceContext</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [pure virtual]</code></td>
@@ -244,46 +222,127 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>S_OK if the device is ok for rendering</dd></dl>
-<p>Checks if the device is available for rendering or not </p>
+<dl class="section return"><dt>Returns:</dt><dd>The pointer to DX11 device context</dd></dl>
+<p>Returns a pointer to the DirectX11 device context </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#ae14ed7a1fdc7fe52a4086cd3519382f6">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a5ce9bf766a355f6158f50f8dfcea5d80">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2fe4370e2db37eede8107c838c32527a"></a>
+<a class="anchor" id="a81bcc7dfae165e1d8b604146b81fcc77"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#a2fe4370e2db37eede8107c838c32527a">Graphics::IDXBase::VOnDestroy</a> </td>
+          <td class="memname">virtual const D3DMATRIX&amp; <a class="el" href="class_graphics_1_1_i_d_x_base.html#a81bcc7dfae165e1d8b604146b81fcc77">Graphics::IDXBase::VGetOrthoMatrix</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td><code> [pure virtual]</code></td>
+          <td> const<code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Releases the DirectX object and deletes the singleton object </p>
+<dl class="section return"><dt>Returns:</dt><dd>The ortho matrix</dd></dl>
+<p>Returns the ortho matrix </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a958f88e0050f0cc138f736139cf3feae">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a2971a6fb79e54b06ce20183906383d12">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2da57cda8fb47db3bd2d5fd3f70d205f"></a>
+<a class="anchor" id="a2aa7505860dae2fb9c6ae8cb97f162dc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#a2da57cda8fb47db3bd2d5fd3f70d205f">Graphics::IDXBase::VOnInitialization</a> </td>
+          <td class="memname">virtual const D3DMATRIX&amp; <a class="el" href="class_graphics_1_1_i_d_x_base.html#a2aa7505860dae2fb9c6ae8cb97f162dc">Graphics::IDXBase::VGetProjectionMatrix</a> </td>
           <td>(</td>
-          <td class="paramtype">const HWND&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>The projection matrix</dd></dl>
+<p>Returns the projection matrix </p>
+
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a47438631fbfe54998a2e964d4f53cdd8">Graphics::cDXBase</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c0edd174ad2ddd736f0a7e0239e52d2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int <a class="el" href="class_graphics_1_1_i_d_x_base.html#a7c0edd174ad2ddd736f0a7e0239e52d2">Graphics::IDXBase::VGetScreenHeight</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>The screen height</dd></dl>
+<p>Returns the screen height </p>
+
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#ad677f33bfafe7c811ff10e71eeca1db6">Graphics::cDXBase</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5d4f711a00976ca9c4c4d0654f5b8f47"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int <a class="el" href="class_graphics_1_1_i_d_x_base.html#a5d4f711a00976ca9c4c4d0654f5b8f47">Graphics::IDXBase::VGetScreenWidth</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>The screen width</dd></dl>
+<p>Returns the screen width </p>
+
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a5897d6c905518fbe67303d3be6321c3b">Graphics::cDXBase</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9f77368af10ff99741853214a30bcfd4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const D3DMATRIX&amp; <a class="el" href="class_graphics_1_1_i_d_x_base.html#a9f77368af10ff99741853214a30bcfd4">Graphics::IDXBase::VGetWorldMatrix</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>The World Matrix</dd></dl>
+<p>Returns the world matrix </p>
+
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#aedb2f8ac7d52dc8f8ffba57bd43c5101">Graphics::cDXBase</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af98e6eb2096764e985205a6798daf31f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#af98e6eb2096764e985205a6798daf31f">Graphics::IDXBase::VInitialize</a> </td>
+          <td>(</td>
+          <td class="paramtype">const HWND &amp;&#160;</td>
           <td class="paramname"><em>hWnd</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const D3DCOLOR &amp;&#160;</td>
+          <td class="paramtype">const Base::cColor &amp;&#160;</td>
           <td class="paramname"><em>bkColor</em>, </td>
         </tr>
         <tr>
@@ -295,6 +354,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>bVsyncEnabled</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>iWidth</em>, </td>
         </tr>
@@ -302,7 +367,19 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iHeight</em>&#160;</td>
+          <td class="paramname"><em>iHeight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>fScreenDepth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>fScreenNear</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -317,23 +394,52 @@ Static Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">hWnd</td><td>A handle to the current window </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">bkColor</td><td>The default background color of the window </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">bFullScreen</td><td>True if the application is full screen. False if Windowed. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bVsyncEnabled</td><td>True if we want Direct3D to render according to the users monitor refresh rate. false if we want to go as fast as possible. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">iWidth</td><td>Width of the window </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">iHeight</td><td>Height of the window</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">iHeight</td><td>Height of the window </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fScreenDepth</td><td>Far Depth setting for the 3D environment </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fScreenNear</td><td>Near Depth setting for the 3D environment</td></tr>
   </table>
   </dd>
 </dl>
-<p>Initializes the directX object </p>
+<p>Initializes the DirectX device and sets it up for use. </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a454940a5d6043064c902830271f3ec9b">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a961dd6fe10b9f869d7b305034fd057dc">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a6ff1da721209a99c5956332f9c59efbb"></a>
+<a class="anchor" id="af0451d22437c39e0cf292c465c7c3562"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual HRESULT <a class="el" href="class_graphics_1_1_i_d_x_base.html#a6ff1da721209a99c5956332f9c59efbb">Graphics::IDXBase::VOnResetDevice</a> </td>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#af0451d22437c39e0cf292c465c7c3562">Graphics::IDXBase::VSetFullScreenMode</a> </td>
+          <td>(</td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>bIsFullScreen</em></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">True</td><td>if fullscreen. False otherwise</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Sets the full screen/windowed mode for the DirectX engine </p>
+
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#aad4398de354c6bb4c85bdd8ec3be6235">Graphics::cDXBase</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab30df4ed21cde68581e53e68ad2d0824"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#ab30df4ed21cde68581e53e68ad2d0824">Graphics::IDXBase::VTurnOffAlphaBlending</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [pure virtual]</code></td>
@@ -341,19 +447,18 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>The success code. D3D_OK if the method succeeds.</dd></dl>
-<p>Resets the device </p>
+<p>Turns Alpha Blending Off </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a05fab02d36a5338d19c20d615a176899">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a38f29712f903d54a9d49ab6309842b4a">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac8ac1b35c6f5600e1c5940595653ad5d"></a>
+<a class="anchor" id="af54f1fc726c1faaac9c926d7ec09e33b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#ac8ac1b35c6f5600e1c5940595653ad5d">Graphics::IDXBase::VToggleFullScreen</a> </td>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#af54f1fc726c1faaac9c926d7ec09e33b">Graphics::IDXBase::VTurnOnAlphaBlending</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [pure virtual]</code></td>
@@ -361,9 +466,47 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Toggles between full screen and windowed mode </p>
+<p>Turns Alpha Blending On </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a9a76303a1d03a6a203be3ebf10969dcb">Graphics::cDXBase</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a05e29521ac0431b10d35f770590ccda5">Graphics::cDXBase</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7820b17190bd62cfe59b89a7e015e463"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#a7820b17190bd62cfe59b89a7e015e463">Graphics::IDXBase::VTurnZBufferOff</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Turns the Z buffer on for 2D rendering </p>
+
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a1e4eeb54924566538f91abd4e5db1267">Graphics::cDXBase</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0e86320f8a6e14c9ec792790064d898a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="class_graphics_1_1_i_d_x_base.html#a0e86320f8a6e14c9ec792790064d898a">Graphics::IDXBase::VTurnZBufferOn</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Turns the Z buffer on for 3D rendering </p>
+
+<p>Implemented in <a class="el" href="class_graphics_1_1c_d_x_base.html#a6e97e6bd69332e81989579bb8ab1fcdc">Graphics::cDXBase</a>.</p>
 
 </div>
 </div>
@@ -374,7 +517,7 @@ Static Public Member Functions</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1_i_d_x_base.html">IDXBase</a>      </li>
 
-    <li class="footer">Generated on Fri Apr 27 2012 20:50:48 for GraphicsEngine by
+    <li class="footer">Generated on Tue Jan 22 2013 22:41:03 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>
