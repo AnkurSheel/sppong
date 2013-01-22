@@ -68,8 +68,8 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 			return;
 		}
 	}
-	InitializeGameDirectories();
-	InitializeGameOptions("Media//PlayerOptions.xml");
+	stGameDirectories::Initialize(m_pParamLoader);
+	InitializeGameOptions(stGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
 	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this);
 
 	if(hwnd == NULL)
@@ -93,7 +93,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		bVSyncEnabled, m_gameOptions.iWidth, m_gameOptions.iHeight, fScreenFar, fScreenNear );
 
 	// initialize resource manager
-	IResourceManager::GetInstance()->VInitialize("Media\\resources.zip ");
+	IResourceManager::GetInstance()->VInitialize(stGameDirectories::GameDirectories().strMediaDirectory + "resources.zip ");
 
 	VCreateHumanView();
 	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd);
@@ -219,12 +219,6 @@ stGameOptions & cBaseApp::VGetGameOptions()
 }
 
 // *****************************************************************************
-stGameDirectories & cBaseApp::VGetGameDirectories()
-{
-	return m_gameDirectories;
-}
-
-// *****************************************************************************
 void cBaseApp::InitializeGameOptions(const cString & strPlayerOptionsFile)
 {
 	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
@@ -276,14 +270,4 @@ void cBaseApp::SaveGameOptions(const cString & strPlayerOptionsFile)
 
 	pXml->VSave(strPlayerOptionsFile);
 	SAFE_DELETE(pXml);
-}
-
-// *****************************************************************************
-void cBaseApp::InitializeGameDirectories()
-{
-	if (m_pParamLoader)
-	{
-		m_gameDirectories.strMediaDirectory = m_pParamLoader->VGetParameterValueAsString("-MediaDirectory", "Media//");
-		m_gameDirectories.strFontDirectory = m_pParamLoader->VGetParameterValueAsString("-FontDirectory", "Font//");
-	}
 }

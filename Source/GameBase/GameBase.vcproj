@@ -252,10 +252,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Includes\GameDirectories.h"
-			>
-		</File>
-		<File
 			RelativePath=".\src\GameLogic.h"
 			>
 		</File>

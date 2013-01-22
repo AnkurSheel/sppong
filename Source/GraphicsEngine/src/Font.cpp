@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Font   version:  1.0   Ankur Sheel  date: 05/16/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Font.h"
 #include "XMLFileIO.hxx"
@@ -16,25 +16,26 @@
 #include "ResCache.hxx"
 #include "ShaderManager.hxx"
 #include "TextureManager.hxx"
+#include "GameDirectories.h"
 
 using namespace Graphics;
 using namespace Base;
 using namespace Utilities;
 
-// ***************************************************************
+// *****************************************************************************
 cMyFont::cMyFont()
 : m_iTextureWidth(0)
 , m_iTextureHeight(0)
 {
 }
 
-// ***************************************************************
+// *****************************************************************************
 cMyFont::~cMyFont()
 {
 	Cleanup();
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
 						  const Base::cString & strFontDescFilename)
 {		
@@ -53,19 +54,19 @@ bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
 	
 }
 
-// *************************************************************************
+// ***************************************************************************************
 int cMyFont::GetFontHeight() const
 {
 	return m_iFontHeight;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cMyFont::Cleanup()
 {
 	m_CharDescriptorMap.clear();
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cMyFont::ParseFontDesc(const cString & strFontDirPath,
 							const cString & strFontDescFilename)
 {
@@ -103,17 +104,18 @@ void cMyFont::ParseFontDesc(const cString & strFontDirPath,
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cMyFont::InitializeShader()
 {
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateFontShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,
-		"Media\\Shaders\\Font.vsho", "Media\\Shaders\\Font.psho");
+		stGameDirectories::GameDirectories().strMediaDirectory + "Shaders\\Font.vsho",
+		stGameDirectories::GameDirectories().strMediaDirectory + "Shaders\\Font.psho");
 	m_pShader = dynamic_pointer_cast<cFontShader>(pShader);
 	return bSuccess;
 }
 
-// ***************************************************************
+// *****************************************************************************
 stVertexData cMyFont::GetCharVertexData(const int iCharAsciiValue)
 {
 	stVertexData vertexData;
@@ -134,7 +136,7 @@ stVertexData cMyFont::GetCharVertexData(const int iCharAsciiValue)
 	return vertexData;
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cMyFont::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
 					  const D3DXMATRIX & inMatProjection, const cColor & textColor)
 {
@@ -147,7 +149,7 @@ void cMyFont::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 IMyFont * IMyFont::CreateMyFont()
 {
 	return DEBUG_NEW cMyFont();

@@ -37,14 +37,15 @@ IFontManager * cFontManager::Create()
 }
 
 // *************************************************************************
-shared_ptr<IMyFont> cFontManager::VGetFont(const Base::cString & strFontDescFilename)
+shared_ptr<IMyFont> cFontManager::VGetFont(const Base::cString & strFontDirPath,
+										   const Base::cString & strFontDescFilename)
 {
 	shared_ptr<IMyFont> ptr = Find(strFontDescFilename);
 
 	if(ptr == NULL)
 	{
 		ptr = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
-		ptr->VInitialize("Font\\", strFontDescFilename);
+		ptr->VInitialize(strFontDirPath, strFontDescFilename);
 		m_pFonts[strFontDescFilename] = ptr;
 	}
 

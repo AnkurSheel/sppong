@@ -366,6 +366,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="GameDirectories"
+			>
+			<File
+				RelativePath=".\src\GameDirectories.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Includes\GameDirectories.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\src\RandomGenerator.cpp"
 			>

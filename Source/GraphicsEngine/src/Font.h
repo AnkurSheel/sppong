@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Font   version:  1.0   Ankur Sheel  date: 05/16/2008
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef Font_h__
 #define Font_h__
 
@@ -116,7 +116,7 @@ namespace Graphics
  		 * @param[in] strFontDirPath The directory path from the font description file
 		 * @param[in] strFontDescFilename The file name of the font description file
 		 *
-		 * Parses and stores the character defintions from the font
+		 * Parses and stores the character definitions from the font
 		 * description file name
 		 ***********************************************/
 		void ParseFontDesc(const Base::cString & strFontDirPath,

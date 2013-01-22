@@ -1,27 +1,30 @@
-// ***************************************************************
+// *****************************************************************************
 //  ParamLoader   version:  1.0   Ankur Sheel  date: 2012/08/08
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "ParamLoader.h"
 
+using namespace Utilities;
 using namespace Base;
 
-Utilities::cParamLoader::cParamLoader()
+// *****************************************************************************
+cParamLoader::cParamLoader()
 {
 }
 
-Utilities::cParamLoader::~cParamLoader()
+// *****************************************************************************
+cParamLoader::~cParamLoader()
 {
 }
 
-// ***************************************************************
-void Utilities::cParamLoader::VLoadParametersFromFile(const Base::cString & strFileName)
+// *****************************************************************************
+void cParamLoader::VLoadParametersFromFile(const cString & strFileName)
 {
 	if(cFileInput::Open(strFileName, std::ios_base::in))
 	{
@@ -71,7 +74,8 @@ void Utilities::cParamLoader::VLoadParametersFromFile(const Base::cString & strF
 	}
 }
 
-Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt(const Base::cString & strParameter)
+// *****************************************************************************
+tOptional<int> cParamLoader::VGetParameterValueAsInt(const cString & strParameter) const
 {
 	tOptional<int> val;
 	tOptional<cString> strVal = VGetParameterValueAsString(strParameter);
@@ -83,8 +87,9 @@ Base::tOptional<int> Utilities::cParamLoader::VGetParameterValueAsInt(const Base
 	return val;
 }
 
-// ***************************************************************
-int Utilities::cParamLoader::VGetParameterValueAsInt( const Base::cString & strParameter, const int iDefaultValue )
+// *****************************************************************************
+int cParamLoader::VGetParameterValueAsInt(const cString & strParameter,
+										  const int iDefaultValue) const
 {
 	tOptional<int> val = VGetParameterValueAsInt(strParameter);
 	if (val.IsInvalid())
@@ -94,7 +99,8 @@ int Utilities::cParamLoader::VGetParameterValueAsInt( const Base::cString & strP
 	return *val;
 }
 
-Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const Base::cString & strParameter)
+// *****************************************************************************
+tOptional<float> cParamLoader::VGetParameterValueAsFloat(const cString & strParameter) const
 {
 	tOptional<float> val;
 	tOptional<cString> strVal = VGetParameterValueAsString(strParameter);
@@ -105,8 +111,9 @@ Base::tOptional<float> Utilities::cParamLoader::VGetParameterValueAsFloat(const 
 	}	return val;
 }
 
-// ***************************************************************
-float Utilities::cParamLoader::VGetParameterValueAsFloat( const Base::cString & strParameter, const float fDefaultValue )
+// *****************************************************************************
+float cParamLoader::VGetParameterValueAsFloat(const cString & strParameter,
+											  const float fDefaultValue) const
 {
 	tOptional<float> val = VGetParameterValueAsFloat(strParameter);
 	if (val.IsInvalid())
@@ -116,7 +123,8 @@ float Utilities::cParamLoader::VGetParameterValueAsFloat( const Base::cString & 
 	return *val;
 }
 
-Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Base::cString & strParameter)
+// *****************************************************************************
+tOptional<bool> cParamLoader::VGetParameterValueAsBool(const cString & strParameter) const
 {
 	tOptional<bool> val;
 
@@ -130,8 +138,9 @@ Base::tOptional<bool> Utilities::cParamLoader::VGetParameterValueAsBool(const Ba
 		
 }
 
-// ***************************************************************
-bool Utilities::cParamLoader::VGetParameterValueAsBool( const Base::cString & strParameter, const bool bDefaultValue )
+// *****************************************************************************
+bool cParamLoader::VGetParameterValueAsBool(const cString & strParameter,
+											const bool bDefaultValue) const
 {
 	tOptional<bool> val = VGetParameterValueAsBool(strParameter);
 	if (val.IsInvalid())
@@ -141,7 +150,8 @@ bool Utilities::cParamLoader::VGetParameterValueAsBool( const Base::cString & st
 	return *val;
 }
 
-Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsString(const Base::cString & strParameter)
+// *****************************************************************************
+tOptional<cString> cParamLoader::VGetParameterValueAsString(const cString & strParameter) const
 {
 	tOptional<cString> val;
 	std::vector<cString>::const_iterator iter;
@@ -168,8 +178,9 @@ Base::tOptional<Base::cString> Utilities::cParamLoader::VGetParameterValueAsStri
 	return val;
 }
 
-// ***************************************************************
-Base::cString Utilities::cParamLoader::VGetParameterValueAsString( const Base::cString & strParameter, const Base::cString & strDefaultValue )
+// *****************************************************************************
+cString cParamLoader::VGetParameterValueAsString(const cString & strParameter,
+												 const cString & strDefaultValue) const
 {
 	tOptional<cString> val = VGetParameterValueAsString(strParameter);
 	if (val.IsInvalid())
@@ -179,8 +190,9 @@ Base::cString Utilities::cParamLoader::VGetParameterValueAsString( const Base::c
 	return *val;
 }
 
-// ***************************************************************
-void Utilities::cParamLoader::VGetParameterValueAsIntList(const Base::cString & strParameter, std::vector<int> & vValue)
+// *****************************************************************************
+void cParamLoader::VGetParameterValueAsIntList(const cString & strParameter,
+											   std::vector<int> & vValue) const
 {
 	std::vector<cString> vValueStr;
 	VGetParameterValueAsStringList(strParameter, vValueStr);
@@ -192,8 +204,9 @@ void Utilities::cParamLoader::VGetParameterValueAsIntList(const Base::cString & 
 
 }
 
-// ***************************************************************
-void Utilities::cParamLoader::VGetParameterValueAsFloatList(const Base::cString & strParameter, std::vector<float> & vValue)
+// *****************************************************************************
+void cParamLoader::VGetParameterValueAsFloatList(const cString & strParameter,
+												 std::vector<float> & vValue) const
 {
 	std::vector<cString> vValueStr;
 	VGetParameterValueAsStringList(strParameter, vValueStr);
@@ -205,8 +218,9 @@ void Utilities::cParamLoader::VGetParameterValueAsFloatList(const Base::cString 
 
 }
 
-// ***************************************************************
-void Utilities::cParamLoader::VGetParameterValueAsBoolList(const Base::cString & strParameter, std::vector<bool> & vValue)
+// *****************************************************************************
+void cParamLoader::VGetParameterValueAsBoolList(const cString & strParameter,
+												std::vector<bool> & vValue) const
 {
 	std::vector<cString> vValueStr;
 	VGetParameterValueAsStringList(strParameter, vValueStr);
@@ -217,8 +231,9 @@ void Utilities::cParamLoader::VGetParameterValueAsBoolList(const Base::cString &
 	}
 }
 
-// ***************************************************************
-void Utilities::cParamLoader::VGetParameterValueAsStringList(const Base::cString & strParameter, std::vector<Base::cString> & vValue)
+// *****************************************************************************
+void cParamLoader::VGetParameterValueAsStringList(const cString & strParameter,
+												  std::vector<cString> & vValue) const
 {
 	std::vector<cString>::const_iterator iter;
 	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
@@ -243,8 +258,8 @@ void Utilities::cParamLoader::VGetParameterValueAsStringList(const Base::cString
 	}
 }
 
-// ***************************************************************
-bool Utilities::cParamLoader::VIsParameter(const Base::cString & strParameter)
+// *****************************************************************************
+bool cParamLoader::VIsParameter(const cString & strParameter) const
 {
 	std::vector<cString>::const_iterator iter;
 	for(iter = m_vCommandLineArguments.begin(); iter != m_vCommandLineArguments.end(); iter++)
@@ -261,7 +276,7 @@ bool Utilities::cParamLoader::VIsParameter(const Base::cString & strParameter)
 	return false;
 }
 
-tOptional<int> Utilities::cParamLoader::VGetNextParameterAsInt()
+tOptional<int> cParamLoader::GetNextParameterAsInt()
 { 
 	GetNextParameter();
 	tOptional<int> val =  m_strBuffer.ToInt();
@@ -272,7 +287,7 @@ tOptional<int> Utilities::cParamLoader::VGetNextParameterAsInt()
 	return val;
 }
 
-tOptional<float> Utilities::cParamLoader::VGetNextParameterAsFloat()
+tOptional<float> cParamLoader::GetNextParameterAsFloat()
 {
 	GetNextParameter();
 	tOptional<float> val =  m_strBuffer.ToFloat();
@@ -283,7 +298,7 @@ tOptional<float> Utilities::cParamLoader::VGetNextParameterAsFloat()
 	return val;
 }
 
-tOptional<bool> Utilities::cParamLoader::VGetNextParameterAsBool()
+tOptional<bool> cParamLoader::GetNextParameterAsBool()
 {
 	GetNextParameter();
 	tOptional<bool> val =  m_strBuffer.ToBool();
@@ -294,7 +309,7 @@ tOptional<bool> Utilities::cParamLoader::VGetNextParameterAsBool()
 	return val;
 }
 
-void Utilities::cParamLoader::GetNextParameter()
+void cParamLoader::GetNextParameter()
 {
 	do
 	{
@@ -315,7 +330,7 @@ void Utilities::cParamLoader::GetNextParameter()
 	GetParameterValueAsString();
 }
 
-void Utilities::cParamLoader::GetParameterValueAsString()
+void cParamLoader::GetParameterValueAsString()
 {
 	const cString delims(" /;=,\t");
 	tOptional<int> begIndex;
@@ -343,7 +358,7 @@ void Utilities::cParamLoader::GetParameterValueAsString()
 	m_strBuffer = m_strBuffer.GetSubString(*begIndex, *endIndex);
 }
 
-void Utilities::cParamLoader::RemoveCommentsFromLine()
+void cParamLoader::RemoveCommentsFromLine()
 {
 	const cString delims("/;");
 	tOptional<int> index;
@@ -354,7 +369,7 @@ void Utilities::cParamLoader::RemoveCommentsFromLine()
 	}
 }
 
-Utilities::IParamLoader * Utilities::IParamLoader::CreateParamLoader()
+IParamLoader * IParamLoader::CreateParamLoader()
 {
 	IParamLoader * pFile = DEBUG_NEW cParamLoader();
 	return pFile;

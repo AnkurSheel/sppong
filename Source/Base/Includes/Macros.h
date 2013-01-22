@@ -136,12 +136,12 @@ inline bool isEqual(const float a, const float b)
 	return false;
 }
 
-inline double DegtoRad(const double x)
+inline float DegtoRad(const float x)
 {
 	return (x * Pi /180);
 }
 
-inline double RadtoDeg(const double x)
+inline float RadtoDeg(const float x)
 {
 	return (x * 180 /Pi);
 }

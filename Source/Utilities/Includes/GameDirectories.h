@@ -10,12 +10,22 @@
 #ifndef GameDirectories_h__
 #define GameDirectories_h__
 
-namespace GameBase
+#include "UtilitiesDefines.h"
+
+namespace Utilities
+{
+	class IParamLoader;
+}
+
+namespace Utilities
 {
 	struct stGameDirectories
 	{
 		Base::cString	strMediaDirectory;
 		Base::cString	strFontDirectory;
+
+		UTILITIES_API static const stGameDirectories & GameDirectories();
+		UTILITIES_API static void Initialize(const IParamLoader * const pParamLoader);
 	};
 }
 #endif // GameDirectories_h__

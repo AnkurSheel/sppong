@@ -38,7 +38,8 @@ namespace Graphics
 	private:
 		cFontManager();
 		~cFontManager();
-		shared_ptr<IMyFont> VGetFont(const Base::cString & strFontDescFilename);
+		shared_ptr<IMyFont> VGetFont(const Base::cString & strFontDirPath,
+			const Base::cString & strFontDescFilename);
 		/********************************************//**
  		 * param[in] strFontDescFilename The file name of the font description file
 		 * @return Pointer to the font if it is found in the font list. NULL otherwise

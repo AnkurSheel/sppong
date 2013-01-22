@@ -29,6 +29,7 @@
 #include "ResourceManager.hxx"
 #include "ResCache.hxx"
 #include "GameOptions.h"
+#include "..\Includes\GameDirectories.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -84,7 +85,8 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 
 	cLabelControlDef fpsLabelDef;
 	fpsLabelDef.strControlName = "FPSLabel";
-	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
+	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		"arial.fnt"); 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
 	fpsLabelDef.vPosition = cVector2(static_cast<float>(pGame->VGetGameOptions().iWidth/2- 75), 0.0f);
