@@ -21,6 +21,7 @@ namespace Base
 namespace GameBase
 {
 	struct stGameOptions;
+	struct stGameDirectories;
 }
 
 namespace Utilities
@@ -42,6 +43,7 @@ namespace GameBase
 		virtual float VGetFPS() const = 0;
 		virtual Utilities::IParamLoader * VGetParamLoader() const = 0;
 		virtual stGameOptions & VGetGameOptions() = 0;
+		virtual stGameDirectories & VGetGameDirectories() = 0;
 	};
 }
 #endif // BaseApp_hxx__

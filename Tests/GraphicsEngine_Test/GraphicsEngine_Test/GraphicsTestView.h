@@ -35,7 +35,7 @@ public:
 	cGraphicsTestView();
 	~cGraphicsTestView();
 	void VOnCreateDevice(GameBase::IBaseApp * pGame, const HINSTANCE & hInst,
-		const HWND & hWnd, const int iClientWidth, const int iClientHeight );
+		const HWND & hWnd);
 	bool VOnMsgProc( const Base::AppMsg & msg );	
 	void TestModelColor();
 	void TestModelTexture();

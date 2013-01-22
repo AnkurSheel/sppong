@@ -13,6 +13,7 @@
 #include "BaseApp.hxx"
 #include "BaseEntity.h"
 #include "GameOptions.h"
+#include "GameDirectories.h"
 
 namespace Utilities
 {
@@ -47,6 +48,7 @@ namespace GameBase
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void VCleanup();
 		GAMEBASE_API stGameOptions & VGetGameOptions();
+		GAMEBASE_API stGameDirectories & VGetGameDirectories();
 		
 		TICK GetRunningTicks();
 		float GetRunningTime();
@@ -56,12 +58,14 @@ namespace GameBase
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
 		GAMEBASE_API float VGetFPS() const;
 		void InitializeGameOptions(const Base::cString & strPlayerOptionsFile);
+		void InitializeGameDirectories();
 
 	protected:
 		Utilities::ITimer *					m_pGameTimer;
 		cHumanView *						m_pHumanView;
 		Utilities::IParamLoader *			m_pParamLoader;
 		stGameOptions 						m_gameOptions;
+		stGameDirectories					m_gameDirectories;
 	};
 }
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "GraphicsTestView.h"
+#include "ControlStructures.h"
 
 using namespace GameBase;
 using namespace Graphics;
@@ -41,36 +42,19 @@ Base::cString cGame::VGetGameTitle() const
 }
 // ***************************************************************
 
-void cGame::ButtonPressed( bool bPressed )
+void cGame::ButtonPressed(const unUIEventCallbackParam & params)
 {
-	if (bPressed)
-	{
-		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button Pressed");
-	}
-	else
-	{
-		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button Released");
-	}
+	Log_Write_L3(ILogger::LT_EVENT,  "Call Back Button Pressed");
 }
 
-void cGame::Button1Pressed( bool bPressed )
+void cGame::Button1Released(const unUIEventCallbackParam & params)
 {
-	if (bPressed)
-	{
-		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button1 Pressed");
-	}
-	else
-	{
-		Log_Write_L2(ILogger::LT_EVENT,  "Call Back Button1 Released");
-	}
+	Log_Write_L3(ILogger::LT_EVENT,  "Call Back Button1 Released");
 }
 
-void cGame::CheckBoxPressed( bool bPressed )
+void cGame::CheckBoxPressed(const unUIEventCallbackParam & params)
 {
-	if(bPressed)
-	{
-		Log_Write_L2(ILogger::LT_EVENT,  "Check Box Pressed");
-	}
+	Log_Write_L3(ILogger::LT_EVENT,  cString(100, "Check Box Pressed %d", params.bChecked));
 }
 
 void cGame::GotoNextTest()

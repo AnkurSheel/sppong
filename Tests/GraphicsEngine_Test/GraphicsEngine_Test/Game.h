@@ -6,6 +6,7 @@
 namespace Graphics
 {
 	class IBaseControl;
+	union unUIEventCallbackParam;
 }
 
 enum Tests
@@ -29,9 +30,9 @@ public:
 		const Base::cString & strOptionsFileName);
 	Base::cString VGetGameTitle() const; 
 	void VCreateHumanView();
-	void ButtonPressed(bool bPressed);
-	void Button1Pressed( bool bPressed);
-	void CheckBoxPressed(bool bPressed);
+	void ButtonPressed(const Graphics::unUIEventCallbackParam & params);
+	void Button1Released(const Graphics::unUIEventCallbackParam & params);
+	void CheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
 	void GotoNextTest();
 	Tests GetCurrentTest() const;
 

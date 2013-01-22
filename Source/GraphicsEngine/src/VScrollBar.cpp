@@ -128,9 +128,9 @@ void cVScrollBar::VSetThumbPosition( const int iNewPosition )
 {
 	cScrollBarControl::VSetThumbPosition(iNewPosition);
 	
-	cVector2 pos = m_vControlAbsolutePosition;
 	if (m_pBtnThumb)
 	{
+		cVector2 pos = m_vControlAbsolutePosition;
 		pos.y += m_pBtnDecrementArrow->VGetHeight() + (m_pBtnThumb->VGetHeight() * m_iThumbPos);
 		m_pBtnThumb->VSetPosition(pos);
 	}

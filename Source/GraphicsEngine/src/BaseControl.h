@@ -102,7 +102,7 @@ namespace Graphics
 		void VSetText(const Base::cString & strText);
 		void VSetPosition(const Base::cVector2 & vPosition);
 		void VRegisterCallBack(const UIEVENTTYPE eventType,
-			function <void (const unUIEventCallbackParam &)> fnCallback);
+			UIEventCallBackFn fnCallback);
 		void VUnregisterCallBack(const UIEVENTTYPE eventType);
 		void VMoveToFront(const IBaseControl * const pControl);
 		/********************************************//**

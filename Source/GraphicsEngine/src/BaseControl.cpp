@@ -218,7 +218,7 @@ void cBaseControl::VSetSize( const cVector2 & vSize)
 
 // *****************************************************************************
 void cBaseControl::VRegisterCallBack(const UIEVENTTYPE eventType,
-									 function <void (const unUIEventCallbackParam &)> fnCallback)
+									 UIEventCallBackFn fnCallback)
 {
 	m_CallbackMap.insert(std::make_pair(eventType, fnCallback));
 }

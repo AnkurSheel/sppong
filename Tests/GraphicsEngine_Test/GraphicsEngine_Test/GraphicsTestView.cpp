@@ -45,10 +45,9 @@ cGraphicsTestView::~cGraphicsTestView()
 }
 
 void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
-										const HWND & hWnd, const int iClientWidth, 
-										const int iClientHeight)
+										const HWND & hWnd)
 {
-	cHumanView::VOnCreateDevice(pGame, hInst, hWnd, iClientWidth, iClientHeight);
+	cHumanView::VOnCreateDevice(pGame, hInst, hWnd);
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
 	cLabelControlDef def;
@@ -278,9 +277,9 @@ void cGraphicsTestView::TestUIControls()
 	
 	IBaseControl * pButtonControl = IBaseControl::CreateButtonControl(buttonDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl));
-	function<void (bool)> btnCallback;
+	UIEventCallBackFn btnCallback;
 	btnCallback = bind(&cGame::ButtonPressed, m_pGame, _1);
-	pButtonControl->VRegisterCallBack(btnCallback);
+	pButtonControl->VRegisterCallBack(UIET_BTNPRESSED, btnCallback);
 
 	cButtonControlDef buttonDef1;
 	buttonDef1.strDefaultImage = "Test\\buttonDefault.png";
@@ -289,9 +288,9 @@ void cGraphicsTestView::TestUIControls()
 	buttonDef1.vPosition = cVector2(150.f, 90.f);
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl(buttonDef1);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pButtonControl1));
-	function<void (bool)> btn1Callback;
-	btn1Callback = bind(&cGame::Button1Pressed, m_pGame, _1);
-	pButtonControl1->VRegisterCallBack(btn1Callback);
+	UIEventCallBackFn btn1Callback;
+	btn1Callback = bind(&cGame::Button1Released, m_pGame, _1);
+	pButtonControl1->VRegisterCallBack(UIET_BTNRELEASED, btn1Callback);
 	
 	cTextBoxControlDef textControlDef;
 	textControlDef.strBGImage = "Test\\TextBox.png";
@@ -319,9 +318,9 @@ void cGraphicsTestView::TestUIControls()
 
 	IBaseControl * pCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pCheckBoxControl));
-	function<void (bool)> checkBoxCallback;
+	UIEventCallBackFn checkBoxCallback;
 	checkBoxCallback = bind(&cGame::CheckBoxPressed, m_pGame, _1);
-	pCheckBoxControl->VRegisterCallBack(checkBoxCallback);
+	pCheckBoxControl->VRegisterCallBack(UIET_BTNRELEASED, checkBoxCallback);
 
 	cScrollBarControlDef vScrollBarDef;
 	vScrollBarDef.strBGImage = "Test\\ScrollBar_BG.png";

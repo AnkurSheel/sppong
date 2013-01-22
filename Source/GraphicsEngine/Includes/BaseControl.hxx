@@ -31,7 +31,7 @@ namespace Graphics
 
 namespace Graphics
 {
-	typedef function<void (unUIEventCallbackParam)> UIEventCallBackFn;
+	typedef function<void (const unUIEventCallbackParam &)> UIEventCallBackFn;
 
 	/********************************************//**
 	 * @brief Interface for All UI controls.
@@ -115,7 +115,7 @@ namespace Graphics
 		 * Sets the callback function to invoke when the eventType event occurs
 		 ***********************************************/
 		virtual void VRegisterCallBack(const UIEVENTTYPE eventType,
-			function <void (const unUIEventCallbackParam &)> fnCallback) = 0;
+			UIEventCallBackFn fnCallback) = 0;
 		/********************************************//**
 		 * @param[in] eventType The type of the event for the call back.
 		 *

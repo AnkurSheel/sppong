@@ -68,6 +68,7 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 			return;
 		}
 	}
+	InitializeGameDirectories();
 	InitializeGameOptions("Media//PlayerOptions.xml");
 	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this);
 
@@ -218,6 +219,12 @@ stGameOptions & cBaseApp::VGetGameOptions()
 }
 
 // *****************************************************************************
+stGameDirectories & cBaseApp::VGetGameDirectories()
+{
+	return m_gameDirectories;
+}
+
+// *****************************************************************************
 void cBaseApp::InitializeGameOptions(const cString & strPlayerOptionsFile)
 {
 	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
@@ -269,4 +276,14 @@ void cBaseApp::SaveGameOptions(const cString & strPlayerOptionsFile)
 
 	pXml->VSave(strPlayerOptionsFile);
 	SAFE_DELETE(pXml);
+}
+
+// *****************************************************************************
+void cBaseApp::InitializeGameDirectories()
+{
+	if (m_pParamLoader)
+	{
+		m_gameDirectories.strMediaDirectory = m_pParamLoader->VGetParameterValueAsString("-MediaDirectory", "Media//");
+		m_gameDirectories.strFontDirectory = m_pParamLoader->VGetParameterValueAsString("-FontDirectory", "Font//");
+	}
 }
