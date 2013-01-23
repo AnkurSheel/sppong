@@ -13,20 +13,24 @@
 
 using namespace Utilities;
 
-static stGameDirectories gameDirectories;
+static cGameDirectories gameDirectories;
 
 // *****************************************************************************
-const stGameDirectories & stGameDirectories::GameDirectories()
+const cGameDirectories & cGameDirectories::GameDirectories()
 {
 	return gameDirectories;
 }
 
 // *****************************************************************************
-void stGameDirectories::Initialize(const IParamLoader * const pParamLoader)
+void cGameDirectories::Initialize(const IParamLoader * const pParamLoader)
 {
 	if (pParamLoader)
 	{
 		gameDirectories.strMediaDirectory = pParamLoader->VGetParameterValueAsString("-MediaDirectory", "");
 		gameDirectories.strFontDirectory = pParamLoader->VGetParameterValueAsString("-FontDirectory", "");
+		gameDirectories.strShaderDirectory = pParamLoader->VGetParameterValueAsString("-ShaderDirectory", "");
+		gameDirectories.strSpriteDirectory = pParamLoader->VGetParameterValueAsString("-SpriteDirectory", "");
+		gameDirectories.strSoundDirectory = pParamLoader->VGetParameterValueAsString("-SoundDirectory", "");
 	}
+
 }

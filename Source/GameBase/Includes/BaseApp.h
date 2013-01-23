@@ -46,22 +46,18 @@ namespace GameBase
 		GAMEBASE_API virtual bool VOnMsgProc(const Base::AppMsg & msg);
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void VCleanup();
-		GAMEBASE_API stGameOptions & VGetGameOptions();
 		
 		TICK GetRunningTicks();
 		float GetRunningTime();
-		GAMEBASE_API void SaveGameOptions(const Base::cString & strPlayerOptionsFile);
 
 	private:
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
 		GAMEBASE_API float VGetFPS() const;
-		void InitializeGameOptions(const Base::cString & strPlayerOptionsFile);
 
 	protected:
 		Utilities::ITimer *					m_pGameTimer;
 		cHumanView *						m_pHumanView;
 		Utilities::IParamLoader *			m_pParamLoader;
-		stGameOptions 						m_gameOptions;
 	};
 }
 

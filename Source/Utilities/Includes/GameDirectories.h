@@ -19,13 +19,18 @@ namespace Utilities
 
 namespace Utilities
 {
-	struct stGameDirectories
+	class cGameDirectories
 	{
+	public:
+		UTILITIES_API static const cGameDirectories & GameDirectories();
+		UTILITIES_API static void Initialize(const IParamLoader * const pParamLoader);
+
+	public:
 		Base::cString	strMediaDirectory;
 		Base::cString	strFontDirectory;
-
-		UTILITIES_API static const stGameDirectories & GameDirectories();
-		UTILITIES_API static void Initialize(const IParamLoader * const pParamLoader);
+		Base::cString	strShaderDirectory;
+		Base::cString	strSpriteDirectory;
+		Base::cString	strSoundDirectory;
 	};
 }
 #endif // GameDirectories_h__

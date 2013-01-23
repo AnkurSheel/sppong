@@ -75,9 +75,9 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 // *****************************************************************************
 void cMainWindow::VToggleFullScreen()
 {
-	m_pGame->VGetGameOptions().bFullScreen = !(m_pGame->VGetGameOptions().bFullScreen);
+	cGameOptions::GameOptions().bFullScreen = !(cGameOptions::GameOptions().bFullScreen);
 
-	if (m_pGame->VGetGameOptions().bFullScreen)
+	if (cGameOptions::GameOptions().bFullScreen)
 	{
 		//Set style for Full Screen mode
 		SetWindowLongPtr(m_Hwnd, GWL_STYLE, m_kdwFullScreenStyle);
@@ -101,7 +101,7 @@ void cMainWindow::VToggleFullScreen()
 	{
 		ShowWindow(m_Hwnd, SW_SHOW);
 	}
-	IGraphicsClass::GetInstance()->VSetFullScreenMode(m_pGame->VGetGameOptions().bFullScreen);
+	IGraphicsClass::GetInstance()->VSetFullScreenMode(cGameOptions::GameOptions().bFullScreen);
 }
 
 // *****************************************************************************
@@ -140,13 +140,13 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 	CalculateWindowRect();
 
 	int x, y, height, width;
-	if(m_pGame->VGetGameOptions().bFullScreen)
+	if(cGameOptions::GameOptions().bFullScreen)
 	{
 		dwStyle = m_kdwFullScreenStyle;
 		x = 0;
 		y = 0;
-		width = m_pGame->VGetGameOptions().iWidth;
-		height = m_pGame->VGetGameOptions().iHeight;
+		width = cGameOptions::GameOptions().iWidth;
+		height = cGameOptions::GameOptions().iHeight;
 
 	}
 	else
@@ -233,7 +233,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 	{
 		if (LOWORD(wParam) == WA_ACTIVE)
 		{
-			if(m_pGame->VGetGameOptions().bFullScreen)
+			if(cGameOptions::GameOptions().bFullScreen)
 			{
 				SetDisplayResolution();
 			}
@@ -241,7 +241,7 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		}
 		else if (LOWORD(wParam) == WA_INACTIVE)
 		{
-			if(m_pGame->VGetGameOptions().bFullScreen)
+			if(cGameOptions::GameOptions().bFullScreen)
 			{
 				SetDisplayResolution();
 			}
@@ -298,7 +298,7 @@ void cMainWindow::OnWindowDestroyed()
 // *****************************************************************************
 void cMainWindow::SetDisplayResolution()
 {
-	if (m_pGame->VGetGameOptions().bFullScreen)
+	if (cGameOptions::GameOptions().bFullScreen)
 	{
 		DEVMODE dmScreenSettings;
 		SecureZeroMemory(&dmScreenSettings, sizeof(dmScreenSettings));
@@ -309,8 +309,8 @@ void cMainWindow::SetDisplayResolution()
 		}
 
 		// set the full screen height and width
-		dmScreenSettings.dmPelsHeight = (unsigned long)m_pGame->VGetGameOptions().iHeight;
-		dmScreenSettings.dmPelsWidth = (unsigned long)m_pGame->VGetGameOptions().iWidth;
+		dmScreenSettings.dmPelsHeight = (unsigned long)cGameOptions::GameOptions().iHeight;
+		dmScreenSettings.dmPelsWidth = (unsigned long)cGameOptions::GameOptions().iWidth;
 		dmScreenSettings.dmFields = (DM_PELSWIDTH | DM_PELSHEIGHT);
 
         // Test if the requested graphics mode could be set.
@@ -319,11 +319,11 @@ void cMainWindow::SetDisplayResolution()
 		    // Set the requested graphics mode.
 			if(ChangeDisplaySettings(&dmScreenSettings, 0) == DISP_CHANGE_SUCCESSFUL)
 			{
-				Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Resolution set to width %d and height %d", m_pGame->VGetGameOptions().iWidth, m_pGame->VGetGameOptions().iHeight));
+				Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Resolution set to width %d and height %d", cGameOptions::GameOptions().iWidth, cGameOptions::GameOptions().iHeight));
 				return;
 			}
 		}
-		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Could not set resolution with width %d and height %d", m_pGame->VGetGameOptions().iWidth, m_pGame->VGetGameOptions().iHeight));
+		Log_Write_L2(ILogger::LT_DEBUG, cString(100, "Could not set resolution with width %d and height %d", cGameOptions::GameOptions().iWidth, cGameOptions::GameOptions().iHeight));
 	}
 
 	// return to the default mode
@@ -334,10 +334,10 @@ void cMainWindow::SetDisplayResolution()
 // ***************************************************************************************
 void cMainWindow::CalculateWindowRect()
 {
-	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - m_pGame->VGetGameOptions().iWidth)  / 2;
-	m_windowRect.top = (GetSystemMetrics(SM_CYSCREEN) - m_pGame->VGetGameOptions().iHeight) / 2;
-	m_windowRect.right =  m_windowRect.left + m_pGame->VGetGameOptions().iWidth;
-	m_windowRect.bottom = m_windowRect.top + m_pGame->VGetGameOptions().iHeight;
+	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - cGameOptions::GameOptions().iWidth)  / 2;
+	m_windowRect.top = (GetSystemMetrics(SM_CYSCREEN) - cGameOptions::GameOptions().iHeight) / 2;
+	m_windowRect.right =  m_windowRect.left + cGameOptions::GameOptions().iWidth;
+	m_windowRect.bottom = m_windowRect.top + cGameOptions::GameOptions().iHeight;
 
 	//get the required size of the window rectangle, based on the desired size of the client rectangle
 	AdjustWindowRectEx(&m_windowRect, m_kdwWindowedStyle, false, 0);

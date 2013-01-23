@@ -100,7 +100,7 @@ void cGame::Restart()
 // *****************************************************************************
 void cGame::VRoundOver(const bool bPlayer1Won)
 {
-	m_pHumanView->PlaySFX("Sounds\\SFX\\win.wav");
+	m_pHumanView->PlaySFX(cGameDirectories::GameDirectories().strSoundDirectory + "SFX\\win.wav");
 	if (bPlayer1Won)
 	{
 		m_pScore[1].IncrementScore();

@@ -80,8 +80,8 @@ bool cModel::VOnInitialization(const stModelDef & def)
 */
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
 	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,
-		stGameDirectories::GameDirectories().strMediaDirectory + "Shaders\\Texture.vsho",
-		stGameDirectories::GameDirectories().strMediaDirectory + "Shaders\\Texture.psho");
+		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Texture.vsho",
+		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Texture.psho");
 	m_pShader = dynamic_pointer_cast<cTextureShader>(pShader);
 
 	return bSuccess;

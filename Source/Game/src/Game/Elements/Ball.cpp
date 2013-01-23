@@ -77,7 +77,7 @@ void cBall::OnUpdate(float fElapsedTime)
 	{
 		float nv = m_vSpeed.Dot(contact.vNormal);
 		m_vSpeed -= contact.vNormal * 2 * nv;
-		m_pGame->VGetHumanView()->PlaySFX("Sounds\\SFX\\collision1.wav");
+		m_pGame->VGetHumanView()->PlaySFX(cGameDirectories::GameDirectories().strSoundDirectory + "SFX\\collision1.wav");
 
 	}
 	if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB(), contact))
@@ -85,7 +85,7 @@ void cBall::OnUpdate(float fElapsedTime)
 	{
 		float nv = m_vSpeed.Dot(contact.vNormal);
 		m_vSpeed -= contact.vNormal * 2 * nv;
-		m_pGame->VGetHumanView()->PlaySFX("Sounds\\SFX\\collision2.wav");
+		m_pGame->VGetHumanView()->PlaySFX(cGameDirectories::GameDirectories().strSoundDirectory + "SFX\\collision2.wav");
 
 	}
 	vPredictedPos = vPredictedPos + vDeltaPos + contact.vDistance;

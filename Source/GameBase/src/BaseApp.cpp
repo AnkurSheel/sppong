@@ -19,7 +19,6 @@
 #include "MessageDispatchManager.hxx"
 #include "ResourceManager.hxx"
 #include "GraphicsClass.hxx"
-#include "XMLFileIO.hxx"
 
 using namespace GameBase;
 using namespace Base;
@@ -68,8 +67,14 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 			return;
 		}
 	}
-	stGameDirectories::Initialize(m_pParamLoader);
-	InitializeGameOptions(stGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
+	cGameDirectories::Initialize(m_pParamLoader);
+	cGameOptions::InitializeGameOptions(cGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
+#if _DEBUG
+	cGameOptions::GameOptions().bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", cGameOptions::GameOptions().bFullScreen);
+	cGameOptions::GameOptions().iWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", cGameOptions::GameOptions().iWidth);
+	cGameOptions::GameOptions().iHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", cGameOptions::GameOptions().iHeight);
+#endif
+
 	HWND hwnd = IMainWindow::GetInstance()->VOnInitialization(hInstance, nCmdShow, this);
 
 	if(hwnd == NULL)
@@ -89,11 +94,13 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 	float fScreenFar = m_pParamLoader->VGetParameterValueAsFloat("-ScreenFar", 1000.0f);
 	float fScreenNear = m_pParamLoader->VGetParameterValueAsFloat("-ScreenNear", 0.1f);
 
-	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor, m_gameOptions.bFullScreen,
-		bVSyncEnabled, m_gameOptions.iWidth, m_gameOptions.iHeight, fScreenFar, fScreenNear );
+	IGraphicsClass::GetInstance()->VInitialize(hwnd, bgColor,
+		cGameOptions::GameOptions().bFullScreen, bVSyncEnabled,
+		cGameOptions::GameOptions().iWidth, 
+		cGameOptions::GameOptions().iHeight, fScreenFar, fScreenNear);
 
 	// initialize resource manager
-	IResourceManager::GetInstance()->VInitialize(stGameDirectories::GameDirectories().strMediaDirectory + "resources.zip ");
+	IResourceManager::GetInstance()->VInitialize(cGameDirectories::GameDirectories().strMediaDirectory + "resources.zip ");
 
 	VCreateHumanView();
 	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd);
@@ -211,63 +218,4 @@ cHumanView * const cBaseApp::VGetHumanView() const
 Utilities::IParamLoader * cBaseApp::VGetParamLoader() const
 {
 	return m_pParamLoader;
-}
-
-stGameOptions & cBaseApp::VGetGameOptions()
-{
-	return m_gameOptions;
-}
-
-// *****************************************************************************
-void cBaseApp::InitializeGameOptions(const cString & strPlayerOptionsFile)
-{
-	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
-	if(pXml->VLoad(strPlayerOptionsFile))
-	{
-		m_gameOptions.bFullScreen = pXml->VGetNodeAttributeAsBool("Graphics", "fullscreen");
-		m_gameOptions.iWidth = pXml->VGetNodeAttributeAsInt("Graphics", "width");
-		if (m_gameOptions.iWidth < 800) 
-		{
-			m_gameOptions.iWidth = 800;
-			Log_Write_L1(ILogger::LT_ERROR, "Default width of 800 applied");
-		}
-		m_gameOptions.iHeight = pXml->VGetNodeAttributeAsInt("Graphics", "height");
-		if (m_gameOptions.iHeight < 600) 
-		{
-			m_gameOptions.iWidth = 600;
-			Log_Write_L1(ILogger::LT_ERROR, "Default height of 600 applied");
-		}
-		m_gameOptions.bPlayMusic = pXml->VGetNodeAttributeAsBool("Sound", "PlayMusic");
-		m_gameOptions.iMusicVolume = pXml->VGetNodeAttributeAsInt("Sound", "musicVolume");
-		m_gameOptions.bPlaySfx = pXml->VGetNodeAttributeAsBool("Sound", "PlaySFX");
-		m_gameOptions.iSFXVolume = pXml->VGetNodeAttributeAsInt("Sound", "sfxVolume");
-	}
-	SAFE_DELETE(pXml);
-
-#if _DEBUG
-		m_gameOptions.bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", m_gameOptions.bFullScreen);
-		m_gameOptions.iWidth = m_pParamLoader->VGetParameterValueAsInt("-WindowWidth", m_gameOptions.iWidth);
-		m_gameOptions.iHeight = m_pParamLoader->VGetParameterValueAsInt("-WindowHeight", m_gameOptions.iHeight);
-#endif
-}
-
-// *****************************************************************************
-void cBaseApp::SaveGameOptions(const cString & strPlayerOptionsFile)
-{
-	IXMLFileIO	* pXml = IXMLFileIO::CreateXMLFile();
-	pXml->VInitializeForSave("PlayerOptions", "");
-
-	pXml->VAddElement("PlayerOptions", "Graphics", "", "");
-	pXml->VAddAttribute("Graphics", "fullscreen", m_gameOptions.bFullScreen);
-	pXml->VAddAttribute("Graphics", "width", m_gameOptions.iWidth);
-	pXml->VAddAttribute("Graphics", "height", m_gameOptions.iHeight);
-	
-	pXml->VAddElement("PlayerOptions", "Sound", "", "");
-	pXml->VAddAttribute("Sound", "PlayMusic", m_gameOptions.bPlayMusic);
-	pXml->VAddAttribute("Sound", "musicVolume", m_gameOptions.iMusicVolume);
-	pXml->VAddAttribute("Sound", "PlaySFX", m_gameOptions.bPlaySfx);
-	pXml->VAddAttribute("Sound", "sfxVolume", m_gameOptions.iSFXVolume);
-
-	pXml->VSave(strPlayerOptionsFile);
-	SAFE_DELETE(pXml);
 }

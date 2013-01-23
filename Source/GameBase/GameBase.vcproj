@@ -256,6 +256,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\GameOptions.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\Includes\GameOptions.h"
 			>
 		</File>

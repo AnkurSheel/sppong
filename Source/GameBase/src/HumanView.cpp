@@ -69,7 +69,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 	cWindowControlDef def;
 	def.wType = cWindowControlDef::WT_DESKTOP;
 	def.strControlName = "App";
-	def.vSize = cVector2(static_cast<float>(pGame->VGetGameOptions().iWidth), static_cast<float>(pGame->VGetGameOptions().iHeight));
+	def.vSize = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth), static_cast<float>(cGameOptions::GameOptions().iHeight));
 	if(m_pGame->VGetParamLoader() != NULL)
 	{
 		def.bAllowMovingControls = m_pGame->VGetParamLoader()->VGetParameterValueAsBool("-AllowMovingControls", false);
@@ -79,17 +79,17 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
-// 		"Sprites\\cursor.png");
+// 		"stGameDirectories::GameDirectories().strSpriteDirectory + "cursor.png");
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
 	cLabelControlDef fpsLabelDef;
 	fpsLabelDef.strControlName = "FPSLabel";
-	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 		"arial.fnt"); 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
-	fpsLabelDef.vPosition = cVector2(static_cast<float>(pGame->VGetGameOptions().iWidth/2- 75), 0.0f);
+	fpsLabelDef.vPosition = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth/2- 75), 0.0f);
 	fpsLabelDef.bAutoSize = false;
 	fpsLabelDef.vSize = cVector2(150, 30);
 	m_pFpsLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(fpsLabelDef));
@@ -270,7 +270,7 @@ void cHumanView::SetCursorVisible( bool bVisible )
 // *******************************************************************************************
 void cHumanView::PlaySFX(const cString & strSoundFile)
 {
-	if(m_pGame->VGetGameOptions().bPlaySfx)
+	if(cGameOptions::GameOptions().bPlaySfx)
 	{
 		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel,
 			strSoundFile, 100, false));
@@ -284,21 +284,21 @@ void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel,
 		strMusicFile, 100, bLooping);
 	m_pProcessManager->VAttachProcess(pMusicChannelProcess);
-	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, m_pGame->VGetGameOptions().bPlayMusic);
+	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::MusicCheckBoxPressed(const unUIEventCallbackParam & params)
 {
-	m_pGame->VGetGameOptions().bPlayMusic = params.bChecked;
-	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, m_pGame->VGetGameOptions().bPlayMusic);
+	cGameOptions::GameOptions().bPlayMusic = params.bChecked;
+	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
 void cHumanView::SfxCheckBoxPressed(const unUIEventCallbackParam & params)
 {
-	m_pGame->VGetGameOptions().bPlaySfx = params.bChecked;
-	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel, m_pGame->VGetGameOptions().bPlaySfx);
+	cGameOptions::GameOptions().bPlaySfx = params.bChecked;
+	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel, cGameOptions::GameOptions().bPlaySfx);
 }
 
 // *******************************************************************************************

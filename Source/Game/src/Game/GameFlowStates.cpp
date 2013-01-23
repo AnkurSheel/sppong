@@ -63,7 +63,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		
 		cLabelControlDef def;
 		def.strControlName = "TitleLabel";
-		def.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		def.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 			"JokerMan.fnt"); 
 		def.textColor = cColor::RED;
 		def.strText = "MPONG";
@@ -72,7 +72,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
 		pTitleScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 	}
-	pGame->m_pHumanView->PlayMusic("Sounds\\Music\\mainmenu.ogg", true);
+	pGame->m_pHumanView->PlayMusic(cGameDirectories::GameDirectories().strSoundDirectory + "Music\\mainmenu.ogg", true);
 
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }
@@ -136,9 +136,9 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.bAutoSize = true;
 		//buttonDef.vPosition = cVector2(412, 170);
 		buttonDef.vPosition = cVector2(412, 270);
-		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
-		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
-		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
+		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 			"licorice.fnt");
 		buttonDef.labelControlDef.strText = "Single Player";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
@@ -335,7 +335,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 		pGame->m_ppGameElements[i] = NULL;
 	}
 	//cLabelControlDef tableDef;
-	//tableDef.strBGImageFile = "Sprites\\Table.jpg";
+	//tableDef.strBGImageFile = stGameDirectories::GameDirectories().strSpriteDirectory + "Table.jpg";
 	//tableDef.vPosition = cVector2(0.0f, 0.0f);
 	//tableDef.vSize = pHUDScreen->VGetSize();
 	//tableDef.bAutoSize = false;
@@ -347,7 +347,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 		pGame->m_pHumanView->GetCamera());
 
 	cGameElementDef paddleDef;
-	paddleDef.strModelPath = stGameDirectories::GameDirectories().strMediaDirectory + "cube.spdo";
+	paddleDef.strModelPath = cGameDirectories::GameDirectories().strMediaDirectory + "cube.spdo";
 	paddleDef.vPosition= cVector3(pGame->m_vScreenTopLeftPos.x, 0.0f, 0.0f);
 	paddleDef.vScale = cVector3(0.5f, 1.5f, 0.5f);
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
@@ -358,7 +358,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_ppGameElements[pGame->PGE_PADDLE_RIGHT]->VInitialize(paddleDef);
 
 	cGameElementDef wallDef;
-	wallDef.strModelPath = stGameDirectories::GameDirectories().strMediaDirectory + "cube.spdo";
+	wallDef.strModelPath = cGameDirectories::GameDirectories().strMediaDirectory + "cube.spdo";
 	wallDef.vPosition= cVector3(0, pGame->m_vScreenTopLeftPos.y, 0.0f);
 	wallDef.vScale = cVector3(abs(pGame->m_vScreenTopLeftPos.x), 0.5f, 0.5f);
 	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
@@ -369,7 +369,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->VInitialize(wallDef);
 
 	cGameElementDef ballDef;
-	ballDef.strModelPath = stGameDirectories::GameDirectories().strMediaDirectory + "sphere.spdo";
+	ballDef.strModelPath = cGameDirectories::GameDirectories().strMediaDirectory + "sphere.spdo";
 	ballDef.vScale = cVector3(0.5f, 0.5f, 0.5f);
 	pGame->m_ppGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
 	pGame->m_ppGameElements[pGame->PGE_BALL]->VInitialize(ballDef);
@@ -452,7 +452,7 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 
 		cLabelControlDef def;
 		def.strControlName = "labelHelp";
-		def.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		def.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 			"licorice.fnt"); 
 		def.textColor = cColor::VIOLET;
 		def.strText = "SinglePlayer\n Press W to Move up\n Press S to Move Down";
@@ -467,9 +467,9 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 		buttonDef.strControlName = "btnBack";
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);
-		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
-		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
-		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
+		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 			"licorice.fnt");
 		buttonDef.labelControlDef.strText = "Back";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
@@ -547,11 +547,11 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		cCheckBoxControlDef checkboxControlDef;
 		checkboxControlDef.strControlName = "cbMusic";
-		checkboxControlDef.bChecked = m_pOwner->m_gameOptions.bPlayMusic;
-		checkboxControlDef.buttonControlDef.strDefaultImage = "Sprites\\Unchecked.png";
-		checkboxControlDef.buttonControlDef.strPressedImage = "Sprites\\Checked.png";
+		checkboxControlDef.bChecked = cGameOptions::GameOptions().bPlayMusic;
+		checkboxControlDef.buttonControlDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Unchecked.png";
+		checkboxControlDef.buttonControlDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Checked.png";
 		checkboxControlDef.labelControlDef.strText = "Music";
-		checkboxControlDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		checkboxControlDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 			"licorice.fnt");
 		checkboxControlDef.labelControlDef.fTextHeight = 20;
 		checkboxControlDef.labelControlDef.textColor = cColor::WHITE;
@@ -568,7 +568,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		checkboxControlDef.strControlName = "cbSFX";
 		checkboxControlDef.labelControlDef.strText = "SFX";
 		checkboxControlDef.vPosition = cVector2(0.f, 300.f);
-		checkboxControlDef.bChecked = m_pOwner->m_gameOptions.bPlaySfx;
+		checkboxControlDef.bChecked = cGameOptions::GameOptions().bPlaySfx;
 
 		IBaseControl * pSfxCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSfxCheckBoxControl ));
@@ -579,7 +579,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		checkboxControlDef.strControlName = "cbFullscreen";
 		checkboxControlDef.labelControlDef.strText = "FullScreen";
 		checkboxControlDef.vPosition = cVector2(0.f, 350.f);
-		checkboxControlDef.bChecked = m_pOwner->VGetGameOptions().bFullScreen;
+		checkboxControlDef.bChecked = cGameOptions::GameOptions().bFullScreen;
 		
 		IBaseControl * pFullscreenCheckBoxControl = IBaseControl::CreateCheckBoxControl(checkboxControlDef);
 		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pFullscreenCheckBoxControl));
@@ -589,16 +589,16 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		cScrollBarControlDef hScrollBarDef;
 		hScrollBarDef.strControlName = "hsbMusicVolume";
-		hScrollBarDef.strBGImage = "Sprites\\ScrollBar_BG.png";
+		hScrollBarDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_BG.png";
 		hScrollBarDef.iMinPos = 0;
 		hScrollBarDef.iMaxPos = 20;
-		hScrollBarDef.iInitialThumbPosition = (m_pOwner->m_gameOptions.iMusicVolume) / 5;
-		hScrollBarDef.thumbBtnDef.strDefaultImage= "Sprites\\ScrollBar_Thumb.png";
-		hScrollBarDef.thumbBtnDef.strPressedImage = "Sprites\\ScrollBar_Thumb.png";
-		hScrollBarDef.TopLeftArrowDef.strDefaultImage = "Sprites\\ScrollBar_Left.png";
-		hScrollBarDef.TopLeftArrowDef.strPressedImage = "Sprites\\ScrollBar_Left.png";
-		hScrollBarDef.BottomRightArrowDef.strDefaultImage = "Sprites\\ScrollBar_Right.png";
-		hScrollBarDef.BottomRightArrowDef.strPressedImage = "Sprites\\ScrollBar_Right.png";
+		hScrollBarDef.iInitialThumbPosition = (cGameOptions::GameOptions().iMusicVolume) / 5;
+		hScrollBarDef.thumbBtnDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
+		hScrollBarDef.thumbBtnDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
+		hScrollBarDef.TopLeftArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Left.png";
+		hScrollBarDef.TopLeftArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Left.png";
+		hScrollBarDef.BottomRightArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Right.png";
+		hScrollBarDef.BottomRightArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Right.png";
 		hScrollBarDef.vPosition = cVector2(0.f, 400.f);
 		hScrollBarDef.vSize = cVector2(200, 30);
 
@@ -611,13 +611,13 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		cTextBoxControlDef textBoxControlDef;
 		textBoxControlDef.strControlName = "tbMusicVolume";
-		textBoxControlDef.strBGImage = "Sprites\\TextBox.png";
-		textBoxControlDef.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		textBoxControlDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "TextBox.png";
+		textBoxControlDef.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 			"licorice.fnt");
-		textBoxControlDef.strText = cString(30, "%d", m_pOwner->m_gameOptions.iMusicVolume);
+		textBoxControlDef.strText = cString(30, "%d", cGameOptions::GameOptions().iMusicVolume);
 		textBoxControlDef.fTextHeight = 20;
 		textBoxControlDef.textColor = cColor::BLACK;
-		textBoxControlDef.strCaretImage = "Sprites\\caret.png";
+		textBoxControlDef.strCaretImage = cGameDirectories::GameDirectories().strSpriteDirectory + "caret.png";
 		textBoxControlDef.iCaretWidth = 3;
 		textBoxControlDef.fCaretUpdateTime = 0.25f;
 		textBoxControlDef.vSize = cVector2(50, 30);
@@ -629,9 +629,9 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);
-		buttonDef.strDefaultImage = "Sprites\\buttonDefault.png";
-		buttonDef.strPressedImage = "Sprites\\buttonPressed.png";
-		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(stGameDirectories::GameDirectories().strFontDirectory,
+		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
+		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
 			"licorice.fnt");
 		buttonDef.labelControlDef.strText = "Back";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
@@ -675,7 +675,7 @@ void cStateOptionsScreen::BackButtonPressed(const unUIEventCallbackParam & param
 		{
 			m_pOwner->m_pStateMachine->RequestPopState();
 		}
-		m_pOwner->SaveGameOptions(stGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
+		cGameOptions::SaveGameOptions(cGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
 	}
 }
 

@@ -18,11 +18,6 @@ namespace Base
 	struct AppMsg;
 }
 
-namespace GameBase
-{
-	struct stGameOptions;
-}
-
 namespace Utilities
 {
 	class IParamLoader;
@@ -41,7 +36,6 @@ namespace GameBase
 		virtual void VRun() = 0;
 		virtual float VGetFPS() const = 0;
 		virtual Utilities::IParamLoader * VGetParamLoader() const = 0;
-		virtual stGameOptions & VGetGameOptions() = 0;
 	};
 }
 #endif // BaseApp_hxx__
