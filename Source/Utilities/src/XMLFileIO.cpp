@@ -182,6 +182,20 @@ void cXMLFileIO::VGetAllChildrenNames( const Base::cString & strParentID,
 // *****************************************************************************
 
 // *****************************************************************************
+cString cXMLFileIO::VGetNodeValue(const cString & strElementID)
+
+{
+	ElementMap::const_iterator curr = m_ElementMap.find(strElementID);
+	if (curr == m_ElementMap.end())
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "could not find element " + strElementID) ;
+		return "";
+	}
+	XMLElement * pElem = const_cast<XMLElement*> (curr->second);
+	return(pElem->GetText());
+}
+
+// *****************************************************************************
 void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
 								   const cString & strAttributeName,
 								   cString & strAttributeValue)
@@ -236,16 +250,6 @@ cString cXMLFileIO::GetNodeName( const cString & strParent, const int iIndex )
 		pElem = pElem->NextSiblingElement();
 	}
 	return(pElem->Value());
-}
-
-// *****************************************************************************
-cString cXMLFileIO::GetNodeValue( const cString & strNode )
-{
-	XMLElement *pElem;
-
-	ElementMap::const_iterator  curr = m_ElementMap.find(strNode);
-	pElem =const_cast<XMLElement*> (curr->second);
-	return(pElem->GetText());
 }
 
 // *****************************************************************************

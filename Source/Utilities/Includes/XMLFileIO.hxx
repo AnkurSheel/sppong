@@ -69,7 +69,7 @@ namespace Utilities
 		 * @param[in] strElementAttribID The unique ID associated with the element. Will be added as an attribute
 		 * @param[in] strElementName The name of the element
 		 * @param[in] strElementValue The value associated with the element
-		 * return Returns the name with which this element can be accessed
+		 * @return Returns the name with which this element can be accessed
 		 *
 		 * Adds a element under the parent specified by the strParentElementName
 		 ***********************************************/
@@ -116,9 +116,17 @@ namespace Utilities
 		virtual void VGetNodeAttribute(const Base::cString & strElementID,
 			const Base::cString & strAttributeName, Base::cString & strAttributeValue) = 0;
 		/********************************************//**
+		 * @param[in] strElementID The unique id of the element
+		 * @return The value associated with the element
+		 *
+		 * Given an element with unique name strElementID, this functions 
+		 * returns the value associated with it
+		 ***********************************************/
+		virtual Base::cString VGetNodeValue(const Base::cString & strElementID) = 0;
+		/********************************************//**
 		 * @param[in] strElementID The unique ID of the element
 		 * @param[in] strAttributeName The attribute name
-		 * return The integer value of the attribute 
+		 * @return The integer value of the attribute 
 		 *
 		 * Given an attribute name for an element with unique name strElementID,
 		 * this functions converts the value for the attribute of that name into an
@@ -129,7 +137,7 @@ namespace Utilities
 		/********************************************//**
 		 * @param[in] strElementID The unique ID of the element
 		 * @param[in] strAttributeName The attribute name
-		 * return The bool value of the attribute 
+		 * @return The bool value of the attribute 
 		 *
 		 * Given an attribute name for an element with unique name strElementID,
 		 * this functions converts the value for the attribute of that name into an,
@@ -146,9 +154,6 @@ namespace Utilities
 		 ***********************************************/
 		virtual void VGetAllChildrenNames(const Base::cString & strParentID,
 			std::vector<Base::cString> & vElements ) = 0;
-		
-		//virtual Base::cString GetNodeName(const Base::cString & strParent, const int iIndex) = 0;
-		//virtual Base::cString GetNodeValue(const Base::cString & strNode) = 0;
 		/********************************************//**
 		 * @return An object to use this interface
 		 *

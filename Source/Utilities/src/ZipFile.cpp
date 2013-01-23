@@ -279,7 +279,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 
 	if (h.compression == Z_NO_COMPRESSION)
 	{
-		Log_Write_L2(ILogger::LT_COMMENT, cString(100, "No Compression for file %s in ZipFile: %s.", GetFilename(i).GetData(), m_strFileName.GetData()));
+		Log_Write_L2(ILogger::LT_COMMENT, "No Compression for file " + GetFilename(i) + " in ZipFile: " + m_strFileName);
 		// Simply read in raw stored data.
 		m_inputFile.read((char *)(pBuf), h.cSize);
 
@@ -287,7 +287,7 @@ bool cZipFile::ReadFile(int i, void *pBuf)
 	}
 	else if (h.compression != Z_DEFLATED)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Unknown Compression for file %s in ZipFile: %s. ", GetFilename(i).GetData(), m_strFileName.GetData()));
+		Log_Write_L1(ILogger::LT_ERROR, "Unknown Compression for file " + GetFilename(i) + " in ZipFile: " + m_strFileName);
 		return false;
 	}
 	// Alloc compressed data buffer and read the whole stream

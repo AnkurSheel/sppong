@@ -19,14 +19,12 @@ namespace Graphics
 	public:
 		virtual ~IMyFont(){}
 		/********************************************//**
- 		 * @param[in] strFontDirPath The directory path from the font description file
 		 * @param[in] strFontDescFilename The file name of the font description file
 		 *
 		 * Parses the font description file and sets up the character descriptors.
 		 * Creates and Initializes the font texture.
 		 ***********************************************/
-		virtual bool VInitialize(const Base::cString & strFontDirPath,
-			const Base::cString & strFontDescFilename) = 0;
+		virtual bool VInitialize(const Base::cString & strFontDescFilename) = 0;
 		/********************************************//**
 		 * @return An object to use this interface
 		 *

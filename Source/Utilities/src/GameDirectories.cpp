@@ -10,6 +10,9 @@
 #include "stdafx.h"
 #include "GameDirectories.h"
 #include "ParamLoaders.hxx"
+#include "XMLFileIO.hxx"
+#include "ResCache.hxx"
+#include "ResourceManager.hxx"
 
 using namespace Utilities;
 
@@ -22,15 +25,21 @@ const cGameDirectories & cGameDirectories::GameDirectories()
 }
 
 // *****************************************************************************
-void cGameDirectories::Initialize(const IParamLoader * const pParamLoader)
+void cGameDirectories::Initialize()
 {
-	if (pParamLoader)
-	{
-		gameDirectories.strMediaDirectory = pParamLoader->VGetParameterValueAsString("-MediaDirectory", "");
-		gameDirectories.strFontDirectory = pParamLoader->VGetParameterValueAsString("-FontDirectory", "");
-		gameDirectories.strShaderDirectory = pParamLoader->VGetParameterValueAsString("-ShaderDirectory", "");
-		gameDirectories.strSpriteDirectory = pParamLoader->VGetParameterValueAsString("-SpriteDirectory", "");
-		gameDirectories.strSoundDirectory = pParamLoader->VGetParameterValueAsString("-SoundDirectory", "");
-	}
+	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
 
+	IResource * pResource = IResource::CreateResource("directories.xml");
+	shared_ptr<IResHandle> directoriesXML = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+	
+	pFile->VParse(directoriesXML->GetBuffer(), directoriesXML->GetSize());
+	gameDirectories.strMediaDirectory = pFile->VGetNodeValue("MediaDirectory");
+	gameDirectories.strFontDirectory = pFile->VGetNodeValue("FontDirectory");
+	gameDirectories.strShaderDirectory = pFile->VGetNodeValue("ShaderDirectory");
+	gameDirectories.strSpriteDirectory = pFile->VGetNodeValue("SpriteDirectory");
+	gameDirectories.strSoundDirectory = pFile->VGetNodeValue("SoundDirectory");
+	gameDirectories.strModelDirectory = pFile->VGetNodeValue("ModelDirectory");
+
+	SAFE_DELETE(pResource);
+	SAFE_DELETE(pFile);
 }

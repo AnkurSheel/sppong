@@ -23,7 +23,7 @@ namespace Utilities
 	{
 	public:
 		UTILITIES_API static const cGameDirectories & GameDirectories();
-		UTILITIES_API static void Initialize(const IParamLoader * const pParamLoader);
+		UTILITIES_API static void Initialize();
 
 	public:
 		Base::cString	strMediaDirectory;
@@ -31,6 +31,7 @@ namespace Utilities
 		Base::cString	strShaderDirectory;
 		Base::cString	strSpriteDirectory;
 		Base::cString	strSoundDirectory;
+		Base::cString	strModelDirectory;
 	};
 }
 #endif // GameDirectories_h__

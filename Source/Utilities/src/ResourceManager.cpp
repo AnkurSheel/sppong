@@ -32,6 +32,11 @@ cResourceManager::~cResourceManager()
 // ****************************************************************************
 void cResourceManager::VInitialize(const cString strPath)
 {
+	if (strPath.IsEmpty())
+	{	
+		Log_Write_L1(ILogger::LT_ERROR, "Empty Assets Path");
+	}
+
 	m_pResourceCache = IResCache::CreateResourceCache(30, strPath);
 	if(!m_pResourceCache->Init())
 	{

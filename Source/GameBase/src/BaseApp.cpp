@@ -67,7 +67,11 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 			return;
 		}
 	}
-	cGameDirectories::Initialize(m_pParamLoader);
+	// initialize resource manager
+	cString strAssetsPath = m_pParamLoader->VGetParameterValueAsString("-AssetsPath", "");
+	IResourceManager::GetInstance()->VInitialize(strAssetsPath);
+
+	cGameDirectories::Initialize();
 	cGameOptions::InitializeGameOptions(cGameDirectories::GameDirectories().strMediaDirectory + "PlayerOptions.xml");
 #if _DEBUG
 	cGameOptions::GameOptions().bFullScreen = m_pParamLoader->VGetParameterValueAsBool("-fullscreen", cGameOptions::GameOptions().bFullScreen);
@@ -98,9 +102,6 @@ void cBaseApp::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow
 		cGameOptions::GameOptions().bFullScreen, bVSyncEnabled,
 		cGameOptions::GameOptions().iWidth, 
 		cGameOptions::GameOptions().iHeight, fScreenFar, fScreenNear);
-
-	// initialize resource manager
-	IResourceManager::GetInstance()->VInitialize(cGameDirectories::GameDirectories().strMediaDirectory + "resources.zip ");
 
 	VCreateHumanView();
 	m_pHumanView->VOnCreateDevice(this, hInstance, hwnd);

@@ -36,10 +36,9 @@ cMyFont::~cMyFont()
 }
 
 // *****************************************************************************
-bool cMyFont::VInitialize(const Base::cString & strFontDirPath,
-						  const Base::cString & strFontDescFilename)
+bool cMyFont::VInitialize(const Base::cString & strFontDescFilename)
 {		
-	ParseFontDesc(strFontDirPath, strFontDescFilename);
+	ParseFontDesc(strFontDescFilename);
 	Log_Write_L2(ILogger::LT_EVENT, "Loading Sprite : " + m_strFontTexPath);
 
 	if (m_pTexture == NULL)
@@ -67,17 +66,17 @@ void cMyFont::Cleanup()
 }
 
 // *****************************************************************************
-void cMyFont::ParseFontDesc(const cString & strFontDirPath,
-							const cString & strFontDescFilename)
+void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 {
 	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
 
-	IResource * pResource = IResource::CreateResource(strFontDirPath + strFontDescFilename);
+	IResource * pResource = IResource::CreateResource(cGameDirectories::GameDirectories().strFontDirectory
+		+ strFontDescFilename);
 	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
 
 	pFile->VGetNodeAttribute("page0", "file", m_strFontTexPath);
-	m_strFontTexPath = strFontDirPath + m_strFontTexPath;
+	m_strFontTexPath = cGameDirectories::GameDirectories().strFontDirectory + m_strFontTexPath;
 	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
 	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
 	m_iFontHeight = pFile->VGetNodeAttributeAsInt("common", "lineHeight");

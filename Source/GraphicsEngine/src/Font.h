@@ -110,17 +110,14 @@ namespace Graphics
 		int GetFontHeight() const ;
 
 	private:
-		bool VInitialize(const Base::cString & strFontDirPath,
-			const Base::cString & strFontDescFilename);
+		bool VInitialize(const Base::cString & strFontDescFilename);
 		/********************************************//**
- 		 * @param[in] strFontDirPath The directory path from the font description file
 		 * @param[in] strFontDescFilename The file name of the font description file
 		 *
 		 * Parses and stores the character definitions from the font
 		 * description file name
 		 ***********************************************/
-		void ParseFontDesc(const Base::cString & strFontDirPath,
-			const Base::cString & strFontDescFilename);
+		void ParseFontDesc(const Base::cString & strFontDescFilename);
 		/********************************************//**
 		 *
 		 * Creates and Initializes the font shader for use

@@ -79,14 +79,13 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 
 // 	m_pCursorSprite = ISprite::CreateSprite();
 // 	m_pCursorSprite->Init(IDXBase::GetInstance()->VGetDevice(), 
-// 		"stGameDirectories::GameDirectories().strSpriteDirectory + "cursor.png");
+// 		"cGameDirectories::GameDirectories().strSpriteDirectory + "cursor.png");
 // 	m_pCursorSprite->SetSize((float)iClientWidth/30, (float)iClientHeight/30);
 // 	m_pCursorSprite->SetFlags(D3DXSPRITE_ALPHABLEND);
 
 	cLabelControlDef fpsLabelDef;
 	fpsLabelDef.strControlName = "FPSLabel";
-	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont(cGameDirectories::GameDirectories().strFontDirectory,
-		"arial.fnt"); 
+	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
 	fpsLabelDef.vPosition = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth/2- 75), 0.0f);

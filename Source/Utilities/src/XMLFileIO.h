@@ -32,7 +32,6 @@ namespace Utilities
 		cXMLFileIO();
 		~cXMLFileIO();
 		Base::cString GetNodeName(const Base::cString & strParent, const int iIndex) ;
-		Base::cString GetNodeValue(const Base::cString & strNode);
 
 	private:
 		void VInitializeForSave(const Base::cString & strRootName,
@@ -55,6 +54,7 @@ namespace Utilities
 			const Base::cString & strComment);
 		void VGetAllChildrenNames(const Base::cString & strParentID,
 			std::vector<Base::cString> & vElements );
+		Base::cString VGetNodeValue(const Base::cString & strElementID);
 		void VGetNodeAttribute(const Base::cString & strElementID,
 			const Base::cString & strAttributeName, Base::cString & strAttributeValue);
 		int VGetNodeAttributeAsInt(const Base::cString & strElementID,

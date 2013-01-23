@@ -31,7 +31,6 @@ namespace Graphics
 	public:
 		virtual ~IFontManager(){}
 		/********************************************//**
-     	 * @param[in] strFontDirPath The directory path from the font description file
  		 * @param[in] strFontDescFilename The file name of the font description file
 		 * @return Pointer to the font
 		 *
@@ -39,8 +38,7 @@ namespace Graphics
 		 * Adds the font to the font list
 		 * Returns a pointer to the existing font otherwise
 		 ***********************************************/
-		virtual shared_ptr<IMyFont> VGetFont(const Base::cString & strFontDirPath,
-			const Base::cString & strFontDescFilename) = 0;
+		virtual shared_ptr<IMyFont> VGetFont(const Base::cString & strFontDescFilename) = 0;
 
 		GRAPHIC_API static IFontManager * GetInstance();
 		GRAPHIC_API static void Destroy();
