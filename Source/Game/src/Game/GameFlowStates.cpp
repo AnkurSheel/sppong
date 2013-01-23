@@ -70,7 +70,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
 		pTitleScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
 	}
-	pGame->m_pHumanView->PlayMusic(cGameDirectories::GameDirectories().strSoundDirectory + "Music\\mainmenu.ogg", true);
+	pGame->m_pHumanView->PlayMusic("Music\\mainmenu.ogg", true);
 
 	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
 }

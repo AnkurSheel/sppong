@@ -19,6 +19,7 @@
 #include "Audio.hxx"
 #include "SoundProcess.hxx"
 #include "GameOptions.h"
+#include "GameDirectories.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -257,7 +258,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 	if(cGameOptions::GameOptions().bPlaySfx)
 	{
 		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel,
-			strSoundFile, 100, false));
+			cGameDirectories::GameDirectories().strSoundDirectory + strSoundFile, 100, false));
 		m_pProcessManager->VAttachProcess(pSFXChannelProcess);
 	}
 }
@@ -266,7 +267,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
 	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel,
-		strMusicFile, 100, bLooping);
+		cGameDirectories::GameDirectories().strSoundDirectory + strMusicFile, 100, bLooping);
 	m_pProcessManager->VAttachProcess(pMusicChannelProcess);
 	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
 }
