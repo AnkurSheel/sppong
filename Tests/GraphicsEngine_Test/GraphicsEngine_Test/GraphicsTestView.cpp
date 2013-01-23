@@ -202,7 +202,7 @@ void cGraphicsTestView::TestSprite()
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 	m_pCamera->VSetRotation(cVector3(45.0f, 0.0f, 0));
 	m_pSprite = ISprite::CreateSprite();
-	m_pSprite->VInitialize(cGameDirectories::GameDirectories().strSpriteDirectory + "seafloor.dds");
+	m_pSprite->VInitialize("seafloor.dds");
 	m_pSprite->VSetPosition(cVector2(100.0f, 100.0f));
 	m_pSprite->VSetSize(cVector2(256, 256.0f));
 }
@@ -240,7 +240,7 @@ void cGraphicsTestView::TestUIControls()
 	cWindowControlDef wcDef;
 	wcDef.wType = cWindowControlDef::WT_STANDARD;
 	wcDef.strControlName = "TestWindow";
-	wcDef.strBGImageFile = cGameDirectories::GameDirectories().strSpriteDirectory + "window.png";
+	wcDef.strBGImageFile = "window.png";
 	wcDef.bAllowMovingControls = false;
 	wcDef.vPosition =  cVector2(300.f, 200.f);
 	wcDef.vSize = cVector2(400, 400);
@@ -249,7 +249,7 @@ void cGraphicsTestView::TestUIControls()
 
 	cLabelControlDef labelDef;
 	labelDef.strFont= "arial";
-	labelDef.strBGImageFile = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_BG.png";
+	labelDef.strBGImageFile = "ScrollBar_BG.png";
 	labelDef.textColor = cColor::GREEN;
 	labelDef.strText = "Label";
 	labelDef.fTextHeight = 30;
@@ -260,8 +260,8 @@ void cGraphicsTestView::TestUIControls()
 	cButtonControlDef buttonDef;
 	buttonDef.vSize = cVector2(100, 100);
 	buttonDef.vPosition = cVector2(0.f, 130.f);
-	buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
-	buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+	buttonDef.strDefaultImage = "buttonDefault.png";
+	buttonDef.strPressedImage = "buttonPressed.png";
 	buttonDef.labelControlDef.strFont= "arial";
 	buttonDef.labelControlDef.strText = "Button";
 	buttonDef.labelControlDef.textColor = cColor::ORANGE;
@@ -274,8 +274,8 @@ void cGraphicsTestView::TestUIControls()
 	pButtonControl->VRegisterCallBack(UIET_BTNPRESSED, btnCallback);
 
 	cButtonControlDef buttonDef1;
-	buttonDef1.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
-	buttonDef1.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+	buttonDef1.strDefaultImage = "buttonDefault.png";
+	buttonDef1.strPressedImage = "buttonPressed.png";
 	buttonDef1.vSize = cVector2(15, 30);
 	buttonDef1.vPosition = cVector2(150.f, 90.f);
 	IBaseControl * pButtonControl1 = IBaseControl::CreateButtonControl(buttonDef1);
@@ -285,11 +285,11 @@ void cGraphicsTestView::TestUIControls()
 	pButtonControl1->VRegisterCallBack(UIET_BTNRELEASED, btn1Callback);
 	
 	cTextBoxControlDef textControlDef;
-	textControlDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "TextBox.png";
+	textControlDef.strBGImage = "TextBox.png";
 	textControlDef.strFont = "arial";
 	textControlDef.fTextHeight = 30;
 	textControlDef.textColor = cColor::VIOLET;
-	textControlDef.strCaretImage = cGameDirectories::GameDirectories().strSpriteDirectory + "caret.png";
+	textControlDef.strCaretImage = "caret.png";
 	textControlDef.iCaretWidth = 3;
 	textControlDef.fCaretUpdateTime =0.25f;
 	textControlDef.vSize = cVector2(200, 45);
@@ -298,8 +298,8 @@ void cGraphicsTestView::TestUIControls()
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pTextBoxControl));
 	
 	cCheckBoxControlDef checkboxControlDef;
-	checkboxControlDef.buttonControlDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Unchecked.png";
-	checkboxControlDef.buttonControlDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Checked.png";
+	checkboxControlDef.buttonControlDef.strDefaultImage = "Unchecked.png";
+	checkboxControlDef.buttonControlDef.strPressedImage = "Checked.png";
 	checkboxControlDef.labelControlDef.strText = "CheckBox";
 	checkboxControlDef.labelControlDef.strFont= "arial";
 	checkboxControlDef.labelControlDef.fTextHeight = 20;
@@ -315,31 +315,31 @@ void cGraphicsTestView::TestUIControls()
 	pCheckBoxControl->VRegisterCallBack(UIET_BTNRELEASED, checkBoxCallback);
 
 	cScrollBarControlDef vScrollBarDef;
-	vScrollBarDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_BG.png";
+	vScrollBarDef.strBGImage = "ScrollBar_BG.png";
 	vScrollBarDef.iMinPos = 10;
 	vScrollBarDef.iMaxPos = 50;
 	vScrollBarDef.iInitialThumbPosition = 20;
-	vScrollBarDef.thumbBtnDef.strDefaultImage= cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
-	vScrollBarDef.thumbBtnDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
-	vScrollBarDef.TopLeftArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Up.png";
-	vScrollBarDef.TopLeftArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Up.png";
-	vScrollBarDef.BottomRightArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Down.png";
-	vScrollBarDef.BottomRightArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Down.png";
+	vScrollBarDef.thumbBtnDef.strDefaultImage= "ScrollBar_Thumb.png";
+	vScrollBarDef.thumbBtnDef.strPressedImage = "ScrollBar_Thumb.png";
+	vScrollBarDef.TopLeftArrowDef.strDefaultImage = "ScrollBar_Up.png";
+	vScrollBarDef.TopLeftArrowDef.strPressedImage = "ScrollBar_Up.png";
+	vScrollBarDef.BottomRightArrowDef.strDefaultImage = "ScrollBar_Down.png";
+	vScrollBarDef.BottomRightArrowDef.strPressedImage = "ScrollBar_Down.png";
 	vScrollBarDef.vPosition = cVector2(326.f, 56.f);
 	vScrollBarDef.vSize = cVector2(30, 300);
 	IBaseControl * pVScrollBarControl = IBaseControl::CreateVScrollBarControl(vScrollBarDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pVScrollBarControl));
 
 	cScrollBarControlDef hScrollBarDef;
-	hScrollBarDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_BG.png";
+	hScrollBarDef.strBGImage = "ScrollBar_BG.png";
 	hScrollBarDef.iMinPos = 0;
 	hScrollBarDef.iMaxPos = 10;
-	hScrollBarDef.thumbBtnDef.strDefaultImage= cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
-	hScrollBarDef.thumbBtnDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
-	hScrollBarDef.TopLeftArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Left.png";
-	hScrollBarDef.TopLeftArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Left.png";
-	hScrollBarDef.BottomRightArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Right.png";
-	hScrollBarDef.BottomRightArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Right.png";
+	hScrollBarDef.thumbBtnDef.strDefaultImage= "ScrollBar_Thumb.png";
+	hScrollBarDef.thumbBtnDef.strPressedImage = "ScrollBar_Thumb.png";
+	hScrollBarDef.TopLeftArrowDef.strDefaultImage = "ScrollBar_Left.png";
+	hScrollBarDef.TopLeftArrowDef.strPressedImage = "ScrollBar_Left.png";
+	hScrollBarDef.BottomRightArrowDef.strDefaultImage = "ScrollBar_Right.png";
+	hScrollBarDef.BottomRightArrowDef.strPressedImage = "ScrollBar_Right.png";
 	hScrollBarDef.vPosition = cVector2(20.f, 330.f);
 	hScrollBarDef.vSize = cVector2(200, 30);
 

@@ -13,6 +13,7 @@
 #include "DxBase.hxx"
 #include "Font.hxx"
 #include "Sprite.hxx"
+#include "GameDirectories.h"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -37,7 +38,7 @@ void cButtonControl::Initialize(const cButtonControlDef & def)
 	{
 		if(m_pDefaultTexture == NULL)
 		{
-			m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(def.strDefaultImage);
+			m_pDefaultTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + def.strDefaultImage);
 		}
 	}
 
@@ -45,7 +46,7 @@ void cButtonControl::Initialize(const cButtonControlDef & def)
 	{
 		if(m_pPressedTexture == NULL)
 		{
-			m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(def.strPressedImage);
+			m_pPressedTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + def.strPressedImage);
 		}
 	}
 

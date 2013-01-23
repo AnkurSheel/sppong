@@ -134,8 +134,8 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.bAutoSize = true;
 		//buttonDef.vPosition = cVector2(412, 170);
 		buttonDef.vPosition = cVector2(412, 270);
-		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
-		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+		buttonDef.strDefaultImage = "buttonDefault.png";
+		buttonDef.strPressedImage = "buttonPressed.png";
 		buttonDef.labelControlDef.strFont = "licorice";
 		buttonDef.labelControlDef.strText = "Single Player";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
@@ -463,8 +463,8 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 		buttonDef.strControlName = "btnBack";
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);
-		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
-		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+		buttonDef.strDefaultImage = "buttonDefault.png";
+		buttonDef.strPressedImage = "buttonPressed.png";
 		buttonDef.labelControlDef.strFont = "licorice";
 		buttonDef.labelControlDef.strText = "Back";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
@@ -543,8 +543,8 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		cCheckBoxControlDef checkboxControlDef;
 		checkboxControlDef.strControlName = "cbMusic";
 		checkboxControlDef.bChecked = cGameOptions::GameOptions().bPlayMusic;
-		checkboxControlDef.buttonControlDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Unchecked.png";
-		checkboxControlDef.buttonControlDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Checked.png";
+		checkboxControlDef.buttonControlDef.strDefaultImage = "Unchecked.png";
+		checkboxControlDef.buttonControlDef.strPressedImage = "Checked.png";
 		checkboxControlDef.labelControlDef.strText = "Music";
 		checkboxControlDef.labelControlDef.strFont = "licorice";
 		checkboxControlDef.labelControlDef.fTextHeight = 20;
@@ -583,16 +583,16 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		cScrollBarControlDef hScrollBarDef;
 		hScrollBarDef.strControlName = "hsbMusicVolume";
-		hScrollBarDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_BG.png";
+		hScrollBarDef.strBGImage = "ScrollBar_BG.png";
 		hScrollBarDef.iMinPos = 0;
 		hScrollBarDef.iMaxPos = 20;
 		hScrollBarDef.iInitialThumbPosition = (cGameOptions::GameOptions().iMusicVolume) / 5;
-		hScrollBarDef.thumbBtnDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
-		hScrollBarDef.thumbBtnDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Thumb.png";
-		hScrollBarDef.TopLeftArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Left.png";
-		hScrollBarDef.TopLeftArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Left.png";
-		hScrollBarDef.BottomRightArrowDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Right.png";
-		hScrollBarDef.BottomRightArrowDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_Right.png";
+		hScrollBarDef.thumbBtnDef.strDefaultImage = "ScrollBar_Thumb.png";
+		hScrollBarDef.thumbBtnDef.strPressedImage = "ScrollBar_Thumb.png";
+		hScrollBarDef.TopLeftArrowDef.strDefaultImage = "ScrollBar_Left.png";
+		hScrollBarDef.TopLeftArrowDef.strPressedImage = "ScrollBar_Left.png";
+		hScrollBarDef.BottomRightArrowDef.strDefaultImage = "ScrollBar_Right.png";
+		hScrollBarDef.BottomRightArrowDef.strPressedImage = "ScrollBar_Right.png";
 		hScrollBarDef.vPosition = cVector2(0.f, 400.f);
 		hScrollBarDef.vSize = cVector2(200, 30);
 
@@ -605,12 +605,12 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		cTextBoxControlDef textBoxControlDef;
 		textBoxControlDef.strControlName = "tbMusicVolume";
-		textBoxControlDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "TextBox.png";
+		textBoxControlDef.strBGImage = "TextBox.png";
 		textBoxControlDef.strFont = "licorice";
 		textBoxControlDef.strText = cString(30, "%d", cGameOptions::GameOptions().iMusicVolume);
 		textBoxControlDef.fTextHeight = 20;
 		textBoxControlDef.textColor = cColor::BLACK;
-		textBoxControlDef.strCaretImage = cGameDirectories::GameDirectories().strSpriteDirectory + "caret.png";
+		textBoxControlDef.strCaretImage = "caret.png";
 		textBoxControlDef.iCaretWidth = 3;
 		textBoxControlDef.fCaretUpdateTime = 0.25f;
 		textBoxControlDef.vSize = cVector2(50, 30);
@@ -622,8 +622,8 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
 		buttonDef.vPosition = cVector2(0, 480);
-		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
-		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
+		buttonDef.strDefaultImage = "buttonDefault.png";
+		buttonDef.strPressedImage = "buttonPressed.png";
 		buttonDef.labelControlDef.strFont = "licorice";
 		buttonDef.labelControlDef.strText = "Back";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;

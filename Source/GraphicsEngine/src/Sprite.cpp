@@ -78,7 +78,7 @@ bool cSprite::VInitialize( const Base::cString & strTextureFilename )
 
 	if (m_pTexture == NULL)
 	{
-		m_pTexture = ITextureManager::GetInstance()->VGetTexture(strTextureFilename);
+		m_pTexture = ITextureManager::GetInstance()->VGetTexture(cGameDirectories::GameDirectories().strSpriteDirectory + strTextureFilename);
 	}
 	
 	return VInitialize(m_pTexture);
