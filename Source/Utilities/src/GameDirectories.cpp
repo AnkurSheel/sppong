@@ -15,6 +15,7 @@
 #include "ResourceManager.hxx"
 
 using namespace Utilities;
+using namespace Base;
 
 static cGameDirectories gameDirectories;
 
@@ -37,7 +38,9 @@ void cGameDirectories::Initialize()
 	gameDirectories.strFontDirectory = pFile->VGetNodeValue("FontDirectory");
 	gameDirectories.strShaderDirectory = pFile->VGetNodeValue("ShaderDirectory");
 	gameDirectories.strSpriteDirectory = pFile->VGetNodeValue("SpriteDirectory");
-	gameDirectories.strSoundDirectory = pFile->VGetNodeValue("SoundDirectory");
+	cString strSoundDirectory = pFile->VGetNodeValue("SoundDirectory");
+	gameDirectories.strSoundSFXDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "SFX");
+	gameDirectories.strSoundMusicDirectory = strSoundDirectory + pFile->VGetNodeAttribute("SoundDirectory", "Music");
 	gameDirectories.strModelDirectory = pFile->VGetNodeValue("ModelDirectory");
 
 	SAFE_DELETE(pResource);

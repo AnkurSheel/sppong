@@ -55,8 +55,8 @@ namespace Utilities
 		void VGetAllChildrenNames(const Base::cString & strParentID,
 			std::vector<Base::cString> & vElements );
 		Base::cString VGetNodeValue(const Base::cString & strElementID);
-		void VGetNodeAttribute(const Base::cString & strElementID,
-			const Base::cString & strAttributeName, Base::cString & strAttributeValue);
+		Base::cString VGetNodeAttribute(const Base::cString & strElementID,
+			const Base::cString & strAttributeName);
 		int VGetNodeAttributeAsInt(const Base::cString & strElementID,
 			const Base::cString & strAttributeName);
 		bool VGetNodeAttributeAsBool(const Base::cString & strElementID,

@@ -107,14 +107,14 @@ namespace Utilities
 		/********************************************//**
 		 * @param[in] strElementID The unique ID of the element
 		 * @param[in] strAttributeName The attribute name
-		 * @param[out] strAttributeValue The value of the attribute
+		 * @return The value of the attribute
 		 *
 		 * Given an attribute name for an element with unique name strElementID,
 		 * this functions stores the value for the attribute of that name,
 		 * in strElementValue
 		 ***********************************************/
-		virtual void VGetNodeAttribute(const Base::cString & strElementID,
-			const Base::cString & strAttributeName, Base::cString & strAttributeValue) = 0;
+		virtual Base::cString VGetNodeAttribute(const Base::cString & strElementID,
+			const Base::cString & strAttributeName) = 0;
 		/********************************************//**
 		 * @param[in] strElementID The unique id of the element
 		 * @return The value associated with the element

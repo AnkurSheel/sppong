@@ -258,7 +258,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 	if(cGameOptions::GameOptions().bPlaySfx)
 	{
 		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel,
-			cGameDirectories::GameDirectories().strSoundDirectory + strSoundFile, 100, false));
+			cGameDirectories::GameDirectories().strSoundSFXDirectory + strSoundFile, 100, false));
 		m_pProcessManager->VAttachProcess(pSFXChannelProcess);
 	}
 }
@@ -267,7 +267,7 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
 	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel,
-		cGameDirectories::GameDirectories().strSoundDirectory + strMusicFile, 100, bLooping);
+		cGameDirectories::GameDirectories().strSoundMusicDirectory + strMusicFile, 100, bLooping);
 	m_pProcessManager->VAttachProcess(pMusicChannelProcess);
 	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
 }

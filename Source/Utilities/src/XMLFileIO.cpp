@@ -196,23 +196,26 @@ cString cXMLFileIO::VGetNodeValue(const cString & strElementID)
 }
 
 // *****************************************************************************
-void cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
-								   const cString & strAttributeName,
-								   cString & strAttributeValue)
+cString cXMLFileIO::VGetNodeAttribute(const cString & strElementID,
+								   const cString & strAttributeName)
 {
 	ElementMap::const_iterator curr = m_ElementMap.find(strElementID);
 	if (curr != m_ElementMap.end())
 	{
-		strAttributeValue = curr->second->Attribute(strAttributeName.GetData());
+		return (curr->second->Attribute(strAttributeName.GetData()));
 	}
+	else
+	{
+		Log_Write_L1(ILogger::LT_ERROR, "Could not find attribute" + strAttributeName + " for " + strElementID);
+	}
+	return "";
 }
 
 // *****************************************************************************
 int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
 			const Base::cString & strAttributeName)
 {
-	cString strAttributeValue;
-	VGetNodeAttribute(strElementID, strAttributeName, strAttributeValue);
+	cString strAttributeValue = VGetNodeAttribute(strElementID, strAttributeName);
 	tOptional<int> val = strAttributeValue.ToInt();
 	if(val.IsInvalid())
 	{
@@ -226,8 +229,7 @@ int cXMLFileIO::VGetNodeAttributeAsInt(const Base::cString & strElementID,
 bool cXMLFileIO::VGetNodeAttributeAsBool(const Base::cString & strElementID,
 			const Base::cString & strAttributeName)
 {
-	cString strAttributeValue;
-	VGetNodeAttribute(strElementID, strAttributeName, strAttributeValue);
+	cString strAttributeValue = VGetNodeAttribute(strElementID, strAttributeName);
 	tOptional<bool> val = strAttributeValue.ToBool();
 	if(val.IsInvalid())
 	{

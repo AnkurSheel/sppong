@@ -30,7 +30,8 @@ namespace Utilities
 		Base::cString	strFontDirectory;
 		Base::cString	strShaderDirectory;
 		Base::cString	strSpriteDirectory;
-		Base::cString	strSoundDirectory;
+		Base::cString	strSoundSFXDirectory;
+		Base::cString	strSoundMusicDirectory;
 		Base::cString	strModelDirectory;
 	};
 }

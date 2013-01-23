@@ -109,8 +109,7 @@ void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
 
-	pFile->VGetNodeAttribute("page0", "file", m_strFontTexPath);
-	m_strFontTexPath = cGameDirectories::GameDirectories().strFontDirectory + m_strFontTexPath;
+	m_strFontTexPath = cGameDirectories::GameDirectories().strFontDirectory + pFile->VGetNodeAttribute("page0", "file");
 	m_iTextureWidth = pFile->VGetNodeAttributeAsInt("common", "scaleW");
 	m_iTextureHeight = pFile->VGetNodeAttributeAsInt("common", "scaleH");
 	m_iFontHeight = pFile->VGetNodeAttributeAsInt("common", "lineHeight");
