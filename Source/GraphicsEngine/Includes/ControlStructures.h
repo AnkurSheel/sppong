@@ -15,7 +15,6 @@
 
 namespace Graphics
 {
-	class IMyFont;
 	class IBaseControl;
 }
 
@@ -92,7 +91,7 @@ namespace Graphics
 		: public cBaseControlDef
 	{
 	public:
-		shared_ptr<IMyFont> pFont;			/*!< The font that will be used to display the text */ 
+		Base::cString		strFont;		/*!< The font that will be used to display the text */ 
 		Base::cColor		textColor;		/*!< The text color */ 
 		Base::cString		strText;		/*!< The text that should be displayed initially */ 
 		Base::cString		strBGImageFile;	/*!< The path for the background image. Can be Empty */
@@ -150,7 +149,7 @@ namespace Graphics
 	{
 	public:
 		Base::cString			strBGImage;			/*!< Optional. The background image of the textbox */ 
-		shared_ptr<IMyFont>		pFont;				/*!< The font that will be used to display the text */ 
+		Base::cString			strFont;			/*!< The font that will be used to display the text */ 
 		Base::cColor			textColor;			/*!< The text color */ 
 		float					fTextHeight;		/*!< The text height */ 
 		Base::cString			strCaretImage;		/*!< The image to be used for displaying the caret */ 

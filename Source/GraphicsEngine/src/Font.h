@@ -25,92 +25,24 @@ namespace Graphics
 
 namespace Graphics
 {
-	/********************************************//**
-     * @brief Structure to hold the various parameters
-	 * defining the character
-     ***********************************************/
-	struct CharDescriptor
-	{
-		unsigned short id;			/*!< The character id */
-		unsigned short x;			/*!< The left position of the character image in the font texture */
-		unsigned short y;			/*!< The top position of the character image in the font texture */
-		unsigned short Width;		/*!< TThe width of the character image in the font texture */
-		unsigned short Height;		/*!< The height of the character image in the font texture */
-		unsigned short XOffset;		/*!< How much the current position should be offset when copying the image from the font texture to the screen */
-		unsigned short YOffset;		/*!< How much the current position should be offset when copying the image from the font texture to the screen */
-		unsigned short XAdvance;	/*!< How much the current position should be advanced after drawing the character */
-
-		CharDescriptor() 
-			: id(0)
-			, x(0)
-			, y(0)
-			, Width(0)
-			, Height(0)
-			, XOffset(0)
-			, YOffset(0)
-			, XAdvance(0)
-		{
-		}
-	};
-
-	/********************************************//**
-     * @brief Vertex Data description for a character
-     ***********************************************/
-	struct stVertexData
-	{
-		CharDescriptor	ch;		/*!< The parameters describing the character */
-		float			fTexU;	/*!< The U position of this character in the texture map */
-		float			fTexV;	/*!< The V position of this character in the texture map */
-		float			fTexU1;	/*!< The U1 position of this character in the texture map */
-		float			fTexV1;	/*!< The V1 position of this character in the texture map */
-
-		stVertexData()
-			: fTexU(0.0f)
-			, fTexV(0.0f)
-			, fTexU1(0.0f)
-			, fTexV1(0.0f)
-		{
-		}
-	};
-
 	 /********************************************//**
      * @brief Class Declaration for \c IMyFont
      * interface
      ***********************************************/
 	class cMyFont
 		: public IMyFont
+		, Base::cNonCopyable
 	{
 	public:
 		cMyFont() ;
-		~cMyFont() ;
-		/********************************************//**
- 		 * @param[in] inMatWorld The world matrix
-		 * @param[in] inMatView The View Matrix
-		 * @param[in] inMatProjection The projection Matrix
-		 * @param[in] textColor The color of the text
-		 *
-		 * Sets the shader parameters and then draws the model
-		 * using the HLSL shader
-		 ***********************************************/
-		void Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-			const D3DXMATRIX & inMatProjection, const Base::cColor & textColor);
-		/********************************************//**
- 		 * @param[in] iCharAsciiValue The ascii value of the character
-		 * @return The vertex data
-		 *
-		 * Returns the vertex data for a character with the 
-		 * given ascii vakue
-		 ***********************************************/
-		stVertexData GetCharVertexData(const int iCharAsciiValue);
-		/********************************************//**
-		 * @return The height of the a line using this font
-		 *
-		 * Returns the height of the a line using this font
-		 ***********************************************/
-		int GetFontHeight() const ;
 
 	private:
+		~cMyFont() ;
 		bool VInitialize(const Base::cString & strFontDescFilename);
+		void VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
+			const D3DXMATRIX & inMatProjection, const Base::cColor & textColor);
+		stVertexData VGetCharVertexData(const int iCharAsciiValue);
+		int VGetFontHeight() const ;
 		/********************************************//**
 		 * @param[in] strFontDescFilename The file name of the font description file
 		 *

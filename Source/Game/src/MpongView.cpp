@@ -9,14 +9,12 @@
 // *****************************************************************************
 #include "stdafx.h"
 #include "MpongView.h"
-#include "Sprite.hxx"
 #include "Game/Game.h"
 #include "Game/Elements/Score.h"
 #include "Game/Elements/PongGameElement.h"
 #include "P1PaddleHandler.h"
 #include "P2PaddleHandler.h"
 #include "Camera.hxx"
-#include "Vector3.h"
 
 using namespace Utilities;
 using namespace Graphics;

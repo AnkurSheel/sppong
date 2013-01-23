@@ -9,7 +9,6 @@
 // *****************************************************************************
 #include "stdafx.h"
 #include "Score.h"
-#include "FontManager.hxx"
 #include "ControlStructures.h"
 #include "BaseControl.hxx"
 #include "GameDirectories.h"
@@ -34,7 +33,7 @@ cScore::~cScore()
 void cScore::Init(const cVector2 & vInitialPos)
 {
 	cLabelControlDef def;
-	def.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); // forte
+	def.strFont = "arial"; // forte
 	def.textColor = cColor::TURQUOISE;
 	def.strText = cString(20, "%02d", m_iValue);
 	def.fTextHeight = 40;

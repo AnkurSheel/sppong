@@ -35,14 +35,14 @@ namespace Graphics
 	public:
 		virtual ~ISentence(){}
 		/********************************************//**
- 		 * @param[in] pFont pointer to the font object which contains the font the text is rendered with
+ 		 * @param[in] strFont The font that will be used to display the text
 		 * @param[in] strText The text to be rendered
 		 * @param[in] textColor The color of the text
 		 *
 		 * Puts the text on the video card to prepare it for drawing
 		 * by the shader
 		 ***********************************************/
-		virtual bool VInitialize(shared_ptr<IMyFont> pFont, 
+		virtual bool VInitialize(const Base::cString & strFont,
 			const Base::cString & strText, const Base::cColor & textColor) = 0;
 		/********************************************//**
  		 * @param[in] pCamera The camera which contains the current view matrix

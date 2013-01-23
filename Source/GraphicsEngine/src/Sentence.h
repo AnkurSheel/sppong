@@ -19,7 +19,7 @@ namespace Base
 
 namespace Graphics
 {
-	class cMyFont;
+	class IMyFont;
 	struct stTexVertex;
 }
 
@@ -37,7 +37,7 @@ namespace Graphics
 	
 	private:
 		~cSentence() ;
-		bool VInitialize(shared_ptr<IMyFont> pFont, 
+		bool VInitialize(const Base::cString & strFont, 
 			const Base::cString & strText, const Base::cColor & textColor);
 		void VRender(const ICamera * const pCamera);
 		void VSetPosition(const Base::cVector2 & vPosition);
@@ -91,7 +91,7 @@ namespace Graphics
 		ID3D11Buffer * 						m_pVertexBuffer;	/*!< The vertex buffer */
 		ID3D11Buffer *						m_pIndexBuffer;		/*!< The index buffer */
 		Base::cString						m_strText;			/*!< The text that has to be displayed */
-		shared_ptr<cMyFont>					m_pFont;			/*!< The font that needs to be used to display the text */
+		shared_ptr<IMyFont>					m_pFont;			/*!< The font that needs to be used to display the text */
 		Base::cColor						m_TextColor;		/*!< The text color */
 		int									m_iVertexCount;		/*!< The number of vertices that have to be displayed */
 		int									m_iIndexCount;		/*!< The number of indices that have to be displayed */

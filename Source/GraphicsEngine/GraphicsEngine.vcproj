@@ -575,7 +575,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Includes\FontManager.hxx"
+			RelativePath=".\src\FontManager.hxx"
 			>
 		</File>
 		<File

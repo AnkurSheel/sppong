@@ -14,6 +14,9 @@
 #include "TextureManager.hxx"
 #include "Camera.hxx"
 #include "GraphicUtils.h"
+#include "FontManager.hxx"
+#include "ObjModelLoader.hxx"
+#include "CollisionChecker.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -62,8 +65,12 @@ void Graphics::cGraphicsClass::VSetFullScreenMode(const bool bIsFullScreen)
 // ***************************************************************
 void Graphics::cGraphicsClass::Cleanup()
 {
+	IFontManager::Destroy();
 	IShaderManager::Destroy();
 	ITextureManager::Destroy();
+	IObjModelLoader::Destroy();
+	ICollisionChecker::Destroy();
+	IGraphicUtils::Destroy();
 	IDXBase::Destroy();
 }
 

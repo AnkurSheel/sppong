@@ -11,19 +11,10 @@
 #include "GraphicsTestView.h"
 #include "Game.h"
 #include "BaseControl.hxx"
-#include "Vector3.h"
-#include "Vector2.h"
-#include "RandomGenerator.hxx"
-#include "vertexstruct.h"
-#include "Color.h"
-#include "Model.hxx"
 #include "Camera.hxx"
 #include "Sprite.hxx"
-#include "FontManager.hxx"
 #include "Sentence.hxx"
-#include "ObjModelLoader.hxx"
 #include "GameElement.h"
-#include "GameDirectories.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -52,7 +43,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	m_pGame = dynamic_cast<cGame *>(pGame);
 
 	cLabelControlDef def;
-	def.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
+	def.strFont= "arial";
 	def.textColor = cColor::GRAY;
 	def.strText = "Press 'c' to start test";
 	def.fTextHeight = 20;
@@ -229,13 +220,11 @@ void cGraphicsTestView::TestFont()
 	m_pCamera->VSetPosition(cVector3(0.0f, 0.0f, -20.0f));
 
 	ISentence * pSentence = ISentence::CreateSentence();
-	pSentence->VInitialize(IFontManager::GetInstance()->VGetFont("arial.fnt"),
-		"Ankur is awesome", cColor::RED);
+	pSentence->VInitialize("arial", "Ankur is awesome", cColor::RED);
 	pSentence->VSetPosition(cVector2(100.0f, 100.0f));
 	m_vSentences.push_back(pSentence);
 	pSentence = ISentence::CreateSentence();
-	pSentence->VInitialize(IFontManager::GetInstance()->VGetFont("arial.fnt"),
-		"Yes he is", cColor::VIOLET);
+	pSentence->VInitialize("arial", "Yes he is", cColor::VIOLET);
 	pSentence->VSetPosition(cVector2(400.0f, 200.0f));
 	m_vSentences.push_back(pSentence);
 }
@@ -259,7 +248,7 @@ void cGraphicsTestView::TestUIControls()
 	m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pWindowControl));
 
 	cLabelControlDef labelDef;
-	labelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
+	labelDef.strFont= "arial";
 	labelDef.strBGImageFile = cGameDirectories::GameDirectories().strSpriteDirectory + "ScrollBar_BG.png";
 	labelDef.textColor = cColor::GREEN;
 	labelDef.strText = "Label";
@@ -273,7 +262,7 @@ void cGraphicsTestView::TestUIControls()
 	buttonDef.vPosition = cVector2(0.f, 130.f);
 	buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
 	buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
-	buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
+	buttonDef.labelControlDef.strFont= "arial";
 	buttonDef.labelControlDef.strText = "Button";
 	buttonDef.labelControlDef.textColor = cColor::ORANGE;
 	buttonDef.labelControlDef.fTextHeight = 30;
@@ -297,7 +286,7 @@ void cGraphicsTestView::TestUIControls()
 	
 	cTextBoxControlDef textControlDef;
 	textControlDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "TextBox.png";
-	textControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
+	textControlDef.strFont = "arial";
 	textControlDef.fTextHeight = 30;
 	textControlDef.textColor = cColor::VIOLET;
 	textControlDef.strCaretImage = cGameDirectories::GameDirectories().strSpriteDirectory + "caret.png";
@@ -312,7 +301,7 @@ void cGraphicsTestView::TestUIControls()
 	checkboxControlDef.buttonControlDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Unchecked.png";
 	checkboxControlDef.buttonControlDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Checked.png";
 	checkboxControlDef.labelControlDef.strText = "CheckBox";
-	checkboxControlDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt");
+	checkboxControlDef.labelControlDef.strFont= "arial";
 	checkboxControlDef.labelControlDef.fTextHeight = 20;
 	checkboxControlDef.labelControlDef.textColor = cColor::WHITE;
 	checkboxControlDef.buttonControlDef.vSize = cVector2(50, 30);
@@ -369,8 +358,6 @@ void cGraphicsTestView::Cleanup()
 	}
 	m_vSentences.clear();
 	SAFE_DELETE(m_pAppWindowControl);
-	IFontManager::Destroy();
-	IObjModelLoader::Destroy();
 }
 
 // ***************************************************************

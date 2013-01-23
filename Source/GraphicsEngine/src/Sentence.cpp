@@ -14,6 +14,7 @@
 #include "Font.h"
 #include "Camera.hxx"
 #include "Optional.h"
+#include "FontManager.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -41,11 +42,11 @@ cSentence::~cSentence()
 }
 
 // *****************************************************************************
-bool cSentence::VInitialize(shared_ptr<Graphics::IMyFont> pFont,
+bool cSentence::VInitialize(const Base::cString & strFont,
 							const Base::cString & strText,
 							const Base::cColor & textColor)
 {
-	m_pFont = static_pointer_cast<cMyFont>(pFont);
+	m_pFont = IFontManager::GetInstance()->VGetFont(strFont);
 
 	m_iVertexCount = MAX_FILENAME_WIDTH * 4;
 
@@ -87,7 +88,7 @@ void cSentence::VRender(const ICamera * const pCamera)
 	IDXBase::GetInstance()->VTurnZBufferOff();
 	D3DXMATRIX matView;
 	D3DXMatrixIdentity(&matView);
-	m_pFont->Render(IDXBase::GetInstance()->VGetWorldMatrix(),
+	m_pFont->VRender(IDXBase::GetInstance()->VGetWorldMatrix(),
 		matView, IDXBase::GetInstance()->VGetOrthoMatrix(), m_TextColor);
 	IDXBase::GetInstance()->VGetDeviceContext()->DrawIndexed(m_iIndexCount, 0, 0);
 	//IDXBase::GetInstance()->VTurnOffAlphaBlending();
@@ -137,11 +138,11 @@ float cSentence::VGetWidth(const Base::cString & strText) const
 	float fWidth = 0.0f;
 	int istrLength = strText.GetLength();
 
-	stVertexData vertexData;
+	IMyFont::stVertexData vertexData;
 	for (int i=0; i<istrLength; i++)
 	{
 		int val = (int)strText[i];
-		vertexData = m_pFont->GetCharVertexData(val);
+		vertexData = m_pFont->VGetCharVertexData(val);
 
 		fWidth += vertexData.ch.XAdvance;
 	}
@@ -151,7 +152,7 @@ float cSentence::VGetWidth(const Base::cString & strText) const
 // *****************************************************************************
 void cSentence::VSetHeight(const float fTextHeight)
 {
-	m_fScale = fTextHeight/m_pFont->GetFontHeight();
+	m_fScale = fTextHeight/m_pFont->VGetFontHeight();
 	m_bIsDirty = true;
 }
 
@@ -166,7 +167,7 @@ bool cSentence::ReInitializeVertexBuffer(const ICamera * const pCamera)
 
 	int iPos = 0;
 	float fWidth = 0;
-	float fHeight = m_fScale * m_pFont->GetFontHeight();
+	float fHeight = m_fScale * m_pFont->VGetFontHeight();
 	cVector2 vPos = m_vPosition;
 
 	m_fWidth = 0.0f;
@@ -247,12 +248,12 @@ void cSentence::InitializesVertexData(stTexVertex * const pVertices,
 	float top;
 	float bottom;
 
-	stVertexData vertexData;
+	IMyFont::stVertexData vertexData;
 	for (int i = 0; i < iLineLength; i++)
 	{
 		int iTextIndex = i + iStartPos;
 		int val = (int)m_strText[iTextIndex];
-		vertexData = m_pFont->GetCharVertexData(val);
+		vertexData = m_pFont->VGetCharVertexData(val);
 
 		if (pVertices)
 		{

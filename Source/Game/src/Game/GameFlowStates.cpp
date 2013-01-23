@@ -21,7 +21,6 @@
 #include "BaseControl.hxx"
 #include "MessageDispatchManager.hxx"
 #include "FSM\Telegram.h"
-#include "FontManager.hxx"
 #include "GraphicUtils.hxx"
 #include "MainWindow.hxx"
 #include "GameOptions.h"
@@ -63,7 +62,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 		
 		cLabelControlDef def;
 		def.strControlName = "TitleLabel";
-		def.pFont = IFontManager::GetInstance()->VGetFont("JokerMan.fnt"); 
+		def.strFont = "JokerMan"; 
 		def.textColor = cColor::RED;
 		def.strText = "MPONG";
 		def.fTextHeight = 200;
@@ -137,7 +136,7 @@ void cStateMenuScreen::VOnEnter(cGame *pGame)
 		buttonDef.vPosition = cVector2(412, 270);
 		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
 		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
-		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		buttonDef.labelControlDef.strFont = "licorice";
 		buttonDef.labelControlDef.strText = "Single Player";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
 		buttonDef.labelControlDef.fTextHeight = 70;
@@ -450,7 +449,7 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 
 		cLabelControlDef def;
 		def.strControlName = "labelHelp";
-		def.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt"); 
+		def.strFont = "licorice"; 
 		def.textColor = cColor::VIOLET;
 		def.strText = "SinglePlayer\n Press W to Move up\n Press S to Move Down";
 		def.strText += "\n\n\nMultiplayer\n Press up arrow to Move up\n Press ";
@@ -466,7 +465,7 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 		buttonDef.vPosition = cVector2(0, 480);
 		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
 		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
-		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		buttonDef.labelControlDef.strFont = "licorice";
 		buttonDef.labelControlDef.strText = "Back";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
 		buttonDef.labelControlDef.fTextHeight = 50;
@@ -547,7 +546,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		checkboxControlDef.buttonControlDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Unchecked.png";
 		checkboxControlDef.buttonControlDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "Checked.png";
 		checkboxControlDef.labelControlDef.strText = "Music";
-		checkboxControlDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		checkboxControlDef.labelControlDef.strFont = "licorice";
 		checkboxControlDef.labelControlDef.fTextHeight = 20;
 		checkboxControlDef.labelControlDef.textColor = cColor::WHITE;
 		checkboxControlDef.buttonControlDef.vSize = cVector2(50, 30);
@@ -607,7 +606,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		cTextBoxControlDef textBoxControlDef;
 		textBoxControlDef.strControlName = "tbMusicVolume";
 		textBoxControlDef.strBGImage = cGameDirectories::GameDirectories().strSpriteDirectory + "TextBox.png";
-		textBoxControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		textBoxControlDef.strFont = "licorice";
 		textBoxControlDef.strText = cString(30, "%d", cGameOptions::GameOptions().iMusicVolume);
 		textBoxControlDef.fTextHeight = 20;
 		textBoxControlDef.textColor = cColor::BLACK;
@@ -625,7 +624,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		buttonDef.vPosition = cVector2(0, 480);
 		buttonDef.strDefaultImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonDefault.png";
 		buttonDef.strPressedImage = cGameDirectories::GameDirectories().strSpriteDirectory + "buttonPressed.png";
-		buttonDef.labelControlDef.pFont = IFontManager::GetInstance()->VGetFont("licorice.fnt");
+		buttonDef.labelControlDef.strFont = "licorice";
 		buttonDef.labelControlDef.strText = "Back";
 		buttonDef.labelControlDef.textColor = cColor::BLUE;
 		buttonDef.labelControlDef.fTextHeight = 50;

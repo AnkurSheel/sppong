@@ -14,22 +14,11 @@
 #include "BaseApp.hxx"
 #include "BaseControl.hxx"
 #include "MainWindow.hxx"
-#include "Vector2.h"
-#include "vector3.h"
-#include "Color.h"
 #include "Camera.hxx"
 #include "ParamLoaders.hxx"
-#include "FontManager.hxx"
-#include "ObjModelLoader.hxx"
-#include "CollisionChecker.hxx"
-#include "GraphicUtils.hxx"
 #include "Audio.hxx"
-#include "SoundResource.hxx"
 #include "SoundProcess.hxx"
-#include "ResourceManager.hxx"
-#include "ResCache.hxx"
 #include "GameOptions.h"
-#include "..\Includes\GameDirectories.h"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -85,7 +74,7 @@ void cHumanView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hInst,
 
 	cLabelControlDef fpsLabelDef;
 	fpsLabelDef.strControlName = "FPSLabel";
-	fpsLabelDef.pFont = IFontManager::GetInstance()->VGetFont("arial.fnt"); 
+	fpsLabelDef.strFont= "arial"; 
 	fpsLabelDef.textColor = cColor::WHITE;
 	fpsLabelDef.fTextHeight = 30;
 	fpsLabelDef.vPosition = cVector2(static_cast<float>(cGameOptions::GameOptions().iWidth/2- 75), 0.0f);
@@ -128,10 +117,6 @@ void cHumanView::VOnDestroyDevice()
 	SAFE_DELETE(m_pAppWindowControl);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pProcessManager);
-	IFontManager::Destroy();
-	IObjModelLoader::Destroy();
-	ICollisionChecker::Destroy();
-	IGraphicUtils::Destroy();
 	IAudio::Destroy();
 	//SAFE_DELETE(m_pCursorSprite);
 }

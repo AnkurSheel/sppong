@@ -31,10 +31,10 @@ cLabelControl::~cLabelControl()
 // ***************************************************************
 void cLabelControl::Initialize(const cLabelControlDef & def)
 {
-	if(def.pFont)
+	if(!def.strFont.IsEmpty())
 	{
 		m_pSentence = ISentence::CreateSentence();
-		m_pSentence->VInitialize(def.pFont, def.strText, def.textColor);
+		m_pSentence->VInitialize(def.strFont, def.strText, def.textColor);
 		m_pSentence->VSetHeight(def.fTextHeight);
 	}
 	if(!def.strBGImageFile.IsEmpty())
@@ -44,7 +44,7 @@ void cLabelControl::Initialize(const cLabelControlDef & def)
 	}
 
 	cBaseControl::Initialize(def);
-	if(def.bAutoSize)
+	if(def.bAutoSize && m_pSentence != NULL)
 	{
 		VSetSize(cVector2(m_pSentence->VGetWidth(), m_pSentence->VGetHeight()));
 	}

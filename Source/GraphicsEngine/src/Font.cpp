@@ -53,8 +53,42 @@ bool cMyFont::VInitialize(const Base::cString & strFontDescFilename)
 	
 }
 
-// ***************************************************************************************
-int cMyFont::GetFontHeight() const
+// *****************************************************************************
+void cMyFont::VRender(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
+					  const D3DXMATRIX & inMatProjection, const cColor & textColor)
+{
+	if (m_pShader)
+	{
+		m_pShader->SetDiffuseColor(textColor);
+		m_pShader->VSetTexture(m_pTexture);
+		m_pShader->VRender(inMatWorld, inMatView, inMatProjection);
+	}
+
+}
+
+// *****************************************************************************
+IMyFont::stVertexData cMyFont::VGetCharVertexData(const int iCharAsciiValue)
+{
+	stVertexData vertexData;
+	CharDescriptorMap::const_iterator curr = m_CharDescriptorMap.find(iCharAsciiValue);
+	if (curr != m_CharDescriptorMap.end())
+	{
+		CharDescriptor ch = curr->second;
+		vertexData.ch = ch;
+		vertexData.fTexU = (float(ch.x)+0.5f) / float (m_iTextureWidth);
+		vertexData.fTexV = (float(ch.y)+0.5f) / float (m_iTextureHeight);
+		vertexData.fTexU1 = float(ch.x + ch.Width) / float (m_iTextureWidth);
+		vertexData.fTexV1 = float(ch.y + ch.Height) / float (m_iTextureHeight);
+	}
+	else
+	{
+		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not find char descriptor for ascii value : %d", iCharAsciiValue));
+	}
+	return vertexData;
+}
+
+// *****************************************************************************
+int cMyFont::VGetFontHeight() const
 {
 	return m_iFontHeight;
 }
@@ -71,7 +105,7 @@ void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 	IXMLFileIO * pFile = IXMLFileIO::CreateXMLFile();
 
 	IResource * pResource = IResource::CreateResource(cGameDirectories::GameDirectories().strFontDirectory
-		+ strFontDescFilename);
+		+ strFontDescFilename + ".fnt");
 	shared_ptr<IResHandle> fontDesc = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 	pFile->VParse(fontDesc->GetBuffer(), fontDesc->GetSize());
 
@@ -112,40 +146,6 @@ bool cMyFont::InitializeShader()
 		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Font.psho");
 	m_pShader = dynamic_pointer_cast<cFontShader>(pShader);
 	return bSuccess;
-}
-
-// *****************************************************************************
-stVertexData cMyFont::GetCharVertexData(const int iCharAsciiValue)
-{
-	stVertexData vertexData;
-	CharDescriptorMap::const_iterator curr = m_CharDescriptorMap.find(iCharAsciiValue);
-	if (curr != m_CharDescriptorMap.end())
-	{
-		CharDescriptor ch = curr->second;
-		vertexData.ch = ch;
-		vertexData.fTexU = (float(ch.x)+0.5f) / float (m_iTextureWidth);
-		vertexData.fTexV = (float(ch.y)+0.5f) / float (m_iTextureHeight);
-		vertexData.fTexU1 = float(ch.x + ch.Width) / float (m_iTextureWidth);
-		vertexData.fTexV1 = float(ch.y + ch.Height) / float (m_iTextureHeight);
-	}
-	else
-	{
-		Log_Write_L1(ILogger::LT_ERROR, cString(100, "Could not find char descriptor for ascii value : %d", iCharAsciiValue));
-	}
-	return vertexData;
-}
-
-// ***************************************************************************************
-void cMyFont::Render(const D3DXMATRIX & inMatWorld, const D3DXMATRIX & inMatView,
-					  const D3DXMATRIX & inMatProjection, const cColor & textColor)
-{
-	if (m_pShader)
-	{
-		m_pShader->SetDiffuseColor(textColor);
-		m_pShader->VSetTexture(m_pTexture);
-		m_pShader->VRender(inMatWorld, inMatView, inMatProjection);
-	}
-
 }
 
 // *****************************************************************************

@@ -54,7 +54,7 @@ void cButtonControl::Initialize(const cButtonControlDef & def)
 	{
 		m_pBGSprite->VInitialize(m_pDefaultTexture);
 	}
-	if (def.labelControlDef.pFont && !def.labelControlDef.strText.IsEmpty())
+	if (!def.labelControlDef.strFont.IsEmpty() && !def.labelControlDef.strText.IsEmpty())
 	{
 		m_pLabel = shared_ptr<IBaseControl>(IBaseControl::CreateLabelControl(def.labelControlDef));
 	}
