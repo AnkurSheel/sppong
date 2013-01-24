@@ -1,12 +1,12 @@
-// *****************************************************************************
+/////****************************************************************************
 //  MainWindow   version:  1.0   Ankur Sheel  date: 04/28/2008
 //  ----------------------------------------------------------------------------
 //  Window for that application
 //  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// *****************************************************************************
+/////****************************************************************************
 //
-// *****************************************************************************
+/////****************************************************************************
 #ifndef MainWindow_h__
 #define MainWindow_h__
 
@@ -19,21 +19,23 @@ namespace Base
 
 namespace GameBase
 {
-    /********************************************//**
-     * @brief Class Declaration for \c IMainWindow
-     * interface
-     ***********************************************/
+    ////////////////////////////////////////////////////////////////////////////
+    /// @brief Class Declaration for \c IMainWindow interface
+	///
+	///
+    ////////////////////////////////////////////////////////////////////////////
 	class cMainWindow
 		: public IMainWindow
 		, public Base::cNonCopyable
 	{
 	public:
-		/********************************************//**
-         *
-         * Create an object of this class
-         ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+        /// Create an object of this class
+		///
+		///
+        ////////////////////////////////////////////////////////////////////////
 		static void Create();
-		static void Destroy();
+
 	private:
 		cMainWindow();
 		~cMainWindow();
@@ -41,63 +43,71 @@ namespace GameBase
 			IBaseApp * const pGame);
 		void VToggleFullScreen();
 		void VCleanup();
-		/********************************************//**
-		 * @param[in] hWnd – Unique handle to the window.
-         * @param[in] message – Incoming message.
-         * @param[in] wParam – Parameter of the message (unsigned int).
-         * @param[in] lParam – Parameter of the message (long).
-         *
-		 * Event handler. Routes messages to appropriate instance.
-		 ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+		/// Event handler. Routes messages to appropriate instance.
+		///
+		/// @param[in] hWnd Unique handle to the window.
+        /// @param[in] message Incoming message.
+        /// @param[in] wParam Parameter of the message (unsigned int).
+        /// @param[in] lParam Parameter of the message (long).
+        ///
+		////////////////////////////////////////////////////////////////////////
 		static LRESULT CALLBACK StaticWndProc(HWND hwnd, UINT msg,
 											WPARAM wParam, LPARAM lParam);
-
-        /********************************************//**
-         *
-         * Register the window
-         ***********************************************/
+        ////////////////////////////////////////////////////////////////////////
+        /// Register the window
+		///
+		///
+        ////////////////////////////////////////////////////////////////////////
 		void RegisterWin() ;
-		/********************************************//**
-		 * @param[in] nCmdShow Controls how the window is to be shown
-		 * @param[in] lpWindowTitle Controls how the window is to be shown
-		 *
-		 * Creates the window
-		 ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+		/// Creates the window
+		///
+		/// @param[in] nCmdShow Controls how the window is to be shown
+		/// @param[in] lpWindowTitle Controls how the window is to be shown
+		///
+		////////////////////////////////////////////////////////////////////////
 		void CreateMyWindow(const int& nCmdShow,
 							const Base::cString& lpWindowTitle);
-		/********************************************//**
-		 * @param[in] hWnd – Unique handle to the window.
-         * @param[in] message – Incoming message.
-         * @param[in] wParam – Parameter of the message (unsigned int).
-         * @param[in] lParam – Parameter of the message (long).
-         *
-		 *  Application event handler.
-		 ***********************************************/
-		 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam,
+		////////////////////////////////////////////////////////////////////////
+		/// Window procedure to handle the window messages.
+		///
+		/// @param[in] hWnd Unique handle to the window.
+        /// @param[in] message Incoming message.
+        /// @param[in] wParam Parameter of the message (unsigned int).
+        /// @param[in] lParam Parameter of the message (long).
+        ///
+		////////////////////////////////////////////////////////////////////////
+		LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 								LPARAM lParam );
-		/********************************************//**
-		 *
-		 * Function called when the application is closed
-		 ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+		/// Function called when the application is closed
+		///
+		///
+		////////////////////////////////////////////////////////////////////////
 		void OnWindowDestroyed();
-        /********************************************//**
-		 *
-		 * Sets the settings of the default display device
-		 * to the specified graphics mode.
-		 ***********************************************/
+        ////////////////////////////////////////////////////////////////////////
+		/// Sets the settings of the default display device
+		/// to the specified graphics mode.
+		///
+		///
+		////////////////////////////////////////////////////////////////////////
 		void SetDisplayResolution();
+		////////////////////////////////////////////////////////////////////////
+		/// Calculates and stores the window rectangle when
+		/// the app is in windowed mode.
+		///
+		///
+		////////////////////////////////////////////////////////////////////////
 		void CalculateWindowRect();
 
 	private:
-		const DWORD			m_kdwFullScreenStyle;   /*!< The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE */
-		const DWORD			m_kdwWindowedStyle;     /*!< The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION */
-		HWND				m_Hwnd;					/*!< Window handle */
-		HINSTANCE			m_hInstance;			/*!< Application instance */
-		IBaseApp*			m_pGame;				/*!< Pointer to the App */
-		RECT				m_windowRect;			/*!< stores the window dimensions in windowed mode */
-	
-	public:
-		static IMainWindow * s_pWindow;
+		const DWORD			m_kdwFullScreenStyle;   ///< The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE
+		const DWORD			m_kdwWindowedStyle;     ///< The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION
+		HWND				m_Hwnd;					///< Window handle
+		HINSTANCE			m_hInstance;			///< Application instance
+		IBaseApp*			m_pGame;				///< Pointer to the App
+		RECT				m_windowRect;			///< stores the window dimensions in windowed mode
 	};
 
 	

@@ -19,51 +19,51 @@ namespace GameBase
 
 namespace GameBase
 {
-/********************************************//**
- * @brief Interface to Create the Window.
- *
- * Singleton class.\n
- * Usage :
- * \li Call \c GetInstance() to use this class.
- * \li Call \c VOnDestroy() when the application quits
- ***********************************************/
+////////////////////////////////////////////////////////////////////////////////
+/// @brief Interface to Create the Window.
+///
+/// Singleton class.\n
+/// Usage :
+/// \li Call \c GetInstance() to use this class.
+/// \li Call \c Destroy() when the application quits
+////////////////////////////////////////////////////////////////////////////////
 	class IMainWindow
 	{
 	public:
 		virtual ~IMainWindow() {}
-
-		/********************************************//**
-		 * @param[in] hInstance A handle to the current instance of the application
-		 * @param[in] nCmdShow Controls how the window is to be shown
-		 * @param[in] pGame A pointer to the the IBaseApp object
-		 * @return Handle to the created window
-		 *
-		 * Initializes, Registers and creates the window
-		 ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+		/// Initializes, Registers and creates the window. Returns a handle to 
+		/// the created window.
+		///
+		/// @param[in] hInstance A handle to the current instance of the application
+		/// @param[in] nCmdShow Controls how the window is to be shown
+		/// @param[in] pGame A pointer to the the IBaseApp object
+		/// @return Handle to the created window
+		///
+		////////////////////////////////////////////////////////////////////////
 		virtual HWND VOnInitialization( const HINSTANCE & hInstance,
 										const int & nCmdShow,
 										IBaseApp* const pGame) = 0;
-		/********************************************//**
-		 *
-		 * Toggles between full screen and windowed mode
-		 ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+		/// Toggles between full screen and windowed mode
+		///
+		////////////////////////////////////////////////////////////////////////
 		virtual void VToggleFullScreen() = 0;
-		/********************************************//**
-		 *
-		 * Destroys the Window
-		 ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+		/// Destroys the Window
+		///
+		////////////////////////////////////////////////////////////////////////
 		virtual void VCleanup() = 0;
-		/********************************************//**
-		 * @return Returns a pointer to the singleton object
-		 *
-		 * Creates and returns a pointer to a singleton object of this class
-		 ***********************************************/
-		GAMEBASE_API static IMainWindow * GetInstance();
-
-		/********************************************//**
-		 *
-		 * Destroys the window and the singleton object
-		 ***********************************************/
+		////////////////////////////////////////////////////////////////////////
+		/// Creates and returns a pointer to a singleton object of this class
+		///
+		/// @return Returns a pointer to the singleton object
+		////////////////////////////////////////////////////////////////////////
+		GAMEBASE_API static IMainWindow * const GetInstance();
+		////////////////////////////////////////////////////////////////////////
+		/// Destroys the window and the singleton object
+		///
+		////////////////////////////////////////////////////////////////////////
 		GAMEBASE_API static void Destroy();
 	};
 }

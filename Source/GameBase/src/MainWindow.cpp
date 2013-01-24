@@ -19,10 +19,8 @@ using namespace Base;
 using namespace GameBase;
 using namespace Graphics;
 
-IMainWindow * cMainWindow::s_pWindow = NULL;
+static IMainWindow * s_pWindow = NULL;
 
-// *****************************************************************************
-// Constructor
 // *****************************************************************************
 cMainWindow::cMainWindow()
 : m_Hwnd(NULL)
@@ -34,19 +32,13 @@ cMainWindow::cMainWindow()
 }
 
 // *****************************************************************************
-// Destructor
-// *****************************************************************************
 cMainWindow::~cMainWindow()
 {
 }
 
 // *****************************************************************************
-// Initializes, Registers and creates the window.
-// Returns a handle to the created window.
-// *****************************************************************************
 HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
-									const int & nCmdShow,
-									IBaseApp* const pGame)
+									const int & nCmdShow, IBaseApp * const pGame)
 {
 	m_hInstance = hInstance;
 	RegisterWin();
@@ -70,8 +62,6 @@ HWND cMainWindow::VOnInitialization( const HINSTANCE & hInstance,
 	return m_Hwnd;
 }
 
-// *****************************************************************************
-// Toggles between full screen and windowed mode
 // *****************************************************************************
 void cMainWindow::VToggleFullScreen()
 {
@@ -105,8 +95,6 @@ void cMainWindow::VToggleFullScreen()
 }
 
 // *****************************************************************************
-// Registers the window
-// *****************************************************************************
 void cMainWindow::RegisterWin()
 {
 	WNDCLASSEX	wc;
@@ -130,8 +118,6 @@ void cMainWindow::RegisterWin()
 	}
 }
 
-// *****************************************************************************
-// Creates the window
 // *****************************************************************************
 void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowTitle)
 {
@@ -183,9 +169,8 @@ void cMainWindow::CreateMyWindow( const int &nCmdShow, const cString & lpWindowT
 }
 
 // *****************************************************************************
-// Event handler. Routes messages to appropriate instance
-// *****************************************************************************
-LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
+											LPARAM lParam )
 {
 	if ( msg == WM_CREATE )
 	{
@@ -207,9 +192,8 @@ LRESULT CALLBACK cMainWindow::StaticWndProc( HWND hwnd, UINT msg, WPARAM wParam,
 }
 
 // *****************************************************************************
-// Window procedure to handle the window messages
-// *****************************************************************************
-LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
+									  LPARAM lParam)
 {
 	PAINTSTRUCT		ps ;
 	HDC				hdc ;
@@ -280,8 +264,6 @@ LRESULT CALLBACK cMainWindow::WndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 }
 
 // *****************************************************************************
-// Function called when the application quits
-// *****************************************************************************
 void cMainWindow::OnWindowDestroyed()
 {
     // return to the default mode
@@ -293,8 +275,6 @@ void cMainWindow::OnWindowDestroyed()
 	PostQuitMessage(0);
 }
 
-// *****************************************************************************
-// Sets the settings of the default display device to the specified graphics mode
 // *****************************************************************************
 void cMainWindow::SetDisplayResolution()
 {
@@ -331,7 +311,7 @@ void cMainWindow::SetDisplayResolution()
 	return;
 }
 
-// ***************************************************************************************
+// *****************************************************************************
 void cMainWindow::CalculateWindowRect()
 {
 	m_windowRect.left = (GetSystemMetrics(SM_CXSCREEN) - cGameOptions::GameOptions().iWidth)  / 2;
@@ -344,15 +324,11 @@ void cMainWindow::CalculateWindowRect()
 }
 
 // *****************************************************************************
-// Destroys the Window
-// *****************************************************************************
 void cMainWindow::VCleanup()
 {
 	DestroyWindow(m_Hwnd);
 }
 
-// *****************************************************************************
-// Create and Returns an object of this class
 // *****************************************************************************
 void cMainWindow::Create()
 {
@@ -360,27 +336,18 @@ void cMainWindow::Create()
 }
 
 // *****************************************************************************
-// Destroys the window and the singleton object
+IMainWindow * const IMainWindow::GetInstance()
+{
+	if(s_pWindow == NULL)
+		cMainWindow::Create();
+	return s_pWindow;
+}
+
 // *****************************************************************************
-void cMainWindow::Destroy()
+void IMainWindow::Destroy()
 {
 	if(s_pWindow != NULL)
 		s_pWindow->VCleanup();
 	SAFE_DELETE(s_pWindow);
 	Log_Write_L2(ILogger::LT_COMMENT, cString(100, "Window destroyed"));
-}
-
-// *****************************************************************************
-// returns an instance of the class
-// *****************************************************************************
-IMainWindow * IMainWindow::GetInstance()
-{
-	if(cMainWindow::s_pWindow == NULL)
-		cMainWindow::Create();
-	return cMainWindow::s_pWindow;
-}
-
-void IMainWindow::Destroy()
-{
-	cMainWindow::Destroy();
 }
