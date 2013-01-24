@@ -39,10 +39,8 @@ void cXMLFileIO::VInitializeForSave(const Base::cString & strRootName,
 	
 	if (!strStyleSheetPath.IsEmpty())
 	{
-		XMLElement * pStyleSheet = m_pDoc->NewElement("?xml-stylesheet");
-		pStyleSheet->SetAttribute("type", "text/xsl");
-		pStyleSheet->SetAttribute("href", strStyleSheetPath.GetData());
-		m_pDoc->InsertEndChild(pStyleSheet);
+		cString str = "xml-stylesheet type=\"text/xsl\" href=\"" + strStyleSheetPath + "\"";
+		m_pDoc->InsertEndChild(m_pDoc->NewDeclaration(str.GetData()));
 	}
 	XMLElement * pRoot = m_pDoc->NewElement(strRootName.GetData());  
 	m_pDoc->InsertEndChild(pRoot);

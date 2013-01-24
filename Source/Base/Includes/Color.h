@@ -38,8 +38,7 @@ namespace Base
 		/// @param[in] iAlpha Alpha component of color.
 		///
 		///////////////////////////////////////////////////////////////////////
-		BASE_API explicit cColor(const int iRed, const int iGreen, const int iBlue,
-			const int iAlpha);
+		BASE_API explicit cColor(int iRed, int iGreen, int iBlue, int iAlpha);
 		///////////////////////////////////////////////////////////////////////
 		/// Constructor which takes in RGBA components as float values. 
 		/// Clamps the values to be between 0.0f and 1.0f
@@ -50,8 +49,8 @@ namespace Base
 		/// @param[in] fAlpha Alpha component of color.
 		///
 		///////////////////////////////////////////////////////////////////////
-		BASE_API explicit cColor(const float fRed, const float fGreen, const float fBlue,
-			const float fAlpha);
+		BASE_API explicit cColor(float fRed, float fGreen, float fBlue,
+			float fAlpha);
 		BASE_API ~cColor();
 		///////////////////////////////////////////////////////////////////////
 		/// Calculates the components of the color as floats in the range 0 to 1.0f

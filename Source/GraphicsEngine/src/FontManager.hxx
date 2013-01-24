@@ -31,14 +31,14 @@ namespace Graphics
 	public:
 		virtual ~IFontManager(){}
 		/********************************************//**
- 		 * @param[in] strFontDescFilename The file name of the font description file
+ 		 * @param[in] strFontName The name of the font. This should be the same as the font description file without the extension
 		 * @return Pointer to the font
 		 *
 		 * Loads and creates the font if it has not been created already.
 		 * Adds the font to the font list
 		 * Returns a pointer to the existing font otherwise
 		 ***********************************************/
-		virtual shared_ptr<IMyFont> VGetFont(const Base::cString & strFontDescFilename) = 0;
+		virtual shared_ptr<IMyFont> VGetFont(const Base::cString & strFontName) = 0;
 
 		GRAPHIC_API static IFontManager * GetInstance();
 		GRAPHIC_API static void Destroy();

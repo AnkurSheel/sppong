@@ -34,7 +34,7 @@ cColor::cColor()
 }
 
 // *****************************************************************************
-cColor::cColor(const int iRed, const int iGreen, const int iBlue, const int iAlpha)
+cColor::cColor(int iRed, int iGreen, int iBlue, int iAlpha)
 : m_iRed(iRed)
 , m_iGreen(iGreen)
 , m_iBlue(iBlue)
@@ -47,8 +47,7 @@ cColor::cColor(const int iRed, const int iGreen, const int iBlue, const int iAlp
 }
 
 // *****************************************************************************
-cColor::cColor(const float fRed, const float fGreen, const float fBlue, 
-			   const float fAlpha)
+cColor::cColor(float fRed, float fGreen, float fBlue, float fAlpha)
 : m_iRed(static_cast<int>(fRed * 255))
 , m_iGreen(static_cast<int>(fGreen * 255))
 , m_iBlue(static_cast<int>(fBlue * 255))

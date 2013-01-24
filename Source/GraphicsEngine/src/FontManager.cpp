@@ -37,28 +37,32 @@ IFontManager * cFontManager::Create()
 }
 
 // *************************************************************************
-shared_ptr<IMyFont> cFontManager::VGetFont(const Base::cString & strFontDescFilename)
+shared_ptr<IMyFont> cFontManager::VGetFont(const Base::cString & strFontName)
 {
-	shared_ptr<IMyFont> ptr = Find(strFontDescFilename);
+	unsigned long hash = cHashedString::CalculateHash(strFontName);
+	shared_ptr<IMyFont> ptr = Find(hash);
 
 	if(ptr == NULL)
 	{
 		ptr = shared_ptr<IMyFont>(IMyFont::CreateMyFont());
-		ptr->VInitialize(strFontDescFilename);
-		m_pFonts[strFontDescFilename] = ptr;
+		ptr->VInitialize(strFontName);
+		m_pFonts[hash] = ptr;
+	}
+	else
+	{
+		Log_Write_L2(ILogger::LT_COMMENT, "Font already loaded: " + strFontName);
 	}
 	return ptr;
 }
 
 // *************************************************************************
-shared_ptr<IMyFont> cFontManager::Find(const Base::cString & strFontDescFilename)
+shared_ptr<IMyFont> cFontManager::Find(const unsigned long ulFontHash)
 {
-	FontMap::const_iterator itr = m_pFonts.find(strFontDescFilename);
+	FontMap::const_iterator itr = m_pFonts.find(ulFontHash);
 	if(itr == m_pFonts.end())
 	{
 		return shared_ptr<IMyFont>(); 
 	}
-	Log_Write_L2(ILogger::LT_COMMENT, "Font already loaded " + strFontDescFilename);
 
 	return (*itr).second;
 }

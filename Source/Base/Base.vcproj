@@ -193,10 +193,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Includes\Color.inl"
-			>
-		</File>
-		<File
 			RelativePath=".\src\HashedString.cpp"
 			>
 		</File>
@@ -210,6 +206,10 @@
 		</File>
 		<File
 			RelativePath=".\Includes\Macros.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\MathIncludes.h"
 			>
 		</File>
 		<File
@@ -242,6 +242,10 @@
 		</File>
 		<File
 			RelativePath=".\Includes\Structures.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Includes\typedef.h"
 			>
 		</File>
 		<File

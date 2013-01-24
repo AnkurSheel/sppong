@@ -41,7 +41,7 @@ bool Graphics::cTexture::Initialize( const Base::cString & strTexturePath )
 	HRESULT result;
 	if(texture.get() != NULL)
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not find in cache : " + strTexturePath);
+		Log_Write_L2(ILogger::LT_DEBUG, "Could not find in cache : " + strTexturePath);
 	
 		// Create the texture associated with this sprite
 		result = D3DX11CreateShaderResourceViewFromMemory(IDXBase::GetInstance()->VGetDevice(), 
