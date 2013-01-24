@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  TextureShader   version:  1.0   Ankur Sheel  date: 2012/09/24
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef TextureShader_h__
 #define TextureShader_h__
 
@@ -38,8 +38,7 @@ namespace Graphics
 		void SetDiffuseColor(const Base::cColor colorDiffuse);
 
 	protected:
-		virtual bool VInitialize(const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath);
+		virtual bool VInitialize(const Base::cString & strShaderName);
 		bool VCreateLayout(const Utilities::IFileInput * const pVertexShaderFile );
 		virtual void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);

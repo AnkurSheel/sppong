@@ -140,9 +140,7 @@ void cMyFont::ParseFontDesc(const cString & strFontDescFilename)
 bool cMyFont::InitializeShader()
 {
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateFontShader());
-	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,
-		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Font.vsho",
-		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Font.psho");
+	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader, "Font");
 	m_pShader = dynamic_pointer_cast<cFontShader>(pShader);
 	return bSuccess;
 }

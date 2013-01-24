@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  Shader   version:  1.0   Ankur Sheel  date: 2012/09/15
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #ifndef Shader_hxx__
 #define Shader_hxx__
 
@@ -26,15 +26,13 @@ namespace Graphics
 	public:
 		virtual ~IShader(){}
 		/********************************************//**
- 		 * @param[in] strVertexShaderPath The path for the vertex shader file
-		 * @param[in] strPixelShaderPath The path for the pixel shader file
+ 		 * @param[in] strShaderName The name of the shader. This should be the same as the vertex and pixel shader files without the extension
 		 * @return False if there is any error
 		 *
 		 * Creates the vertex and pixel shader objects. Creates the layout of the vertex
 		 * data that will be processed by this shader
 		 ***********************************************/
-		virtual bool VInitialize(const Base::cString & strVertexShaderPath,
-			const Base::cString & strPixelShaderPath) = 0;
+		virtual bool VInitialize(const Base::cString & strShaderName) = 0;
 		/********************************************//**
  		 * @param[in] inMatWorld The world matrix
 		 * @param[in] inMatView The View Matrix

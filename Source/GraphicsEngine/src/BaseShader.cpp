@@ -1,25 +1,26 @@
-// ***************************************************************
+// *****************************************************************************
 //  BaseShader   version:  1.0   Ankur Sheel  date: 2012/09/24
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 
 #include "stdafx.h"
 #include "BaseShader.h"
 #include "DxBase.hxx"
 #include "FileInput.hxx"
 #include "Texture.hxx"
+#include "GameDirectories.h"
 
 using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 using namespace std;
 
-// ***************************************************************
+// *****************************************************************************
 cBaseShader::cBaseShader()
 : m_pVertexShader(NULL)
 , m_pPixelShader(NULL)
@@ -29,20 +30,19 @@ cBaseShader::cBaseShader()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 cBaseShader::~cBaseShader()
 {
 	VCleanup();
 }
 
-// ***************************************************************
-bool cBaseShader::VInitialize(const Base::cString & strVertexShaderPath,
-										 const Base::cString & strPixelShader)
+// *****************************************************************************
+bool cBaseShader::VInitialize(const Base::cString & strShaderName)
 {
-	if(!CreateVertexShader(strVertexShaderPath))
+	if(!CreateVertexShader(cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".vsho"))
 		return false;
 
-	if(!CreatePixelShader(strPixelShader))
+	if(!CreatePixelShader(cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".psho"))
 		return false;
 
 	// Setup the description of the dynamic matrix constant buffer that is in the vertex shader.
@@ -67,7 +67,7 @@ bool cBaseShader::VInitialize(const Base::cString & strVertexShaderPath,
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseShader::VRender(const D3DXMATRIX & inMatWorld,
 									 const D3DXMATRIX & inMatView,
 									 const D3DXMATRIX & inMatProjection)
@@ -78,13 +78,13 @@ void cBaseShader::VRender(const D3DXMATRIX & inMatWorld,
 
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cBaseShader::VSetTexture(shared_ptr<ITexture> pTexture)
 {
 	m_pTexture = pTexture;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseShader::CreateVertexShader( const Base::cString & strVertexShaderPath)
 {
 	//ID3D10Blob * pVertexShaderBuffer = NULL;
@@ -116,7 +116,7 @@ bool cBaseShader::CreateVertexShader( const Base::cString & strVertexShaderPath)
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cBaseShader::CreatePixelShader(const Base::cString & strPixelShaderPath)
 {
 	IFileInput * pFile = IFileInput::CreateInputFile();
@@ -137,7 +137,7 @@ bool cBaseShader::CreatePixelShader(const Base::cString & strPixelShaderPath)
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 												 const D3DXMATRIX & inMatView,
 												 const D3DXMATRIX & inMatProjection)
@@ -178,7 +178,7 @@ void cBaseShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 		1, &m_pMatrixBuffer);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseShader::VRenderShader()
 {
 	IDXBase::GetInstance()->VGetDeviceContext()->IASetInputLayout(m_pLayout);
@@ -188,7 +188,7 @@ void cBaseShader::VRenderShader()
 	IDXBase::GetInstance()->VGetDeviceContext()->PSSetShader(m_pPixelShader, NULL, 0);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cBaseShader::VCleanup()
 {
 	SAFE_RELEASE(m_pMatrixBuffer);

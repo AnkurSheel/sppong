@@ -18,7 +18,6 @@
 #include "TextureManager.hxx"
 #include "ObjModelLoader.h"
 #include "BoundingBox.hxx"
-#include "GameDirectories.h"
 
 using namespace Utilities;
 using namespace Base;
@@ -79,9 +78,7 @@ bool cModel::VOnInitialization(const stModelDef & def)
 	m_fBoundingSphereRadius = (distX * distX + distY * distY + distZ * distZ) / 2.0f;
 */
 	shared_ptr<IShader> pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
-	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,
-		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Texture.vsho",
-		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Texture.psho");
+	bool bSuccess = IShaderManager::GetInstance()->VGetShader(pShader,"Texture");
 	m_pShader = dynamic_pointer_cast<cTextureShader>(pShader);
 
 	return bSuccess;

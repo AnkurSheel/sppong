@@ -265,9 +265,7 @@ bool cSprite::RecalculateVertexData(const ICamera * const pCamera)
 bool cSprite::InitializeShader()
 {
 	m_pShader = shared_ptr<IShader>(IShader::CreateTextureShader());
-	return IShaderManager::GetInstance()->VGetShader(m_pShader,
-		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Texture.vsho",
-		cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + "Texture.psho");
+	return IShaderManager::GetInstance()->VGetShader(m_pShader, "Texture");
 }
 
 // ***************************************************************

@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  TextureShader   version:  1.0   Ankur Sheel  date: 2012/09/24
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "TextureShader.h"
 #include "DxBase.hxx"
@@ -17,7 +17,7 @@ using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 
-// ***************************************************************
+// *****************************************************************************
 cTextureShader::cTextureShader()
 : m_pSampleState(NULL)
 , m_pPixelBuffer(NULL)
@@ -25,13 +25,13 @@ cTextureShader::cTextureShader()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 cTextureShader::~cTextureShader()
 {
 	VCleanup();
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cTextureShader::VCreateLayout(const IFileInput * const pVertexShaderFile )
 {
 	int iNumberOfLayouts = 2;
@@ -67,11 +67,10 @@ bool cTextureShader::VCreateLayout(const IFileInput * const pVertexShaderFile )
 	return true;
 }
 
-// ***************************************************************
-bool cTextureShader::VInitialize( const Base::cString & strVertexShaderPath,
-										   const Base::cString & strPixelShaderPath)
+// *****************************************************************************
+bool cTextureShader::VInitialize(const Base::cString & strShaderName)
 {
-	if(!cBaseShader::VInitialize(strVertexShaderPath, strPixelShaderPath))
+	if(!cBaseShader::VInitialize(strShaderName))
 		return false;
 	
 	if(!CreateSampleState())
@@ -86,7 +85,7 @@ bool cTextureShader::VInitialize( const Base::cString & strVertexShaderPath,
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 													const D3DXMATRIX & inMatView,
 													const D3DXMATRIX & inMatProjection)
@@ -126,7 +125,7 @@ void cTextureShader::VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 	IDXBase::GetInstance()->VGetDeviceContext()->PSSetConstantBuffers(iBufferNumber, 1, &m_pPixelBuffer);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cTextureShader::VRenderShader()
 {
 	cBaseShader::VRenderShader();
@@ -134,14 +133,14 @@ void cTextureShader::VRenderShader()
 
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cTextureShader::VCleanup()
 {
 	SAFE_RELEASE(m_pSampleState);
 	SAFE_RELEASE(m_pPixelBuffer);
 	cBaseShader::VCleanup();
 }
-// *************************************************************************
+// ***************************************************************************************
 bool cTextureShader::CreateSampleState()
 {
 	D3D11_SAMPLER_DESC samplerDesc;
@@ -164,7 +163,7 @@ bool cTextureShader::CreateSampleState()
 	}
 	return true;
 }
-// *************************************************************************
+// ***************************************************************************************
 bool cTextureShader::CreatePixelBuffer()
 {
 	D3D11_BUFFER_DESC pixelBufferDesc;
@@ -187,7 +186,7 @@ bool cTextureShader::CreatePixelBuffer()
 	return true;
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cTextureShader::SetDiffuseColor(const Base::cColor colorDiffuse)
 {
 	float fRed, fBlue, fGreen, fAlpha;
@@ -195,7 +194,7 @@ void cTextureShader::SetDiffuseColor(const Base::cColor colorDiffuse)
 	m_DiffuseColor = D3DXVECTOR4(fRed, fBlue, fGreen, fAlpha);
 }
 
-// ***************************************************************
+// *****************************************************************************
 IShader * IShader::CreateTextureShader()
 {
 	IShader * pShader= DEBUG_NEW cTextureShader();
