@@ -187,4 +187,19 @@ public:
 		SAFE_DELETE_ARRAY(d);
 	}
 };
+
+template <class T>
+inline T Clamp(T & val, const T min, const T max)
+{
+	if(val < min)
+	{
+		val = min;
+	}
+	else if (val > max)
+	{
+		val = max;
+	}
+	return val;
+}
+
 #endif // Macros_h__

@@ -10,8 +10,7 @@
 #ifndef ControlStructures_h__
 #define ControlStructures_h__
 
-#include "Vector2.h"
-#include "Color.h"
+#include "vector2.h"
 
 namespace Graphics
 {

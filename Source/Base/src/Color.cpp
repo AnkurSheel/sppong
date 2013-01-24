@@ -1,33 +1,76 @@
-// ***************************************************************
+// *****************************************************************************
 //  Color   version:  1.0   Ankur Sheel  date: 2012/09/03
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "Color.h"
 
-const Base::cColor Base::cColor::BLACK = Base::cColor(0, 0, 0, 255);
-const Base::cColor Base::cColor::WHITE = Base::cColor(255, 255, 255, 255);
-const Base::cColor Base::cColor::RED = Base::cColor(255, 0, 0, 255);
-const Base::cColor Base::cColor::BLUE = Base::cColor(0, 0, 255, 255);
-const Base::cColor Base::cColor::GREEN = Base::cColor(0, 255, 0, 255);
-const Base::cColor Base::cColor::GRAY = Base::cColor(190, 190, 190, 255);
-const Base::cColor Base::cColor::TURQUOISE = Base::cColor(64, 224, 208, 255);
-const Base::cColor Base::cColor::YELLOW = Base::cColor(255, 255, 0, 255);
-const Base::cColor Base::cColor::TAN = Base::cColor(210, 180, 140, 255);
-const Base::cColor Base::cColor::ORANGE = Base::cColor(255, 165, 0, 255);
-const Base::cColor Base::cColor::VIOLET = Base::cColor(238, 130, 238, 255);
+using namespace Base;
 
-// ***************************************************************
-void Base::cColor::GetColorComponentsInFloat( float & fRed, float & fBlue, 
-											 float & fGreen, float & fAlpha ) const
+const cColor cColor::BLACK = cColor(0, 0, 0, 255);
+const cColor cColor::WHITE = cColor(255, 255, 255, 255);
+const cColor cColor::RED = cColor(255, 0, 0, 255);
+const cColor cColor::BLUE = cColor(0, 0, 255, 255);
+const cColor cColor::GREEN = cColor(0, 255, 0, 255);
+const cColor cColor::GRAY = cColor(190, 190, 190, 255);
+const cColor cColor::TURQUOISE = cColor(64, 224, 208, 255);
+const cColor cColor::YELLOW = cColor(255, 255, 0, 255);
+const cColor cColor::TAN = cColor(210, 180, 140, 255);
+const cColor cColor::ORANGE = cColor(255, 165, 0, 255);
+const cColor cColor::VIOLET = cColor(238, 130, 238, 255);
+
+ // *****************************************************************************
+cColor::cColor()
+: m_iRed(0)
+, m_iGreen(0)
+, m_iBlue(0)
+, m_iAlpha(0)
 {
-	fRed = (float)m_iRed/255.0f;
-	fBlue = (float)m_iGreen/255.0f;;
-	fGreen = (float)m_iBlue/255.0f;;
-	fAlpha = (float)m_iAlpha/255.0f;;
+}
+
+// *****************************************************************************
+cColor::cColor(const int iRed, const int iGreen, const int iBlue, const int iAlpha)
+: m_iRed(iRed)
+, m_iGreen(iGreen)
+, m_iBlue(iBlue)
+, m_iAlpha(iAlpha)
+{
+	Clamp<int>(m_iRed, 0, 255);
+	Clamp<int>(m_iBlue, 0, 255);
+	Clamp<int>(m_iGreen, 0, 255);
+	Clamp<int>(m_iAlpha, 0, 255);
+}
+
+// *****************************************************************************
+cColor::cColor(const float fRed, const float fGreen, const float fBlue, 
+			   const float fAlpha)
+: m_iRed(static_cast<int>(fRed * 255))
+, m_iGreen(static_cast<int>(fGreen * 255))
+, m_iBlue(static_cast<int>(fBlue * 255))
+, m_iAlpha(static_cast<int>(fAlpha * 255))
+{
+	Clamp<int>(m_iRed, 0, 255);
+	Clamp<int>(m_iBlue, 0, 255);
+	Clamp<int>(m_iGreen, 0, 255);
+	Clamp<int>(m_iAlpha, 0, 255);
+}
+
+// *****************************************************************************
+cColor::~cColor()
+{
+}
+
+// *****************************************************************************
+void cColor::GetColorComponentsInFloat(float & fRed, float & fBlue, 
+									   float & fGreen, float & fAlpha) const
+{
+	fRed = static_cast<float>(m_iRed)/255.0f;
+	fBlue = static_cast<float>(m_iGreen)/255.0f;;
+	fGreen = static_cast<float>(m_iBlue)/255.0f;;
+	fAlpha = static_cast<float>(m_iAlpha)/255.0f;;
 }

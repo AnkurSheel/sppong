@@ -47,6 +47,5 @@
 #include <D3DCompiler.h>
 #include "Logger.hxx"
 #include "Includes.h"
-#include "Color.h"
 #include "Vector3.h"
 #include "Vector2.h"

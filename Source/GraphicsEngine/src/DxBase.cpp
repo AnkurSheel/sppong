@@ -10,7 +10,6 @@
 // ***************************************************************
 #include "stdafx.h"
 #include "DxBase.h" 
-#include "Color.h"
 
 using namespace Utilities;
 using namespace Base;
