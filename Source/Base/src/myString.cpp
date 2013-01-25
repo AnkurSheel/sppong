@@ -428,7 +428,7 @@ void cString::TrimLeft()
 // *****************************************************************************
 void cString::TrimRight()
 {
-	const cString delims(" \t");
+	const cString delims(" \t\r\n");
 	tOptional<int> endIndex;
 
 	endIndex = FindLastNotOf(delims, GetLength());
@@ -445,6 +445,10 @@ void cString::TrimRight()
 // *****************************************************************************
 void cString::TrimBoth()
 {
+	if (IsEmpty())
+	{
+		return;
+	}
 	TrimLeft();
 	TrimRight();
 }

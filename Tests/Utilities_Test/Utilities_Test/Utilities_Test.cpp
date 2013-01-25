@@ -457,7 +457,7 @@ void TestXMLInput()
 		cString strValue;
 		for (iter = chars.begin(); iter != chars.end(); iter++)
 		{
-			pFile->VGetNodeAttribute(*iter, "id", strValue);
+			strValue = pFile->VGetNodeAttribute(*iter, "id");
 			Log_Write_L1(ILogger::LT_DEBUG, "id for " + (*iter) + " is " + strValue);
 		}
 	}
