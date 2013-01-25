@@ -10,5 +10,6 @@
 #ifndef typedef_h__
 #define typedef_h__
 
+typedef unsigned long TICK;
 
 #endif // typedef_h__

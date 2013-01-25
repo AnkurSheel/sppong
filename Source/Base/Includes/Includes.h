@@ -21,6 +21,7 @@
 #include <typeinfo>
 #include <limits>
 #include "Macros.h"
+#include "typedef.h"
 #include "MathIncludes.h"
 #include "myString.h"
 #include "Color.h"
