@@ -12,6 +12,7 @@
 #include "DxBase.hxx"
 #include "FileInput.hxx"
 #include "Texture.hxx"
+#include "ResCache.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -32,7 +33,7 @@ cTextureShader::~cTextureShader()
 }
 
 // *****************************************************************************
-bool cTextureShader::VCreateLayout(const IFileInput * const pVertexShaderFile )
+bool cTextureShader::VCreateLayout(shared_ptr<IResHandle const> shaderHandle)
 {
 	int iNumberOfLayouts = 2;
 	D3D11_INPUT_ELEMENT_DESC * pPolygonLayout = DEBUG_NEW D3D11_INPUT_ELEMENT_DESC[iNumberOfLayouts];
@@ -54,7 +55,7 @@ bool cTextureShader::VCreateLayout(const IFileInput * const pVertexShaderFile )
 	pPolygonLayout[1].InstanceDataStepRate = 0;
 
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateInputLayout(pPolygonLayout, 
-		iNumberOfLayouts, pVertexShaderFile->GetBuffer(), pVertexShaderFile->VGetFileSize(), &m_pLayout);
+		iNumberOfLayouts, shaderHandle->GetBuffer(), shaderHandle->GetSize(), &m_pLayout);
 
 	if(FAILED(result))
 	{
@@ -195,7 +196,7 @@ void cTextureShader::SetDiffuseColor(const Base::cColor colorDiffuse)
 }
 
 // *****************************************************************************
-IShader * IShader::CreateTextureShader()
+IShader * const IShader::CreateTextureShader()
 {
 	IShader * pShader= DEBUG_NEW cTextureShader();
 	return pShader;

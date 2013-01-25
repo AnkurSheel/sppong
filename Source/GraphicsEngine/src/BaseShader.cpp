@@ -14,6 +14,8 @@
 #include "FileInput.hxx"
 #include "Texture.hxx"
 #include "GameDirectories.h"
+#include "ResCache.hxx"
+#include "ResourceManager.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
@@ -39,10 +41,10 @@ cBaseShader::~cBaseShader()
 // *****************************************************************************
 bool cBaseShader::VInitialize(const Base::cString & strShaderName)
 {
-	if(!CreateVertexShader(cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".vsho"))
+	if(!CreateVertexShader(strShaderName))
 		return false;
 
-	if(!CreatePixelShader(cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".psho"))
+	if(!CreatePixelShader(strShaderName))
 		return false;
 
 	// Setup the description of the dynamic matrix constant buffer that is in the vertex shader.
@@ -85,19 +87,20 @@ void cBaseShader::VSetTexture(shared_ptr<ITexture> pTexture)
 }
 
 // *****************************************************************************
-bool cBaseShader::CreateVertexShader( const Base::cString & strVertexShaderPath)
+bool cBaseShader::CreateVertexShader(const Base::cString & strShaderName)
 {
 	//ID3D10Blob * pVertexShaderBuffer = NULL;
 
 	//if(!CompileShader(strVertexShaderPath, strEntry, strModel, &pVertexShaderBuffer))
 	//	return false;
 
-	IFileInput * pFile = IFileInput::CreateInputFile();
-	pFile->Open(strVertexShaderPath, ios_base::in | ios_base::binary);
-	pFile->ReadAll();
-	const void * pData = pFile->GetBuffer();
+	cString strVertexShaderPath = cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".vsho";
+	IResource * pResource = IResource::CreateResource(strVertexShaderPath);
+	shared_ptr<IResHandle> shaderHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+	
+	const void * pData = shaderHandle->GetBuffer();
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateVertexShader(pData, 
-		pFile->VGetFileSize(), NULL, &m_pVertexShader);
+		shaderHandle->GetSize(), NULL, &m_pVertexShader);
 
 	if(FAILED(result))
 	{
@@ -105,28 +108,24 @@ bool cBaseShader::CreateVertexShader( const Base::cString & strVertexShaderPath)
 			+ DXGetErrorString(result) + " : " + DXGetErrorDescription(result))
 			return false;
 	}
-
-	if(!VCreateLayout(pFile))
-	{
-		SAFE_DELETE(pFile);
-		return false;
-	}
-	SAFE_DELETE(pFile);
-
-	return true;
+	bool bSuccess = VCreateLayout(shaderHandle);
+	SAFE_DELETE(pResource);
+	return bSuccess;
 }
 
 // *****************************************************************************
-bool cBaseShader::CreatePixelShader(const Base::cString & strPixelShaderPath)
+bool cBaseShader::CreatePixelShader(const Base::cString & strShaderName)
 {
-	IFileInput * pFile = IFileInput::CreateInputFile();
-	pFile->Open(strPixelShaderPath, ios_base::in | ios_base::binary);
-	pFile->ReadAll();
-	const void * pData = pFile->GetBuffer();
-	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreatePixelShader(pData, 
-		pFile->VGetFileSize(), NULL, &m_pPixelShader);
+	cString strPixelShaderPath = cGameDirectories::GameDirectories().strShaderDirectory + strShaderName + ".psho";
 
-	SAFE_DELETE(pFile);
+	IResource * pResource = IResource::CreateResource(strPixelShaderPath);
+	shared_ptr<IResHandle> shaderHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+
+	const void * pData = shaderHandle->GetBuffer();
+	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreatePixelShader(pData, 
+		shaderHandle->GetSize(), NULL, &m_pPixelShader);
+
+	SAFE_DELETE(pResource);
 	if(FAILED(result))
 	{
 		Log_Write_L1(ILogger::LT_ERROR, cString("Error creating pixel shader ")

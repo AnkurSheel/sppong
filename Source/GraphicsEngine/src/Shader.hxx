@@ -54,19 +54,19 @@ namespace Graphics
 		 *
 		 * Returns an object to use a color shader
 		 ***********************************************/
-		static IShader * CreateColorShader();
+		static IShader * const CreateColorShader();
 		/********************************************//**
 		 * @return An object to use a texture shader
 		 *
 		 * Returns an object to use a texture shader
 		 ***********************************************/
-		static IShader * CreateTextureShader();
+		static IShader * const CreateTextureShader();
 		/********************************************//**
 		 * @return An object to use a font shader
 		 *
 		 * Returns an object to use a font shader
 		 ***********************************************/
-		static IShader * CreateFontShader();
+		static IShader * const CreateFontShader();
 	};
 }
 #endif // Shader_hxx__

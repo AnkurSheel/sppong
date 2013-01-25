@@ -1,36 +1,36 @@
-// ***************************************************************
+// *****************************************************************************
 //  ColorShader   version:  1.0   Ankur Sheel  date: 2012/09/15
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "ColorShader.h"
-#include <D3DX11async.h>
 #include "DxBase.hxx"
 #include "FileInput.hxx"
+#include "ResCache.hxx"
 
 using namespace Graphics;
 using namespace Utilities;
 using namespace Base;
 using namespace std;
 
-// ***************************************************************
-Graphics::cColorShader::cColorShader()
+// *****************************************************************************
+cColorShader::cColorShader()
 {
 
 }
 
-// ***************************************************************
-Graphics::cColorShader::~cColorShader()
+// *****************************************************************************
+cColorShader::~cColorShader()
 {
 }
 
-// ***************************************************************
-bool Graphics::cColorShader::VCreateLayout(const IFileInput * const pVertexShaderFile)
+// *****************************************************************************
+bool cColorShader::VCreateLayout(shared_ptr<IResHandle const> shaderHandle)
 {
 	int iNumberOfLayouts = 2;
 	D3D11_INPUT_ELEMENT_DESC * pPolygonLayout = DEBUG_NEW D3D11_INPUT_ELEMENT_DESC[iNumberOfLayouts];
@@ -52,7 +52,7 @@ bool Graphics::cColorShader::VCreateLayout(const IFileInput * const pVertexShade
 	pPolygonLayout[1].InstanceDataStepRate = 0;
 
 	HRESULT result = IDXBase::GetInstance()->VGetDevice()->CreateInputLayout(pPolygonLayout, 
-		iNumberOfLayouts, pVertexShaderFile->GetBuffer(), pVertexShaderFile->VGetFileSize(), &m_pLayout);
+		iNumberOfLayouts, shaderHandle->GetBuffer(), shaderHandle->GetSize(), &m_pLayout);
 
 	if(FAILED(result))
 	{
@@ -65,8 +65,8 @@ bool Graphics::cColorShader::VCreateLayout(const IFileInput * const pVertexShade
 	return true;
 }
 
-// ***************************************************************
-Graphics::IShader * Graphics::IShader::CreateColorShader()
+// *****************************************************************************
+IShader * const IShader::CreateColorShader()
 {
 	IShader * pShader= DEBUG_NEW cColorShader();
 	return pShader;

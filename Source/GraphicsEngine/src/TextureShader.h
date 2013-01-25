@@ -12,6 +12,11 @@
 
 #include "BaseShader.h"
 
+namespace Utilities
+{
+	class IResHandle;
+}
+
 namespace Graphics
 {
     /********************************************//**
@@ -39,7 +44,7 @@ namespace Graphics
 
 	protected:
 		virtual bool VInitialize(const Base::cString & strShaderName);
-		bool VCreateLayout(const Utilities::IFileInput * const pVertexShaderFile );
+		bool VCreateLayout(shared_ptr<Utilities::IResHandle const> shaderHandle);
 		virtual void VSetShaderParameters( const D3DXMATRIX & inMatWorld,
 			const D3DXMATRIX & inMatView, const D3DXMATRIX & inMatProjection);
 		virtual void VRenderShader();
