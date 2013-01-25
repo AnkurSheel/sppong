@@ -11,23 +11,59 @@
 #define HashedString_h__
 
 #include "BaseDefines.h"
+#include <memory>
 
 namespace Base
 {
+	///////////////////////////////////////////////////////////////////////////
+	/// @brief Stores a string with its hash. 
+	///
+	/// 
+	///////////////////////////////////////////////////////////////////////////
 	class cHashedString
 	{
 	public:
+		///////////////////////////////////////////////////////////////////////
+		/// Default Constructor
+		///
+		///
+		///////////////////////////////////////////////////////////////////////
 		BASE_API cHashedString();
-		BASE_API explicit cHashedString(const cString & strIdent);
-		BASE_API explicit cHashedString(const cHashedString & other);
-		BASE_API cHashedString & operator =(const cHashedString & other);
+		///////////////////////////////////////////////////////////////////////
+		/// Constructor which takes in string as a parameter and stores the
+		/// hash for it 
+		///
+		/// @param[in] string The string from which the hash has to be created
+		///
+		///////////////////////////////////////////////////////////////////////
+		BASE_API explicit cHashedString(const cString & string);
+		///////////////////////////////////////////////////////////////////////
+		/// Returns the hash
+		///
+		/// @returns The calculated hash 
+		///
+		///////////////////////////////////////////////////////////////////////
 		BASE_API unsigned long GetHash() const;
+		///////////////////////////////////////////////////////////////////////
+		/// Constructor which takes in string as a parameter and stores the
+		/// hash for it 
+		///
+		/// @param[in] string The string from which the hash has to be created
+		///
+		///////////////////////////////////////////////////////////////////////
 		BASE_API bool operator==(cHashedString const & o) const;
+		///////////////////////////////////////////////////////////////////////
+		/// Returns true if the checksum of o is equal to the checksum of this
+		/// hashed string
+		///
+		/// @return True if the chcksums are equal. False otherwise
+		///
+		///////////////////////////////////////////////////////////////////////
 		BASE_API static unsigned long CalculateHash(const cString & strIdent);
 
 	private:
-		unsigned long	m_lChecksum;
-		cString			m_strIdent;
+		class cImpl;
+		std::tr1::shared_ptr<cImpl> m_pImpl;
 	};
 }
 #endif // HashedString_h__
