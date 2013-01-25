@@ -31,7 +31,7 @@ namespace GameBase
 	class cGameElementDef
 	{
 	public:
-		Base::cString	strModelPath;
+		Base::cString	strModelName;
 		Base::cVector3	vPosition;
 		Base::cVector3	vRotation;
 		Base::cVector3	vScale;

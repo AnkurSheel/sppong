@@ -1,12 +1,12 @@
-// ***************************************************************
+// *****************************************************************************
 //  GraphicsTestView   version:  1.0   Ankur Sheel  date: 2011/08/31
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  -------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// ***************************************************************
+// *****************************************************************************
 // 
-// ***************************************************************
+// *****************************************************************************
 #include "stdafx.h"
 #include "GraphicsTestView.h"
 #include "Game.h"
@@ -21,7 +21,7 @@ using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
 
-// ***************************************************************
+// *****************************************************************************
 cGraphicsTestView::cGraphicsTestView()
 : m_pGame(NULL)
 , m_bFinished(false)
@@ -30,7 +30,7 @@ cGraphicsTestView::cGraphicsTestView()
 {
 }
 
-// ***************************************************************
+// *****************************************************************************
 cGraphicsTestView::~cGraphicsTestView()
 {
 	Cleanup();
@@ -52,7 +52,7 @@ void cGraphicsTestView::VOnCreateDevice(IBaseApp * pGame, const HINSTANCE & hIns
 	m_pInfoLabelControl->VSetPosition(cVector2(0.f, 0.f));
 }
 
-// ***************************************************************
+// *****************************************************************************
 bool cGraphicsTestView::VOnMsgProc( const Base::AppMsg & msg )
 {
 	if(!cHumanView::VOnMsgProc(msg))
@@ -91,7 +91,7 @@ bool cGraphicsTestView::VOnMsgProc( const Base::AppMsg & msg )
 	return true;
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::VRenderPrivate()
 {
 	cHumanView::VRenderPrivate();
@@ -136,7 +136,7 @@ void cGraphicsTestView::VRenderPrivate()
 	}
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::Finished()
 {
 	m_bFinished = true;
@@ -147,7 +147,7 @@ void cGraphicsTestView::Finished()
 	}
 }
 
-// *************************************************************************
+// ***************************************************************************************
 void cGraphicsTestView::TestModelColor()
 {
 	if(m_pInfoLabelControl != NULL)
@@ -162,13 +162,13 @@ void cGraphicsTestView::TestModelColor()
 	m_pGameElement = DEBUG_NEW cGameElement();
 	
 	cGameElementDef def;
-	def.strModelPath = cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strModelDirectory + "sphere.spdo";
+	def.strModelName = "sphere";
 	def.vPosition = cVector3(6.0f, 5.0f, 1.0f);
 	def.vScale = cVector3(2.0f, 2.0f, 1.0f);
 	m_pGameElement->VInitialize(def);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::TestModelTexture()
 {
 	if(m_pInfoLabelControl != NULL)
@@ -183,13 +183,13 @@ void cGraphicsTestView::TestModelTexture()
 	m_pGameElement = DEBUG_NEW cGameElement();
 
 	cGameElementDef def;
-	def.strModelPath = cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strModelDirectory + "cube.spdo";
+	def.strModelName = "cube";
 	def.vPosition = cVector3(2.0f, 2.0f, 2.0f);
 	def.vRotation = cVector3(0.7f, 0.0f, 0.7f);
 	m_pGameElement->VInitialize(def);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::TestSprite()
 {
 	if(m_pInfoLabelControl != NULL)
@@ -207,7 +207,7 @@ void cGraphicsTestView::TestSprite()
 	m_pSprite->VSetSize(cVector2(256, 256.0f));
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::TestFont()
 {
 	if(m_pInfoLabelControl != NULL)
@@ -229,7 +229,7 @@ void cGraphicsTestView::TestFont()
 	m_vSentences.push_back(pSentence);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::TestUIControls()
 {
 	if(m_pInfoLabelControl != NULL)
@@ -346,7 +346,7 @@ void cGraphicsTestView::TestUIControls()
 	IBaseControl * pHScrollBarControl = IBaseControl::CreateHScrollBarControl(hScrollBarDef);
 	pWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHScrollBarControl));
 }
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::Cleanup()
 {
 	SAFE_DELETE(m_pGameElement);
@@ -360,7 +360,7 @@ void cGraphicsTestView::Cleanup()
 	SAFE_DELETE(m_pAppWindowControl);
 }
 
-// ***************************************************************
+// *****************************************************************************
 void cGraphicsTestView::TestFinished()
 {
 	SAFE_DELETE(m_pGameElement);

@@ -1,12 +1,12 @@
-// *************************************************************************
+// *****************************************************************************
 //  ObjModelLoader   version:  1.0   Ankur Sheel  date: 2012/10/29
-//  ------------------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  
-//  ------------------------------------------------------------------------
+//  ----------------------------------------------------------------------------
 //  Copyright (C) 2008 - All Rights Reserved
-// *************************************************************************
+// *****************************************************************************
 // 
-// *************************************************************************
+// *****************************************************************************
 
 #include "stdafx.h"
 #include "ObjModelLoader.h"
@@ -14,6 +14,9 @@
 #include "Optional.h"
 #include "Model.hxx"
 #include "vertexstruct.h"
+#include "GameDirectories.h"
+#include "ResCache.hxx"
+#include "ResourceManager.hxx"
 
 using namespace Graphics;
 using namespace Base;
@@ -22,23 +25,27 @@ using namespace std;
 
 IObjModelLoader * cObjModelLoader::s_pModelLoader = NULL;
 
-// *************************************************************************
+// *****************************************************************************
 cObjModelLoader::cObjModelLoader()
 {
 
 }
 
-// *************************************************************************
+// *****************************************************************************
 cObjModelLoader::~cObjModelLoader()
 {
 }
 
-// *************************************************************************
+// *****************************************************************************
 void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * pModel)
 {
 	shared_ptr<IFileInput> pObjFile = shared_ptr<IFileInput>(IFileInput::CreateInputFile());
 	
-	if(pObjFile->Open(strModelFile, std::ios_base::in))
+	//cString strModelPath = cGameDirectories::GameDirectories().strModelDirectory + strModelFile;
+	//IResource * pResource = IResource::CreateResource(strModelPath);
+	//shared_ptr<IResHandle> modelHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
+
+	if(pObjFile->Open(cGameDirectories::GameDirectories().strMediaDirectory + cGameDirectories::GameDirectories().strModelDirectory + strModelFile + ".spdo", std::ios_base::in))
 	{
 		cString strLine;
 		vector<cString> vtokens;
@@ -150,12 +157,13 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 
 		pModel->VOnInitialization(def);
 
+		//SAFE_DELETE(pResource);
 		SAFE_DELETE_ARRAY(def.pVertices);
 		SAFE_DELETE_ARRAY(def.pIndices);
 	}
 }
 
-// *************************************************************************
+// *****************************************************************************
 float cObjModelLoader::GetFloatValue(const cString & strVal)
 {
 	tOptional<float> val = strVal.ToFloat();
@@ -166,7 +174,7 @@ float cObjModelLoader::GetFloatValue(const cString & strVal)
 	return 0;
 }
 
-// *************************************************************************
+// *****************************************************************************
 int cObjModelLoader::GetIntValue(const Base::cString & strVal)
 {
 	tOptional<int> val = strVal.ToInt();
@@ -177,7 +185,7 @@ int cObjModelLoader::GetIntValue(const Base::cString & strVal)
 	return 0;
 
 }
-// *************************************************************************
+// *****************************************************************************
 IObjModelLoader * IObjModelLoader::GetInstance()
 {
 	if(cObjModelLoader::s_pModelLoader == NULL)
@@ -185,7 +193,7 @@ IObjModelLoader * IObjModelLoader::GetInstance()
 	return cObjModelLoader::s_pModelLoader;
 }
 
-// *****************************************************************************
+// *********************************************************************************
 void IObjModelLoader::Destroy()
 {
 	SAFE_DELETE(cObjModelLoader::s_pModelLoader);
