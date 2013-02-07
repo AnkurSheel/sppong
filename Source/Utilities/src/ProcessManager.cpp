@@ -73,10 +73,11 @@ void cProcessManager::VDetachProcess(shared_ptr<cProcess> pProcess)
 void cProcessManager::VDetachProcesses(const cString & strType)
 {
 	ProcessList::iterator curProcess;
+	unsigned long hash = cHashedString::CalculateHash(strType);
 	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
 	{
 		shared_ptr<cProcess> p(*curProcess);
-		if(p->m_strType.GetHash() == cHashedString::CalculateHash(strType))
+		if(p->m_strType.GetHash() == hash)
 		{
 			p->VKill();
 		}
@@ -88,15 +89,31 @@ void cProcessManager::VSetProcessesActive(const cString & strType,
 										  const bool bActive)
 {
 	ProcessList::iterator curProcess;
+	unsigned long hash = cHashedString::CalculateHash(strType);
 	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
 	{
 		shared_ptr<cProcess> p(*curProcess);
-		if(p->m_strType.GetHash() == cHashedString::CalculateHash(strType))
+		if(p->m_strType.GetHash() == hash)
 		{
 			p->VSetActive(bActive);
 		}
 	}
+}
 
+// *****************************************************************************
+void cProcessManager::VGetProcesses(const cString & strType, ProcessList & pProcessList)
+{
+	ProcessList::iterator curProcess;
+	unsigned long hash = cHashedString::CalculateHash(strType);
+	for (curProcess = m_pProcessList.begin(); curProcess != m_pProcessList.end(); curProcess++)
+	{
+		shared_ptr<cProcess> p(*curProcess);
+		if(p->m_strType.GetHash() == hash)
+		{
+			pProcessList.push_back(p);
+		}
+	}
+	
 }
 
 // *****************************************************************************

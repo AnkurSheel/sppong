@@ -28,6 +28,7 @@ namespace Sound
 		SOUND_API static shared_ptr<ISoundProcess> CreateSoundProcess(const Base::cString & strType,
 			const Base::cString & strSoundFile, const int iVolume, 
 			const bool bLooping);
+		SOUND_API virtual void VSetVolume(const int iVolume) = 0;
 
 	protected:
 		ISoundProcess(const Base::cString & strType)

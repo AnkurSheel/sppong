@@ -18,6 +18,8 @@ namespace Utilities
 }
 namespace Utilities
 {
+	typedef std::list<shared_ptr<cProcess>> ProcessList;
+
 	class IProcessManager
 	{
 	public:
@@ -29,6 +31,7 @@ namespace Utilities
 		UTILITIES_API virtual void UpdateProcesses(const int iDeltaMilliSeconds) = 0;
 		UTILITIES_API virtual void VDetachProcesses(const Base::cString & strType) = 0;
 		UTILITIES_API virtual void VSetProcessesActive(const Base::cString & strType, const bool bActive) = 0;
+		UTILITIES_API virtual void VGetProcesses(const Base::cString & strType, ProcessList & pProcessList) = 0;
 		UTILITIES_API static IProcessManager * CreateProcessManager();
 	};
 }

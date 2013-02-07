@@ -66,6 +66,8 @@ namespace GameBase
 		GAMEBASE_API void MusicCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
 		GAMEBASE_API void SfxCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
 		GAMEBASE_API void FullScreenCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
+		GAMEBASE_API void SetMusicVolume();
+		GAMEBASE_API void SetSFXVolume();
 
 	protected:
 		GAMEBASE_API virtual void VRenderPrivate();

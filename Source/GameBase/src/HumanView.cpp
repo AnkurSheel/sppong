@@ -258,7 +258,8 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 	if(cGameOptions::GameOptions().bPlaySfx)
 	{
 		shared_ptr<ISoundProcess> pSFXChannelProcess(ISoundProcess::CreateSoundProcess(m_hashSFXChannel,
-			cGameDirectories::GameDirectories().strSoundSFXDirectory + strSoundFile, 100, false));
+			cGameDirectories::GameDirectories().strSoundSFXDirectory + strSoundFile,
+			cGameOptions::GameOptions().iSFXVolume, false));
 		m_pProcessManager->VAttachProcess(pSFXChannelProcess);
 	}
 }
@@ -267,9 +268,36 @@ void cHumanView::PlaySFX(const cString & strSoundFile)
 void cHumanView::PlayMusic(const cString & strMusicFile, const bool bLooping)
 {
 	shared_ptr<ISoundProcess> pMusicChannelProcess = ISoundProcess::CreateSoundProcess(m_hashMusicChannel,
-		cGameDirectories::GameDirectories().strSoundMusicDirectory + strMusicFile, 100, bLooping);
+		cGameDirectories::GameDirectories().strSoundMusicDirectory + strMusicFile, 
+		cGameOptions::GameOptions().iMusicVolume, bLooping);
 	m_pProcessManager->VAttachProcess(pMusicChannelProcess);
 	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
+}
+
+// *******************************************************************************************
+void cHumanView::SetMusicVolume()
+{
+	ProcessList pProcessList;
+	m_pProcessManager->VGetProcesses(m_hashMusicChannel, pProcessList);
+	ProcessList::iterator curProcess;
+	for (curProcess = pProcessList.begin(); curProcess != pProcessList.end(); curProcess++)
+	{
+		shared_ptr<ISoundProcess> p = dynamic_pointer_cast<ISoundProcess>(*curProcess);
+		p->VSetVolume(cGameOptions::GameOptions().iMusicVolume);
+	}
+}
+
+// *****************************************************************************
+void cHumanView::SetSFXVolume()
+{
+	ProcessList pProcessList;
+	m_pProcessManager->VGetProcesses(m_hashSFXChannel, pProcessList);
+	ProcessList::iterator curProcess;
+	for (curProcess = pProcessList.begin(); curProcess != pProcessList.end(); curProcess++)
+	{
+		shared_ptr<ISoundProcess> p = dynamic_pointer_cast<ISoundProcess>(*curProcess);
+		p->VSetVolume(cGameOptions::GameOptions().iSFXVolume);
+	}
 }
 
 // *******************************************************************************************

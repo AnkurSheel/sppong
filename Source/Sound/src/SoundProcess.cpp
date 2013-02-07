@@ -86,6 +86,17 @@ void cSoundProcess::VKill()
 }
 
 // *****************************************************************************
+void cSoundProcess::VSetVolume(const int iVolume)
+{
+	m_iVolume = iVolume;
+	if (m_pAudioBuffer == NULL)
+	{
+		return;
+	}
+	m_pAudioBuffer->VSetVolume(m_iVolume);
+}
+
+// *****************************************************************************
 void cSoundProcess::Play()
 {
 	if (m_pAudioBuffer == NULL)

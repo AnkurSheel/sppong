@@ -32,6 +32,7 @@ namespace Sound
 		void VKill();
 		void VTogglePause();
 		void VSetActive(const bool bActive);
+		void VSetVolume(const int iVolume);
 		void Play();
 		void Stop();
 		bool IsPlaying();

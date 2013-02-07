@@ -581,6 +581,16 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		fullScreenCheckBoxCallback = bind(&cHumanView::FullScreenCheckBoxPressed, m_pOwner->m_pHumanView, _1);
 		pFullscreenCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, fullScreenCheckBoxCallback);
 
+		cLabelControlDef def;
+		def.strControlName = "MusicVolume";
+		def.strFont = "licorice"; 
+		def.textColor = cColor::WHITE;
+		def.strText = "Music Volume";
+		def.fTextHeight = 20;
+		def.vPosition = cVector2(0.0f, 406.0f);
+		IBaseControl * pMusicVolumeLabelControl = IBaseControl::CreateLabelControl(def);
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicVolumeLabelControl));
+
 		cScrollBarControlDef hScrollBarDef;
 		hScrollBarDef.strControlName = "hsbMusicVolume";
 		hScrollBarDef.strBGImage = "ScrollBar_BG.png";
@@ -593,7 +603,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		hScrollBarDef.TopLeftArrowDef.strPressedImage = "ScrollBar_Left.png";
 		hScrollBarDef.BottomRightArrowDef.strDefaultImage = "ScrollBar_Right.png";
 		hScrollBarDef.BottomRightArrowDef.strPressedImage = "ScrollBar_Right.png";
-		hScrollBarDef.vPosition = cVector2(0.f, 400.f);
+		hScrollBarDef.vPosition = cVector2(120.f, 400.f);
 		hScrollBarDef.vSize = cVector2(200, 30);
 
 		IBaseControl * pMusicScrollBarControl = IBaseControl::CreateHScrollBarControl(hScrollBarDef);
@@ -614,14 +624,38 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		textBoxControlDef.iCaretWidth = 3;
 		textBoxControlDef.fCaretUpdateTime = 0.25f;
 		textBoxControlDef.vSize = cVector2(50, 30);
-		textBoxControlDef.vPosition = cVector2(220, 400);
+		textBoxControlDef.vPosition = cVector2(340, 400);
 
 		IBaseControl * pMusicVolumeTextBoxControl = IBaseControl::CreateTextBoxControl(textBoxControlDef);
 		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicVolumeTextBoxControl));
 
+		def.strControlName = "SFXVolume";
+		def.strText = "SFX Volume";
+		def.vPosition = cVector2(0.0f, 456.0f);
+		IBaseControl * pSFXVolumeLabelControl = IBaseControl::CreateLabelControl(def);
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSFXVolumeLabelControl));
+
+		hScrollBarDef.strControlName = "hsbSFXVolume";
+		hScrollBarDef.iInitialThumbPosition = (cGameOptions::GameOptions().iSFXVolume) / 5;
+		hScrollBarDef.vPosition = cVector2(120.f, 450.f);
+
+		IBaseControl * pSFXScrollBarControl = IBaseControl::CreateHScrollBarControl(hScrollBarDef);
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSFXScrollBarControl));
+
+		UIEventCallBackFn SFXScrollbarcallback;
+		SFXScrollbarcallback = bind(&cStateOptionsScreen::SFXScrollbarChanged, this, _1);
+		pSFXScrollBarControl->VRegisterCallBack(UIET_SCBCHANGED, SFXScrollbarcallback);
+
+		textBoxControlDef.strControlName = "tbSFXVolume";
+		textBoxControlDef.strText = cString(30, "%d", cGameOptions::GameOptions().iSFXVolume);
+		textBoxControlDef.vPosition = cVector2(340, 450);
+
+		IBaseControl * pSFXVolumeTextBoxControl = IBaseControl::CreateTextBoxControl(textBoxControlDef);
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSFXVolumeTextBoxControl));
+
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
-		buttonDef.vPosition = cVector2(0, 480);
+		buttonDef.vPosition = cVector2(0, 500);
 		buttonDef.strDefaultImage = "buttonDefault.png";
 		buttonDef.strPressedImage = "buttonPressed.png";
 		buttonDef.labelControlDef.strFont = "licorice";
@@ -675,5 +709,16 @@ void cStateOptionsScreen::BackButtonPressed(const unUIEventCallbackParam & param
 void cStateOptionsScreen::MusicScrollbarChanged(const unUIEventCallbackParam & params)
 {
 	IBaseControl * pMusicTextBox = m_pOptionsScreen->VFindChildControl("tbMusicVolume");
-	pMusicTextBox->VSetText(cString(20, "%d", params.iThumbPos * 5));
+	cGameOptions::GameOptions().iMusicVolume = params.iThumbPos * 5;
+	pMusicTextBox->VSetText(cString(20, "%d", cGameOptions::GameOptions().iMusicVolume));
+	m_pOwner->m_pHumanView->SetMusicVolume();
+}
+
+// *****************************************************************************
+void cStateOptionsScreen::SFXScrollbarChanged(const Graphics::unUIEventCallbackParam& params)
+{
+	IBaseControl * pMusicTextBox = m_pOptionsScreen->VFindChildControl("tbSFXVolume");
+	cGameOptions::GameOptions().iSFXVolume = params.iThumbPos * 5;
+	pMusicTextBox->VSetText(cString(20, "%d", cGameOptions::GameOptions().iSFXVolume));
+	m_pOwner->m_pHumanView->SetSFXVolume();
 }

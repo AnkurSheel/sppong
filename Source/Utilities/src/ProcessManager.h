@@ -19,8 +19,6 @@ namespace Utilities
 
 namespace Utilities
 {
-	typedef std::list<shared_ptr<cProcess>> ProcessList;
-
 	class cProcessManager
 		: public IProcessManager
 	{
@@ -35,6 +33,7 @@ namespace Utilities
 		void VDetachProcess(shared_ptr<cProcess> pProcess);
 		void VDetachProcesses(const Base::cString & strType);
 		void VSetProcessesActive(const Base::cString & strType, const bool bActive);
+		void VGetProcesses(const Base::cString & strType, ProcessList & pProcessList);
 
 	protected:
 		ProcessList m_pProcessList;

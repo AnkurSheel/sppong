@@ -113,6 +113,7 @@ private:
 	cStateOptionsScreen();
 	void BackButtonPressed(const Graphics::unUIEventCallbackParam& params);
 	void MusicScrollbarChanged(const Graphics::unUIEventCallbackParam& params);
+	void SFXScrollbarChanged(const Graphics::unUIEventCallbackParam& params);
 
 private:
 	Graphics::IBaseControl * m_pOptionsScreen;

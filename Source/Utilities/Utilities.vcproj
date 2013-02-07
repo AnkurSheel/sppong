@@ -379,6 +379,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\Includes\ProcessManager.hxx"
+			>
+		</File>
+		<File
 			RelativePath=".\src\RandomGenerator.cpp"
 			>
 		</File>
