@@ -46,6 +46,19 @@ cHashedString::cHashedString(const cString & string)
 {
 }
 
+// *****************************************************************************
+cHashedString::cHashedString(const cHashedString & str)
+	: m_pImpl(DEBUG_NEW cImpl(*(str.m_pImpl)))
+{
+}
+
+// *****************************************************************************
+cHashedString cHashedString::operator=( const cHashedString & str)
+{
+	m_pImpl = shared_ptr<cImpl>(DEBUG_NEW cImpl(*(str.m_pImpl)));
+	return *this;
+}
+
 // ****************************************************************************
 unsigned long cHashedString::CalculateHash(const cString & strIdent)
 {

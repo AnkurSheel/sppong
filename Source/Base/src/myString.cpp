@@ -93,17 +93,16 @@ cString::cString(const int iMaxSize, const char * const lpFmt, ... )
 
 // *****************************************************************************
 cString::cString(const cString & str)
-	: m_pImpl(DEBUG_NEW cImpl(str.m_pImpl->GetData()))
+	: m_pImpl(DEBUG_NEW cImpl(*(str.m_pImpl)))
 {
 }
 
 // *****************************************************************************
 cString cString::operator=( const cString & str)
 {
-	m_pImpl = shared_ptr<cImpl>(DEBUG_NEW cImpl(str.m_pImpl->GetData()));
+	m_pImpl = shared_ptr<cImpl>(DEBUG_NEW cImpl(*(str.m_pImpl)));
 	return *this;
 }
-
 
 //// *****************************************************************************
 //void cString::operator += (const char * const str)
