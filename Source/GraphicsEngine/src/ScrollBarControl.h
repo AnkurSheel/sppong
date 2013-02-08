@@ -45,25 +45,25 @@ namespace Graphics
 		 *
 		 * Increments the thumb position by 1 when the down/right button is released
 		 ***********************************************/
-		void IncrementArrowPressed(const Graphics::unUIEventCallbackParam & params);
+		void IncrementArrowPressed(const Graphics::stUIEventCallbackParam & params);
 		/********************************************//**
 		 * @param[in] params Not Used
 		 *
 		 * Decrements the thumb position by 1 when the up/left button is released
 		 ***********************************************/
-		void DecrementArrowPressed(const Graphics::unUIEventCallbackParam & params);
+		void DecrementArrowPressed(const Graphics::stUIEventCallbackParam & params);
 		/********************************************//**
 		 * @param[in] params Not Used
 		 *
 		 * Sets the drag mode
 		 ***********************************************/
-		void ThumbPressed(const Graphics::unUIEventCallbackParam & params);
+		void ThumbPressed(const Graphics::stUIEventCallbackParam & params);
 		/********************************************//**
 		 * @param[in] params Not Used
 		 *
 		 * Resets the drag mode
 		 ***********************************************/
-		void ThumbReleased(const Graphics::unUIEventCallbackParam & params);
+		void ThumbReleased(const Graphics::stUIEventCallbackParam & params);
 
 	protected:
 		int						m_iMinPos;							/*!< The minimum value that the scrollbar can go to. */ 

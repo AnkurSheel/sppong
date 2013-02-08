@@ -150,7 +150,7 @@ void cScrollBarControl::VSetThumbPosition(const int iNewPosition)
 	}
 	if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_SCBCHANGED))
 	{
-		unUIEventCallbackParam param;
+		stUIEventCallbackParam param;
 		param.iThumbPos = m_iThumbPos;
 		(*pFn)(param);
 	}
@@ -166,26 +166,26 @@ void cScrollBarControl::VCleanup()
 	SAFE_DELETE(m_pBtnThumb);
 }
 // ****************************************************************************
-void cScrollBarControl::IncrementArrowPressed(const unUIEventCallbackParam & params)
+void cScrollBarControl::IncrementArrowPressed(const stUIEventCallbackParam & params)
 {
 	VSetThumbPosition(m_iThumbPos + 1);
 }
 
 // ****************************************************************************
-void cScrollBarControl::DecrementArrowPressed(const unUIEventCallbackParam & params)
+void cScrollBarControl::DecrementArrowPressed(const stUIEventCallbackParam & params)
 {
 	VSetThumbPosition(m_iThumbPos - 1);
 }
 
 // ****************************************************************************
-void cScrollBarControl::ThumbPressed(const unUIEventCallbackParam & params)
+void cScrollBarControl::ThumbPressed(const stUIEventCallbackParam & params)
 {
 	Log_Write_L3(ILogger::LT_ERROR, "Drag Mode set");
 	m_bDragMode = true;
 }
 
 // ****************************************************************************
-void cScrollBarControl::ThumbReleased(const unUIEventCallbackParam & params)
+void cScrollBarControl::ThumbReleased(const stUIEventCallbackParam & params)
 {
 	Log_Write_L3(ILogger::LT_ERROR, "Drag Mode unset");
 	m_bDragMode = false;

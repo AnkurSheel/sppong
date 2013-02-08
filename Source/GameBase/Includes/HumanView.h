@@ -34,7 +34,7 @@ namespace Graphics
 	class ISprite;
 	class IBaseControl;
 	class ICamera;
-	union unUIEventCallbackParam;
+	struct stUIEventCallbackParam;
 }
 namespace Sound
 {
@@ -63,9 +63,9 @@ namespace GameBase
 		GAMEBASE_API const Graphics::ICamera * const GetCamera() const;
 		GAMEBASE_API void PlaySFX(const Base::cString & strSoundFile);
 		GAMEBASE_API void PlayMusic(const Base::cString & strMusicFile, const bool bLooping);
-		GAMEBASE_API void MusicCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
-		GAMEBASE_API void SfxCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
-		GAMEBASE_API void FullScreenCheckBoxPressed(const Graphics::unUIEventCallbackParam & params);
+		GAMEBASE_API void MusicCheckBoxPressed(const Graphics::stUIEventCallbackParam & params);
+		GAMEBASE_API void SfxCheckBoxPressed(const Graphics::stUIEventCallbackParam & params);
+		GAMEBASE_API void FullScreenCheckBoxPressed(const Graphics::stUIEventCallbackParam & params);
 		GAMEBASE_API void SetMusicVolume();
 		GAMEBASE_API void SetSFXVolume();
 

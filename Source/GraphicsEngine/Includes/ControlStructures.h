@@ -27,17 +27,19 @@ namespace Graphics
 		UIET_BTNPRESSED,	/*!< Button was pressed */ 
 		UIET_BTNRELEASED,	/*!< Button was released */ 
 		UIET_SCBCHANGED,	/*!< The value of the Scrollbar was changed */ 
+		UIET_TBCHANGED,		/*!< The value of the Textbox was changed */ 
 	};
 
 	/********************************************//**
      * @brief Return structure for UI callback functions
      ***********************************************/
-	union unUIEventCallbackParam
+	struct stUIEventCallbackParam
 	{
-		bool	bChecked;		/*!< Will be set/unset for checkboxes */ 
-		int		iThumbPos;		/*!< The position of the thumb for scrollbars */ 
+		bool			bChecked;	/*!< Will be set/unset for checkboxes */ 
+		int				iThumbPos;	/*!< The position of the thumb for scrollbars */ 
+		Base::cString	strText;	/*!< The text for textboxes */ 
 
-		unUIEventCallbackParam()
+		stUIEventCallbackParam()
 			: bChecked(false)
 		{
 		}

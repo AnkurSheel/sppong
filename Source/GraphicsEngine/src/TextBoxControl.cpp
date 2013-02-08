@@ -177,6 +177,12 @@ void cTextBoxControl::VOnFocusChanged()
 	{
 		m_pTimer->VStopTimer();	
 		m_bIsCaretVisible = false;
+		if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_TBCHANGED))
+		{
+			stUIEventCallbackParam param;
+			m_pSentence->VGetText(param.strText);
+			(*pFn)(param);
+		}
 	}
 }
 

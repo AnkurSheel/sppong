@@ -15,7 +15,7 @@
 namespace Graphics
 {
 	class IBaseControl;
-	union unUIEventCallbackParam;
+	struct stUIEventCallbackParam;
 }
 
 class cGame;
@@ -57,11 +57,11 @@ public:
 
 private:
 	cStateMenuScreen();
-	void SinglePlayerButtonPressed(const Graphics::unUIEventCallbackParam& params);
-	void MultiPlayerButtonPressed(const Graphics::unUIEventCallbackParam& params);
-	void HelpButtonPressed(const Graphics::unUIEventCallbackParam& params);
-	void OptionsButtonPressed(const Graphics::unUIEventCallbackParam& params);
-	void QuitButtonPressed(const Graphics::unUIEventCallbackParam& params);
+	void SinglePlayerButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void MultiPlayerButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void HelpButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void OptionsButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void QuitButtonPressed(const Graphics::stUIEventCallbackParam& params);
 
 private:
 	Graphics::IBaseControl * m_pMenuScreen;
@@ -95,7 +95,7 @@ public:
 
 private:
 	cStateHelpScreen();
-	void BackButtonPressed(const Graphics::unUIEventCallbackParam& params);
+	void BackButtonPressed(const Graphics::stUIEventCallbackParam& params);
 };
 
 class cStateOptionsScreen 
@@ -111,9 +111,9 @@ public:
 
 private:
 	cStateOptionsScreen();
-	void BackButtonPressed(const Graphics::unUIEventCallbackParam& params);
-	void MusicScrollbarChanged(const Graphics::unUIEventCallbackParam& params);
-	void SFXScrollbarChanged(const Graphics::unUIEventCallbackParam& params);
+	void BackButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void MusicScrollbarChanged(const Graphics::stUIEventCallbackParam& params);
+	void SFXScrollbarChanged(const Graphics::stUIEventCallbackParam& params);
 
 private:
 	Graphics::IBaseControl * m_pOptionsScreen;

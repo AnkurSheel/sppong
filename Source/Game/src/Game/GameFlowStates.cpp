@@ -72,7 +72,7 @@ void cStateTitleScreen::VOnEnter(cGame *pGame)
 	}
 	pGame->m_pHumanView->PlayMusic("mainmenu.ogg", true);
 
-	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOWMENU, NULL);
+	IMessageDispatchManager::GetInstance()->VDispatchMessage(2.0f, pGame->VGetID(), pGame->VGetID(), MSG_SHOW_MENU, NULL);
 }
 // *****************************************************************************
 
@@ -88,9 +88,14 @@ void cStateTitleScreen::VOnExit()
 
 bool cStateTitleScreen::VOnMessage(const Telegram &msg)
 {
-	if(msg.Msg == MSG_SHOWMENU)
+	if(msg.Msg == MSG_SHOW_MENU)
 	{
 		m_pOwner->m_pStateMachine->RequestChangeState(cStateMenuScreen::Instance());
+		return true;
+	}
+	else if(msg.Msg == MSG_ESCAPE_PRESSED)
+	{
+		PostQuitMessage(0);
 		return true;
 	}
 	return false;
@@ -231,6 +236,11 @@ void cStateMenuScreen::VOnExit()
 
 bool cStateMenuScreen::VOnMessage(const Telegram &msg)
 {
+	if(msg.Msg == MSG_ESCAPE_PRESSED)
+	{
+		PostQuitMessage(0);
+		return true;
+	}
 	return false;
 }
 
@@ -255,7 +265,7 @@ void cStateMenuScreen::VOnResume()
 }
 
 // *****************************************************************************
-void cStateMenuScreen::SinglePlayerButtonPressed(const unUIEventCallbackParam & params)
+void cStateMenuScreen::SinglePlayerButtonPressed(const stUIEventCallbackParam & params)
 {
 	m_pOwner->m_bSinglePlayer = true;
 	cMPongView * pView = dynamic_cast<cMPongView *>(m_pOwner->m_pHumanView);
@@ -264,7 +274,7 @@ void cStateMenuScreen::SinglePlayerButtonPressed(const unUIEventCallbackParam & 
 }
 
 // *****************************************************************************
-void cStateMenuScreen::MultiPlayerButtonPressed(const unUIEventCallbackParam & params)
+void cStateMenuScreen::MultiPlayerButtonPressed(const stUIEventCallbackParam & params)
 {
 	m_pOwner->m_bMultiPlayer = true;
 	cMPongView * pView = dynamic_cast<cMPongView *>(m_pOwner->m_pHumanView);
@@ -273,7 +283,7 @@ void cStateMenuScreen::MultiPlayerButtonPressed(const unUIEventCallbackParam & p
 }
 
 // *****************************************************************************
-void cStateMenuScreen::HelpButtonPressed(const unUIEventCallbackParam & params)
+void cStateMenuScreen::HelpButtonPressed(const stUIEventCallbackParam & params)
 {
 	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
@@ -282,7 +292,7 @@ void cStateMenuScreen::HelpButtonPressed(const unUIEventCallbackParam & params)
 }
 
 // *****************************************************************************
-void cStateMenuScreen::OptionsButtonPressed(const unUIEventCallbackParam & params)
+void cStateMenuScreen::OptionsButtonPressed(const stUIEventCallbackParam & params)
 {
 	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
@@ -291,7 +301,7 @@ void cStateMenuScreen::OptionsButtonPressed(const unUIEventCallbackParam & param
 }
 
 // *****************************************************************************
-void cStateMenuScreen::QuitButtonPressed(const unUIEventCallbackParam & params)
+void cStateMenuScreen::QuitButtonPressed(const stUIEventCallbackParam & params)
 {
 	PostQuitMessage(0);
 }
@@ -412,6 +422,11 @@ void cStatePlayGame::VOnExit()
 
 bool cStatePlayGame::VOnMessage(const Telegram &msg)
 {
+	if(msg.Msg == MSG_ESCAPE_PRESSED)
+	{
+		PostQuitMessage(0);
+		return true;
+	}
 	return false;
 }
 
@@ -496,10 +511,16 @@ void cStateHelpScreen::VOnExit()
 // *****************************************************************************
 bool cStateHelpScreen::VOnMessage(const Telegram &msg)
 {
+	if(msg.Msg == MSG_ESCAPE_PRESSED)
+	{
+		stUIEventCallbackParam params;
+		BackButtonPressed(params);
+		return true;
+	}
 	return false;
 }
 
-void cStateHelpScreen::BackButtonPressed(const unUIEventCallbackParam & params)
+void cStateHelpScreen::BackButtonPressed(const stUIEventCallbackParam & params)
 {
 	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 	{
@@ -613,23 +634,17 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		musicScrollbarcallback = bind(&cStateOptionsScreen::MusicScrollbarChanged, this, _1);
 		pMusicScrollBarControl->VRegisterCallBack(UIET_SCBCHANGED, musicScrollbarcallback);
 
-		cTextBoxControlDef textBoxControlDef;
-		textBoxControlDef.strControlName = "tbMusicVolume";
-		textBoxControlDef.strBGImage = "TextBox.png";
-		textBoxControlDef.strFont = "licorice";
-		textBoxControlDef.strText = cString(30, "%d", cGameOptions::GameOptions().iMusicVolume);
-		textBoxControlDef.fTextHeight = 20;
-		textBoxControlDef.textColor = cColor::BLACK;
-		textBoxControlDef.strCaretImage = "caret.png";
-		textBoxControlDef.iCaretWidth = 3;
-		textBoxControlDef.fCaretUpdateTime = 0.25f;
-		textBoxControlDef.vSize = cVector2(50, 30);
-		textBoxControlDef.vPosition = cVector2(340, 400);
-
-		IBaseControl * pMusicVolumeTextBoxControl = IBaseControl::CreateTextBoxControl(textBoxControlDef);
-		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicVolumeTextBoxControl));
+		def.strControlName = "tbMusicVolume";
+		def.strBGImageFile = "TextBox.png";
+		def.textColor = cColor::BLACK;
+		def.strText = cString(30, "%d", cGameOptions::GameOptions().iMusicVolume);
+		def.vPosition = cVector2(340.0f, 406.0f);
+		IBaseControl * pMusicVolumeTextControl = IBaseControl::CreateLabelControl(def);
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pMusicVolumeTextControl));
 
 		def.strControlName = "SFXVolume";
+		def.strBGImageFile = "";
+		def.textColor = cColor::WHITE;
 		def.strText = "SFX Volume";
 		def.vPosition = cVector2(0.0f, 456.0f);
 		IBaseControl * pSFXVolumeLabelControl = IBaseControl::CreateLabelControl(def);
@@ -646,12 +661,13 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		SFXScrollbarcallback = bind(&cStateOptionsScreen::SFXScrollbarChanged, this, _1);
 		pSFXScrollBarControl->VRegisterCallBack(UIET_SCBCHANGED, SFXScrollbarcallback);
 
-		textBoxControlDef.strControlName = "tbSFXVolume";
-		textBoxControlDef.strText = cString(30, "%d", cGameOptions::GameOptions().iSFXVolume);
-		textBoxControlDef.vPosition = cVector2(340, 450);
-
-		IBaseControl * pSFXVolumeTextBoxControl = IBaseControl::CreateTextBoxControl(textBoxControlDef);
-		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSFXVolumeTextBoxControl));
+		def.strControlName = "tbSFXVolume";
+		def.strBGImageFile = "TextBox.png";
+		def.textColor = cColor::BLACK;
+		def.strText = cString(30, "%d", cGameOptions::GameOptions().iSFXVolume);
+		def.vPosition = cVector2(340.0f, 456.0f);
+		IBaseControl * pSFXVolumeTextControl = IBaseControl::CreateLabelControl(def);
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pSFXVolumeTextControl));
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
@@ -689,11 +705,17 @@ void cStateOptionsScreen::VOnExit()
 // *****************************************************************************
 bool cStateOptionsScreen::VOnMessage(const Telegram &msg)
 {
+	if(msg.Msg == MSG_ESCAPE_PRESSED)
+	{
+		stUIEventCallbackParam params;
+		BackButtonPressed(params);
+		return true;
+	}
 	return false;
 }
 
 // *****************************************************************************
-void cStateOptionsScreen::BackButtonPressed(const unUIEventCallbackParam & params)
+void cStateOptionsScreen::BackButtonPressed(const stUIEventCallbackParam & params)
 {
 	if(m_pOwner != NULL)
 	{
@@ -706,7 +728,7 @@ void cStateOptionsScreen::BackButtonPressed(const unUIEventCallbackParam & param
 }
 
 // *****************************************************************************
-void cStateOptionsScreen::MusicScrollbarChanged(const unUIEventCallbackParam & params)
+void cStateOptionsScreen::MusicScrollbarChanged(const stUIEventCallbackParam & params)
 {
 	IBaseControl * pMusicTextBox = m_pOptionsScreen->VFindChildControl("tbMusicVolume");
 	cGameOptions::GameOptions().iMusicVolume = params.iThumbPos * 5;
@@ -715,7 +737,7 @@ void cStateOptionsScreen::MusicScrollbarChanged(const unUIEventCallbackParam & p
 }
 
 // *****************************************************************************
-void cStateOptionsScreen::SFXScrollbarChanged(const Graphics::unUIEventCallbackParam& params)
+void cStateOptionsScreen::SFXScrollbarChanged(const Graphics::stUIEventCallbackParam& params)
 {
 	IBaseControl * pMusicTextBox = m_pOptionsScreen->VFindChildControl("tbSFXVolume");
 	cGameOptions::GameOptions().iSFXVolume = params.iThumbPos * 5;

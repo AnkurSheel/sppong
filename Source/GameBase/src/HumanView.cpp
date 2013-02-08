@@ -301,21 +301,21 @@ void cHumanView::SetSFXVolume()
 }
 
 // *******************************************************************************************
-void cHumanView::MusicCheckBoxPressed(const unUIEventCallbackParam & params)
+void cHumanView::MusicCheckBoxPressed(const stUIEventCallbackParam & params)
 {
 	cGameOptions::GameOptions().bPlayMusic = params.bChecked;
 	m_pProcessManager->VSetProcessesActive(m_hashMusicChannel, cGameOptions::GameOptions().bPlayMusic);
 }
 
 // *******************************************************************************************
-void cHumanView::SfxCheckBoxPressed(const unUIEventCallbackParam & params)
+void cHumanView::SfxCheckBoxPressed(const stUIEventCallbackParam & params)
 {
 	cGameOptions::GameOptions().bPlaySfx = params.bChecked;
 	m_pProcessManager->VSetProcessesActive(m_hashSFXChannel, cGameOptions::GameOptions().bPlaySfx);
 }
 
 // *******************************************************************************************
-void cHumanView::FullScreenCheckBoxPressed(const unUIEventCallbackParam & params)
+void cHumanView::FullScreenCheckBoxPressed(const stUIEventCallbackParam & params)
 {
 	IMainWindow::GetInstance()->VToggleFullScreen();
 }

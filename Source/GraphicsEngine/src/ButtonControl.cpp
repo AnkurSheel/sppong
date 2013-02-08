@@ -95,7 +95,7 @@ bool cButtonControl::VOnLeftMouseButtonUp( const int X, const int Y )
 		}
 		if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_BTNRELEASED))
 		{
-			unUIEventCallbackParam param;
+			stUIEventCallbackParam param;
 			(*pFn)(param);
 		}
 		return cBaseControl::VOnLeftMouseButtonUp(X, Y);
@@ -114,7 +114,7 @@ bool cButtonControl::VOnLeftMouseButtonDown( const int X, const int Y )
 	}
 	if (UIEventCallBackFn * pFn = GetCallbackFromMap(UIET_BTNPRESSED))
 	{
-		unUIEventCallbackParam param;
+		stUIEventCallbackParam param;
 		(*pFn)(param);
 	}
 	return cBaseControl::VOnLeftMouseButtonDown(X, Y);

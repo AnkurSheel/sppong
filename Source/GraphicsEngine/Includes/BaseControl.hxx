@@ -31,7 +31,7 @@ namespace Graphics
 
 namespace Graphics
 {
-	typedef function<void (const unUIEventCallbackParam &)> UIEventCallBackFn;
+	typedef function<void (const stUIEventCallbackParam &)> UIEventCallBackFn;
 
 	/********************************************//**
 	 * @brief Interface for All UI controls.

@@ -15,6 +15,7 @@
 #include "P1PaddleHandler.h"
 #include "P2PaddleHandler.h"
 #include "Camera.hxx"
+#include "MessageDispatchManager.hxx"
 
 using namespace Utilities;
 using namespace Graphics;
@@ -66,7 +67,8 @@ bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
 			{
 				// lock the ESC key
 				LockKey(VK_ESCAPE);
-				PostQuitMessage(0);
+				IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, m_pGame->VGetID(),
+					m_pGame->VGetID(), MSG_ESCAPE_PRESSED, NULL);
 			}
 			if (m_P1PaddleHandler)
 			{

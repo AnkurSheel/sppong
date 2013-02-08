@@ -13,6 +13,7 @@
 enum Messages
 {
 	MSG_NONE = -1,
-	MSG_SHOWMENU = 0,
+	MSG_SHOW_MENU = 0,
+	MSG_ESCAPE_PRESSED,
 };
 #endif // Messages_h__
