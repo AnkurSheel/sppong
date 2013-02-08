@@ -12,14 +12,14 @@
 
 using namespace Base;
 
-///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 /// @brief Implementation of cHashedString 
 ///
 /// 
-///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 class cHashedString::cImpl
 {
-public:
+private:
 	cImpl();
 	cImpl(const cString & string);
 	cImpl(const cImpl & other);
@@ -27,9 +27,11 @@ public:
 	static unsigned long CalculateHash(const cString & strIdent);
 	bool operator==(cImpl const & o) const;
 
-public:
+private:
 	unsigned long	m_lChecksum;	///< The hash associated with this string.
 	cString			m_strIdent;	///< The string
+
+	friend class cHashedString;
 };
 
 // ****************************************************************************

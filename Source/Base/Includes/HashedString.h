@@ -45,20 +45,20 @@ namespace Base
 		///////////////////////////////////////////////////////////////////////
 		BASE_API unsigned long GetHash() const;
 		///////////////////////////////////////////////////////////////////////
-		/// Constructor which takes in string as a parameter and stores the
-		/// hash for it 
-		///
-		/// @param[in] string The string from which the hash has to be created
-		///
-		///////////////////////////////////////////////////////////////////////
-		BASE_API bool operator==(cHashedString const & o) const;
-		///////////////////////////////////////////////////////////////////////
 		/// Returns true if the checksum of o is equal to the checksum of this
 		/// hashed string
 		///
 		/// @return True if the chcksums are equal. False otherwise
 		///
 		///////////////////////////////////////////////////////////////////////
+		BASE_API bool operator==(cHashedString const & o) const;
+		///////////////////////////////////////////////////////////////////////
+		/// Constructor which takes in string as a parameter and stores the
+		/// hash for it 
+		///
+		/// @param[in] string The string from which the hash has to be created
+		///
+		///////////////////////////////////////////////////////////////////////		
 		BASE_API static unsigned long CalculateHash(const cString & strIdent);
 
 	private:

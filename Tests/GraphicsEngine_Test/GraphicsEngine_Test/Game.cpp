@@ -42,17 +42,17 @@ Base::cString cGame::VGetGameTitle() const
 }
 // ***************************************************************
 
-void cGame::ButtonPressed(const unUIEventCallbackParam & params)
+void cGame::ButtonPressed(const stUIEventCallbackParam & params)
 {
 	Log_Write_L3(ILogger::LT_EVENT,  "Call Back Button Pressed");
 }
 
-void cGame::Button1Released(const unUIEventCallbackParam & params)
+void cGame::Button1Released(const stUIEventCallbackParam & params)
 {
 	Log_Write_L3(ILogger::LT_EVENT,  "Call Back Button1 Released");
 }
 
-void cGame::CheckBoxPressed(const unUIEventCallbackParam & params)
+void cGame::CheckBoxPressed(const stUIEventCallbackParam & params)
 {
 	Log_Write_L3(ILogger::LT_EVENT,  cString(100, "Check Box Pressed %d", params.bChecked));
 }

@@ -110,7 +110,7 @@ namespace Graphics
 		virtual void VSetSize(const Base::cVector2 & vSize) = 0;
 		/********************************************//**
 		 * @param[in] eventType The type of the event for the call back.
- 		 * @param[in] fnCallback Function pointer to the callback funtion. The function takes in a unUIEventCallbackParam and returns void
+ 		 * @param[in] fnCallback Function pointer to the callback funtion. The function takes in a stUIEventCallbackParam and returns void
 		 *
 		 * Sets the callback function to invoke when the eventType event occurs
 		 ***********************************************/

@@ -45,7 +45,7 @@ void cObjModelLoader::VLoadModelFromFile(const cString & strModelFile, IModel * 
 	IResource * pResource = IResource::CreateResource(strModelPath);
 	shared_ptr<IResHandle> modelHandle = IResourceManager::GetInstance()->VGetResourceCache()->GetHandle(*pResource);
 
-	cString str(modelHandle->GetBuffer(), modelHandle->GetSize());
+	cString str(modelHandle->GetBuffer());
 	vector<cString> vLines;
 	str.Tokenize('\n', vLines);
 	std::vector<cString>::const_iterator iter;
