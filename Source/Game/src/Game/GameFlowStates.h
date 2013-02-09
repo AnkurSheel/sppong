@@ -118,4 +118,28 @@ private:
 private:
 	Graphics::IBaseControl * m_pOptionsScreen;
 };
+
+class cStatePauseScreen 
+	: public IGameFlowStates
+{
+public:
+	virtual ~cStatePauseScreen();
+	static cStatePauseScreen *Instance();
+	virtual void VOnEnter(cGame *pGame);
+	virtual void VOnUpdate();
+	virtual void VOnExit();
+	void VOnPause();
+	void VOnResume();
+	virtual bool VOnMessage(const AI::Telegram &msg);
+
+private:
+	cStatePauseScreen();
+	void OptionsButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void HelpButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void QuitButtonPressed(const Graphics::stUIEventCallbackParam& params);
+	void BackButtonPressed(const Graphics::stUIEventCallbackParam& params);
+
+private:
+	Graphics::IBaseControl * m_pPauseScreen;
+};
 #endif // GameFlowStates_h__

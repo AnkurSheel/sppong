@@ -39,27 +39,30 @@ ITextureManager * cTextureManager::Create()
 // *************************************************************************
 shared_ptr<ITexture> cTextureManager::VGetTexture(const cString & strTexturePath)
 {
-	shared_ptr<ITexture> ptr = Find(strTexturePath);
+	unsigned long hash = cHashedString::CalculateHash(strTexturePath);
+	shared_ptr<ITexture> ptr = Find(hash);
 
 	if(ptr == NULL)
 	{
 		ptr = ITexture::CreateTexture(strTexturePath);
-		m_pTextures[strTexturePath] = ptr;
+		m_pTextures[hash] = ptr;
 	}
-
+	else
+	{
+		Log_Write_L2(ILogger::LT_COMMENT,  "Texture already loaded " + 
+			strTexturePath);
+	}
 	return ptr;
 }
 
 // *************************************************************************
-shared_ptr<ITexture> cTextureManager::Find(const Base::cString & strTexturePath)
+shared_ptr<ITexture> cTextureManager::Find(const unsigned long ulTextureHash)
 {
-	TextureMap::const_iterator itr = m_pTextures.find(strTexturePath);
+	TextureMap::const_iterator itr = m_pTextures.find(ulTextureHash);
 	if(itr == m_pTextures.end())
 	{
 		return shared_ptr<ITexture>(); 
 	}
-	Log_Write_L2(ILogger::LT_COMMENT,  "Texture already loaded " + 
-		strTexturePath);
 
 	return (*itr).second;
 }

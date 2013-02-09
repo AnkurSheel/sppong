@@ -25,7 +25,7 @@ namespace Graphics
 		: public ITextureManager
 	{
 		/** Map of textures. The key is the texture path. Value is a shared_ptr to the actual texture */
-		typedef std::map<Base::cString, shared_ptr <ITexture> > TextureMap;
+		typedef std::map<unsigned long, shared_ptr <ITexture> > TextureMap;
 
 	public:
 		/********************************************//**
@@ -40,13 +40,13 @@ namespace Graphics
 		~cTextureManager();
 		shared_ptr<ITexture> VGetTexture(const Base::cString & strTexturePath);
 		/********************************************//**
- 		 * param[in] strTexturePath The path of the texture file
+ 		 * param[in] ulTextureHash The hash of the name of the texture filename
 		 * @return Pointer to the texture if it is found in the texture list. NULL otherwise
 		 *
 		 * Checks if the texture has already been loaded. Returns a pointer to the texture if
 		 * it is found. NULL otherwise.
 		 ***********************************************/
-		shared_ptr<ITexture> Find(const Base::cString & strTexturePath);
+		shared_ptr<ITexture> Find(const unsigned long ulTextureHash);
 
 	private:
 		TextureMap	m_pTextures;						/*!< map of the textures that have already been loaded */

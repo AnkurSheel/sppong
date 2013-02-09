@@ -82,5 +82,6 @@ private:
 	friend class cStatePlayGame;
 	friend class cStateHelpScreen;
 	friend class cStateOptionsScreen;
+	friend class cStatePauseScreen;
 };
 #endif // Game_h__

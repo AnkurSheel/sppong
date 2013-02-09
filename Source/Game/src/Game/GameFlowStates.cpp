@@ -424,7 +424,10 @@ bool cStatePlayGame::VOnMessage(const Telegram &msg)
 {
 	if(msg.Msg == MSG_ESCAPE_PRESSED)
 	{
-		PostQuitMessage(0);
+		if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+		{
+			m_pOwner->m_pStateMachine->RequestPushState(cStatePauseScreen::Instance());
+		}
 		return true;
 	}
 	return false;
@@ -457,13 +460,23 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 		helpDef.strControlName = "HelpScreen";
 		helpDef.wType = cWindowControlDef::WT_STANDARD;
 		helpDef.vPosition = cVector2(0, 0);
+		helpDef.strBGImageFile = "WindowBG.png";
 		helpDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
 		IBaseControl * pHelpScreen = IBaseControl::CreateWindowControl(helpDef);
 		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHelpScreen));
 		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(pHelpScreen);
 
 		cLabelControlDef def;
-		def.strControlName = "labelHelp";
+		def.strControlName = "LabelHelp";
+		def.strFont = "JokerMan"; 
+		def.textColor = cColor::RED;
+		def.strText = "Help";
+		def.fTextHeight = 200;
+		def.vPosition = cVector2(457.0f, 0.0f);
+		IBaseControl * pTitleLabelControl = IBaseControl::CreateLabelControl(def);
+		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pTitleLabelControl));
+
+		def.strControlName = "labelHelpText";
 		def.strFont = "licorice"; 
 		def.textColor = cColor::VIOLET;
 		def.strText = "SinglePlayer\n Press W to Move up\n Press S to Move Down";
@@ -471,8 +484,8 @@ void cStateHelpScreen::VOnEnter(cGame *pGame)
 		def.strText += "down arrow to Move Down";
 		def.fTextHeight = 30;
 		def.vPosition = cVector2(0, 170);
-		IBaseControl * pLabelControl = IBaseControl::CreateLabelControl(def);
-		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pLabelControl));
+		IBaseControl * pHelpTextLabelControl = IBaseControl::CreateLabelControl(def);
+		pHelpScreen->VAddChildControl(shared_ptr<IBaseControl>(pHelpTextLabelControl));
 
 		cButtonControlDef buttonDef;
 		buttonDef.strControlName = "btnBack";
@@ -557,10 +570,21 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		optionsDef.wType = cWindowControlDef::WT_STANDARD;
 		optionsDef.vPosition = cVector2(0, 0);
 		optionsDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
+		optionsDef.strBGImageFile = "WindowBG.png";
 		m_pOptionsScreen = IBaseControl::CreateWindowControl(optionsDef);
 		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(m_pOptionsScreen));
 		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(m_pOptionsScreen);
 
+		cLabelControlDef def;
+		def.strControlName = "LabelOptions";
+		def.strFont = "JokerMan"; 
+		def.textColor = cColor::RED;
+		def.strText = "Options";
+		def.fTextHeight = 200;
+		def.vPosition = cVector2(357.0f, 0.0f);
+		IBaseControl * pTitleLabelControl = IBaseControl::CreateLabelControl(def);
+		m_pOptionsScreen->VAddChildControl(shared_ptr<IBaseControl>(pTitleLabelControl));
+		
 		cCheckBoxControlDef checkboxControlDef;
 		checkboxControlDef.strControlName = "cbMusic";
 		checkboxControlDef.bChecked = cGameOptions::GameOptions().bPlayMusic;
@@ -602,7 +626,6 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		fullScreenCheckBoxCallback = bind(&cHumanView::FullScreenCheckBoxPressed, m_pOwner->m_pHumanView, _1);
 		pFullscreenCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, fullScreenCheckBoxCallback);
 
-		cLabelControlDef def;
 		def.strControlName = "MusicVolume";
 		def.strFont = "licorice"; 
 		def.textColor = cColor::WHITE;
@@ -671,7 +694,7 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 
 		cButtonControlDef buttonDef;
 		buttonDef.bAutoSize = true;
-		buttonDef.vPosition = cVector2(0, 500);
+		buttonDef.vPosition = cVector2(0, 550);
 		buttonDef.strDefaultImage = "buttonDefault.png";
 		buttonDef.strPressedImage = "buttonPressed.png";
 		buttonDef.labelControlDef.strFont = "licorice";
@@ -743,4 +766,180 @@ void cStateOptionsScreen::SFXScrollbarChanged(const Graphics::stUIEventCallbackP
 	cGameOptions::GameOptions().iSFXVolume = params.iThumbPos * 5;
 	pMusicTextBox->VSetText(cString(20, "%d", cGameOptions::GameOptions().iSFXVolume));
 	m_pOwner->m_pHumanView->SetSFXVolume();
+}
+
+cStatePauseScreen::cStatePauseScreen()
+: m_pPauseScreen(NULL)
+{
+}
+
+// *****************************************************************************
+cStatePauseScreen::~cStatePauseScreen()
+{
+}
+
+// *****************************************************************************
+cStatePauseScreen* cStatePauseScreen::Instance()
+{
+	static cStatePauseScreen instance;
+	return &instance;
+}
+
+// *****************************************************************************
+void cStatePauseScreen::VOnEnter(cGame *pGame)
+{
+	IGameFlowStates::VOnEnter(pGame);
+	if (pGame->m_pHumanView->m_pAppWindowControl != NULL)
+	{
+		cWindowControlDef pauseDef;
+		pauseDef.strControlName = "PauseScreen";
+		pauseDef.wType = cWindowControlDef::WT_STANDARD;
+		pauseDef.vPosition = cVector2(0, 0);
+		pauseDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
+		pauseDef.strBGImageFile = "WindowBG.png";
+		m_pPauseScreen = IBaseControl::CreateWindowControl(pauseDef);
+		pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(m_pPauseScreen));
+		pGame->m_pHumanView->m_pAppWindowControl->VMoveToFront(m_pPauseScreen);
+
+		cLabelControlDef def;
+		def.strControlName = "LabelOptions";
+		def.strFont = "JokerMan"; 
+		def.textColor = cColor::RED;
+		def.strText = "Pause";
+		def.fTextHeight = 200;
+		def.vPosition = cVector2(407.0f, 0.0f);
+		IBaseControl * pTitleLabelControl = IBaseControl::CreateLabelControl(def);
+		m_pPauseScreen->VAddChildControl(shared_ptr<IBaseControl>(pTitleLabelControl));
+
+		cButtonControlDef buttonDef;
+		buttonDef.strControlName = "btnOptions";
+		buttonDef.bAutoSize = true;
+		buttonDef.vPosition = cVector2(490, 220);
+		buttonDef.strDefaultImage = "buttonDefault.png";
+		buttonDef.strPressedImage = "buttonPressed.png";
+		buttonDef.labelControlDef.strFont = "licorice";
+		buttonDef.labelControlDef.strText = "Options";
+		buttonDef.labelControlDef.textColor = cColor::BLUE;
+		buttonDef.labelControlDef.fTextHeight = 70;
+
+		IBaseControl * pOptionsButton = IBaseControl::CreateButtonControl(buttonDef);
+		m_pPauseScreen->VAddChildControl(shared_ptr<IBaseControl>(pOptionsButton));
+		UIEventCallBackFn callbackOptionsBtn;
+		callbackOptionsBtn = bind(&cStatePauseScreen::OptionsButtonPressed, this, _1);
+		pOptionsButton->VRegisterCallBack(UIET_BTNRELEASED, callbackOptionsBtn);
+
+		buttonDef.strControlName = "btnHelp";
+		buttonDef.bAutoSize = false;
+		buttonDef.vSize = pOptionsButton->VGetSize();
+		buttonDef.vPosition = cVector2(490, 320);
+		buttonDef.labelControlDef.strText = "Help";
+
+		IBaseControl * pHelpButton = IBaseControl::CreateButtonControl(buttonDef);
+		m_pPauseScreen->VAddChildControl(shared_ptr<IBaseControl>(pHelpButton));
+		UIEventCallBackFn callbackHelpBtn;
+		callbackHelpBtn = bind(&cStatePauseScreen::HelpButtonPressed, this, _1);
+		pHelpButton->VRegisterCallBack(UIET_BTNRELEASED, callbackHelpBtn);
+
+		buttonDef.strControlName = "btnQuit";
+		buttonDef.labelControlDef.strText = "Quit";
+		buttonDef.vPosition = cVector2(490, 420);
+
+		IBaseControl * pQuitButton = IBaseControl::CreateButtonControl(buttonDef);
+		m_pPauseScreen->VAddChildControl(shared_ptr<IBaseControl>(pQuitButton));
+		UIEventCallBackFn callbackQuitBtn;
+		callbackQuitBtn = bind(&cStatePauseScreen::QuitButtonPressed, this, _1);
+		pQuitButton->VRegisterCallBack(UIET_BTNRELEASED, callbackQuitBtn);
+
+		buttonDef.strControlName = "btnBack";
+		buttonDef.labelControlDef.strText = "Back";
+		buttonDef.vPosition = cVector2(490, 520);
+
+		IBaseControl * pBackButton = IBaseControl::CreateButtonControl(buttonDef);
+		m_pPauseScreen->VAddChildControl(shared_ptr<IBaseControl>(pBackButton));
+		UIEventCallBackFn callbackBackBtn;
+		callbackBackBtn = bind(&cStatePauseScreen::BackButtonPressed, this, _1);
+		pBackButton->VRegisterCallBack(UIET_BTNRELEASED, callbackBackBtn);
+	}
+}
+
+// *****************************************************************************
+void cStatePauseScreen::VOnUpdate()
+{
+
+}
+
+// *****************************************************************************
+void cStatePauseScreen::VOnExit()
+{
+	if (m_pOwner->m_pHumanView->m_pAppWindowControl != NULL)
+	{
+		m_pOwner->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("PauseScreen");
+	}
+}
+
+// *****************************************************************************
+bool cStatePauseScreen::VOnMessage(const Telegram &msg)
+{
+	if(msg.Msg == MSG_ESCAPE_PRESSED)
+	{
+		stUIEventCallbackParam params;
+		BackButtonPressed(params);
+		return true;
+	}
+	return false;
+}
+
+// *****************************************************************************
+void cStatePauseScreen::VOnPause()
+{
+	IGameFlowStates::VOnPause();
+	if (m_pPauseScreen != NULL)
+	{
+		m_pPauseScreen->VSetVisible(false);
+	}
+}
+
+// *****************************************************************************
+void cStatePauseScreen::VOnResume()
+{
+	IGameFlowStates::VOnResume();
+	if (m_pPauseScreen != NULL)
+	{
+		m_pPauseScreen->VSetVisible(true);
+	}
+}
+
+// *****************************************************************************
+void cStatePauseScreen::BackButtonPressed(const stUIEventCallbackParam & params)
+{
+	if(m_pOwner != NULL)
+	{
+		if(m_pOwner->m_pStateMachine != NULL)
+		{
+			m_pOwner->m_pStateMachine->RequestPopState();
+		}
+	}
+}
+// *****************************************************************************
+void cStatePauseScreen::OptionsButtonPressed(const Graphics::stUIEventCallbackParam& params)
+{
+	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	{
+		m_pOwner->m_pStateMachine->RequestPushState(cStateOptionsScreen::Instance());
+	}
+}
+
+// *****************************************************************************
+void cStatePauseScreen::HelpButtonPressed(const Graphics::stUIEventCallbackParam& params)
+{
+	if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
+	{
+		m_pOwner->m_pStateMachine->RequestPushState(cStateHelpScreen::Instance());
+	}
+}
+
+// *****************************************************************************
+void cStatePauseScreen::QuitButtonPressed(const Graphics::stUIEventCallbackParam& params)
+{
+	PostQuitMessage(0);
 }
