@@ -230,10 +230,7 @@ bool Graphics::cDXBase::SetupRenderTargets( const int iWidth,
 bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 									 const HWND & hWnd, const bool bFullScreen )
 {
-	unsigned int iRefreshRateNumerator;
-	unsigned int iRefreshRateDenominator;
-
-	if(!GetMonitorRefreshRate(iWidth, iHeight, iRefreshRateNumerator, iRefreshRateDenominator))
+	if(!GetDisplayMode(iWidth, iHeight))
 		return false;
 
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -245,8 +242,8 @@ bool Graphics::cDXBase::SetupSwapChain( const int iWidth, const int iHeight,
 
 	if(m_bVsyncEnabled)
 	{
-		swapChainDesc.BufferDesc.RefreshRate.Numerator = iRefreshRateNumerator;
-		swapChainDesc.BufferDesc.RefreshRate.Denominator = iRefreshRateDenominator;
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = m_DisplayMode.RefreshRate.Numerator;
+		swapChainDesc.BufferDesc.RefreshRate.Denominator = m_DisplayMode.RefreshRate.Denominator;
 	}
 	else
 	{
@@ -477,9 +474,7 @@ void Graphics::cDXBase::SetupViewPort( const int iWidth, const int iHeight )
 }
 
 // ***************************************************************
-bool Graphics::cDXBase::GetMonitorRefreshRate( const int iWidth, const int iHeight,
-											  unsigned int & iRefreshRateNumerator,
-											  unsigned int & iRefreshRateDenominator )
+bool Graphics::cDXBase::GetDisplayMode(const int iWidth, const int iHeight)
 {
 	HRESULT result;
 
@@ -542,9 +537,7 @@ bool Graphics::cDXBase::GetMonitorRefreshRate( const int iWidth, const int iHeig
 		{
 			if(pDisplayModeList[i].Height == (unsigned int)iHeight)
 			{
-				iRefreshRateNumerator = pDisplayModeList[i].RefreshRate.Numerator;
-				iRefreshRateDenominator = pDisplayModeList[i].RefreshRate.Denominator;
-				Log_Write_L1(ILogger::LT_COMMENT, cString(100, "Refresh Rate Numerator: %d, Denominator: %d", iRefreshRateNumerator, iRefreshRateDenominator))
+				m_DisplayMode = pDisplayModeList[i];
 				break;
 			}
 		}

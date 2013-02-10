@@ -616,7 +616,8 @@ void cStateOptionsScreen::VOnEnter(cGame *pGame)
 		pSfxCheckBoxControl->VRegisterCallBack(UIET_BTNPRESSED, sfxCheckBoxCallback);
 
 		checkboxControlDef.strControlName = "cbFullscreen";
-		checkboxControlDef.labelControlDef.strText = "FullScreen";
+		checkboxControlDef.labelControlDef.strText = "FullScreen (will be applied";
+		checkboxControlDef.labelControlDef.strText += " after restarting the game)";
 		checkboxControlDef.vPosition = cVector2(0.f, 350.f);
 		checkboxControlDef.bChecked = cGameOptions::GameOptions().bFullScreen;
 		

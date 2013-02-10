@@ -108,14 +108,11 @@ namespace Graphics
 		/********************************************//**
 		 * @param[in] iWidth The width of the window
 		 * @param[in] iHeight The height of the window
-		 * @param[out] iRefreshRateNumerator The Numerator for the refresh rate
-		 * @param[out] iRefreshRateDenominator The Denomninator for the refresh rate
 		 * @return False if there was an error
 		 *
-		 * Gets the monitor refresh rate
+		 * Gets the monitor Display Mode
 		 ***********************************************/
-		bool GetMonitorRefreshRate( const int iWidth, const int iHeight, 
-			unsigned int & iRefreshRateNumerator, unsigned int & iRefreshRateDenominator);
+		bool GetDisplayMode(const int iWidth, const int iHeigh);
 		/********************************************//**
 		 * @return False if there was an error
 		 *
@@ -174,6 +171,7 @@ namespace Graphics
 		int							m_iScreenHeight;				/*!< Screen height */
 		ID3D11BlendState *			m_pAlphaEnableBlendingState;	/*!< The blend state with AlphaBlending enabled */
 		ID3D11BlendState *			m_pAlphaDisableBlendingState;	/*!< The blend state with AlphaBlending disbaled */
+		DXGI_MODE_DESC				m_DisplayMode;
 	};
 }
 #endif // DxBase_h__
