@@ -126,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a98f72f09aca99cdb37b7f0868e9335ec"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader_manager.html#a98f72f09aca99cdb37b7f0868e9335ec">VGetShader</a> (shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &amp;pShader, const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)=0</td></tr>
+<tr class="memitem:a4e42d9a1a5130c1250c2b8b3700f2cc7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader_manager.html#a4e42d9a1a5130c1250c2b8b3700f2cc7">VGetShader</a> (shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &amp;pShader, const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strShaderName)=0</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Interface for shader manager. </p>
@@ -138,12 +138,12 @@ Public Member Functions</h2></td></tr>
 <li>Call <code>VOnDestroy()</code> when the application quits </li>
 </ul>
 </div><hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a98f72f09aca99cdb37b7f0868e9335ec"></a>
+<a class="anchor" id="a4e42d9a1a5130c1250c2b8b3700f2cc7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="class_graphics_1_1_i_shader_manager.html#a98f72f09aca99cdb37b7f0868e9335ec">Graphics::IShaderManager::VGetShader</a> </td>
+          <td class="memname">virtual bool <a class="el" href="class_graphics_1_1_i_shader_manager.html#a4e42d9a1a5130c1250c2b8b3700f2cc7">Graphics::IShaderManager::VGetShader</a> </td>
           <td>(</td>
           <td class="paramtype">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>pShader</em>, </td>
@@ -151,14 +151,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strVertexShaderPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strPixelShaderPath</em>&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strShaderName</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -171,15 +165,14 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">pShader</td><td>The pointer to the existing shader </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strVertexShaderPath</td><td>The path for the vertex shader file </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strPixelShaderPath</td><td>The path for the pixel shader file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strShaderName</td><td>The name of the shader. This should be the same as the vertex and pixel shader files without the extension </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>True if the shader was found or created. False otherwise</dd></dl>
 <p>Loads and creates the shader if it has not been created already. Adds the texture to the shader list Returns true if the shader was found or created. False otherwise </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_shader_manager.html#aa2db66ae4bae3b60e8dbed908f555715">Graphics::cShaderManager</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_shader_manager.html#abd3c3eb5c21523e5b25b551c0f7e9237">Graphics::cShaderManager</a>.</p>
 
 </div>
 </div>
@@ -190,7 +183,7 @@ Public Member Functions</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1_i_shader_manager.html">IShaderManager</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:04 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:58:00 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

@@ -123,39 +123,68 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &quot;MainWindow.h&quot;</code></p>
 
-<p>Inherits <a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a>.</p>
+<p>Inherits <a class="el" href="class_game_base_1_1_i_main_window.html">GameBase::IMainWindow</a>, and <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_non_copyable.html">Base::cNonCopyable</a>.</p>
 
 <p><a href="class_game_base_1_1c_main_window-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a846b01159cf52e8bc090d7d6680276ce"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a846b01159cf52e8bc090d7d6680276ce">Create</a> ()</td></tr>
-<tr class="memitem:ab4d66880f8ae00d3b75d8816c4501f1c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#ab4d66880f8ae00d3b75d8816c4501f1c">Destroy</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a55bc204edefba391591eb99687a7a83e"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a55bc204edefba391591eb99687a7a83e">VOnInitialization</a> (const HINSTANCE &amp;hInstance, const int &amp;nCmdShow, IBaseApp *const pGame)</td></tr>
 <tr class="memitem:a332eb3c53a163519c8063d8ed920d0cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a332eb3c53a163519c8063d8ed920d0cf">VToggleFullScreen</a> ()</td></tr>
 <tr class="memitem:a163a373aff3de5e3365492add6ffcada"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a163a373aff3de5e3365492add6ffcada">VCleanup</a> ()</td></tr>
 <tr class="memitem:af22ea267f5a12c3f297a1d0af300b4bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#af22ea267f5a12c3f297a1d0af300b4bf">RegisterWin</a> ()</td></tr>
-<tr class="memitem:a0957f015bad2322bb518c96bfb4968da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a0957f015bad2322bb518c96bfb4968da">CreateMyWindow</a> (const int &amp;nCmdShow, const Base::cString &amp;lpWindowTitle)</td></tr>
+<tr class="memitem:a0957f015bad2322bb518c96bfb4968da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a0957f015bad2322bb518c96bfb4968da">CreateMyWindow</a> (const int &amp;nCmdShow, const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;lpWindowTitle)</td></tr>
 <tr class="memitem:a34c0302fa66b64a61aaf2830ad28b134"><td class="memItemLeft" align="right" valign="top">LRESULT CALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a34c0302fa66b64a61aaf2830ad28b134">WndProc</a> (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
 <tr class="memitem:a706622ac9bba08ed54be1c8afb0eac75"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a706622ac9bba08ed54be1c8afb0eac75">OnWindowDestroyed</a> ()</td></tr>
 <tr class="memitem:ac7c58c9c7715cfee9477b378e4cf21dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#ac7c58c9c7715cfee9477b378e4cf21dc">SetDisplayResolution</a> ()</td></tr>
+<tr class="memitem:af52731cc6c5cd63df04d76e89e30c2fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#af52731cc6c5cd63df04d76e89e30c2fd">CalculateWindowRect</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
 <tr class="memitem:ae300f890e0792e50e0311d7f3b8e8614"><td class="memItemLeft" align="right" valign="top">static LRESULT CALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#ae300f890e0792e50e0311d7f3b8e8614">StaticWndProc</a> (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a49288199090e86f10f71a9ffcac9543a"><td class="memItemLeft" align="right" valign="top">const DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a49288199090e86f10f71a9ffcac9543a">m_kdwFullScreenStyle</a></td></tr>
-<tr class="memitem:a6fd476492260b48c4e6f105e817b5325"><td class="memItemLeft" align="right" valign="top">const DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a6fd476492260b48c4e6f105e817b5325">m_kdwWindowedStyle</a></td></tr>
-<tr class="memitem:a904ace28c221002cdcb529a31731601f"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a904ace28c221002cdcb529a31731601f">m_Hwnd</a></td></tr>
-<tr class="memitem:a5f75deceeb79ada4746379fa9d092aeb"><td class="memItemLeft" align="right" valign="top">HINSTANCE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a5f75deceeb79ada4746379fa9d092aeb">m_hInstance</a></td></tr>
-<tr class="memitem:aa599ab9886823365c4ce532a58c5150c"><td class="memItemLeft" align="right" valign="top">IBaseApp *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#aa599ab9886823365c4ce532a58c5150c">m_pGame</a></td></tr>
-<tr class="memitem:ae9488a5cb404a914050ca42ceb185105"><td class="memItemLeft" align="right" valign="top">RECT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#ae9488a5cb404a914050ca42ceb185105">m_windowRect</a></td></tr>
+<tr class="memitem:a49288199090e86f10f71a9ffcac9543a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49288199090e86f10f71a9ffcac9543a"></a>
+const DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a49288199090e86f10f71a9ffcac9543a">m_kdwFullScreenStyle</a></td></tr>
+<tr class="memdesc:a49288199090e86f10f71a9ffcac9543a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE. <br/></td></tr>
+<tr class="memitem:a6fd476492260b48c4e6f105e817b5325"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fd476492260b48c4e6f105e817b5325"></a>
+const DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a6fd476492260b48c4e6f105e817b5325">m_kdwWindowedStyle</a></td></tr>
+<tr class="memdesc:a6fd476492260b48c4e6f105e817b5325"><td class="mdescLeft">&#160;</td><td class="mdescRight">The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION. <br/></td></tr>
+<tr class="memitem:a904ace28c221002cdcb529a31731601f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a904ace28c221002cdcb529a31731601f"></a>
+HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a904ace28c221002cdcb529a31731601f">m_Hwnd</a></td></tr>
+<tr class="memdesc:a904ace28c221002cdcb529a31731601f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Window handle. <br/></td></tr>
+<tr class="memitem:a5f75deceeb79ada4746379fa9d092aeb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f75deceeb79ada4746379fa9d092aeb"></a>
+HINSTANCE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#a5f75deceeb79ada4746379fa9d092aeb">m_hInstance</a></td></tr>
+<tr class="memdesc:a5f75deceeb79ada4746379fa9d092aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Application instance. <br/></td></tr>
+<tr class="memitem:aa599ab9886823365c4ce532a58c5150c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa599ab9886823365c4ce532a58c5150c"></a>
+IBaseApp *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#aa599ab9886823365c4ce532a58c5150c">m_pGame</a></td></tr>
+<tr class="memdesc:aa599ab9886823365c4ce532a58c5150c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the App. <br/></td></tr>
+<tr class="memitem:ae9488a5cb404a914050ca42ceb185105"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9488a5cb404a914050ca42ceb185105"></a>
+RECT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1c_main_window.html#ae9488a5cb404a914050ca42ceb185105">m_windowRect</a></td></tr>
+<tr class="memdesc:ae9488a5cb404a914050ca42ceb185105"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the window dimensions in windowed mode <br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Class Declaration for <code><a class="el" href="class_game_base_1_1_i_main_window.html" title="Interface to Create the Window.">IMainWindow</a></code> interface. </p>
 </div><hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="af52731cc6c5cd63df04d76e89e30c2fd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_game_base_1_1c_main_window.html#af52731cc6c5cd63df04d76e89e30c2fd">cMainWindow::CalculateWindowRect</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Calculates and stores the window rectangle when the app is in windowed mode. </p>
+
+</div>
+</div>
 <a class="anchor" id="a846b01159cf52e8bc090d7d6680276ce"></a>
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +215,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
           <td class="paramname"><em>lpWindowTitle</em>&#160;</td>
         </tr>
         <tr>
@@ -197,33 +226,14 @@ Private Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Creates the window</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">nCmdShow</td><td>Controls how the window is to be shown </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">lpWindowTitle</td><td>Controls how the window is to be shown</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lpWindowTitle</td><td>Controls how the window is to be shown </td></tr>
   </table>
   </dd>
 </dl>
-<p>Creates the window </p>
-
-</div>
-</div>
-<a class="anchor" id="ab4d66880f8ae00d3b75d8816c4501f1c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_game_base_1_1c_main_window.html#ab4d66880f8ae00d3b75d8816c4501f1c">cMainWindow::Destroy</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Destroys the window and the singleton object </p>
-
-<p>Reimplemented from <a class="el" href="class_game_base_1_1_i_main_window.html#a4acfddfd9e75e82f461d28b50c5be201">GameBase::IMainWindow</a>.</p>
 
 </div>
 </div>
@@ -314,16 +324,16 @@ Private Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Event handler. Routes messages to appropriate instance.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">hWnd</td><td>– Unique handle to the window. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>– Incoming message. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">wParam</td><td>– Parameter of the message (unsigned int). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">lParam</td><td>– Parameter of the message (long).</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">hWnd</td><td>Unique handle to the window. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>Incoming message. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">wParam</td><td>Parameter of the message (unsigned int). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lParam</td><td>Parameter of the message (long). </td></tr>
   </table>
   </dd>
 </dl>
-<p>Event handler. Routes messages to appropriate instance. </p>
 
 </div>
 </div>
@@ -376,6 +386,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Initializes, Registers and creates the window. Returns a handle to the created window.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">hInstance</td><td>A handle to the current instance of the application </td></tr>
@@ -384,8 +395,7 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Handle to the created window</dd></dl>
-<p>Initializes, Registers and creates the window </p>
+<dl class="section return"><dt>Returns:</dt><dd>Handle to the created window </dd></dl>
 
 <p>Implements <a class="el" href="class_game_base_1_1_i_main_window.html#a3bff4313b310197d86a1f656e7b7a45b">GameBase::IMainWindow</a>.</p>
 
@@ -446,101 +456,16 @@ Private Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Window procedure to handle the window messages.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">hWnd</td><td>– Unique handle to the window. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>– Incoming message. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">wParam</td><td>– Parameter of the message (unsigned int). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">lParam</td><td>– Parameter of the message (long).</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">hWnd</td><td>Unique handle to the window. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>Incoming message. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">wParam</td><td>Parameter of the message (unsigned int). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lParam</td><td>Parameter of the message (long). </td></tr>
   </table>
   </dd>
 </dl>
-<p>Application event handler. </p>
-
-</div>
-</div>
-<hr/><h2>Member Data Documentation</h2>
-<a class="anchor" id="a5f75deceeb79ada4746379fa9d092aeb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">HINSTANCE <a class="el" href="class_game_base_1_1c_main_window.html#a5f75deceeb79ada4746379fa9d092aeb">GameBase::cMainWindow::m_hInstance</a><code> [private]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Application instance </p>
-
-</div>
-</div>
-<a class="anchor" id="a904ace28c221002cdcb529a31731601f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">HWND <a class="el" href="class_game_base_1_1c_main_window.html#a904ace28c221002cdcb529a31731601f">GameBase::cMainWindow::m_Hwnd</a><code> [private]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Window handle </p>
-
-</div>
-</div>
-<a class="anchor" id="a49288199090e86f10f71a9ffcac9543a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const DWORD <a class="el" href="class_game_base_1_1c_main_window.html#a49288199090e86f10f71a9ffcac9543a">GameBase::cMainWindow::m_kdwFullScreenStyle</a><code> [private]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>The fullscreen window style format. It is set to WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE </p>
-
-</div>
-</div>
-<a class="anchor" id="a6fd476492260b48c4e6f105e817b5325"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const DWORD <a class="el" href="class_game_base_1_1c_main_window.html#a6fd476492260b48c4e6f105e817b5325">GameBase::cMainWindow::m_kdwWindowedStyle</a><code> [private]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>The fullscreen window style format. It is set to WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION </p>
-
-</div>
-</div>
-<a class="anchor" id="aa599ab9886823365c4ce532a58c5150c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">IBaseApp* <a class="el" href="class_game_base_1_1c_main_window.html#aa599ab9886823365c4ce532a58c5150c">GameBase::cMainWindow::m_pGame</a><code> [private]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Pointer to the App </p>
-
-</div>
-</div>
-<a class="anchor" id="ae9488a5cb404a914050ca42ceb185105"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">RECT <a class="el" href="class_game_base_1_1c_main_window.html#ae9488a5cb404a914050ca42ceb185105">GameBase::cMainWindow::m_windowRect</a><code> [private]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>stores the window dimensions in windowed mode </p>
 
 </div>
 </div>
@@ -551,7 +476,7 @@ Private Attributes</h2></td></tr>
       <li class="navelem"><b>GameBase</b>      </li>
       <li class="navelem"><a class="el" href="class_game_base_1_1c_main_window.html">cMainWindow</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:42:02 for GameBase by
+    <li class="footer">Generated on Sun Feb 10 2013 11:58:34 for GameBase by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

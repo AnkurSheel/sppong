@@ -25,10 +25,10 @@
       <arglist>()=0</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static GAMEBASE_API IMainWindow *</type>
+      <type>static GAMEBASE_API IMainWindow *const</type>
       <name>GetInstance</name>
       <anchorfile>class_game_base_1_1_i_main_window.html</anchorfile>
-      <anchor>a9eacc2d52dab47064e8df1269f7ec813</anchor>
+      <anchor>adb88cd7705201b39b87de92855839312</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" static="yes">

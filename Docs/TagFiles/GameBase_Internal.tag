@@ -25,10 +25,10 @@
       <arglist>()=0</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static GAMEBASE_API IMainWindow *</type>
+      <type>static GAMEBASE_API IMainWindow *const</type>
       <name>GetInstance</name>
       <anchorfile>class_game_base_1_1_i_main_window.html</anchorfile>
-      <anchor>a4090ba165e3ba80a9a3d6949ba4fb3f3</anchor>
+      <anchor>ab179d6612855e82e6c11a70356e4e938</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" static="yes">
@@ -43,18 +43,12 @@
     <name>GameBase::cMainWindow</name>
     <filename>class_game_base_1_1c_main_window.html</filename>
     <base>GameBase::IMainWindow</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function" static="yes">
       <type>static void</type>
       <name>Create</name>
       <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
       <anchor>a846b01159cf52e8bc090d7d6680276ce</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static void</type>
-      <name>Destroy</name>
-      <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
-      <anchor>ab4d66880f8ae00d3b75d8816c4501f1c</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
@@ -111,6 +105,13 @@
       <name>SetDisplayResolution</name>
       <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
       <anchor>ac7c58c9c7715cfee9477b378e4cf21dc</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>CalculateWindowRect</name>
+      <anchorfile>class_game_base_1_1c_main_window.html</anchorfile>
+      <anchor>af52731cc6c5cd63df04d76e89e30c2fd</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private" static="yes">

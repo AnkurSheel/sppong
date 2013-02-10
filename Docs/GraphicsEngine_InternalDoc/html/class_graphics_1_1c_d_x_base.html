@@ -123,7 +123,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &quot;DxBase.h&quot;</code></p>
 
-<p>Inherits <a class="el" href="class_graphics_1_1_i_d_x_base.html">Graphics::IDXBase</a>.</p>
+<p>Inherits <a class="el" href="class_graphics_1_1_i_d_x_base.html">Graphics::IDXBase</a>, and <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_non_copyable.html">Base::cNonCopyable</a>.</p>
 
 <p><a href="class_graphics_1_1c_d_x_base-members.html">List of all members.</a></p>
 <table class="memberdecls">
@@ -135,7 +135,7 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a66b92901af2f6d4d64f055d5e0fb714d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_d_x_base.html">IDXBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a66b92901af2f6d4d64f055d5e0fb714d">s_pDXBase</a> = NULL</td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a961dd6fe10b9f869d7b305034fd057dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a961dd6fe10b9f869d7b305034fd057dc">VInitialize</a> (const HWND &amp;hWnd, const Base::cColor &amp;bkColor, const bool bFullScreen, const bool bVsyncEnabled, const int iWidth, const int iHeight, const float fScreenDepth, const float fScreenNear)</td></tr>
+<tr class="memitem:a961dd6fe10b9f869d7b305034fd057dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a961dd6fe10b9f869d7b305034fd057dc">VInitialize</a> (const HWND &amp;hWnd, const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_color.html">Base::cColor</a> &amp;bkColor, const bool bFullScreen, const bool bVsyncEnabled, const int iWidth, const int iHeight, const float fScreenDepth, const float fScreenNear)</td></tr>
 <tr class="memitem:a90d2de1d9eb9533b65e647d715205a05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a90d2de1d9eb9533b65e647d715205a05">VBeginRender</a> ()</td></tr>
 <tr class="memitem:aff40cd5965d13b438c36b6eca7e5f92c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#aff40cd5965d13b438c36b6eca7e5f92c">VEndRender</a> ()</td></tr>
 <tr class="memitem:a6e97e6bd69332e81989579bb8ab1fcdc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a6e97e6bd69332e81989579bb8ab1fcdc">VTurnZBufferOn</a> ()</td></tr>
@@ -157,7 +157,7 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:aa1e8c9c28f3f7273eddb14e5a172662b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#aa1e8c9c28f3f7273eddb14e5a172662b">CreateBlendStates</a> ()</td></tr>
 <tr class="memitem:a673568a45eb0f6bf10467c993e5d5b69"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a673568a45eb0f6bf10467c993e5d5b69">SetupRasterStates</a> ()</td></tr>
 <tr class="memitem:a403c49a56be4f2542a8f54bb25f7c3be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a403c49a56be4f2542a8f54bb25f7c3be">SetupViewPort</a> (const int iWidth, const int iHeight)</td></tr>
-<tr class="memitem:a0c3d0d6841928153998cf99ecb910a15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a0c3d0d6841928153998cf99ecb910a15">GetMonitorRefreshRate</a> (const int iWidth, const int iHeight, unsigned int &amp;iRefreshRateNumerator, unsigned int &amp;iRefreshRateDenominator)</td></tr>
+<tr class="memitem:a8c351b2203931cd06a1d7f79e5237afe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a8c351b2203931cd06a1d7f79e5237afe">GetDisplayMode</a> (const int iWidth, const int iHeigh)</td></tr>
 <tr class="memitem:adc3154595b000d94a88b94bab03dcd3b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#adc3154595b000d94a88b94bab03dcd3b">AttachBackBufferToSwapChain</a> ()</td></tr>
 <tr class="memitem:a01f834f8550cef456e9abd4d8b6206ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a01f834f8550cef456e9abd4d8b6206ca">CreateDepthStencilBuffer</a> (const int iWidth, const int iHeight)</td></tr>
 <tr class="memitem:a85f4207c95d3bb3bd67ff764cac9da90"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_d_x_base.html#a85f4207c95d3bb3bd67ff764cac9da90">CreateDepthStencilView</a> ()</td></tr>
@@ -312,12 +312,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0c3d0d6841928153998cf99ecb910a15"></a>
+<a class="anchor" id="a8c351b2203931cd06a1d7f79e5237afe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="class_graphics_1_1c_d_x_base.html#a0c3d0d6841928153998cf99ecb910a15">Graphics::cDXBase::GetMonitorRefreshRate</a> </td>
+          <td class="memname">bool <a class="el" href="class_graphics_1_1c_d_x_base.html#a8c351b2203931cd06a1d7f79e5237afe">Graphics::cDXBase::GetDisplayMode</a> </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>iWidth</em>, </td>
@@ -326,19 +326,7 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iHeight</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int &amp;&#160;</td>
-          <td class="paramname"><em>iRefreshRateNumerator</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int &amp;&#160;</td>
-          <td class="paramname"><em>iRefreshRateDenominator</em>&#160;</td>
+          <td class="paramname"><em>iHeigh</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -352,13 +340,11 @@ Private Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">iWidth</td><td>The width of the window </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">iHeight</td><td>The height of the window </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">iRefreshRateNumerator</td><td>The Numerator for the refresh rate </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">iRefreshRateDenominator</td><td>The Denomninator for the refresh rate </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>False if there was an error</dd></dl>
-<p>Gets the monitor refresh rate </p>
+<p>Gets the monitor Display Mode </p>
 
 </div>
 </div>
@@ -791,7 +777,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Base::cColor &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_color.html">Base::cColor</a> &amp;&#160;</td>
           <td class="paramname"><em>bkColor</em>, </td>
         </tr>
         <tr>
@@ -1233,7 +1219,7 @@ Private Attributes</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1c_d_x_base.html">cDXBase</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:03 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:57:59 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

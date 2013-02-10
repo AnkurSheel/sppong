@@ -8,10 +8,13 @@ var hierarchy =
       [ "Graphics::cTextBoxControlDef", "../../GraphicsEngine_PublicDoc/html/class_graphics_1_1c_text_box_control_def.html", null ],
       [ "Graphics::cWindowControlDef", "../../GraphicsEngine_PublicDoc/html/class_graphics_1_1c_window_control_def.html", null ]
     ] ],
+    [ "Base::cColor", "../../Base_PublicDoc/html/class_base_1_1c_color.html", null ],
+    [ "Base::cHashedString", "../../Base_PublicDoc/html/class_base_1_1c_hashed_string.html", null ],
+    [ "Base::cNonCopyable", "../../Base_PublicDoc/html/class_base_1_1c_non_copyable.html", null ],
+    [ "Base::cString", "../../Base_PublicDoc/html/class_base_1_1c_string.html", null ],
     [ "Base::cVector2", "../../Base_PublicDoc/html/class_base_1_1c_vector2.html", null ],
     [ "Base::cVector3", "../../Base_PublicDoc/html/class_base_1_1c_vector3.html", null ],
     [ "Graphics::ICamera", "../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_camera.html", null ],
-    [ "Graphics::IFontManager", "../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_font_manager.html", null ],
     [ "Graphics::IGraphicsClass", "../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_graphics_class.html", null ],
     [ "Graphics::IKeyboardHandler", "../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_keyboard_handler.html", [
       [ "Graphics::IBaseControl", "../../GraphicsEngine_PublicDoc/html/class_graphics_1_1_i_base_control.html", null ]
@@ -30,5 +33,5 @@ var hierarchy =
     [ "Graphics::stModelDef", "../../GraphicsEngine_PublicDoc/html/struct_graphics_1_1st_model_def.html", null ],
     [ "Graphics::stModelDef::stSubsetDef", "../../GraphicsEngine_PublicDoc/html/struct_graphics_1_1st_model_def_1_1st_subset_def.html", null ],
     [ "Graphics::stTexVertex", "../../GraphicsEngine_PublicDoc/html/struct_graphics_1_1st_tex_vertex.html", null ],
-    [ "Graphics::unUIEventCallbackParam", "../../GraphicsEngine_PublicDoc/html/union_graphics_1_1un_u_i_event_callback_param.html", null ]
+    [ "Graphics::stUIEventCallbackParam", "../../GraphicsEngine_PublicDoc/html/struct_graphics_1_1st_u_i_event_callback_param.html", null ]
 ];

@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['m_5fhinstance',['m_hInstance',['../class_game_base_1_1c_main_window.html#a5f75deceeb79ada4746379fa9d092aeb',1,'GameBase::cMainWindow']]],
-  ['m_5fhwnd',['m_Hwnd',['../class_game_base_1_1c_main_window.html#a904ace28c221002cdcb529a31731601f',1,'GameBase::cMainWindow']]],
-  ['m_5fkdwfullscreenstyle',['m_kdwFullScreenStyle',['../class_game_base_1_1c_main_window.html#a49288199090e86f10f71a9ffcac9543a',1,'GameBase::cMainWindow']]],
-  ['m_5fkdwwindowedstyle',['m_kdwWindowedStyle',['../class_game_base_1_1c_main_window.html#a6fd476492260b48c4e6f105e817b5325',1,'GameBase::cMainWindow']]],
-  ['m_5fpgame',['m_pGame',['../class_game_base_1_1c_main_window.html#aa599ab9886823365c4ce532a58c5150c',1,'GameBase::cMainWindow']]],
-  ['m_5fwindowrect',['m_windowRect',['../class_game_base_1_1c_main_window.html#ae9488a5cb404a914050ca42ceb185105',1,'GameBase::cMainWindow']]]
+  ['m_5fialpha',['m_iAlpha',['../class_base_1_1c_color.html#ae50db709f12e0506b24a834448fe9756',1,'Base::cColor']]],
+  ['m_5fiblue',['m_iBlue',['../class_base_1_1c_color.html#ab3b9258c9f0b402a38ce8fcc9101d972',1,'Base::cColor']]],
+  ['m_5figreen',['m_iGreen',['../class_base_1_1c_color.html#a1f0c21a3839d9dc3942f34a977e03a71',1,'Base::cColor']]],
+  ['m_5fired',['m_iRed',['../class_base_1_1c_color.html#aa3574955a4ddd7ac266ddf2a80859954',1,'Base::cColor']]],
+  ['m_5flchecksum',['m_lChecksum',['../classc_hashed_string_1_1c_impl.html#adc5c9133d350850778b33769a06b3081',1,'cHashedString::cImpl']]],
+  ['m_5fstrident',['m_strIdent',['../classc_hashed_string_1_1c_impl.html#a963fa1756ebe8023050bafa87a994589',1,'cHashedString::cImpl']]]
 ];

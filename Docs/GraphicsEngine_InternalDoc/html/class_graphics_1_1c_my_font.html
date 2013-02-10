@@ -109,7 +109,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a>  </div>
@@ -123,29 +122,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &quot;Font.h&quot;</code></p>
 
-<p>Inherits Graphics::IMyFont.</p>
+<p>Inherits Graphics::IMyFont, and <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_non_copyable.html">Base::cNonCopyable</a>.</p>
 
 <p><a href="class_graphics_1_1c_my_font-members.html">List of all members.</a></p>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:ae7af2f851a7f8f68dcbe5c280df7e711"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#ae7af2f851a7f8f68dcbe5c280df7e711">Render</a> (const D3DXMATRIX &amp;inMatWorld, const D3DXMATRIX &amp;inMatView, const D3DXMATRIX &amp;inMatProjection, const Base::cColor &amp;textColor)</td></tr>
-<tr class="memitem:aef6b717f1b3a4290b60b6c6fdd6aadbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_graphics_1_1st_vertex_data.html">stVertexData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#aef6b717f1b3a4290b60b6c6fdd6aadbe">GetCharVertexData</a> (const int iCharAsciiValue)</td></tr>
-<tr class="memitem:a2451ab0756a1c751fdd7c62144089da6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a2451ab0756a1c751fdd7c62144089da6">GetFontHeight</a> () const </td></tr>
 <tr><td colspan="2"><h2><a name="pri-types"></a>
 Private Types</h2></td></tr>
 <tr class="memitem:ac2b06804b35bc56569331daeb6622540"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; int, const <br class="typebreak"/>
-<a class="el" href="struct_graphics_1_1_char_descriptor.html">CharDescriptor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#ac2b06804b35bc56569331daeb6622540">CharDescriptorMap</a></td></tr>
+<a class="el" href="struct_graphics_1_1_i_my_font_1_1_char_descriptor.html">CharDescriptor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#ac2b06804b35bc56569331daeb6622540">CharDescriptorMap</a></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a3b31a1fc5f309d891dc931e0e99d362e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a3b31a1fc5f309d891dc931e0e99d362e">ParseFontDesc</a> (const Base::cString &amp;strFontDirPath, const Base::cString &amp;strFontDescFilename)</td></tr>
+<tr class="memitem:af81cfeb404c5d739bc243635b30c673d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#af81cfeb404c5d739bc243635b30c673d">ParseFontDesc</a> (const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strFontDescFilename)</td></tr>
 <tr class="memitem:a0f5ebd004a6f4baaa2156e7c6c1ed250"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a0f5ebd004a6f4baaa2156e7c6c1ed250">InitializeShader</a> ()</td></tr>
 <tr class="memitem:ab14281ecd1bf1663534ae64c517367b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#ab14281ecd1bf1663534ae64c517367b4">Cleanup</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a418303b3358d6ef47da3676a5cbb8462"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="class_graphics_1_1c_font_shader.html">cFontShader</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a418303b3358d6ef47da3676a5cbb8462">m_pShader</a></td></tr>
 <tr class="memitem:a7bc48906e3a091f456fad1daf46c0fd5"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_texture.html">ITexture</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a7bc48906e3a091f456fad1daf46c0fd5">m_pTexture</a></td></tr>
-<tr class="memitem:aba3bd2a9e47fba9718add1499e921ce2"><td class="memItemLeft" align="right" valign="top">Base::cString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#aba3bd2a9e47fba9718add1499e921ce2">m_strFontTexPath</a></td></tr>
+<tr class="memitem:aba3bd2a9e47fba9718add1499e921ce2"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#aba3bd2a9e47fba9718add1499e921ce2">m_strFontTexPath</a></td></tr>
 <tr class="memitem:a628112b619e270d96217e2c5fce16d79"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a628112b619e270d96217e2c5fce16d79">m_iTextureWidth</a></td></tr>
 <tr class="memitem:a56abd2d1e33d53c38490583ad9caeef7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a56abd2d1e33d53c38490583ad9caeef7">m_iTextureHeight</a></td></tr>
 <tr class="memitem:a82a5bfb84ddce4231137363558921546"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_graphics_1_1c_my_font.html#ac2b06804b35bc56569331daeb6622540">CharDescriptorMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_my_font.html#a82a5bfb84ddce4231137363558921546">m_CharDescriptorMap</a></td></tr>
@@ -159,7 +153,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::map&lt;int, const <a class="el" href="struct_graphics_1_1_char_descriptor.html">CharDescriptor</a>&gt; <a class="el" href="class_graphics_1_1c_my_font.html#ac2b06804b35bc56569331daeb6622540">Graphics::cMyFont::CharDescriptorMap</a><code> [private]</code></td>
+          <td class="memname">typedef std::map&lt;int, const <a class="el" href="struct_graphics_1_1_i_my_font_1_1_char_descriptor.html">CharDescriptor</a>&gt; <a class="el" href="class_graphics_1_1c_my_font.html#ac2b06804b35bc56569331daeb6622540">Graphics::cMyFont::CharDescriptorMap</a><code> [private]</code></td>
         </tr>
       </table>
 </div>
@@ -186,49 +180,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aef6b717f1b3a4290b60b6c6fdd6aadbe"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_graphics_1_1st_vertex_data.html">stVertexData</a> <a class="el" href="class_graphics_1_1c_my_font.html#aef6b717f1b3a4290b60b6c6fdd6aadbe">cMyFont::GetCharVertexData</a> </td>
-          <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iCharAsciiValue</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">iCharAsciiValue</td><td>The ascii value of the character </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns:</dt><dd>The vertex data</dd></dl>
-<p>Returns the vertex data for a character with the given ascii vakue </p>
-
-</div>
-</div>
-<a class="anchor" id="a2451ab0756a1c751fdd7c62144089da6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int <a class="el" href="class_graphics_1_1c_my_font.html#a2451ab0756a1c751fdd7c62144089da6">cMyFont::GetFontHeight</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>The height of the a line using this font</dd></dl>
-<p>Returns the height of the a line using this font </p>
-
-</div>
-</div>
 <a class="anchor" id="a0f5ebd004a6f4baaa2156e7c6c1ed250"></a>
 <div class="memitem">
 <div class="memproto">
@@ -246,87 +197,27 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3b31a1fc5f309d891dc931e0e99d362e"></a>
+<a class="anchor" id="af81cfeb404c5d739bc243635b30c673d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_graphics_1_1c_my_font.html#a3b31a1fc5f309d891dc931e0e99d362e">cMyFont::ParseFontDesc</a> </td>
+          <td class="memname">void <a class="el" href="class_graphics_1_1c_my_font.html#af81cfeb404c5d739bc243635b30c673d">cMyFont::ParseFontDesc</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strFontDirPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strFontDescFilename</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [private]</code></td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strFontDescFilename</em></td><td>)</td>
+          <td><code> [private]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strFontDirPath</td><td>The directory path from the font description file </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">strFontDescFilename</td><td>The file name of the font description file</td></tr>
   </table>
   </dd>
 </dl>
 <p>Parses and stores the character definitions from the font description file name </p>
-
-</div>
-</div>
-<a class="anchor" id="ae7af2f851a7f8f68dcbe5c280df7e711"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_graphics_1_1c_my_font.html#ae7af2f851a7f8f68dcbe5c280df7e711">cMyFont::Render</a> </td>
-          <td>(</td>
-          <td class="paramtype">const D3DXMATRIX &amp;&#160;</td>
-          <td class="paramname"><em>inMatWorld</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const D3DXMATRIX &amp;&#160;</td>
-          <td class="paramname"><em>inMatView</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const D3DXMATRIX &amp;&#160;</td>
-          <td class="paramname"><em>inMatProjection</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cColor &amp;&#160;</td>
-          <td class="paramname"><em>textColor</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inMatWorld</td><td>The world matrix </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">inMatView</td><td>The View Matrix </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">inMatProjection</td><td>The projection Matrix </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">textColor</td><td>The color of the text</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Sets the shader parameters and then draws the model using the HLSL shader </p>
 
 </div>
 </div>
@@ -420,7 +311,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Base::cString <a class="el" href="class_graphics_1_1c_my_font.html#aba3bd2a9e47fba9718add1499e921ce2">Graphics::cMyFont::m_strFontTexPath</a><code> [private]</code></td>
+          <td class="memname"><a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> <a class="el" href="class_graphics_1_1c_my_font.html#aba3bd2a9e47fba9718add1499e921ce2">Graphics::cMyFont::m_strFontTexPath</a><code> [private]</code></td>
         </tr>
       </table>
 </div>
@@ -436,7 +327,7 @@ Private Attributes</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1c_my_font.html">cMyFont</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:03 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:57:59 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

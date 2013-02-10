@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wndproc',['WndProc',['../class_game_base_1_1c_main_window.html#a34c0302fa66b64a61aaf2830ad28b134',1,'GameBase::cMainWindow']]]
+  ['white',['WHITE',['../class_base_1_1c_color.html#a745bf996a559b0a6c6748f12f0e4152d',1,'Base::cColor']]]
 ];

@@ -9,5 +9,5 @@ var searchData=
   ['inumberofvertices',['iNumberOfVertices',['../../../GraphicsEngine_PublicDoc/html/struct_graphics_1_1st_model_def.html#a9b6de63b19572b4f052c6c9e5f2d4f14',1,'Graphics::stModelDef']]],
   ['ispacecaption',['iSpaceCaption',['../../../GraphicsEngine_PublicDoc/html/class_graphics_1_1c_check_box_control_def.html#a111c77b344adf0ac36a9303e991e7dd6',1,'Graphics::cCheckBoxControlDef']]],
   ['istartindexno',['iStartIndexNo',['../../../GraphicsEngine_PublicDoc/html/struct_graphics_1_1st_model_def_1_1st_subset_def.html#a8d06e57271552bc01b6d33332ebf600d',1,'Graphics::stModelDef::stSubsetDef']]],
-  ['ithumbpos',['iThumbPos',['../../../GraphicsEngine_PublicDoc/html/union_graphics_1_1un_u_i_event_callback_param.html#ad724fc1f2fa0f6a655b48f3c9b23e911',1,'Graphics::unUIEventCallbackParam']]]
+  ['ithumbpos',['iThumbPos',['../../../GraphicsEngine_PublicDoc/html/struct_graphics_1_1st_u_i_event_callback_param.html#a352e7b4223069697d7b1cf933b1798c2',1,'Graphics::stUIEventCallbackParam']]]
 ];

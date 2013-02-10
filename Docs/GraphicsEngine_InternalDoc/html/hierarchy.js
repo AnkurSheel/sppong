@@ -8,8 +8,34 @@ var hierarchy =
       [ "Graphics::cTextBoxControlDef", "class_graphics_1_1c_text_box_control_def.html", null ],
       [ "Graphics::cWindowControlDef", "class_graphics_1_1c_window_control_def.html", null ]
     ] ],
-    [ "Graphics::CharDescriptor", "struct_graphics_1_1_char_descriptor.html", null ],
-    [ "Graphics::cMyFont", "class_graphics_1_1c_my_font.html", null ],
+    [ "Graphics::IMyFont::CharDescriptor", "struct_graphics_1_1_i_my_font_1_1_char_descriptor.html", null ],
+    [ "Base::cNonCopyable", "../../Base_InternalDoc/html/class_base_1_1c_non_copyable.html", [
+      [ "Graphics::cBaseControl", "class_graphics_1_1c_base_control.html", [
+        [ "Graphics::cButtonControl", "class_graphics_1_1c_button_control.html", null ],
+        [ "Graphics::cCheckBoxControl", "class_graphics_1_1c_check_box_control.html", null ],
+        [ "Graphics::cLabelControl", "class_graphics_1_1c_label_control.html", null ],
+        [ "Graphics::cScrollBarControl", "class_graphics_1_1c_scroll_bar_control.html", [
+          [ "Graphics::cHScrollBar", "class_graphics_1_1c_h_scroll_bar.html", null ],
+          [ "Graphics::cVScrollBar", "class_graphics_1_1c_v_scroll_bar.html", null ]
+        ] ],
+        [ "Graphics::cTextBoxControl", "class_graphics_1_1c_text_box_control.html", null ],
+        [ "Graphics::cWindowControl", "class_graphics_1_1c_window_control.html", null ]
+      ] ],
+      [ "Graphics::cBaseShader", "class_graphics_1_1c_base_shader.html", [
+        [ "Graphics::cColorShader", "class_graphics_1_1c_color_shader.html", null ],
+        [ "Graphics::cTextureShader", "class_graphics_1_1c_texture_shader.html", [
+          [ "Graphics::cFontShader", "class_graphics_1_1c_font_shader.html", null ]
+        ] ]
+      ] ],
+      [ "Graphics::cCamera", "class_graphics_1_1c_camera.html", null ],
+      [ "Graphics::cDXBase", "class_graphics_1_1c_d_x_base.html", null ],
+      [ "Graphics::cGraphicsClass", "class_graphics_1_1c_graphics_class.html", null ],
+      [ "Graphics::cModel", "class_graphics_1_1c_model.html", null ],
+      [ "Graphics::cMyFont", "class_graphics_1_1c_my_font.html", null ],
+      [ "Graphics::cSentence", "class_graphics_1_1c_sentence.html", null ],
+      [ "Graphics::cSprite", "class_graphics_1_1c_sprite.html", null ],
+      [ "Graphics::cTexture", "class_graphics_1_1c_texture.html", null ]
+    ] ],
     [ "Graphics::ICamera", "class_graphics_1_1_i_camera.html", [
       [ "Graphics::cCamera", "class_graphics_1_1c_camera.html", null ]
     ] ],
@@ -24,17 +50,7 @@ var hierarchy =
     ] ],
     [ "Graphics::IKeyboardHandler", "class_graphics_1_1_i_keyboard_handler.html", [
       [ "Graphics::IBaseControl", "class_graphics_1_1_i_base_control.html", [
-        [ "Graphics::cBaseControl", "class_graphics_1_1c_base_control.html", [
-          [ "Graphics::cButtonControl", "class_graphics_1_1c_button_control.html", null ],
-          [ "Graphics::cCheckBoxControl", "class_graphics_1_1c_check_box_control.html", null ],
-          [ "Graphics::cLabelControl", "class_graphics_1_1c_label_control.html", null ],
-          [ "Graphics::cScrollBarControl", "class_graphics_1_1c_scroll_bar_control.html", [
-            [ "Graphics::cHScrollBar", "class_graphics_1_1c_h_scroll_bar.html", null ],
-            [ "Graphics::cVScrollBar", "class_graphics_1_1c_v_scroll_bar.html", null ]
-          ] ],
-          [ "Graphics::cTextBoxControl", "class_graphics_1_1c_text_box_control.html", null ],
-          [ "Graphics::cWindowControl", "class_graphics_1_1c_window_control.html", null ]
-        ] ]
+        [ "Graphics::cBaseControl", "class_graphics_1_1c_base_control.html", null ]
       ] ]
     ] ],
     [ "Graphics::IModel", "class_graphics_1_1_i_model.html", [
@@ -49,12 +65,7 @@ var hierarchy =
       [ "Graphics::cSentence", "class_graphics_1_1c_sentence.html", null ]
     ] ],
     [ "Graphics::IShader", "class_graphics_1_1_i_shader.html", [
-      [ "Graphics::cBaseShader", "class_graphics_1_1c_base_shader.html", [
-        [ "Graphics::cColorShader", "class_graphics_1_1c_color_shader.html", null ],
-        [ "Graphics::cTextureShader", "class_graphics_1_1c_texture_shader.html", [
-          [ "Graphics::cFontShader", "class_graphics_1_1c_font_shader.html", null ]
-        ] ]
-      ] ]
+      [ "Graphics::cBaseShader", "class_graphics_1_1c_base_shader.html", null ]
     ] ],
     [ "Graphics::IShaderManager", "class_graphics_1_1_i_shader_manager.html", [
       [ "Graphics::cShaderManager", "class_graphics_1_1c_shader_manager.html", null ]
@@ -74,6 +85,6 @@ var hierarchy =
     [ "Graphics::cModel::stObjectSubset", "struct_graphics_1_1c_model_1_1st_object_subset.html", null ],
     [ "Graphics::stModelDef::stSubsetDef", "struct_graphics_1_1st_model_def_1_1st_subset_def.html", null ],
     [ "Graphics::stTexVertex", "struct_graphics_1_1st_tex_vertex.html", null ],
-    [ "Graphics::stVertexData", "struct_graphics_1_1st_vertex_data.html", null ],
-    [ "Graphics::unUIEventCallbackParam", "union_graphics_1_1un_u_i_event_callback_param.html", null ]
+    [ "Graphics::stUIEventCallbackParam", "struct_graphics_1_1st_u_i_event_callback_param.html", null ],
+    [ "Graphics::IMyFont::stVertexData", "struct_graphics_1_1_i_my_font_1_1st_vertex_data.html", null ]
 ];

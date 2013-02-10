@@ -6,7 +6,7 @@ var class_graphics_1_1_i_sentence =
     [ "VGetText", "class_graphics_1_1_i_sentence.html#a68020705fd4b391fc36445faa89f7a1b", null ],
     [ "VGetWidth", "class_graphics_1_1_i_sentence.html#a0b8b14385fcb2424ee6b0ee9ff2945e7", null ],
     [ "VGetWidth", "class_graphics_1_1_i_sentence.html#ad4f9b5fcf738a3adbd0636c0f4ee2f89", null ],
-    [ "VInitialize", "class_graphics_1_1_i_sentence.html#a068418a459275b51e1018d4d0e8eb263", null ],
+    [ "VInitialize", "class_graphics_1_1_i_sentence.html#a4d1290ffff2b4df85ba05b04d6580e3c", null ],
     [ "VRender", "class_graphics_1_1_i_sentence.html#aea4c507a579278675c14da3ee65e78e8", null ],
     [ "VSetHeight", "class_graphics_1_1_i_sentence.html#aee1aa81d3b480bd6d0e833d26c81f31a", null ],
     [ "VSetPosition", "class_graphics_1_1_i_sentence.html#a355a8cdfb14846d0f47d42124fc83047", null ],

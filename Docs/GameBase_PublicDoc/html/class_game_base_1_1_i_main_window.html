@@ -130,7 +130,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af3d6381dd99edc73fcfe42664f963d64"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#af3d6381dd99edc73fcfe42664f963d64">VCleanup</a> ()=0</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a9eacc2d52dab47064e8df1269f7ec813"><td class="memItemLeft" align="right" valign="top">static GAMEBASE_API <a class="el" href="class_game_base_1_1_i_main_window.html">IMainWindow</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#a9eacc2d52dab47064e8df1269f7ec813">GetInstance</a> ()</td></tr>
+<tr class="memitem:adb88cd7705201b39b87de92855839312"><td class="memItemLeft" align="right" valign="top">static GAMEBASE_API <br class="typebreak"/>
+<a class="el" href="class_game_base_1_1_i_main_window.html">IMainWindow</a> *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#adb88cd7705201b39b87de92855839312">GetInstance</a> ()</td></tr>
 <tr class="memitem:ad120e3957bd2de9b5fd29567bb9fdbdd"><td class="memItemLeft" align="right" valign="top">static GAMEBASE_API void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_base_1_1_i_main_window.html#ad120e3957bd2de9b5fd29567bb9fdbdd">Destroy</a> ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
@@ -138,8 +139,8 @@ Static Public Member Functions</h2></td></tr>
 <p>Singleton class.<br/>
  Usage : </p>
 <ul>
-<li>Call <code><a class="el" href="class_game_base_1_1_i_main_window.html#a9eacc2d52dab47064e8df1269f7ec813">GetInstance()</a></code> to use this class. </li>
-<li>Call <code>VOnDestroy()</code> when the application quits </li>
+<li>Call <code><a class="el" href="class_game_base_1_1_i_main_window.html#adb88cd7705201b39b87de92855839312">GetInstance()</a></code> to use this class. </li>
+<li>Call <code><a class="el" href="class_game_base_1_1_i_main_window.html#ad120e3957bd2de9b5fd29567bb9fdbdd">Destroy()</a></code> when the application quits </li>
 </ul>
 </div><hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="ad120e3957bd2de9b5fd29567bb9fdbdd"></a>
@@ -159,12 +160,12 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9eacc2d52dab47064e8df1269f7ec813"></a>
+<a class="anchor" id="adb88cd7705201b39b87de92855839312"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static GAMEBASE_API <a class="el" href="class_game_base_1_1_i_main_window.html">IMainWindow</a>* <a class="el" href="class_game_base_1_1_i_main_window.html#a9eacc2d52dab47064e8df1269f7ec813">GameBase::IMainWindow::GetInstance</a> </td>
+          <td class="memname">static GAMEBASE_API <a class="el" href="class_game_base_1_1_i_main_window.html">IMainWindow</a>* const <a class="el" href="class_game_base_1_1_i_main_window.html#adb88cd7705201b39b87de92855839312">GameBase::IMainWindow::GetInstance</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [static]</code></td>
@@ -172,8 +173,8 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="section return"><dt>Returns:</dt><dd>Returns a pointer to the singleton object</dd></dl>
-<p>Creates and returns a pointer to a singleton object of this class </p>
+<p>Creates and returns a pointer to a singleton object of this class</p>
+<dl class="section return"><dt>Returns:</dt><dd>Returns a pointer to the singleton object </dd></dl>
 
 </div>
 </div>
@@ -224,6 +225,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Initializes, Registers and creates the window. Returns a handle to the created window.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">hInstance</td><td>A handle to the current instance of the application </td></tr>
@@ -232,8 +234,7 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Handle to the created window</dd></dl>
-<p>Initializes, Registers and creates the window </p>
+<dl class="section return"><dt>Returns:</dt><dd>Handle to the created window </dd></dl>
 
 </div>
 </div>
@@ -261,7 +262,7 @@ Static Public Member Functions</h2></td></tr>
       <li class="navelem"><b>GameBase</b>      </li>
       <li class="navelem"><a class="el" href="class_game_base_1_1_i_main_window.html">IMainWindow</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:43:42 for GameBase by
+    <li class="footer">Generated on Sun Feb 10 2013 11:58:53 for GameBase by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

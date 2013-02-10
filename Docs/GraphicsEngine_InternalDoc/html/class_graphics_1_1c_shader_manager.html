@@ -136,31 +136,30 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a8c7dfdb40d8e197b850a23e81d89ffe6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_shader_manager.html">IShaderManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#a8c7dfdb40d8e197b850a23e81d89ffe6">s_pShadermanager</a> = NULL</td></tr>
 <tr><td colspan="2"><h2><a name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:a604b7bc1fed951f0230db28fb2565ea8"><td class="memItemLeft" align="right" valign="top">typedef std::map<br class="typebreak"/>
-&lt; Base::cString, shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#a604b7bc1fed951f0230db28fb2565ea8">ShaderMap</a></td></tr>
+<tr class="memitem:a5f444c413b20cd133ace970465530347"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; unsigned <br class="typebreak"/>
+long, shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#a5f444c413b20cd133ace970465530347">ShaderMap</a></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:aa2db66ae4bae3b60e8dbed908f555715"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#aa2db66ae4bae3b60e8dbed908f555715">VGetShader</a> (shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &amp;pShader, const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)</td></tr>
-<tr class="memitem:a5deabddacc8856d46b8ab0665a0e8c06"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#a5deabddacc8856d46b8ab0665a0e8c06">Find</a> (const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)</td></tr>
+<tr class="memitem:abd3c3eb5c21523e5b25b551c0f7e9237"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#abd3c3eb5c21523e5b25b551c0f7e9237">VGetShader</a> (shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &amp;pShader, const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strShaderName)</td></tr>
+<tr class="memitem:ad4eac414e5bb27e9310426525d7f7d86"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#ad4eac414e5bb27e9310426525d7f7d86">Find</a> (const unsigned long ulShaderHash)</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ad79f35703fa1062a32b39d2a3d446c53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_graphics_1_1c_shader_manager.html#a604b7bc1fed951f0230db28fb2565ea8">ShaderMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#ad79f35703fa1062a32b39d2a3d446c53">m_pShaders</a></td></tr>
+<tr class="memitem:ad79f35703fa1062a32b39d2a3d446c53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_graphics_1_1c_shader_manager.html#a5f444c413b20cd133ace970465530347">ShaderMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_shader_manager.html#ad79f35703fa1062a32b39d2a3d446c53">m_pShaders</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Class Declaration for <code><a class="el" href="class_graphics_1_1_i_shader_manager.html" title="Interface for shader manager.">IShaderManager</a></code> interface. </p>
 </div><hr/><h2>Member Typedef Documentation</h2>
-<a class="anchor" id="a604b7bc1fed951f0230db28fb2565ea8"></a>
+<a class="anchor" id="a5f444c413b20cd133ace970465530347"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::map&lt;Base::cString, shared_ptr &lt;<a class="el" href="class_graphics_1_1_i_shader.html">IShader</a>&gt; &gt; <a class="el" href="class_graphics_1_1c_shader_manager.html#a604b7bc1fed951f0230db28fb2565ea8">Graphics::cShaderManager::ShaderMap</a><code> [private]</code></td>
+          <td class="memname">typedef std::map&lt;unsigned long, shared_ptr &lt;<a class="el" href="class_graphics_1_1_i_shader.html">IShader</a>&gt; &gt; <a class="el" href="class_graphics_1_1c_shader_manager.html#a5f444c413b20cd133ace970465530347">Graphics::cShaderManager::ShaderMap</a><code> [private]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Map of shaders. The key is the vertex shader path. Value is a shared_ptr to the actual shader </p>
+<p>Map of shaders. The key is the hash of the shader filename. Value is a shared_ptr to the actual shader </p>
 
 </div>
 </div>
@@ -183,48 +182,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5deabddacc8856d46b8ab0665a0e8c06"></a>
+<a class="anchor" id="ad4eac414e5bb27e9310426525d7f7d86"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; <a class="el" href="class_graphics_1_1c_shader_manager.html#a5deabddacc8856d46b8ab0665a0e8c06">cShaderManager::Find</a> </td>
+          <td class="memname">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; <a class="el" href="class_graphics_1_1c_shader_manager.html#ad4eac414e5bb27e9310426525d7f7d86">cShaderManager::Find</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strVertexShaderPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strPixelShaderPath</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [private]</code></td>
+          <td class="paramtype">const unsigned long&#160;</td>
+          <td class="paramname"><em>ulShaderHash</em></td><td>)</td>
+          <td><code> [private]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strVertexShaderPath</td><td>The path for the vertex shader file </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strPixelShaderPath</td><td>The path for the pixel shader file </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>param[in] ulFontHash The hash of the name of the shader name </p>
 <dl class="section return"><dt>Returns:</dt><dd>Pointer to the texture if it is found in the texture list. NULL otherwise</dd></dl>
 <p>Checks if the shader has already been loaded. Returns a pointer to the shader if it is found. NULL otherwise. </p>
 
 </div>
 </div>
-<a class="anchor" id="aa2db66ae4bae3b60e8dbed908f555715"></a>
+<a class="anchor" id="abd3c3eb5c21523e5b25b551c0f7e9237"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="class_graphics_1_1c_shader_manager.html#aa2db66ae4bae3b60e8dbed908f555715">cShaderManager::VGetShader</a> </td>
+          <td class="memname">bool <a class="el" href="class_graphics_1_1c_shader_manager.html#abd3c3eb5c21523e5b25b551c0f7e9237">cShaderManager::VGetShader</a> </td>
           <td>(</td>
           <td class="paramtype">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>pShader</em>, </td>
@@ -232,14 +215,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strVertexShaderPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strPixelShaderPath</em>&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strShaderName</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -252,15 +229,14 @@ Private Attributes</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">pShader</td><td>The pointer to the existing shader </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strVertexShaderPath</td><td>The path for the vertex shader file </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strPixelShaderPath</td><td>The path for the pixel shader file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strShaderName</td><td>The name of the shader. This should be the same as the vertex and pixel shader files without the extension </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>True if the shader was found or created. False otherwise</dd></dl>
 <p>Loads and creates the shader if it has not been created already. Adds the texture to the shader list Returns true if the shader was found or created. False otherwise </p>
 
-<p>Implements <a class="el" href="class_graphics_1_1_i_shader_manager.html#a98f72f09aca99cdb37b7f0868e9335ec">Graphics::IShaderManager</a>.</p>
+<p>Implements <a class="el" href="class_graphics_1_1_i_shader_manager.html#a4e42d9a1a5130c1250c2b8b3700f2cc7">Graphics::IShaderManager</a>.</p>
 
 </div>
 </div>
@@ -270,7 +246,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_graphics_1_1c_shader_manager.html#a604b7bc1fed951f0230db28fb2565ea8">ShaderMap</a> <a class="el" href="class_graphics_1_1c_shader_manager.html#ad79f35703fa1062a32b39d2a3d446c53">Graphics::cShaderManager::m_pShaders</a><code> [private]</code></td>
+          <td class="memname"><a class="el" href="class_graphics_1_1c_shader_manager.html#a5f444c413b20cd133ace970465530347">ShaderMap</a> <a class="el" href="class_graphics_1_1c_shader_manager.html#ad79f35703fa1062a32b39d2a3d446c53">Graphics::cShaderManager::m_pShaders</a><code> [private]</code></td>
         </tr>
       </table>
 </div>
@@ -300,7 +276,7 @@ Private Attributes</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1c_shader_manager.html">cShaderManager</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:04 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:58:00 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

@@ -213,21 +213,28 @@
       <arglist>()</arglist>
     </member>
   </compound>
-  <compound kind="union">
-    <name>Graphics::unUIEventCallbackParam</name>
-    <filename>union_graphics_1_1un_u_i_event_callback_param.html</filename>
+  <compound kind="struct">
+    <name>Graphics::stUIEventCallbackParam</name>
+    <filename>struct_graphics_1_1st_u_i_event_callback_param.html</filename>
     <member kind="variable">
       <type>bool</type>
       <name>bChecked</name>
-      <anchorfile>union_graphics_1_1un_u_i_event_callback_param.html</anchorfile>
-      <anchor>ab2609451e7aa9c2688ca223878161f18</anchor>
+      <anchorfile>struct_graphics_1_1st_u_i_event_callback_param.html</anchorfile>
+      <anchor>a8c373aea95f4622388173a282d43eb47</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>int</type>
       <name>iThumbPos</name>
-      <anchorfile>union_graphics_1_1un_u_i_event_callback_param.html</anchorfile>
-      <anchor>ad724fc1f2fa0f6a655b48f3c9b23e911</anchor>
+      <anchorfile>struct_graphics_1_1st_u_i_event_callback_param.html</anchorfile>
+      <anchor>a352e7b4223069697d7b1cf933b1798c2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>Base::cString</type>
+      <name>strText</name>
+      <anchorfile>struct_graphics_1_1st_u_i_event_callback_param.html</anchorfile>
+      <anchor>a0198766c40ea49edda59c342201f3752</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -305,10 +312,10 @@
     <filename>class_graphics_1_1c_label_control_def.html</filename>
     <base>Graphics::cBaseControlDef</base>
     <member kind="variable">
-      <type>shared_ptr&lt; IMyFont &gt;</type>
-      <name>pFont</name>
+      <type>Base::cString</type>
+      <name>strFont</name>
       <anchorfile>class_graphics_1_1c_label_control_def.html</anchorfile>
-      <anchor>a0495dd77837a481a83cecd8e06a36b7c</anchor>
+      <anchor>a5facd40da202d6c9cbfebc0ad338db57</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -425,10 +432,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>shared_ptr&lt; IMyFont &gt;</type>
-      <name>pFont</name>
+      <type>Base::cString</type>
+      <name>strFont</name>
       <anchorfile>class_graphics_1_1c_text_box_control_def.html</anchorfile>
-      <anchor>abfa24aaffcca3a7a3dce97b54091f0fb</anchor>
+      <anchor>a9386bb828e6667d3d0d71b6803130db7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -526,17 +533,6 @@
       <anchorfile>class_graphics_1_1c_scroll_bar_control_def.html</anchorfile>
       <anchor>a88bbdb2dbb9417871de9173a320d4e2f</anchor>
       <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>Graphics::IFontManager</name>
-    <filename>class_graphics_1_1_i_font_manager.html</filename>
-    <member kind="function" virtualness="pure">
-      <type>virtual shared_ptr&lt; IMyFont &gt;</type>
-      <name>VGetFont</name>
-      <anchorfile>class_graphics_1_1_i_font_manager.html</anchorfile>
-      <anchor>aa839f15abf1467acd72a786b728f6e0d</anchor>
-      <arglist>(const Base::cString &amp;strFontDirPath, const Base::cString &amp;strFontDescFilename)=0</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -796,8 +792,8 @@
       <type>virtual bool</type>
       <name>VInitialize</name>
       <anchorfile>class_graphics_1_1_i_sentence.html</anchorfile>
-      <anchor>a068418a459275b51e1018d4d0e8eb263</anchor>
-      <arglist>(shared_ptr&lt; IMyFont &gt; pFont, const Base::cString &amp;strText, const Base::cColor &amp;textColor)=0</arglist>
+      <anchor>a4d1290ffff2b4df85ba05b04d6580e3c</anchor>
+      <arglist>(const Base::cString &amp;strFont, const Base::cString &amp;strText, const Base::cColor &amp;textColor)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>

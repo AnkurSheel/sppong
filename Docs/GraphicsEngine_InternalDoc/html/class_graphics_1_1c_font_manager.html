@@ -136,31 +136,30 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:afbbf04f35cec324e69ee147a223baafe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_font_manager.html">IFontManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#afbbf04f35cec324e69ee147a223baafe">s_pFontManager</a> = NULL</td></tr>
 <tr><td colspan="2"><h2><a name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:af83983d12033fefa3b1dadf5c87ebdfe"><td class="memItemLeft" align="right" valign="top">typedef std::map<br class="typebreak"/>
-&lt; Base::cString, shared_ptr<br class="typebreak"/>
-&lt; IMyFont &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#af83983d12033fefa3b1dadf5c87ebdfe">FontMap</a></td></tr>
+<tr class="memitem:a937e7d0a6a0e9546c65c05009c2dbbda"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; unsigned <br class="typebreak"/>
+long, shared_ptr&lt; IMyFont &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#a937e7d0a6a0e9546c65c05009c2dbbda">FontMap</a></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a838637cfd0d0ead957196209a3a4f57f"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; IMyFont &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#a838637cfd0d0ead957196209a3a4f57f">VGetFont</a> (const Base::cString &amp;strFontDirPath, const Base::cString &amp;strFontDescFilename)</td></tr>
-<tr class="memitem:a5dce1b43ff80f42e3891ead3b0c3c35c"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; IMyFont &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#a5dce1b43ff80f42e3891ead3b0c3c35c">Find</a> (const Base::cString &amp;strFontDescFilename)</td></tr>
+<tr class="memitem:a9dee90ce65e79485a532efc7dac64440"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; IMyFont &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#a9dee90ce65e79485a532efc7dac64440">VGetFont</a> (const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strFontName)</td></tr>
+<tr class="memitem:a11d910ea95800181c3f2164a83dd4326"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; IMyFont &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#a11d910ea95800181c3f2164a83dd4326">Find</a> (const unsigned long ulFontHash)</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a6c23fa0329742d736284177f368d923c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_graphics_1_1c_font_manager.html#af83983d12033fefa3b1dadf5c87ebdfe">FontMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#a6c23fa0329742d736284177f368d923c">m_pFonts</a></td></tr>
+<tr class="memitem:a6c23fa0329742d736284177f368d923c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_graphics_1_1c_font_manager.html#a937e7d0a6a0e9546c65c05009c2dbbda">FontMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_font_manager.html#a6c23fa0329742d736284177f368d923c">m_pFonts</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Class Declaration for <code><a class="el" href="class_graphics_1_1_i_font_manager.html" title="Interface for font manager.">IFontManager</a></code> interface. </p>
 </div><hr/><h2>Member Typedef Documentation</h2>
-<a class="anchor" id="af83983d12033fefa3b1dadf5c87ebdfe"></a>
+<a class="anchor" id="a937e7d0a6a0e9546c65c05009c2dbbda"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::map&lt;Base::cString, shared_ptr &lt;IMyFont&gt; &gt; <a class="el" href="class_graphics_1_1c_font_manager.html#af83983d12033fefa3b1dadf5c87ebdfe">Graphics::cFontManager::FontMap</a><code> [private]</code></td>
+          <td class="memname">typedef std::map&lt;unsigned long, shared_ptr &lt;IMyFont&gt; &gt; <a class="el" href="class_graphics_1_1c_font_manager.html#a937e7d0a6a0e9546c65c05009c2dbbda">Graphics::cFontManager::FontMap</a><code> [private]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Map of Fonts. The key is the font filename. Value is a shared_ptr to the actual font </p>
+<p>Map of Fonts. The key is the hash of the font filename. Value is a shared_ptr to the actual font </p>
 
 </div>
 </div>
@@ -183,61 +182,50 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5dce1b43ff80f42e3891ead3b0c3c35c"></a>
+<a class="anchor" id="a11d910ea95800181c3f2164a83dd4326"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; IMyFont &gt; <a class="el" href="class_graphics_1_1c_font_manager.html#a5dce1b43ff80f42e3891ead3b0c3c35c">cFontManager::Find</a> </td>
+          <td class="memname">shared_ptr&lt; IMyFont &gt; <a class="el" href="class_graphics_1_1c_font_manager.html#a11d910ea95800181c3f2164a83dd4326">cFontManager::Find</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strFontDescFilename</em></td><td>)</td>
+          <td class="paramtype">const unsigned long&#160;</td>
+          <td class="paramname"><em>ulFontHash</em></td><td>)</td>
           <td><code> [private]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>param[in] strFontDescFilename The file name of the font description file </p>
+<p>param[in] ulFontHash The hash of the name of the font name </p>
 <dl class="section return"><dt>Returns:</dt><dd>Pointer to the font if it is found in the font list. NULL otherwise</dd></dl>
 <p>Checks if the font has already been loaded. Returns a pointer to the font if it is found. NULL otherwise. </p>
 
 </div>
 </div>
-<a class="anchor" id="a838637cfd0d0ead957196209a3a4f57f"></a>
+<a class="anchor" id="a9dee90ce65e79485a532efc7dac64440"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; IMyFont &gt; <a class="el" href="class_graphics_1_1c_font_manager.html#a838637cfd0d0ead957196209a3a4f57f">cFontManager::VGetFont</a> </td>
+          <td class="memname">shared_ptr&lt; IMyFont &gt; <a class="el" href="class_graphics_1_1c_font_manager.html#a9dee90ce65e79485a532efc7dac64440">cFontManager::VGetFont</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strFontDirPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strFontDescFilename</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [private, virtual]</code></td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strFontName</em></td><td>)</td>
+          <td><code> [private, virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strFontDirPath</td><td>The directory path from the font description file </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strFontDescFilename</td><td>The file name of the font description file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strFontName</td><td>The name of the font. This should be the same as the font description file without the extension </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>Pointer to the font</dd></dl>
 <p>Loads and creates the font if it has not been created already. Adds the font to the font list Returns a pointer to the existing font otherwise </p>
 
-<p>Implements <a class="el" href="class_graphics_1_1_i_font_manager.html#aa839f15abf1467acd72a786b728f6e0d">Graphics::IFontManager</a>.</p>
+<p>Implements <a class="el" href="class_graphics_1_1_i_font_manager.html#a841ec21d29af707f38a2601f1fee1cce">Graphics::IFontManager</a>.</p>
 
 </div>
 </div>
@@ -247,7 +235,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_graphics_1_1c_font_manager.html#af83983d12033fefa3b1dadf5c87ebdfe">FontMap</a> <a class="el" href="class_graphics_1_1c_font_manager.html#a6c23fa0329742d736284177f368d923c">Graphics::cFontManager::m_pFonts</a><code> [private]</code></td>
+          <td class="memname"><a class="el" href="class_graphics_1_1c_font_manager.html#a937e7d0a6a0e9546c65c05009c2dbbda">FontMap</a> <a class="el" href="class_graphics_1_1c_font_manager.html#a6c23fa0329742d736284177f368d923c">Graphics::cFontManager::m_pFonts</a><code> [private]</code></td>
         </tr>
       </table>
 </div>
@@ -277,7 +265,7 @@ Private Attributes</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1c_font_manager.html">cFontManager</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:03 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:58:00 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

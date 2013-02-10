@@ -13,7 +13,7 @@ var annotated =
     [ "Graphics::cFontManager", "class_graphics_1_1c_font_manager.html", "class_graphics_1_1c_font_manager" ],
     [ "Graphics::cFontShader", "class_graphics_1_1c_font_shader.html", "class_graphics_1_1c_font_shader" ],
     [ "Graphics::cGraphicsClass", "class_graphics_1_1c_graphics_class.html", "class_graphics_1_1c_graphics_class" ],
-    [ "Graphics::CharDescriptor", "struct_graphics_1_1_char_descriptor.html", "struct_graphics_1_1_char_descriptor" ],
+    [ "Graphics::IMyFont::CharDescriptor", "struct_graphics_1_1_i_my_font_1_1_char_descriptor.html", "struct_graphics_1_1_i_my_font_1_1_char_descriptor" ],
     [ "Graphics::cHScrollBar", "class_graphics_1_1c_h_scroll_bar.html", "class_graphics_1_1c_h_scroll_bar" ],
     [ "Graphics::cLabelControl", "class_graphics_1_1c_label_control.html", "class_graphics_1_1c_label_control" ],
     [ "Graphics::cLabelControlDef", "class_graphics_1_1c_label_control_def.html", "class_graphics_1_1c_label_control_def" ],
@@ -54,6 +54,6 @@ var annotated =
     [ "Graphics::cModel::stObjectSubset", "struct_graphics_1_1c_model_1_1st_object_subset.html", "struct_graphics_1_1c_model_1_1st_object_subset" ],
     [ "Graphics::stModelDef::stSubsetDef", "struct_graphics_1_1st_model_def_1_1st_subset_def.html", "struct_graphics_1_1st_model_def_1_1st_subset_def" ],
     [ "Graphics::stTexVertex", "struct_graphics_1_1st_tex_vertex.html", "struct_graphics_1_1st_tex_vertex" ],
-    [ "Graphics::stVertexData", "struct_graphics_1_1st_vertex_data.html", "struct_graphics_1_1st_vertex_data" ],
-    [ "Graphics::unUIEventCallbackParam", "union_graphics_1_1un_u_i_event_callback_param.html", "union_graphics_1_1un_u_i_event_callback_param" ]
+    [ "Graphics::stUIEventCallbackParam", "struct_graphics_1_1st_u_i_event_callback_param.html", "struct_graphics_1_1st_u_i_event_callback_param" ],
+    [ "Graphics::IMyFont::stVertexData", "struct_graphics_1_1_i_my_font_1_1st_vertex_data.html", "struct_graphics_1_1_i_my_font_1_1st_vertex_data" ]
 ];

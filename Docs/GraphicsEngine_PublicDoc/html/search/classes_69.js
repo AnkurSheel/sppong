@@ -2,7 +2,6 @@ var searchData=
 [
   ['ibasecontrol',['IBaseControl',['../class_graphics_1_1_i_base_control.html',1,'Graphics']]],
   ['icamera',['ICamera',['../class_graphics_1_1_i_camera.html',1,'Graphics']]],
-  ['ifontmanager',['IFontManager',['../class_graphics_1_1_i_font_manager.html',1,'Graphics']]],
   ['igraphicsclass',['IGraphicsClass',['../class_graphics_1_1_i_graphics_class.html',1,'Graphics']]],
   ['ikeyboardhandler',['IKeyboardHandler',['../class_graphics_1_1_i_keyboard_handler.html',1,'Graphics']]],
   ['imodel',['IModel',['../class_graphics_1_1_i_model.html',1,'Graphics']]],

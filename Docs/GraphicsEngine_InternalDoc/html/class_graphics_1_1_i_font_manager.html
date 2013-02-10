@@ -126,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa839f15abf1467acd72a786b728f6e0d"><td class="memItemLeft" align="right" valign="top">virtual shared_ptr&lt; IMyFont &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_font_manager.html#aa839f15abf1467acd72a786b728f6e0d">VGetFont</a> (const Base::cString &amp;strFontDirPath, const Base::cString &amp;strFontDescFilename)=0</td></tr>
+<tr class="memitem:a841ec21d29af707f38a2601f1fee1cce"><td class="memItemLeft" align="right" valign="top">virtual shared_ptr&lt; IMyFont &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_font_manager.html#a841ec21d29af707f38a2601f1fee1cce">VGetFont</a> (const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strFontName)=0</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Interface for font manager. </p>
@@ -138,41 +138,30 @@ Public Member Functions</h2></td></tr>
 <li>Call <code>VOnDestroy()</code> when the application quits </li>
 </ul>
 </div><hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aa839f15abf1467acd72a786b728f6e0d"></a>
+<a class="anchor" id="a841ec21d29af707f38a2601f1fee1cce"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual shared_ptr&lt;IMyFont&gt; <a class="el" href="class_graphics_1_1_i_font_manager.html#aa839f15abf1467acd72a786b728f6e0d">Graphics::IFontManager::VGetFont</a> </td>
+          <td class="memname">virtual shared_ptr&lt;IMyFont&gt; <a class="el" href="class_graphics_1_1_i_font_manager.html#a841ec21d29af707f38a2601f1fee1cce">Graphics::IFontManager::VGetFont</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strFontDirPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strFontDescFilename</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [pure virtual]</code></td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strFontName</em></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strFontDirPath</td><td>The directory path from the font description file </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strFontDescFilename</td><td>The file name of the font description file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strFontName</td><td>The name of the font. This should be the same as the font description file without the extension </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>Pointer to the font</dd></dl>
 <p>Loads and creates the font if it has not been created already. Adds the font to the font list Returns a pointer to the existing font otherwise </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_font_manager.html#a838637cfd0d0ead957196209a3a4f57f">Graphics::cFontManager</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_font_manager.html#a9dee90ce65e79485a532efc7dac64440">Graphics::cFontManager</a>.</p>
 
 </div>
 </div>
@@ -183,7 +172,7 @@ Public Member Functions</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1_i_font_manager.html">IFontManager</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:02 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:58:00 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

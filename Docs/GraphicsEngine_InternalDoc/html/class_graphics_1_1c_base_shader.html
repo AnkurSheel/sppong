@@ -125,7 +125,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &quot;BaseShader.h&quot;</code></p>
 
-<p>Inherits <a class="el" href="class_graphics_1_1_i_shader.html">Graphics::IShader</a>.</p>
+<p>Inherits <a class="el" href="class_graphics_1_1_i_shader.html">Graphics::IShader</a>, and <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_non_copyable.html">Base::cNonCopyable</a>.</p>
 
 <p>Inherited by <a class="el" href="class_graphics_1_1c_color_shader.html">Graphics::cColorShader</a>, and <a class="el" href="class_graphics_1_1c_texture_shader.html">Graphics::cTextureShader</a>.</p>
 
@@ -141,7 +141,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a532e7425b137104d8cf187411356c89d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a532e7425b137104d8cf187411356c89d">VRender</a> (const D3DXMATRIX &amp;inMatWorld, const D3DXMATRIX &amp;inMatView, const D3DXMATRIX &amp;inMatProjection)</td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9bd0a3dd4bb464a5c3b42d871679dd0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a9bd0a3dd4bb464a5c3b42d871679dd0a">VInitialize</a> (const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)</td></tr>
+<tr class="memitem:ac191c6bb661c6e2bc3a7a31d560a4f76"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#ac191c6bb661c6e2bc3a7a31d560a4f76">VInitialize</a> (const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strShaderName)</td></tr>
 <tr class="memitem:ac8393cd0e7982d75cbab1f9044f392a8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#ac8393cd0e7982d75cbab1f9044f392a8">VSetShaderParameters</a> (const D3DXMATRIX &amp;inMatWorld, const D3DXMATRIX &amp;inMatView, const D3DXMATRIX &amp;inMatProjection)</td></tr>
 <tr class="memitem:a5d1c97cbe53a0cd3ff5e8bc36efb7510"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a5d1c97cbe53a0cd3ff5e8bc36efb7510">VRenderShader</a> ()</td></tr>
 <tr class="memitem:a7f49439b7d3cf52a58d27a6a2bc57d9d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a7f49439b7d3cf52a58d27a6a2bc57d9d">VCleanup</a> ()</td></tr>
@@ -151,9 +151,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:aed81100b8f8c58aa9143b0359319344d"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_texture.html">ITexture</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#aed81100b8f8c58aa9143b0359319344d">m_pTexture</a></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a047d45305adc7a32c326eedba24b0bda"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a047d45305adc7a32c326eedba24b0bda">VCreateLayout</a> (const Utilities::IFileInput *const pVertexShaderFile)=0</td></tr>
-<tr class="memitem:accd14ab0ee6a406a8df107bf57a874c0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#accd14ab0ee6a406a8df107bf57a874c0">CreateVertexShader</a> (const Base::cString &amp;strVertexShaderPath)</td></tr>
-<tr class="memitem:ae927dbfa68e9e956d99377e1ae5b572a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#ae927dbfa68e9e956d99377e1ae5b572a">CreatePixelShader</a> (const Base::cString &amp;strPixelShaderPath)</td></tr>
+<tr class="memitem:a7df743b698e7f9e9af825a8b4e1aac0e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a7df743b698e7f9e9af825a8b4e1aac0e">VCreateLayout</a> (shared_ptr&lt; Utilities::IResHandle const  &gt; shaderHandle)=0</td></tr>
+<tr class="memitem:a996e26cc37d1a61fd4d756492aba9a72"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a996e26cc37d1a61fd4d756492aba9a72">CreateVertexShader</a> (const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strShaderName)</td></tr>
+<tr class="memitem:a3e69d02d3184d6c0090445e18436b72c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a3e69d02d3184d6c0090445e18436b72c">CreatePixelShader</a> (const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strShaderName)</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a12cadce8c9828bae1f4df33e0067f271"><td class="memItemLeft" align="right" valign="top">ID3D11VertexShader *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1c_base_shader.html#a12cadce8c9828bae1f4df33e0067f271">m_pVertexShader</a></td></tr>
@@ -163,15 +163,15 @@ Private Attributes</h2></td></tr>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Class Declaration for <code><a class="el" href="class_graphics_1_1_i_shader.html" title="Interface to invoke the HLSL shaders for drawing the 3D models.">IShader</a></code> interface. Base class for All Shader classes. </p>
 </div><hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="ae927dbfa68e9e956d99377e1ae5b572a"></a>
+<a class="anchor" id="a3e69d02d3184d6c0090445e18436b72c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="class_graphics_1_1c_base_shader.html#ae927dbfa68e9e956d99377e1ae5b572a">cBaseShader::CreatePixelShader</a> </td>
+          <td class="memname">bool <a class="el" href="class_graphics_1_1c_base_shader.html#a3e69d02d3184d6c0090445e18436b72c">cBaseShader::CreatePixelShader</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strPixelShaderPath</em></td><td>)</td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strShaderName</em></td><td>)</td>
           <td><code> [private]</code></td>
         </tr>
       </table>
@@ -179,7 +179,7 @@ Private Attributes</h2></td></tr>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strPixelShaderPath</td><td>The path for the pixel shader file</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strShaderName</td><td>The name of the shader. The extension .sho will be added automatically</td></tr>
   </table>
   </dd>
 </dl>
@@ -187,15 +187,15 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="accd14ab0ee6a406a8df107bf57a874c0"></a>
+<a class="anchor" id="a996e26cc37d1a61fd4d756492aba9a72"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="class_graphics_1_1c_base_shader.html#accd14ab0ee6a406a8df107bf57a874c0">cBaseShader::CreateVertexShader</a> </td>
+          <td class="memname">bool <a class="el" href="class_graphics_1_1c_base_shader.html#a996e26cc37d1a61fd4d756492aba9a72">cBaseShader::CreateVertexShader</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strVertexShaderPath</em></td><td>)</td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strShaderName</em></td><td>)</td>
           <td><code> [private]</code></td>
         </tr>
       </table>
@@ -203,12 +203,12 @@ Private Attributes</h2></td></tr>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strVertexShaderPath</td><td>The path for the vertex shader file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strShaderName</td><td>The name of the shader. The extension .vsho will be added automatically </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>False if there is any error</dd></dl>
-<p>Creates the vertex shader objectsand the layout of the vertex data that will be processed by this shader </p>
+<p>Creates the vertex shader object and the layout of the vertex data that will be processed by this shader </p>
 
 </div>
 </div>
@@ -231,15 +231,15 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a047d45305adc7a32c326eedba24b0bda"></a>
+<a class="anchor" id="a7df743b698e7f9e9af825a8b4e1aac0e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="class_graphics_1_1c_base_shader.html#a047d45305adc7a32c326eedba24b0bda">Graphics::cBaseShader::VCreateLayout</a> </td>
+          <td class="memname">virtual bool <a class="el" href="class_graphics_1_1c_base_shader.html#a7df743b698e7f9e9af825a8b4e1aac0e">Graphics::cBaseShader::VCreateLayout</a> </td>
           <td>(</td>
-          <td class="paramtype">const Utilities::IFileInput *const&#160;</td>
-          <td class="paramname"><em>pVertexShaderFile</em></td><td>)</td>
+          <td class="paramtype">shared_ptr&lt; Utilities::IResHandle const  &gt;&#160;</td>
+          <td class="paramname"><em>shaderHandle</em></td><td>)</td>
           <td><code> [private, pure virtual]</code></td>
         </tr>
       </table>
@@ -247,54 +247,43 @@ Private Attributes</h2></td></tr>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pVertexShaderFile</td><td>The compiled vertex shader file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">shaderHandle</td><td>Handle to the compiled vertex shader file </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>False if there is any error</dd></dl>
 <p>Creates the layout of the vertex data that will be processed by this shader </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_texture_shader.html#a4b445e257344925ed9643190d3b293ee">Graphics::cTextureShader</a>, and <a class="el" href="class_graphics_1_1c_color_shader.html#ad873f4494157e5b33e3c1a6ce2094381">Graphics::cColorShader</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_texture_shader.html#ab96bc4a9459d2763ab2a642be979d3b9">Graphics::cTextureShader</a>, and <a class="el" href="class_graphics_1_1c_color_shader.html#aca4793c50ce50f9ab415bba648845e20">Graphics::cColorShader</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9bd0a3dd4bb464a5c3b42d871679dd0a"></a>
+<a class="anchor" id="ac191c6bb661c6e2bc3a7a31d560a4f76"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="class_graphics_1_1c_base_shader.html#a9bd0a3dd4bb464a5c3b42d871679dd0a">cBaseShader::VInitialize</a> </td>
+          <td class="memname">bool <a class="el" href="class_graphics_1_1c_base_shader.html#ac191c6bb661c6e2bc3a7a31d560a4f76">cBaseShader::VInitialize</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strVertexShaderPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strPixelShaderPath</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [protected, virtual]</code></td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strShaderName</em></td><td>)</td>
+          <td><code> [protected, virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strVertexShaderPath</td><td>The path for the vertex shader file </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strPixelShaderPath</td><td>The path for the pixel shader file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strShaderName</td><td>The name of the shader. This should be the same as the vertex and pixel shader files without the extension </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>False if there is any error</dd></dl>
 <p>Creates the vertex and pixel shader objects. Creates the layout of the vertex data that will be processed by this shader </p>
 
-<p>Implements <a class="el" href="class_graphics_1_1_i_shader.html#aa774d434c98917bd3233cbbb6c5367e9">Graphics::IShader</a>.</p>
+<p>Implements <a class="el" href="class_graphics_1_1_i_shader.html#aa9f28a2530d15fc85a214aa826f31e3e">Graphics::IShader</a>.</p>
 
-<p>Reimplemented in <a class="el" href="class_graphics_1_1c_texture_shader.html#afaede772a5e2eab180eaf06f76dcb938">Graphics::cTextureShader</a>.</p>
+<p>Reimplemented in <a class="el" href="class_graphics_1_1c_texture_shader.html#ae4d6bf8fbf8366b2c64c9e6fb2d25132">Graphics::cTextureShader</a>.</p>
 
 </div>
 </div>
@@ -509,7 +498,7 @@ Private Attributes</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1c_base_shader.html">cBaseShader</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:03 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:57:59 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

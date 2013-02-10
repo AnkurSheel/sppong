@@ -127,24 +127,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa774d434c98917bd3233cbbb6c5367e9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#aa774d434c98917bd3233cbbb6c5367e9">VInitialize</a> (const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)=0</td></tr>
+<tr class="memitem:aa9f28a2530d15fc85a214aa826f31e3e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#aa9f28a2530d15fc85a214aa826f31e3e">VInitialize</a> (const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;strShaderName)=0</td></tr>
 <tr class="memitem:a3a961596eb801393ffbfec082727c91b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#a3a961596eb801393ffbfec082727c91b">VRender</a> (const D3DXMATRIX &amp;inMatWorld, const D3DXMATRIX &amp;inMatView, const D3DXMATRIX &amp;inMatProjection)=0</td></tr>
 <tr class="memitem:afe9ac5eebdd880f2cca2fd0e01454226"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#afe9ac5eebdd880f2cca2fd0e01454226">VSetTexture</a> (shared_ptr&lt; <a class="el" href="class_graphics_1_1_i_texture.html">ITexture</a> &gt; pTexture)=0</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:afb1c6d7f2433fa34a80b96893c8c6190"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#afb1c6d7f2433fa34a80b96893c8c6190">CreateColorShader</a> ()</td></tr>
-<tr class="memitem:aa6a1ec07d1a868c0979f7f963e237472"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#aa6a1ec07d1a868c0979f7f963e237472">CreateTextureShader</a> ()</td></tr>
-<tr class="memitem:a3834b1b0f005acd72d826936be2025e7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#a3834b1b0f005acd72d826936be2025e7">CreateFontShader</a> ()</td></tr>
+<tr class="memitem:a46bbe663cf9478739e12f4157d4f77d6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#a46bbe663cf9478739e12f4157d4f77d6">CreateColorShader</a> ()</td></tr>
+<tr class="memitem:aba45bfb7ca4514c0ba1b2f02fb16053c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#aba45bfb7ca4514c0ba1b2f02fb16053c">CreateTextureShader</a> ()</td></tr>
+<tr class="memitem:a7af41f6a8d04e49d6797b301abd25547"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics_1_1_i_shader.html#a7af41f6a8d04e49d6797b301abd25547">CreateFontShader</a> ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Interface to invoke the HLSL shaders for drawing the 3D models. </p>
 </div><hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="afb1c6d7f2433fa34a80b96893c8c6190"></a>
+<a class="anchor" id="a46bbe663cf9478739e12f4157d4f77d6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_graphics_1_1_i_shader.html">Graphics::IShader</a> * <a class="el" href="class_graphics_1_1_i_shader.html#afb1c6d7f2433fa34a80b96893c8c6190">Graphics::IShader::CreateColorShader</a> </td>
+          <td class="memname"><a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *const <a class="el" href="class_graphics_1_1_i_shader.html#a46bbe663cf9478739e12f4157d4f77d6">IShader::CreateColorShader</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [static]</code></td>
@@ -157,12 +157,12 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3834b1b0f005acd72d826936be2025e7"></a>
+<a class="anchor" id="a7af41f6a8d04e49d6797b301abd25547"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> * <a class="el" href="class_graphics_1_1_i_shader.html#a3834b1b0f005acd72d826936be2025e7">IShader::CreateFontShader</a> </td>
+          <td class="memname"><a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *const <a class="el" href="class_graphics_1_1_i_shader.html#a7af41f6a8d04e49d6797b301abd25547">IShader::CreateFontShader</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [static]</code></td>
@@ -175,12 +175,12 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa6a1ec07d1a868c0979f7f963e237472"></a>
+<a class="anchor" id="aba45bfb7ca4514c0ba1b2f02fb16053c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> * <a class="el" href="class_graphics_1_1_i_shader.html#aa6a1ec07d1a868c0979f7f963e237472">IShader::CreateTextureShader</a> </td>
+          <td class="memname"><a class="el" href="class_graphics_1_1_i_shader.html">IShader</a> *const <a class="el" href="class_graphics_1_1_i_shader.html#aba45bfb7ca4514c0ba1b2f02fb16053c">IShader::CreateTextureShader</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [static]</code></td>
@@ -193,41 +193,30 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa774d434c98917bd3233cbbb6c5367e9"></a>
+<a class="anchor" id="aa9f28a2530d15fc85a214aa826f31e3e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="class_graphics_1_1_i_shader.html#aa774d434c98917bd3233cbbb6c5367e9">Graphics::IShader::VInitialize</a> </td>
+          <td class="memname">virtual bool <a class="el" href="class_graphics_1_1_i_shader.html#aa9f28a2530d15fc85a214aa826f31e3e">Graphics::IShader::VInitialize</a> </td>
           <td>(</td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strVertexShaderPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Base::cString &amp;&#160;</td>
-          <td class="paramname"><em>strPixelShaderPath</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [pure virtual]</code></td>
+          <td class="paramtype">const <a class="elRef" doxygen="Base_Internal.tag:../../Base_InternalDoc/html/" href="../../Base_InternalDoc/html/class_base_1_1c_string.html">Base::cString</a> &amp;&#160;</td>
+          <td class="paramname"><em>strShaderName</em></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">strVertexShaderPath</td><td>The path for the vertex shader file </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">strPixelShaderPath</td><td>The path for the pixel shader file </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">strShaderName</td><td>The name of the shader. This should be the same as the vertex and pixel shader files without the extension </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>False if there is any error</dd></dl>
 <p>Creates the vertex and pixel shader objects. Creates the layout of the vertex data that will be processed by this shader </p>
 
-<p>Implemented in <a class="el" href="class_graphics_1_1c_base_shader.html#a9bd0a3dd4bb464a5c3b42d871679dd0a">Graphics::cBaseShader</a>, and <a class="el" href="class_graphics_1_1c_texture_shader.html#afaede772a5e2eab180eaf06f76dcb938">Graphics::cTextureShader</a>.</p>
+<p>Implemented in <a class="el" href="class_graphics_1_1c_base_shader.html#ac191c6bb661c6e2bc3a7a31d560a4f76">Graphics::cBaseShader</a>, and <a class="el" href="class_graphics_1_1c_texture_shader.html#ae4d6bf8fbf8366b2c64c9e6fb2d25132">Graphics::cTextureShader</a>.</p>
 
 </div>
 </div>
@@ -308,7 +297,7 @@ Static Public Member Functions</h2></td></tr>
       <li class="navelem"><b>Graphics</b>      </li>
       <li class="navelem"><a class="el" href="class_graphics_1_1_i_shader.html">IShader</a>      </li>
 
-    <li class="footer">Generated on Tue Jan 22 2013 22:41:04 for GraphicsEngine by
+    <li class="footer">Generated on Sun Feb 10 2013 11:58:00 for GraphicsEngine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
    </ul>

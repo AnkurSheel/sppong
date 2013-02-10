@@ -9,7 +9,6 @@ var hierarchy =
       [ "Graphics::cWindowControlDef", "class_graphics_1_1c_window_control_def.html", null ]
     ] ],
     [ "Graphics::ICamera", "class_graphics_1_1_i_camera.html", null ],
-    [ "Graphics::IFontManager", "class_graphics_1_1_i_font_manager.html", null ],
     [ "Graphics::IGraphicsClass", "class_graphics_1_1_i_graphics_class.html", null ],
     [ "Graphics::IKeyboardHandler", "class_graphics_1_1_i_keyboard_handler.html", [
       [ "Graphics::IBaseControl", "class_graphics_1_1_i_base_control.html", null ]
@@ -25,5 +24,5 @@ var hierarchy =
     [ "Graphics::stModelDef", "struct_graphics_1_1st_model_def.html", null ],
     [ "Graphics::stModelDef::stSubsetDef", "struct_graphics_1_1st_model_def_1_1st_subset_def.html", null ],
     [ "Graphics::stTexVertex", "struct_graphics_1_1st_tex_vertex.html", null ],
-    [ "Graphics::unUIEventCallbackParam", "union_graphics_1_1un_u_i_event_callback_param.html", null ]
+    [ "Graphics::stUIEventCallbackParam", "struct_graphics_1_1st_u_i_event_callback_param.html", null ]
 ];

@@ -213,21 +213,28 @@
       <arglist>()</arglist>
     </member>
   </compound>
-  <compound kind="union">
-    <name>Graphics::unUIEventCallbackParam</name>
-    <filename>union_graphics_1_1un_u_i_event_callback_param.html</filename>
+  <compound kind="struct">
+    <name>Graphics::stUIEventCallbackParam</name>
+    <filename>struct_graphics_1_1st_u_i_event_callback_param.html</filename>
     <member kind="variable">
       <type>bool</type>
       <name>bChecked</name>
-      <anchorfile>union_graphics_1_1un_u_i_event_callback_param.html</anchorfile>
-      <anchor>ab2609451e7aa9c2688ca223878161f18</anchor>
+      <anchorfile>struct_graphics_1_1st_u_i_event_callback_param.html</anchorfile>
+      <anchor>a8c373aea95f4622388173a282d43eb47</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>int</type>
       <name>iThumbPos</name>
-      <anchorfile>union_graphics_1_1un_u_i_event_callback_param.html</anchorfile>
-      <anchor>ad724fc1f2fa0f6a655b48f3c9b23e911</anchor>
+      <anchorfile>struct_graphics_1_1st_u_i_event_callback_param.html</anchorfile>
+      <anchor>a352e7b4223069697d7b1cf933b1798c2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>Base::cString</type>
+      <name>strText</name>
+      <anchorfile>struct_graphics_1_1st_u_i_event_callback_param.html</anchorfile>
+      <anchor>a0198766c40ea49edda59c342201f3752</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -305,10 +312,10 @@
     <filename>class_graphics_1_1c_label_control_def.html</filename>
     <base>Graphics::cBaseControlDef</base>
     <member kind="variable">
-      <type>shared_ptr&lt; IMyFont &gt;</type>
-      <name>pFont</name>
+      <type>Base::cString</type>
+      <name>strFont</name>
       <anchorfile>class_graphics_1_1c_label_control_def.html</anchorfile>
-      <anchor>a0495dd77837a481a83cecd8e06a36b7c</anchor>
+      <anchor>a5facd40da202d6c9cbfebc0ad338db57</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -425,10 +432,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>shared_ptr&lt; IMyFont &gt;</type>
-      <name>pFont</name>
+      <type>Base::cString</type>
+      <name>strFont</name>
       <anchorfile>class_graphics_1_1c_text_box_control_def.html</anchorfile>
-      <anchor>abfa24aaffcca3a7a3dce97b54091f0fb</anchor>
+      <anchor>a9386bb828e6667d3d0d71b6803130db7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -526,17 +533,6 @@
       <anchorfile>class_graphics_1_1c_scroll_bar_control_def.html</anchorfile>
       <anchor>a88bbdb2dbb9417871de9173a320d4e2f</anchor>
       <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>Graphics::IFontManager</name>
-    <filename>class_graphics_1_1_i_font_manager.html</filename>
-    <member kind="function" virtualness="pure">
-      <type>virtual shared_ptr&lt; IMyFont &gt;</type>
-      <name>VGetFont</name>
-      <anchorfile>class_graphics_1_1_i_font_manager.html</anchorfile>
-      <anchor>aa839f15abf1467acd72a786b728f6e0d</anchor>
-      <arglist>(const Base::cString &amp;strFontDirPath, const Base::cString &amp;strFontDescFilename)=0</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -796,8 +792,8 @@
       <type>virtual bool</type>
       <name>VInitialize</name>
       <anchorfile>class_graphics_1_1_i_sentence.html</anchorfile>
-      <anchor>a068418a459275b51e1018d4d0e8eb263</anchor>
-      <arglist>(shared_ptr&lt; IMyFont &gt; pFont, const Base::cString &amp;strText, const Base::cColor &amp;textColor)=0</arglist>
+      <anchor>a4d1290ffff2b4df85ba05b04d6580e3c</anchor>
+      <arglist>(const Base::cString &amp;strFont, const Base::cString &amp;strText, const Base::cColor &amp;textColor)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>
@@ -959,6 +955,7 @@
     <name>Graphics::cBaseControl</name>
     <filename>class_graphics_1_1c_base_control.html</filename>
     <base>Graphics::IBaseControl</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function">
       <type>void</type>
       <name>VSetVisible</name>
@@ -1321,6 +1318,7 @@
     <name>Graphics::cBaseShader</name>
     <filename>class_graphics_1_1c_base_shader.html</filename>
     <base>Graphics::IShader</base>
+    <base>Base::cNonCopyable</base>
     <class kind="struct">Graphics::cBaseShader::MatrixBufferType</class>
     <member kind="function">
       <type>void</type>
@@ -1340,8 +1338,8 @@
       <type>bool</type>
       <name>VInitialize</name>
       <anchorfile>class_graphics_1_1c_base_shader.html</anchorfile>
-      <anchor>a9bd0a3dd4bb464a5c3b42d871679dd0a</anchor>
-      <arglist>(const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)</arglist>
+      <anchor>ac191c6bb661c6e2bc3a7a31d560a4f76</anchor>
+      <arglist>(const Base::cString &amp;strShaderName)</arglist>
     </member>
     <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
@@ -1382,22 +1380,22 @@
       <type>virtual bool</type>
       <name>VCreateLayout</name>
       <anchorfile>class_graphics_1_1c_base_shader.html</anchorfile>
-      <anchor>a047d45305adc7a32c326eedba24b0bda</anchor>
-      <arglist>(const Utilities::IFileInput *const pVertexShaderFile)=0</arglist>
+      <anchor>a7df743b698e7f9e9af825a8b4e1aac0e</anchor>
+      <arglist>(shared_ptr&lt; Utilities::IResHandle const  &gt; shaderHandle)=0</arglist>
     </member>
     <member kind="function" protection="private">
       <type>bool</type>
       <name>CreateVertexShader</name>
       <anchorfile>class_graphics_1_1c_base_shader.html</anchorfile>
-      <anchor>accd14ab0ee6a406a8df107bf57a874c0</anchor>
-      <arglist>(const Base::cString &amp;strVertexShaderPath)</arglist>
+      <anchor>a996e26cc37d1a61fd4d756492aba9a72</anchor>
+      <arglist>(const Base::cString &amp;strShaderName)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>bool</type>
       <name>CreatePixelShader</name>
       <anchorfile>class_graphics_1_1c_base_shader.html</anchorfile>
-      <anchor>ae927dbfa68e9e956d99377e1ae5b572a</anchor>
-      <arglist>(const Base::cString &amp;strPixelShaderPath)</arglist>
+      <anchor>a3e69d02d3184d6c0090445e18436b72c</anchor>
+      <arglist>(const Base::cString &amp;strShaderName)</arglist>
     </member>
     <member kind="variable" protection="private">
       <type>ID3D11VertexShader *</type>
@@ -1518,6 +1516,7 @@
     <name>Graphics::cCamera</name>
     <filename>class_graphics_1_1c_camera.html</filename>
     <base>Graphics::ICamera</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function" protection="private">
       <type>void</type>
       <name>VUpdate</name>
@@ -1644,14 +1643,15 @@
       <type>bool</type>
       <name>VCreateLayout</name>
       <anchorfile>class_graphics_1_1c_color_shader.html</anchorfile>
-      <anchor>ad873f4494157e5b33e3c1a6ce2094381</anchor>
-      <arglist>(const Utilities::IFileInput *const pVertexShaderFile)</arglist>
+      <anchor>aca4793c50ce50f9ab415bba648845e20</anchor>
+      <arglist>(shared_ptr&lt; Utilities::IResHandle const  &gt; shaderHandle)</arglist>
     </member>
   </compound>
   <compound kind="class">
     <name>Graphics::cDXBase</name>
     <filename>class_graphics_1_1c_d_x_base.html</filename>
     <base>Graphics::IDXBase</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function" static="yes">
       <type>static IDXBase *</type>
       <name>Create</name>
@@ -1822,10 +1822,10 @@
     </member>
     <member kind="function" protection="private">
       <type>bool</type>
-      <name>GetMonitorRefreshRate</name>
+      <name>GetDisplayMode</name>
       <anchorfile>class_graphics_1_1c_d_x_base.html</anchorfile>
-      <anchor>a0c3d0d6841928153998cf99ecb910a15</anchor>
-      <arglist>(const int iWidth, const int iHeight, unsigned int &amp;iRefreshRateNumerator, unsigned int &amp;iRefreshRateDenominator)</arglist>
+      <anchor>a8c351b2203931cd06a1d7f79e5237afe</anchor>
+      <arglist>(const int iWidth, const int iHeigh)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>bool</type>
@@ -2098,129 +2098,10 @@
       <arglist>(const bool bIsFullScreen)=0</arglist>
     </member>
   </compound>
-  <compound kind="struct">
-    <name>Graphics::CharDescriptor</name>
-    <filename>struct_graphics_1_1_char_descriptor.html</filename>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>id</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>a02e1be7402704be54c638929a8401394</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>x</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>a371ca1c134d6fa3c66b537022605956b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>y</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>a0bc76fb458826e54cbe8941bee65e23c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>Width</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>a7a1541531bb849e26961149c2161e456</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>Height</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>a8a96e33f4510b7d5293859eabcf845f6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>XOffset</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>a2419dd0198bd89cb23b9afabca29f203</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>YOffset</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>aee9cdba2b92f60bad8832f04fe7229f7</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>unsigned short</type>
-      <name>XAdvance</name>
-      <anchorfile>struct_graphics_1_1_char_descriptor.html</anchorfile>
-      <anchor>a4bbbff421ae35f76510204a9ddce5258</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
-    <name>Graphics::stVertexData</name>
-    <filename>struct_graphics_1_1st_vertex_data.html</filename>
-    <member kind="variable">
-      <type>CharDescriptor</type>
-      <name>ch</name>
-      <anchorfile>struct_graphics_1_1st_vertex_data.html</anchorfile>
-      <anchor>aaa5a0d823402223e380b0403b20a40d8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>float</type>
-      <name>fTexU</name>
-      <anchorfile>struct_graphics_1_1st_vertex_data.html</anchorfile>
-      <anchor>a4a98f0bf63bcf926b67d958f24ddebc0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>float</type>
-      <name>fTexV</name>
-      <anchorfile>struct_graphics_1_1st_vertex_data.html</anchorfile>
-      <anchor>ad784a10d68ede5abcadab0b55ea028f3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>float</type>
-      <name>fTexU1</name>
-      <anchorfile>struct_graphics_1_1st_vertex_data.html</anchorfile>
-      <anchor>a4d8375900516d181457d236f9beaa5b0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>float</type>
-      <name>fTexV1</name>
-      <anchorfile>struct_graphics_1_1st_vertex_data.html</anchorfile>
-      <anchor>ab340ee871b21fdb38c8a713c72b739bc</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
   <compound kind="class">
     <name>Graphics::cMyFont</name>
     <filename>class_graphics_1_1c_my_font.html</filename>
-    <member kind="function">
-      <type>void</type>
-      <name>Render</name>
-      <anchorfile>class_graphics_1_1c_my_font.html</anchorfile>
-      <anchor>ae7af2f851a7f8f68dcbe5c280df7e711</anchor>
-      <arglist>(const D3DXMATRIX &amp;inMatWorld, const D3DXMATRIX &amp;inMatView, const D3DXMATRIX &amp;inMatProjection, const Base::cColor &amp;textColor)</arglist>
-    </member>
-    <member kind="function">
-      <type>stVertexData</type>
-      <name>GetCharVertexData</name>
-      <anchorfile>class_graphics_1_1c_my_font.html</anchorfile>
-      <anchor>aef6b717f1b3a4290b60b6c6fdd6aadbe</anchor>
-      <arglist>(const int iCharAsciiValue)</arglist>
-    </member>
-    <member kind="function">
-      <type>int</type>
-      <name>GetFontHeight</name>
-      <anchorfile>class_graphics_1_1c_my_font.html</anchorfile>
-      <anchor>a2451ab0756a1c751fdd7c62144089da6</anchor>
-      <arglist>() const </arglist>
-    </member>
+    <base protection="private">Base::cNonCopyable</base>
     <member kind="typedef" protection="private">
       <type>std::map&lt; int, const CharDescriptor &gt;</type>
       <name>CharDescriptorMap</name>
@@ -2232,8 +2113,8 @@
       <type>void</type>
       <name>ParseFontDesc</name>
       <anchorfile>class_graphics_1_1c_my_font.html</anchorfile>
-      <anchor>a3b31a1fc5f309d891dc931e0e99d362e</anchor>
-      <arglist>(const Base::cString &amp;strFontDirPath, const Base::cString &amp;strFontDescFilename)</arglist>
+      <anchor>af81cfeb404c5d739bc243635b30c673d</anchor>
+      <arglist>(const Base::cString &amp;strFontDescFilename)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>bool</type>
@@ -2299,6 +2180,105 @@
       <arglist></arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>Graphics::IMyFont::CharDescriptor</name>
+    <filename>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</filename>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>id</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>a3374489c898614b7f7a0765c66ffe3b3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>x</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>af7f820ba956a52a3af5e8682f82ac2c4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>y</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>a383ca50892e796a1dda7c73c577ce5e8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>Width</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>a9a7c8313e477a843b057badd2e698ee2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>Height</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>adda9929cf4e9b724253a538ed0375bf3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>XOffset</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>a8ead2af52423d1493f96135c60722009</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>YOffset</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>a73091fd92c7324c9b77ae7c7cae471e6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned short</type>
+      <name>XAdvance</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1_char_descriptor.html</anchorfile>
+      <anchor>a897e85f8d726a5684760220e671cabfb</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>Graphics::IMyFont::stVertexData</name>
+    <filename>struct_graphics_1_1_i_my_font_1_1st_vertex_data.html</filename>
+    <member kind="variable">
+      <type>CharDescriptor</type>
+      <name>ch</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1st_vertex_data.html</anchorfile>
+      <anchor>ac1794a66ae0ae0959288d76fcafcffa5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>float</type>
+      <name>fTexU</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1st_vertex_data.html</anchorfile>
+      <anchor>a9aacf9189425807d0b8a0975106c3da5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>float</type>
+      <name>fTexV</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1st_vertex_data.html</anchorfile>
+      <anchor>a63c5e22544f47e9fecea4758f99be67e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>float</type>
+      <name>fTexU1</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1st_vertex_data.html</anchorfile>
+      <anchor>af0876ca72ffed06b2ab2677e6a3122ff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>float</type>
+      <name>fTexV1</name>
+      <anchorfile>struct_graphics_1_1_i_my_font_1_1st_vertex_data.html</anchorfile>
+      <anchor>a0584cf3a207671111940861c9ec1a9a7</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
   <compound kind="class">
     <name>Graphics::cFontManager</name>
     <filename>class_graphics_1_1c_font_manager.html</filename>
@@ -2318,25 +2298,25 @@
       <arglist></arglist>
     </member>
     <member kind="typedef" protection="private">
-      <type>std::map&lt; Base::cString, shared_ptr&lt; IMyFont &gt; &gt;</type>
+      <type>std::map&lt; unsigned long, shared_ptr&lt; IMyFont &gt; &gt;</type>
       <name>FontMap</name>
       <anchorfile>class_graphics_1_1c_font_manager.html</anchorfile>
-      <anchor>af83983d12033fefa3b1dadf5c87ebdfe</anchor>
+      <anchor>a937e7d0a6a0e9546c65c05009c2dbbda</anchor>
       <arglist></arglist>
     </member>
     <member kind="function" protection="private">
       <type>shared_ptr&lt; IMyFont &gt;</type>
       <name>VGetFont</name>
       <anchorfile>class_graphics_1_1c_font_manager.html</anchorfile>
-      <anchor>a838637cfd0d0ead957196209a3a4f57f</anchor>
-      <arglist>(const Base::cString &amp;strFontDirPath, const Base::cString &amp;strFontDescFilename)</arglist>
+      <anchor>a9dee90ce65e79485a532efc7dac64440</anchor>
+      <arglist>(const Base::cString &amp;strFontName)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>shared_ptr&lt; IMyFont &gt;</type>
       <name>Find</name>
       <anchorfile>class_graphics_1_1c_font_manager.html</anchorfile>
-      <anchor>a5dce1b43ff80f42e3891ead3b0c3c35c</anchor>
-      <arglist>(const Base::cString &amp;strFontDescFilename)</arglist>
+      <anchor>a11d910ea95800181c3f2164a83dd4326</anchor>
+      <arglist>(const unsigned long ulFontHash)</arglist>
     </member>
     <member kind="variable" protection="private">
       <type>FontMap</type>
@@ -2344,6 +2324,17 @@
       <anchorfile>class_graphics_1_1c_font_manager.html</anchorfile>
       <anchor>a6c23fa0329742d736284177f368d923c</anchor>
       <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>Graphics::IFontManager</name>
+    <filename>class_graphics_1_1_i_font_manager.html</filename>
+    <member kind="function" virtualness="pure">
+      <type>virtual shared_ptr&lt; IMyFont &gt;</type>
+      <name>VGetFont</name>
+      <anchorfile>class_graphics_1_1_i_font_manager.html</anchorfile>
+      <anchor>a841ec21d29af707f38a2601f1fee1cce</anchor>
+      <arglist>(const Base::cString &amp;strFontName)=0</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -2374,6 +2365,7 @@
     <name>Graphics::cGraphicsClass</name>
     <filename>class_graphics_1_1c_graphics_class.html</filename>
     <base>Graphics::IGraphicsClass</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function">
       <type>void</type>
       <name>VInitialize</name>
@@ -2522,6 +2514,7 @@
     <name>Graphics::cModel</name>
     <filename>class_graphics_1_1c_model.html</filename>
     <base>Graphics::IModel</base>
+    <base>Base::cNonCopyable</base>
     <class kind="struct">Graphics::cModel::stObjectSubset</class>
     <member kind="function" protection="private">
       <type>bool</type>
@@ -2809,41 +2802,42 @@
       <type>void</type>
       <name>IncrementArrowPressed</name>
       <anchorfile>class_graphics_1_1c_scroll_bar_control.html</anchorfile>
-      <anchor>aed736a9f468a38b4c78fcf7b95f02380</anchor>
-      <arglist>(const Graphics::unUIEventCallbackParam &amp;params)</arglist>
+      <anchor>a57fffea6c41bcdcbbad317e5dc493d2e</anchor>
+      <arglist>(const Graphics::stUIEventCallbackParam &amp;params)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
       <name>DecrementArrowPressed</name>
       <anchorfile>class_graphics_1_1c_scroll_bar_control.html</anchorfile>
-      <anchor>aa8243d61aa52e948eca00d3aeb3a3b67</anchor>
-      <arglist>(const Graphics::unUIEventCallbackParam &amp;params)</arglist>
+      <anchor>a71b2eb6d5696680d788062923a98dd59</anchor>
+      <arglist>(const Graphics::stUIEventCallbackParam &amp;params)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
       <name>ThumbPressed</name>
       <anchorfile>class_graphics_1_1c_scroll_bar_control.html</anchorfile>
-      <anchor>af1e56bcb14fec1989668a87801d08549</anchor>
-      <arglist>(const Graphics::unUIEventCallbackParam &amp;params)</arglist>
+      <anchor>a7a93b4aafaa242b4c4e266387cd4cba3</anchor>
+      <arglist>(const Graphics::stUIEventCallbackParam &amp;params)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
       <name>ThumbReleased</name>
       <anchorfile>class_graphics_1_1c_scroll_bar_control.html</anchorfile>
-      <anchor>a950331e0d14ae1359c94c57102ca65a1</anchor>
-      <arglist>(const Graphics::unUIEventCallbackParam &amp;params)</arglist>
+      <anchor>ab5efaccad4207691ac6cfbacc89d860c</anchor>
+      <arglist>(const Graphics::stUIEventCallbackParam &amp;params)</arglist>
     </member>
   </compound>
   <compound kind="class">
     <name>Graphics::cSentence</name>
     <filename>class_graphics_1_1c_sentence.html</filename>
     <base>Graphics::ISentence</base>
+    <base protection="private">Base::cNonCopyable</base>
     <member kind="function" protection="private">
       <type>bool</type>
       <name>VInitialize</name>
       <anchorfile>class_graphics_1_1c_sentence.html</anchorfile>
-      <anchor>a9ec30abc16d82e5a5ee019e99f7083fa</anchor>
-      <arglist>(shared_ptr&lt; IMyFont &gt; pFont, const Base::cString &amp;strText, const Base::cColor &amp;textColor)</arglist>
+      <anchor>ae68d8d03ea040daad7ea368054e2eb46</anchor>
+      <arglist>(const Base::cString &amp;strFont, const Base::cString &amp;strText, const Base::cColor &amp;textColor)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -2965,10 +2959,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>shared_ptr&lt; cMyFont &gt;</type>
+      <type>shared_ptr&lt; IMyFont &gt;</type>
       <name>m_pFont</name>
       <anchorfile>class_graphics_1_1c_sentence.html</anchorfile>
-      <anchor>acf1d92dd076d7e47de6f9ae61d5edc98</anchor>
+      <anchor>adef90e0ee75c380a87d914474708ca16</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
@@ -3035,8 +3029,8 @@
       <type>virtual bool</type>
       <name>VInitialize</name>
       <anchorfile>class_graphics_1_1_i_shader.html</anchorfile>
-      <anchor>aa774d434c98917bd3233cbbb6c5367e9</anchor>
-      <arglist>(const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)=0</arglist>
+      <anchor>aa9f28a2530d15fc85a214aa826f31e3e</anchor>
+      <arglist>(const Base::cString &amp;strShaderName)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual void</type>
@@ -3053,24 +3047,24 @@
       <arglist>(shared_ptr&lt; ITexture &gt; pTexture)=0</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static IShader *</type>
+      <type>static IShader *const</type>
       <name>CreateColorShader</name>
       <anchorfile>class_graphics_1_1_i_shader.html</anchorfile>
-      <anchor>afb1c6d7f2433fa34a80b96893c8c6190</anchor>
+      <anchor>a46bbe663cf9478739e12f4157d4f77d6</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static IShader *</type>
+      <type>static IShader *const</type>
       <name>CreateTextureShader</name>
       <anchorfile>class_graphics_1_1_i_shader.html</anchorfile>
-      <anchor>aa6a1ec07d1a868c0979f7f963e237472</anchor>
+      <anchor>aba45bfb7ca4514c0ba1b2f02fb16053c</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static IShader *</type>
+      <type>static IShader *const</type>
       <name>CreateFontShader</name>
       <anchorfile>class_graphics_1_1_i_shader.html</anchorfile>
-      <anchor>a3834b1b0f005acd72d826936be2025e7</anchor>
+      <anchor>a7af41f6a8d04e49d6797b301abd25547</anchor>
       <arglist>()</arglist>
     </member>
   </compound>
@@ -3093,25 +3087,25 @@
       <arglist></arglist>
     </member>
     <member kind="typedef" protection="private">
-      <type>std::map&lt; Base::cString, shared_ptr&lt; IShader &gt; &gt;</type>
+      <type>std::map&lt; unsigned long, shared_ptr&lt; IShader &gt; &gt;</type>
       <name>ShaderMap</name>
       <anchorfile>class_graphics_1_1c_shader_manager.html</anchorfile>
-      <anchor>a604b7bc1fed951f0230db28fb2565ea8</anchor>
+      <anchor>a5f444c413b20cd133ace970465530347</anchor>
       <arglist></arglist>
     </member>
     <member kind="function" protection="private">
       <type>bool</type>
       <name>VGetShader</name>
       <anchorfile>class_graphics_1_1c_shader_manager.html</anchorfile>
-      <anchor>aa2db66ae4bae3b60e8dbed908f555715</anchor>
-      <arglist>(shared_ptr&lt; IShader &gt; &amp;pShader, const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)</arglist>
+      <anchor>abd3c3eb5c21523e5b25b551c0f7e9237</anchor>
+      <arglist>(shared_ptr&lt; IShader &gt; &amp;pShader, const Base::cString &amp;strShaderName)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>shared_ptr&lt; IShader &gt;</type>
       <name>Find</name>
       <anchorfile>class_graphics_1_1c_shader_manager.html</anchorfile>
-      <anchor>a5deabddacc8856d46b8ab0665a0e8c06</anchor>
-      <arglist>(const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)</arglist>
+      <anchor>ad4eac414e5bb27e9310426525d7f7d86</anchor>
+      <arglist>(const unsigned long ulShaderHash)</arglist>
     </member>
     <member kind="variable" protection="private">
       <type>ShaderMap</type>
@@ -3128,14 +3122,15 @@
       <type>virtual bool</type>
       <name>VGetShader</name>
       <anchorfile>class_graphics_1_1_i_shader_manager.html</anchorfile>
-      <anchor>a98f72f09aca99cdb37b7f0868e9335ec</anchor>
-      <arglist>(shared_ptr&lt; IShader &gt; &amp;pShader, const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)=0</arglist>
+      <anchor>a4e42d9a1a5130c1250c2b8b3700f2cc7</anchor>
+      <arglist>(shared_ptr&lt; IShader &gt; &amp;pShader, const Base::cString &amp;strShaderName)=0</arglist>
     </member>
   </compound>
   <compound kind="class">
     <name>Graphics::cSprite</name>
     <filename>class_graphics_1_1c_sprite.html</filename>
     <base>Graphics::ISprite</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function" protection="protected">
       <type>bool</type>
       <name>VInitialize</name>
@@ -3461,6 +3456,7 @@
     <name>Graphics::cTexture</name>
     <filename>class_graphics_1_1c_texture.html</filename>
     <base>Graphics::ITexture</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function">
       <type>bool</type>
       <name>Initialize</name>
@@ -3527,10 +3523,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef" protection="private">
-      <type>std::map&lt; Base::cString, shared_ptr&lt; ITexture &gt; &gt;</type>
+      <type>std::map&lt; unsigned long, shared_ptr&lt; ITexture &gt; &gt;</type>
       <name>TextureMap</name>
       <anchorfile>class_graphics_1_1c_texture_manager.html</anchorfile>
-      <anchor>a4e25ee4f4abcd36389669c0a006fd67e</anchor>
+      <anchor>a6bbf75dd7eb12de5c51152fbb3223eb8</anchor>
       <arglist></arglist>
     </member>
     <member kind="function" protection="private">
@@ -3544,8 +3540,8 @@
       <type>shared_ptr&lt; ITexture &gt;</type>
       <name>Find</name>
       <anchorfile>class_graphics_1_1c_texture_manager.html</anchorfile>
-      <anchor>ac0706f0054059002922dba4f0bbb10fe</anchor>
-      <arglist>(const Base::cString &amp;strTexturePath)</arglist>
+      <anchor>a5d29feda065a2c9abaebc5464e93a51f</anchor>
+      <arglist>(const unsigned long ulTextureHash)</arglist>
     </member>
     <member kind="variable" protection="private">
       <type>TextureMap</type>
@@ -3581,15 +3577,15 @@
       <type>virtual bool</type>
       <name>VInitialize</name>
       <anchorfile>class_graphics_1_1c_texture_shader.html</anchorfile>
-      <anchor>afaede772a5e2eab180eaf06f76dcb938</anchor>
-      <arglist>(const Base::cString &amp;strVertexShaderPath, const Base::cString &amp;strPixelShaderPath)</arglist>
+      <anchor>ae4d6bf8fbf8366b2c64c9e6fb2d25132</anchor>
+      <arglist>(const Base::cString &amp;strShaderName)</arglist>
     </member>
     <member kind="function" protection="protected">
       <type>bool</type>
       <name>VCreateLayout</name>
       <anchorfile>class_graphics_1_1c_texture_shader.html</anchorfile>
-      <anchor>a4b445e257344925ed9643190d3b293ee</anchor>
-      <arglist>(const Utilities::IFileInput *const pVertexShaderFile)</arglist>
+      <anchor>ab96bc4a9459d2763ab2a642be979d3b9</anchor>
+      <arglist>(shared_ptr&lt; Utilities::IResHandle const  &gt; shaderHandle)</arglist>
     </member>
     <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>

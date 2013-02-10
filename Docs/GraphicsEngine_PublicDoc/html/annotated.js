@@ -9,7 +9,6 @@ var annotated =
     [ "Graphics::cWindowControlDef", "class_graphics_1_1c_window_control_def.html", "class_graphics_1_1c_window_control_def" ],
     [ "Graphics::IBaseControl", "class_graphics_1_1_i_base_control.html", "class_graphics_1_1_i_base_control" ],
     [ "Graphics::ICamera", "class_graphics_1_1_i_camera.html", "class_graphics_1_1_i_camera" ],
-    [ "Graphics::IFontManager", "class_graphics_1_1_i_font_manager.html", "class_graphics_1_1_i_font_manager" ],
     [ "Graphics::IGraphicsClass", "class_graphics_1_1_i_graphics_class.html", "class_graphics_1_1_i_graphics_class" ],
     [ "Graphics::IKeyboardHandler", "class_graphics_1_1_i_keyboard_handler.html", "class_graphics_1_1_i_keyboard_handler" ],
     [ "Graphics::IModel", "class_graphics_1_1_i_model.html", "class_graphics_1_1_i_model" ],
@@ -21,5 +20,5 @@ var annotated =
     [ "Graphics::stModelDef", "struct_graphics_1_1st_model_def.html", "struct_graphics_1_1st_model_def" ],
     [ "Graphics::stModelDef::stSubsetDef", "struct_graphics_1_1st_model_def_1_1st_subset_def.html", "struct_graphics_1_1st_model_def_1_1st_subset_def" ],
     [ "Graphics::stTexVertex", "struct_graphics_1_1st_tex_vertex.html", "struct_graphics_1_1st_tex_vertex" ],
-    [ "Graphics::unUIEventCallbackParam", "union_graphics_1_1un_u_i_event_callback_param.html", "union_graphics_1_1un_u_i_event_callback_param" ]
+    [ "Graphics::stUIEventCallbackParam", "struct_graphics_1_1st_u_i_event_callback_param.html", "struct_graphics_1_1st_u_i_event_callback_param" ]
 ];

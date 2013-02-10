@@ -103,6 +103,7 @@
     <name>Utilities::cResourceManager</name>
     <filename>class_utilities_1_1c_resource_manager.html</filename>
     <base>Utilities::IResourceManager</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function" static="yes">
       <type>static IResourceManager *</type>
       <name>Create</name>
@@ -143,6 +144,7 @@
     <name>Utilities::cTimer</name>
     <filename>class_utilities_1_1c_timer.html</filename>
     <base>Utilities::ITimer</base>
+    <base>Base::cNonCopyable</base>
     <member kind="function" static="yes">
       <type>static cTimer *</type>
       <name>Create</name>
