@@ -7,9 +7,9 @@
 !define APP_NAME "MyPong"
 !define COMP_NAME "BGI"
 !define WEB_SITE "http://www.gamedev.net/blog/1369-speedruns-journal/"
-!define PRODUCT_VERSION "0.8"
-!define VERSION "00.00.00.08"
-!define COPYRIGHT "AnkurSheel© 2012"
+!define PRODUCT_VERSION "2.0"
+!define VERSION "00.00.02.00"
+!define COPYRIGHT "AnkurSheel©2012"
 !define DESCRIPTION "Application"
 !define INSTALLER_NAME "C:\Users\SpeedRun\Projects\sppong\Setup\setup.exe"
 !define MAIN_APP_EXE "Main.exe"
@@ -93,9 +93,9 @@ Section "Main (Required)" SEC01
   File "..\Retail\*.dll"
   File "..\Retail\*.exe"
   File "..\Retail\*.ini"
-  SetOutPath "$INSTDIR\resources"
+  SetOutPath "$INSTDIR\Media"
 # File /r /x .svn "..\Retail\resources\*.*"
-  File /r "..\Retail\resources\*.*"
+  File /r "..\Retail\Media\*.*"
 SectionEnd
 
 ######################################################################
@@ -175,7 +175,7 @@ Please make sure you have internet access.\
 Section Uninstall
 ${INSTALL_TYPE}
   Delete "$INSTDIR\*.*"
-  Rmdir /r "$INSTDIR\resources"
+  Rmdir /r "$INSTDIR\Media"
 	 
   Delete "$INSTDIR\uninstall.exe"
   !ifdef WEB_SITE
@@ -215,7 +215,7 @@ SectionEnd
 ######################################################################
 Function UninstallMe
   Delete "$INSTDIR\*.*"
-  Rmdir /r "$INSTDIR\resources"
+  Rmdir /r "$INSTDIR\Media"
 	 
   Delete "$INSTDIR\uninstall.exe"
   !ifdef WEB_SITE
