@@ -31,12 +31,6 @@ cTextureManager::~cTextureManager()
 }
 
 // *************************************************************************
-ITextureManager * cTextureManager::Create()
-{
-	return DEBUG_NEW cTextureManager();
-}
-
-// *************************************************************************
 shared_ptr<ITexture> cTextureManager::VGetTexture(const cString & strTexturePath)
 {
 	unsigned long hash = cHashedString::CalculateHash(strTexturePath);
@@ -71,7 +65,7 @@ shared_ptr<ITexture> cTextureManager::Find(const unsigned long ulTextureHash)
 ITextureManager * ITextureManager::GetInstance()
 {
 	if(cTextureManager::s_pTexturemanager == NULL)
-		cTextureManager::s_pTexturemanager = cTextureManager::Create();
+		cTextureManager::s_pTexturemanager = DEBUG_NEW cTextureManager();
 	return cTextureManager::s_pTexturemanager ;
 }
 

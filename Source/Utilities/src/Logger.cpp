@@ -226,26 +226,11 @@ void cLogger::LogTypeToString( LogType eLogEntryType, cString & str )
 		break;
 	}
 }
-// ***************************************************************
-
-// ***************************************************************
-// Creates a logger
-// ***************************************************************
-void cLogger::Create()
-{
-	s_pLogger = DEBUG_NEW cLogger();
-}
-
-// ***************************************************************
-void cLogger::Destroy()
-{
-	SAFE_DELETE(s_pLogger);
-}
 
 ILogger * ILogger::GetInstance()
 {
 	if(cLogger::s_pLogger == NULL)
-		cLogger::Create();
+		cLogger::s_pLogger = DEBUG_NEW cLogger();
 	return cLogger::s_pLogger;
 
 }
@@ -253,5 +238,5 @@ ILogger * ILogger::GetInstance()
 
 void ILogger::Destroy()
 {
-	cLogger::Destroy();
+	SAFE_DELETE(cLogger::s_pLogger);
 }

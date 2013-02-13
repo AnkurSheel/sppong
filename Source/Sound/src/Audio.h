@@ -25,22 +25,27 @@ namespace Sound
 	private:
 		typedef std::list<IAudioBuffer *> AudioBufferList;
 
-	public:
+	protected:
 		cAudio();
 		virtual ~cAudio();
+		virtual void VCleanup();
+
+	private:
 		void StopAllSounds();
 		void PauseAllSounds();
 		void ResumeAllSounds();
 		static IAudio * Create();
-		virtual void VCleanup();
 
 	protected:
 		AudioBufferList		m_ActiveSoundList;
 		bool				m_bIsPaused;
 		bool				m_bInitialized;
 
-	public:
+	private:
 		static IAudio * s_pAudio;	/*!< static object of this class */
+
+		friend IAudio * IAudio::GetInstance();
+		friend void IAudio::Destroy();
 	};
 }
 #endif // Audio_h__

@@ -44,12 +44,6 @@ Graphics::cDXBase::~cDXBase()
 }
 
 // ***************************************************************
-Graphics::IDXBase * Graphics::cDXBase::Create()
-{
-	return DEBUG_NEW cDXBase();
-}
-
-// ***************************************************************
 void Graphics::cDXBase::VInitialize( const HWND & hWnd, const Base::cColor & bkColor,
 										  const bool bFullScreen, const bool bVsyncEnabled,
 										  const int iWidth, const int iHeight,
@@ -644,7 +638,7 @@ void Graphics::cDXBase::Cleanup()
 Graphics::IDXBase * Graphics::IDXBase::GetInstance()
 {
 	if (cDXBase::s_pDXBase == NULL)
-		cDXBase::s_pDXBase = cDXBase::Create();
+		cDXBase::s_pDXBase = DEBUG_NEW cDXBase();
 	return cDXBase::s_pDXBase ;
 }
 

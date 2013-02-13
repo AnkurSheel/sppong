@@ -27,14 +27,6 @@ namespace Graphics
 		/** Map of shaders. The key is the hash of the shader filename. Value is a shared_ptr to the actual shader*/
 		typedef std::map<unsigned long, shared_ptr <IShader> > ShaderMap;
 	
-	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static IShaderManager * Create();
-
 	private:
 		cShaderManager();
 		~cShaderManager();
@@ -51,8 +43,10 @@ namespace Graphics
 	
 	private:
 		ShaderMap				m_pShaders;				/*!< map of the shaders that have already been loaded */
-	
-	public:
 		static IShaderManager *	s_pShadermanager;		/*!< static object of this class */
+
+	private:
+		friend IShaderManager * IShaderManager::GetInstance();
+		friend void IShaderManager::Destroy();
 	};
 }

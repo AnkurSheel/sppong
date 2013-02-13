@@ -27,14 +27,6 @@ namespace Graphics
 		/** Map of Fonts. The key is the hash of the font filename. Value is a shared_ptr to the actual font */
 		typedef std::map<unsigned long, shared_ptr <IMyFont> > FontMap;
 
-	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static IFontManager * Create();
-
 	private:
 		cFontManager();
 		~cFontManager();
@@ -50,8 +42,11 @@ namespace Graphics
 
 	private:
 		FontMap		m_pFonts;					/*!< map of the fonts that have already been loaded */
-
-	public:
 		static IFontManager * s_pFontManager;	/*!< static object of this class */
+
+	private:
+		friend static IFontManager * IFontManager::GetInstance();
+		friend static void IFontManager::Destroy();
+
 	};
 }

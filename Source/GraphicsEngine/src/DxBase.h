@@ -22,14 +22,6 @@ namespace Graphics
 		: public IDXBase
 		, public Base::cNonCopyable
 	{
-	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static IDXBase * Create();
-
 	private:
 		cDXBase() ;
 		~cDXBase() ;
@@ -149,9 +141,6 @@ namespace Graphics
 		 ***********************************************/
 		void Cleanup() ;
 
-	public:
-		static IDXBase * s_pDXBase;									/*!< static object of this class */
-
 	private:
 		bool						m_bVsyncEnabled;				/*!< True if we want Direct3D to render according to the users monitor refresh rate. False if want it to go as fast as possible. */
 		IDXGISwapChain *			m_pSwapChain;					/*!< The swap chain is the front and back buffer to which the graphics will be drawn. */
@@ -166,12 +155,16 @@ namespace Graphics
 		D3DXMATRIX					m_matProjection;				/*!< The projection matrix is used to translate the 3D scene into a 2D viewport space */
 		D3DXMATRIX					m_matWorld;						/*!< The world matrix is used to convert the vertices of our objects into vertices in the 3D scene. */
 		D3DXMATRIX					m_matOrtho;						/*!< The orthographic projection matrix is used for rendering 2D elements on the screen allowing us to skip the 3D rendering */
-		float						m_afBackGroundcolor[4]	;		/*!< The componnets for the back */
+		float						m_afBackGroundcolor[4];			/*!< The components for the back */
 		int							m_iScreenWidth;					/*!< Screen width */
 		int							m_iScreenHeight;				/*!< Screen height */
 		ID3D11BlendState *			m_pAlphaEnableBlendingState;	/*!< The blend state with AlphaBlending enabled */
 		ID3D11BlendState *			m_pAlphaDisableBlendingState;	/*!< The blend state with AlphaBlending disbaled */
 		DXGI_MODE_DESC				m_DisplayMode;
+		static IDXBase *			s_pDXBase;						/*!< static object of this class */
+
+		friend static IDXBase * IDXBase::GetInstance();
+		friend static void IDXBase::Destroy();
 	};
 }
 #endif // DxBase_h__

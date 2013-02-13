@@ -38,7 +38,11 @@ namespace Graphics
 		 ***********************************************/
 		int GetIntValue(const Base::cString & strVal);
 
-	public:
+	private:
 		static IObjModelLoader * s_pModelLoader;	/*!< static object of this class */
+
+	private:
+		friend static IObjModelLoader * IObjModelLoader::GetInstance();
+		friend static void IObjModelLoader::Destroy();
 	};
 }

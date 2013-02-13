@@ -75,12 +75,6 @@ void Graphics::cGraphicsClass::Cleanup()
 }
 
 // ***************************************************************
-IGraphicsClass * Graphics::cGraphicsClass::Create()
-{
-	return DEBUG_NEW cGraphicsClass();
-}
-
-// ***************************************************************
 void Graphics::cGraphicsClass::VBeginRender()
 {
 	IDXBase::GetInstance()->VBeginRender();
@@ -96,7 +90,7 @@ void Graphics::cGraphicsClass::VEndRender()
 IGraphicsClass * IGraphicsClass::GetInstance()
 {
 	if(cGraphicsClass::s_pGraphic == NULL)
-		cGraphicsClass::s_pGraphic = cGraphicsClass::Create();
+		cGraphicsClass::s_pGraphic = DEBUG_NEW cGraphicsClass();
 	return cGraphicsClass::s_pGraphic ;
 }
 

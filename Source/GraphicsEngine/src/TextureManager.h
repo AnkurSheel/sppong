@@ -27,14 +27,6 @@ namespace Graphics
 		/** Map of textures. The key is the texture path. Value is a shared_ptr to the actual texture */
 		typedef std::map<unsigned long, shared_ptr <ITexture> > TextureMap;
 
-	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static ITextureManager * Create();
-
 	private:
 		cTextureManager();
 		~cTextureManager();
@@ -50,8 +42,10 @@ namespace Graphics
 
 	private:
 		TextureMap	m_pTextures;						/*!< map of the textures that have already been loaded */
-
-	public:
 		static ITextureManager * s_pTexturemanager;		/*!< static object of this class */
+
+	private:
+		friend ITextureManager * ITextureManager::GetInstance();
+		friend void ITextureManager::Destroy();
 	};
 }

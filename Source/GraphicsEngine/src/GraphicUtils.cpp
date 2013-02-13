@@ -27,11 +27,6 @@ cGraphicUtils::~cGraphicUtils()
 {
 
 }
-// *****************************************************************************
-IGraphicUtils * cGraphicUtils::Create()
-{
-	return DEBUG_NEW cGraphicUtils();
-}
 
 // ***************************************************************
 cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
@@ -85,7 +80,7 @@ cVector3 cGraphicUtils::ScreenToWorldSpace(const cVector2 & vScreenPos,
 IGraphicUtils * IGraphicUtils::GetInstance()
 {
 	if(cGraphicUtils::s_pGraphicUtils == NULL)
-		cGraphicUtils::s_pGraphicUtils = cGraphicUtils::Create();
+		cGraphicUtils::s_pGraphicUtils = DEBUG_NEW cGraphicUtils();
 	return cGraphicUtils::s_pGraphicUtils ;
 }
 

@@ -27,14 +27,6 @@ namespace Utilities
 		: public IResourceManager
 		, public Base::cNonCopyable
 	{
-	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static IResourceManager * Create();
-	
 	private:
 		cResourceManager();
 		~cResourceManager();
@@ -43,10 +35,11 @@ namespace Utilities
 
 	private:
 		Utilities::IResCache *	m_pResourceCache;		/*!< The resource cache */
-
-	public:
 		static IResourceManager* s_pResourceManager;	/*!< static object of this class */
-	};
 
+	private:
+		friend static IResourceManager * IResourceManager::GetInstance();
+		friend static void IResourceManager::Destroy();
+	};
 }
 #endif // ResourceManager_h__

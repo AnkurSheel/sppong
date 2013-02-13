@@ -31,12 +31,6 @@ cShaderManager::~cShaderManager()
 }
 
 // *****************************************************************************
-IShaderManager * cShaderManager::Create()
-{
-	return DEBUG_NEW cShaderManager();
-}
-
-// *****************************************************************************
 bool cShaderManager::VGetShader(shared_ptr<IShader> & pShader,
 							   const cString & strShaderName)
 {
@@ -73,7 +67,7 @@ shared_ptr<IShader> cShaderManager::Find(const unsigned long ulShaderHash)
 IShaderManager * IShaderManager::GetInstance()
 {
 	if(cShaderManager::s_pShadermanager == NULL)
-		cShaderManager::s_pShadermanager = cShaderManager::Create();
+		cShaderManager::s_pShadermanager = DEBUG_NEW cShaderManager();
 	return cShaderManager::s_pShadermanager ;
 }
 

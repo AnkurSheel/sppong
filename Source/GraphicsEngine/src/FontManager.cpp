@@ -31,12 +31,6 @@ cFontManager::~cFontManager()
 }
 
 // *************************************************************************
-IFontManager * cFontManager::Create()
-{
-	return DEBUG_NEW cFontManager();
-}
-
-// *************************************************************************
 shared_ptr<IMyFont> cFontManager::VGetFont(const Base::cString & strFontName)
 {
 	unsigned long hash = cHashedString::CalculateHash(strFontName);
@@ -71,7 +65,7 @@ shared_ptr<IMyFont> cFontManager::Find(const unsigned long ulFontHash)
 IFontManager * IFontManager::GetInstance()
 {
 	if(cFontManager::s_pFontManager == NULL)
-		cFontManager::s_pFontManager = cFontManager::Create();
+		cFontManager::s_pFontManager = DEBUG_NEW cFontManager();
 	return cFontManager::s_pFontManager ;
 }
 

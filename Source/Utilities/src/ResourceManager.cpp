@@ -53,16 +53,10 @@ IResCache * cResourceManager::VGetResourceCache() const
 }
 
 // ****************************************************************************
-IResourceManager * cResourceManager::Create()
-{
-	return DEBUG_NEW cResourceManager();
-}
-
-// ****************************************************************************
 IResourceManager * IResourceManager::GetInstance()
 {
 	if(cResourceManager::s_pResourceManager == NULL)
-		cResourceManager::s_pResourceManager = cResourceManager::Create();
+		cResourceManager::s_pResourceManager = DEBUG_NEW cResourceManager();
 	return cResourceManager::s_pResourceManager;
 }
 

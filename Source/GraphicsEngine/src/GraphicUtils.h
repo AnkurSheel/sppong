@@ -29,22 +29,18 @@ namespace Graphics
 		: public IGraphicUtils
 		, public Base::cNonCopyable
 	{
-	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static IGraphicUtils * Create();
-
 	private:
-		Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
-			const Graphics::ICamera * const pCamera);
 		cGraphicUtils();
 		~cGraphicUtils();
+		Base::cVector3 ScreenToWorldSpace(const Base::cVector2 & vPos,
+			const Graphics::ICamera * const pCamera);
 
-	public:
+	private:
 		static IGraphicUtils* s_pGraphicUtils;		/*!< static object of this class */
+
+	private:
+		friend static IGraphicUtils * IGraphicUtils::GetInstance();
+		friend static void IGraphicUtils::Destroy();
 
 	};
 }

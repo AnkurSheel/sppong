@@ -330,16 +330,10 @@ void cMainWindow::VCleanup()
 }
 
 // *****************************************************************************
-void cMainWindow::Create()
-{
-	s_pWindow = DEBUG_NEW cMainWindow();
-}
-
-// *****************************************************************************
 IMainWindow * const IMainWindow::GetInstance()
 {
 	if(s_pWindow == NULL)
-		cMainWindow::Create();
+		s_pWindow = DEBUG_NEW cMainWindow();
 	return s_pWindow;
 }
 

@@ -27,13 +27,7 @@ namespace Graphics
 		: public IGraphicsClass
 		, public Base::cNonCopyable
 	{
-	public:
-		/********************************************//**
- 		 * @return An Object of this class
-		 *
-		 * Creates an object of this class and returns it
-		 ***********************************************/
-		static IGraphicsClass * Create();
+	private:
 		void VInitialize(const HWND & hWnd, const Base::cColor & bkColor,
 			const bool bFullScreen, const bool bVsyncEnabled, const int iWidth,
 			const int iHeight, const float fScreenDepth, const float fScreenNear);
@@ -50,8 +44,12 @@ namespace Graphics
 		cGraphicsClass();
 		~cGraphicsClass();
 
-	public:
+	private:
 		static IGraphicsClass * s_pGraphic;		/*!< static object of this class */
+
+	private:
+		friend static IGraphicsClass * IGraphicsClass::GetInstance();
+		friend static void IGraphicsClass::Destroy();
 	};
 }
 #endif // GraphicsClass_h__

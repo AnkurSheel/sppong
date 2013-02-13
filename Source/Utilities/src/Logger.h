@@ -29,12 +29,10 @@ namespace Utilities
 		: public ILogger
 		, public Base::cNonCopyable
 	{
-	public:
+	private:
 		void StartConsoleWin(const int ciWidth, const int ciHeight, const Base::cString & cfName);
 		void WriteLogEntry(LogType eLogEntryType, const Base::cString & strSourceFile, const Base::cString & strFunction, int iSourceLine, const Base::cString & strMessage);
 		void CreateHeader();
-		static void Create();
-		static void Destroy();
 
 	private:
 		cLogger();
@@ -49,9 +47,11 @@ namespace Utilities
 		HANDLE			m_hStdOut;
 		IXMLFileIO	*	m_fXml;
 		static int		m_iCurrentId;
-	
-	public:
 		static cLogger * s_pLogger;
+
+	private:
+		friend static ILogger * ILogger::GetInstance();
+		friend static void ILogger::Destroy();
 	};
 }
 #endif // Logger_h__

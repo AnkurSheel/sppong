@@ -23,14 +23,6 @@ namespace GameBase
 		: public IMainWindow
 		, public Base::cNonCopyable
 	{
-	public:
-		////////////////////////////////////////////////////////////////////////
-        /// Create an object of this class
-		///
-		///
-        ////////////////////////////////////////////////////////////////////////
-		static void Create();
-
 	private:
 		cMainWindow();
 		~cMainWindow();
@@ -103,6 +95,9 @@ namespace GameBase
 		HINSTANCE			m_hInstance;			///< Application instance
 		IBaseApp*			m_pGame;				///< Pointer to the App
 		RECT				m_windowRect;			///< stores the window dimensions in windowed mode
+
+	private:
+		friend IMainWindow * const IMainWindow::GetInstance();
 	};
 }
 #endif // MainWindow_h__
