@@ -14,328 +14,13 @@
 
 using namespace Base;
 
-///////////////////////////////////////////////////////////////////////////////
-/// @brief Implementation of cString 
-///
-/// 
-///////////////////////////////////////////////////////////////////////////////
-class cString::cImpl
-{
-private:
-	cImpl();
-	cImpl(const cImpl & other);
-	cImpl & operator =(const cImpl & other);
-	cImpl(const char * s);
-	cImpl(std::string const & s);
-	explicit cImpl(const int iMaxSize, const char * const  lpFmt, va_list argptr);
-	void Append(const cString & str);
-	int Compare(const cString & str) const;
-	const char GetCharAtIndex(const unsigned int index) const;
-	const char * const GetData() const;
-	bool IsEmpty() const;
-	unsigned int GetLength() const;
-	cString GetSubString(const unsigned int uiStartIndex,
-		const unsigned int uiEndIndex) const;
-	Base::tOptional<int> FindIndex(const char chChar, const int iOffset) const;
-	Base::tOptional<int> FindFirstOf(const cString & strChars,
-		const int iOffset) const;
-	Base::tOptional<int> FindFirstNotOf(const cString & strChars,
-		const int iOffset) const;
-	Base::tOptional<int> FindLastNotOf(const cString & strChars,
-			const int iOffset) const;
-	Base::tOptional<int> FindLastOf(const cString & strChars,
-		const int iOffset) const;
-	bool CompareInsensitive (const cString & str) const;
-	void TrimLeft();
-	void TrimRight();
-	void TrimBoth();
-	void Insert(const int iIndex, const cString & strText);
-	void Remove(const int iIndex, const int iQuantity);
-	void Tokenize(char cToken, std::vector<Base::cString> & vValue) const;
-	Base::tOptional<int> ToInt() const;
-	Base::tOptional<float> ToFloat() const;
-	Base::tOptional<bool> ToBool() const;
-	cString GetExtensionFromFileName() const;
-	static cString TimeToString(time_t time);
-
-private:
-	std::string m_str;
-
-	friend class cString;
-};
-
-// *****************************************************************************
+// ****************************************************************************
 cString::cString()
-: m_pImpl(DEBUG_NEW cImpl())
 {
 }
 
 // *****************************************************************************
 cString::cString(const char * s)
-: m_pImpl(DEBUG_NEW cImpl(s))
-{
-}
-
-// *****************************************************************************
-cString::cString(std::string const & s)
-: m_pImpl(DEBUG_NEW cImpl(s))
-{
-}
-
-// *****************************************************************************
-cString::cString(const int iMaxSize, const char * const lpFmt, ... )
-{
-	va_list argptr;
-	va_start(argptr, lpFmt);
-	m_pImpl = shared_ptr<cImpl>(DEBUG_NEW cImpl(iMaxSize, lpFmt, argptr));
-	va_end(argptr);
-}
-
-// *****************************************************************************
-cString::cString(const cString & str)
-	: m_pImpl(DEBUG_NEW cImpl(*(str.m_pImpl)))
-{
-}
-
-// *****************************************************************************
-cString cString::operator=( const cString & str)
-{
-	m_pImpl = shared_ptr<cImpl>(DEBUG_NEW cImpl(*(str.m_pImpl)));
-	return *this;
-}
-
-//// *****************************************************************************
-//void cString::operator += (const char * const str)
-//{
-//	if (str != NULL)
-//	{
-//		m_str += str;
-//	}
-//}
-
-// *****************************************************************************
-void cString::operator += (const cString & str)
-{
-	m_pImpl->Append(str);
-}
-
-// *****************************************************************************
-bool cString::operator < (const cString & str) const
-{
-	return m_pImpl->Compare(str) < 0;
-}
-
-//// *****************************************************************************
-//bool cString::operator == (const char * szRight) const
-//{
-//	return strcmp(m_str.c_str(), szRight) == 0;
-//}
-
-// *****************************************************************************
-bool cString::operator == (const cString & str) const 
-{
-	return m_pImpl->Compare(str) == 0;
-}
-
-// *****************************************************************************
-const char cString::operator[](const unsigned int index) const
-{
-	return m_pImpl->GetCharAtIndex(index);
-}
-
-// *****************************************************************************
-char cString::operator[](const unsigned int index)
-{
-	return m_pImpl->GetCharAtIndex(index);
-}
-
-// *****************************************************************************
-const char * const cString::GetData() const
-{ 
-	return m_pImpl->GetData();
-}
-
-// *****************************************************************************
-bool cString::IsEmpty() const
-{
-	return m_pImpl->IsEmpty();
-}
-
-// *****************************************************************************
-unsigned int cString::GetLength() const
-{
-	return m_pImpl->GetLength();
-}
-
-// *****************************************************************************
-cString cString::GetSubString(const unsigned int uiStartIndex,
-							  const unsigned int uiEndIndex) const
-{
-	return m_pImpl->GetSubString(uiStartIndex, uiEndIndex);
-}
-
-// *****************************************************************************
-tOptional<int> cString::FindIndex(const char chChar, const int iOffset) const
-{
-	return m_pImpl->FindIndex(chChar, iOffset);
-}
-
-// *****************************************************************************
-tOptional<int> cString::FindFirstOf(const cString & strChars, const int iOffset) const
-{
-	return m_pImpl->FindFirstOf(strChars, iOffset);
-}
-
-// *****************************************************************************
-tOptional<int> cString::FindFirstNotOf(const cString & strChars, const int iOffset) const
-{
-	return m_pImpl->FindFirstNotOf(strChars, iOffset);
-}
-
-// *****************************************************************************
-tOptional<int> cString::FindLastOf(const cString & strChars,
-								   const int iOffset) const
-{
-	return m_pImpl->FindLastOf(strChars, iOffset);
-}
-
-// *****************************************************************************
-tOptional<int> cString::FindLastNotOf(const cString & strChars,
-									  const int iOffset) const
-{
-	return m_pImpl->FindLastNotOf(strChars, iOffset);
-}
-
-// *****************************************************************************
-bool cString::CompareInsensitive (const cString & str) const
-{
-	return m_pImpl->CompareInsensitive(str);
-}
-
-// *****************************************************************************
-void cString::TrimLeft()
-{
-	m_pImpl->TrimLeft();
-}
-
-// *****************************************************************************
-void cString::TrimRight()
-{
-	m_pImpl->TrimRight();
-}
-
-// *****************************************************************************
-void cString::TrimBoth()
-{
-	m_pImpl->TrimBoth();
-}
-
-// *****************************************************************************
-void cString::Insert( const int iIndex, const cString & strText )
-{
-	m_pImpl->Insert(iIndex, strText);
-}
-
-// *****************************************************************************
-void cString::Remove( const int iIndex, const int iQuantity )
-{
-	m_pImpl->Remove(iIndex, iQuantity);
-}
-
-// *****************************************************************************
-void cString::Tokenize(char cToken, std::vector<cString> & vValue) const
-{
-	m_pImpl->Tokenize(cToken, vValue);
-}
-
-// *****************************************************************************
-tOptional<int> cString::ToInt() const
-{
-	return m_pImpl->ToInt();
-}
-
-// *****************************************************************************
-tOptional<float> cString::ToFloat() const
-{
-	return m_pImpl->ToFloat();
-}
-
-// *****************************************************************************
-tOptional<bool> cString::ToBool() const
-{
-	return m_pImpl->ToBool();
-}
-
-// *****************************************************************************
-cString cString::GetExtensionFromFileName() const
-{
-	return m_pImpl->GetExtensionFromFileName();
-}
-
-// *****************************************************************************
-cString cString::TimeToString(time_t time)
-{
-	return cImpl::TimeToString(time);
-}
-
-//// *****************************************************************************
-//bool cString::Compare (const cString & str) const
-//{
-//	return m_pImpl->Compare(strRight) == 0;
-//}
-//
-
-// *****************************************************************************
-cString Base::operator + (const cString & lhs, const cString & rhs)
-{
-	cString str = lhs;
-	str += rhs;
-	return str;
-}
-
-// *****************************************************************************
-cString Base::operator + (const char * lhs, const cString & rhs)
-{
-	cString str = lhs;
-	str += rhs;
-	return str;
-}
-
-// *****************************************************************************
-cString Base::operator + (const cString & lhs, const char* rhs)
-{
-	cString str = lhs;
-	str += rhs;
-	return str;
-}
-
-// *****************************************************************************
-std::ostream& Base::operator << (std::ostream& os, const cString & str)
-{
-	os << str.GetData();
-	return os;
-}
-
-// ****************************************************************************
-cString::cImpl::cImpl()
-{
-}
-
-// ****************************************************************************
-cString::cImpl::cImpl(const cString::cImpl & other)
-: m_str(other.m_str)
-{
-}
-
-// ****************************************************************************
-cString::cImpl & cString::cImpl::operator =(const cString::cImpl & other)
-{
-	m_str = other.m_str;
-	return *this;
-}
-
-// *****************************************************************************
-cString::cImpl::cImpl(const char * s)
 {
 	if (s != NULL)
 	{
@@ -344,36 +29,57 @@ cString::cImpl::cImpl(const char * s)
 }
 
 // *****************************************************************************
-cString::cImpl::cImpl(std::string const & s)
+cString::cString(std::string const & s)
 : m_str(s)
 {
 }
 
 // *****************************************************************************
-cString::cImpl::cImpl(const int iMaxSize, const char * const  lpFmt, va_list argptr)
+cString::cString(const int iMaxSize, const char * const  lpFmt, ...)
 {
+	va_list argptr;
+	va_start(argptr, lpFmt);
 	char * szBuffer = DEBUG_NEW char[iMaxSize];
-
 	int cnt = vsprintf_s(szBuffer, iMaxSize, lpFmt, argptr);
+	va_end(argptr);
 	
 	m_str += szBuffer;
 	SAFE_DELETE_ARRAY(szBuffer);
 }
 
+// ****************************************************************************
+cString::cString(const cString & other)
+: m_str(other.m_str)
+{
+}
+
+// ****************************************************************************
+cString & cString::operator=(const cString & other)
+{
+	m_str = other.m_str;
+	return *this;
+}
+
 // *****************************************************************************
-void cString::cImpl::Append(const cString & str)
+void cString::operator+=(const cString & str)
 {
 	m_str.append(str.GetData());
 }
 
 // *****************************************************************************
-int cString::cImpl::Compare(const cString & str) const
+bool cString::operator < (const cString & str) const
 {
-	return m_str.compare(str.m_pImpl->m_str);
+	return m_str.compare(str.m_str) < 0;
 }
 
 // *****************************************************************************
-const char cString::cImpl::GetCharAtIndex(const unsigned int index) const
+bool cString::operator == (const cString & str) const 
+{
+	return m_str.compare(str.m_str) == 0;
+}
+
+// *****************************************************************************
+const char cString::operator[](const unsigned int index) const
 {
 	if(index < GetLength())
 	{
@@ -383,25 +89,35 @@ const char cString::cImpl::GetCharAtIndex(const unsigned int index) const
 }
 
 // *****************************************************************************
-const char * const cString::cImpl::GetData() const
+char cString::operator[](const unsigned int index)
+{
+	if(index < GetLength())
+	{
+		return m_str[index];
+	}
+	return '\0';
+}
+
+// *****************************************************************************
+const char * const cString::GetData() const
 { 
 	return m_str.c_str();
 }
 
 // *****************************************************************************
-bool cString::cImpl::IsEmpty() const
+bool cString::IsEmpty() const
 {
 	return m_str.empty();
 }
 
 // *****************************************************************************
-unsigned int cString::cImpl::GetLength() const
+unsigned int cString::GetLength() const
 {
 	return m_str.length();
 }
 
 // *****************************************************************************
-cString cString::cImpl::GetSubString(const unsigned int uiStartIndex,
+cString cString::GetSubString(const unsigned int uiStartIndex,
 							  const unsigned int uiEndIndex) const
 {
 	if (uiStartIndex < 0 || uiEndIndex > GetLength())
@@ -413,7 +129,7 @@ cString cString::cImpl::GetSubString(const unsigned int uiStartIndex,
 }
 
 // *****************************************************************************
-tOptional<int> cString::cImpl::FindIndex(const char chChar, const int iOffset) const
+tOptional<int> cString::FindIndex(const char chChar, const int iOffset) const
 {
 	tOptional<int> val;
 
@@ -430,7 +146,7 @@ tOptional<int> cString::cImpl::FindIndex(const char chChar, const int iOffset) c
 }
 
 // *****************************************************************************
-tOptional<int> cString::cImpl::FindFirstOf(const cString & strChars,
+tOptional<int> cString::FindFirstOf(const cString & strChars,
 										   const int iOffset) const
 {
 	tOptional<int> val;
@@ -449,7 +165,7 @@ tOptional<int> cString::cImpl::FindFirstOf(const cString & strChars,
 }
 
 // *****************************************************************************
-tOptional<int> cString::cImpl::FindFirstNotOf(const cString & strChars,
+tOptional<int> cString::FindFirstNotOf(const cString & strChars,
 											  const int iOffset) const
 {
 	tOptional<int> val;
@@ -468,7 +184,7 @@ tOptional<int> cString::cImpl::FindFirstNotOf(const cString & strChars,
 }
 
 // *****************************************************************************
-tOptional<int> cString::cImpl::FindLastOf(const cString & strChars,
+tOptional<int> cString::FindLastOf(const cString & strChars,
 								   const int iOffset) const
 {
 	tOptional<int> val;
@@ -487,7 +203,7 @@ tOptional<int> cString::cImpl::FindLastOf(const cString & strChars,
 }
 
 // *****************************************************************************
-tOptional<int> cString::cImpl::FindLastNotOf(const cString & strChars,
+tOptional<int> cString::FindLastNotOf(const cString & strChars,
 									  const int iOffset) const
 {
 	tOptional<int> val;
@@ -506,13 +222,13 @@ tOptional<int> cString::cImpl::FindLastNotOf(const cString & strChars,
 }
 
 // *****************************************************************************
-bool cString::cImpl::CompareInsensitive (const cString & str) const
+bool cString::CompareInsensitive (const cString & str) const
 {
 	return _stricmp(GetData(), str.GetData()) == 0;
 }
 
 // *****************************************************************************
-void cString::cImpl::TrimLeft()
+void cString::TrimLeft()
 {
 	const cString delims(" \t");
 	tOptional<int> endIndex;
@@ -535,7 +251,7 @@ void cString::cImpl::TrimLeft()
 }
 
 // *****************************************************************************
-void cString::cImpl::TrimRight()
+void cString::TrimRight()
 {
 	const cString delims(" \t\r\n");
 	tOptional<int> endIndex;
@@ -552,7 +268,7 @@ void cString::cImpl::TrimRight()
 }
 
 // *****************************************************************************
-void cString::cImpl::TrimBoth()
+void cString::TrimBoth()
 {
 	if (IsEmpty())
 	{
@@ -563,19 +279,19 @@ void cString::cImpl::TrimBoth()
 }
 
 // *****************************************************************************
-void cString::cImpl::Insert( const int iIndex, const cString & strText )
+void cString::Insert( const int iIndex, const cString & strText )
 {
 	m_str.insert(iIndex, strText.GetData());
 }
 
 // *****************************************************************************
-void cString::cImpl::Remove( const int iIndex, const int iQuantity )
+void cString::Remove( const int iIndex, const int iQuantity )
 {
 	m_str.erase(iIndex, iQuantity);
 }
 
 // *****************************************************************************
-void cString::cImpl::Tokenize(char cToken, std::vector<cString> & vValue) const
+void cString::Tokenize(char cToken, std::vector<cString> & vValue) const
 {
 	int n = GetLength();
 	int iStartIndex = 0;
@@ -597,7 +313,7 @@ void cString::cImpl::Tokenize(char cToken, std::vector<cString> & vValue) const
 }
 
 // *****************************************************************************
-tOptional<int> cString::cImpl::ToInt() const
+tOptional<int> cString::ToInt() const
 {
 	tOptional<int> value = 0;
 	int len = m_str.length();
@@ -636,7 +352,7 @@ tOptional<int> cString::cImpl::ToInt() const
 }
 
 // *****************************************************************************
-tOptional<float> cString::cImpl::ToFloat() const
+tOptional<float> cString::ToFloat() const
 {
 	tOptional<float> value = 0;
 	int len = m_str.length();
@@ -700,7 +416,7 @@ tOptional<float> cString::cImpl::ToFloat() const
 }
 
 // *****************************************************************************
-tOptional<bool> cString::cImpl::ToBool() const
+tOptional<bool> cString::ToBool() const
 {
 	tOptional<bool> val;
 	std::string str;
@@ -723,7 +439,7 @@ tOptional<bool> cString::cImpl::ToBool() const
 }
 
 // *****************************************************************************
-cString cString::cImpl::GetExtensionFromFileName() const
+cString cString::GetExtensionFromFileName() const
 {
 	tOptional<int> index = FindLastOf(".", GetLength());
 	if (index.IsValid())
@@ -734,10 +450,41 @@ cString cString::cImpl::GetExtensionFromFileName() const
 }
 
 // *****************************************************************************
-cString cString::cImpl::TimeToString(time_t time)
+cString cString::TimeToString(time_t time)
 {
 	char str[26];
 	ctime_s(str, 26, &time);
 	str[24] = ' '; // remove the '/n' from the time string
 	return str;
+}
+
+// *****************************************************************************
+cString Base::operator + (const cString & lhs, const cString & rhs)
+{
+	cString str = lhs;
+	str += rhs;
+	return str;
+}
+
+// *****************************************************************************
+cString Base::operator + (const char * lhs, const cString & rhs)
+{
+	cString str = lhs;
+	str += rhs;
+	return str;
+}
+
+// *****************************************************************************
+cString Base::operator + (const cString & lhs, const char* rhs)
+{
+	cString str = lhs;
+	str += rhs;
+	return str;
+}
+
+// *****************************************************************************
+std::ostream& Base::operator << (std::ostream& os, const cString & str)
+{
+	os << str.GetData();
+	return os;
 }

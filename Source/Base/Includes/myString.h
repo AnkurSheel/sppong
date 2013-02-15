@@ -70,7 +70,7 @@ namespace Base
 		///
 		///
 		///////////////////////////////////////////////////////////////////////
-		BASE_API cString operator =(const cString & str);
+		BASE_API cString & operator=(const cString & str);
 		///////////////////////////////////////////////////////////////////////
 		/// Adds the passed in string to the current string
 		///
@@ -297,8 +297,7 @@ namespace Base
 		//BASE_API bool Compare (const cString & str) const;
 		//BASE_API void operator += (const char * const str);
 	private:
-		class cImpl;
-		std::tr1::shared_ptr<cImpl> m_pImpl;
+		std::string m_str;
 	};
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -337,6 +336,5 @@ namespace Base
 	///
 	//////////////////////////////////////////////////////////////////////////////
 	BASE_API std::ostream& operator << (std::ostream& os, const cString & str);
-
 }
 #endif // myString_h__
