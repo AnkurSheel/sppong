@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Game">
+      <UniqueIdentifier>{9a3458ed-a3dc-4f54-ae09-440e3ccdf1eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Elements">
+      <UniqueIdentifier>{7432ee23-3183-420c-862c-f19c3092edfa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\GameFlowStateMachine.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\GameFlowStates.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\P2PaddleHandler.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Elements\Ball.cpp">
+      <Filter>Game\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Elements\Paddle.cpp">
+      <Filter>Game\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Elements\PongGameElement.cpp">
+      <Filter>Game\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Elements\Score.cpp">
+      <Filter>Game\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Elements\Wall.cpp">
+      <Filter>Game\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MpongView.cpp" />
+    <ClCompile Include="src\P1PaddleHandler.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Game\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Game.hxx">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameFlowStateMachine.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameFlowStates.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Messages.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\P2PaddleHandler.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Elements\Ball.h">
+      <Filter>Game\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Elements\Paddle.h">
+      <Filter>Game\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Elements\PongGameElement.h">
+      <Filter>Game\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Elements\Score.h">
+      <Filter>Game\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Elements\Wall.h">
+      <Filter>Game\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameDefines.h" />
+    <ClInclude Include="src\MPongView.h" />
+    <ClInclude Include="src\P1PaddleHandler.h" />
+    <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+</Project>

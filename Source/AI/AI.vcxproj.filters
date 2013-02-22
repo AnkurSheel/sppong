@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FSM">
+      <UniqueIdentifier>{bced78d9-1865-4935-8910-5509d97998e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzySystem">
+      <UniqueIdentifier>{d0e5eb6c-cdd8-485b-a573-4366dd87e4c3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\FSM\State.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FSM\StateMachine.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FSM\Telegram.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyModule.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyOperators.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyRule.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzySet.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzySetProxy.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzySetTypes.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyTerm.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FuzzyLogic\FuzzyVariable.h">
+      <Filter>FuzzySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AIDefines.h" />
+    <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\FSM\Statemachine.inl">
+      <Filter>FSM</Filter>
+    </None>
+    <None Include="src\FSM\State.inl">
+      <Filter>FSM</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\FuzzyLogic\FuzzyModule.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyOperators.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyRule.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzySet.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzySetProxy.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzySetTypes.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyTerm.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FuzzyLogic\FuzzyVariable.cpp">
+      <Filter>FuzzySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp" />
+  </ItemGroup>
+</Project>

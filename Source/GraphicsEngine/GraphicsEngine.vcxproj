@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{00226575-C4FA-463A-941B-EA9FB2012521}</ProjectGuid>
+    <RootNamespace>GraphicsEngine</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>Includes;..\Common\src;$(DXSDK_DIR)\Include;..\Base\Includes;..\Utilities\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS;WINDOWED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir) $(ProjectName)$(Configuration).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Base_D.lib;Utilities_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)_D.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Debug\;$(DXSDK_DIR)\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>Includes;..\Common\src;$(DXSDK_DIR)\Include;..\Base\Includes;..\Utilities\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir) $(ProjectName)$(Configuration).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Base.lib;Utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\bin\;$(DXSDK_DIR)\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="src\WindowControl.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.vcxproj">
+      <Project>{74220f22-9039-453b-81f0-44bea935e6d9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
+      <Project>{d04bbe9d-7b69-4a6e-83c5-dfa72b4de76a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\AABB.hxx" />
+    <ClInclude Include="Includes\BaseControl.hxx" />
+    <ClInclude Include="Includes\Camera.hxx" />
+    <ClInclude Include="Includes\CollisionChecker.hxx" />
+    <ClInclude Include="Includes\ControlStructures.h" />
+    <ClInclude Include="Includes\FontManager.hxx" />
+    <ClInclude Include="Includes\GraphicEngineDefines.h" />
+    <ClInclude Include="Includes\GraphicsClass.hxx" />
+    <ClInclude Include="Includes\KeyboardHandler.hxx" />
+    <ClInclude Include="Includes\Model.hxx" />
+    <ClInclude Include="Includes\MouseHandler.hxx" />
+    <ClInclude Include="Includes\ObjModelLoader.hxx" />
+    <ClInclude Include="Includes\ScreenElement.hxx" />
+    <ClInclude Include="Includes\Sentence.hxx" />
+    <ClInclude Include="Includes\Sprite.hxx" />
+    <ClInclude Include="Includes\vertexstruct.h" />
+    <ClInclude Include="src\AABB.h" />
+    <ClInclude Include="src\BaseControl.h" />
+    <ClInclude Include="src\BaseShader.h" />
+    <ClInclude Include="src\BoundingBox.h" />
+    <ClInclude Include="src\BoundingBox.hxx" />
+    <ClInclude Include="src\ButtonControl.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\CheckBoxControl.h" />
+    <ClInclude Include="src\CollisionChecker.h" />
+    <ClInclude Include="src\ColorShader.h" />
+    <ClInclude Include="src\DxBase.h" />
+    <ClInclude Include="src\DxBase.hxx" />
+    <ClInclude Include="src\Font.h" />
+    <ClInclude Include="src\Font.hxx" />
+    <ClInclude Include="src\FontManager.h" />
+    <ClInclude Include="src\FontShader.h" />
+    <ClInclude Include="src\GraphicsClass.h" />
+    <ClInclude Include="src\GraphicUtils.h" />
+    <ClInclude Include="src\HScrollBar.h" />
+    <ClInclude Include="src\LabelControl.h" />
+    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\ObjModelLoader.h" />
+    <ClInclude Include="src\ScrollBarControl.h" />
+    <ClInclude Include="src\Sentence.h" />
+    <ClInclude Include="src\Shader.hxx" />
+    <ClInclude Include="src\ShaderManager.h" />
+    <ClInclude Include="src\ShaderManager.hxx" />
+    <ClInclude Include="src\Sprite.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\TextBoxControl.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Texture.hxx" />
+    <ClInclude Include="src\TextureManager.h" />
+    <ClInclude Include="src\TextureManager.hxx" />
+    <ClInclude Include="src\TextureShader.h" />
+    <ClInclude Include="src\VScrollBar.h" />
+    <ClInclude Include="src\WindowControl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AABB.cpp" />
+    <ClCompile Include="src\BaseControl.cpp" />
+    <ClCompile Include="src\BaseShader.cpp" />
+    <ClCompile Include="src\BoundingBox.cpp" />
+    <ClCompile Include="src\ButtonControl.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\CheckBoxControl.cpp" />
+    <ClCompile Include="src\CollisionChecker.cpp" />
+    <ClCompile Include="src\ColorShader.cpp" />
+    <ClCompile Include="src\DxBase.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\FontManager.cpp" />
+    <ClCompile Include="src\FontShader.cpp" />
+    <ClCompile Include="src\GraphicsClass.cpp" />
+    <ClCompile Include="src\GraphicUtils.cpp" />
+    <ClCompile Include="src\HScrollBar.cpp" />
+    <ClCompile Include="src\LabelControl.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\ObjModelLoader.cpp" />
+    <ClCompile Include="src\ScrollBarControl.cpp" />
+    <ClCompile Include="src\Sentence.cpp" />
+    <ClCompile Include="src\ShaderManager.cpp" />
+    <ClCompile Include="src\Sprite.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\TextBoxControl.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
+    <ClCompile Include="src\TextureShader.cpp" />
+    <ClCompile Include="src\VertexStruct.cpp" />
+    <ClCompile Include="src\VScrollBar.cpp" />
+    <ClCompile Include="src\WindowControl.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
