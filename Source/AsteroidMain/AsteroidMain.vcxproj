@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{135B7132-A2FE-4888-A2CE-57A4097E0704}</ProjectGuid>
-    <RootNamespace>MPongMain</RootNamespace>
+    <ProjectGuid>{41D68749-4742-41D8-9EE5-2B36837FAF2F}</ProjectGuid>
+    <RootNamespace>AsteroidMain</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -48,19 +48,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\MPong\src;..\Base\Includes;..\Utilities\Includes;..\GameBase\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Base\Includes;..\Utilities\Includes;..\GameBase\Includes;..\Asteroid\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir) $(ProjectName)$(Configuration).pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Utilities_D.lib;Base_D.lib;MPong_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Utilities_D.lib;Base_D.lib;Asteroid_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)_D.exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -76,7 +77,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\MPong\src;..\Base\Includes;..\Utilities\Includes;..\GameBase\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Base\Includes;..\Utilities\Includes;..\GameBase\Includes;..\Asteroid\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -87,7 +88,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Utilities.lib;Base.lib;MPong.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Utilities.lib;Base.lib;Asteroid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -112,22 +113,8 @@
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base\Base.vcxproj">
-      <Project>{74220f22-9039-453b-81f0-44bea935e6d9}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\GameBase\GameBase.vcxproj">
-      <Project>{d6c5b6d7-4503-42dd-9174-37b3b81c5926}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
-      <Project>{d04bbe9d-7b69-4a6e-83c5-dfa72b4de76a}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Debug\MPongDebug.ini" />
-    <None Include="..\..\bin\MPongRetail.ini" />
+    <None Include="..\..\bin\AsteroidRetail.ini" />
+    <None Include="..\..\Debug\AsteroidDebug.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

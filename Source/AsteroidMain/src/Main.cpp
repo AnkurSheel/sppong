@@ -30,9 +30,9 @@ int WINAPI WinMain(const HINSTANCE hInstance,
 	pGame = IGame::CreateGame("Game");
 	cString strOptionsFileName;
 #ifdef _DEBUG
-	strOptionsFileName = "OptionsDebug.ini";
+	strOptionsFileName = "AsteroidDebug.ini";
 #else
-	strOptionsFileName = "OptionsRetail.ini";
+	strOptionsFileName = "AsteroidRetail.ini";
 #endif
 
 	pGame->VOnInitialization(hInstance, nCmdShow, strOptionsFileName);
