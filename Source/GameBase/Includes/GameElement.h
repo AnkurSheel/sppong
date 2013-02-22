@@ -92,13 +92,15 @@ namespace GameBase
 		GAMEBASE_API void Cleanup();
 		GAMEBASE_API const Graphics::IAABB * const GetAABB() const;
 
-	private:
-		Base::cString		m_strFileName;
-		Graphics::IModel *	m_pModel;	
+	protected:
 		Base::cVector3		m_vRotation;	/*!< The rotation of the game element.*/
 		Base::cVector3		m_vPosition;	/*!< The position of the game element.*/
 		Base::cVector3		m_vScale;		/*!< The scale of the game element. */
 		bool				m_bIsDirty;		/*!< Set to true if the position, scale or rotation is changed. */
+
+	private:
+		Base::cString		m_strFileName;
+		Graphics::IModel *	m_pModel;	
 	};
 }
 #endif
