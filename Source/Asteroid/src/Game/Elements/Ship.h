@@ -29,12 +29,7 @@ public:
 	void MoveForward(const float fElapsedTime);
 	void RotateLeft(const float fElapsedTime );
 	void RotateRight(const float fElapsedTime );
-	void WrapAround(Base::cVector3 &vPredictedPos);
 
 	cShip * CastToShip();
-
-private:
-	float			m_fAcceleration;
-	float			m_fDragFactor;
 };
 #endif // Ship_h__

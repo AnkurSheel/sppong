@@ -39,6 +39,7 @@ void cAsteroid::VInitialize(const cGameElementDef & def )
 	cAsteroidGameElement::VInitialize(def);
 
 	m_fRotationPower = DegtoRad(30.0f);
+	m_fDragFactor = 0.0f;
 	m_vForward = cVector3(1, 0, 0);
 	m_vLookAt = m_vForward;
 
@@ -49,8 +50,8 @@ void cAsteroid::VInitialize(const cGameElementDef & def )
 	int maxPosX = static_cast<int>(m_pGame->VGetScreenBottomRightPos().x);
 	int maxPosY = static_cast<int>(m_pGame->VGetScreenTopLeftPos().y);
 
-	pos.x = static_cast<float>(m_pGame->GetRandomGenerator()->Random(m_pGame->VGetScreenTopLeftPos().x, m_pGame->VGetScreenBottomRightPos().x));
-	pos.y = static_cast<float>(m_pGame->GetRandomGenerator()->Random(m_pGame->VGetScreenBottomRightPos().y, m_pGame->VGetScreenTopLeftPos().y));
+	pos.x = static_cast<float>(m_pGame->GetRandomGenerator()->Random(minPosX, maxPosX));
+	pos.y = static_cast<float>(m_pGame->GetRandomGenerator()->Random(minPosY, maxPosY));
 	SetPosition(pos);
 
 	m_fMinSize = 0.5;
@@ -64,8 +65,12 @@ void cAsteroid::VInitialize(const cGameElementDef & def )
 	cVector3 rot;
 	rot.z = static_cast<float>(m_pGame->GetRandomGenerator()->Random(0, 359));
 	SetRotation(rot);
+	ReCalculateLookAt();
 
-	//m_vVelocity = cVector3(static_cast<float>(m_pGame->GetRandomGenerator()->Random(5,10)), static_cast<float>(m_pGame->GetRandomGenerator()->Random(5,10)), 0.0f);
+	m_fAcceleration = static_cast<float>(m_pGame->GetRandomGenerator()->Random(-3,3));
+	if(m_fAcceleration == 0.0f)
+		m_fAcceleration = 1.0f;
+	m_vVelocity = (m_vLookAt * m_fAcceleration);
 }
 
 // *****************************************************************************

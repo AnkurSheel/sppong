@@ -20,8 +20,6 @@ using namespace Utilities;
 
 // *****************************************************************************
 cShip::cShip()
-: m_fAcceleration(0)
-, m_fDragFactor(0)
 {
 }
 
@@ -44,14 +42,6 @@ void cShip::VInitialize(const cGameElementDef & def )
 // *****************************************************************************
 void cShip::OnUpdate(float fElapsedTime)
 {
-	if (m_vVelocity.LengthSquared() > EpsilonFloat)
-	{
-		cVector3 vPredictedPos = GetPosition() + (m_vVelocity * fElapsedTime);
-		WrapAround(vPredictedPos);
-
-		SetPosition(vPredictedPos);
-		m_vVelocity -= (m_vVelocity * m_fDragFactor);
-	}
 	cAsteroidGameElement::OnUpdate(fElapsedTime);
 }
 
@@ -99,27 +89,6 @@ void cShip::RotateRight(const float fElapsedTime)
 {
 	float fDeltaRadian = m_fRotationPower * fElapsedTime;
 	SetRotation(cVector3(0.0f, 0.0f, GetRotation().z - fDeltaRadian));
-}
-
-// *****************************************************************************
-void cShip::WrapAround(cVector3 &vPredictedPos)
-{
-	if (vPredictedPos.x < m_pGame->VGetScreenTopLeftPos().x)
-	{
-		vPredictedPos.x = m_pGame->VGetScreenBottomRightPos().x;
-	}
-	else if (vPredictedPos.x > m_pGame->VGetScreenBottomRightPos().x)
-	{
-		vPredictedPos.x = m_pGame->VGetScreenTopLeftPos().x;
-	}
-	else if (vPredictedPos.y > m_pGame->VGetScreenTopLeftPos().y)
-	{
-		vPredictedPos.y = m_pGame->VGetScreenBottomRightPos().y;
-	}
-	else if (vPredictedPos.y < m_pGame->VGetScreenBottomRightPos().y)
-	{
-		vPredictedPos.y = m_pGame->VGetScreenTopLeftPos().y;
-	}
 }
 
 // *****************************************************************************
