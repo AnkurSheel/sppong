@@ -14,20 +14,20 @@
 using namespace Graphics;
 
 // ***************************************************************
-ShipPaddleHandler::ShipPaddleHandler()
+ShipHandler::ShipHandler()
 : m_pfnCallBack(NULL)
 {
 	memset(m_bKey, 0, sizeof(m_bKey));
 }
 
 // ***************************************************************
-ShipPaddleHandler::~ShipPaddleHandler()
+ShipHandler::~ShipHandler()
 {
 	UnregisterCallBack();
 }
 
 // ***************************************************************
-bool ShipPaddleHandler::VOnKeyDown(const unsigned int iCharID)
+bool ShipHandler::VOnKeyDown(const unsigned int iCharID)
 {
 	BYTE c = static_cast<const BYTE>(iCharID);
 	m_bKey[c] = true;
@@ -35,7 +35,7 @@ bool ShipPaddleHandler::VOnKeyDown(const unsigned int iCharID)
 }
 
 // ***************************************************************
-bool ShipPaddleHandler::VOnKeyUp(const unsigned int iCharID)
+bool ShipHandler::VOnKeyUp(const unsigned int iCharID)
 {
 	BYTE c = static_cast<const BYTE>(iCharID);
 	m_bKey[c] = false;
@@ -43,13 +43,13 @@ bool ShipPaddleHandler::VOnKeyUp(const unsigned int iCharID)
 }
 
 // ***************************************************************
-bool ShipPaddleHandler::VOnCharPress(const unsigned int iCharID)
+bool ShipHandler::VOnCharPress(const unsigned int iCharID)
 {
 	return false;
 }
 
 // ***************************************************************
-void ShipPaddleHandler::OnUpdate()
+void ShipHandler::OnUpdate()
 {
 	if (m_bKey['S'])
 	{
@@ -85,19 +85,19 @@ void ShipPaddleHandler::OnUpdate()
 }
 
 // ***************************************************************
-void ShipPaddleHandler::RegisterCallBack(ShipInputCallBackFn callback )
+void ShipHandler::RegisterCallBack(ShipInputCallBackFn callback )
 {
 	m_pfnCallBack = callback;
 }
 
 // ***************************************************************
-void ShipPaddleHandler::UnregisterCallBack()
+void ShipHandler::UnregisterCallBack()
 {
 	m_pfnCallBack = NULL;
 }
 
 // ***************************************************************
-void ShipPaddleHandler::VLockKey( const BYTE c, const bool bLock )
+void ShipHandler::VLockKey( const BYTE c, const bool bLock )
 {
 
 }

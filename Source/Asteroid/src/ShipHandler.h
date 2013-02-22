@@ -17,15 +17,15 @@ namespace Graphics
 	struct AppMsg;
 }
 
-class ShipPaddleHandler 
+class ShipHandler 
 	: public Graphics::IKeyboardHandler
 {
 public:
 	typedef function<void (ShipMovement)> ShipInputCallBackFn;
 
 public:
-	ShipPaddleHandler();
-	~ShipPaddleHandler();
+	ShipHandler();
+	~ShipHandler();
 	bool VOnKeyDown(const unsigned int iCharID);
 	bool VOnKeyUp(const unsigned int iCharID);
 	bool VOnCharPress(const unsigned int iCharID);

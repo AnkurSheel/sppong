@@ -22,17 +22,17 @@ using namespace GameBase;
 using namespace Base;
 
 // *****************************************************************************
-cMPongView::cMPongView()
+cAsteroidView::cAsteroidView()
 : m_pGame(NULL)
 {
 }
 
 // *****************************************************************************
-cMPongView::~cMPongView()
+cAsteroidView::~cAsteroidView()
 {
 }
 
-void cMPongView::VOnCreateDevice(IBaseApp * pGame,
+void cAsteroidView::VOnCreateDevice(IBaseApp * pGame,
 								 const HINSTANCE & hInst,
 								 const HWND & hWnd)
 {
@@ -42,17 +42,17 @@ void cMPongView::VOnCreateDevice(IBaseApp * pGame,
 }
 
 // *****************************************************************************
-void cMPongView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
+void cAsteroidView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 {
 	cHumanView::VOnUpdate(tickCurrent, fElapsedTime);
-	if (m_P1PaddleHandler)
+	if (m_ShipHandler)
 	{
-		m_P1PaddleHandler->OnUpdate();
+		m_ShipHandler->OnUpdate();
 	}
 }
 
 // *****************************************************************************
-bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
+bool cAsteroidView::VOnMsgProc( const Base::AppMsg & msg )
 {
 	if(!cHumanView::VOnMsgProc(msg))
 	{
@@ -65,9 +65,9 @@ bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
 				IMessageDispatchManager::GetInstance()->VDispatchMessage(0.0f, m_pGame->VGetID(),
 					m_pGame->VGetID(), MSG_ESCAPE_PRESSED, NULL);
 			}
-			if (m_P1PaddleHandler)
+			if (m_ShipHandler)
 			{
-				m_P1PaddleHandler->VOnKeyDown(msg.m_wParam);
+				m_ShipHandler->VOnKeyDown(msg.m_wParam);
 			}
 		}
 		else if (msg.m_uMsg == WM_KEYUP)
@@ -80,9 +80,9 @@ bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
 			{
 				UnlockKey(VK_ESCAPE);
 			}
-			if (m_P1PaddleHandler)
+			if (m_ShipHandler)
 			{
-				m_P1PaddleHandler->VOnKeyUp(msg.m_wParam);
+				m_ShipHandler->VOnKeyUp(msg.m_wParam);
 			}
 		}
 	}
@@ -90,24 +90,28 @@ bool cMPongView::VOnMsgProc( const Base::AppMsg & msg )
 }
 
 // *****************************************************************************
-void cMPongView::OnSinglePlayerSelected( cGame * pGame)
+void cAsteroidView::OnSinglePlayerSelected( cGame * pGame)
 {
-	m_P1PaddleHandler = shared_ptr<ShipPaddleHandler>(DEBUG_NEW ShipPaddleHandler());
-	ShipPaddleHandler::ShipInputCallBackFn callbackP1Paddle;
-	callbackP1Paddle = bind(&cGame::MoveLeftPaddle, pGame, _1);
-	m_P1PaddleHandler->RegisterCallBack(callbackP1Paddle);
+	m_ShipHandler = shared_ptr<ShipHandler>(DEBUG_NEW ShipHandler());
+	ShipHandler::ShipInputCallBackFn callbackShip;
+	callbackShip = bind(&cGame::MoveShip, pGame, _1);
+	m_ShipHandler->RegisterCallBack(callbackShip);
 }
 
 // *******************************************************************************************
-void cMPongView::VRenderPrivate()
+void cAsteroidView::VRenderPrivate()
 {
-	IGame::GameElementList::iterator iter;
-	IGame::GameElementList pGameElements;
-	m_pGame->VGetGameElements(pGameElements);
-	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
-    {
-		(*iter)->Render(m_pCamera);
+	if(m_pGame->m_pShip != NULL)
+	{
+		m_pGame->m_pShip->Render(m_pCamera);
 	}
+//IGame::GameElementList::iterator iter;
+	//IGame::GameElementList pGameElements;
+	//m_pGame->VGetGameElements(pGameElements);
+	//for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
+ //   {
+	//	(*iter)->Render(m_pCamera);
+	//}
 	//for (int i=0; i<m_pGame->PGE_TOTAL; i++)
 	//{
 	//	if(m_pGame->VGetGameElements() && m_pGame->VGetGameElements()[i])

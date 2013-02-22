@@ -33,11 +33,11 @@ class cGame
 {
 public:
 	cGame(const Base::cString strName);
-	void VGetGameElements(GameElementList & gameElements) const;
+	//void VGetGameElements(GameElementList & gameElements) const;
 	Base::cVector3 VGetScreenTopLeftPos() const;
 	Base::cVector3 VGetScreenBottomRightPos() const;
 	void VRoundOver(const bool bPlayer1Won);
-	void MoveLeftPaddle(const ShipMovement eShipMovement);
+	void MoveShip(const ShipMovement eShipMovement);
 
 private:
 	~cGame();
@@ -51,14 +51,15 @@ private:
 	void VCreateHumanView();
 
 private:
-	int						m_iDisplayHeight ;		// the display height of the window
-	int						m_iDisplayWidth ;		// the display width of the window
-	GameElementList			m_pGameElements;		// ptr to the gameelements
-	cGameFlowStateMachine *	m_pStateMachine;
-	cScore*					m_pScore;				// ptr to Scoreboard
-	Base::cVector3			m_vScreenTopLeftPos;
-	Base::cVector3			m_vScreenBottomRightPos;
-	
+	int									m_iDisplayHeight ;		// the display height of the window
+	int									m_iDisplayWidth ;		// the display width of the window
+	//GameElementList					m_pGameElements;		// ptr to the gameelements
+	cGameFlowStateMachine *				m_pStateMachine;
+	cScore*								m_pScore;				// ptr to Scoreboard
+	Base::cVector3						m_vScreenTopLeftPos;
+	Base::cVector3						m_vScreenBottomRightPos;
+	shared_ptr<cAsteroidGameElement> 	m_pShip;	
+
 private:
 	friend class cStateTitleScreen;
 	friend class cStateMenuScreen;
@@ -66,5 +67,6 @@ private:
 	friend class cStateHelpScreen;
 	friend class cStateOptionsScreen;
 	friend class cStatePauseScreen;
+	friend class cAsteroidView;
 };
 #endif // Game_h__

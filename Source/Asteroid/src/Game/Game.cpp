@@ -65,7 +65,7 @@ void cGame::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 
 void cGame::VCreateHumanView()
 {
-	m_pHumanView = DEBUG_NEW cMPongView();
+	m_pHumanView = DEBUG_NEW cAsteroidView();
 }
 
 // *****************************************************************************
@@ -87,11 +87,15 @@ void cGame::VOnUpdate()
 void cGame::Restart()
 {
 	Sleep(100);
-	GameElementList::iterator iter;
+	if(m_pShip != NULL)
+	{
+		m_pShip->OnRestart();
+	}
+	/*GameElementList::iterator iter;
 	for (iter = m_pGameElements.begin(); iter != m_pGameElements.end(); iter++)
     {
 		(*iter)->OnRestart();
-	}
+	}*/
 
 	//m_ppGameElements[PGE_PADDLE_LEFT]->OnRestart();
 	//m_ppGameElements[PGE_PADDLE_RIGHT]->OnRestart();
@@ -117,7 +121,8 @@ void cGame::VRoundOver(const bool bPlayer1Won)
 // *****************************************************************************
 void cGame::VCleanup()
 {
-	m_pGameElements.clear();
+	m_pShip.reset();
+	//m_pGameElements.clear();
 
 	/*if(m_ppGameElements)
 	{
@@ -136,31 +141,31 @@ void cGame::VCleanup()
 	cBaseApp::VCleanup();
 }
 
-void cGame::MoveLeftPaddle(const ShipMovement eShipMovement)
+void cGame::MoveShip(const ShipMovement eShipMovement)
 {
-	cShip * pPaddle = m_pGameElements.front()->CastToShip();
-	if(pPaddle)
+	cShip * pShip = m_pShip->CastToShip();
+	if(pShip)
 	{
 		switch(eShipMovement)
 		{
 		case SM_MOVE_FWD:
 		{
-			pPaddle->MoveForward(m_pGameTimer->VGetDeltaTime());
+			pShip->MoveForward(m_pGameTimer->VGetDeltaTime());
 			break;
 		}
 		case SM_MOVE_BK:
 		{
-			pPaddle->MoveBack(m_pGameTimer->VGetDeltaTime());
+			pShip->MoveBack(m_pGameTimer->VGetDeltaTime());
 			break;
 		}
 		case SM_ROTATE_LEFT:
 		{
-			pPaddle->RotateLeft(m_pGameTimer->VGetDeltaTime());
+			pShip->RotateLeft(m_pGameTimer->VGetDeltaTime());
 			break;
 		}
 		case SM_ROTATE_RIGHT:
 		{
-			pPaddle->RotateRight(m_pGameTimer->VGetDeltaTime());
+			pShip->RotateRight(m_pGameTimer->VGetDeltaTime());
 			break;
 		}
 		}
@@ -173,11 +178,11 @@ bool cGame::VOnHandleMessage(const AI::Telegram & telegram)
 	return m_pStateMachine->HandleMessage(telegram);
 }
 
-// *****************************************************************************
-void cGame::VGetGameElements(GameElementList & gameElements) const
-{
-	gameElements = m_pGameElements; 
-}
+//// *****************************************************************************
+//void cGame::VGetGameElements(GameElementList & gameElements) const
+//{
+//	gameElements = m_pGameElements; 
+//}
 
 // *****************************************************************************
 cVector3 cGame::VGetScreenTopLeftPos() const

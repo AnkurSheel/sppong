@@ -13,20 +13,19 @@
 #include "HumanView.h"
 
 class cGame;
-class ShipPaddleHandler;
-class P2PaddleHandler;
+class ShipHandler;
 
 namespace GameBase
 {
 	class IBaseApp;
 }
 
-class cMPongView 
+class cAsteroidView 
 	: public GameBase::cHumanView
 {
 public:
-	cMPongView();
-	~cMPongView();
+	cAsteroidView();
+	~cAsteroidView();
 	void VOnCreateDevice(GameBase::IBaseApp * pGame,
 		const HINSTANCE & hInst, const HWND & hWnd);
 	void VOnUpdate(const TICK tickCurrent, const float fElapsedTime);
@@ -35,7 +34,7 @@ public:
 	void OnSinglePlayerSelected(cGame * pGame);
 
 private:
-	shared_ptr<ShipPaddleHandler>		m_P1PaddleHandler;
-	cGame	*						m_pGame;
+	shared_ptr<ShipHandler>		m_ShipHandler;
+	cGame	*					m_pGame;
 };
 #endif // AsteroidView_h__

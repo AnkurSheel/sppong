@@ -233,7 +233,7 @@ void cStateMenuScreen::VOnResume()
 // *****************************************************************************
 void cStateMenuScreen::SinglePlayerButtonPressed(const stUIEventCallbackParam & params)
 {
-	cMPongView * pView = dynamic_cast<cMPongView *>(m_pOwner->m_pHumanView);
+	cAsteroidView * pView = dynamic_cast<cAsteroidView *>(m_pOwner->m_pHumanView);
 	if(pView)
 		pView->OnSinglePlayerSelected(m_pOwner);
 
@@ -311,9 +311,9 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	paddleDef.strModelName= "ship";
 	paddleDef.vPosition= (pGame->m_vScreenTopLeftPos + pGame->m_vScreenBottomRightPos)/2.0f;
 	paddleDef.vScale = cVector3(1.0f, 0.5f, 0.5f);
-	shared_ptr<cAsteroidGameElement> pShip(DEBUG_NEW cShip());
-	pShip->VInitialize(paddleDef);
-	pGame->m_pGameElements.push_back(pShip);
+	pGame->m_pShip = shared_ptr<cAsteroidGameElement>(DEBUG_NEW cShip());
+	pGame->m_pShip->VInitialize(paddleDef);
+	//pGame->m_pGameElements.push_back(pShip);
 
 	//pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
 	//pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT]->VInitialize(paddleDef);
@@ -351,11 +351,18 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 
 void cStatePlayGame::VOnUpdate()
 {
-	cGame::GameElementList::iterator iter;
+	if(m_pOwner != NULL && m_pOwner->m_pGameTimer != NULL)
+	{
+		if(m_pOwner->m_pShip != NULL)
+		{
+			m_pOwner->m_pShip->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
+		}
+	}
+	/*cGame::GameElementList::iterator iter;
 	for (iter = m_pOwner->m_pGameElements.begin(); iter != m_pOwner->m_pGameElements.end(); iter++)
     {
 		(*iter)->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
-	}
+	}*/
 
 	//for(int i=0; i<m_pOwner->PGE_TOTAL; i++)
 	//{
