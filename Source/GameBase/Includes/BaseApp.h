@@ -36,7 +36,7 @@ namespace GameBase
 		virtual ~cBaseApp(){}
 		GAMEBASE_API virtual cHumanView * const VGetHumanView() const;
 		TICK GetRunningTicks() const;
-		float GetRunningTime() const;
+		GAMEBASE_API float GetRunningTime() const;
 
 	protected:
 		GAMEBASE_API cBaseApp(const Base::cString strName);

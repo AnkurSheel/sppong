@@ -229,6 +229,14 @@
 				Name="Elements"
 				>
 				<File
+					RelativePath=".\src\Game\Elements\Asteroid.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Game\Elements\Asteroid.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Game\Elements\AsteroidGameElement.cpp"
 					>
 				</File>
@@ -237,11 +245,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Game\Elements\Ball.cpp"
+					RelativePath=".\src\Game\Elements\Bullet.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\Game\Elements\Ball.h"
+					RelativePath=".\src\Game\Elements\Bullet.h"
 					>
 				</File>
 				<File

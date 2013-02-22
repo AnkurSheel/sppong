@@ -308,7 +308,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	shipDef.vScale = cVector3(1.0f, 0.5f, 0.5f);
 	shared_ptr<cAsteroidGameElement> pShip(DEBUG_NEW cShip());
 	pShip->VInitialize(shipDef);
-	pGame->m_pGameElements.push_back(pShip);
+	pGame->m_pGameElements.push_front(pShip);
 
 	cGameElementDef asteroidDef;
 	asteroidDef.strModelName= "cube";

@@ -21,5 +21,10 @@ public:
 	void VInitialize(const GameBase::cGameElementDef & def);
 	void OnUpdate(float fElapsedTime);
 	cBullet * CastToBullet();
+	void VSetActive(const bool bActive);
+
+private:
+	float	m_fTTL;
+	float	m_fDeactivateTime;
 };
 #endif // Bullet_h__

@@ -22,6 +22,7 @@ cAsteroidGameElement::cAsteroidGameElement()
 : m_fRotationPower(0)
 , m_fDragFactor(0)
 , m_fAcceleration(0)
+, m_bWrap(true)
 {
 }
 
@@ -78,8 +79,10 @@ void cAsteroidGameElement::OnUpdate(float fElapsedTime)
 	if (m_vVelocity.LengthSquared() > EpsilonFloat)
 	{
 		cVector3 vPredictedPos = GetPosition() + (m_vVelocity * fElapsedTime);
-		WrapAround(vPredictedPos);
-
+		if (m_bWrap)
+		{
+			WrapAround(vPredictedPos);
+		}
 		SetPosition(vPredictedPos);
 		m_vVelocity -= (m_vVelocity * m_fDragFactor);
 	}
@@ -116,4 +119,5 @@ void cAsteroidGameElement::ReCalculateLookAt()
 	m_vLookAt.x = m_vForward.x * cosAngle - m_vForward.y * sinAngle;
 	m_vLookAt.y = m_vForward.x * sinAngle + m_vForward.y * cosAngle;
 	m_vLookAt.z = m_vForward.z;
+	m_vLookAt.Normalize();
 }

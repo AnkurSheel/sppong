@@ -13,6 +13,7 @@
 #include "Game\Game.h"
 #include "CollisionChecker.hxx"
 #include "Asteroid.h"
+#include "Ship.h"
 
 using namespace Base;
 using namespace GameBase;
@@ -21,6 +22,8 @@ using namespace Utilities;
 
 // *****************************************************************************
 cBullet::cBullet()
+: m_fTTL(0.0f)
+, m_fDeactivateTime(0.0f)
 {
 }
 
@@ -33,11 +36,13 @@ cBullet::~cBullet()
 void cBullet::VInitialize(const cGameElementDef & def )
 {
 	cAsteroidGameElement::VInitialize(def);
-	m_fAcceleration = 0.2f;
-	m_fDragFactor = 0.02f;
+	m_fAcceleration = 4.0f;
+	m_fDragFactor = 0.0f;
 	m_fRotationPower = DegtoRad(30.0f);
 	m_vForward = cVector3(1, 0, 0);
 	m_vLookAt = m_vForward;
+	m_bWrap = false;
+	m_fTTL = 7.0f;
 }
 
 // *****************************************************************************
@@ -48,9 +53,15 @@ void cBullet::OnUpdate(float fElapsedTime)
 	if(!m_bActive)
 		return;
 
-	IGame::GameElementList::iterator iter;
 	IGame::GameElementList pGameElements;
 	m_pGame->VGetGameElements(pGameElements);
+
+	if (m_fDeactivateTime > 0.0f && m_fDeactivateTime <= m_pGame->GetRunningTime())
+	{
+		pGameElements.front()->CastToShip()->BulletDestroyed(this);
+	}
+
+	IGame::GameElementList::iterator iter;
 	cAsteroid * pAsteroid = NULL;
 	cContact contact;
 	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
@@ -61,8 +72,25 @@ void cBullet::OnUpdate(float fElapsedTime)
 			if ((ICollisionChecker::GetInstance()->VCheckForCollisions(GetAABB(),
 				pAsteroid->GetAABB(), contact)))
 			{
+				pGameElements.front()->CastToShip()->BulletDestroyed(this);
 			}
 		}
+	}
+}
+
+// *****************************************************************************
+void cBullet::VSetActive(const bool bActive)
+{
+	cAsteroidGameElement::VSetActive(bActive);
+	if (bActive)
+	{
+		ReCalculateLookAt();
+		m_vVelocity = (m_vLookAt * m_fAcceleration);
+		m_fDeactivateTime = m_pGame->GetRunningTime() + m_fTTL;
+	}
+	else
+	{
+		m_fDeactivateTime = 0.0f;
 	}
 }
 

@@ -27,5 +27,15 @@ public:
 	void Fire();
 	void OnRestart();
 	cShip * CastToShip();
+	void Cleanup();
+	void BulletDestroyed(cBullet* pBullet);
+	typedef std::vector<shared_ptr<cBullet>	>  BulletList;
+
+private:
+	int			m_iMaxNumberOfBullets;
+	BulletList	m_Bullets;
+	int			m_iActiveBullets;
+	float		m_fBulletCountDown;
+	float		m_fLastBulletTime;
 };
 #endif // Ship_h__

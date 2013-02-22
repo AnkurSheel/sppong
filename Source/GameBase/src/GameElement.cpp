@@ -58,7 +58,7 @@ void cGameElement::OnUpdate(float fElapsedTime)
 {
 	if(!m_bActive)
 	{
-		if(m_fReactivateTime <= m_pBaseApp->GetRunningTime())
+		if(m_fReactivateTime > 0.0f && m_fReactivateTime <= m_pBaseApp->GetRunningTime())
 		{
 			m_bActive = true;
 			m_fReactivateTime = 0.0f;
@@ -139,6 +139,18 @@ const IAABB * const cGameElement::GetAABB() const
 		return m_pModel->VGetAABB();
 	}
 	return NULL;
+}
+
+// *****************************************************************************
+bool cGameElement::IsActive() const
+{
+	return m_bActive;
+}
+
+// *****************************************************************************
+void cGameElement::VSetActive(const bool bActive)
+{
+	m_bActive = bActive;
 }
 
 // *******************************************************************************************

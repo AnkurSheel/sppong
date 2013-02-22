@@ -50,5 +50,6 @@ protected:
 	Base::cVector3			m_vForward;
 	Base::cVector3			m_vLookAt;
 	Base::cVector3			m_vVelocity;
+	bool					m_bWrap;
 };
 #endif // AsteroidGameElement_h__
