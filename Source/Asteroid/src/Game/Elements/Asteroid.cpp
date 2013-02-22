@@ -24,6 +24,7 @@ using namespace GameBase;
 cAsteroid::cAsteroid()
 : m_fMinSize(0)
 , m_fSizeVariance(0)
+, m_iCurrentSize(0)
 {
 }
 
@@ -36,13 +37,9 @@ cAsteroid::~cAsteroid()
 // *****************************************************************************
 void cAsteroid::VInitialize(const cGameElementDef & def )
 {
-	cAsteroidGameElement::VInitialize(def);
+	BaseInitialize(def);
 
-	m_fRotationPower = DegtoRad(30.0f);
-	m_fDragFactor = 0.0f;
-	m_vForward = cVector3(1, 0, 0);
-	m_vLookAt = m_vForward;
-
+	m_iCurrentSize = 3;
 
 	cVector3 pos;
 	int minPosX = static_cast<int>(m_pGame->VGetScreenTopLeftPos().x);
@@ -54,22 +51,18 @@ void cAsteroid::VInitialize(const cGameElementDef & def )
 	pos.y = static_cast<float>(m_pGame->GetRandomGenerator()->Random(minPosY, maxPosY));
 	SetPosition(pos);
 
-	m_fMinSize = 0.5;
-	m_fSizeVariance = 1.5;
+	m_fMinSize = 1.0;
+	m_fSizeVariance = 3;
 
 	cVector3 scale;
 	scale.x = min(m_fMinSize, m_pGame->GetRandomGenerator()->Random() * (m_fSizeVariance));
 	scale.y = min(m_fMinSize, m_pGame->GetRandomGenerator()->Random() * (m_fSizeVariance));
 	SetScale(scale);
 
-	cVector3 rot;
-	rot.z = static_cast<float>(m_pGame->GetRandomGenerator()->Random(0, 359));
-	SetRotation(rot);
-	ReCalculateLookAt();
+	RandomizeRotation();
 
-	m_fAcceleration = static_cast<float>(m_pGame->GetRandomGenerator()->Random(-3,3));
-	if(m_fAcceleration == 0.0f)
-		m_fAcceleration = 1.0f;
+	RandomizeAcceleration();
+
 	m_vVelocity = (m_vLookAt * m_fAcceleration);
 }
 
@@ -90,10 +83,66 @@ void cAsteroid::Cleanup()
 void cAsteroid::Hit()
 {
 	m_bRemove = true;
+	m_iCurrentSize--;
+	if (m_iCurrentSize > 0)
+	{
+		cGameElementDef asteroidDef;
+		asteroidDef.strModelName= "cube";
+
+		for (int i=0 ;i<2;i++)
+		{
+			shared_ptr<cAsteroidGameElement> pGameElement(DEBUG_NEW cAsteroid());
+			shared_ptr<cAsteroid> pAsteroid  = dynamic_pointer_cast<cAsteroid>(pGameElement);
+			asteroidDef.vPosition = m_vPosition;
+			asteroidDef.vScale= m_vScale/2.0f;
+			pAsteroid->InitializeFromParent(asteroidDef, m_iCurrentSize);
+			m_pGame->AddGameElement(pGameElement);
+		}
+	}
+}
+
+// *****************************************************************************
+void cAsteroid::InitializeFromParent(const cGameElementDef & def, const int iSize)
+{
+	m_iCurrentSize = iSize;
+
+	BaseInitialize(def);
+
+	RandomizeRotation();
+
+	RandomizeAcceleration();
+	m_vVelocity = (m_vLookAt * m_fAcceleration);
+}
+
+// *****************************************************************************
+void cAsteroid::BaseInitialize(const cGameElementDef & def)
+{
+	cAsteroidGameElement::VInitialize(def);
+
+	m_fRotationPower = DegtoRad(30.0f);
+	m_fDragFactor = 0.0f;
+	m_vForward = cVector3(1, 0, 0);
+	m_vLookAt = m_vForward;
 }
 
 // *****************************************************************************
 cAsteroid * cAsteroid::CastToAsteroid()
 {
 	return this;
+}
+
+// *****************************************************************************
+void cAsteroid::RandomizeRotation()
+{
+	cVector3 rot;
+	rot.z = static_cast<float>(m_pGame->GetRandomGenerator()->Random(0, 359));
+	SetRotation(rot);
+	ReCalculateLookAt();
+}
+// *****************************************************************************
+void cAsteroid::RandomizeAcceleration()
+{
+	m_fAcceleration = static_cast<float>(m_pGame->GetRandomGenerator()->Random(-3,3));
+	if(m_fAcceleration == 0.0f)
+		m_fAcceleration = 1.0f;
 }

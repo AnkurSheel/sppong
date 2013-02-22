@@ -19,6 +19,11 @@ public:
 	cAsteroid();
 	~cAsteroid();
 	void VInitialize(const GameBase::cGameElementDef & def);
+	void BaseInitialize(const GameBase::cGameElementDef & def);
+	void InitializeFromParent(const GameBase::cGameElementDef & def, const int iSize);
+	void RandomizeAcceleration();
+	void RandomizeRotation();
+
 	void OnRestart();
 	void Cleanup();
 	void Hit();
@@ -27,5 +32,6 @@ public:
 private:
 	float		m_fMinSize;
 	float		m_fSizeVariance;
+	int			m_iCurrentSize;
 };
 #endif // Ball_h__

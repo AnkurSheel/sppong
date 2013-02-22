@@ -313,7 +313,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	cGameElementDef asteroidDef;
 	asteroidDef.strModelName= "cube";
 	asteroidDef.vPosition= cVector3(-100.0f, -100.0f, -100.0f);
-	for(int i=0; i<4;i++)
+	for(int i=0; i<3; i++)
 	{
 		shared_ptr<cAsteroidGameElement> pAsteroid(DEBUG_NEW cAsteroid());
 		pAsteroid->VInitialize(asteroidDef);
