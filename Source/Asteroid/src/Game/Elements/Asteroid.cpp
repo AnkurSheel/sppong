@@ -87,6 +87,12 @@ void cAsteroid::Cleanup()
 }
 
 // *****************************************************************************
+void cAsteroid::Hit()
+{
+	m_bRemove = true;
+}
+
+// *****************************************************************************
 cAsteroid * cAsteroid::CastToAsteroid()
 {
 	return this;

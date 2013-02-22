@@ -332,10 +332,19 @@ void cStatePlayGame::VOnUpdate()
 {
 	if(m_pOwner != NULL && m_pOwner->m_pGameTimer != NULL)
 	{
-		cGame::GameElementList::iterator iter;
-		for (iter = m_pOwner->m_pGameElements.begin(); iter != m_pOwner->m_pGameElements.end(); iter++)
+		cGame::GameElementList::iterator iter = m_pOwner->m_pGameElements.begin();
+		while(iter != m_pOwner->m_pGameElements.end())
 		{
 			(*iter)->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
+			
+			if ((*iter)->GetRemove())
+			{
+				iter = m_pOwner->m_pGameElements.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
 		}
 	}
 	m_pOwner->m_pHumanView->VOnUpdate(m_pOwner->m_pGameTimer->VGetRunningTicks(), m_pOwner->m_pGameTimer->VGetDeltaTime());

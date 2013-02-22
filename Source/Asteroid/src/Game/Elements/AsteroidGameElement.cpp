@@ -23,6 +23,7 @@ cAsteroidGameElement::cAsteroidGameElement()
 , m_fDragFactor(0)
 , m_fAcceleration(0)
 , m_bWrap(true)
+, m_bRemove(false)
 {
 }
 
@@ -67,6 +68,12 @@ void cAsteroidGameElement::SetGame(IBaseApp * const pGame)
 {
 	cGameElement::SetApp(pGame);
 	m_pGame = dynamic_cast<cGame * const>(pGame);
+}
+
+// *****************************************************************************
+bool cAsteroidGameElement::GetRemove() const
+{
+	return m_bRemove;
 }
 
 // *****************************************************************************

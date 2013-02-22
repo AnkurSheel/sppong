@@ -73,6 +73,8 @@ void cBullet::OnUpdate(float fElapsedTime)
 				pAsteroid->GetAABB(), contact)))
 			{
 				pGameElements.front()->CastToShip()->BulletDestroyed(this);
+				pAsteroid->Hit();
+				break;
 			}
 		}
 	}

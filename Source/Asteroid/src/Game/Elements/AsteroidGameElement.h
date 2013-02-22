@@ -32,6 +32,7 @@ public:
 	void OnRestart();
 	virtual void OnUpdate(float fElapsedTime);
 	static void SetGame(GameBase::IBaseApp * const pGame);
+	bool GetRemove() const;
 	virtual cShip * CastToShip();
 	virtual cAsteroid * CastToAsteroid();
 	virtual cBullet * CastToBullet();
@@ -51,5 +52,7 @@ protected:
 	Base::cVector3			m_vLookAt;
 	Base::cVector3			m_vVelocity;
 	bool					m_bWrap;
+	bool					m_bRemove;
+
 };
 #endif // AsteroidGameElement_h__

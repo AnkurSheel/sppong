@@ -21,6 +21,7 @@ public:
 	void VInitialize(const GameBase::cGameElementDef & def);
 	void OnRestart();
 	void Cleanup();
+	void Hit();
 	cAsteroid * CastToAsteroid();
 
 private:
