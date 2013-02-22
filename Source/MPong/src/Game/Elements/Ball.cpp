@@ -101,6 +101,7 @@ void cBall::OnUpdate(float fElapsedTime)
 		cGame * pGame = const_cast<cGame *>(m_pGame);
 		pGame->VRoundOver(false);
 	}
+	cPongGameElement::OnUpdate(fElapsedTime);
 }
 
 // *****************************************************************************

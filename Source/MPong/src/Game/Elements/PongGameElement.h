@@ -26,7 +26,7 @@ public:
 	virtual void OnRestart();
 	virtual cPaddle * CastToPaddle();
 	virtual cBall * CastToBall();
-	virtual void OnUpdate(float fElapsedTime){};
+	void OnUpdate(float fElapsedTime);
 	static void SetGame(const cGame * const pGame);
 
 protected:

@@ -55,3 +55,8 @@ void cPongGameElement::SetGame(const cGame * const pGame)
 {
 	m_pGame = pGame;
 }
+
+void cPongGameElement::OnUpdate(float fElapsedTime)
+{
+	cGameElement::OnUpdate(fElapsedTime);
+}
