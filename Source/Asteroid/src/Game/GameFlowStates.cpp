@@ -13,7 +13,7 @@
 #include "GameFlowStateMachine.h"
 #include "Elements/Ship.h"
 #include "Elements/Score.h"
-#include "Elements/Ball.h"
+#include "Elements/Asteroid.h"
 #include "Sprite.hxx"
 #include "AsteroidView.h"
 #include "Timer.hxx"
@@ -307,14 +307,22 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(static_cast<float>(pGame->m_iDisplayWidth), static_cast<float>(pGame->m_iDisplayHeight)),
 		pGame->m_pHumanView->GetCamera());
 
-	cGameElementDef paddleDef;
-	paddleDef.strModelName= "ship";
-	paddleDef.vPosition= (pGame->m_vScreenTopLeftPos + pGame->m_vScreenBottomRightPos)/2.0f;
-	paddleDef.vScale = cVector3(1.0f, 0.5f, 0.5f);
+	cGameElementDef shipDef;
+	shipDef.strModelName= "ship";
+	shipDef.vPosition= (pGame->m_vScreenTopLeftPos + pGame->m_vScreenBottomRightPos)/2.0f;
+	shipDef.vScale = cVector3(1.0f, 0.5f, 0.5f);
 	pGame->m_pShip = shared_ptr<cAsteroidGameElement>(DEBUG_NEW cShip());
-	pGame->m_pShip->VInitialize(paddleDef);
-	//pGame->m_pGameElements.push_back(pShip);
+	pGame->m_pShip->VInitialize(shipDef);
+	pGame->m_pGameElements.push_back(pGame->m_pShip);
 
+	cGameElementDef AsteroidDef;
+	shipDef.strModelName= "cube";
+	for(int i=0; i<4;i++)
+	{
+		shared_ptr<cAsteroidGameElement> pAsteroid(DEBUG_NEW cAsteroid());
+		pAsteroid->VInitialize(shipDef);
+		pGame->m_pGameElements.push_back(pAsteroid);
+	}
 	//pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
 	//pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT]->VInitialize(paddleDef);
 
@@ -353,16 +361,12 @@ void cStatePlayGame::VOnUpdate()
 {
 	if(m_pOwner != NULL && m_pOwner->m_pGameTimer != NULL)
 	{
-		if(m_pOwner->m_pShip != NULL)
+		cGame::GameElementList::iterator iter;
+		for (iter = m_pOwner->m_pGameElements.begin(); iter != m_pOwner->m_pGameElements.end(); iter++)
 		{
-			m_pOwner->m_pShip->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
+			(*iter)->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
 		}
 	}
-	/*cGame::GameElementList::iterator iter;
-	for (iter = m_pOwner->m_pGameElements.begin(); iter != m_pOwner->m_pGameElements.end(); iter++)
-    {
-		(*iter)->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
-	}*/
 
 	//for(int i=0; i<m_pOwner->PGE_TOTAL; i++)
 	//{

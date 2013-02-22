@@ -76,8 +76,14 @@ unsigned int cRandomGenerator::Random(const unsigned int nMax )
 	return (y%nMax);
 }
 // *****************************************************************************
-unsigned int cRandomGenerator::Random(const unsigned int nMin, const unsigned int nMax)
+int cRandomGenerator::Random(const int nMin, const int nMax)
 {
+	if(nMax < 0)
+	{
+		int range = nMin -nMax; 
+		int rand =  Random(range);
+		return rand + nMax;
+	}
 	return Random(nMax - nMin) + nMin;
 
 }

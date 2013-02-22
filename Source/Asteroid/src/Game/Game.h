@@ -18,6 +18,11 @@ namespace GameBase
 	class cHumanView;
 }
 
+namespace Utilities
+{
+	class IRandomGenerator;
+}
+
 namespace MySound
 {
 	class ISound;
@@ -33,11 +38,12 @@ class cGame
 {
 public:
 	cGame(const Base::cString strName);
-	//void VGetGameElements(GameElementList & gameElements) const;
+	void VGetGameElements(GameElementList & gameElements) const;
 	Base::cVector3 VGetScreenTopLeftPos() const;
 	Base::cVector3 VGetScreenBottomRightPos() const;
 	void VRoundOver(const bool bPlayer1Won);
 	void MoveShip(const ShipMovement eShipMovement);
+	Utilities::IRandomGenerator * const GetRandomGenerator() const;
 
 private:
 	~cGame();
@@ -53,12 +59,13 @@ private:
 private:
 	int									m_iDisplayHeight ;		// the display height of the window
 	int									m_iDisplayWidth ;		// the display width of the window
-	//GameElementList					m_pGameElements;		// ptr to the gameelements
+	GameElementList						m_pGameElements;		// ptr to the gameelements
 	cGameFlowStateMachine *				m_pStateMachine;
 	cScore*								m_pScore;				// ptr to Scoreboard
 	Base::cVector3						m_vScreenTopLeftPos;
 	Base::cVector3						m_vScreenBottomRightPos;
 	shared_ptr<cAsteroidGameElement> 	m_pShip;	
+	Utilities::IRandomGenerator *		m_pRandomGenerator;
 
 private:
 	friend class cStateTitleScreen;

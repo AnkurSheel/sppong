@@ -11,12 +11,15 @@
 #include "AsteroidGameElement.h"
 #include "Game\Game.hxx"
 
+using namespace Base;
 using namespace GameBase;
+using namespace Utilities;
 
 const cGame * cAsteroidGameElement::m_pGame = NULL;
 
 // *****************************************************************************
 cAsteroidGameElement::cAsteroidGameElement()
+: m_fRotationPower(0)
 {
 }
 
@@ -45,7 +48,7 @@ cShip * cAsteroidGameElement::CastToShip()
 }
 
 // *****************************************************************************
-cBall * cAsteroidGameElement::CastToBall()
+cAsteroid * cAsteroidGameElement::CastToAsteroid()
 {
 	return NULL;
 }
@@ -54,4 +57,18 @@ cBall * cAsteroidGameElement::CastToBall()
 void cAsteroidGameElement::SetGame(const cGame * const pGame)
 {
 	m_pGame = pGame;
+}
+
+// *****************************************************************************
+void cAsteroidGameElement::OnUpdate(float fElapsedTime)
+{
+	if(m_bIsDirty)
+	{
+		float cosAngle = cos(m_vRotation.z);
+		float sinAngle = sin(m_vRotation.z);
+		m_vLookAt.x = m_vForward.x * cosAngle - m_vForward.y * sinAngle;
+		m_vLookAt.y = m_vForward.x * sinAngle + m_vForward.y * cosAngle;
+		m_vLookAt.z = m_vForward.z;
+	}
+	cGameElement::OnUpdate(fElapsedTime);
 }

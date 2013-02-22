@@ -19,8 +19,7 @@ namespace Utilities
 	public:
 		virtual ~IRandomGenerator() {}
 		virtual unsigned int Random(const unsigned int nMax) = 0;
-		virtual unsigned int Random(const unsigned int nMin,
-			const unsigned int nMax) = 0;
+		virtual int Random(const int nMin,	const int nMax) = 0;
 		virtual float Random() = 0;
 		virtual void SetRandomSeed(const unsigned int nSeed) = 0 ;
 		virtual unsigned int GetRandomSeed() = 0;

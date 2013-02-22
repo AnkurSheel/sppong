@@ -13,7 +13,7 @@
 #include "GameElement.h"
 
 class cShip;
-class cBall;
+class cAsteroid;
 class cGame;
 
 class cAsteroidGameElement
@@ -25,12 +25,17 @@ public:
 	void VInitialize(const GameBase::cGameElementDef & def);
 	virtual void OnRestart();
 	virtual cShip * CastToShip();
-	virtual cBall * CastToBall();
-	virtual void OnUpdate(float fElapsedTime){};
+	virtual cAsteroid * CastToAsteroid();
+	virtual void OnUpdate(float fElapsedTime);
 	static void SetGame(const cGame * const pGame);
 
 protected:
-	Base::cVector3			m_vInitialPos;
 	static const cGame *	m_pGame;
+
+	Base::cVector3			m_vInitialPos;
+	float					m_fRotationPower;
+	Base::cVector3			m_vForward;
+	Base::cVector3			m_vLookAt;
+	Base::cVector3			m_vVelocity;
 };
 #endif // AsteroidGameElement_h__

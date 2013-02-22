@@ -52,6 +52,7 @@ namespace GameBase
 		GAMEBASE_API cGameElement();
 		GAMEBASE_API virtual  ~cGameElement();
 		GAMEBASE_API virtual void VInitialize(const cGameElementDef & def);
+		GAMEBASE_API virtual void OnUpdate(float fElapsedTime);
 		GAMEBASE_API void Render(const Graphics::ICamera * const pCamera);
 		/********************************************//**
  		 * @param[in] vRadians The angle in radians along the X,Y,Z axis

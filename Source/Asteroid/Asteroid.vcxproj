@@ -112,7 +112,7 @@
     <ClInclude Include="src\Game\GameFlowStates.h" />
     <ClInclude Include="src\Messages.h" />
     <ClInclude Include="src\Game\Elements\AsteroidGameElement.h" />
-    <ClInclude Include="src\Game\Elements\Ball.h" />
+    <ClInclude Include="src\Game\Elements\Asteroid.h" />
     <ClInclude Include="src\Game\Elements\Score.h" />
     <ClInclude Include="src\Game\Elements\Ship.h" />
     <ClInclude Include="src\AsteroidView.h" />
@@ -125,7 +125,7 @@
     <ClCompile Include="src\Game\GameFlowStateMachine.cpp" />
     <ClCompile Include="src\Game\GameFlowStates.cpp" />
     <ClCompile Include="src\Game\Elements\AsteroidGameElement.cpp" />
-    <ClCompile Include="src\Game\Elements\Ball.cpp" />
+    <ClCompile Include="src\Game\Elements\Asteroid.cpp" />
     <ClCompile Include="src\Game\Elements\Score.cpp" />
     <ClCompile Include="src\Game\Elements\Ship.cpp" />
     <ClCompile Include="src\AsteroidView.cpp" />

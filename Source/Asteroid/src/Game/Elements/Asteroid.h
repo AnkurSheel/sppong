@@ -12,29 +12,20 @@
 
 #include "AsteroidGameElement.h"
 
-namespace Base
-{
-	class cString;
-}
-namespace Utilities
-{
-	class IRandomGenerator;
-}
-
-class cBall  
+class cAsteroid  
 	: public cAsteroidGameElement
 {
 public:
-	cBall();
-	~cBall();
+	cAsteroid();
+	~cAsteroid();
 	void VInitialize(const GameBase::cGameElementDef & def);
 	void OnRestart();
 	void Cleanup();
 	void OnUpdate(float fElapsedTime);
-	cBall * CastToBall();
+	cAsteroid * CastToAsteroid();
 
 private:
-	Base::cVector3					m_vSpeed;
-	Utilities::IRandomGenerator *	m_pRandomGenerator;
+	float		m_fMinSize;
+	float		m_fSizeVariance;
 };
 #endif // Ball_h__

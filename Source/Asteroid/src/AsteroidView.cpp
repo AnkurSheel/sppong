@@ -49,6 +49,14 @@ void cAsteroidView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 	{
 		m_ShipHandler->OnUpdate();
 	}
+	IGame::GameElementList::iterator iter;
+	IGame::GameElementList pGameElements;
+	m_pGame->VGetGameElements(pGameElements);
+	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
+	{
+		(*iter)->OnUpdate(fElapsedTime);
+	}
+
 }
 
 // *****************************************************************************
@@ -101,17 +109,13 @@ void cAsteroidView::OnSinglePlayerSelected( cGame * pGame)
 // *******************************************************************************************
 void cAsteroidView::VRenderPrivate()
 {
-	if(m_pGame->m_pShip != NULL)
+	IGame::GameElementList::iterator iter;
+	IGame::GameElementList pGameElements;
+	m_pGame->VGetGameElements(pGameElements);
+	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
 	{
-		m_pGame->m_pShip->Render(m_pCamera);
+		(*iter)->Render(m_pCamera);
 	}
-//IGame::GameElementList::iterator iter;
-	//IGame::GameElementList pGameElements;
-	//m_pGame->VGetGameElements(pGameElements);
-	//for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
- //   {
-	//	(*iter)->Render(m_pCamera);
-	//}
 	//for (int i=0; i<m_pGame->PGE_TOTAL; i++)
 	//{
 	//	if(m_pGame->VGetGameElements() && m_pGame->VGetGameElements()[i])

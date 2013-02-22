@@ -11,7 +11,7 @@
 #include "Game.h"
 #include "Sprite.hxx"
 #include "Elements/Ship.h"
-#include "Elements/Ball.h"
+#include "Elements/Asteroid.h"
 #include "Elements/Score.h"
 #include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
@@ -23,6 +23,7 @@
 #include "EntityManager.hxx"
 #include "MessageDispatchManager.hxx"
 #include "BaseControl.hxx"
+#include "RandomGenerator.hxx"
 
 using namespace MySound;
 using namespace Graphics;
@@ -35,6 +36,7 @@ cGame::cGame(const cString strName)
 : cBaseApp(strName)
 , m_pScore(NULL)
 , m_pStateMachine(NULL)
+, m_pRandomGenerator(NULL)
 {
 	// making sure our memory leak checker is working
 #if _DEBUG
@@ -61,6 +63,13 @@ void cGame::VOnInitialization(const HINSTANCE & hInstance, const int nCmdShow,
 
 	IEntityManager::GetInstance()->VRegisterEntity(this);
 	m_pStateMachine->SetCurrentState(cStateTitleScreen::Instance());
+
+	m_pRandomGenerator = IRandomGenerator::CreateRandomGenerator();
+	if (m_pRandomGenerator)
+	{
+		Log_Write_L1(ILogger::LT_DEBUG, cString(100, "Random Generator created with seed %u", m_pRandomGenerator->GetRandomSeed()));
+	}
+
 }
 
 void cGame::VCreateHumanView()
@@ -87,15 +96,11 @@ void cGame::VOnUpdate()
 void cGame::Restart()
 {
 	Sleep(100);
-	if(m_pShip != NULL)
-	{
-		m_pShip->OnRestart();
-	}
-	/*GameElementList::iterator iter;
+	GameElementList::iterator iter;
 	for (iter = m_pGameElements.begin(); iter != m_pGameElements.end(); iter++)
     {
 		(*iter)->OnRestart();
-	}*/
+	}
 
 	//m_ppGameElements[PGE_PADDLE_LEFT]->OnRestart();
 	//m_ppGameElements[PGE_PADDLE_RIGHT]->OnRestart();
@@ -122,7 +127,7 @@ void cGame::VRoundOver(const bool bPlayer1Won)
 void cGame::VCleanup()
 {
 	m_pShip.reset();
-	//m_pGameElements.clear();
+	m_pGameElements.clear();
 
 	/*if(m_ppGameElements)
 	{
@@ -179,10 +184,10 @@ bool cGame::VOnHandleMessage(const AI::Telegram & telegram)
 }
 
 //// *****************************************************************************
-//void cGame::VGetGameElements(GameElementList & gameElements) const
-//{
-//	gameElements = m_pGameElements; 
-//}
+void cGame::VGetGameElements(GameElementList & gameElements) const
+{
+	gameElements = m_pGameElements; 
+}
 
 // *****************************************************************************
 cVector3 cGame::VGetScreenTopLeftPos() const
@@ -197,7 +202,14 @@ cVector3 cGame::VGetScreenBottomRightPos() const
 }
 
 // *****************************************************************************
+IRandomGenerator * const cGame::GetRandomGenerator() const
+{
+	return m_pRandomGenerator;
+}
+
+// *****************************************************************************
 IBaseApp * IGame::CreateGame(const cString strName)
 {
 	return DEBUG_NEW cGame(strName);
 }
+

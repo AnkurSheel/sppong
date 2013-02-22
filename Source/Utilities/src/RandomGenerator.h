@@ -35,7 +35,7 @@ namespace Utilities
 	public:
 		cRandomGenerator();	
 		unsigned int Random(const unsigned int nMax);
-		unsigned int Random(const unsigned int nMin, const unsigned int nMax);
+		int Random(const int nMin, const int nMax);
 		float Random();
 		void SetRandomSeed(const unsigned int nSeed);
 		unsigned int GetRandomSeed();

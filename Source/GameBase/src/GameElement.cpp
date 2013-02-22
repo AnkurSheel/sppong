@@ -44,15 +44,20 @@ void cGameElement::VInitialize(const cGameElementDef & def)
 }
 
 // *******************************************************************************************
+void cGameElement::OnUpdate(float fElapsedTime)
+{
+	if(m_bIsDirty)
+	{
+		m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
+		m_bIsDirty = false;
+	}
+}
+
+// *******************************************************************************************
 void cGameElement::Render(const ICamera * const pCamera)
 {
 	if (m_pModel)
 	{
-		if(m_bIsDirty)
-		{
-			m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
-			m_bIsDirty = false;
-		}
 		m_pModel->VRender(pCamera);
 	}
 }

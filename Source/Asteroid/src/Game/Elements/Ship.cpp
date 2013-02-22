@@ -21,7 +21,6 @@ using namespace Utilities;
 // *****************************************************************************
 cShip::cShip()
 : m_fAcceleration(0)
-, m_fRotationPower(0)
 , m_fDragFactor(0)
 {
 }
@@ -45,14 +44,6 @@ void cShip::VInitialize(const cGameElementDef & def )
 // *****************************************************************************
 void cShip::OnUpdate(float fElapsedTime)
 {
-	if(m_bIsDirty)
-	{
-		float cosAngle = cos(m_vRotation.z);
-		float sinAngle = sin(m_vRotation.z);
-		m_vLookAt.x = m_vForward.x * cosAngle - m_vForward.y * sinAngle;
-		m_vLookAt.y = m_vForward.x * sinAngle + m_vForward.y * cosAngle;
-		m_vLookAt.z = m_vForward.z;
-	}
 	if (m_vVelocity.LengthSquared() > EpsilonFloat)
 	{
 		cVector3 vPredictedPos = GetPosition() + (m_vVelocity * fElapsedTime);

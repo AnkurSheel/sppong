@@ -35,11 +35,6 @@ public:
 
 private:
 	float			m_fAcceleration;
-	float			m_fRotationPower;
 	float			m_fDragFactor;
-	Base::cVector3	m_vForward;
-	Base::cVector3	m_vLookAt;
-	Base::cVector3	m_vVelocity;
-	
 };
 #endif // Ship_h__
