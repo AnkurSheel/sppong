@@ -13,6 +13,7 @@
 #include "Game\Game.h"
 #include "CollisionChecker.hxx"
 #include "Asteroid.h"
+#include "Bullet.h"
 
 using namespace Base;
 using namespace GameBase;
@@ -93,6 +94,22 @@ void cShip::RotateRight(const float fElapsedTime)
 {
 	float fDeltaRadian = m_fRotationPower * fElapsedTime;
 	SetRotation(cVector3(0.0f, 0.0f, GetRotation().z - fDeltaRadian));
+}
+
+// *****************************************************************************
+void cShip::Fire()
+{
+	if(!m_bActive)
+		return;
+
+	cGameElementDef bulletDef;
+	bulletDef.strModelName = "sphere";
+	bulletDef.vPosition = m_vPosition + (m_vLookAt * 1.5f);
+	bulletDef.vScale =	cVector3(0.2f, 0.2f, 0.2f);
+
+	shared_ptr<cAsteroidGameElement> pBullet(DEBUG_NEW cBullet());
+	pBullet->VInitialize(bulletDef);
+	m_pGame->AddGameElement(pBullet);
 }
 
 // *****************************************************************************

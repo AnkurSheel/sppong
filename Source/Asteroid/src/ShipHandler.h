@@ -21,7 +21,7 @@ class ShipHandler
 	: public Graphics::IKeyboardHandler
 {
 public:
-	typedef function<void (ShipMovement)> ShipInputCallBackFn;
+	typedef function<void (ShipActions)> ShipInputCallBackFn;
 
 public:
 	ShipHandler();

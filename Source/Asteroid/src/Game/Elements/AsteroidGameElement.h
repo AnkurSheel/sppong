@@ -15,6 +15,7 @@
 class cShip;
 class cAsteroid;
 class cGame;
+class cBullet;
 
 namespace GameBase
 {
@@ -30,16 +31,17 @@ public:
 	void VInitialize(const GameBase::cGameElementDef & def);
 	void OnRestart();
 	virtual void OnUpdate(float fElapsedTime);
-	static void SetGame(const GameBase::IBaseApp * const pGame);
+	static void SetGame(GameBase::IBaseApp * const pGame);
 	virtual cShip * CastToShip();
 	virtual cAsteroid * CastToAsteroid();
+	virtual cBullet * CastToBullet();
 
 protected:
 	void WrapAround(Base::cVector3 &vPredictedPos);
 	void ReCalculateLookAt();
 
 protected:
-	static const cGame *	m_pGame;
+	static cGame * m_pGame;
 
 	Base::cVector3			m_vInitialPos;
 	float					m_fRotationPower;

@@ -81,46 +81,6 @@ void cAsteroid::OnRestart()
 }
 
 // *****************************************************************************
-void cAsteroid::OnUpdate(float fElapsedTime)
-{
-	cContact contact;
-	cVector3 vDeltaPos = m_vVelocity * fElapsedTime;
-	//shared_ptr< IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
-	//pAABB->VTransalate(vDeltaPos);
-	//cVector3 vPredictedPos = GetPosition();
-	//if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB(), contact))
-	//	|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB(), contact)))
-	//{
-	//	float nv = m_vSpeed.Dot(contact.vNormal);
-	//	m_vSpeed -= contact.vNormal * 2 * nv;
-	//	m_pGame->VGetHumanView()->PlaySFX("collision1.wav");
-
-	//}
-	//if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_LEFT]->GetAABB(), contact))
-	//	|| (ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(), m_pGame->VGetGameElements()[m_pGame->PGE_PADDLE_RIGHT]->GetAABB(), contact)))
-	//{
-	//	float nv = m_vSpeed.Dot(contact.vNormal);
-	//	m_vSpeed -= contact.vNormal * 2 * nv;
-	//	m_pGame->VGetHumanView()->PlaySFX("collision2.wav");
-
-	//}
-	/*vPredictedPos = vPredictedPos + vDeltaPos + contact.vDistance;
-	SetPosition(vPredictedPos);
-
-	if (GetPosition().x < m_pGame->VGetScreenTopLeftPos().x)
-	{
-		cGame * pGame = const_cast<cGame *>(m_pGame);
-		pGame->VRoundOver(true);
-	}
-	else if (GetPosition().x > m_pGame->VGetScreenBottomRightPos().x)
-	{
-		cGame * pGame = const_cast<cGame *>(m_pGame);
-		pGame->VRoundOver(false);
-	}*/
-	cAsteroidGameElement::OnUpdate(fElapsedTime);
-}
-
-// *****************************************************************************
 void cAsteroid::Cleanup()
 {
 	cGameElement::Cleanup();

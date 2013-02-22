@@ -41,9 +41,10 @@ public:
 	void VGetGameElements(GameElementList & gameElements) const;
 	Base::cVector3 VGetScreenTopLeftPos() const;
 	Base::cVector3 VGetScreenBottomRightPos() const;
-	void VRoundOver(const bool bPlayer1Won);
-	void MoveShip(const ShipMovement eShipMovement);
+	void VRoundOver(const bool bPlayerWon);
+	void MoveShip(const ShipActions eShipActions);
 	Utilities::IRandomGenerator * const GetRandomGenerator() const;
+	void AddGameElement(shared_ptr<cAsteroidGameElement> const pGameElement);
 
 private:
 	~cGame();
@@ -64,7 +65,6 @@ private:
 	cScore *							m_pScore;				// ptr to Scoreboard
 	Base::cVector3						m_vScreenTopLeftPos;
 	Base::cVector3						m_vScreenBottomRightPos;
-	shared_ptr<cAsteroidGameElement> 	m_pShip;	
 	Utilities::IRandomGenerator *		m_pRandomGenerator;
 
 private:

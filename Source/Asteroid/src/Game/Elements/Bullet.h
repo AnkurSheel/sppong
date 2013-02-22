@@ -1,5 +1,5 @@
 // *****************************************************************************
-//  Ball   version:  1.0   Ankur Sheel  date: 05/13/2008
+//  Bullet   version:  1.0   Ankur Sheel  date: 2013/02/21
 //  ----------------------------------------------------------------------------
 //  
 //  ----------------------------------------------------------------------------
@@ -7,24 +7,19 @@
 // *****************************************************************************
 // 
 // *****************************************************************************
-#ifndef Ball_h__
-#define Ball_h__
+#ifndef Bullet_h__
+#define Bullet_h__
 
 #include "AsteroidGameElement.h"
 
-class cAsteroid  
+class cBullet 
 	: public cAsteroidGameElement
 {
 public:
-	cAsteroid();
-	~cAsteroid();
+	cBullet();
+	~cBullet();
 	void VInitialize(const GameBase::cGameElementDef & def);
-	void OnRestart();
-	void Cleanup();
-	cAsteroid * CastToAsteroid();
-
-private:
-	float		m_fMinSize;
-	float		m_fSizeVariance;
+	void OnUpdate(float fElapsedTime);
+	cBullet * CastToBullet();
 };
-#endif // Ball_h__
+#endif // Bullet_h__

@@ -55,7 +55,7 @@ void ShipHandler::OnUpdate()
 	{
 		if (m_pfnCallBack)
 		{
-			m_pfnCallBack(SM_MOVE_BK);
+			m_pfnCallBack(SA_MOVE_BK);
 		}
 	}
 
@@ -63,7 +63,7 @@ void ShipHandler::OnUpdate()
 	{
 		if (m_pfnCallBack)
 		{
-			m_pfnCallBack(SM_MOVE_FWD);
+			m_pfnCallBack(SA_MOVE_FWD);
 		}
 	}
 
@@ -71,7 +71,7 @@ void ShipHandler::OnUpdate()
 	{
 		if (m_pfnCallBack)
 		{
-			m_pfnCallBack(SM_ROTATE_LEFT);
+			m_pfnCallBack(SA_ROTATE_LEFT);
 		}
 	}
 
@@ -79,7 +79,15 @@ void ShipHandler::OnUpdate()
 	{
 		if (m_pfnCallBack)
 		{
-			m_pfnCallBack(SM_ROTATE_RIGHT);
+			m_pfnCallBack(SA_ROTATE_RIGHT);
+		}
+	}
+
+	if (m_bKey[VK_SPACE])
+	{
+		if (m_pfnCallBack)
+		{
+			m_pfnCallBack(SA_FIRE);
 		}
 	}
 }

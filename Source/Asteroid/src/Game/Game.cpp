@@ -38,10 +38,6 @@ cGame::cGame(const cString strName)
 , m_pStateMachine(NULL)
 , m_pRandomGenerator(NULL)
 {
-	// making sure our memory leak checker is working
-#if _DEBUG
-	int * p = DEBUG_NEW int();
-#endif
 }
 
 // *****************************************************************************
@@ -88,7 +84,6 @@ void cGame::VOnUpdate()
 {
 	cBaseApp::VOnUpdate();
 	m_pStateMachine->Update();
-	//m_pSound->Update();
 	IMessageDispatchManager::GetInstance()->VOnUpdate();
 }
 
@@ -108,7 +103,7 @@ void cGame::Restart()
 }
 
 // *****************************************************************************
-void cGame::VRoundOver(const bool bPlayer1Won)
+void cGame::VRoundOver(const bool bPlayerWon)
 {
 	Log_Write_L1(ILogger::LT_COMMENT, "Round Over");
 	//Restart();
@@ -129,53 +124,48 @@ void cGame::VRoundOver(const bool bPlayer1Won)
 // *****************************************************************************
 void cGame::VCleanup()
 {
-	m_pShip.reset();
 	m_pGameElements.clear();
 
-	/*if(m_ppGameElements)
-	{
-		for (int i=0; i<PGE_TOTAL; i++)
-		{
-			SAFE_DELETE(m_ppGameElements[i]);
-		}
-		SAFE_DELETE_ARRAY(m_ppGameElements);
-	}*/
-
+	SAFE_DELETE(m_pRandomGenerator);
 	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
-
-	//SAFE_DELETE(m_pSound);
 
 	cBaseApp::VCleanup();
 }
 
-void cGame::MoveShip(const ShipMovement eShipMovement)
+void cGame::MoveShip(const ShipActions eShipActions)
 {
-	cShip * pShip = m_pShip->CastToShip();
+	cShip * pShip = (m_pGameElements.front())->CastToShip();
 	if(pShip)
 	{
-		switch(eShipMovement)
+		switch(eShipActions)
 		{
-		case SM_MOVE_FWD:
-		{
-			pShip->MoveForward(m_pGameTimer->VGetDeltaTime());
-			break;
-		}
-		case SM_MOVE_BK:
-		{
-			pShip->MoveBack(m_pGameTimer->VGetDeltaTime());
-			break;
-		}
-		case SM_ROTATE_LEFT:
-		{
-			pShip->RotateLeft(m_pGameTimer->VGetDeltaTime());
-			break;
-		}
-		case SM_ROTATE_RIGHT:
-		{
-			pShip->RotateRight(m_pGameTimer->VGetDeltaTime());
-			break;
-		}
+			case SA_MOVE_FWD:
+			{
+				pShip->MoveForward(m_pGameTimer->VGetDeltaTime());
+				break;
+			}
+			case SA_MOVE_BK:
+			{
+				pShip->MoveBack(m_pGameTimer->VGetDeltaTime());
+				break;
+			}
+			case SA_ROTATE_LEFT:
+			{
+				pShip->RotateLeft(m_pGameTimer->VGetDeltaTime());
+				break;
+			}
+			case SA_ROTATE_RIGHT:
+			{
+				pShip->RotateRight(m_pGameTimer->VGetDeltaTime());
+				break;
+			}
+			case SA_FIRE:
+			{
+				pShip->Fire();
+				break;
+			}
+			
 		}
 	}
 }
@@ -208,6 +198,12 @@ cVector3 cGame::VGetScreenBottomRightPos() const
 IRandomGenerator * const cGame::GetRandomGenerator() const
 {
 	return m_pRandomGenerator;
+}
+
+// *****************************************************************************
+void cGame::AddGameElement(shared_ptr<cAsteroidGameElement> const pGameElement)
+{
+	m_pGameElements.push_back(pGameElement);
 }
 
 // *****************************************************************************

@@ -33,6 +33,11 @@ cBaseApp::cBaseApp(const cString strName)
 , m_pHumanView(NULL)
 , m_pParamLoader(NULL)
 {
+	// make sure our memory leak checker is working
+#if _DEBUG
+	int * p = DEBUG_NEW int();
+#endif
+
 }
 
 // *****************************************************************************

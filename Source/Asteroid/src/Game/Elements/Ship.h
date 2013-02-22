@@ -12,11 +12,6 @@
 
 #include "AsteroidGameElement.h"
 
-namespace Base
-{
-	class cString;
-}
-
 class cShip 
 	: public cAsteroidGameElement
 {
@@ -27,8 +22,9 @@ public:
 	void OnUpdate(float fElapsedTime);
 	void MoveBack(const float fElapsedTime);
 	void MoveForward(const float fElapsedTime);
-	void RotateLeft(const float fElapsedTime );
-	void RotateRight(const float fElapsedTime );
+	void RotateLeft(const float fElapsedTime);
+	void RotateRight(const float fElapsedTime);
+	void Fire();
 	void OnRestart();
 	cShip * CastToShip();
 };

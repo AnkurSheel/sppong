@@ -306,9 +306,9 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	shipDef.strModelName= "ship";
 	shipDef.vPosition= vMiddlePos;
 	shipDef.vScale = cVector3(1.0f, 0.5f, 0.5f);
-	pGame->m_pShip = shared_ptr<cAsteroidGameElement>(DEBUG_NEW cShip());
-	pGame->m_pShip->VInitialize(shipDef);
-	pGame->m_pGameElements.push_back(pGame->m_pShip);
+	shared_ptr<cAsteroidGameElement> pShip(DEBUG_NEW cShip());
+	pShip->VInitialize(shipDef);
+	pGame->m_pGameElements.push_back(pShip);
 
 	cGameElementDef asteroidDef;
 	asteroidDef.strModelName= "cube";
@@ -325,8 +325,6 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pGame->m_pScore->Init(cVector2(vMiddlePos.x, 0.0f));
 	pHUDScreen->VAddChildControl(pGame->m_pScore->GetLabel());
 	pHUDScreen->VMoveToFront(pGame->m_pScore->GetLabel().get());
-
-	//pGame->m_pHumanView->SetCursorVisible(false);
 }
 // *****************************************************************************
 

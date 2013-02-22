@@ -11,12 +11,13 @@ enum GAMESOUNDS
 	GS_TOTAL
 };
 
-enum ShipMovement
+enum ShipActions
 {
-	SM_MOVE_FWD,
-	SM_MOVE_BK,
-	SM_ROTATE_LEFT,
-	SM_ROTATE_RIGHT,
+	SA_MOVE_FWD,
+	SA_MOVE_BK,
+	SA_ROTATE_LEFT,
+	SA_ROTATE_RIGHT,
+	SA_FIRE,
 };
 
 #endif // enums_h__

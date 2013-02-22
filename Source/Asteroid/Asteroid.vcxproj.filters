@@ -43,6 +43,9 @@
     <ClInclude Include="src\Game\Elements\Asteroid.h">
       <Filter>Game\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Elements\Bullet.h">
+      <Filter>Game\Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game\Game.cpp">
@@ -67,6 +70,9 @@
     <ClCompile Include="src\ShipHandler.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\Game\Elements\Asteroid.cpp">
+      <Filter>Game\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Elements\Bullet.cpp">
       <Filter>Game\Elements</Filter>
     </ClCompile>
   </ItemGroup>

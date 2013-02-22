@@ -15,7 +15,7 @@ using namespace Base;
 using namespace GameBase;
 using namespace Utilities;
 
-const cGame * cAsteroidGameElement::m_pGame = NULL;
+cGame * cAsteroidGameElement::m_pGame = NULL;
 
 // *****************************************************************************
 cAsteroidGameElement::cAsteroidGameElement()
@@ -56,11 +56,16 @@ cAsteroid * cAsteroidGameElement::CastToAsteroid()
 	return NULL;
 }
 
+cBullet * cAsteroidGameElement::CastToBullet()
+{
+	return NULL;
+}
+
 // *****************************************************************************
-void cAsteroidGameElement::SetGame(const IBaseApp * const pGame)
+void cAsteroidGameElement::SetGame(IBaseApp * const pGame)
 {
 	cGameElement::SetApp(pGame);
-	m_pGame = dynamic_cast<const cGame *>(pGame);
+	m_pGame = dynamic_cast<cGame * const>(pGame);
 }
 
 // *****************************************************************************
