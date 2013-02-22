@@ -28,6 +28,12 @@ namespace Graphics
 
 namespace GameBase
 {
+	class IBaseApp;
+	class cBaseApp;
+}
+
+namespace GameBase
+{
 	class cGameElementDef
 	{
 	public:
@@ -94,14 +100,21 @@ namespace GameBase
 		GAMEBASE_API const Graphics::IAABB * const GetAABB() const;
 
 	protected:
-		Base::cVector3		m_vRotation;	/*!< The rotation of the game element.*/
-		Base::cVector3		m_vPosition;	/*!< The position of the game element.*/
-		Base::cVector3		m_vScale;		/*!< The scale of the game element. */
-		bool				m_bIsDirty;		/*!< Set to true if the position, scale or rotation is changed. */
+		GAMEBASE_API void MakeInactiveFor(const float fSeconds);
+		GAMEBASE_API virtual void OnRestart();
+		GAMEBASE_API static void SetApp(const GameBase::IBaseApp * const pApp);
+	protected:
+		Base::cVector3			m_vRotation;	/*!< The rotation of the game element.*/
+		Base::cVector3			m_vPosition;	/*!< The position of the game element.*/
+		Base::cVector3			m_vScale;		/*!< The scale of the game element. */
+		bool					m_bIsDirty;		/*!< Set to true if the position, scale or rotation is changed. */
+		bool					m_bActive;
+		float					m_fReactivateTime;
 
 	private:
-		Base::cString		m_strFileName;
-		Graphics::IModel *	m_pModel;	
+		Base::cString			m_strFileName;
+		Graphics::IModel *		m_pModel;	
+		static const cBaseApp *	m_pBaseApp;
 	};
 }
 #endif

@@ -12,6 +12,7 @@
 #include "AABB.hxx"
 #include "Game\Game.h"
 #include "CollisionChecker.hxx"
+#include "Asteroid.h"
 
 using namespace Base;
 using namespace GameBase;
@@ -43,38 +44,41 @@ void cShip::VInitialize(const cGameElementDef & def )
 void cShip::OnUpdate(float fElapsedTime)
 {
 	cAsteroidGameElement::OnUpdate(fElapsedTime);
+
+	if(!m_bActive)
+		return;
+
+	IGame::GameElementList::iterator iter;
+	IGame::GameElementList pGameElements;
+	m_pGame->VGetGameElements(pGameElements);
+	cAsteroid * pAsteroid = NULL;
+	cContact contact;
+	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
+	{
+		pAsteroid = (*iter)->CastToAsteroid();
+		if(pAsteroid)
+		{
+			if ((ICollisionChecker::GetInstance()->VCheckForCollisions(GetAABB(),
+				pAsteroid->GetAABB(), contact)))
+			{
+				MakeInactiveFor(1);
+				cGame * pGame = const_cast<cGame *>(m_pGame);
+				pGame->VRoundOver(false);
+			}
+		}
+	}
 }
 
 // *****************************************************************************
 void cShip::MoveBack(const float fElapsedTime)
 {
-	cContact contact;
 	m_vVelocity -= (m_vLookAt * m_fAcceleration);
-	//shared_ptr<IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
-	//pAABB->VTransalate(cVector3(0, -fDeltaMovement, 0));
-	//if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(),
-	//	m_pGame->VGetGameElements()[m_pGame->PGE_WALL_DOWN]->GetAABB(), contact)))
-	//{
-		//cVector3 vPredictedPos = GetPosition();
-		//vPredictedPos -= vDeltaMovement;
-		//SetPosition(vPredictedPos);
-	//}
 }
 
 // *****************************************************************************
 void cShip::MoveForward(const float fElapsedTime)
 {
-	cContact contact;
 	m_vVelocity += (m_vLookAt * m_fAcceleration);
-	//shared_ptr<IAABB> const pAABB = IAABB::DuplicateAABB(GetAABB());
-	//pAABB->VTransalate(cVector3(0, fDeltaMovement, 0));
-	//if (!(ICollisionChecker::GetInstance()->VCheckForCollisions(pAABB.get(),
-	//	m_pGame->VGetGameElements()[m_pGame->PGE_WALL_UP]->GetAABB(), contact)))
-	//{
-		/*cVector3 vPredictedPos = GetPosition();
-		vPredictedPos += vDeltaMovement;
-		SetPosition(vPredictedPos);*/
-	//}
 }
 
 // *****************************************************************************
@@ -89,6 +93,13 @@ void cShip::RotateRight(const float fElapsedTime)
 {
 	float fDeltaRadian = m_fRotationPower * fElapsedTime;
 	SetRotation(cVector3(0.0f, 0.0f, GetRotation().z - fDeltaRadian));
+}
+
+// *****************************************************************************
+void cShip::OnRestart()
+{
+	cAsteroidGameElement::OnRestart();
+	m_vVelocity = cVector3::Zero();
 }
 
 // *****************************************************************************

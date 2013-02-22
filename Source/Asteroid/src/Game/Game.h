@@ -61,7 +61,7 @@ private:
 	int									m_iDisplayWidth ;		// the display width of the window
 	GameElementList						m_pGameElements;		// ptr to the gameelements
 	cGameFlowStateMachine *				m_pStateMachine;
-	cScore*								m_pScore;				// ptr to Scoreboard
+	cScore *							m_pScore;				// ptr to Scoreboard
 	Base::cVector3						m_vScreenTopLeftPos;
 	Base::cVector3						m_vScreenBottomRightPos;
 	shared_ptr<cAsteroidGameElement> 	m_pShip;	

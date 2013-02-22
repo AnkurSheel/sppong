@@ -29,7 +29,7 @@ public:
 	void MoveForward(const float fElapsedTime);
 	void RotateLeft(const float fElapsedTime );
 	void RotateRight(const float fElapsedTime );
-
+	void OnRestart();
 	cShip * CastToShip();
 };
 #endif // Ship_h__

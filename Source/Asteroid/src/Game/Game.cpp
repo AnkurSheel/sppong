@@ -110,17 +110,20 @@ void cGame::Restart()
 // *****************************************************************************
 void cGame::VRoundOver(const bool bPlayer1Won)
 {
-	m_pHumanView->PlaySFX("win.wav");
-	if (bPlayer1Won)
-	{
-		m_pScore[1].IncrementScore();
-		Restart();
-	}
-	else
-	{
-		m_pScore[0].IncrementScore();
-		Restart();
-	}
+	Log_Write_L1(ILogger::LT_COMMENT, "Round Over");
+	//Restart();
+
+	//m_pHumanView->PlaySFX("win.wav");
+	//if (bPlayer1Won)
+	//{
+	//	m_pScore[1].IncrementScore();
+	//	Restart();
+	//}
+	//else
+	//{
+	//	m_pScore[0].IncrementScore();
+	//	Restart();
+	//}
 }
 
 // *****************************************************************************

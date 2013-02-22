@@ -49,14 +49,6 @@ void cAsteroidView::VOnUpdate(const TICK tickCurrent, const float fElapsedTime)
 	{
 		m_ShipHandler->OnUpdate();
 	}
-	IGame::GameElementList::iterator iter;
-	IGame::GameElementList pGameElements;
-	m_pGame->VGetGameElements(pGameElements);
-	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
-	{
-		(*iter)->OnUpdate(fElapsedTime);
-	}
-
 }
 
 // *****************************************************************************

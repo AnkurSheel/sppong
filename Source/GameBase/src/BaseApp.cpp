@@ -170,7 +170,7 @@ void cBaseApp::VCleanup()
 }
 
 // *****************************************************************************
-float cBaseApp::GetRunningTime()
+float cBaseApp::GetRunningTime() const
 {
 	if(m_pGameTimer)
 		return m_pGameTimer->VGetRunningTime();
@@ -179,7 +179,7 @@ float cBaseApp::GetRunningTime()
 }
 
 // *****************************************************************************
-TICK cBaseApp::GetRunningTicks()
+TICK cBaseApp::GetRunningTicks() const
 {
 	if(m_pGameTimer)
 		return m_pGameTimer->VGetRunningTicks();

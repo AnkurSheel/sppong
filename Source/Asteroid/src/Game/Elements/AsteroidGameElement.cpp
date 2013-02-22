@@ -40,6 +40,7 @@ void cAsteroidGameElement::VInitialize(const cGameElementDef & def)
 // *****************************************************************************
 void cAsteroidGameElement::OnRestart()
 {
+	cGameElement::OnRestart();
 	SetPosition(m_vInitialPos);
 }
 
@@ -56,9 +57,10 @@ cAsteroid * cAsteroidGameElement::CastToAsteroid()
 }
 
 // *****************************************************************************
-void cAsteroidGameElement::SetGame(const cGame * const pGame)
+void cAsteroidGameElement::SetGame(const IBaseApp * const pGame)
 {
-	m_pGame = pGame;
+	cGameElement::SetApp(pGame);
+	m_pGame = dynamic_cast<const cGame *>(pGame);
 }
 
 // *****************************************************************************

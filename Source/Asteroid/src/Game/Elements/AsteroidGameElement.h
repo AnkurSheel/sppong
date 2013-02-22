@@ -16,6 +16,11 @@ class cShip;
 class cAsteroid;
 class cGame;
 
+namespace GameBase
+{
+	class IBaseApp;
+}
+
 class cAsteroidGameElement
 	: public GameBase::cGameElement
 {
@@ -23,9 +28,9 @@ public:
 	cAsteroidGameElement();
 	virtual ~cAsteroidGameElement();
 	void VInitialize(const GameBase::cGameElementDef & def);
-	virtual void OnRestart();
+	void OnRestart();
 	virtual void OnUpdate(float fElapsedTime);
-	static void SetGame(const cGame * const pGame);
+	static void SetGame(const GameBase::IBaseApp * const pGame);
 	virtual cShip * CastToShip();
 	virtual cAsteroid * CastToAsteroid();
 

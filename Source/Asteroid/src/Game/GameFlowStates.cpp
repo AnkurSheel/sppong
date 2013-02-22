@@ -297,62 +297,35 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	IBaseControl * pHUDScreen = IBaseControl::CreateWindowControl(HUDDef);
 	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHUDScreen));
 
-	/*pGame->m_ppGameElements = DEBUG_NEW cPongGameElement*[pGame->PGE_TOTAL];
-	for (int i=0; i<pGame->PGE_TOTAL; i++)
-	{
-		pGame->m_ppGameElements[i] = NULL;
-	}*/
-
 	pGame->m_vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->GetCamera());
 	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(static_cast<float>(pGame->m_iDisplayWidth), static_cast<float>(pGame->m_iDisplayHeight)),
 		pGame->m_pHumanView->GetCamera());
+	cVector3 vMiddlePos = (pGame->m_vScreenTopLeftPos + pGame->m_vScreenBottomRightPos)/2.0f;
 
 	cGameElementDef shipDef;
 	shipDef.strModelName= "ship";
-	shipDef.vPosition= (pGame->m_vScreenTopLeftPos + pGame->m_vScreenBottomRightPos)/2.0f;
+	shipDef.vPosition= vMiddlePos;
 	shipDef.vScale = cVector3(1.0f, 0.5f, 0.5f);
 	pGame->m_pShip = shared_ptr<cAsteroidGameElement>(DEBUG_NEW cShip());
 	pGame->m_pShip->VInitialize(shipDef);
 	pGame->m_pGameElements.push_back(pGame->m_pShip);
 
-	cGameElementDef AsteroidDef;
-	shipDef.strModelName= "cube";
+	cGameElementDef asteroidDef;
+	asteroidDef.strModelName= "cube";
+	asteroidDef.vPosition= cVector3(-100.0f, -100.0f, -100.0f);
 	for(int i=0; i<4;i++)
 	{
 		shared_ptr<cAsteroidGameElement> pAsteroid(DEBUG_NEW cAsteroid());
-		pAsteroid->VInitialize(shipDef);
+		pAsteroid->VInitialize(asteroidDef);
 		pGame->m_pGameElements.push_back(pAsteroid);
 	}
-	//pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT] = DEBUG_NEW cPaddle();
-	//pGame->m_ppGameElements[pGame->PGE_PADDLE_LEFT]->VInitialize(paddleDef);
 
-	/*cGameElementDef wallDef;
-	wallDef.strModelName = "cube";
-	wallDef.vPosition= cVector3(0, pGame->m_vScreenTopLeftPos.y, 0.0f);
-	wallDef.vScale = cVector3(abs(pGame->m_vScreenTopLeftPos.x), 0.5f, 0.5f);
-	pGame->m_ppGameElements[pGame->PGE_WALL_UP] = DEBUG_NEW cWall();
-	pGame->m_ppGameElements[pGame->PGE_WALL_UP]->VInitialize(wallDef);
-
-	wallDef.vPosition= cVector3(0, pGame->m_vScreenBottomRightPos.y, 0.0f);
-	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN] = DEBUG_NEW cWall();
-	pGame->m_ppGameElements[pGame->PGE_WALL_DOWN]->VInitialize(wallDef);
-
-	cGameElementDef ballDef;
-	ballDef.strModelName = "sphere";
-	ballDef.vScale = cVector3(0.5f, 0.5f, 0.5f);
-	pGame->m_ppGameElements[pGame->PGE_BALL] = DEBUG_NEW cBall();
-	pGame->m_ppGameElements[pGame->PGE_BALL]->VInitialize(ballDef);
-
-	pGame->m_pScore = DEBUG_NEW cScore[2]();
+	pGame->m_pScore = DEBUG_NEW cScore();
 	
-	pGame->m_pScore[0].Init(cVector2(0.0f, 0.0f));
-	pHUDScreen->VAddChildControl(pGame->m_pScore[0].GetLabel());
-	pHUDScreen->VMoveToFront(pGame->m_pScore[0].GetLabel().get());
+	pGame->m_pScore->Init(cVector2(vMiddlePos.x, 0.0f));
+	pHUDScreen->VAddChildControl(pGame->m_pScore->GetLabel());
+	pHUDScreen->VMoveToFront(pGame->m_pScore->GetLabel().get());
 
-	pGame->m_pScore[1].Init(cVector2((float)pGame->m_iDisplayWidth, 0.0f));
-	pHUDScreen->VAddChildControl(pGame->m_pScore[1].GetLabel());
-	pHUDScreen->VMoveToFront(pGame->m_pScore[1].GetLabel().get());*/
-	
 	//pGame->m_pHumanView->SetCursorVisible(false);
 }
 // *****************************************************************************
@@ -367,14 +340,6 @@ void cStatePlayGame::VOnUpdate()
 			(*iter)->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
 		}
 	}
-
-	//for(int i=0; i<m_pOwner->PGE_TOTAL; i++)
-	//{
-	//	if(m_pOwner->m_ppGameElements[i])
-	//	{
-	//		m_pOwner->m_ppGameElements[i]->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
-	//	}
-	//}
 	m_pOwner->m_pHumanView->VOnUpdate(m_pOwner->m_pGameTimer->VGetRunningTicks(), m_pOwner->m_pGameTimer->VGetDeltaTime());
 }
 // *****************************************************************************

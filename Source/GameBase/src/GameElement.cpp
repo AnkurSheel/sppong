@@ -12,14 +12,20 @@
 #include "ObjModelLoader.hxx"
 #include "Model.hxx"
 #include "Vector3.h"
+#include "BaseApp.h"
 
 using namespace Graphics;
 using namespace GameBase;
 using namespace Base;
+
+const cBaseApp * cGameElement::m_pBaseApp = NULL;
+
 // *******************************************************************************************
 cGameElement::cGameElement()
 : m_pModel(NULL)
 , m_bIsDirty(false)
+, m_bActive(true)
+, m_fReactivateTime(0.0f)
 {
 
 }
@@ -40,12 +46,25 @@ void cGameElement::VInitialize(const cGameElementDef & def)
 		SetPosition(def.vPosition);
 		SetScale(def.vScale);
 		SetRotation(def.vRotation);
+		if(m_pModel)
+		{
+			m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
+		}
 	}
 }
 
 // *******************************************************************************************
 void cGameElement::OnUpdate(float fElapsedTime)
 {
+	if(!m_bActive)
+	{
+		if(m_fReactivateTime <= m_pBaseApp->GetRunningTime())
+		{
+			m_bActive = true;
+			m_fReactivateTime = 0.0f;
+			OnRestart();
+		}
+	}
 	if(m_bIsDirty)
 	{
 		m_pModel->VRecalculateWorldMatrix(m_vPosition, m_vRotation, m_vScale);
@@ -56,7 +75,7 @@ void cGameElement::OnUpdate(float fElapsedTime)
 // *******************************************************************************************
 void cGameElement::Render(const ICamera * const pCamera)
 {
-	if (m_pModel)
+	if (m_bActive && m_pModel)
 	{
 		m_pModel->VRender(pCamera);
 	}
@@ -121,6 +140,29 @@ const IAABB * const cGameElement::GetAABB() const
 	}
 	return NULL;
 }
+
+// *******************************************************************************************
+void cGameElement::MakeInactiveFor(const float fSeconds)
+{
+	if(m_bActive)
+	{
+		m_bActive = false;
+		m_fReactivateTime = m_pBaseApp->GetRunningTime() + fSeconds;
+	}
+}
+
+// *******************************************************************************************
+void cGameElement::OnRestart()
+{
+
+}
+
+// *****************************************************************************
+void cGameElement::SetApp(const IBaseApp * const pApp)
+{
+	m_pBaseApp = dynamic_cast<const cBaseApp *>(pApp);
+}
+
 
 // *******************************************************************************************
 void cGameElement::Cleanup()

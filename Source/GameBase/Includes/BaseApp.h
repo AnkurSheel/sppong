@@ -35,6 +35,8 @@ namespace GameBase
 	public:
 		virtual ~cBaseApp(){}
 		GAMEBASE_API virtual cHumanView * const VGetHumanView() const;
+		TICK GetRunningTicks() const;
+		float GetRunningTime() const;
 
 	protected:
 		GAMEBASE_API cBaseApp(const Base::cString strName);
@@ -47,9 +49,6 @@ namespace GameBase
 		GAMEBASE_API virtual void VRender(TICK tickCurrent, float fElapsedTime);
 		GAMEBASE_API virtual void VCleanup();
 		
-		TICK GetRunningTicks();
-		float GetRunningTime();
-
 	private:
 		GAMEBASE_API Utilities::IParamLoader * VGetParamLoader() const;
 		GAMEBASE_API float VGetFPS() const;
