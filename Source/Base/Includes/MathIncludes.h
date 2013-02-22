@@ -51,7 +51,7 @@ namespace Base
 		float val = fmod(x, TwoPi);
 		if (val < 0)
 		{
-			val = TwoPi - val;
+			val = TwoPi + val;
 		}
 		return val;
 	}

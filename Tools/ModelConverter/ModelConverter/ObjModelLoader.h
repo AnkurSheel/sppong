@@ -57,8 +57,8 @@ namespace Graphics
 
 		stSPDOSubsetData()
 			: iStartIndexNo(0)
-			, vBoundingBoxMaxPos(-MaxFloat, -MaxFloat, -MaxFloat)
-			, vBoundingBoxMinPos(MaxFloat, MaxFloat, MaxFloat)
+			, vBoundingBoxMaxPos(- Base::MaxFloat, -Base::MaxFloat, -Base::MaxFloat)
+			, vBoundingBoxMinPos(Base::MaxFloat, Base::MaxFloat, Base::MaxFloat)
 		{
 		}
 	};

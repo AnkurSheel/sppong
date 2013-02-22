@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include "Includes.h"
+#include "MathIncludes.h"
 #include "Vector3.h"
 
 #pragma comment(lib, "Base_D.lib")

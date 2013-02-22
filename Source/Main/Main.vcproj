@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\Source\Base\Includes;..\..\Source\Utilities\Includes;..\..\Source\GameBase\Includes;..\..\Source\Game\src"
+				AdditionalIncludeDirectories="..\..\Source\Base\Includes;..\..\Source\Utilities\Includes;..\..\Source\GameBase\Includes;..\..\Source\MPong\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Utilities_D.lib Base_D.lib Game_D.lib"
+				AdditionalDependencies="Utilities_D.lib Base_D.lib MPong_D.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_D.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Debug\"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\Source\Base\Includes;..\..\Source\Utilities\Includes;..\..\Source\GameBase\Includes;..\..\Source\Game\src"
+				AdditionalIncludeDirectories="..\..\Source\Base\Includes;..\..\Source\Utilities\Includes;..\..\Source\GameBase\Includes;..\..\Source\MPong\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Utilities.lib Base.lib Game.lib"
+				AdditionalDependencies="Utilities.lib Base.lib MPong.lib"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\bin\"

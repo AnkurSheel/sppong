@@ -120,7 +120,7 @@ void cModel::VRecalculateWorldMatrix(const cVector3 vPosition, const cVector3 vR
 {
 	D3DXMATRIX matRotation;
 	D3DXMatrixRotationYawPitchRoll(&matRotation, vRotation.y, vRotation.x,
-		vRotation.x);
+		vRotation.z);
 
 	D3DXMATRIX matScale;
 	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);

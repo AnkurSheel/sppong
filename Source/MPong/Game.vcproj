@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Game"
+	Name="MPong"
 	ProjectGUID="{C6803E0E-210B-4092-8321-EAFB637EF157}"
-	RootNamespace="Game"
+	RootNamespace="MPong"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
