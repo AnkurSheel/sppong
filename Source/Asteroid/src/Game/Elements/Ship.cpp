@@ -29,6 +29,9 @@ cShip::cShip()
 , m_iScore(0)
 , m_iLives(0)
 , m_iMaxLives(0)
+, m_bInvincible(false)
+, m_fShieldDuration(0.f)
+, m_fShieldDeactivateTime(0.0f)
 {
 }
 
@@ -49,9 +52,11 @@ void cShip::VInitialize(const cGameElementDef & def )
 	m_iMaxNumberOfBullets = 15;
 	m_fBulletCountDown = 0.3f;
 	m_iMaxLives = 3;
+	m_fShieldDuration = 5.0f;
 
 	m_iScore = 0;
 	m_iLives = m_iMaxLives;
+	VSetActive(true);
 
 	cGameElementDef bulletDef;
 	bulletDef.strModelName = "sphere";
@@ -74,6 +79,12 @@ void cShip::OnUpdate(float fElapsedTime)
 
 	if(!m_bActive)
 		return;
+
+	if (m_fShieldDeactivateTime> 0.0f && m_fShieldDeactivateTime <= m_pGame->GetRunningTime())
+	{
+		m_fShieldDeactivateTime = 0.0f;
+		m_bInvincible = false;
+	}
 }
 
 // *****************************************************************************
@@ -187,4 +198,21 @@ int cShip::GetLives() const
 void cShip::DecrementLives(const int iValue)
 {
 	m_iLives -= iValue;
+}
+
+// *****************************************************************************
+bool cShip::IsInvincible() const
+{
+	return m_bInvincible;
+}
+
+// *****************************************************************************
+void cShip::VSetActive(const bool bActive)
+{
+	cAsteroidGameElement::VSetActive(bActive);
+	if (bActive)
+	{
+		m_bInvincible = true;
+		m_fShieldDeactivateTime = m_pGame->GetRunningTime() + m_fShieldDuration;
+	}
 }

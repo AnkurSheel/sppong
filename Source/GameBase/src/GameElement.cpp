@@ -60,7 +60,7 @@ void cGameElement::OnUpdate(float fElapsedTime)
 	{
 		if(m_fReactivateTime > 0.0f && m_fReactivateTime <= m_pBaseApp->GetRunningTime())
 		{
-			m_bActive = true;
+			VSetActive(true);
 			m_fReactivateTime = 0.0f;
 			OnRestart();
 		}
@@ -158,7 +158,7 @@ void cGameElement::MakeInactiveFor(const float fSeconds)
 {
 	if(m_bActive)
 	{
-		m_bActive = false;
+		VSetActive(false);
 		m_fReactivateTime = m_pBaseApp->GetRunningTime() + fSeconds;
 	}
 }

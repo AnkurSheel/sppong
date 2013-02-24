@@ -56,7 +56,6 @@ private:
 	Base::cString VGetGameTitle() const;
 	void VOnUpdate();
 	void VCleanup();
-	void Restart();
 	bool VOnHandleMessage(const AI::Telegram & telegram);
 	void VCreateHumanView();
 	void AsteroidHitByBullet(cAsteroidGameElement * const pBulletElement,

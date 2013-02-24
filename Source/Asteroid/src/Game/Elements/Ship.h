@@ -35,6 +35,8 @@ public:
 	int GetScore() const;
 	int GetLives() const;
 	void DecrementLives(const int iValue);
+	bool IsInvincible() const;
+	void VSetActive(const bool bActive);
 
 private:
 	int			m_iMaxNumberOfBullets;
@@ -45,5 +47,8 @@ private:
 	float		m_fLastBulletTime;
 	int			m_iScore;
 	int			m_iLives;
+	bool		m_bInvincible;
+	float		m_fShieldDuration;			
+	float		m_fShieldDeactivateTime;
 };
 #endif // Ship_h__

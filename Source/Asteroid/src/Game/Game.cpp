@@ -87,21 +87,6 @@ void cGame::VOnUpdate()
 }
 
 // *****************************************************************************
-void cGame::Restart()
-{
-	Sleep(100);
-	GameElementList::iterator iter;
-	for (iter = m_pGameElements.begin(); iter != m_pGameElements.end(); iter++)
-    {
-		(*iter)->OnRestart();
-	}
-
-	//m_ppGameElements[PGE_PADDLE_LEFT]->OnRestart();
-	//m_ppGameElements[PGE_PADDLE_RIGHT]->OnRestart();
-	//m_ppGameElements[PGE_BALL]->OnRestart();
-}
-
-// *****************************************************************************
 void cGame::VCleanup()
 {
 	m_pGameElements.clear();
@@ -213,7 +198,7 @@ void cGame::AsteroidHitByBullet(cAsteroidGameElement * const pBulletElement,
 void cGame::ShipHitByAsteroid()
 {
 	cShip * pShip = (m_pGameElements.front())->CastToShip();
-	if (pShip != NULL)
+	if (pShip != NULL && !pShip->IsInvincible())
 	{
 		pShip->MakeInactiveFor(1);
 		pShip->DecrementLives(1);
@@ -224,6 +209,15 @@ void cGame::ShipHitByAsteroid()
 		}
 		if (pShip->GetLives() == 0)
 		{
+			cLabelControlDef labelDef;
+			labelDef.strControlName = "GameOverLabel";
+			labelDef.strFont = "JokerMan"; // forte
+			labelDef.textColor = cColor::TURQUOISE;
+			labelDef.strText = "Game Over";
+			labelDef.fTextHeight = 200;
+			labelDef.vPosition = cVector2(m_iDisplayWidth/4.0f, m_iDisplayHeight/2.0f - 100.0f);
+			IBaseControl * pGameOverLabel = IBaseControl::CreateLabelControl(labelDef);
+			m_pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pGameOverLabel));
 			m_bGameOver = true;
 		}
 	}
