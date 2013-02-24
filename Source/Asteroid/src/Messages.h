@@ -15,5 +15,6 @@ enum Messages
 	MSG_NONE = -1,
 	MSG_SHOW_MENU = 0,
 	MSG_ESCAPE_PRESSED,
+	MSG_GAME_OVER,
 };
 #endif // Messages_h__

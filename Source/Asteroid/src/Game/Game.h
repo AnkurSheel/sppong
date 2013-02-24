@@ -71,7 +71,8 @@ private:
 	Base::cVector3						m_vScreenTopLeftPos;
 	Base::cVector3						m_vScreenBottomRightPos;
 	Utilities::IRandomGenerator *		m_pRandomGenerator;
-	Graphics::IBaseControl *			m_pHUDScreen;
+	shared_ptr<Graphics::IBaseControl>	m_pHUDScreen;
+	bool								m_bGameOver;
 
 private:
 	friend class cStateTitleScreen;

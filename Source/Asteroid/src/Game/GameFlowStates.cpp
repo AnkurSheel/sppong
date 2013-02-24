@@ -291,12 +291,15 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	IGameFlowStates::VOnEnter(pGame);
 	cAsteroidGameElement::SetGame(pGame);
 
+	pGame->m_bGameOver = false;
+
 	cWindowControlDef HUDDef;
+	HUDDef.strControlName = "HUDScreen";
 	HUDDef.wType = cWindowControlDef::WT_STANDARD;
 	HUDDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
 	HUDDef.vPosition = cVector2(0.0f, 0.0f);
-	m_pOwner->m_pHUDScreen = IBaseControl::CreateWindowControl(HUDDef);
-	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(m_pOwner->m_pHUDScreen));
+	m_pOwner->m_pHUDScreen = shared_ptr<IBaseControl>(IBaseControl::CreateWindowControl(HUDDef));
+	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(m_pOwner->m_pHUDScreen);
 
 	pGame->m_vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->GetCamera());
 	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(static_cast<float>(pGame->m_iDisplayWidth), static_cast<float>(pGame->m_iDisplayHeight)),
@@ -314,7 +317,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	cGameElementDef asteroidDef;
 	asteroidDef.strModelName= "cube";
 	asteroidDef.vPosition= cVector3(-100.0f, -100.0f, -100.0f);
-	for(int i=0; i<1; i++)
+	for(int i=0; i<3; i++)
 	{
 		shared_ptr<cAsteroidGameElement> pAsteroid(DEBUG_NEW cAsteroid());
 		pAsteroid->VInitialize(asteroidDef);
@@ -342,6 +345,13 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 
 void cStatePlayGame::VOnUpdate()
 {
+	m_pOwner->m_pHumanView->VOnUpdate(m_pOwner->m_pGameTimer->VGetRunningTicks(), m_pOwner->m_pGameTimer->VGetDeltaTime());
+
+	if (m_pOwner->m_bGameOver)
+	{
+		return;
+	}
+
 	if(m_pOwner != NULL && m_pOwner->m_pGameTimer != NULL)
 	{
 		cGame::GameElementList::iterator iter = m_pOwner->m_pGameElements.begin();
@@ -364,19 +374,35 @@ void cStatePlayGame::VOnUpdate()
 			}
 		}
 	}
-	m_pOwner->m_pHumanView->VOnUpdate(m_pOwner->m_pGameTimer->VGetRunningTicks(), m_pOwner->m_pGameTimer->VGetDeltaTime());
+	if (m_pOwner->m_bGameOver)
+	{
+		IMessageDispatchManager::GetInstance()->VDispatchMessage(5.0f, m_pOwner->VGetID(),
+			m_pOwner->VGetID(), MSG_GAME_OVER, NULL);
+	}
 }
 // *****************************************************************************
 
 void cStatePlayGame::VOnExit()
 {
-	m_pOwner->VCleanup();
+	if (m_pOwner->m_pHumanView->m_pAppWindowControl != NULL)
+	{
+		m_pOwner->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("HUDScreen");
+	}
+	m_pOwner->m_bGameOver = false;
+	m_pOwner->m_pHUDScreen.reset();
+	m_pOwner->m_pGameElements.clear();
+	//m_pOwner->VCleanup();
 }
 // *****************************************************************************
 
 bool cStatePlayGame::VOnMessage(const Telegram &msg)
 {
-	if(msg.Msg == MSG_ESCAPE_PRESSED)
+	if(msg.Msg == MSG_GAME_OVER)
+	{
+		m_pOwner->m_pStateMachine->RequestChangeState(cStateTitleScreen::Instance());
+		return true;
+	}
+	else if(msg.Msg == MSG_ESCAPE_PRESSED)
 	{
 		if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)
 		{

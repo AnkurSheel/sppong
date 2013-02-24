@@ -35,7 +35,7 @@ cGame::cGame(const cString strName)
 : cBaseApp(strName)
 , m_pStateMachine(NULL)
 , m_pRandomGenerator(NULL)
-, m_pHUDScreen(NULL)
+, m_bGameOver(false)
 {
 }
 
@@ -108,7 +108,7 @@ void cGame::VCleanup()
 
 	SAFE_DELETE(m_pRandomGenerator);
 	SAFE_DELETE(m_pStateMachine);
-
+	m_pHUDScreen.reset();
 	cBaseApp::VCleanup();
 }
 
@@ -224,7 +224,7 @@ void cGame::ShipHitByAsteroid()
 		}
 		if (pShip->GetLives() == 0)
 		{
-			//Game Over
+			m_bGameOver = true;
 		}
 	}
 }
