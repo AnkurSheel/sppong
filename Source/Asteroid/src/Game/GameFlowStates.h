@@ -19,6 +19,7 @@ namespace Graphics
 }
 
 class cGame;
+class cAsteroidGameElement;
 
 class IGameFlowStates
 	: public AI::cState<cGame>
@@ -79,6 +80,7 @@ public:
 	virtual bool VOnMessage(const AI::Telegram &msg);
 private:
 	cStatePlayGame();
+	void CheckForCollisions(cAsteroidGameElement * const pAsteriodElement);
 };
 
 class cStateHelpScreen 

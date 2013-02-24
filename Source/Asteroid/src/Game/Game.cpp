@@ -207,6 +207,25 @@ void cGame::AddGameElement(shared_ptr<cAsteroidGameElement> const pGameElement)
 }
 
 // *****************************************************************************
+void cGame::AsteroidHitByBullet(cAsteroidGameElement * const pBulletElement,
+								cAsteroidGameElement * const pAsteroidElement)
+{
+	cBullet * pBullet = pBulletElement->CastToBullet();
+	m_pGameElements.front()->CastToShip()->BulletDestroyed(pBullet);
+
+	cAsteroid * pAsteroid = pAsteroidElement->CastToAsteroid();
+	pAsteroid->Hit();
+}
+
+// *****************************************************************************
+void cGame::ShipHitByAsteroid()
+{
+	(m_pGameElements.front())->MakeInactiveFor(1);
+	VRoundOver(false);
+
+}
+
+// *****************************************************************************
 IBaseApp * IGame::CreateGame(const cString strName)
 {
 	return DEBUG_NEW cGame(strName);

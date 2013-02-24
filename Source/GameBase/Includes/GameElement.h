@@ -100,9 +100,9 @@ namespace GameBase
 		GAMEBASE_API const Graphics::IAABB * const GetAABB() const;
 		GAMEBASE_API bool IsActive() const;
 		GAMEBASE_API virtual void VSetActive(const bool bActive);
+		GAMEBASE_API void MakeInactiveFor(const float fSeconds);
 
 	protected:
-		GAMEBASE_API void MakeInactiveFor(const float fSeconds);
 		GAMEBASE_API virtual void OnRestart();
 		GAMEBASE_API static void SetApp(const GameBase::IBaseApp * const pApp);
 	protected:

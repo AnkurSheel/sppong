@@ -28,7 +28,7 @@ public:
 	void OnRestart();
 	cShip * CastToShip();
 	void Cleanup();
-	void BulletDestroyed(cBullet* pBullet);
+	void BulletDestroyed(cBullet * const pBullet);
 	typedef std::vector<shared_ptr<cBullet>	>  BulletList;
 
 private:

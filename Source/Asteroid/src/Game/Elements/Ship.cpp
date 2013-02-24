@@ -67,26 +67,6 @@ void cShip::OnUpdate(float fElapsedTime)
 
 	if(!m_bActive)
 		return;
-
-	IGame::GameElementList::iterator iter;
-	IGame::GameElementList pGameElements;
-	m_pGame->VGetGameElements(pGameElements);
-	cAsteroid * pAsteroid = NULL;
-	cContact contact;
-	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
-	{
-		pAsteroid = (*iter)->CastToAsteroid();
-		if(pAsteroid)
-		{
-			if ((ICollisionChecker::GetInstance()->VCheckForCollisions(GetAABB(),
-				pAsteroid->GetAABB(), contact)))
-			{
-				MakeInactiveFor(1);
-				cGame * pGame = const_cast<cGame *>(m_pGame);
-				pGame->VRoundOver(false);
-			}
-		}
-	}
 }
 
 // *****************************************************************************
@@ -165,7 +145,7 @@ cShip * cShip::CastToShip()
 }
 
 // *****************************************************************************
-void cShip::BulletDestroyed(cBullet* pBullet)
+void cShip::BulletDestroyed(cBullet * const pBullet)
 {
 	BulletList::iterator iter;
 	for (iter = m_Bullets.begin(); iter != m_Bullets.end(); iter++)

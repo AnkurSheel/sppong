@@ -23,6 +23,8 @@
 #include "GraphicUtils.hxx"
 #include "MainWindow.hxx"
 #include "GameOptions.h"
+#include "CollisionChecker.hxx"
+#include "Elements\Bullet.h"
 
 using namespace Graphics;
 using namespace Base;
@@ -335,14 +337,19 @@ void cStatePlayGame::VOnUpdate()
 		cGame::GameElementList::iterator iter = m_pOwner->m_pGameElements.begin();
 		while(iter != m_pOwner->m_pGameElements.end())
 		{
-			(*iter)->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
+			cAsteroidGameElement *pAsteriodElement = (*iter).get();
+			pAsteriodElement->OnUpdate(m_pOwner->m_pGameTimer->VGetDeltaTime());
 			
-			if ((*iter)->GetRemove())
+			if (pAsteriodElement->GetRemove())
 			{
 				iter = m_pOwner->m_pGameElements.erase(iter);
 			}
 			else
 			{
+				if (pAsteriodElement->IsActive())
+				{
+					CheckForCollisions(pAsteriodElement);
+				}
 				iter++;
 			}
 		}
@@ -370,6 +377,39 @@ bool cStatePlayGame::VOnMessage(const Telegram &msg)
 		return true;
 	}
 	return false;
+}
+
+// *****************************************************************************
+void cStatePlayGame::CheckForCollisions(cAsteroidGameElement * const pAsteriodElement)
+{
+	IGame::GameElementList::iterator iter;
+	cAsteroid * pAsteroid = NULL;
+	cContact contact;
+	for (iter = m_pOwner->m_pGameElements.begin(); iter != m_pOwner->m_pGameElements.end(); iter++)
+	{
+		pAsteroid = (*iter)->CastToAsteroid();
+		if(pAsteroid && pAsteroid->IsActive())
+		{
+			if ((ICollisionChecker::GetInstance()->VCheckForCollisions(pAsteriodElement->GetAABB(),
+				pAsteroid->GetAABB(), contact)))
+			{
+				cBullet * pBullet = pAsteriodElement->CastToBullet();
+				if (pBullet != NULL)
+				{
+					m_pOwner->AsteroidHitByBullet(pBullet, pAsteroid);
+				}
+				else
+				{
+					cShip * pShip = pAsteriodElement->CastToShip();
+					if (pShip != NULL)
+					{
+						m_pOwner->ShipHitByAsteroid();
+					}
+				}
+				break;
+			}
+		}
+	}
 }
 
 // *****************************************************************************

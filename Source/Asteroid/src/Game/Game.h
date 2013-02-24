@@ -56,6 +56,9 @@ private:
 	void Restart();
 	bool VOnHandleMessage(const AI::Telegram & telegram);
 	void VCreateHumanView();
+	void AsteroidHitByBullet(cAsteroidGameElement * const pBulletElement,
+		cAsteroidGameElement * const pAsteroidElement);
+	void ShipHitByAsteroid();
 
 private:
 	int									m_iDisplayHeight ;		// the display height of the window

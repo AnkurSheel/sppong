@@ -60,24 +60,6 @@ void cBullet::OnUpdate(float fElapsedTime)
 	{
 		pGameElements.front()->CastToShip()->BulletDestroyed(this);
 	}
-
-	IGame::GameElementList::iterator iter;
-	cAsteroid * pAsteroid = NULL;
-	cContact contact;
-	for (iter = pGameElements.begin(); iter != pGameElements.end(); iter++)
-	{
-		pAsteroid = (*iter)->CastToAsteroid();
-		if(pAsteroid)
-		{
-			if ((ICollisionChecker::GetInstance()->VCheckForCollisions(GetAABB(),
-				pAsteroid->GetAABB(), contact)))
-			{
-				pGameElements.front()->CastToShip()->BulletDestroyed(this);
-				pAsteroid->Hit();
-				break;
-			}
-		}
-	}
 }
 
 // *****************************************************************************
