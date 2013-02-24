@@ -213,7 +213,20 @@ void cGame::AsteroidHitByBullet(cAsteroidGameElement * const pBulletElement,
 void cGame::ShipHitByAsteroid()
 {
 	cShip * pShip = (m_pGameElements.front())->CastToShip();
-	pShip->MakeInactiveFor(1);
+	if (pShip != NULL)
+	{
+		pShip->MakeInactiveFor(1);
+		pShip->DecrementLives(1);
+		IBaseControl * pScoreLabel = m_pHUDScreen->VFindChildControl("LivesLabel");
+		if (pScoreLabel != NULL)
+		{
+			pScoreLabel->VSetText(cString(20, "Lives: %02d", pShip->GetLives()));
+		}
+		if (pShip->GetLives() == 0)
+		{
+			//Game Over
+		}
+	}
 }
 
 // *****************************************************************************

@@ -330,6 +330,13 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	labelDef.vPosition = cVector2(0.0f, 0.0f);
 	IBaseControl * pScoreLabel = IBaseControl::CreateLabelControl(labelDef);
 	m_pOwner->m_pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pScoreLabel));
+
+	labelDef.strControlName = "LivesLabel";
+	labelDef.strText = cString(20, "Lives: %02d", pShip->CastToShip()->GetLives());
+	labelDef.fTextHeight = 40;
+	labelDef.vPosition = cVector2(static_cast<float>(m_pOwner->m_iDisplayWidth), 0.0f);
+	IBaseControl * pLivesLabel = IBaseControl::CreateLabelControl(labelDef);
+	m_pOwner->m_pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLivesLabel));
 }
 // *****************************************************************************
 

@@ -27,6 +27,8 @@ cShip::cShip()
 , m_fBulletCountDown(0.0f)
 , m_fLastBulletTime(0.0f)
 , m_iScore(0)
+, m_iLives(0)
+, m_iMaxLives(0)
 {
 }
 
@@ -46,8 +48,10 @@ void cShip::VInitialize(const cGameElementDef & def )
 	m_vLookAt = m_vForward;
 	m_iMaxNumberOfBullets = 15;
 	m_fBulletCountDown = 0.3f;
+	m_iMaxLives = 3;
 
 	m_iScore = 0;
+	m_iLives = m_iMaxLives;
 
 	cGameElementDef bulletDef;
 	bulletDef.strModelName = "sphere";
@@ -171,4 +175,16 @@ void cShip::IncrementScore(const int iValue)
 int cShip::GetScore() const
 {
 	return m_iScore;
+}
+
+// *****************************************************************************
+int cShip::GetLives() const
+{
+	return m_iLives;
+}
+
+// *****************************************************************************
+void cShip::DecrementLives(const int iValue)
+{
+	m_iLives -= iValue;
 }

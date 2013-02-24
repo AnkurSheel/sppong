@@ -33,13 +33,17 @@ public:
 	void BulletDestroyed(cBullet * const pBullet);
 	void IncrementScore(const int iValue);
 	int GetScore() const;
+	int GetLives() const;
+	void DecrementLives(const int iValue);
 
 private:
 	int			m_iMaxNumberOfBullets;
+	int			m_iMaxLives;
 	BulletList	m_Bullets;
 	int			m_iActiveBullets;
 	float		m_fBulletCountDown;
 	float		m_fLastBulletTime;
 	int			m_iScore;
+	int			m_iLives;
 };
 #endif // Ship_h__
