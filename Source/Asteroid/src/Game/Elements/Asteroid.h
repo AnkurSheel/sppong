@@ -23,15 +23,16 @@ public:
 	void InitializeFromParent(const GameBase::cGameElementDef & def, const int iSize);
 	void RandomizeAcceleration();
 	void RandomizeRotation();
-
 	void OnRestart();
 	void Cleanup();
 	void Hit();
+	int GetCurrentSize() const;
 	cAsteroid * CastToAsteroid();
 
 private:
 	float		m_fMinSize;
 	float		m_fSizeVariance;
 	int			m_iCurrentSize;
+	int			m_iMaxSize;
 };
 #endif // Ball_h__

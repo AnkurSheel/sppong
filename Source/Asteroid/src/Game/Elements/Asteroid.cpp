@@ -25,6 +25,7 @@ cAsteroid::cAsteroid()
 : m_fMinSize(0)
 , m_fSizeVariance(0)
 , m_iCurrentSize(0)
+, m_iMaxSize(0)
 {
 }
 
@@ -39,7 +40,7 @@ void cAsteroid::VInitialize(const cGameElementDef & def )
 {
 	BaseInitialize(def);
 
-	m_iCurrentSize = 3;
+	m_iCurrentSize = 1;
 
 	cVector3 pos;
 	int minPosX = static_cast<int>(m_pGame->VGetScreenTopLeftPos().x);
@@ -51,12 +52,12 @@ void cAsteroid::VInitialize(const cGameElementDef & def )
 	pos.y = static_cast<float>(m_pGame->GetRandomGenerator()->Random(minPosY, maxPosY));
 	SetPosition(pos);
 
-	m_fMinSize = 1.0;
-	m_fSizeVariance = 3;
+	m_fMinSize = 2;
+	m_fSizeVariance = 1;
 
 	cVector3 scale;
-	scale.x = min(m_fMinSize, m_pGame->GetRandomGenerator()->Random() * (m_fSizeVariance));
-	scale.y = min(m_fMinSize, m_pGame->GetRandomGenerator()->Random() * (m_fSizeVariance));
+	scale.x = m_fMinSize + (m_pGame->GetRandomGenerator()->Random() * (m_fSizeVariance));
+	scale.y = m_fMinSize + (m_pGame->GetRandomGenerator()->Random() * (m_fSizeVariance));
 	SetScale(scale);
 
 	RandomizeRotation();
@@ -83,9 +84,9 @@ void cAsteroid::Cleanup()
 void cAsteroid::Hit()
 {
 	m_bRemove = true;
-	m_iCurrentSize--;
-	if (m_iCurrentSize > 0)
+	if (m_iCurrentSize <= m_iMaxSize)
 	{
+		m_iCurrentSize++;
 		cGameElementDef asteroidDef;
 		asteroidDef.strModelName= "cube";
 
@@ -123,6 +124,7 @@ void cAsteroid::BaseInitialize(const cGameElementDef & def)
 	m_fDragFactor = 0.0f;
 	m_vForward = cVector3(1, 0, 0);
 	m_vLookAt = m_vForward;
+	m_iMaxSize = 2;
 }
 
 // *****************************************************************************
@@ -145,4 +147,10 @@ void cAsteroid::RandomizeAcceleration()
 	m_fAcceleration = static_cast<float>(m_pGame->GetRandomGenerator()->Random(-3,3));
 	if(m_fAcceleration == 0.0f)
 		m_fAcceleration = 1.0f;
+}
+
+// *****************************************************************************
+int cAsteroid::GetCurrentSize() const
+{
+	return m_iCurrentSize;
 }

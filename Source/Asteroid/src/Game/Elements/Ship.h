@@ -15,6 +15,8 @@
 class cShip 
 	: public cAsteroidGameElement
 {
+	typedef std::vector<shared_ptr<cBullet>	>  BulletList;
+
 public:
 	cShip();
 	~cShip();
@@ -29,7 +31,8 @@ public:
 	cShip * CastToShip();
 	void Cleanup();
 	void BulletDestroyed(cBullet * const pBullet);
-	typedef std::vector<shared_ptr<cBullet>	>  BulletList;
+	void IncrementScore(const int iValue);
+	int GetScore() const;
 
 private:
 	int			m_iMaxNumberOfBullets;
@@ -37,5 +40,6 @@ private:
 	int			m_iActiveBullets;
 	float		m_fBulletCountDown;
 	float		m_fLastBulletTime;
+	int			m_iScore;
 };
 #endif // Ship_h__

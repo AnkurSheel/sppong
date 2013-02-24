@@ -28,7 +28,11 @@ namespace MySound
 	class ISound;
 }
 
-class cScore;
+namespace Graphics
+{
+	class IBaseControl;
+}
+
 class cAsteroidGameElement;
 class cGameFlowStateMachine;
 
@@ -41,7 +45,6 @@ public:
 	void VGetGameElements(GameElementList & gameElements) const;
 	Base::cVector3 VGetScreenTopLeftPos() const;
 	Base::cVector3 VGetScreenBottomRightPos() const;
-	void VRoundOver(const bool bPlayerWon);
 	void MoveShip(const ShipActions eShipActions);
 	Utilities::IRandomGenerator * const GetRandomGenerator() const;
 	void AddGameElement(shared_ptr<cAsteroidGameElement> const pGameElement);
@@ -65,10 +68,10 @@ private:
 	int									m_iDisplayWidth ;		// the display width of the window
 	GameElementList						m_pGameElements;		// ptr to the gameelements
 	cGameFlowStateMachine *				m_pStateMachine;
-	cScore *							m_pScore;				// ptr to Scoreboard
 	Base::cVector3						m_vScreenTopLeftPos;
 	Base::cVector3						m_vScreenBottomRightPos;
 	Utilities::IRandomGenerator *		m_pRandomGenerator;
+	Graphics::IBaseControl *			m_pHUDScreen;
 
 private:
 	friend class cStateTitleScreen;

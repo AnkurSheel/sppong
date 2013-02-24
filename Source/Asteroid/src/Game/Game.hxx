@@ -42,6 +42,5 @@ public:
 	virtual void VGetGameElements(GameElementList & gameElements) const = 0;
 	virtual Base::cVector3 VGetScreenTopLeftPos() const = 0;
 	virtual Base::cVector3 VGetScreenBottomRightPos() const = 0;
-	virtual void VRoundOver(const bool bPlayer1Won) = 0;
 };
 #endif // Game_h__

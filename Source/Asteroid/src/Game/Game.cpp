@@ -34,9 +34,9 @@ using namespace Utilities;
 // *****************************************************************************
 cGame::cGame(const cString strName)
 : cBaseApp(strName)
-, m_pScore(NULL)
 , m_pStateMachine(NULL)
 , m_pRandomGenerator(NULL)
+, m_pHUDScreen(NULL)
 {
 }
 
@@ -103,31 +103,11 @@ void cGame::Restart()
 }
 
 // *****************************************************************************
-void cGame::VRoundOver(const bool bPlayerWon)
-{
-	Log_Write_L1(ILogger::LT_COMMENT, "Round Over");
-	//Restart();
-
-	//m_pHumanView->PlaySFX("win.wav");
-	//if (bPlayer1Won)
-	//{
-	//	m_pScore[1].IncrementScore();
-	//	Restart();
-	//}
-	//else
-	//{
-	//	m_pScore[0].IncrementScore();
-	//	Restart();
-	//}
-}
-
-// *****************************************************************************
 void cGame::VCleanup()
 {
 	m_pGameElements.clear();
 
 	SAFE_DELETE(m_pRandomGenerator);
-	SAFE_DELETE_ARRAY(m_pScore);
 	SAFE_DELETE(m_pStateMachine);
 
 	cBaseApp::VCleanup();
@@ -214,15 +194,27 @@ void cGame::AsteroidHitByBullet(cAsteroidGameElement * const pBulletElement,
 	m_pGameElements.front()->CastToShip()->BulletDestroyed(pBullet);
 
 	cAsteroid * pAsteroid = pAsteroidElement->CastToAsteroid();
-	pAsteroid->Hit();
+	if (pAsteroid != NULL)
+	{
+		cShip * pShip = m_pGameElements.front()->CastToShip();
+		if (pShip)
+		{
+			pShip->IncrementScore(pAsteroid->GetCurrentSize() * 10);
+			IBaseControl * pScoreLabel = m_pHUDScreen->VFindChildControl("ScoreLabel");
+			if (pScoreLabel != NULL)
+			{
+				pScoreLabel->VSetText(cString(20, "Score: %02d", pShip->GetScore()));
+			}
+		}
+		pAsteroid->Hit();
+	}
 }
 
 // *****************************************************************************
 void cGame::ShipHitByAsteroid()
 {
-	(m_pGameElements.front())->MakeInactiveFor(1);
-	VRoundOver(false);
-
+	cShip * pShip = (m_pGameElements.front())->CastToShip();
+	pShip->MakeInactiveFor(1);
 }
 
 // *****************************************************************************

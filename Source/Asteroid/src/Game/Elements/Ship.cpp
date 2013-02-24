@@ -14,6 +14,7 @@
 #include "CollisionChecker.hxx"
 #include "Asteroid.h"
 #include "Bullet.h"
+#include "Score.h"
 
 using namespace Base;
 using namespace GameBase;
@@ -26,6 +27,7 @@ cShip::cShip()
 , m_iActiveBullets(0)
 , m_fBulletCountDown(0.0f)
 , m_fLastBulletTime(0.0f)
+, m_iScore(0)
 {
 }
 
@@ -45,6 +47,8 @@ void cShip::VInitialize(const cGameElementDef & def )
 	m_vLookAt = m_vForward;
 	m_iMaxNumberOfBullets = 15;
 	m_fBulletCountDown = 0.3f;
+
+	m_iScore = 0;
 
 	cGameElementDef bulletDef;
 	bulletDef.strModelName = "sphere";
@@ -113,7 +117,7 @@ void cShip::Fire()
 				if (!pBullet->IsActive())
 				{
 					m_iActiveBullets++;
-					pBullet->SetPosition(m_vPosition + m_vLookAt);
+					pBullet->SetPosition(m_vPosition + (m_vLookAt * 0.75));
 					pBullet->SetRotation(m_vRotation);
 					pBullet->VSetActive(true);
 					m_fLastBulletTime = m_pGame->GetRunningTime();
@@ -157,4 +161,15 @@ void cShip::BulletDestroyed(cBullet * const pBullet)
 			break;
 		}
 	}
+}
+
+// *****************************************************************************
+void cShip::IncrementScore(const int iValue)
+{
+	m_iScore += iValue;
+}
+// *****************************************************************************
+int cShip::GetScore() const
+{
+	return m_iScore;
 }

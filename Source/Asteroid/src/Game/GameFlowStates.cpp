@@ -296,8 +296,8 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	HUDDef.wType = cWindowControlDef::WT_STANDARD;
 	HUDDef.vSize = pGame->m_pHumanView->m_pAppWindowControl->VGetSize();
 	HUDDef.vPosition = cVector2(0.0f, 0.0f);
-	IBaseControl * pHUDScreen = IBaseControl::CreateWindowControl(HUDDef);
-	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(pHUDScreen));
+	m_pOwner->m_pHUDScreen = IBaseControl::CreateWindowControl(HUDDef);
+	pGame->m_pHumanView->m_pAppWindowControl->VAddChildControl(shared_ptr<IBaseControl>(m_pOwner->m_pHUDScreen));
 
 	pGame->m_vScreenTopLeftPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(0,0), pGame->m_pHumanView->GetCamera());
 	pGame->m_vScreenBottomRightPos = IGraphicUtils::GetInstance()->ScreenToWorldSpace(cVector2(static_cast<float>(pGame->m_iDisplayWidth), static_cast<float>(pGame->m_iDisplayHeight)),
@@ -315,18 +315,22 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	cGameElementDef asteroidDef;
 	asteroidDef.strModelName= "cube";
 	asteroidDef.vPosition= cVector3(-100.0f, -100.0f, -100.0f);
-	for(int i=0; i<3; i++)
+	for(int i=0; i<1; i++)
 	{
 		shared_ptr<cAsteroidGameElement> pAsteroid(DEBUG_NEW cAsteroid());
 		pAsteroid->VInitialize(asteroidDef);
 		pGame->m_pGameElements.push_back(pAsteroid);
 	}
 
-	pGame->m_pScore = DEBUG_NEW cScore();
-	
-	pGame->m_pScore->Init(cVector2(vMiddlePos.x, 0.0f));
-	pHUDScreen->VAddChildControl(pGame->m_pScore->GetLabel());
-	pHUDScreen->VMoveToFront(pGame->m_pScore->GetLabel().get());
+	cLabelControlDef labelDef;
+	labelDef.strControlName = "ScoreLabel";
+	labelDef.strFont = "arial"; // forte
+	labelDef.textColor = cColor::TURQUOISE;
+	labelDef.strText = cString(20, "Score: %02d", 0);
+	labelDef.fTextHeight = 40;
+	labelDef.vPosition = cVector2(0.0f, 0.0f);
+	IBaseControl * pScoreLabel = IBaseControl::CreateLabelControl(labelDef);
+	m_pOwner->m_pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pScoreLabel));
 }
 // *****************************************************************************
 
@@ -360,8 +364,6 @@ void cStatePlayGame::VOnUpdate()
 
 void cStatePlayGame::VOnExit()
 {
-	SAFE_DELETE_ARRAY(m_pOwner->m_pScore);
-
 	m_pOwner->VCleanup();
 }
 // *****************************************************************************
