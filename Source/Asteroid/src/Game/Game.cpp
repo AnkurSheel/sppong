@@ -12,7 +12,6 @@
 #include "Sprite.hxx"
 #include "Elements/Ship.h"
 #include "Elements/Asteroid.h"
-#include "Elements/Score.h"
 #include "GameFlowStateMachine.h"
 #include "GameFlowStates.h"
 #include "AsteroidView.h"

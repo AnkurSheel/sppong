@@ -14,7 +14,6 @@
 #include "CollisionChecker.hxx"
 #include "Asteroid.h"
 #include "Bullet.h"
-#include "Score.h"
 
 using namespace Base;
 using namespace GameBase;

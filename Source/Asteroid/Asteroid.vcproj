@@ -253,14 +253,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Game\Elements\Score.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Game\Elements\Score.h"
-					>
-				</File>
-				<File
 					RelativePath=".\src\Game\Elements\Ship.cpp"
 					>
 				</File>
