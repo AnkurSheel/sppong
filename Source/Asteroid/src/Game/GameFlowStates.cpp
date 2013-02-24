@@ -314,16 +314,6 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	pShip->VInitialize(shipDef);
 	pGame->m_pGameElements.push_front(pShip);
 
-	cGameElementDef asteroidDef;
-	asteroidDef.strModelName= "cube";
-	asteroidDef.vPosition= cVector3(-100.0f, -100.0f, -100.0f);
-	for(int i=0; i<3; i++)
-	{
-		shared_ptr<cAsteroidGameElement> pAsteroid(DEBUG_NEW cAsteroid());
-		pAsteroid->VInitialize(asteroidDef);
-		pGame->m_pGameElements.push_back(pAsteroid);
-	}
-
 	cLabelControlDef labelDef;
 	labelDef.strControlName = "ScoreLabel";
 	labelDef.strFont = "arial"; // forte
@@ -340,6 +330,7 @@ void cStatePlayGame::VOnEnter(cGame *pGame)
 	labelDef.vPosition = cVector2(static_cast<float>(m_pOwner->m_iDisplayWidth), 0.0f);
 	IBaseControl * pLivesLabel = IBaseControl::CreateLabelControl(labelDef);
 	m_pOwner->m_pHUDScreen->VAddChildControl(shared_ptr<IBaseControl>(pLivesLabel));
+	m_pOwner->NextLevel();
 }
 // *****************************************************************************
 
@@ -388,10 +379,7 @@ void cStatePlayGame::VOnExit()
 	{
 		m_pOwner->m_pHumanView->m_pAppWindowControl->VRemoveChildControl("HUDScreen");
 	}
-	m_pOwner->m_bGameOver = false;
-	m_pOwner->m_pHUDScreen.reset();
-	m_pOwner->m_pGameElements.clear();
-	//m_pOwner->VCleanup();
+	m_pOwner->OnRestart();
 }
 // *****************************************************************************
 
@@ -402,6 +390,11 @@ bool cStatePlayGame::VOnMessage(const Telegram &msg)
 		m_pOwner->m_pStateMachine->RequestChangeState(cStateTitleScreen::Instance());
 		return true;
 	}
+	else if(msg.Msg == MSG_NEXT_LEVEL)
+		{
+			m_pOwner->NextLevel();
+			return true;
+		}
 	else if(msg.Msg == MSG_ESCAPE_PRESSED)
 	{
 		if(m_pOwner != NULL && m_pOwner->m_pStateMachine != NULL)

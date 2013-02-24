@@ -16,6 +16,7 @@
 namespace GameBase
 {
 	class cHumanView;
+	class cGameElementDef;
 }
 
 namespace Utilities
@@ -48,6 +49,7 @@ public:
 	void MoveShip(const ShipActions eShipActions);
 	Utilities::IRandomGenerator * const GetRandomGenerator() const;
 	void AddGameElement(shared_ptr<cAsteroidGameElement> const pGameElement);
+	void AddAsteroid(const GameBase::cGameElementDef & asteroidDef, const int iSize);
 
 private:
 	~cGame();
@@ -61,6 +63,8 @@ private:
 	void AsteroidHitByBullet(cAsteroidGameElement * const pBulletElement,
 		cAsteroidGameElement * const pAsteroidElement);
 	void ShipHitByAsteroid();
+	void OnRestart();
+	void NextLevel();
 
 private:
 	int									m_iDisplayHeight ;		// the display height of the window
@@ -72,6 +76,8 @@ private:
 	Utilities::IRandomGenerator *		m_pRandomGenerator;
 	shared_ptr<Graphics::IBaseControl>	m_pHUDScreen;
 	bool								m_bGameOver;
+	int									m_iCurrentLevel;
+	int									m_iNumberOfAsteroids;
 
 private:
 	friend class cStateTitleScreen;

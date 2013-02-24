@@ -152,7 +152,7 @@ void cBaseControl::VRemoveChildControl(const cString & strControlName)
 	}
 	if(iter == m_pChildControl.end())
 	{
-		Log_Write_L1(ILogger::LT_ERROR, "Could not find Child control " + strControlName + " in Base Control");
+		Log_Write_L2(ILogger::LT_ERROR, "Could not find Child control " + strControlName + " in Base Control");
 	}
 	else
 	{

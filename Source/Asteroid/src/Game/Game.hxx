@@ -23,17 +23,6 @@ class cAsteroidGameElement;
 class IGame 
 {
 public:
-	enum PONGGAMEELEMENTS
-	{
-		PGE_UNKNOWN = -1,
-		PGE_BALL,
-		PGE_PADDLE_LEFT,
-		PGE_PADDLE_RIGHT,
-		PGE_WALL_UP,
-		PGE_WALL_DOWN,
-		PGE_TOTAL
-	};
-
 	typedef std::list<shared_ptr<cAsteroidGameElement> > GameElementList;
 
 public:

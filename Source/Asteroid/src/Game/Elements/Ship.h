@@ -37,6 +37,7 @@ public:
 	void DecrementLives(const int iValue);
 	bool IsInvincible() const;
 	void VSetActive(const bool bActive);
+	void SetInvincible();
 
 private:
 	int			m_iMaxNumberOfBullets;

@@ -49,7 +49,7 @@ void cShip::VInitialize(const cGameElementDef & def )
 	m_fRotationPower = DegtoRad(30.0f);
 	m_vForward = cVector3(1, 0, 0);
 	m_vLookAt = m_vForward;
-	m_iMaxNumberOfBullets = 15;
+	m_iMaxNumberOfBullets = 6;
 	m_fBulletCountDown = 0.3f;
 	m_iMaxLives = 3;
 	m_fShieldDuration = 5.0f;
@@ -212,7 +212,13 @@ void cShip::VSetActive(const bool bActive)
 	cAsteroidGameElement::VSetActive(bActive);
 	if (bActive)
 	{
-		m_bInvincible = true;
-		m_fShieldDeactivateTime = m_pGame->GetRunningTime() + m_fShieldDuration;
+		SetInvincible();
 	}
+}
+
+// *****************************************************************************
+void cShip::SetInvincible()
+{
+	m_bInvincible = true;
+	m_fShieldDeactivateTime = m_pGame->GetRunningTime() + m_fShieldDuration;
 }

@@ -1,5 +1,5 @@
 // *****************************************************************************
-//  Ball   version:  1.0   Ankur Sheel  date: 05/13/2008
+//  Asteroid   version:  1.0   Ankur Sheel  date: 2013/02/24
 //  ----------------------------------------------------------------------------
 //  
 //  ----------------------------------------------------------------------------
@@ -92,12 +92,9 @@ void cAsteroid::Hit()
 
 		for (int i=0 ;i<2;i++)
 		{
-			shared_ptr<cAsteroidGameElement> pGameElement(DEBUG_NEW cAsteroid());
-			shared_ptr<cAsteroid> pAsteroid  = dynamic_pointer_cast<cAsteroid>(pGameElement);
 			asteroidDef.vPosition = m_vPosition;
 			asteroidDef.vScale= m_vScale/2.0f;
-			pAsteroid->InitializeFromParent(asteroidDef, m_iCurrentSize);
-			m_pGame->AddGameElement(pGameElement);
+			m_pGame->AddAsteroid(asteroidDef, m_iCurrentSize);
 		}
 	}
 }

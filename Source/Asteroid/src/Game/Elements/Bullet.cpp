@@ -42,7 +42,7 @@ void cBullet::VInitialize(const cGameElementDef & def )
 	m_vForward = cVector3(1, 0, 0);
 	m_vLookAt = m_vForward;
 	m_bWrap = false;
-	m_fTTL = 7.0f;
+	m_fTTL = 3.0f;
 }
 
 // *****************************************************************************
