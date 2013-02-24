@@ -10,7 +10,6 @@
 #include "stdafx.h"
 #include "AsteroidView.h"
 #include "Game/Game.h"
-#include "Game/Elements/Score.h"
 #include "Game/Elements/AsteroidGameElement.h"
 #include "ShipHandler.h"
 #include "Camera.hxx"
