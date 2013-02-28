@@ -106,30 +106,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\enums.h" />
+    <ClInclude Include="src\Game\Elements\Asteroid.h" />
+    <ClInclude Include="src\Game\Elements\AsteroidGameElement.h" />
     <ClInclude Include="src\Game\Elements\Bullet.h" />
+    <ClInclude Include="src\Game\Elements\Ship.h" />
     <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\Game\Game.hxx" />
     <ClInclude Include="src\Game\GameFlowStateMachine.h" />
     <ClInclude Include="src\Game\GameFlowStates.h" />
     <ClInclude Include="src\Messages.h" />
-    <ClInclude Include="src\Game\Elements\AsteroidGameElement.h" />
-    <ClInclude Include="src\Game\Elements\Asteroid.h" />
-    <ClInclude Include="src\Game\Elements\Score.h" />
-    <ClInclude Include="src\Game\Elements\Ship.h" />
     <ClInclude Include="src\AsteroidView.h" />
     <ClInclude Include="src\GameDefines.h" />
     <ClInclude Include="src\ShipHandler.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\Elements\Asteroid.cpp" />
+    <ClCompile Include="src\Game\Elements\AsteroidGameElement.cpp" />
     <ClCompile Include="src\Game\Elements\Bullet.cpp" />
+    <ClCompile Include="src\Game\Elements\Ship.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Game\GameFlowStateMachine.cpp" />
     <ClCompile Include="src\Game\GameFlowStates.cpp" />
-    <ClCompile Include="src\Game\Elements\AsteroidGameElement.cpp" />
-    <ClCompile Include="src\Game\Elements\Asteroid.cpp" />
-    <ClCompile Include="src\Game\Elements\Score.cpp" />
-    <ClCompile Include="src\Game\Elements\Ship.cpp" />
     <ClCompile Include="src\AsteroidView.cpp" />
     <ClCompile Include="src\ShipHandler.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
