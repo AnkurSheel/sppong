@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}</ProjectGuid>
-    <RootNamespace>Utilities</RootNamespace>
+    <ProjectGuid>{D6C5B6D7-4503-42DD-9174-37B3B81C5926}</ProjectGuid>
+    <RootNamespace>GameBase</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -37,19 +37,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\Obj\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\Obj\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>Includes;..\Common\src;..\Base\Includes;..\..\extern\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Includes;..\GraphicsEngine\Includes;..\Base\Includes;..\Sound\Includes;..\Utilities\Includes;..\AI\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -60,25 +60,25 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Winmm.lib;Base_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Base_D.lib;Utilities_D.lib;GraphicsEngine_D.lib;Sound_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)_D.dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\Debug\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
       <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>Includes;..\Common\src;..\Base\Includes;..\..\extern\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UTILITIES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>Includes;..\GraphicsEngine\Includes;..\Base\Includes;..\Sound\Includes;..\Utilities\Includes;..\AI\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GAMEBASE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir) $(ProjectName)$(Configuration).pch</PrecompiledHeaderOutputFile>
@@ -87,9 +87,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Winmm.lib;Base.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Base.lib;Utilities.lib;GraphicsEngine.lib;Sound.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>..\..\bin\;..\..\extern\Lib\Zlib;..\..\extern\Lib\TinyXml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
@@ -97,69 +97,50 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\FileOutput.cpp" />
-    <ClCompile Include="src\GameDirectories.cpp" />
-    <ClCompile Include="src\Resources.cpp" />
-    <ClCompile Include="src\ResourceManager.cpp" />
-    <ClCompile Include="src\Timer.cpp" />
-    <ClCompile Include="src\Logger.cpp" />
-    <ClCompile Include="src\Checks.cpp" />
-    <ClCompile Include="src\FileInput.cpp" />
-    <ClCompile Include="src\ParamLoader.cpp" />
-    <ClCompile Include="src\XMLFileIO.cpp" />
-    <ClCompile Include="src\ZipFile.cpp" />
-    <ClCompile Include="src\ResCache.cpp" />
-    <ClCompile Include="src\Process.cpp" />
-    <ClCompile Include="src\ProcessManager.cpp" />
-    <ClCompile Include="src\RandomGenerator.cpp" />
+    <ClCompile Include="src\GameElement.cpp" />
+    <ClCompile Include="src\BaseEntity.cpp" />
+    <ClCompile Include="src\EntityManager.cpp" />
+    <ClCompile Include="src\GameOptions.cpp" />
+    <ClCompile Include="src\MessageDispatchManager.cpp" />
+    <ClCompile Include="src\BaseApp.cpp" />
+    <ClCompile Include="src\HumanView.cpp" />
+    <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Includes\FileOutput.hxx" />
-    <ClInclude Include="Includes\GameDirectories.h" />
-    <ClInclude Include="Includes\Process.h" />
-    <ClInclude Include="Includes\ProcessManager.hxx" />
-    <ClInclude Include="Includes\Resources.h" />
-    <ClInclude Include="Includes\ResourceManager.hxx" />
-    <ClInclude Include="src\FileOutput.h" />
-    <ClInclude Include="src\ResourceManager.h" />
-    <ClInclude Include="src\Timer.h" />
-    <ClInclude Include="Includes\Timer.hxx" />
-    <ClInclude Include="src\Logger.h" />
-    <ClInclude Include="Includes\Logger.hxx" />
-    <ClInclude Include="src\Checks.h" />
-    <ClInclude Include="Includes\Checks.hxx" />
-    <ClInclude Include="src\FileInput.h" />
-    <ClInclude Include="Includes\FileInput.hxx" />
-    <ClInclude Include="src\ParamLoader.h" />
-    <ClInclude Include="Includes\ParamLoaders.hxx" />
-    <ClInclude Include="src\XMLFileIO.h" />
-    <ClInclude Include="Includes\XMLFileIO.hxx" />
-    <ClInclude Include="src\ZipFile.h" />
-    <ClInclude Include="Includes\ZipFile.hxx" />
-    <ClInclude Include="src\ResCache.h" />
-    <ClInclude Include="Includes\ResCache.hxx" />
-    <ClInclude Include="src\ProcessManager.h" />
-    <ClInclude Include="src\RandomGenerator.h" />
-    <ClInclude Include="Includes\RandomGenerator.hxx" />
+    <ClInclude Include="Includes\GameElement.h" />
+    <ClInclude Include="Includes\BaseEntity.h" />
+    <ClInclude Include="Includes\BaseEntity.hxx" />
+    <ClInclude Include="Includes\GameOptions.h" />
+    <ClInclude Include="Includes\HumanView.h" />
+    <ClInclude Include="src\EntityManager.h" />
+    <ClInclude Include="Includes\EntityManager.hxx" />
+    <ClInclude Include="src\MessageDispatchManager.h" />
+    <ClInclude Include="Includes\MessageDispatchManager.hxx" />
+    <ClInclude Include="Includes\BaseApp.h" />
+    <ClInclude Include="Includes\BaseApp.hxx" />
+    <ClInclude Include="Includes\GameBaseDefines.h" />
+    <ClInclude Include="src\GameLogic.h" />
+    <ClInclude Include="Includes\GameView.hxx" />
+    <ClInclude Include="src\MainWindow.h" />
+    <ClInclude Include="Includes\MainWindow.hxx" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="Includes\UtilitiesDefines.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\Timer.inl" />
-    <None Include="src\Checks.inl" />
-    <None Include="src\Zipfile.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.vcxproj">
       <Project>{74220f22-9039-453b-81f0-44bea935e6d9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
+      <Project>{00226575-c4fa-463a-941b-ea9fb2012521}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
+      <Project>{d04bbe9d-7b69-4a6e-83c5-dfa72b4de76a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
