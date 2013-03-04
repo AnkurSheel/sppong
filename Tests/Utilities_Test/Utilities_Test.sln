@@ -1,18 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities_Test", "Utilities_Test\Utilities_Test.vcproj", "{B8B555DC-9549-4C38-BCB9-0F9DEB079ABB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{74220F22-9039-453B-81F0-44BEA935E6D9} = {74220F22-9039-453B-81F0-44BEA935E6D9}
-		{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A} = {D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}
-	EndProjectSection
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities_Test", "Utilities_Test\Utilities_Test.vcxproj", "{B8B555DC-9549-4C38-BCB9-0F9DEB079ABB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "..\..\Source\Utilities\Utilities.vcproj", "{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{74220F22-9039-453B-81F0-44BEA935E6D9} = {74220F22-9039-453B-81F0-44BEA935E6D9}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "..\..\Source\Utilities\Utilities.vcxproj", "{D04BBE9D-7B69-4A6E-83C5-DFA72B4DE76A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Base", "..\..\Source\Base\Base.vcproj", "{74220F22-9039-453B-81F0-44BEA935E6D9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Base", "..\..\Source\Base\Base.vcxproj", "{74220F22-9039-453B-81F0-44BEA935E6D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

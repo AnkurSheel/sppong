@@ -249,7 +249,7 @@ void TestResourceCache()
 void TestRandomGenerator()
 {
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
-	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Random Generator");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Random Generator 1");
 	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 
 	IRandomGenerator * pRandomGenerator =	IRandomGenerator::CreateRandomGenerator();
@@ -264,15 +264,17 @@ void TestRandomGenerator()
 		Log_Write_L1(ILogger::LT_DEBUG, "Random Number " + cString(20, "%d: %d", i, pRandomGenerator->Random(100)));
 	}
 
-	SAFE_DELETE(pRandomGenerator);
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "Start Test: Random Generator 2");
+	Log_Write_L1(ILogger::LT_UNKNOWN, "***************************************************************");
 
-	pRandomGenerator =	IRandomGenerator::CreateRandomGenerator();
-	pRandomGenerator->SetRandomSeed(nSeed);
-	Log_Write_L1(ILogger::LT_DEBUG, "Regenerating Random no.s using seed : " + cString(20, "%d", nSeed));
-	Log_Write_L1(ILogger::LT_COMMENT, "Generating 100 Random no.s between 1 to 100");
+	pRandomGenerator->Randomize();
+	nSeed = pRandomGenerator->GetRandomSeed();
+	Log_Write_L1(ILogger::LT_DEBUG, "Seed : " + cString(20, "%d", nSeed));
+	Log_Write_L1(ILogger::LT_COMMENT, "Generating 100 Random no.s between -50 to 50");
 	for (int i = 0; i < 100; i++)
 	{
-		Log_Write_L1(ILogger::LT_DEBUG, "Random Number " + cString(20, "%d: %d", i, pRandomGenerator->Random(100)));
+		Log_Write_L1(ILogger::LT_DEBUG, "Random Number " + cString(20, "%d: %d", i, pRandomGenerator->Random(-50, 50)));
 	}
 
 	SAFE_DELETE(pRandomGenerator);
